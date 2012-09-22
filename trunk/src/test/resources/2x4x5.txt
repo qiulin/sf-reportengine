@@ -1,0 +1,92 @@
+Europa	France	Caucasian	under 15	blue	M	101	102	103	104	105
+Europa	France	Caucasian	under 15	blue	F	201	202	203	204	205
+Europa	France	Caucasian	under 15	green	M	301	302	303	304	305
+Europa	France	Caucasian	under 15	green	F	401	402	403	404	405
+Europa	France	Caucasian	under 15	yellow	M	501	502	503	504	505
+Europa	France	Caucasian	under 15	yellow	F	601	602	603	604	605
+Europa	France	Caucasian	between 15 and 30	blue	M	101	102	103	104	105
+Europa	France	Caucasian	between 15 and 30	blue	F	201	202	203	204	205
+Europa	France	Caucasian	between 15 and 30	green	M	301	302	303	304	305
+Europa	France	Caucasian	between 15 and 30	green	F	401	402	403	404	405
+Europa	France	Caucasian	between 15 and 30	yellow	M	501	502	503	504	505
+Europa	France	Caucasian	between 15 and 30	yellow	F	601	602	603	604	605
+Europa	France	Caucasian	between 30 and 45	blue	M	101	102	103	104	105
+Europa	France	Caucasian	between 30 and 45	blue	F	201	202	203	204	205
+Europa	France	Caucasian	between 30 and 45	green	M	301	302	303	304	305
+Europa	France	Caucasian	between 30 and 45	green	F	401	402	403	404	405
+Europa	France	Caucasian	between 30 and 45	yellow	M	501	502	503	504	505
+Europa	France	Caucasian	between 30 and 45	yellow	F	601	602	603	604	605
+Europa	France	Asiatic	between 45 and 60	blue	M	101	102	103	104	105
+Europa	France	Asiatic	between 45 and 60	blue	F	201	202	203	204	205
+Europa	France	Asiatic	between 45 and 60	green	M	301	302	303	304	305
+Europa	France	Asiatic	between 45 and 60	green	F	401	402	403	404	405
+Europa	France	Asiatic	between 45 and 60	yellow	M	501	502	503	504	505
+Europa	France	Asiatic	between 45 and 60	yellow	F	601	602	603	604	605
+Europa	France	Asiatic	between 60 and 75	blue	M	101	102	103	104	105
+Europa	France	Asiatic	between 60 and 75	blue	F	201	202	203	204	205
+Europa	France	Asiatic	between 60 and 75	green	M	301	302	303	304	305
+Europa	France	Asiatic	between 60 and 75	green	F	401	402	403	404	405
+Europa	France	Asiatic	between 60 and 75	yellow	M	501	502	503	504	505
+Europa	France	Asiatic	between 60 and 75	yellow	F	601	602	603	604	605
+Europa	France	Asiatic	between 60 and 75	blue	M	101	102	103	104	105
+Europa	France	Asiatic	between 60 and 75	blue	F	201	202	203	204	205
+Europa	France	Asiatic	between 60 and 75	green	M	301	302	303	304	305
+Europa	France	Asiatic	between 60 and 75	green	F	401	402	403	404	405
+Europa	France	Asiatic	between 60 and 75	yellow	M	501	502	503	504	505
+Europa	France	Asiatic	between 60 and 75	yellow	F	601	602	603	604	605
+Europa	Germany	Black	over 75	blue	M	101	102	103	104	105
+Europa	Germany	Black	over 75	blue	F	201	202	203	204	205
+Europa	Germany	Black	over 75	green	M	301	302	303	304	305
+Europa	Germany	Black	over 75	green	F	401	402	403	404	405
+Europa	Germany	Black	over 75	yellow	M	501	502	503	504	505
+Europa	Germany	Black	over 75	yellow	F	601	602	603	604	605
+North America	SUA	Caucasian	under 15	blue	M	101	102	103	104	105
+North America	SUA	Caucasian	under 15	blue	F	201	202	203	204	205
+North America	SUA	Caucasian	under 15	green	M	301	302	303	304	305
+North America	SUA	Caucasian	under 15	green	F	401	402	403	404	405
+North America	SUA	Caucasian	under 15	yellow	M	501	502	503	504	505
+North America	SUA	Caucasian	under 15	yellow	F	601	602	603	604	605
+North America	SUA	Caucasian	between 15 and 30	blue	M	101	102	103	104	105
+North America	SUA	Caucasian	between 15 and 30	blue	F	201	202	203	204	205
+North America	SUA	Caucasian	between 15 and 30	green	M	301	302	303	304	305
+North America	SUA	Caucasian	between 15 and 30	green	F	401	402	403	404	405
+North America	SUA	Caucasian	between 15 and 30	yellow	M	501	502	503	504	505
+North America	SUA	Caucasian	between 15 and 30	yellow	F	601	602	603	604	605
+North America	SUA	Caucasian	between 30 and 45	blue	M	101	102	103	104	105
+North America	SUA	Caucasian	between 30 and 45	blue	F	201	202	203	204	205
+North America	SUA	Caucasian	between 30 and 45	green	M	301	302	303	304	305
+North America	SUA	Caucasian	between 30 and 45	green	F	401	402	403	404	405
+North America	SUA	Caucasian	between 30 and 45	yellow	M	501	502	503	504	505
+North America	SUA	Caucasian	between 30 and 45	yellow	F	601	602	603	604	605
+North America	SUA	Asiatic	between 45 and 60	blue	M	101	102	103	104	105
+North America	SUA	Asiatic	between 45 and 60	blue	F	201	202	203	204	205
+North America	SUA	Asiatic	between 45 and 60	green	M	301	302	303	304	305
+North America	SUA	Asiatic	between 45 and 60	green	F	401	402	403	404	405
+North America	SUA	Asiatic	between 45 and 60	yellow	M	501	502	503	504	505
+North America	SUA	Asiatic	between 45 and 60	yellow	F	601	602	603	604	605
+North America	SUA	Asiatic	between 60 and 75	blue	M	101	102	103	104	105
+North America	SUA	Asiatic	between 60 and 75	blue	F	201	202	203	204	205
+North America	SUA	Asiatic	between 60 and 75	green	M	301	302	303	304	305
+North America	SUA	Asiatic	between 60 and 75	green	F	401	402	403	404	405
+North America	SUA	Asiatic	between 60 and 75	yellow	M	501	502	503	504	505
+North America	SUA	Asiatic	between 60 and 75	yellow	F	601	602	603	604	605
+North America	SUA	Asiatic	between 60 and 75	blue	M	101	102	103	104	105
+North America	SUA	Asiatic	between 60 and 75	blue	F	201	202	203	204	205
+North America	SUA	Asiatic	between 60 and 75	green	M	301	302	303	304	305
+North America	SUA	Asiatic	between 60 and 75	green	F	401	402	403	404	405
+North America	SUA	Asiatic	between 60 and 75	yellow	M	501	502	503	504	505
+North America	SUA	Asiatic	between 60 and 75	yellow	F	601	602	603	604	605
+North America	SUA	Black	over 75	blue	M	101	102	103	104	105
+North America	SUA	Black	over 75	blue	F	201	202	203	204	205
+North America	SUA	Black	over 75	green	M	301	302	303	304	305
+North America	SUA	Black	over 75	green	F	401	402	403	404	405
+North America	SUA	Black	over 75	yellow	M	501	502	503	504	505
+North America	SUA	Black	over 75	yellow	F	601	602	603	604	605
+North America	Canada	Caucasian	under 15	blue	M	7	8	9	10	11
+North America	Canada	Caucasian	between 15 and 30	yellow	F	601	602	603	604	605
+North America	Canada	Caucasian	between 30 and 45	blue	M	101	102	103	104	105
+North America	Canada	Caucasian	between 30 and 45	blue	F	201	202	203	204	205
+North America	Canada	Caucasian	between 30 and 45	green	M	301	302	303	304	305
+North America	Canada	Caucasian	between 30 and 45	green	F	401	402	403	404	405
+North America	Canada	Caucasian	between 30 and 45	yellow	M	501	502	503	504	505
+North America	Canada	Caucasian	between 30 and 45	yellow	F	601	602	603	604	605

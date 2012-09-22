@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<report eng-ver="0.3" title="test">
+
+<row rowCount="1">
+	<title colCount="-1" colspan="6" contentType="1" type="12">Test flat report 2x3x1d</title>
+</row>
+
+<row rowCount="2">
+	<table-header colCount="-1" colspan="1" contentType="3" type="12">Continent</table-header>
+	<table-header colCount="-1" colspan="1" contentType="3" type="12">Cardinal Point</table-header>
+	<table-header colCount="-1" colspan="1" contentType="3" type="12">Country</table-header>
+	<table-header colCount="-1" colspan="1" contentType="3" type="12">Sex</table-header>
+	<table-header colCount="-1" colspan="1" contentType="3" type="12">Age</table-header>
+	<table-header colCount="-1" colspan="1" contentType="3" type="12">Count</table-header>
+</row>
+<row rowCount="3">
+	<data colCount="-1" colspan="1" contentType="2" type="12">Europe</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">North</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">Sweden</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">Males</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">under 30</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">1</data>
+</row>
+<row rowCount="4">
+	<data colCount="-1" colspan="1" contentType="2" type="12">Europe</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">North</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">Sweden</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">Males</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">between 31 and 60</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">2</data>
+</row>
+<row rowCount="5">
+	<data colCount="-1" colspan="1" contentType="2" type="12">Europe</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">North</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">Sweden</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">Males</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">over 61</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">3</data>
+</row>
+<row rowCount="6">
+	<data colCount="-1" colspan="1" contentType="2" type="12">Europe</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">North</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">Sweden</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">Females</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">under 30</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">4</data>
+</row>
+<row rowCount="7">
+	<data colCount="-1" colspan="1" contentType="2" type="12">Europe</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">North</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">Sweden</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">Females</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">between 31 and 60</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">5</data>
+</row>
+<row rowCount="8">
+	<data colCount="-1" colspan="1" contentType="2" type="12">Europe</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">North</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">Sweden</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">Females</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">over 61</data>
+	<data colCount="-1" colspan="1" contentType="2" type="12">6</data>
+</row>
+</report>

@@ -1,0 +1,13 @@
+&nbsp;,M,F,Total
+&nbsp;,Orthodox,Catholic,Muslim,Total,Orthodox,Catholic,Muslim,Total,&nbsp;
+USA,East,New York,2001,1001,2001,5003,2002,1002,0,3004,8007
+USA,East,Chicago,1,2,0,3,0,0,3,3,6
+USA,West,Washington,5,4,6,15,0,7,0,7,22
+USA,South,Dallas,0,8,0,8,0,0,9,9,17
+USA,North,Cincinatti,10,0,0,10,11,0,0,11,21
+France,East,Grenoble,0,0,12,12,0,13,0,13,25
+France,West,Paris,0,0,14,14,0,0,15,15,29
+France,South,Monaco,0,0,16,16,0,0,17,17,33
+France,North,NorthVille,0,0,18,18,0,0,19,19,37
+Romania,South,Calarasi,0,0,20,20,0,0,21,21,41
+Romania,North,Suceava,0,0,22,22,0,0,23,23,45
