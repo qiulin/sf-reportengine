@@ -1,0 +1,38 @@
+&nbsp;,M,F,Total
+&nbsp;,Orthodox,Catholic,Muslim,Total,Orthodox,Catholic,Muslim,Total,&nbsp;
+USA,East,New York,2001,1001,2001,5003,2002,1002,0,3004,8007
+Total New York,2001,1001,2001,5003,2002,1002,0,3004,8007
+USA,East,Chicago,1,2,0,3,0,0,3,3,6
+Total Chicago,1,2,0,3,0,0,3,3,6
+Total East,2002,1003,2001,5006,2002,1002,3,3007,8013
+USA,West,Washington,5,4,6,15,0,7,0,7,22
+Total Washington,5,4,6,15,0,7,0,7,22
+Total West,5,4,6,15,0,7,0,7,22
+USA,South,Dallas,0,8,0,8,0,0,9,9,17
+Total Dallas,0,8,0,8,0,0,9,9,17
+Total South,0,8,0,8,0,0,9,9,17
+USA,North,Cincinatti,10,0,0,10,11,0,0,11,21
+Total Cincinatti,10,0,0,10,11,0,0,11,21
+Total North,10,0,0,10,11,0,0,11,21
+Total USA,2017,1015,2007,5039,2013,1009,12,3034,8073
+France,East,Grenoble,0,0,12,12,0,13,0,13,25
+Total Grenoble,0,0,12,12,0,13,0,13,25
+Total East,0,0,12,12,0,13,0,13,25
+France,West,Paris,0,0,14,14,0,0,15,15,29
+Total Paris,0,0,14,14,0,0,15,15,29
+Total West,0,0,14,14,0,0,15,15,29
+France,South,Monaco,0,0,16,16,0,0,17,17,33
+Total Monaco,0,0,16,16,0,0,17,17,33
+Total South,0,0,16,16,0,0,17,17,33
+France,North,NorthVille,0,0,18,18,0,0,19,19,37
+Total NorthVille,0,0,18,18,0,0,19,19,37
+Total North,0,0,18,18,0,0,19,19,37
+Total France,0,0,60,60,0,13,51,64,124
+Romania,South,Calarasi,0,0,20,20,0,0,21,21,41
+Total Calarasi,0,0,20,20,0,0,21,21,41
+Total South,0,0,20,20,0,0,21,21,41
+Romania,North,Suceava,0,0,22,22,0,0,23,23,45
+Total Suceava,0,0,22,22,0,0,23,23,45
+Total North,0,0,22,22,0,0,23,23,45
+Total Romania,0,0,42,42,0,0,44,44,86
+Grand Total,2017,1015,2109,5141,2013,1022,107,3142,8283
