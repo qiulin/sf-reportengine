@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.core.steps.MockCalculator;
@@ -35,7 +35,7 @@ public final class NoGroupsScenario {
 	
 	public final static IReportInput INPUT = new MemoryReportInput(RAW_INPUT);
 	
-	public static final IGroupingColumn[] GROUPING_COLUMNS = null; 
+	public static final IGroupColumn[] GROUPING_COLUMNS = null; 
 			
 	public static final IDataColumn[] DATA_COLUMNS = new IDataColumn[]{
 		new DefaultDataColumn("Zero or one", 0, null), 

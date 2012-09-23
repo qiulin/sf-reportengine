@@ -12,7 +12,7 @@ import net.sf.reportengine.FlatReport;
 import net.sf.reportengine.config.IColumn;
 import net.sf.reportengine.config.ICtColumn;
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.config.SubtotalsInfo;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.steps.AbstractAlgorithmStep;
@@ -204,8 +204,8 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     	return (List<ITotalsOutputFilter>)getContext().get(FlatReport.CONTEXT_KEY_TOTAL_OUT_FILTERS);
     }
     
-    public IGroupingColumn[] getGroupingColumns(){
-    	return (IGroupingColumn[])getContext().get(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS);
+    public IGroupColumn[] getGroupingColumns(){
+    	return (IGroupColumn[])getContext().get(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS);
     }
     
     public int getGroupingColumnsLength(){

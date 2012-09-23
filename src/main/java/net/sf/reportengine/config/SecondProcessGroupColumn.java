@@ -10,17 +10,17 @@ import net.sf.reportengine.core.steps.crosstab.IntermOriginalGroupValuesList;
  * @author Administrator
  *
  */
-public class SecondProcessGroupColumn implements IGroupingColumn {
+public class SecondProcessGroupColumn implements IGroupColumn {
 	
-	private IGroupingColumn originalGroupColumn; 
+	private IGroupColumn originalGroupColumn; 
 	
-	public SecondProcessGroupColumn(IGroupingColumn anotherGroupColumn){
+	public SecondProcessGroupColumn(IGroupColumn anotherGroupColumn){
 		this.originalGroupColumn = anotherGroupColumn;  
 	}
 	
 
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.config.IGroupingColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
+	 * @see net.sf.reportengine.config.IGroupColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
 	public Object getValue(NewRowEvent newRowEvent) {
 		//according to the contract the first object in each row array is an 

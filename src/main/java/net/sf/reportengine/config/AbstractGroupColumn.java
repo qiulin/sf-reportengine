@@ -10,7 +10,7 @@ import java.text.Format;
  * @author Administrator
  *
  */
-public abstract class AbstractGroupingColumn implements IGroupingColumn {
+public abstract class AbstractGroupColumn implements IGroupColumn {
 	
 	
 	private int groupingLevel; 
@@ -19,7 +19,7 @@ public abstract class AbstractGroupingColumn implements IGroupingColumn {
 	
 	
 	
-	public AbstractGroupingColumn(	String header, 
+	public AbstractGroupColumn(	String header, 
 									int groupingLevel, 
 									Format formatter){
 		setHeader(header);
@@ -28,7 +28,7 @@ public abstract class AbstractGroupingColumn implements IGroupingColumn {
 	}
 	
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.config.IGroupingColumn#getGroupingLevel()
+	 * @see net.sf.reportengine.config.IGroupColumn#getGroupingLevel()
 	 */
 	public int getGroupingLevel() {
 		return groupingLevel;

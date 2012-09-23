@@ -6,7 +6,7 @@ package net.sf.reportengine.core.steps.ct;
 import net.sf.reportengine.AbstractReport;
 import net.sf.reportengine.CrossTabReport;
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
 import net.sf.reportengine.util.CtMetadata;
@@ -87,7 +87,7 @@ public class CTReportHeaderTemplateInitStep implements IAlgorithmInitStep{
         
         //TODO: the following 6 rows should be optimized. Their only meaning is to compute the column count
         IDataColumn[] dataColumns = (IDataColumn[])context.get(AbstractReport.CONTEXT_KEY_DATA_COLUMNS);
-		IGroupingColumn[] groupColumns = (IGroupingColumn[])context.get(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS);
+		IGroupColumn[] groupColumns = (IGroupColumn[])context.get(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS);
         int colCount = dataColumns.length;
 		if(groupColumns != null){
 			colCount += groupColumns.length; 

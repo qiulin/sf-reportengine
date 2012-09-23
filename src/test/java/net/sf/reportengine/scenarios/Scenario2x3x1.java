@@ -5,10 +5,10 @@ package net.sf.reportengine.scenarios;
 
 import net.sf.reportengine.config.DefaultColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.DefaultGroupingColumn;
+import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.IColumn;
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.algorithm.IAlgorithmInput;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.in.StreamReportInput;
@@ -30,10 +30,10 @@ public class Scenario2x3x1 {
 			new DefaultColumn("Count", 5, -1, Calculator.SUM)
 	};
 	
-	public static final IGroupingColumn[] GROUP_COLUMNS = new IGroupingColumn[]{
-		new DefaultGroupingColumn("Continent", 0, 0),
-		new DefaultGroupingColumn("Direction", 1, 1),
-		new DefaultGroupingColumn("Country", 2, 2),
+	public static final IGroupColumn[] GROUP_COLUMNS = new IGroupColumn[]{
+		new DefaultGroupColumn("Continent", 0, 0),
+		new DefaultGroupColumn("Direction", 1, 1),
+		new DefaultGroupColumn("Country", 2, 2),
 
 	};
 	

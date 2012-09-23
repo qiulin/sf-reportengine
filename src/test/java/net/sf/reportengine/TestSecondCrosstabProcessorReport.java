@@ -6,7 +6,7 @@ package net.sf.reportengine;
 import java.io.InputStream;
 
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.steps.ReportAlgorithmStepTC;
 import net.sf.reportengine.in.IntermediateCrosstabReportInput;
 import net.sf.reportengine.out.HtmlReportOutput;
@@ -64,7 +64,7 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		assertEquals(10, dataColumns.length); 
 		report.setDataColumns(dataColumns);
 		
-		IGroupingColumn[] groupColumns = mockCrosstabReport.constructGroupColumnsForSecondProcess(CtScenario2x2x1.GROUPING_COLUMNS);
+		IGroupColumn[] groupColumns = mockCrosstabReport.constructGroupColumnsForSecondProcess(CtScenario2x2x1.GROUPING_COLUMNS);
 		assertNotNull(groupColumns); 
 		assertEquals(1, groupColumns.length);
 		report.setGroupingColumns(groupColumns); 
@@ -97,7 +97,7 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		//assertEquals(10, dataColumns.length); 
 		report.setDataColumns(dataColumns);
 		
-//		IGroupingColumn[] groupColumns = CrossTabReport.constructGroupColumnsForSecondProcess(CtScenario1x3x1.GROUP_COLUMNS[0]);
+//		IGroupColumn[] groupColumns = CrossTabReport.constructGroupColumnsForSecondProcess(CtScenario1x3x1.GROUP_COLUMNS[0]);
 //		assertNotNull(groupColumns); 
 //		assertEquals(1, groupColumns.length);
 //		report.setGroupingColumns(groupColumns); 

@@ -5,7 +5,7 @@
 package net.sf.reportengine.core.steps;
 
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.config.SubtotalsInfo;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.ReportConstants;
@@ -52,7 +52,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     //private Object[] previousDataRow; 
     
     
-    private IGroupingColumn[] groupCols; 
+    private IGroupColumn[] groupCols; 
     
     private IDataColumn[] dataCols;
     

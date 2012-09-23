@@ -7,13 +7,13 @@ import java.math.BigDecimal;
 
 import net.sf.reportengine.config.AbstractColumn;
 import net.sf.reportengine.config.AbstractDataColumn;
-import net.sf.reportengine.config.AbstractGroupingColumn;
+import net.sf.reportengine.config.AbstractGroupColumn;
 import net.sf.reportengine.config.DefaultColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.DefaultGroupingColumn;
+import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.IColumn;
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.calc.ICalculator;
@@ -57,16 +57,16 @@ public class CalculatedColumnsScenario {
 	
 	 public final static IReportInput INPUT = new MemoryReportInput(RAW_DATA);
 	    
-	public static final IGroupingColumn[] GROUP_COLUMNS = new IGroupingColumn[]{
-		new DefaultGroupingColumn("Zero or One", 0, 0), 
-		new AbstractGroupingColumn("Computed 0+2", 1, null) {
+	public static final IGroupColumn[] GROUP_COLUMNS = new IGroupColumn[]{
+		new DefaultGroupColumn("Zero or One", 0, 0), 
+		new AbstractGroupColumn("Computed 0+2", 1, null) {
 			public Integer getValue(NewRowEvent newRowEvent) {
 				Object[] data = newRowEvent.getInputDataRow();
 				return Integer.valueOf((String)data[0])+Integer.valueOf((String)data[2]);
 			}	
 		}, 
-		new DefaultGroupingColumn("2 multiples", 2, 2), 
-		new DefaultGroupingColumn("3 Multiples", 4, 3),
+		new DefaultGroupColumn("2 multiples", 2, 2), 
+		new DefaultGroupColumn("3 Multiples", 4, 3),
 		
 	};
 	

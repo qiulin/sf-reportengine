@@ -6,11 +6,11 @@ package net.sf.reportengine.scenarios.ct;
 import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.DefaultGroupingColumn;
+import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.ICrosstabData;
 import net.sf.reportengine.config.ICrosstabHeaderRow;
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
 import net.sf.reportengine.in.IReportInput;
@@ -61,9 +61,9 @@ public class CtScenario1x3x1 {
 		new String[]{"France",	"West",		"F",	"20",	"30"}
     }; 
 	
-	public final static IGroupingColumn[] GROUP_COLUMNS = null; 
-		//new IGroupingColumn[]{
-		//new DefaultGroupingColumn("Country",  0, 0) 
+	public final static IGroupColumn[] GROUP_COLUMNS = null; 
+		//new IGroupColumn[]{
+		//new DefaultGroupColumn("Country",  0, 0) 
 	//};
 	
 	public final static IDataColumn[] DATA_COLUMNS = new IDataColumn[]{

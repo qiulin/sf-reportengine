@@ -5,10 +5,10 @@ package net.sf.reportengine.scenarios;
 
 import net.sf.reportengine.config.DefaultColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.DefaultGroupingColumn;
+import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.IColumn;
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.algorithm.IAlgorithmInput;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.in.StreamReportInput;
@@ -40,7 +40,7 @@ public class OhlcComputationScenario {
 		new DefaultDataColumn("Volume",6, Calculator.SUM)
 	};
 	
-	public static final IGroupingColumn[] GROUP_COLUMNS = new IGroupingColumn[]{
-		new DefaultGroupingColumn("Date", 0,0)
+	public static final IGroupColumn[] GROUP_COLUMNS = new IGroupColumn[]{
+		new DefaultGroupColumn("Date", 0,0)
 	};
 }

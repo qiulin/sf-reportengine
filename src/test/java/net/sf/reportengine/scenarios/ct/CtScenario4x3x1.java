@@ -6,11 +6,11 @@ package net.sf.reportengine.scenarios.ct;
 import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.DefaultGroupingColumn;
+import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.ICrosstabData;
 import net.sf.reportengine.config.ICrosstabHeaderRow;
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
 import net.sf.reportengine.in.IReportInput;
@@ -55,10 +55,10 @@ public class CtScenario4x3x1 {
 		new Object[]{"Earth", "Asia", "S", "India",	"West",		"M",	"20",	13}, 
     }; 
 	
-	public final static IGroupingColumn[] GROUP_COLUMNS = new IGroupingColumn[]{
-		new DefaultGroupingColumn("Planet",  0, 0), 
-		new DefaultGroupingColumn("Continent", 1, 1), 
-		new DefaultGroupingColumn("Region", 2, 2),
+	public final static IGroupColumn[] GROUP_COLUMNS = new IGroupColumn[]{
+		new DefaultGroupColumn("Planet",  0, 0), 
+		new DefaultGroupColumn("Continent", 1, 1), 
+		new DefaultGroupColumn("Region", 2, 2),
 	};
 	
 	public final static IDataColumn[] DATA_COLUMNS = new IDataColumn[]{

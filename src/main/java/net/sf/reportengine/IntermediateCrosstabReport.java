@@ -8,7 +8,7 @@ import java.util.Arrays;
 import net.sf.reportengine.config.ICrosstabData;
 import net.sf.reportengine.config.ICrosstabHeaderRow;
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.algorithm.IAlgorithm;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
@@ -62,7 +62,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
     		logger.debug("dataColsIsNull ? "+(getDataColumns()==null));
     	}
     	
-		IGroupingColumn[] intermediateGroupCols = transformGroupingCrosstabConfigInFlatReportConfig(getGroupingColumns(),
+		IGroupColumn[] intermediateGroupCols = transformGroupingCrosstabConfigInFlatReportConfig(getGroupingColumns(),
 																									getDataColumns(), 
 																									getCrosstabHeaderRows());
 		IDataColumn[] intermediateDataCols = new IDataColumn[]{
@@ -140,7 +140,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 	 * @param originalCtHeaderRows
 	 * @return
 	 */
-	protected IGroupingColumn[] transformGroupingCrosstabConfigInFlatReportConfig(IGroupingColumn[] originalCtGroupingCols, 
+	protected IGroupColumn[] transformGroupingCrosstabConfigInFlatReportConfig(IGroupColumn[] originalCtGroupingCols, 
 																				IDataColumn[] originalCtDataCols, 
 																				ICrosstabHeaderRow[] originalCtHeaderRows){
 		int originalGroupColsLength = originalCtGroupingCols != null ? originalCtGroupingCols.length: 0;
@@ -153,7 +153,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 		}
 		
 		int intermedGroupColsLength = originalGroupColsLength + originalDataColsLength + originalCtHeaderRows.length -1;
-		IGroupingColumn[] result = new IGroupingColumn[intermedGroupColsLength];
+		IGroupColumn[] result = new IGroupColumn[intermedGroupColsLength];
 		
 		//from 0 to original groupCols.length we copy the original group columns
 		if(originalGroupColsLength > 0){
@@ -202,7 +202,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 		}
 	}
 	
-	protected static class IntermGroupColFromCtDataCol implements IGroupingColumn{
+	protected static class IntermGroupColFromCtDataCol implements IGroupColumn{
 		
 		private IDataColumn dataColumn; 
 		private int groupingLevel; 
@@ -230,7 +230,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 		
 	}
 	
-	protected static class IntermGroupColFromHeaderRow implements IGroupingColumn {
+	protected static class IntermGroupColFromHeaderRow implements IGroupColumn {
 
 		private ICrosstabHeaderRow headerRow; 
 	
@@ -242,7 +242,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 		}
 	
 		/* (non-Javadoc)
-		 * @see net.sf.reportengine.config.IGroupingColumn#getHeader()
+		 * @see net.sf.reportengine.config.IGroupColumn#getHeader()
 		 */
 		public String getHeader() {
 			return "not used";
@@ -250,21 +250,21 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 	
 	
 		/* (non-Javadoc)
-		 * @see net.sf.reportengine.config.IGroupingColumn#getGroupingLevel()
+		 * @see net.sf.reportengine.config.IGroupColumn#getGroupingLevel()
 		 */
 		public int getGroupingLevel() {
 			return groupingLevel;
 		}
 	
 		/* (non-Javadoc)
-		 * @see net.sf.reportengine.config.IGroupingColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
+		 * @see net.sf.reportengine.config.IGroupColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
 		 */
 		public Object getValue(NewRowEvent newRowEvent) {
 			return headerRow.getValue(newRowEvent);
 		}
 	
 		/* (non-Javadoc)
-		 * @see net.sf.reportengine.config.IGroupingColumn#getFormattedValue(java.lang.Object)
+		 * @see net.sf.reportengine.config.IGroupColumn#getFormattedValue(java.lang.Object)
 		 */
 		public String getFormattedValue(Object object) {
 			String result = "";

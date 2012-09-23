@@ -9,7 +9,7 @@ import java.util.Arrays;
 import org.apache.log4j.Logger;
 
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.ReportEngineException;
 import net.sf.reportengine.core.algorithm.IAlgorithmInput;
@@ -74,7 +74,7 @@ public abstract class AbstractReport {
     /**
      * grouping columns
      */
-    private IGroupingColumn[] groupingColumns; 
+    private IGroupColumn[] groupingColumns; 
     
     /**
      * this is a constructor for 
@@ -183,12 +183,12 @@ public abstract class AbstractReport {
 	}
 
 
-	public IGroupingColumn[] getGroupingColumns() {
+	public IGroupColumn[] getGroupingColumns() {
 		return groupingColumns;
 	}
 
 
-	public void setGroupingColumns(IGroupingColumn[] groupingColumns) {
+	public void setGroupingColumns(IGroupColumn[] groupingColumns) {
 		this.groupingColumns = groupingColumns;
 	}
 	

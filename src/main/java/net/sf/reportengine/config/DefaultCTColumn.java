@@ -9,7 +9,7 @@ import net.sf.reportengine.core.calc.ICalculator;
 
 /**
  * @author dragos
- * @deprecated as of 0.4 use IGroupingColumn, ICrosstabaHeaderRow, IDataColumn
+ * @deprecated as of 0.4 use IGroupColumn, ICrosstabaHeaderRow, IDataColumn
  */
 public class DefaultCTColumn extends DefaultColumn implements ICtColumn{
 	
