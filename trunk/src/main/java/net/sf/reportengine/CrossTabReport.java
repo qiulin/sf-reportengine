@@ -12,7 +12,7 @@ import java.util.List;
 import net.sf.reportengine.config.ICrosstabData;
 import net.sf.reportengine.config.ICrosstabHeaderRow;
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.config.SecondProcessDataColumn;
 import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessGroupColumn;
@@ -86,7 +86,7 @@ public class CrossTabReport extends AbstractReport{
 	@Override
 	protected void configAlgorithmSteps() {
 		try{
-			IGroupingColumn[] groupCols = getGroupingColumns(); 
+			IGroupColumn[] groupCols = getGroupingColumns(); 
 			IDataColumn[] dataCols = getDataColumns(); 
 			
 			int groupColsLength = groupCols != null ? groupCols.length : 0;
@@ -123,7 +123,7 @@ public class CrossTabReport extends AbstractReport{
 													getDataColumns(), 
 													getShowTotals(), 
 													getShowGrandTotal());
-			IGroupingColumn[] secondReportGroupCols = constructGroupColumnsForSecondProcess(getGroupingColumns()); 
+			IGroupColumn[] secondReportGroupCols = constructGroupColumnsForSecondProcess(getGroupingColumns()); 
 			
 			secondReport.setGroupingColumns(secondReportGroupCols); 
 			secondReport.setDataColumns(secondReportDataCols);
@@ -156,12 +156,12 @@ public class CrossTabReport extends AbstractReport{
 		this.crosstabData = crosstabData;
 	}
 	
-	protected IGroupingColumn[] constructGroupColumnsForSecondProcess(IGroupingColumn[] originalGroupCols){
-		IGroupingColumn[] result = null; 
+	protected IGroupColumn[] constructGroupColumnsForSecondProcess(IGroupColumn[] originalGroupCols){
+		IGroupColumn[] result = null; 
 		if(originalGroupCols != null && originalGroupCols.length > 0){
-			result = new IGroupingColumn[originalGroupCols.length];
+			result = new IGroupColumn[originalGroupCols.length];
 			for (int i = 0; i < originalGroupCols.length; i++) {
-				IGroupingColumn origGroupColumn = originalGroupCols[i];
+				IGroupColumn origGroupColumn = originalGroupCols[i];
 				result[i] = new SecondProcessGroupColumn(origGroupColumn);
 			}
 		}

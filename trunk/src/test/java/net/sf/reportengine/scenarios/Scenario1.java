@@ -7,10 +7,10 @@ import java.math.BigDecimal;
 
 import net.sf.reportengine.config.DefaultColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.DefaultGroupingColumn;
+import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.IColumn;
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.calc.ICalculator;
@@ -66,10 +66,10 @@ public class Scenario1 {
 		new DefaultColumn("col 5", 5, DefaultColumn.NO_GROUP_COLUMN, Calculator.SUM)
 	};
 	
-	public static final IGroupingColumn[] GROUPING_COLUMNS = new IGroupingColumn[] {
-		new DefaultGroupingColumn("col 0", 0, 0), 
-		new DefaultGroupingColumn("col 1", 1, 1), 
-		new DefaultGroupingColumn("col 2", 2, 2)
+	public static final IGroupColumn[] GROUPING_COLUMNS = new IGroupColumn[] {
+		new DefaultGroupColumn("col 0", 0, 0), 
+		new DefaultGroupColumn("col 1", 1, 1), 
+		new DefaultGroupColumn("col 2", 2, 2)
 	};
 	
 	public static final IDataColumn[] DATA_COLUMNS = new IDataColumn[]{

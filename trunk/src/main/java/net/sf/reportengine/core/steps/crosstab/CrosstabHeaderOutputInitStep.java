@@ -6,7 +6,7 @@ package net.sf.reportengine.core.steps.crosstab;
 import net.sf.reportengine.AbstractReport;
 import net.sf.reportengine.CrossTabReport;
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.config.SecondProcessDataColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
@@ -35,7 +35,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 	public void init(IAlgorithmContext reportContext) {
 		IReportOutput reportOutput = (IReportOutput)reportContext.getOutput();
 		IDataColumn[] dataColumns = (IDataColumn[])reportContext.get(AbstractReport.CONTEXT_KEY_DATA_COLUMNS);
-		IGroupingColumn[] groupColumns = (IGroupingColumn[])reportContext.get(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS); 
+		IGroupColumn[] groupColumns = (IGroupColumn[])reportContext.get(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS); 
 		//ICrosstabHeaderRow[] headerRows = (ICrosstabHeaderRow[])reportContext.get(CrossTabReport.CONTEXT_KEY_CROSSTAB_HEADER_ROWS); 
 		CtMetadata ctMetadata = (CtMetadata)reportContext.get(CrossTabReport.CONTEXT_KEY_CROSSTAB_METADATA);
 		
@@ -63,7 +63,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 	private void outputHeaderRowsByLoopingColumns(	IReportOutput reportOutput, 
 									CtMetadata ctMetadata, 
 									IDataColumn[] dataCols, 
-									IGroupingColumn[] groupCols){
+									IGroupColumn[] groupCols){
 		for (int row = 0; row < ctMetadata.getHeaderRowsCount(); row++) {
 			reportOutput.startRow(); 
 			

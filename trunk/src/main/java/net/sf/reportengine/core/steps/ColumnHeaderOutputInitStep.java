@@ -6,7 +6,7 @@ package net.sf.reportengine.core.steps;
 
 import net.sf.reportengine.AbstractReport;
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
@@ -48,7 +48,7 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
     public void init(IAlgorithmContext reportContext){
     	logger.trace("initializing the column header step: output title and column headers");
     	IDataColumn[] dataCols = (IDataColumn[])reportContext.get(AbstractReport.CONTEXT_KEY_DATA_COLUMNS);
-    	IGroupingColumn[] groupCols = (IGroupingColumn[])reportContext.get(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS); 
+    	IGroupColumn[] groupCols = (IGroupColumn[])reportContext.get(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS); 
     	
     	int outputColumnsCnt = dataCols.length + (groupCols != null ? groupCols.length : 0); 
     	
@@ -65,7 +65,7 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
         output.startRow();
         CellProps cellProps = null;
         if(groupCols != null){
-	        for (IGroupingColumn groupColumn : groupCols) {
+	        for (IGroupColumn groupColumn : groupCols) {
 				cellProps = new CellProps(groupColumn.getHeader(), 1, 1, ReportContent.CONTENT_COLUMN_HEADERS);
 				output.output(cellProps);
 			}

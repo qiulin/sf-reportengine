@@ -26,8 +26,8 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 	 * 
 	 * @return
 	 */
-//	public IGroupingColumn[] getOriginalCrosstabGroupingColumns(){
-//		return (IGroupingColumn[])getContext().get(CrossTabReport.CONTEXT_KEY_CROSSTAB_GROUP_COLS);
+//	public IGroupColumn[] getOriginalCrosstabGroupingColumns(){
+//		return (IGroupColumn[])getContext().get(CrossTabReport.CONTEXT_KEY_CROSSTAB_GROUP_COLS);
 //	}
 	
 	public Integer getOriginalCrosstabGroupingColsLength(){

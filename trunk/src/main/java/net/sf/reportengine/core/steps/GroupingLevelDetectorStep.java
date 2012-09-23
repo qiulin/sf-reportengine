@@ -5,7 +5,7 @@
  */
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
@@ -94,7 +94,7 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
 	 */
 	public void execute(NewRowEvent newRowEvent) {
         
-        IGroupingColumn[] groupingCols = getGroupingColumns();
+        IGroupColumn[] groupingCols = getGroupingColumns();
         
 		//first time we cannot make any comparison so the return level is zero
 		if(getPreviousRowOfGroupingValues() == null){
@@ -125,14 +125,14 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
 	}
     
     
-//    private void copyGroupingValuesToLastRowOfGroupingColumnValues(IGroupingColumn[] groupingCols, NewRowEvent newRowEvent){
+//    private void copyGroupingValuesToLastRowOfGroupingColumnValues(IGroupColumn[] groupingCols, NewRowEvent newRowEvent){
 //    	for (int i = 0; i < groupingCols.length; i++) {
 //    		lastRowOfGroupingColumnValues[i] = groupingCols[i].getValue(newRowEvent);
 //    	}    	
 //    }
     
     
-    private int checkLevelChangedInGroupingColumns(IGroupingColumn[] groupingColumns, Object[] lastRowOfGroupingValues, NewRowEvent newRowEvent){
+    private int checkLevelChangedInGroupingColumns(IGroupColumn[] groupingColumns, Object[] lastRowOfGroupingValues, NewRowEvent newRowEvent){
 		boolean aggregationLevelFound = false;
 		int i = 0;
 		

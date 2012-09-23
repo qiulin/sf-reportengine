@@ -15,7 +15,7 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
  * @since 0.4
  *
  */
-public class DefaultGroupingColumn extends AbstractGroupingColumn {
+public class DefaultGroupColumn extends AbstractGroupColumn {
 	
 	/**
 	 * the index of the input column
@@ -23,23 +23,23 @@ public class DefaultGroupingColumn extends AbstractGroupingColumn {
 	private int inputColumnIndex; 
 	
 	
-	public DefaultGroupingColumn(int inputColumnIndex, int groupingLevel){
+	public DefaultGroupColumn(int inputColumnIndex, int groupingLevel){
 		this("Column "+inputColumnIndex, inputColumnIndex, groupingLevel);
 	}
 	
 	
-	public DefaultGroupingColumn(String header, int inputColumnIndex, int groupingLevel){
+	public DefaultGroupColumn(String header, int inputColumnIndex, int groupingLevel){
 		this(header, inputColumnIndex, groupingLevel, null);
 	}
 	
-	public DefaultGroupingColumn(String header, int inputColumnIndex, int groupingLevel, Format formatter){
+	public DefaultGroupColumn(String header, int inputColumnIndex, int groupingLevel, Format formatter){
 		super(header, groupingLevel, formatter);
 		setInputColumnIndex(inputColumnIndex);
 	}
 	
 
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.config.IGroupingColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
+	 * @see net.sf.reportengine.config.IGroupColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
 	public Object getValue(NewRowEvent newRowEvent) {
 		return newRowEvent.getInputDataRow()[inputColumnIndex];

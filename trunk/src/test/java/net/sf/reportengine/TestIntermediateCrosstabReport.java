@@ -2,8 +2,8 @@ package net.sf.reportengine;
 
 import java.io.FileNotFoundException;
 
-import net.sf.reportengine.config.DefaultGroupingColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.DefaultGroupColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedDataList;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalGroupValuesList;
@@ -33,12 +33,12 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	}
 	
 	public void testTransfomCrosstabColsInIntermediateColsScenario2x2x1(){
-		IGroupingColumn[] result = new IntermediateCrosstabReport(1,1).transformGroupingCrosstabConfigInFlatReportConfig(CtScenario2x2x1.GROUPING_COLUMNS, 
+		IGroupColumn[] result = new IntermediateCrosstabReport(1,1).transformGroupingCrosstabConfigInFlatReportConfig(CtScenario2x2x1.GROUPING_COLUMNS, 
 																							CtScenario2x2x1.DATA_COLUMNS, 
 																							CtScenario2x2x1.HEADER_ROWS);
 		assertNotNull(result); 
 		assertEquals(3, result.length); 
-		assertTrue(result[0] instanceof DefaultGroupingColumn); 
+		assertTrue(result[0] instanceof DefaultGroupColumn); 
 		assertEquals(0, result[0].getGroupingLevel()); 
 		assertTrue(result[1] instanceof IntermediateCrosstabReport.IntermGroupColFromCtDataCol); 
 		assertEquals(1, result[1].getGroupingLevel()); 
@@ -47,7 +47,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	}
 	
 	public void testTransfomCrosstabColsInIntermediateColsScenario1x3x1(){
-		IGroupingColumn[] result = new IntermediateCrosstabReport(0,1).transformGroupingCrosstabConfigInFlatReportConfig(
+		IGroupColumn[] result = new IntermediateCrosstabReport(0,1).transformGroupingCrosstabConfigInFlatReportConfig(
 				CtScenario1x3x1.GROUP_COLUMNS, 
 				CtScenario1x3x1.DATA_COLUMNS, 
 				CtScenario1x3x1.HEADER_ROWS);
@@ -62,7 +62,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	}
 	
 	public void testTransfomCrosstabColsInIntermediateColsScenario4x3x1(){
-		IGroupingColumn[] result = new IntermediateCrosstabReport(3,1).transformGroupingCrosstabConfigInFlatReportConfig(
+		IGroupColumn[] result = new IntermediateCrosstabReport(3,1).transformGroupingCrosstabConfigInFlatReportConfig(
 				CtScenario4x3x1.GROUP_COLUMNS, 
 				CtScenario4x3x1.DATA_COLUMNS, 
 				CtScenario4x3x1.HEADER_ROWS);
@@ -70,13 +70,13 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		assertNotNull(result); 
 		assertEquals(6, result.length); 
 		
-		assertTrue(result[0] instanceof DefaultGroupingColumn); 
+		assertTrue(result[0] instanceof DefaultGroupColumn); 
 		assertEquals(0, result[0].getGroupingLevel());
 		
-		assertTrue(result[1] instanceof DefaultGroupingColumn); 
+		assertTrue(result[1] instanceof DefaultGroupColumn); 
 		assertEquals(1, result[1].getGroupingLevel());
 		
-		assertTrue(result[2] instanceof DefaultGroupingColumn); 
+		assertTrue(result[2] instanceof DefaultGroupColumn); 
 		assertEquals(2, result[2].getGroupingLevel());
 		
 		assertTrue(result[3] instanceof IntermediateCrosstabReport.IntermGroupColFromCtDataCol); 
@@ -91,7 +91,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	
 	
 	public void testTransfomCrosstabColsInIntermediateColsScenario1x1x1(){
-		IGroupingColumn[] result = new IntermediateCrosstabReport(0,1).transformGroupingCrosstabConfigInFlatReportConfig(
+		IGroupColumn[] result = new IntermediateCrosstabReport(0,1).transformGroupingCrosstabConfigInFlatReportConfig(
 				CtScenario1x1x1.GROUP_COLUMNS, 
 				CtScenario1x1x1.DATA_COLUMNS, 
 				CtScenario1x1x1.ROW_HEADERS);

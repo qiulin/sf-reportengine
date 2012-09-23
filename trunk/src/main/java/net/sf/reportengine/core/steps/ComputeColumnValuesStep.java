@@ -3,7 +3,7 @@ package net.sf.reportengine.core.steps;
 import java.util.Arrays;
 
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupingColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
@@ -40,7 +40,7 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 	
 	private int finalReportGroupCount = -1;
 	private int finalReportColumnCount = -1; 
-	private IGroupingColumn[] groupCols = null;
+	private IGroupColumn[] groupCols = null;
 	private IDataColumn[] dataColumns = null; 
 			
 	/**
