@@ -4,16 +4,12 @@
  */
 package net.sf.reportengine;
 
-import java.util.Arrays;
-
-import org.apache.log4j.Logger;
+import java.util.List;
 
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
-import net.sf.reportengine.core.ReportEngineException;
 import net.sf.reportengine.core.algorithm.IAlgorithmInput;
-import net.sf.reportengine.in.ReportInputException;
 import net.sf.reportengine.out.IReportOutput;
 
 
@@ -74,7 +70,7 @@ public abstract class AbstractReport {
     /**
      * grouping columns
      */
-    private IGroupColumn[] groupingColumns; 
+    private IGroupColumn[] groupColumns; 
     
     /**
      * this is a constructor for 
@@ -182,16 +178,27 @@ public abstract class AbstractReport {
 		this.dataColumns = dataColumns;
 	}
 
+	
+	public void setDataColumns(List<IDataColumn> dataColsList){
+		if(dataColsList != null){
+			setDataColumns(dataColsList.toArray(new IDataColumn[]{}));
+		}
+	}
 
-	public IGroupColumn[] getGroupingColumns() {
-		return groupingColumns;
+	public IGroupColumn[] getGroupColumns() {
+		return groupColumns;
 	}
 
 
-	public void setGroupingColumns(IGroupColumn[] groupingColumns) {
-		this.groupingColumns = groupingColumns;
+	public void setGroupColumns(IGroupColumn[] groupingColumns) {
+		this.groupColumns = groupingColumns;
 	}
 	
+	public void setGroupColumns(List<IGroupColumn> groupColsList){
+		if(groupColsList != null){
+			setGroupColumns(groupColsList.toArray(new IGroupColumn[]{}));
+		}
+	}
 	
 	 /**
      * Usually when setting totals you should also set some calculators 

@@ -117,7 +117,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(1,1);
 			classUnderTest.setIn(CtScenario2x2x1.INPUT);
 			classUnderTest.setOut(testOutput);
-			classUnderTest.setGroupingColumns(CtScenario2x2x1.GROUPING_COLUMNS);
+			classUnderTest.setGroupColumns(CtScenario2x2x1.GROUPING_COLUMNS);
 			classUnderTest.setDataColumns(CtScenario2x2x1.DATA_COLUMNS); 
 			classUnderTest.setCrosstabHeaderRows(CtScenario2x2x1.HEADER_ROWS); 
 			classUnderTest.setCrosstabData(CtScenario2x2x1.CROSSTAB_DATA); 
@@ -174,7 +174,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(0,1);
 			classUnderTest.setIn(CtScenario1x3x1.INPUT);
 			classUnderTest.setOut(realLifeOutput);
-			classUnderTest.setGroupingColumns(CtScenario1x3x1.GROUP_COLUMNS);
+			classUnderTest.setGroupColumns(CtScenario1x3x1.GROUP_COLUMNS);
 			classUnderTest.setDataColumns(CtScenario1x3x1.DATA_COLUMNS); 
 			classUnderTest.setCrosstabHeaderRows(CtScenario1x3x1.HEADER_ROWS); 
 			classUnderTest.setCrosstabData(CtScenario1x3x1.CROSSTAB_DATA); 
@@ -202,7 +202,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(0,1);
 			classUnderTest.setIn(CtScenario1x1x1.INPUT);
 			classUnderTest.setOut(realLifeOutput);
-			classUnderTest.setGroupingColumns(CtScenario1x1x1.GROUP_COLUMNS);
+			classUnderTest.setGroupColumns(CtScenario1x1x1.GROUP_COLUMNS);
 			classUnderTest.setDataColumns(CtScenario1x1x1.DATA_COLUMNS); 
 			classUnderTest.setCrosstabHeaderRows(CtScenario1x1x1.ROW_HEADERS); 
 			classUnderTest.setCrosstabData(CtScenario1x1x1.CROSSTAB_DATA); 
@@ -230,7 +230,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(0,1);
 			classUnderTest.setIn(CtScenario1x3x1.INPUT);
 			classUnderTest.setOut(realLifeOutput);
-			classUnderTest.setGroupingColumns(CtScenario1x3x1.GROUP_COLUMNS);
+			classUnderTest.setGroupColumns(CtScenario1x3x1.GROUP_COLUMNS);
 			classUnderTest.setDataColumns(CtScenario1x3x1.DATA_COLUMNS); 
 			classUnderTest.setCrosstabHeaderRows(CtScenario1x3x1.HEADER_ROWS); 
 			classUnderTest.setCrosstabData(CtScenario1x3x1.CROSSTAB_DATA); 
@@ -257,7 +257,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(3,1);
 			classUnderTest.setIn(CtScenario4x3x1.INPUT);
 			classUnderTest.setOut(realLifeOutput);
-			classUnderTest.setGroupingColumns(CtScenario4x3x1.GROUP_COLUMNS);
+			classUnderTest.setGroupColumns(CtScenario4x3x1.GROUP_COLUMNS);
 			classUnderTest.setDataColumns(CtScenario4x3x1.DATA_COLUMNS); 
 			classUnderTest.setCrosstabHeaderRows(CtScenario4x3x1.HEADER_ROWS); 
 			classUnderTest.setCrosstabData(CtScenario4x3x1.CROSSTAB_DATA); 
@@ -284,7 +284,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(3,1);
 			classUnderTest.setIn(CtScenario4x3x1.INPUT);
 			classUnderTest.setOut(realLifeOutput);
-			classUnderTest.setGroupingColumns(CtScenario4x3x1.GROUP_COLUMNS);
+			classUnderTest.setGroupColumns(CtScenario4x3x1.GROUP_COLUMNS);
 			classUnderTest.setDataColumns(CtScenario4x3x1.DATA_COLUMNS); 
 			classUnderTest.setCrosstabHeaderRows(CtScenario4x3x1.HEADER_ROWS); 
 			classUnderTest.setCrosstabData(CtScenario4x3x1.CROSSTAB_DATA); 

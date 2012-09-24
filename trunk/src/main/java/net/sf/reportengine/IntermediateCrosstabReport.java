@@ -62,7 +62,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
     		logger.debug("dataColsIsNull ? "+(getDataColumns()==null));
     	}
     	
-		IGroupColumn[] intermediateGroupCols = transformGroupingCrosstabConfigInFlatReportConfig(getGroupingColumns(),
+		IGroupColumn[] intermediateGroupCols = transformGroupingCrosstabConfigInFlatReportConfig(getGroupColumns(),
 																									getDataColumns(), 
 																									getCrosstabHeaderRows());
 		IDataColumn[] intermediateDataCols = new IDataColumn[]{

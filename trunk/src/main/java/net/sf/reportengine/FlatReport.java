@@ -77,7 +77,7 @@ public class FlatReport extends AbstractOneIterationReport {
     	algorithm.setOut(getOut());
     	
     	context.set(CONTEXT_KEY_DATA_COLUMNS, getDataColumns());
-    	context.set(CONTEXT_KEY_GROUPING_COLUMNS, getGroupingColumns());
+    	context.set(CONTEXT_KEY_GROUPING_COLUMNS, getGroupColumns());
     	context.set(CONTEXT_KEY_SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
     	context.set(CONTEXT_KEY_SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
     	context.set(CONTEXT_KEY_DATA_OUT_FILTERS, dataOutputFilterList);
@@ -98,7 +98,7 @@ public class FlatReport extends AbstractOneIterationReport {
         	algorithm.addMainStep(new DataRowsOutputStep());
         }
         
-        if(getGroupingColumns() != null && getGroupingColumns().length > 0){
+        if(getGroupColumns() != null && getGroupColumns().length > 0){
         	algorithm.addMainStep(new PreviousRowManagerStep());
         }
     }

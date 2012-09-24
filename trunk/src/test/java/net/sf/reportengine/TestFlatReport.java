@@ -43,7 +43,7 @@ public class TestFlatReport extends ReportengineTC {
 			flatReport.setOut(testOut);
 			//flatReport.setOut(new HtmlReportOutput(new FileOutputStream("scenario1.html")));
 			flatReport.setDataColumns(Scenario1.DATA_COLUMNS);
-			flatReport.setGroupingColumns(Scenario1.GROUPING_COLUMNS);
+			flatReport.setGroupColumns(Scenario1.GROUPING_COLUMNS);
 			flatReport.setShowTotals(true);
 			flatReport.setShowDataRows(true);
 		
@@ -73,7 +73,7 @@ public class TestFlatReport extends ReportengineTC {
 				
 				flatReport.setReportTitle("OHLC TEST");
 				flatReport.setDataColumns(OhlcComputationScenario.DATA_COLUMNS);
-				flatReport.setGroupingColumns(OhlcComputationScenario.GROUP_COLUMNS); 
+				flatReport.setGroupColumns(OhlcComputationScenario.GROUP_COLUMNS); 
 				flatReport.setShowTotals(true);
 				flatReport.setShowDataRows(false);
 				flatReport.execute();
@@ -92,7 +92,7 @@ public class TestFlatReport extends ReportengineTC {
 			flatReport.setIn(ShowOnlySpecificTotalsScenario.INPUT);
 			flatReport.setOut(testOut);
 			flatReport.setOut(new HtmlOutput(createTestOutputFile("onlySpecificTotals.html")));
-			flatReport.setGroupingColumns(ShowOnlySpecificTotalsScenario.GROUP_COLUMNS);
+			flatReport.setGroupColumns(ShowOnlySpecificTotalsScenario.GROUP_COLUMNS);
 			flatReport.setDataColumns(ShowOnlySpecificTotalsScenario.DATA_COLUMNS);
 			flatReport.setShowTotals(true);
 			flatReport.setShowGrandTotal(false);
@@ -116,7 +116,7 @@ public class TestFlatReport extends ReportengineTC {
         	InputStream inputStream = getTestFileFromClasspath("2x3x1.txt");
         	StreamReportInput input = new StreamReportInput(inputStream);
         	
-        	flatReport.setGroupingColumns(Scenario2x3x1.GROUP_COLUMNS);
+        	flatReport.setGroupColumns(Scenario2x3x1.GROUP_COLUMNS);
             flatReport.setDataColumns(Scenario2x3x1.DATA_COLUMNS);
             
             flatReport.setReportTitle("Test flat report 2x3x1d");    
@@ -147,7 +147,7 @@ public class TestFlatReport extends ReportengineTC {
     }
 	
 	public void testExecuteNoGroupingColumnsReport() throws Exception{
-    	flatReport.setGroupingColumns(NoGroupsScenario.GROUPING_COLUMNS);
+    	flatReport.setGroupColumns(NoGroupsScenario.GROUPING_COLUMNS);
         flatReport.setDataColumns(NoGroupsScenario.DATA_COLUMNS);
         
         flatReport.setReportTitle("Test report having no grops but still showing the grand total");    
