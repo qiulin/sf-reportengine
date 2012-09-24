@@ -86,7 +86,7 @@ public class CrossTabReport extends AbstractReport{
 	@Override
 	protected void configAlgorithmSteps() {
 		try{
-			IGroupColumn[] groupCols = getGroupingColumns(); 
+			IGroupColumn[] groupCols = getGroupColumns(); 
 			IDataColumn[] dataCols = getDataColumns(); 
 			
 			int groupColsLength = groupCols != null ? groupCols.length : 0;
@@ -96,7 +96,7 @@ public class CrossTabReport extends AbstractReport{
 			firstReport = new IntermediateCrosstabReport(groupColsLength, dataColsLength); 
 			firstReport.setIn(getIn()); 
 			firstReport.setOut(firstReportOutput); 
-			firstReport.setGroupingColumns(getGroupingColumns()); 
+			firstReport.setGroupColumns(getGroupColumns()); 
 			firstReport.setDataColumns(getDataColumns()); 
 			firstReport.setCrosstabHeaderRows(getCrosstabHeaderRows()); 
 			firstReport.setCrosstabData(getCrosstabData()); 
@@ -123,9 +123,9 @@ public class CrossTabReport extends AbstractReport{
 													getDataColumns(), 
 													getShowTotals(), 
 													getShowGrandTotal());
-			IGroupColumn[] secondReportGroupCols = constructGroupColumnsForSecondProcess(getGroupingColumns()); 
+			IGroupColumn[] secondReportGroupCols = constructGroupColumnsForSecondProcess(getGroupColumns()); 
 			
-			secondReport.setGroupingColumns(secondReportGroupCols); 
+			secondReport.setGroupColumns(secondReportGroupCols); 
 			secondReport.setDataColumns(secondReportDataCols);
 			secondReport.setShowDataRows(true); 
 			secondReport.setShowTotals(getShowTotals());

@@ -50,7 +50,7 @@ public class TestCrossTabReport extends ReportengineTC {
 		CrossTabReport classUnderTest = new CrossTabReport(); 
 		classUnderTest.setIn(CtScenario1x1x1.INPUT); 
 		classUnderTest.setOut(new HtmlOutput(createTestOutputFile("CrosstabReport1x1x1xT.html")));
-		classUnderTest.setGroupingColumns(CtScenario1x1x1.GROUP_COLUMNS);
+		classUnderTest.setGroupColumns(CtScenario1x1x1.GROUP_COLUMNS);
 		classUnderTest.setDataColumns(CtScenario1x1x1.DATA_COLUMNS); 
 		classUnderTest.setCrosstabData(CtScenario1x1x1.CROSSTAB_DATA); 
 		classUnderTest.setCrosstabHeaderRows(CtScenario1x1x1.ROW_HEADERS); 
@@ -64,7 +64,7 @@ public class TestCrossTabReport extends ReportengineTC {
 		CrossTabReport classUnderTest = new CrossTabReport(); 
 		classUnderTest.setIn(CtScenario1x1x1.INPUT); 
 		classUnderTest.setOut(new HtmlOutput(createTestOutputFile("CrosstabReport1x1x1.html")));
-		classUnderTest.setGroupingColumns(CtScenario1x1x1.GROUP_COLUMNS);
+		classUnderTest.setGroupColumns(CtScenario1x1x1.GROUP_COLUMNS);
 		classUnderTest.setDataColumns(CtScenario1x1x1.DATA_COLUMNS); 
 		classUnderTest.setCrosstabData(CtScenario1x1x1.CROSSTAB_DATA); 
 		classUnderTest.setCrosstabHeaderRows(CtScenario1x1x1.ROW_HEADERS); 
@@ -78,7 +78,7 @@ public class TestCrossTabReport extends ReportengineTC {
 		CrossTabReport classUnderTest = new CrossTabReport(); 
 		classUnderTest.setIn(CtScenario2x2x1.INPUT); 
 		classUnderTest.setOut(new HtmlOutput(createTestOutputFile("CrosstabReport2x2x1xT.html")));
-		classUnderTest.setGroupingColumns(CtScenario2x2x1.GROUPING_COLUMNS);
+		classUnderTest.setGroupColumns(CtScenario2x2x1.GROUPING_COLUMNS);
 		classUnderTest.setDataColumns(CtScenario2x2x1.DATA_COLUMNS); 
 		classUnderTest.setCrosstabData(CtScenario2x2x1.CROSSTAB_DATA); 
 		classUnderTest.setCrosstabHeaderRows(CtScenario2x2x1.HEADER_ROWS); 
@@ -92,7 +92,7 @@ public class TestCrossTabReport extends ReportengineTC {
 		CrossTabReport classUnderTest = new CrossTabReport(); 
 		classUnderTest.setIn(CtScenario2x2x1.INPUT); 
 		classUnderTest.setOut(new HtmlOutput(createTestOutputFile("CrosstabReport2x2x1.html")));
-		classUnderTest.setGroupingColumns(CtScenario2x2x1.GROUPING_COLUMNS);
+		classUnderTest.setGroupColumns(CtScenario2x2x1.GROUPING_COLUMNS);
 		classUnderTest.setDataColumns(CtScenario2x2x1.DATA_COLUMNS); 
 		classUnderTest.setCrosstabData(CtScenario2x2x1.CROSSTAB_DATA); 
 		classUnderTest.setCrosstabHeaderRows(CtScenario2x2x1.HEADER_ROWS); 
@@ -106,7 +106,7 @@ public class TestCrossTabReport extends ReportengineTC {
 		CrossTabReport classUnderTest = new CrossTabReport(); 
 		classUnderTest.setIn(CtScenario1x3x1.INPUT); 
 		classUnderTest.setOut(new HtmlOutput(createTestOutputFile("CrosstabReport1x3x1xT.html")));
-		classUnderTest.setGroupingColumns(CtScenario1x3x1.GROUP_COLUMNS);
+		classUnderTest.setGroupColumns(CtScenario1x3x1.GROUP_COLUMNS);
 		classUnderTest.setDataColumns(CtScenario1x3x1.DATA_COLUMNS); 
 		classUnderTest.setCrosstabData(CtScenario1x3x1.CROSSTAB_DATA); 
 		classUnderTest.setCrosstabHeaderRows(CtScenario1x3x1.HEADER_ROWS); 
@@ -120,7 +120,7 @@ public class TestCrossTabReport extends ReportengineTC {
 		CrossTabReport classUnderTest = new CrossTabReport(); 
 		classUnderTest.setIn(CtScenario1x3x1.INPUT); 
 		classUnderTest.setOut(new HtmlOutput(createTestOutputFile("CrosstabReport1x3x1.html")));
-		classUnderTest.setGroupingColumns(CtScenario1x3x1.GROUP_COLUMNS);
+		classUnderTest.setGroupColumns(CtScenario1x3x1.GROUP_COLUMNS);
 		classUnderTest.setDataColumns(CtScenario1x3x1.DATA_COLUMNS); 
 		classUnderTest.setCrosstabData(CtScenario1x3x1.CROSSTAB_DATA); 
 		classUnderTest.setCrosstabHeaderRows(CtScenario1x3x1.HEADER_ROWS); 
