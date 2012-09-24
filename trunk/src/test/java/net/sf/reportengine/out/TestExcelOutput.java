@@ -11,13 +11,14 @@ import net.sf.reportengine.test.ReportengineTC;
  */
 public class TestExcelOutput extends ReportengineTC {
 	
-	private ExcelReportOutput classUnderTest ;
+	private ExcelOutput classUnderTest ;
+	
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp() throws Exception {
 		super.setUp();
-		classUnderTest = new ExcelReportOutput(createTestOutputFile("testExcel.xls"));
+		classUnderTest = new ExcelOutput(createTestOutputFile("testExcel.xls"));
 	}
 
 	/* (non-Javadoc)
@@ -28,7 +29,7 @@ public class TestExcelOutput extends ReportengineTC {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.out.ExcelReportOutput#output(net.sf.reportengine.out.CellProps)}.
+	 * Test method for {@link net.sf.reportengine.out.ExcelOutput#output(net.sf.reportengine.out.CellProps)}.
 	 */
 	public void testOutput() {
 		classUnderTest.open();

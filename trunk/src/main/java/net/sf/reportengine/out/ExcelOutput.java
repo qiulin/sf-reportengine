@@ -31,12 +31,12 @@ import org.apache.poi.hssf.util.Region;
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2
  */
-public class ExcelReportOutput extends AbstractOutput {
+public class ExcelOutput extends AbstractOutput {
     
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(ExcelReportOutput.class);
+	private static final Logger logger = Logger.getLogger(ExcelOutput.class);
 	
     /**
      * the xls workbook
@@ -79,7 +79,7 @@ public class ExcelReportOutput extends AbstractOutput {
      * constructor 
      * @param out     the output stream
      */
-    public ExcelReportOutput(OutputStream out){
+    public ExcelOutput(OutputStream out){
         super(out);
     }
 

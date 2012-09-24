@@ -29,24 +29,24 @@ import org.apache.fop.apps.MimeConstants;
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.3
  */
-public class XslFoReportOutput extends XsltReportOutput {
+public class XslFoOutput extends XsltReportOutput {
 	
 	/**
 	 * the mime type of the report
 	 */
 	private String mimeType;
 	
-    public XslFoReportOutput(OutputStream outStream) {
+    public XslFoOutput(OutputStream outStream) {
         this(outStream, MimeConstants.MIME_PDF);
     }
     
-    public XslFoReportOutput(OutputStream outStream, String mimeType){
+    public XslFoOutput(OutputStream outStream, String mimeType){
     	this(outStream,  
     		mimeType,
     		ClassLoader.getSystemResourceAsStream("net/sf/reportengine/default-xml2fo.xslt"));
     }
     
-    public XslFoReportOutput(	OutputStream outStream, 
+    public XslFoOutput(	OutputStream outStream, 
     							String mimeType,
     							InputStream xsltInputStream) {
         super(outStream, xsltInputStream);

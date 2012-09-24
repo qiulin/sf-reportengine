@@ -11,18 +11,18 @@ import org.apache.log4j.Logger;
  * @author dragos
  *
  */
-public class MemoryReportOutput extends AbstractOutput {
+public class MemoryOutput extends AbstractOutput {
 	
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(MemoryReportOutput.class);
+	private static final Logger logger = Logger.getLogger(MemoryOutput.class);
 	
 	private ArrayList<CellProps[]> cellMatrix;
 	private ArrayList<CellProps> currentRowOfCells;
 	
 	
-	public MemoryReportOutput(){
+	public MemoryOutput(){
 		this.cellMatrix = new ArrayList<CellProps[]>();
 	}
 	

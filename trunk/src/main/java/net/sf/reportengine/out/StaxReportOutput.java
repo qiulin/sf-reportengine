@@ -17,7 +17,7 @@ import net.sf.reportengine.core.ReportContent;
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.3
  */
-public class StaxReportOutput extends AbstractXmlReportOutput {
+public class StaxReportOutput extends AbstractXmlOutput {
 	
 	private XMLStreamWriter writer;
 	

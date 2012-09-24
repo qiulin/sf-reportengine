@@ -10,10 +10,10 @@ import net.sf.reportengine.core.steps.crosstab.IntermOriginalGroupValuesList;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedTotalsList;
 import net.sf.reportengine.core.steps.crosstab.IntermediateReportRow;
 import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.HtmlReportOutput;
+import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
-import net.sf.reportengine.out.MemoryReportOutput;
+import net.sf.reportengine.out.MemoryOutput;
 import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
@@ -105,8 +105,8 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	
 	public void testExecuteScenario2x2x1xT() {
 		try {
-			IReportOutput visualOutput = new HtmlReportOutput(createTestOutputFile("intermediateReport2x2x1xT.html"));  
-			MemoryReportOutput memoryOutput = new MemoryReportOutput(); 
+			IReportOutput visualOutput = new HtmlOutput(createTestOutputFile("intermediateReport2x2x1xT.html"));  
+			MemoryOutput memoryOutput = new MemoryOutput(); 
 			IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput(); 
 			
 			OutputDispatcher testOutput = new OutputDispatcher();
@@ -168,7 +168,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	
 	public void testExecuteScenario1x3x1xT() {
 		try {
-			HtmlReportOutput testOutput = new HtmlReportOutput(createTestOutputFile("intermediateReport1x3x1xT.html")); 
+			HtmlOutput testOutput = new HtmlOutput(createTestOutputFile("intermediateReport1x3x1xT.html")); 
 			IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput(); 
 			
 			IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(0,1);
@@ -196,7 +196,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	
 	public void testExecuteScenario1x1x1xT() {
 		try {
-			HtmlReportOutput testOutput = new HtmlReportOutput(createTestOutputFile("intermediateReport1x1x1xT.html"));
+			HtmlOutput testOutput = new HtmlOutput(createTestOutputFile("intermediateReport1x1x1xT.html"));
 			IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput(); 
 			
 			IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(0,1);
@@ -224,7 +224,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	
 	public void testExecuteScenario1x3x1xNoTotals() {
 		try {
-			HtmlReportOutput testOutput = new HtmlReportOutput(createTestOutputFile("intermediateReport1x3x1.html"));
+			HtmlOutput testOutput = new HtmlOutput(createTestOutputFile("intermediateReport1x3x1.html"));
 			IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput();
 			
 			IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(0,1);
@@ -251,7 +251,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	
 	public void testExecuteScenario4x3x1xT() {
 		try {
-			HtmlReportOutput testOutput = new HtmlReportOutput(createTestOutputFile("intermediateReport4x3x1xT.html"));
+			HtmlOutput testOutput = new HtmlOutput(createTestOutputFile("intermediateReport4x3x1xT.html"));
 			IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput();
 			
 			IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(3,1);
@@ -279,7 +279,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	public void testExecuteScenario4x3x1() {
 		try {
 			IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput();
-			HtmlReportOutput testOutput = new HtmlReportOutput(createTestOutputFile("intermediateReport4x3x1.html"));
+			HtmlOutput testOutput = new HtmlOutput(createTestOutputFile("intermediateReport4x3x1.html"));
 			
 			IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(3,1);
 			classUnderTest.setIn(CtScenario4x3x1.INPUT);

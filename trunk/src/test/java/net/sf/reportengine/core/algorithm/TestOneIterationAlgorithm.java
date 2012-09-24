@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmMainStep;
 import net.sf.reportengine.in.MemoryReportInput;
-import net.sf.reportengine.out.MemoryReportOutput;
+import net.sf.reportengine.out.MemoryOutput;
 
 /**
  * @author dragos
@@ -20,7 +20,7 @@ public class TestOneIterationAlgorithm extends TestCase {
 					new String[]{"1","2","3"},
 					new String[]{"4","5","6"}
 			});
-	private MemoryReportOutput testOut = new MemoryReportOutput();
+	private MemoryOutput testOut = new MemoryOutput();
 	
 	private IAlgorithmInitStep testInitStep = new IAlgorithmInitStep(){
 		public void init(IAlgorithmContext context){

@@ -17,7 +17,7 @@ import net.sf.reportengine.core.ReportContent;
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2
  */
-public class HtmlReportOutput extends AbstractOutput {
+public class HtmlOutput extends AbstractOutput {
     
     public static final String DEFAULT_ODD_ROW_BG_COLOR = "#F5F5F5";
     public static final String DEFAULT_EVEN_ROW_BG_COLOR = "#FFFFFF";
@@ -39,7 +39,7 @@ public class HtmlReportOutput extends AbstractOutput {
      * 
      * @param out	the output stream (the result stream)
      */
-    public HtmlReportOutput(OutputStream out) {
+    public HtmlOutput(OutputStream out) {
         super(out);
     }
     

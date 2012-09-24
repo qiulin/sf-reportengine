@@ -34,10 +34,10 @@ public interface IReportOutput extends IAlgorithmOutput{
     public void endRow();
 
 	/**
-	 * outputs the specified value taking into accoount the 
+	 * outputs the specified value taking into account the 
      * cell properties imposed by the algorithm 
 	 * 
-	 * @param cellProp  the properties of the cell to be outputted    
+	 * @param cellProp  the properties of the cell to be output    
 	 */
 	public void output(CellProps cellProps);
     

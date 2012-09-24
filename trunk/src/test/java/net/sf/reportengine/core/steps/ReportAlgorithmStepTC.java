@@ -6,7 +6,7 @@ package net.sf.reportengine.core.steps;
 import net.sf.reportengine.core.algorithm.DefaultAlgoContext;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.calc.ICalculator;
-import net.sf.reportengine.out.MemoryReportOutput;
+import net.sf.reportengine.out.MemoryOutput;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.LoggerOutput;
 import net.sf.reportengine.out.OutputDispatcher;
@@ -24,12 +24,12 @@ public class ReportAlgorithmStepTC extends ReportengineTC {
 	private IAlgorithmContext TEST_REPORT_CONTEXT; 
 	private OutputDispatcher TEST_OUTPUT_DISPATCHER; 
 	
-	private MemoryReportOutput cumulativeReportOutput = null;
+	private MemoryOutput cumulativeReportOutput = null;
 	
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		cumulativeReportOutput = new MemoryReportOutput();
+		cumulativeReportOutput = new MemoryOutput();
 		
 		TEST_OUTPUT_DISPATCHER = new OutputDispatcher();
 		TEST_OUTPUT_DISPATCHER.registerOutput(cumulativeReportOutput);
@@ -63,7 +63,7 @@ public class ReportAlgorithmStepTC extends ReportengineTC {
 		TEST_REPORT_CONTEXT.set(PreviousRowManagerStep.CONTEXT_KEY_LAST_GROUPING_VALUES, prevValues);
 	}
 	
-	protected MemoryReportOutput getTestOutput(){
+	protected MemoryOutput getTestOutput(){
 		return cumulativeReportOutput;
 	}
 	
