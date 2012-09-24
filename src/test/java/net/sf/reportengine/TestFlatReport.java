@@ -5,12 +5,12 @@ import java.io.OutputStream;
 
 import net.sf.reportengine.core.ReportEngineException;
 import net.sf.reportengine.in.StreamReportInput;
-import net.sf.reportengine.out.MemoryReportOutput;
-import net.sf.reportengine.out.ExcelReportOutput;
-import net.sf.reportengine.out.HtmlReportOutput;
+import net.sf.reportengine.out.MemoryOutput;
+import net.sf.reportengine.out.ExcelOutput;
+import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.out.XmlDOMReportOutput;
-import net.sf.reportengine.out.XslFoReportOutput;
+import net.sf.reportengine.out.XslFoOutput;
 import net.sf.reportengine.out.XsltReportOutput;
 import net.sf.reportengine.scenarios.NoGroupsScenario;
 import net.sf.reportengine.scenarios.OhlcComputationScenario;
@@ -37,7 +37,7 @@ public class TestFlatReport extends ReportengineTC {
 	
 	public void testExecuteScenario1(){
 			
-			MemoryReportOutput testOut = new MemoryReportOutput();
+			MemoryOutput testOut = new MemoryOutput();
 			
 			flatReport.setIn(Scenario1.INPUT);
 			flatReport.setOut(testOut);
@@ -65,8 +65,8 @@ public class TestFlatReport extends ReportengineTC {
 				StreamReportInput in = new StreamReportInput(testStream,"\t");
 				
 				OutputDispatcher output = new OutputDispatcher();
-				output.registerOutput(new HtmlReportOutput(createTestOutputFile("testFlatReportOHLC.html")));
-				output.registerOutput(new ExcelReportOutput(createTestOutputFile("testFlatReportOHLC.xls")));
+				output.registerOutput(new HtmlOutput(createTestOutputFile("testFlatReportOHLC.html")));
+				output.registerOutput(new ExcelOutput(createTestOutputFile("testFlatReportOHLC.xls")));
 				
 				flatReport.setIn(in);
 				flatReport.setOut(output);
@@ -87,11 +87,11 @@ public class TestFlatReport extends ReportengineTC {
 
 	public void testExecuteScenarioShowOnlySpecificTotals(){
 		try {
-			MemoryReportOutput testOut = new MemoryReportOutput();
+			MemoryOutput testOut = new MemoryOutput();
 			
 			flatReport.setIn(ShowOnlySpecificTotalsScenario.INPUT);
 			flatReport.setOut(testOut);
-			flatReport.setOut(new HtmlReportOutput(createTestOutputFile("onlySpecificTotals.html")));
+			flatReport.setOut(new HtmlOutput(createTestOutputFile("onlySpecificTotals.html")));
 			flatReport.setGroupingColumns(ShowOnlySpecificTotalsScenario.GROUP_COLUMNS);
 			flatReport.setDataColumns(ShowOnlySpecificTotalsScenario.DATA_COLUMNS);
 			flatReport.setShowTotals(true);
@@ -129,10 +129,10 @@ public class TestFlatReport extends ReportengineTC {
             assertNotNull(xstlStream);
             
             OutputDispatcher output = new OutputDispatcher();
-            output.registerOutput(new HtmlReportOutput(createTestOutputFile("testExecute2x3x1.html")));
+            output.registerOutput(new HtmlOutput(createTestOutputFile("testExecute2x3x1.html")));
             output.registerOutput(new XmlDOMReportOutput(createTestOutputFile("testExecute2x3x1.xml")));
             output.registerOutput(new XsltReportOutput(testOutput, xstlStream));
-            output.registerOutput(new XslFoReportOutput(createTestOutputFile("testExecute2x3x1.pdf")));
+            output.registerOutput(new XslFoOutput(createTestOutputFile("testExecute2x3x1.pdf")));
             flatReport.setOut(output);
             
             flatReport.setShowTotals(true);
@@ -154,7 +154,7 @@ public class TestFlatReport extends ReportengineTC {
         flatReport.setIn(NoGroupsScenario.INPUT); 
         
         OutputDispatcher output = new OutputDispatcher();
-        output.registerOutput(new HtmlReportOutput(createTestOutputFile("testFlatReportNoGroupings.html")));
+        output.registerOutput(new HtmlOutput(createTestOutputFile("testFlatReportNoGroupings.html")));
         flatReport.setOut(output);
         flatReport.setShowTotals(true); 
         flatReport.setShowGrandTotal(true); 

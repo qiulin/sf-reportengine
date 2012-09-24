@@ -11,7 +11,7 @@ import java.io.OutputStream;
  * @author dragos balan (dragos.balan@gmail.com)
  *
  */
-public abstract class AbstractXmlReportOutput extends AbstractOutput {
+public abstract class AbstractXmlOutput extends AbstractOutput {
 	
 	public final static String REPORT_TAG_NAME = "report";
     public final static String REPORT_TITLE_TAG_NAME = "title";
@@ -27,7 +27,7 @@ public abstract class AbstractXmlReportOutput extends AbstractOutput {
 	
 	public final static String ATTR_ROW_NUMBER = "rowNumber";
 	
-    public AbstractXmlReportOutput(OutputStream outputStream){
+    public AbstractXmlOutput(OutputStream outputStream){
     	super(outputStream);
     }
 }
