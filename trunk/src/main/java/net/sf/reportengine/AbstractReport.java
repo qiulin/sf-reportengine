@@ -4,11 +4,13 @@
  */
 package net.sf.reportengine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
+import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.core.algorithm.IAlgorithmInput;
 import net.sf.reportengine.out.IReportOutput;
 
@@ -66,17 +68,22 @@ public abstract class AbstractReport {
      * the data columns
      */
     private IDataColumn[] dataColumns;
+    private List<IDataColumn> dataColsAsList; 
     
     /**
      * grouping columns
      */
-    private IGroupColumn[] groupColumns; 
+    private IGroupColumn[] groupColumns;
+    private List<IGroupColumn> groupColsAsList; 
     
     /**
      * this is a constructor for 
      * a single algorithm 
      */
-    public AbstractReport(){}
+    public AbstractReport(){
+    	dataColsAsList = new ArrayList<IDataColumn>();
+    	groupColsAsList = new ArrayList<IGroupColumn>();
+    }
    
     
     /**
@@ -167,12 +174,24 @@ public abstract class AbstractReport {
 	 * @return the configColumns
 	 */
 	public IDataColumn[] getDataColumns() {
-		return dataColumns;
+		IDataColumn[] result = null;
+		if(dataColumns !=  null){
+			result = dataColumns; 
+		}else{
+			if(dataColsAsList != null){
+				result = dataColsAsList.toArray(new IDataColumn[]{});
+				dataColumns = result; 
+			}else{
+				throw new ReportEngineRuntimeException("No data columns set. Please use one of the setter methods for data columns to fix this issue."); 
+			}
+		}
+		return result; 
 	}
 
 
 	/**
 	 * @param configColumns the configColumns to set
+	 * @deprecated use the setDataColumn(List) or addDataColumn(IDataColumn) instead
 	 */
 	public void setDataColumns(IDataColumn[] dataColumns) {
 		this.dataColumns = dataColumns;
@@ -180,24 +199,41 @@ public abstract class AbstractReport {
 
 	
 	public void setDataColumns(List<IDataColumn> dataColsList){
-		if(dataColsList != null){
-			setDataColumns(dataColsList.toArray(new IDataColumn[]{}));
-		}
+		this.dataColsAsList = dataColsList; 
+	}
+	
+	public void addDataColumn(IDataColumn newColumn){
+		this.dataColsAsList.add(newColumn); 
 	}
 
 	public IGroupColumn[] getGroupColumns() {
-		return groupColumns;
+		IGroupColumn[] result = null; 
+		if(groupColumns != null){
+			result = groupColumns; 
+		}else{
+			if(groupColsAsList != null){
+				result = groupColsAsList.toArray(new IGroupColumn[]{}); 
+				groupColumns = result; 
+			}
+		}
+		return result;
 	}
 
-
+	/**
+	 * 
+	 * @param groupingColumns
+	 * @deprecated use setGroupColumns(List) or addGroupColumn(IGroupColumn) instead
+	 */
 	public void setGroupColumns(IGroupColumn[] groupingColumns) {
 		this.groupColumns = groupingColumns;
 	}
 	
 	public void setGroupColumns(List<IGroupColumn> groupColsList){
-		if(groupColsList != null){
-			setGroupColumns(groupColsList.toArray(new IGroupColumn[]{}));
-		}
+		this.groupColsAsList = groupColsList;
+	}
+	
+	public void addGroupColumn(IGroupColumn newGroupCol){
+		this.groupColsAsList.add(newGroupCol); 
 	}
 	
 	 /**
