@@ -4,11 +4,12 @@
 package net.sf.reportengine.scenarios;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import net.sf.reportengine.config.DefaultColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.config.IColumn;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.ReportContent;
@@ -54,29 +55,20 @@ public class Scenario1 {
 		new String[]{"7","1","1"},
 	};
 	
-	/**
-	 * @deprecated
-	 */
-	public static final IColumn[] CONFIG_COLUMNS = new IColumn[]{
-		new DefaultColumn("col 0", 0, 0),
-		new DefaultColumn("col 1", 1, 1),
-		new DefaultColumn("col 2", 2, 2),
-		new DefaultColumn("col 3", 3, DefaultColumn.NO_GROUP_COLUMN),
-		new DefaultColumn("col 4", 4, DefaultColumn.NO_GROUP_COLUMN, Calculator.COUNT),
-		new DefaultColumn("col 5", 5, DefaultColumn.NO_GROUP_COLUMN, Calculator.SUM)
-	};
 	
-	public static final IGroupColumn[] GROUPING_COLUMNS = new IGroupColumn[] {
+	public static final List<IGroupColumn> GROUPING_COLUMNS = Arrays.asList(
+		new IGroupColumn[] {
 		new DefaultGroupColumn("col 0", 0, 0), 
 		new DefaultGroupColumn("col 1", 1, 1), 
 		new DefaultGroupColumn("col 2", 2, 2)
-	};
+	});
 	
-	public static final IDataColumn[] DATA_COLUMNS = new IDataColumn[]{
+	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList(
+			new IDataColumn[]{
 		new DefaultDataColumn("col 3", 3), 
 		new DefaultDataColumn("col 4", 4, Calculator.COUNT), 
 		new DefaultDataColumn("col 5", 5, Calculator.SUM)
-	};
+	});
 	
 	public static final int[] DISTRIBUTION_OF_CALCULATOR_IN_DATA_ROW_ARRAY = new int[]{-1,0,1};  
 	

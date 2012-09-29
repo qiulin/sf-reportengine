@@ -41,8 +41,8 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     	classUnderTest = new TotalsCalculatorStep();
          
         //simulate the level detector
-    	reportContext.set(AbstractReport.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS);
-    	reportContext.set(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
+    	reportContext.set(AbstractReport.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS.toArray());
+    	reportContext.set(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS.toArray());
     	reportContext.set(GroupingLevelDetectorStep.CONTEXT_KEY_NEW_GROUPING_LEVEL, Scenario1.AGG_COLUMNS_INDEX);
         
     	

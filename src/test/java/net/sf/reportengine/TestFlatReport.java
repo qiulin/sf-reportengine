@@ -55,6 +55,31 @@ public class TestFlatReport extends ReportengineTC {
 			
 	}
 	
+	public void testExecuteScenario1WithAddColumn(){
+		
+		MemoryOutput testOut = new MemoryOutput();
+		
+		flatReport.setIn(Scenario1.INPUT);
+		flatReport.setOut(testOut);
+		
+		flatReport.addDataColumn(Scenario1.DATA_COLUMNS.get(0));
+		flatReport.addDataColumn(Scenario1.DATA_COLUMNS.get(1));
+		flatReport.addDataColumn(Scenario1.DATA_COLUMNS.get(2));
+		
+		flatReport.addGroupColumn(Scenario1.GROUPING_COLUMNS.get(0));
+		flatReport.addGroupColumn(Scenario1.GROUPING_COLUMNS.get(1));
+		flatReport.addGroupColumn(Scenario1.GROUPING_COLUMNS.get(2));
+		
+		flatReport.setShowTotals(true);
+		flatReport.setShowDataRows(true);
+	
+		flatReport.execute();
+		
+		//MatrixUtils.logMatrix(testOut.getCellMatrix()); 
+		
+		assertTrue(MatrixUtils.compareMatrices(testOut.getCellMatrix(), Scenario1.EXPECTED_OUTPUT));
+		
+}
 	
 	public void testExecuteScenarioOhlc(){
 		boolean flawless = true;

@@ -20,6 +20,10 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	
 	private int inputColumnIndex; 
 	
+	public DefaultDataColumn(){
+		this(0); 
+	}
+	
 	public DefaultDataColumn(int inputColumnIndex){
 		this("Column "+inputColumnIndex, inputColumnIndex);
 	}

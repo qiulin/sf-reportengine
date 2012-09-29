@@ -18,6 +18,7 @@ import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessGroupColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
 import net.sf.reportengine.core.ConfigValidationException;
+import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep;
@@ -65,6 +66,8 @@ public class CrossTabReport extends AbstractReport{
 	private SecondCrosstabProcessorReport secondReport; 
 	
 	private ICrosstabHeaderRow[] crosstabHeaderRows; 
+	private List<ICrosstabHeaderRow> crosstabHeaderRowsAsList; 
+	
 	private ICrosstabData crosstabData; 
 	
 	/**
@@ -75,6 +78,12 @@ public class CrossTabReport extends AbstractReport{
 	public static final String CONTEXT_KEY_CROSSTAB_DATA = "net.sf.reportengine.crosstab.data"; 
 	public static final String CONTEXT_KEY_CROSSTAB_METADATA = "net.sf.reportengine.crosstab.metadata";
 	public static final String CONTEXT_KEY_CROSSTAB_HEADER_HAS_TOTALS = "net.sf.reportengine.crosstab.headerHasTotals";
+	
+	
+	
+	public CrossTabReport(){
+		this.crosstabHeaderRowsAsList = new ArrayList<ICrosstabHeaderRow>();
+	}
 	
 	
 	@Override
@@ -141,11 +150,35 @@ public class CrossTabReport extends AbstractReport{
 	}
 	
 	public ICrosstabHeaderRow[] getCrosstabHeaderRows() {
-		return crosstabHeaderRows;
+		ICrosstabHeaderRow[] result = null; 
+		if(crosstabHeaderRows != null){
+			result = crosstabHeaderRows; 
+		}else{
+			if(crosstabHeaderRowsAsList != null){
+				result = crosstabHeaderRowsAsList.toArray(new ICrosstabHeaderRow[]{});
+				crosstabHeaderRows = result; 
+			}else{
+				throw new ReportEngineRuntimeException("No header rows have been configured. Please use the setHeaderRows or addHeaderRow methods to fix this issue");
+			}
+		}
+		return result;
 	}
-
-	public void setCrosstabHeaderRows(ICrosstabHeaderRow[] crosstabHeaderRows) {
+	
+	/**
+	 * 
+	 * @param crosstabHeaderRows
+	 * @deprecated use setHeaderRows(List) or addHeaderRow(IHeaderRow) instead
+	 */
+	public void setHeaderRows(ICrosstabHeaderRow[] crosstabHeaderRows) {
 		this.crosstabHeaderRows = crosstabHeaderRows;
+	}
+	
+	public void setHeaderRows(List<ICrosstabHeaderRow> crosstabHeaderRowsList) {
+		this.crosstabHeaderRowsAsList = crosstabHeaderRowsList; 
+	}
+	
+	public void addHeaderRow(ICrosstabHeaderRow newHeaderRow){
+		this.crosstabHeaderRowsAsList.add(newHeaderRow);
 	}
 	
 	public ICrosstabData getCrosstabData() {

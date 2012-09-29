@@ -24,7 +24,7 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 	public void testExecuteScenario1() {
 		IAlgorithmContext testReportContext = getTestContext();
 		
-		testReportContext.set(FlatReport.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
+		testReportContext.set(FlatReport.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS.toArray());
 		classUnderTest.init(testReportContext);
 		
 		for(int i=0; i<Scenario1.RAW_DATA.length; i++){
