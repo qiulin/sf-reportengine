@@ -46,13 +46,11 @@ public class TestFlatReport extends ReportengineTC {
 			flatReport.setGroupColumns(Scenario1.GROUPING_COLUMNS);
 			flatReport.setShowTotals(true);
 			flatReport.setShowDataRows(true);
+			flatReport.setShowGrandTotal(true); 
 		
 			flatReport.execute();
 			
-			//MatrixUtils.logMatrix(testOut.getCellMatrix()); 
-			
 			assertTrue(MatrixUtils.compareMatrices(testOut.getCellMatrix(), Scenario1.EXPECTED_OUTPUT));
-			
 	}
 	
 	public void testExecuteScenario1WithAddColumn(){
@@ -72,6 +70,7 @@ public class TestFlatReport extends ReportengineTC {
 		
 		flatReport.setShowTotals(true);
 		flatReport.setShowDataRows(true);
+		flatReport.setShowGrandTotal(true); 
 	
 		flatReport.execute();
 		

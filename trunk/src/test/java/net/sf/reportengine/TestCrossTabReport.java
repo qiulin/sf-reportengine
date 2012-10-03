@@ -52,7 +52,7 @@ public class TestCrossTabReport extends ReportengineTC {
 		classUnderTest.setOut(new HtmlOutput(createTestOutputFile("CrosstabReport1x1x1xT.html")));
 		classUnderTest.setGroupColumns(CtScenario1x1x1.GROUP_COLUMNS);
 		classUnderTest.setDataColumns(CtScenario1x1x1.DATA_COLUMNS); 
-		classUnderTest.setCrosstabData(CtScenario1x1x1.CROSSTAB_DATA); 
+		classUnderTest.setCrosstabData(CtScenario1x1x1.CROSSTAB_DATA_WITH_TOTALS); 
 		classUnderTest.setHeaderRows(CtScenario1x1x1.ROW_HEADERS); 
 		classUnderTest.setShowTotals(true); 
 		classUnderTest.setShowGrandTotal(true); 
@@ -66,7 +66,7 @@ public class TestCrossTabReport extends ReportengineTC {
 		classUnderTest.setOut(new HtmlOutput(createTestOutputFile("CrosstabReport1x1x1.html")));
 		classUnderTest.setGroupColumns(CtScenario1x1x1.GROUP_COLUMNS);
 		classUnderTest.setDataColumns(CtScenario1x1x1.DATA_COLUMNS); 
-		classUnderTest.setCrosstabData(CtScenario1x1x1.CROSSTAB_DATA); 
+		classUnderTest.setCrosstabData(CtScenario1x1x1.CROSSTAB_DATA_NO_TOTALS); 
 		classUnderTest.setHeaderRows(CtScenario1x1x1.ROW_HEADERS); 
 		classUnderTest.setShowTotals(false); 
 		classUnderTest.setShowGrandTotal(false); 

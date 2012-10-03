@@ -205,7 +205,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			classUnderTest.setGroupColumns(CtScenario1x1x1.GROUP_COLUMNS);
 			classUnderTest.setDataColumns(CtScenario1x1x1.DATA_COLUMNS); 
 			classUnderTest.setCrosstabHeaderRows(CtScenario1x1x1.ROW_HEADERS); 
-			classUnderTest.setCrosstabData(CtScenario1x1x1.CROSSTAB_DATA); 
+			classUnderTest.setCrosstabData(CtScenario1x1x1.CROSSTAB_DATA_WITH_TOTALS); 
 			classUnderTest.setShowDataRows(true); 
 			classUnderTest.setShowTotals(true); 
 			classUnderTest.setShowGrandTotal(true);

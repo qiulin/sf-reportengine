@@ -57,7 +57,9 @@ public class CtScenario1x1x1 {
 		new DefaultCrosstabHeaderRow(1)//Region - second column
 	};
 	
-	public static final ICrosstabData CROSSTAB_DATA = new DefaultCrosstabData(2, Calculator.SUM);
+	public static final ICrosstabData CROSSTAB_DATA_WITH_TOTALS = new DefaultCrosstabData(2, Calculator.SUM);
+	public static final ICrosstabData CROSSTAB_DATA_NO_TOTALS = new DefaultCrosstabData(2);
+	
 	
 	public final static IReportInput INPUT = new MemoryReportInput(RAW_INPUT);
     

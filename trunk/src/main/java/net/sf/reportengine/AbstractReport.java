@@ -57,7 +57,7 @@ public abstract class AbstractReport {
     /**
      * whether the report will display grand total
      */
-    private boolean showGrandTotal = true;
+    private boolean showGrandTotal = false;
     
     /**
      * whether the report will display normal data rows or not 
