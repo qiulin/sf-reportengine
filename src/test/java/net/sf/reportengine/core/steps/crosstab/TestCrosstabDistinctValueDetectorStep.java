@@ -79,7 +79,7 @@ public class TestCrosstabDistinctValueDetectorStep extends ReportAlgorithmStepTC
 		IAlgorithmContext reportContext = getTestContext(); 
 		
 		reportContext.set(CrossTabReport.CONTEXT_KEY_CROSSTAB_HEADER_ROWS, CtScenario1x1x1.ROW_HEADERS);
-		reportContext.set(CrossTabReport.CONTEXT_KEY_CROSSTAB_DATA, CtScenario1x1x1.CROSSTAB_DATA);
+		reportContext.set(CrossTabReport.CONTEXT_KEY_CROSSTAB_DATA, CtScenario1x1x1.CROSSTAB_DATA_NO_TOTALS);
 		
 		classUnderTest.init(reportContext);
 		assertNotNull(classUnderTest.getCrosstabHeaderRows());

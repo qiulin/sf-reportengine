@@ -18,6 +18,14 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	private int inputColumnIndex; 
 	
 	
+	public DefaultCrosstabData(){
+		this(0); 
+	}
+	
+	public DefaultCrosstabData(int inputColumnIndex){
+		this(inputColumnIndex, null); 
+	}
+	
 	public DefaultCrosstabData(int inputColumnIndex, ICalculator calculator){
 		this(inputColumnIndex, calculator, null);
 	}
