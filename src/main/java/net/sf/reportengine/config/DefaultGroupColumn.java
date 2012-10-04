@@ -13,7 +13,6 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
  * 
  * @author dragos balan
  * @since 0.4
- *
  */
 public class DefaultGroupColumn extends AbstractGroupColumn {
 	
@@ -22,12 +21,18 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 	 */
 	private int inputColumnIndex; 
 	
+	public DefaultGroupColumn(){
+		this(0);
+	}
+	
+	public DefaultGroupColumn(int inputColumnIndex){
+		this("Column "+inputColumnIndex, inputColumnIndex, 0);
+	}
 	
 	public DefaultGroupColumn(int inputColumnIndex, int groupingLevel){
 		this("Column "+inputColumnIndex, inputColumnIndex, groupingLevel);
 	}
-	
-	
+		
 	public DefaultGroupColumn(String header, int inputColumnIndex, int groupingLevel){
 		this(header, inputColumnIndex, groupingLevel, null);
 	}

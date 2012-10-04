@@ -10,14 +10,20 @@ public abstract class AbstractDataColumn implements IDataColumn {
 	private Format formatter; 
 	private ICalculator calculator; 
 	
+	public AbstractDataColumn(String header){
+		this(header, null); 
+	}
+	
+	public AbstractDataColumn(String header, ICalculator calculator){
+		this(header, calculator, null); 
+	}
 	
 	public AbstractDataColumn(String header, ICalculator calculator, Format formatter){
 		setHeader(header); 
 		setFormatter(formatter); 
 		setCalculator(calculator); 
 	}
-	
-	
+		
 	public String getHeader() {
 		return header;
 	}
