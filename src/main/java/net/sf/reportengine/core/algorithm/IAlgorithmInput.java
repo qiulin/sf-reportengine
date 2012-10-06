@@ -31,7 +31,7 @@ public interface IAlgorithmInput {
     
     /**
      * true if there are any rows left otherwise false
-     * @return  hasmore flag
+     * @return  true if the input has more rows to return
      */
     public boolean hasMoreRows();
     

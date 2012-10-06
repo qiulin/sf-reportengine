@@ -4,7 +4,7 @@
 package net.sf.reportengine.config;
 
 import junit.framework.TestCase;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.Calculators;
 
 /**
  * @author dragos
@@ -33,11 +33,11 @@ public class TestDefaultDataColumn extends TestCase {
 		DefaultDataColumn classUnderTest = new DefaultDataColumn(); 
 		classUnderTest.setHeader("Month"); 
 		classUnderTest.setInputColumnIndex(0);
-		classUnderTest.setCalculator(Calculator.SUM);
+		classUnderTest.setCalculator(Calculators.SUM);
 	}
 	
 	
 	public void testDefaultDataColumnConstructor() {
-		DefaultDataColumn classUnderTest = new DefaultDataColumn("Month", 0, Calculator.SUM); 
+		DefaultDataColumn classUnderTest = new DefaultDataColumn("Month", 0, Calculators.SUM); 
 	}
 }

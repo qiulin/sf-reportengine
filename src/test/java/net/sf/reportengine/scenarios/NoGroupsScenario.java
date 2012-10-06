@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.core.steps.MockCalculator;
 import net.sf.reportengine.in.IReportInput;
@@ -39,11 +39,11 @@ public final class NoGroupsScenario {
 			
 	public static final IDataColumn[] DATA_COLUMNS = new IDataColumn[]{
 		new DefaultDataColumn("Zero or one", 0, null), 
-		new DefaultDataColumn("2 multiples", 2, Calculator.SUM), 
-		new DefaultDataColumn("3 multiples", 4, Calculator.AVG), 
+		new DefaultDataColumn("2 multiples", 2, Calculators.SUM), 
+		new DefaultDataColumn("3 multiples", 4, Calculators.AVG), 
 		new DefaultDataColumn("Column A", 1), 
 		new DefaultDataColumn("Column A", 3), 
-		new DefaultDataColumn("Column A", 5, Calculator.COUNT), 
+		new DefaultDataColumn("Column A", 5, Calculators.COUNT), 
 	};
 	
 	public final static int[] AGG_LEVEL = new int[]{

@@ -13,7 +13,7 @@ import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.ReportContent;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.core.steps.MockCalculator;
 import net.sf.reportengine.in.IReportInput;
@@ -66,8 +66,8 @@ public class Scenario1 {
 	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList(
 			new IDataColumn[]{
 		new DefaultDataColumn("col 3", 3), 
-		new DefaultDataColumn("col 4", 4, Calculator.COUNT), 
-		new DefaultDataColumn("col 5", 5, Calculator.SUM)
+		new DefaultDataColumn("col 4", 4, Calculators.COUNT), 
+		new DefaultDataColumn("col 5", 5, Calculators.SUM)
 	});
 	
 	public static final int[] DISTRIBUTION_OF_CALCULATOR_IN_DATA_ROW_ARRAY = new int[]{-1,0,1};  
@@ -88,7 +88,7 @@ public class Scenario1 {
 		ROW_6_AGG_LEVEL
 	};
 	
-	public final static ICalculator[] TEST_CALCULATOR_PROTOTYPES = new ICalculator[]{Calculator.COUNT, Calculator.SUM};
+	public final static ICalculator[] TEST_CALCULATOR_PROTOTYPES = new ICalculator[]{Calculators.COUNT, Calculators.SUM};
     public final static int[] TEST_COLUMNS_TO_COMPUTE_TOTALS_ON = new int[]{4,5};
     
     public final static ICalculator[][] ROW_1_CALCULATORS_RESULTS = new ICalculator[][]{

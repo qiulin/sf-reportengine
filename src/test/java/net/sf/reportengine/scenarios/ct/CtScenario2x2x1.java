@@ -10,7 +10,7 @@ import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.ICrosstabHeaderRow;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
 import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.in.MemoryReportInput;
@@ -75,7 +75,7 @@ public class CtScenario2x2x1 {
 		new DefaultCrosstabHeaderRow(2, null)   //Age
 	}; 
 	
-	public static final DefaultCrosstabData CROSSTAB_DATA = new DefaultCrosstabData(4, Calculator.SUM); //the count column
+	public static final DefaultCrosstabData CROSSTAB_DATA = new DefaultCrosstabData(4, Calculators.SUM); //the count column
 	
 	
 	public static final IntermediateDataInfo[] INTERMEDIATE_DATA_INFO = new IntermediateDataInfo[]{

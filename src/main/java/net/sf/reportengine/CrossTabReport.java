@@ -20,7 +20,7 @@ import net.sf.reportengine.config.SecondProcessTotalColumn;
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep;
 import net.sf.reportengine.in.IntermediateCrosstabReportInput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
@@ -232,7 +232,7 @@ public class CrossTabReport extends AbstractReport{
 							positionForCurrentTotal[j] = ((column-1) / crosstabMetadata.getColspanForLevel(j)) % crosstabMetadata.getDistinctValuesCountForLevel(j);
 						}
 						
-						auxListOfDataCols.add(new SecondProcessTotalColumn(positionForCurrentTotal, Calculator.SUM, null, "Total column="+column+ ",colspan= "+colspan));
+						auxListOfDataCols.add(new SecondProcessTotalColumn(positionForCurrentTotal, Calculators.SUM, null, "Total column="+column+ ",colspan= "+colspan));
 					}
 				}
 			}//end if has totals
@@ -243,7 +243,7 @@ public class CrossTabReport extends AbstractReport{
 				positionForCurrentColumn[j] = (column / crosstabMetadata.getColspanForLevel(j)) % crosstabMetadata.getDistinctValuesCountForLevel(j);
 			}
 			
-			auxListOfDataCols.add(new SecondProcessDataColumn(positionForCurrentColumn, Calculator.SUM, null)); 
+			auxListOfDataCols.add(new SecondProcessDataColumn(positionForCurrentColumn, Calculators.SUM, null)); 
 		}
 		
 		if(hasTotals){
@@ -257,14 +257,14 @@ public class CrossTabReport extends AbstractReport{
 					for(int j=0; j < positionForCurrentTotal.length; j++){
 						positionForCurrentTotal[j] = ((dataColsCount-1) / crosstabMetadata.getColspanForLevel(j)) % crosstabMetadata.getDistinctValuesCountForLevel(j);
 					}
-					auxListOfDataCols.add(new SecondProcessTotalColumn(positionForCurrentTotal, Calculator.SUM, null, "Total column="+(dataColsCount)+ ",colspan= "+colspan));
+					auxListOfDataCols.add(new SecondProcessTotalColumn(positionForCurrentTotal, Calculators.SUM, null, "Total column="+(dataColsCount)+ ",colspan= "+colspan));
 				}
 			}
 		}
 		
 		//grand total
 		if(hasGrandTotal){
-			auxListOfDataCols.add(new SecondProcessTotalColumn(null, Calculator.SUM, null, "GrandTotal")); 
+			auxListOfDataCols.add(new SecondProcessTotalColumn(null, Calculators.SUM, null, "GrandTotal")); 
 		}
 		
 		return auxListOfDataCols.toArray(new IDataColumn[]{}); 

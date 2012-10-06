@@ -7,7 +7,7 @@ import net.sf.reportengine.AbstractReport;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.Calculators;
 
 /**
  * @author Administrator
@@ -17,11 +17,11 @@ public class TestFlatReportExtractDataInitStep extends ReportAlgorithmStepTC {
 	
 	private static IDataColumn[] TEST_DATA_COLUMNS = new IDataColumn[]{
 		new DefaultDataColumn("No calculator column", 0, null),
-		new DefaultDataColumn("Count Column", 1, Calculator.COUNT), 
-		new DefaultDataColumn("Sum Column", 2, Calculator.SUM), 
+		new DefaultDataColumn("Count Column", 1, Calculators.COUNT), 
+		new DefaultDataColumn("Sum Column", 2, Calculators.SUM), 
 		new DefaultDataColumn("We don't care about this one", 3), 
 		new DefaultDataColumn("Another column without calculator", 4), 
-		new DefaultDataColumn("Last calculator column", 5, Calculator.AVG)
+		new DefaultDataColumn("Last calculator column", 5, Calculators.AVG)
 	};
 	
 	

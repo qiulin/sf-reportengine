@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- *  Definition interface for a Calculator
+ *  Definition interface for a Calculators
  * </p>
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2
