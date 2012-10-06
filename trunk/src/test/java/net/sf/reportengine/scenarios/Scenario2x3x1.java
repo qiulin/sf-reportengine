@@ -10,7 +10,7 @@ import net.sf.reportengine.config.IColumn;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.algorithm.IAlgorithmInput;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.StreamReportInput;
 
 /**
@@ -27,7 +27,7 @@ public class Scenario2x3x1 {
 			new DefaultColumn("Country", 2, 2),
 			new DefaultColumn("Sex", 3),
 			new DefaultColumn("Age", 4),
-			new DefaultColumn("Count", 5, -1, Calculator.SUM)
+			new DefaultColumn("Count", 5, -1, Calculators.SUM)
 	};
 	
 	public static final IGroupColumn[] GROUP_COLUMNS = new IGroupColumn[]{
@@ -40,7 +40,7 @@ public class Scenario2x3x1 {
 	public static final IDataColumn[] DATA_COLUMNS = new IDataColumn[]{
 		new DefaultDataColumn("Sex", 3),
 		new DefaultDataColumn("Age", 4),
-		new DefaultDataColumn("Count", 5, Calculator.SUM)
+		new DefaultDataColumn("Count", 5, Calculators.SUM)
 	};
 	
 }

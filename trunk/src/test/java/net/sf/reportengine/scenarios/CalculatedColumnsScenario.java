@@ -15,7 +15,7 @@ import net.sf.reportengine.config.IColumn;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.core.steps.MockCalculator;
 import net.sf.reportengine.in.IReportInput;
@@ -73,7 +73,7 @@ public class CalculatedColumnsScenario {
 	public static final IDataColumn[] DATA_COLUMNS = new IDataColumn[] {
 		new DefaultDataColumn("Column A", 1),
 		new DefaultDataColumn("Column B", 3), 
-		new DefaultDataColumn("Column C", 5, Calculator.COUNT),
+		new DefaultDataColumn("Column C", 5, Calculators.COUNT),
 		new AbstractDataColumn("0+3", null, null) {
 			public String getValue(NewRowEvent newRowEvent) {
 				Object[] data = newRowEvent.getInputDataRow();

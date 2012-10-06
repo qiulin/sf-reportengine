@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.calc.CalculatorException;
 import net.sf.reportengine.core.calc.CountCalculator;
 import net.sf.reportengine.core.calc.ICalculator;
@@ -28,12 +28,12 @@ public class TestCalculatorMatrix extends TestCase {
 	
 	//private static int[] TEST_COLUMNNS_TO_COMPUTE = new int[]{1,2};
 	private static Integer[] TEST_VALUES = new Integer[]{1,2,3,4,5,6,7};
-	//private static ICalculator[] TEST_PROTOTYPE = new ICalculator[]{Calculator.COUNT, Calculator.SUM};
+	//private static ICalculator[] TEST_PROTOTYPE = new ICalculator[]{Calculators.COUNT, Calculators.SUM};
 	
 	private static IDataColumn[] TEST_DATA_COLUMNS = new IDataColumn[]{
 		new DefaultDataColumn("No calculator column", 0, null),
-		new DefaultDataColumn("Count Column", 1, Calculator.COUNT), 
-		new DefaultDataColumn("Sum Column", 2, Calculator.SUM), 
+		new DefaultDataColumn("Count Column", 1, Calculators.COUNT), 
+		new DefaultDataColumn("Sum Column", 2, Calculators.SUM), 
 		new DefaultDataColumn("We don't care about this one", 3)
 	};
 	

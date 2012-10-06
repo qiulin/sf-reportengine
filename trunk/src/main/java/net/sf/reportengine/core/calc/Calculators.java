@@ -4,7 +4,7 @@
  */
 package net.sf.reportengine.core.calc;
 
-public class Calculator {
+public class Calculators {
     
     /**
      * 
@@ -46,7 +46,7 @@ public class Calculator {
      */
     public static final ICalculator LAST = new LastCalculator();
     
-    private Calculator(){
+    private Calculators(){
         //dummy impl just to prevent inheritance
     }
     
