@@ -23,10 +23,50 @@ import net.sf.reportengine.filter.ITotalsOutputFilter;
 
 /**
  * <p>
- * This is the main utility class for flat reports. 
+ * This is a normal tabular report (don't get confused by its name) whose layout will look like: 
+ * <table>
+ * 	<tr><td><b>column 1</b></td><td><b>column 2</b></td><td><b>column 3</b></td></tr>
+ * 	<tr><td>data 11</td><td>data 12</td><td>data 13</td></tr>
+ *  <tr><td>data 21</td><td>data 22</td><td>data 23</td><tr>
+ *  <tr><td>data 31</td><td>data 32</td><td>data 33</td><tr>
+ * </table>
+ *
+ * Each flat report needs three elements configured: 
+ * <ul>
+ * 	<li>input</li>
+ * 	<li>column configuration</li> 
+ * 	<li>output</li>
+ * </ul>
+ * A simple report example can be: 
+ * <pre>
+ * {@code
+ * FlatReport flatReport = new FlatReport();	
+ * 
+ * //input configuration
+ * IReportInput input = new StreamReportInput(new FileInputStream("input.txt"));
+ * flatReport.setIn(input);
+ *
+ * //output configuration
+ * IReportOutput output = new ExcelOutput(new FileOutputStream("output.xls")); 
+ * flatReport.setOut(output);
+ *
+ * //columns configuration
+ * flatReport.addDataColumn(new DefaultDataColumn("Country", 0)); 
+ * flatReport.addDataColumn(new DefaultDataColumn("City", 1)); 
+ * flatReport.addDataColumn(new DefaultDataColumn("Population", 2)); 
+ *
+ * //start execution
+ * flatReport.execute();
+ *}
+ * </pre>
  * </p>
  * 
- * @author dragos balan
+ * @see IReportInput
+ * @see IReportOutput
+ * @see IDataColumn
+ * @see IGroupColumn
+ * 
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
 public class FlatReport extends AbstractOneIterationReport {

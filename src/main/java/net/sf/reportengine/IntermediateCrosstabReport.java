@@ -25,8 +25,10 @@ import net.sf.reportengine.util.ContextKeys;
 import org.apache.log4j.Logger;
 
 /**
+ * This is for internal use only.  
+ * 
  * @author dragos balan (dragos dot balan at gmail dot com)
- *
+ * @since 0.4
  */
 class IntermediateCrosstabReport extends AbstractOneIterationReport {
 	

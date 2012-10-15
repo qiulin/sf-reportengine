@@ -31,26 +31,60 @@ import org.apache.log4j.Logger;
 
 /**
  * <p>
- *  Helper tool for Cross tab reports.
- *  A basic configuration consists in : 
- *      <ul>
- *          <li>Y Columns using <source>setYColumns(int[])</source></li>
- *          <li>X Columns using <source>setXColumns(int[])</source></li>
- *          <li>data Columns using <source>setDataColumns(int[])</source></li>
- *      </ul>
- *   However you can also set only two of them and let this class to detect the third .<br>
- *   For instance , you can set xColumns and y columnas and the data columns will be detected as being 
- *   all the rest.
- *   If you want to add some aggregated columns you have to specify :
- *      <ul>
- *          <li>The ICalculator used for x elements</li>
- *          <li>The ICalculators used for y elements</li>
- *      </ul>
- *   It will be a difficult task to use the <code>setXCalcultors()</code> method because you have to know how 
- *   many columns will be displayed on y axis that's why you can use <code>useSameForAllXCalculators()</code>
- *   if you don't know how many ICalculators to set on x axis and you want only one type of calculators
+ *  This is the main class to be used for Cross tab reports (or Pivot tables).
+ *  The layout of pivot tables will look like: <br/>
+ *  <table>
+ *  	<tr><td>&nbsp;</td><td>&nbsp;</td>						<td colspan="4" align="center"><b>Row header 1</b></td></tr>
+ *  	<tr><td><b>Column 1</b></td><td><b>Column 2</b></td>	<td colspan="4" align="center"><b>Row header 2</b></td></tr>
+ *  	<tr><td>value 1</td><td>value 2</td>					<td>ct data 11</td><td>ct data 12</td><td>ct data 13</td><td>ct data 14</td></tr>
+ *  	<tr><td>value 3</td><td>value 4</td>					<td>ct data 21</td><td>ct data 22</td><td>ct data 23</td><td>ct data 24</td></tr>
+ *  	<tr><td>value 5</td><td>value 6</td>					<td>ct data 31</td><td>ct data 32</td><td>ct data 33</td><td>ct data 34</td></tr>
+ *  </table><br/>
+ * Each pivot table report needs five elements configured: 
+ * <ul>
+ * 	<li>input</li>
+ * 	<li>column config</li>
+ *  <li>row headers config</li> 
+ *  <li>crosstab data</li>
+ * 	<li>output</li>
+ * </ul>
+ * 
+ * A simple pivot table repost example is: 
+ * <pre>
+ * {@code
+ *  CrossTabReport report = new CrossTabReport(); 
+ *	
+ *  //set up the input/output			
+ *  IReportInput in = new StreamReportInput(new FileInputStream("expenses.csv"));
+ *  report.setIn(input); 
+ *			
+ *  IReportOutput output = new HtmlOutput(new FileOutputStream("xpenses.html")); 
+ *  report.setOut(output);
+ *			
+ *  //set up data column
+ *  report.addDataColumn(new DefaultDataColumn("Month", 0)); 
+ *			
+ *  //set up the header rows (from the second column)
+ *  report.addHeaderRow(new DefaultCrosstabHeaderRow(1));
+ *			
+ *  //set up the crosstab data
+ *  report.setCrosstabData(new DefaultCrosstabData(2));
+ *			
+ *  //report execution
+ *  report.execute();
+ *
+ * }
+ * </pre>
  * </p>
- * @author dragos balan (dragos.balan@gmail.com)
+ * 
+ * @see IReportInput
+ * @see IReportOutput
+ * @see IHeaderRow
+ * @see IDataColumn
+ * @see IGroupColumn
+ * @see ICrosstabData
+ * 
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2 
  */
 public class CrossTabReport extends AbstractReport{
