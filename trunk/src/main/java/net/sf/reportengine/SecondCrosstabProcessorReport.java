@@ -16,8 +16,10 @@ import net.sf.reportengine.core.steps.crosstab.CrosstabHeaderOutputInitStep;
 import net.sf.reportengine.util.CtMetadata;
 
 /**
- * @author Administrator
- *
+ * This is for internal use only. 
+ * 
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.4
  */
 class SecondCrosstabProcessorReport extends AbstractOneIterationReport {
 	
