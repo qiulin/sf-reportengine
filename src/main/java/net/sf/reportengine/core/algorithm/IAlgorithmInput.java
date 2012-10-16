@@ -9,6 +9,7 @@ package net.sf.reportengine.core.algorithm;
  * input for any algorithm 
  * 
  * @author dragos balan (dragos.balan@gmail.com)
+ * @deprecated please use IRepotInput instead
  */
 public interface IAlgorithmInput {
     

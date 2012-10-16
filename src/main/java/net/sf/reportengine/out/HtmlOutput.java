@@ -5,16 +5,16 @@ package net.sf.reportengine.out;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Writer;
 
-import net.sf.reportengine.core.ReportConstants;
 import net.sf.reportengine.core.ReportContent;
 
 
 /**
- * A simple implementation of the IReportOutput having 
+ * Simple implementation of the IReportOutput having 
  * as result a html page.
  * 
- * @author dragos balan (dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
 public class HtmlOutput extends AbstractOutput {
@@ -24,9 +24,11 @@ public class HtmlOutput extends AbstractOutput {
     
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
-    private static final String HTML_START ="<html><head><title>report</title></head><body>";
+    private static final String ENCODING_DECLARATION = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />";
+    private static final String HTML_START ="<html><head><title>report</title>"+ENCODING_DECLARATION+"</head><body>";
     private static final String HTML_END = "</body></html>";
-
+    
+    
     /**
      * flag for standalone pages (default true)                    <br/>
      * If this flag is true then a full html page will be generated <br/>
@@ -35,12 +37,20 @@ public class HtmlOutput extends AbstractOutput {
     private boolean isStandalonePage = true;
     
     /**
-     * the constructor of this class 
+     *
      * 
      * @param out	the output stream (the result stream)
      */
     public HtmlOutput(OutputStream out) {
         super(out);
+    }
+    
+    /**
+     * 
+     * @param writer
+     */
+    public HtmlOutput(Writer writer){
+    	super(writer);
     }
     
     /*
@@ -50,8 +60,10 @@ public class HtmlOutput extends AbstractOutput {
     public void open() {
         try {
             super.open();
-            getOutputStream().write((isStandalonePage ? HTML_START : "").getBytes());
-            getOutputStream().write(("<table border=\"0\" cellpading=\"0\" cellspacing=\"0\">").getBytes());
+            if(isStandalonePage){
+            	getWriter().write(HTML_START);
+            }
+            getWriter().write("<table border=\"0\" cellpading=\"0\" cellspacing=\"0\">");
         } catch (IOException ioExc) {
         	throw new RuntimeException(ioExc);
         }
@@ -64,9 +76,9 @@ public class HtmlOutput extends AbstractOutput {
     public void close() {
         try {
             super.close();
-            getOutputStream().write("</table>".getBytes());
-            getOutputStream().write((isStandalonePage ? HTML_END : "").getBytes());
-            getOutputStream().close();
+            getWriter().write("</table>");
+            getWriter().write(isStandalonePage ? HTML_END : "");
+            getWriter().close();
         } catch (IOException ioExc) {
         	throw new RuntimeException(ioExc);
         }
@@ -80,14 +92,14 @@ public class HtmlOutput extends AbstractOutput {
         
         try {
             super.startRow();
-            StringBuffer buffer = new StringBuffer("<tr bgcolor=\"");
+            StringBuilder buffer = new StringBuilder("<tr bgcolor=\"");
             if(getRowCount() %2 ==0){
                 buffer.append(DEFAULT_EVEN_ROW_BG_COLOR);
             }else{
                 buffer.append(DEFAULT_ODD_ROW_BG_COLOR);
             }
             buffer.append("\" >");
-            getOutputStream().write(buffer.toString().getBytes());
+            getWriter().write(buffer.toString());
             
         } catch (IOException ioExc) {
         	throw new RuntimeException(ioExc);
@@ -101,21 +113,28 @@ public class HtmlOutput extends AbstractOutput {
     public void endRow(){
         try{
             super.endRow();
-            getOutputStream().write(("</tr>"+LINE_SEPARATOR).getBytes());
+            getWriter().write("</tr>"+LINE_SEPARATOR);
             
         }catch (IOException ioExc) {
         	throw new RuntimeException(ioExc);
         }
     }
     
-    
+    /**
+     * 
+     */
     public void output(CellProps cellProps) {
-        
         String toWrite = purifyData(cellProps.getValue());
         
         try {
         	ReportContent contentType = cellProps.getContentType();
-            StringBuffer strContent = new StringBuffer("<td align =\"center\" colspan=\"" + cellProps.getColspan()+ "\" rowspan=\""+cellProps.getRowspan()+"\" >");
+        	
+            StringBuilder strContent = new StringBuilder("<td align =\"center\" colspan=\"");
+            strContent.append(cellProps.getColspan());
+            strContent.append("\" rowspan=\"");
+            strContent.append(cellProps.getRowspan());
+            strContent.append("\" >");
+            
             if(contentType == ReportContent.CONTENT_COLUMN_HEADERS){
                 strContent.append("<b>");
             }
@@ -124,7 +143,7 @@ public class HtmlOutput extends AbstractOutput {
                 strContent.append("</b>");
             }
             strContent.append("</td>");
-            getOutputStream().write(strContent.toString().getBytes());
+            getWriter().write(strContent.toString());
         } catch (IOException ioExc) {
             throw new RuntimeException(ioExc);
         }

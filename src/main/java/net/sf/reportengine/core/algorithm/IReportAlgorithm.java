@@ -4,24 +4,25 @@
  */
 package net.sf.reportengine.core.algorithm;
 
-import net.sf.reportengine.core.ReportEngineException;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmExitStep;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmMainStep;
+import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.out.IReportOutput;
 
 /**
  * <p>
- * this is the base interface for all the reports
+ * 	this is the base interface for all report algorithm
  * </p> 
- * @author dragos balan (dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  */
-public interface IAlgorithm {
+public interface IReportAlgorithm {
     
     /**
      * sets the input of the report.
      * @param input	
      */     
-    public void setIn(IAlgorithmInput input);
+    public void setIn(IReportInput input);
     
     /**
      * add an init step to the algorithm
@@ -44,13 +45,13 @@ public interface IAlgorithm {
     /**
      * executes the report and displays it
      */
-    public void executeAlgorithm() throws ReportEngineException;
+    public void executeAlgorithm();
     
     /**
      * sets the output of the report
      * @param out
      */
-    public void setOut(IAlgorithmOutput out);
+    public void setOut(IReportOutput out);
     
     
     public IAlgorithmContext getContext();

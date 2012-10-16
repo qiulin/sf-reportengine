@@ -142,7 +142,7 @@ public class XmlDOMReportOutput extends AbstractXmlOutput {
     public void close() {
         try {
             transformXml();
-            getOutputStream().close();
+            getWriter().close();
             super.close();        
         } catch (Exception exc) {
         	exc.printStackTrace();
@@ -162,6 +162,6 @@ public class XmlDOMReportOutput extends AbstractXmlOutput {
     }
     
     public Result getTransformationResult(){
-    	return new StreamResult(getOutputStream());
+    	return new StreamResult(getWriter());
     }
 }

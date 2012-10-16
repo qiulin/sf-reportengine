@@ -3,7 +3,7 @@
  */
 package net.sf.reportengine;
 
-import net.sf.reportengine.core.algorithm.IAlgorithm;
+import net.sf.reportengine.core.algorithm.IReportAlgorithm;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
@@ -36,7 +36,7 @@ class SecondCrosstabProcessorReport extends AbstractOneIterationReport {
 	 */
 	@Override
 	protected void configAlgorithmSteps() {
-		IAlgorithm algorithm = getAlgorithm();
+		IReportAlgorithm algorithm = getAlgorithm();
     	IAlgorithmContext context = algorithm.getContext();
     	
     	//setting the input/output

@@ -8,15 +8,21 @@ import java.math.BigDecimal;
 
 
 /**
- * this is a simple SumCalculator which counts the computed elements and returns
- * the result as the result of SumCalculator divided by count.
+ * Average calculator. 
+ * This is just a SumCalculator that divides the sum to the count of the elements passed 
+ * as arguments to {@link #compute(Object)} method
  * 
- * @author dragos balan (dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
 class AvgCalculator extends SumCalculator {
     
     /**
+	 * serial version id
+	 */
+	private static final long serialVersionUID = -2717104274824984991L;
+	
+	/**
      * counter for computed elements 
      */
     int elementsCount;
@@ -40,7 +46,7 @@ class AvgCalculator extends SumCalculator {
     /**
      * compute
      */
-    public void compute(Object newValue) throws CalculatorException {
+    public void compute(Object newValue){
         super.compute(newValue);
         elementsCount ++;
     }

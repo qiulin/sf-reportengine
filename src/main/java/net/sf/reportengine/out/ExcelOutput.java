@@ -6,6 +6,8 @@ package net.sf.reportengine.out;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.math.BigDecimal;
 
 import net.sf.reportengine.core.ReportConstants;
@@ -21,6 +23,8 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
+
+import org.apache.commons.io.output.WriterOutputStream; 
 
 
 /**
@@ -81,6 +85,10 @@ public class ExcelOutput extends AbstractOutput {
      */
     public ExcelOutput(OutputStream out){
         super(out);
+    }
+    
+    public ExcelOutput(Writer writer){
+    	super(writer);
     }
 
     /**
@@ -182,8 +190,8 @@ public class ExcelOutput extends AbstractOutput {
     	logger.trace("closing excel output");
         try {
             super.close();
-            workBook.write(getOutputStream());
-            getOutputStream().close();
+            workBook.write(new WriterOutputStream(getWriter()));
+            getWriter().close();
         } catch (IOException exc) {
         	throw new RuntimeException(exc);
         }

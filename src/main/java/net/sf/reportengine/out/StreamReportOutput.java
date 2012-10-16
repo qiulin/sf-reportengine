@@ -5,12 +5,15 @@ package net.sf.reportengine.out;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Writer;
 
 import org.apache.log4j.Logger;
 
 /**
- * @author dragos
- *
+ * 
+ * 
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.3
  */
 public class StreamReportOutput extends AbstractOutput {
 	
@@ -20,6 +23,11 @@ public class StreamReportOutput extends AbstractOutput {
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	
 	/**
+	 * default data/columns separator
+	 */
+	public static final String DEFAULT_DATA_SEPARATOR = ",";
+	
+	/**
 	 * the one and only logger
 	 */
 	private static final Logger logger = Logger.getLogger(StreamReportOutput.class);
@@ -27,7 +35,7 @@ public class StreamReportOutput extends AbstractOutput {
 	/**
 	 * buffer for the current line to be output
 	 */
-	private StringBuffer dataToLog = new StringBuffer();
+	private StringBuilder dataToLog = new StringBuilder();
 	
 	/**
 	 * data separator
@@ -38,14 +46,14 @@ public class StreamReportOutput extends AbstractOutput {
 	 * 
 	 */
 	public StreamReportOutput() {
-		this(null);//obvious
+		setSeparator(DEFAULT_DATA_SEPARATOR);
 	}
 
 	/**
 	 * @param out
 	 */
 	public StreamReportOutput(OutputStream out) {
-		this(out, "\t");
+		this(out, DEFAULT_DATA_SEPARATOR);
 	}
 	
 	/**
@@ -54,6 +62,24 @@ public class StreamReportOutput extends AbstractOutput {
 	public StreamReportOutput(OutputStream out, String separator) {
 		super(out);
 		setSeparator(separator);
+	}
+	
+	/**
+	 * 
+	 * @param writer
+	 */
+	public StreamReportOutput(Writer writer){
+		this(writer, DEFAULT_DATA_SEPARATOR);
+	}
+	
+	/**
+	 * 
+	 * @param writer
+	 * @param separator
+	 */
+	public StreamReportOutput(Writer writer, String separator){
+		super(writer);
+		setSeparator(separator); 
 	}
 	
 	/**
@@ -67,8 +93,7 @@ public class StreamReportOutput extends AbstractOutput {
 	public void endRow(){
 		try {
 			dataToLog.append(LINE_SEPARATOR);
-			String line = dataToLog.toString();
-			getOutputStream().write(line.getBytes());
+			getWriter().write(dataToLog.toString());
 		} catch (IOException e) {
 			logger.error(e);
 			throw new RuntimeException(e);

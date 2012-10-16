@@ -12,6 +12,7 @@ import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.core.algorithm.IAlgorithmInput;
+import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.out.IReportOutput;
 
 
@@ -41,7 +42,7 @@ public abstract class AbstractReport {
     /**
      * the input of the report
      */
-    private IAlgorithmInput input;
+    private IReportInput input;
     
     /**
      * the output of the report
@@ -143,7 +144,7 @@ public abstract class AbstractReport {
      * setter method for report input
      * @param in
      */
-    public void setIn(IAlgorithmInput in){
+    public void setIn(IReportInput in){
     	this.input = in;
     }
     
@@ -158,7 +159,7 @@ public abstract class AbstractReport {
 	/**
 	 * @return the input
 	 */
-	public IAlgorithmInput getIn() {
+	public IReportInput getIn() {
 		return input;
 	}
 

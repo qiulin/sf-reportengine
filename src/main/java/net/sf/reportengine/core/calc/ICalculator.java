@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- *  Definition interface for a Calculators
+ *  Definition interface for any calculator
  * </p>
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2
@@ -28,7 +28,7 @@ public interface ICalculator extends Cloneable, Serializable{
      * 
      * @param value    an object representing a new value to be computed
      */
-    public void compute(Object value) throws CalculatorException;
+    public void compute(Object value);
     
     /**
      * the result of computation

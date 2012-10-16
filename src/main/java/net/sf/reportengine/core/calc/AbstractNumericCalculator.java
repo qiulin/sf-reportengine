@@ -10,13 +10,16 @@ import java.math.BigDecimal;
  * abstract implementation for ICalculator.
  * You can use this as basis for your own implementations
  * 
- * @author dragos balan (dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  */
 public abstract class AbstractNumericCalculator extends AbstractCalculator {
     
-    public final static BigDecimal ZERO_VALUE = new BigDecimal("0");
-    
     /**
+	 * serial version id
+	 */
+	private static final long serialVersionUID = 1342651474160546835L;
+	
+	/**
      * the value to be computed
      */
     protected BigDecimal value;
@@ -30,15 +33,15 @@ public abstract class AbstractNumericCalculator extends AbstractCalculator {
     }
     
     public void init() {
-        value = ZERO_VALUE;
+        value = BigDecimal.ZERO;
     }
     
     /**
      * each subclass should override this method 
      * @param newValue
      */
-    public abstract void compute(Object newValue) throws CalculatorException;
-
+    public abstract void compute(Object newValue);
+    
     /* (non-Javadoc)
      * @see net.sf.reportengine.core.calc.ICalculator#getResult()
      */

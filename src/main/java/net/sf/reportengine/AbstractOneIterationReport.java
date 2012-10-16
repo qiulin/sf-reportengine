@@ -3,7 +3,7 @@
  */
 package net.sf.reportengine;
 
-import net.sf.reportengine.core.algorithm.IAlgorithm;
+import net.sf.reportengine.core.algorithm.IReportAlgorithm;
 import net.sf.reportengine.core.algorithm.OneIterationAlgorithm;
 
 /**
@@ -25,7 +25,7 @@ public abstract class AbstractOneIterationReport extends AbstractReport {
     	algorithm.executeAlgorithm();
     }
 	
-	public IAlgorithm getAlgorithm(){
+	public IReportAlgorithm getAlgorithm(){
 		return algorithm; 
 	}	
 	

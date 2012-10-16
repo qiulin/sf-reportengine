@@ -3,7 +3,9 @@ package net.sf.reportengine;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.core.ReportEngineException;
+import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.in.StreamReportInput;
 import net.sf.reportengine.out.MemoryOutput;
 import net.sf.reportengine.out.ExcelOutput;
@@ -184,6 +186,23 @@ public class TestFlatReport extends ReportengineTC {
         flatReport.setShowGrandTotal(true); 
         
         flatReport.execute();
+	}
+	
+	public void testFlatReportUtf8Output(){
+		InputStream inputStream = getTestFileFromClasspath("Utf8Input.txt");
+		assertNotNull(inputStream);
+		
+		IReportInput reportInput = new StreamReportInput(inputStream, ",", "UTF-8"); 
+		flatReport.setIn(reportInput); 
+		
+		flatReport.addDataColumn(new DefaultDataColumn(0)); 
+		flatReport.addDataColumn(new DefaultDataColumn(1));
+		flatReport.addDataColumn(new DefaultDataColumn(2));
+		flatReport.addDataColumn(new DefaultDataColumn(3));
+		
+		flatReport.setOut(new HtmlOutput(createTestWriter("testFlatReportUtf8Output.html")));
+		
+		flatReport.execute(); 
 	}
 
 	/*

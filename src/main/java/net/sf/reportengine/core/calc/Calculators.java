@@ -4,6 +4,12 @@
  */
 package net.sf.reportengine.core.calc;
 
+/**
+ * utility collection of calculators 
+ * 
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.3
+ */
 public class Calculators {
     
     /**
@@ -30,11 +36,6 @@ public class Calculators {
      * 
      */
     public static final ICalculator MAX = new MaxCalculator();
-    
-    /**
-     * 
-     */
-    public static final ICalculator DUMMY = new DummyCalculator();
     
     /**
      * 

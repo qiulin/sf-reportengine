@@ -73,7 +73,7 @@ public class TestCalculatorMatrix extends TestCase {
 	/**
 	 * Test method for {@link net.sf.reportengine.util.CalculatorMatrix#initFirstXRows(int)}.
 	 */
-	public void testInitFirstXRows() throws CalculatorException {
+	public void testInitFirstXRows() {
 		classUnderTest = new CalculatorMatrix(3, TEST_DATA_COLUMNS);
 		
 		classUnderTest.addValuesToEachRow(new NewRowEvent(TEST_VALUES));
@@ -85,22 +85,22 @@ public class TestCalculatorMatrix extends TestCase {
 		ICalculator[] row1 = classUnderTest.getRow(0);
 		assertNotNull(row1);
 		assertEquals(row1.length, 2);
-		assertEquals(row1[0].getResult(), CountCalculator.ZERO_VALUE);
-		assertEquals(row1[1].getResult(), SumCalculator.ZERO_VALUE);
+		assertEquals(row1[0].getResult(), BigDecimal.ZERO);
+		assertEquals(row1[1].getResult(), BigDecimal.ZERO);
 		
 		//the second row should be also reinited
 		ICalculator[] row2 = classUnderTest.getRow(1);
 		assertNotNull(row2);
 		assertEquals(row2.length, 2);
-		assertEquals(row2[0].getResult(), CountCalculator.ZERO_VALUE);
-		assertEquals(row2[1].getResult(), SumCalculator.ZERO_VALUE);
+		assertEquals(row2[0].getResult(), BigDecimal.ZERO);
+		assertEquals(row2[1].getResult(), BigDecimal.ZERO);
 		
 		//the third row should not be reinited
 		ICalculator[] row3 = classUnderTest.getRow(2);
 		assertNotNull(row3);
 		assertEquals(row3.length, 2);
-		assertNotSame(row3[0].getResult(), CountCalculator.ZERO_VALUE);
-		assertNotSame(row3[1].getResult(), SumCalculator.ZERO_VALUE);
+		assertNotSame(row3[0].getResult(), BigDecimal.ZERO);
+		assertNotSame(row3[1].getResult(), BigDecimal.ZERO);
 		
 		try{
 			classUnderTest.getRow(3);
@@ -112,9 +112,8 @@ public class TestCalculatorMatrix extends TestCase {
 
 	/**
 	 * Test method for {@link net.sf.reportengine.util.CalculatorMatrix#addValuesToEachRow(java.lang.Object[])}.
-	 * @throws CalculatorException 
 	 */
-	public void testAddValuesToEachRow() throws CalculatorException {
+	public void testAddValuesToEachRow() {
 		classUnderTest = new CalculatorMatrix(3, TEST_DATA_COLUMNS);
 		classUnderTest.addValuesToEachRow(new NewRowEvent(TEST_VALUES));
 		
@@ -210,7 +209,7 @@ public class TestCalculatorMatrix extends TestCase {
 		
 	}
 
-	public void testExport() throws CalculatorException{
+	public void testExport() {
 		classUnderTest = new CalculatorMatrix(3, TEST_DATA_COLUMNS);
 		classUnderTest.addValuesToEachRow(new NewRowEvent(TEST_VALUES));
 		classUnderTest.addValuesToEachRow(new NewRowEvent(TEST_VALUES));

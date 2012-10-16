@@ -4,7 +4,7 @@
  */
 package net.sf.reportengine.core.calc;
 
-import net.sf.reportengine.core.ReportEngineException;
+import net.sf.reportengine.core.ReportEngineRuntimeException;
 
 /**
  * <p>
@@ -13,9 +13,14 @@ import net.sf.reportengine.core.ReportEngineException;
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2
  */
-public class CalculatorException extends ReportEngineException {
+public class CalculatorException extends ReportEngineRuntimeException {
     
     /**
+	 * serial version id
+	 */
+	private static final long serialVersionUID = 1460825389292666755L;
+
+	/**
      * constructor
      * @param message   the message to be shown
      */

@@ -16,6 +16,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
+
+import org.apache.commons.io.output.WriterOutputStream; 
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
@@ -60,7 +62,7 @@ public class XslFoOutput extends XsltReportOutput {
 
     	Fop fop = null;
 		try {
-			fop = fopFactory.newFop(mimeType, getOutputStream());
+			fop = fopFactory.newFop(mimeType, new WriterOutputStream(getWriter()));
 		
 			TransformerFactory transformFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformFactory.newTransformer(new StreamSource(getXsltInputStream()));

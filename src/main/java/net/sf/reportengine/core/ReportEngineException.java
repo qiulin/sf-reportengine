@@ -4,6 +4,12 @@
  */
 package net.sf.reportengine.core;
 
+/**
+ * 
+ * @author dragos balan
+ * @since 0.2
+ * @deprecated
+ */
 public class ReportEngineException extends Exception {
     
     
@@ -18,7 +24,4 @@ public class ReportEngineException extends Exception {
     public ReportEngineException(String message, Throwable cause){
         super(message, cause);
     }
-    
-    
-
 }
