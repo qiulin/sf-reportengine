@@ -14,6 +14,11 @@ public class SumCalculator extends AbstractNumericCalculator {
     
     
     /**
+	 * serial version
+	 */
+	private static final long serialVersionUID = -1880382251596724984L;
+
+	/**
      * constructor for SUM calculator  
      * calls the init() method
      */
@@ -26,7 +31,7 @@ public class SumCalculator extends AbstractNumericCalculator {
      * otherwise nothing 
      * this method doesn't thow NullPointerException if the newValue is null 
      */
-    public void compute(Object newValue) throws CalculatorException {
+    public void compute(Object newValue) {
         BigDecimal valueToAdd;
         if(newValue != null){
             if (newValue instanceof BigDecimal) {

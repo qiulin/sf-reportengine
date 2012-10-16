@@ -4,9 +4,21 @@
  */
 package net.sf.reportengine.core;
 
+
+/**
+ * the root exception for all report engine API
+ * 
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.2
+ */
 public class ReportEngineRuntimeException extends RuntimeException {
 
-    public ReportEngineRuntimeException(){
+    /**
+	 * serial version id
+	 */
+	private static final long serialVersionUID = -7645378899218415130L;
+
+	public ReportEngineRuntimeException(){
         super();
     }
     

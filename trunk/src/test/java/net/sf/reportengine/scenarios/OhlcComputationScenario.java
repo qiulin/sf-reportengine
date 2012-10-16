@@ -9,8 +9,8 @@ import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.IColumn;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.core.algorithm.IAlgorithmInput;
 import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.in.StreamReportInput;
 
 /**
@@ -19,7 +19,7 @@ import net.sf.reportengine.in.StreamReportInput;
  */
 public class OhlcComputationScenario {
 	
-	public static final IAlgorithmInput INPUT = new StreamReportInput(OhlcComputationScenario.class.getClassLoader().getResourceAsStream(""),"\t");
+	public static final IReportInput INPUT = new StreamReportInput(OhlcComputationScenario.class.getClassLoader().getResourceAsStream(""),"\t");
 	
 	public static final IColumn[] CONFIG_COLUMNS = new IColumn[]{
 		new DefaultColumn("Date", 0, 0),

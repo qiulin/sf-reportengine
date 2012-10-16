@@ -8,7 +8,8 @@ import java.math.BigDecimal;
 
 /**
  * <p>
- * Minimum calculator
+ * Minimum calculator. 
+ * 
  * </p> 
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2
@@ -16,6 +17,11 @@ import java.math.BigDecimal;
 class MinCalculator extends AbstractNumericCalculator {
     
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1001415188212673503L;
+
+	/**
      * min calculator constructor
      *
      */
@@ -30,7 +36,7 @@ class MinCalculator extends AbstractNumericCalculator {
     /**
      * compute method
      */
-    public void compute(Object newValue) throws CalculatorException {
+    public void compute(Object newValue) {
         
         if(newValue != null){
             BigDecimal valueToCompare = null;

@@ -9,7 +9,7 @@ import net.sf.reportengine.config.ICrosstabData;
 import net.sf.reportengine.config.ICrosstabHeaderRow;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.core.algorithm.IAlgorithm;
+import net.sf.reportengine.core.algorithm.IReportAlgorithm;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.ICalculator;
@@ -57,7 +57,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 	 */
 	@Override
 	protected void configAlgorithmSteps() {
-		IAlgorithm algorithm = getAlgorithm();
+		IReportAlgorithm algorithm = getAlgorithm();
     	IAlgorithmContext context = algorithm.getContext();
     	
     	if(logger.isDebugEnabled()){

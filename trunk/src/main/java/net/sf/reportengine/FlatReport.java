@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.reportengine.core.ConfigValidationException;
-import net.sf.reportengine.core.algorithm.IAlgorithm;
+import net.sf.reportengine.core.algorithm.IReportAlgorithm;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
@@ -109,7 +109,7 @@ public class FlatReport extends AbstractOneIterationReport {
      * algorithm configuration 
      */
     protected void configAlgorithmSteps(){
-    	IAlgorithm algorithm = getAlgorithm();
+    	IReportAlgorithm algorithm = getAlgorithm();
     	IAlgorithmContext context = algorithm.getContext();
     	
     	//preparing the context of the report algorithm 

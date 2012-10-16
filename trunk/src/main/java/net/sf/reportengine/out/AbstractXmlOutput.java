@@ -4,6 +4,7 @@
 package net.sf.reportengine.out;
 
 import java.io.OutputStream;
+import java.io.Writer;
 
 /**
  * Abstract output for all xml based report output
@@ -29,5 +30,9 @@ public abstract class AbstractXmlOutput extends AbstractOutput {
 	
     public AbstractXmlOutput(OutputStream outputStream){
     	super(outputStream);
+    }
+    
+    public AbstractXmlOutput(Writer writer){
+    	super(writer);
     }
 }

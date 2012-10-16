@@ -4,24 +4,23 @@
 package net.sf.reportengine.out;
 
 import java.io.OutputStream;
-
-import net.sf.reportengine.core.ReportConstants;
-import net.sf.reportengine.util.Locator;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 /**
- * An abstract implementation for IEngineOut. It is strongly recommended
- * that you extend this class rather then implement IReportOutput at least
- * until one stable release
+ * An abstract implementation for IReportOutput. It is recommended
+ * that you extend this class rather then implement IReportOutput 
  * 
- * @author dragos balan (dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.2
  */
 public abstract class AbstractOutput implements IReportOutput {
     
     
    /**
-     * the output stream (required by the IEngineOut)
+     * the output writer
      */
-    private OutputStream outputStream;
+    private Writer outputWriter;
     
     /**
      * tells whether or not to replace null values with white spaces
@@ -30,6 +29,7 @@ public abstract class AbstractOutput implements IReportOutput {
     
     
     private int rowCount = 0;
+    
     /**
      * constructs a report output.
      * <b>You should never use this kind of constructor whithout using setOutputStream();</b> 
@@ -45,7 +45,15 @@ public abstract class AbstractOutput implements IReportOutput {
      * @param out the stream used for output
      */
     public AbstractOutput(OutputStream out) {
-        setOutputStream(out);
+        this(new OutputStreamWriter(out));
+    }
+    
+    /**
+     * 
+     * @param writer
+     */
+    public AbstractOutput(Writer writer){
+    	setWriter(writer);
     }
     
     
@@ -70,18 +78,10 @@ public abstract class AbstractOutput implements IReportOutput {
     
     
     /**
-     * empty impl
+     * empty implementation
      */
     public void endRow(){}
     
-    
-    public void startHeader(){}
-    
-    public void endHeader(){}
-    
-    public void startFooter(){}
-    
-    public void endFooter(){}
     
     /**
      * outputs data
@@ -89,20 +89,20 @@ public abstract class AbstractOutput implements IReportOutput {
      */
     public abstract void output(CellProps algorithmProps);
     
-    /*
-     *  (non-Javadoc)
-     * @see net.sf.reportengine.out.IReportOutput#getOutputStream()
+    /**
+     * 
+     * @return
      */
-    public OutputStream getOutputStream() {
-        return outputStream;
+    public Writer getWriter() {
+        return outputWriter;
     }
     
     /**
-     * output stream setter
+     * registers the writer 
      * @param outStream
      */
-    public void setOutputStream(OutputStream outStream){
-        this.outputStream = outStream;
+    public void setWriter(Writer writer){
+        this.outputWriter = writer;
     }
     
     

@@ -6,8 +6,8 @@ package net.sf.reportengine.core.algorithm;
 
 import java.util.HashMap;
 
+import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.out.IReportOutput;
-import net.sf.reportengine.out.OutputDispatcher;
 
 /**
  * 
@@ -37,13 +37,13 @@ public class DefaultAlgoContext implements IAlgorithmContext{
     /**
      * the input of the report
      */
-    private IAlgorithmInput input;
+    private IReportInput input;
     
     
     /**
      * the output
      */
-    private IAlgorithmOutput output;
+    private IReportOutput output;
     
     
     /**
@@ -69,20 +69,19 @@ public class DefaultAlgoContext implements IAlgorithmContext{
         contextData.put(key,value);
     }
     
-    public void setInput(IAlgorithmInput in){
+    public void setInput(IReportInput in){
         this.input = in;
     }
     
-    public IAlgorithmInput getInput(){
+    public IReportInput getInput(){
         return input;
     }
     
-    public void setOutput(IAlgorithmOutput out){
+    public void setOutput(IReportOutput out){
         this.output = out;
     }
     
-    public IAlgorithmOutput getOutput(){
+    public IReportOutput getOutput(){
         return output;
     }
-    
 }

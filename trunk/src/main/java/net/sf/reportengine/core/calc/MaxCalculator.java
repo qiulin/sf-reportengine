@@ -13,6 +13,11 @@ import java.math.BigDecimal;
 class MaxCalculator extends AbstractNumericCalculator {
     
     /**
+	 * serial version id
+	 */
+	private static final long serialVersionUID = -3090912975869267129L;
+
+	/**
      * 
      *
      */
@@ -23,7 +28,7 @@ class MaxCalculator extends AbstractNumericCalculator {
     /**
      * compute mehtod which counts the maximum
      */
-    public void compute(Object newValue) throws CalculatorException {
+    public void compute(Object newValue) {
         
         if(newValue != null){
             BigDecimal valueToCompare = null;

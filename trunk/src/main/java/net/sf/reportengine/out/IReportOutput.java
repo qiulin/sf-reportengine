@@ -4,24 +4,29 @@
  */
 package net.sf.reportengine.out;
 
-import net.sf.reportengine.core.algorithm.IAlgorithmOutput;
 
 
 /**
  * <p>
- *  the output interface
+ *  definition for the report output 
  * </p>
  * 
- * @author dragos balan (dragos.balan@gmail.com)
- *
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.1
  *  
  */
-public interface IReportOutput extends IAlgorithmOutput{
+public interface IReportOutput {
 	
 	/**
 	 * the whitespace character
 	 */
 	public static final String WHITESPACE = " ";
+	
+	/**
+	 * prepares the output for usage.
+	 * One possible usage is to open the output streams 
+	 */
+	public void open();
 	
 	/**
 	 * starts a new row in the report
@@ -40,5 +45,11 @@ public interface IReportOutput extends IAlgorithmOutput{
 	 * @param cellProp  the properties of the cell to be output    
 	 */
 	public void output(CellProps cellProps);
+	
+	
+	/**
+	 * closes the output (frees any resources used during the output)
+	 */
+	public void close();
     
 }

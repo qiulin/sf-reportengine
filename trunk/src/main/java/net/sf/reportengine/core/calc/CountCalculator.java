@@ -8,14 +8,21 @@ import java.math.BigDecimal;
 
 /**
  * <p>
- * Simple count calculator
+ * Simple count calculator.
+ * Keeps a counter of the objects passed to {@link #compute(Object)} until the 
+ * counter is re-initialized through {@link #init()}
  *</p>
- * @author dragos balan (dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
 public class CountCalculator extends AbstractNumericCalculator {
     
     /**
+	 * serial version id
+	 */
+	private static final long serialVersionUID = -722184855794011072L;
+
+	/**
      * the constructor makes a call to init() method
      */
     CountCalculator(){
@@ -31,5 +38,4 @@ public class CountCalculator extends AbstractNumericCalculator {
             value = value.add(new BigDecimal(1));
         }
     }
-    
 }

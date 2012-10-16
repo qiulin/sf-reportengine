@@ -9,8 +9,8 @@ import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.IColumn;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.core.algorithm.IAlgorithmInput;
 import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.in.StreamReportInput;
 
 /**
@@ -19,7 +19,7 @@ import net.sf.reportengine.in.StreamReportInput;
  */
 public class Scenario2x3x1 {
 	
-	public static final IAlgorithmInput INPUT = new StreamReportInput(Scenario2x3x1.class.getClassLoader().getResourceAsStream("2x3x1.txt"),",");
+	public static final IReportInput INPUT = new StreamReportInput(Scenario2x3x1.class.getClassLoader().getResourceAsStream("2x3x1.txt"),",");
 	
 	public static final IColumn[] CONFIG_COLUMNS = new IColumn[]{
 			new DefaultColumn("Continent", 0, 0),

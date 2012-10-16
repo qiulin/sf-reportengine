@@ -4,7 +4,7 @@
  */
 package net.sf.reportengine.in;
 
-import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import net.sf.reportengine.test.ReportengineTC;
 import net.sf.reportengine.util.ReportEngineArrayUtils;
@@ -53,7 +53,6 @@ public class TestStreamReportInput extends ReportengineTC {
      * Test method for 'net.sf.reportengine.in.FileDataProvider.nextRow()'
      */
     public void testNextRow(){
-        boolean flawless = true;
         try {
             classUnderTest = new StreamReportInput(getTestFileFromClasspath(TEST_FILE),",");
             
@@ -68,40 +67,17 @@ public class TestStreamReportInput extends ReportengineTC {
 
             assertEquals(index, 25);
         } catch (Throwable exc) {
-            flawless = false;
             exc.printStackTrace();
+            fail(exc.getMessage());
+        }finally{
+        	classUnderTest.close(); 
         }
         
-        assertTrue(flawless);
         
     }
 
-    /*
-     * Test method for 'net.sf.reportengine.in.FileDataProvider.hasMoreRows()'
-     * PLEASE AVOID THIS TEST SINCE THIS SHOULD BE AN INFINITE LOOP
-     */
-//    public void testHasMoreRows() {
-//        try{
-//            System.out.println("test has more rows  ");
-//            classUnderTest = new FileDataProvider(TEST_FILES[1]);
-//            int rowsCount = 0;
-//            // if you call this without nextRow() you will get an infinite loop 
-//            while(classUnderTest.hasMoreRows() && rowsCount < Integer.MAX_VALUE){
-//                //classUnderTest.nextRow();
-//                rowsCount ++;
-//            }
-//        
-//            assertEquals(rowsCount, Integer.MAX_VALUE);
-//            
-//        }catch(Exception exc){
-//            exc.printStackTrace();
-//        }
-//        
-//    }
-    
-    public void testHasMoreRows2() {
+    public void testHasMoreRows() {
         int rowsCount = 0;
-        boolean flawless = true;
         try{
             classUnderTest = new StreamReportInput(getTestFileFromClasspath(TEST_FILE));
             classUnderTest.open();
@@ -111,33 +87,32 @@ public class TestStreamReportInput extends ReportengineTC {
             }
         }catch(ReportInputException ioEx){
             ioEx.printStackTrace();
-            flawless = false;
+            fail(ioEx.getMessage());
         }catch(Exception ex){
             ex.printStackTrace();
-            flawless = false;
+            fail(ex.getMessage());
+        }finally{
+        	classUnderTest.close(); 
         }
         
-        assertTrue(flawless);
         assertEquals(rowsCount, 25);
-        
     }
 
     /*
      * Test method for 'net.sf.reportengine.in.FileDataProvider.getColumnsCount()'
      */
     public void testGetColumnsCount1() {
-        //System.out.println(" test get columns count");
         int result = -1;
-        boolean flawless = true;
         try {
             classUnderTest = new StreamReportInput(getTestFileFromClasspath(TEST_FILE));
             classUnderTest.open();
             result = classUnderTest.getColumnsCount();
         } catch (Throwable e) {
-            flawless = false;
             e.printStackTrace();
-        } 
-        assertTrue(flawless);
+            fail(e.getMessage()); 
+        } finally{
+        	classUnderTest.close(); 
+        }
         assertEquals(result, 6);
     }
     
@@ -145,8 +120,6 @@ public class TestStreamReportInput extends ReportengineTC {
      * Test method for 'net.sf.reportengine.in.FileDataProvider.getColumnsCount()'
      */
     public void testGetColumnsCount2() {
-        
-        boolean flawless = true;
         int result= -1;
         try {
             classUnderTest = new StreamReportInput(getTestFileFromClasspath(TEST_FILE));
@@ -162,18 +135,16 @@ public class TestStreamReportInput extends ReportengineTC {
             result  = classUnderTest.getColumnsCount();
             
         } catch (Throwable e) {
-            flawless = false;
             e.printStackTrace();
+            fail(e.getMessage());
+        }finally{
+        	classUnderTest.close(); 
         }
         
-        assertTrue(flawless);
         assertEquals(result, 6);
     }
     
     public void testFirstRow(){
-        //System.out.println(" test first");
-        boolean flawless = true;
-        
         try {
             classUnderTest = new StreamReportInput(getTestFileFromClasspath(TEST_FILE));
             classUnderTest.open();
@@ -191,25 +162,21 @@ public class TestStreamReportInput extends ReportengineTC {
             assertTrue(ReportEngineArrayUtils.equalArrays(thirdRow, EXPECTED_RESULT[2]));            
             
         } catch (ReportInputException e) {
-            flawless = false;
             e.printStackTrace();
+            fail(e.getMessage());
+        }finally{
+        	classUnderTest.close(); 
         }
-        
-        assertTrue(flawless);
     }
     
     public void testException(){
         boolean fnfExcThrown = false;
-        String exceptionMessage = "";
         try {
             classUnderTest = new StreamReportInput("inexistent.txt");
             classUnderTest.open();
-        }catch(FileNotFoundException fnfExc){
-        	fnfExcThrown = true;
         } catch (ReportInputException e) {
-            fnfExcThrown = false;            
-        }
-        
+            fnfExcThrown = true;            
+        } 
         assertTrue(fnfExcThrown);        
     }
     
@@ -218,18 +185,18 @@ public class TestStreamReportInput extends ReportengineTC {
      * testing hasMoreRows method for an empty file 
      */
     public void testHasMoreRowsOnEmptyFile(){
-        boolean flawless = true;
         boolean hasMoreRows = true;
         try {
             classUnderTest = new StreamReportInput(getTestFileFromClasspath("empty.txt"));
             classUnderTest.open();
             hasMoreRows = classUnderTest.hasMoreRows();
         } catch (ReportInputException e) {
-            flawless = false;
             e.printStackTrace();
+            fail(e.getMessage()); 
+        }finally{
+        	classUnderTest.close(); 
         }
         
-        assertTrue(flawless);
         assertFalse(hasMoreRows);
         
     }
@@ -238,18 +205,18 @@ public class TestStreamReportInput extends ReportengineTC {
      * testing nextRows method for an empty file 
      */
     public void testNextRowOnEmptyFile(){
-        boolean flawless = true;
         Object[] nextRow = null;
         try {
             classUnderTest = new StreamReportInput(getTestFileFromClasspath("empty.txt"));
             classUnderTest.open();
             nextRow = classUnderTest.nextRow();
         } catch (ReportInputException e) {
-            flawless = false;
             e.printStackTrace();
+            fail(e.getMessage()); 
+        }finally{
+        	classUnderTest.close(); 
         }
         
-        assertTrue(flawless);
         assertNull(nextRow);
         
     }
@@ -258,7 +225,6 @@ public class TestStreamReportInput extends ReportengineTC {
      * testing first method for an empty file 
      */
     public void testFirstOnEmptyFile(){
-        boolean flawless = true;
         Object[] nextRow = null;
         boolean hasMoreRows = true;
         try {
@@ -271,13 +237,77 @@ public class TestStreamReportInput extends ReportengineTC {
             
             hasMoreRows = classUnderTest.hasMoreRows();
             assertFalse(hasMoreRows);
+            
         } catch (ReportInputException e) {
-            flawless = false;
             e.printStackTrace();
+            fail("An error occured "+e.getMessage()); 
+        }finally{
+        	classUnderTest.close(); 
         }
-        
-        assertTrue(flawless);       
     }
     
-
+    
+    public void testUtf8Characters(){
+    	int linesCount = 0;
+    	classUnderTest = new StreamReportInput(getTestFileFromClasspath("Utf8Input.txt"), ",", "UTF-8");
+    	classUnderTest.open(); 
+    	Object[] row = null; 
+    	while(classUnderTest.hasMoreRows()){
+    		row  = classUnderTest.nextRow();
+    		assertNotNull(row);
+    		assertEquals(4, row.length);
+    		linesCount++;
+    		
+    		if(linesCount == 1){
+    			assertEquals("Действията", row[0]);
+    		}else{
+    			if(linesCount == 2){
+    				assertEquals("и канализация са от", row[1]); 
+    			}else{
+    				if(linesCount == 6){
+    					assertEquals("устойчиви резултати.", row[3]);
+    				}
+    			}
+    		}
+    	}
+    	classUnderTest.close(); 
+    	assertEquals(6,linesCount);
+    }
+    
+    public void testSkipFirstLines(){
+    	int rowsCount = 0;
+    	InputStream inputStream = getTestFileFromClasspath("2x3x1WithColumnHeaders.txt");
+    	classUnderTest = new StreamReportInput(inputStream); 
+    	classUnderTest.setSkipFirstLines(1);
+    	classUnderTest.open(); 
+    	
+    	assertTrue(classUnderTest.hasMoreRows()); 
+    	
+    	while(classUnderTest.hasMoreRows()){
+             classUnderTest.nextRow();
+             rowsCount++;
+        }
+    	assertEquals(25, rowsCount);
+    	
+    	classUnderTest.close(); 
+    }
+    
+    
+    public void testSkipFirst2Lines(){
+    	int rowsCount = 0;
+    	InputStream inputStream = getTestFileFromClasspath("2x3x1With2ColumnHeaders.txt");
+    	classUnderTest = new StreamReportInput(inputStream); 
+    	classUnderTest.setSkipFirstLines(2);
+    	classUnderTest.open(); 
+    	
+    	assertTrue(classUnderTest.hasMoreRows()); 
+    	
+    	while(classUnderTest.hasMoreRows()){
+             classUnderTest.nextRow();
+             rowsCount++;
+        }
+    	assertEquals(25, rowsCount);
+    	
+    	classUnderTest.close(); 
+    }
 }

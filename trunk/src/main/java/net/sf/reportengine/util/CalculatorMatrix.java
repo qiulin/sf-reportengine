@@ -126,7 +126,6 @@ public class CalculatorMatrix {
      * 
      * @param values
      * @param columnsToCompute
-     * @throws CalculatorException
      * @deprecated use addValuesToEachRow(NewRowEvent)
      */
     public void addValuesToEachRow(Object[] values, int[] columnsIndexes)
@@ -146,10 +145,9 @@ public class CalculatorMatrix {
      * 
      * @param values
      * @param columnsToCompute
-     * @throws CalculatorException
      * @deprecated use addValuesToEachRow(NewRowEvent)
      */
-    public void addValuesToEachRow(Object[] values) throws CalculatorException{
+    public void addValuesToEachRow(Object[] values) {
         for(int i= 0; i < calculators.length; i++){
             for(int j = 0; j < calculators[i].length; j++){
                 calculators[i][j].compute(values[j]);
@@ -158,7 +156,7 @@ public class CalculatorMatrix {
     }
     
     
-    public void addValuesToEachRow(NewRowEvent newRowEvent) throws CalculatorException{
+    public void addValuesToEachRow(NewRowEvent newRowEvent){
     	for(int i= 0; i < calculators.length; i++){
             for(int j = 0; j < calculators[i].length; j++){
                 calculators[i][j].compute(dataColumnsHavingCalculators[j].getValue(newRowEvent));

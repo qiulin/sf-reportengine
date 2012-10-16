@@ -78,18 +78,14 @@ public class TotalsCalculatorStep extends AbstractReportStep{
      * execute
      */
     public void execute(NewRowEvent newRowEvent){
-    	try{
-    		int aggLevel = getGroupingLevel();
-    		if(aggLevel >= 0){
-    			//if the current row is not a simple data row but contains a change in the grouping level 
-    			int rowsToBeReinitialized = groupColsCnt - aggLevel ;
-    			logger.trace("reinitializing totals for "+rowsToBeReinitialized+" rows in the totals table (aggLevel = "+aggLevel+")");
-    			calculatorMatrix.initFirstXRows(rowsToBeReinitialized);
-    		}    		
-    		//add values to all calculators
-    		calculatorMatrix.addValuesToEachRow(newRowEvent);    		
-    	}catch(CalculatorException ce){
-    		throw new RuntimeException(ce);
-    	}
+		int aggLevel = getGroupingLevel();
+		if(aggLevel >= 0){
+			//if the current row is not a simple data row but contains a change in the grouping level 
+			int rowsToBeReinitialized = groupColsCnt - aggLevel ;
+			logger.trace("reinitializing totals for "+rowsToBeReinitialized+" rows in the totals table (aggLevel = "+aggLevel+")");
+			calculatorMatrix.initFirstXRows(rowsToBeReinitialized);
+		}    		
+		//add values to all calculators
+		calculatorMatrix.addValuesToEachRow(newRowEvent);    		
     } 
 }

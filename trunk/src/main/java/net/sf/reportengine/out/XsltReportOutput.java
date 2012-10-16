@@ -65,7 +65,7 @@ public class XsltReportOutput extends AbstractOutput {
     	try{
     		//get the temporary xml file created and transform it
     		Source xmlSource = new StreamSource(tempXmlFile);
-    		Result result = new StreamResult(getOutputStream());
+    		Result result = new StreamResult(getWriter());
     	
     		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(getXsltInputStream()));
     		transformer.transform(xmlSource, result);

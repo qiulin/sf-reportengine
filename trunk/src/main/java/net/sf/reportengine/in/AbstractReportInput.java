@@ -4,34 +4,40 @@
  */
 package net.sf.reportengine.in;
 
-import java.util.Arrays;
+import org.apache.log4j.Logger;
+
 
 /**
- * Abstract implementation for IReportInput.
- * Use this class as starter for any other ReportInput implementation you may think of. 
+ * Minimal implementation for some IReportInput methods.  
+ * Use this class as starter for any other ReportInput implementation. 
  * 
- * @author dragos balan (dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
 public abstract class AbstractReportInput implements IReportInput {
-
-   
+	
+	/**
+	 * the logger
+	 */
+	private static final Logger logger = Logger.getLogger(AbstractReportInput.class);
+	
+    /**
+     * default header for columns
+     */
     public final static String DEFAULT_COLUMN_HEADER = "Column";
-
-    //private String[] columnHeaders;
-
-    //private int[] columnTypes;
-
+    
+    /**
+     * open flag
+     */
     private boolean isOpen = false;
 
-    //public abstract Object[] nextRow() throws ReportInputException;
-
-    //public abstract boolean hasMoreRows() ;
-
     /**
-     * 
+     * marks the input as open. 
      */
     public void open() throws ReportInputException{
+    	if(logger.isDebugEnabled()){
+    		logger.debug("opening the stream report input");
+    	}
         if(isOpen){
             throw new IllegalStateException("You cannot open twice the same input. Close it and then reopen it !");
         }
@@ -39,37 +45,22 @@ public abstract class AbstractReportInput implements IReportInput {
     }
 
     /**
-     * 
+     * marks the input as closed
      */
     public void close() throws ReportInputException {
-        if(!isOpen){
+    	if(!isOpen){
             throw new IllegalStateException("You cannot close an input which is not open !");
         }
         isOpen = false;
+        if(logger.isDebugEnabled()){
+    		logger.debug("stream report input closed succesfully");
+    	}
     }
-
-   
-
-//    /**
-//     * colums headers setter
-//     * @param columnHeaders
-//     */
-//    public void setColumnHeaders(String[] columnHeaders){
-//        this.columnHeaders = columnHeaders;
-//    }
-
     
-
-//    public int[] getColumnTypes(){
-//        if(columnTypes == null && getColumnsCount()>0){
-//            columnTypes = new int[getColumnsCount()];
-//            Arrays.fill(columnTypes, java.sql.Types.VARCHAR);
-//        }
-//        return columnTypes;
-//    }
-//
-//    public void setColumnTypes(int[] types){
-//        this.columnTypes = types;
-//    }
-
+    /**
+     * @return true if the report is open or false otherwise
+     */
+    public boolean isOpen(){
+    	return isOpen; 
+    }
 }

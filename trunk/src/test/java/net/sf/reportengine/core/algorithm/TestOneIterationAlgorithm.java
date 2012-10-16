@@ -6,6 +6,7 @@ package net.sf.reportengine.core.algorithm;
 import junit.framework.TestCase;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmMainStep;
+import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.in.MemoryReportInput;
 import net.sf.reportengine.out.MemoryOutput;
 
@@ -15,7 +16,7 @@ import net.sf.reportengine.out.MemoryOutput;
  */
 public class TestOneIterationAlgorithm extends TestCase {
 	
-	private IAlgorithmInput testInput = new MemoryReportInput(
+	private IReportInput testInput = new MemoryReportInput(
 			new Object[][]{
 					new String[]{"1","2","3"},
 					new String[]{"4","5","6"}

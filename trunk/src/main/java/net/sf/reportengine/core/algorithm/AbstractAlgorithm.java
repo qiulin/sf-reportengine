@@ -9,6 +9,8 @@ import java.util.List;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmExitStep;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmMainStep;
+import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.out.IReportOutput;
 
 import org.apache.log4j.Logger;
 
@@ -17,7 +19,7 @@ import org.apache.log4j.Logger;
  * @version $Revision$
  * $log$
  */
-public abstract class AbstractAlgorithm implements IAlgorithm {
+public abstract class AbstractAlgorithm implements IReportAlgorithm {
 	
 	/**
 	 * the one and only logger
@@ -60,14 +62,14 @@ public abstract class AbstractAlgorithm implements IAlgorithm {
     /**
      * implementation for IReportEngine.setIn
      */
-    public void setIn(IAlgorithmInput input){
+    public void setIn(IReportInput input){
         this.algorithmContext.setInput(input);
     }
     
     /**
      * 
      */
-    public void setOut(IAlgorithmOutput out){
+    public void setOut(IReportOutput out){
         this.algorithmContext.setOutput(out);
     }
 	
@@ -132,7 +134,7 @@ public abstract class AbstractAlgorithm implements IAlgorithm {
     	return mainSteps;
     }
     
-    protected IAlgorithmInput getInput(){
+    protected IReportInput getInput(){
     	return algorithmContext.getInput();
     }
 }

@@ -5,26 +5,27 @@
 package net.sf.reportengine.in;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 
 /**
- * <p>IReportInput implementation for a stream report inputs<br/> 
- * An important feature of this IReportInput implementations it's the <b>separator</b>
- * which is used for columns separation. By default the separator is comma (",")
- * but you can use the setSeparator(String) method to specify whatever separators you want 
+ * <p>
+ * Report input implementation for streams (files, urls, etc) backed by a java.io.Reader<br/> 
+ * By default this implementation expects a comma (,) as data separator
+ * but you can use the #setSeparator(String) method to specify whatever 
+ * separator you want 
  * </p>
  * 
- * @author dragos balan (dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
 public class StreamReportInput extends AbstractReportInput{
@@ -33,13 +34,10 @@ public class StreamReportInput extends AbstractReportInput{
 	 * the logger
 	 */
 	private static final Logger logger = Logger.getLogger(StreamReportInput.class);
-	
-    /**
-     * the initial value for columnCount
-     * This value is used to determine if the columnsCount of the input has been evaluated
-     */
-    private static final int COLUMN_COUNT_INITIAL_VALUE = Integer.MIN_VALUE;
     
+    /**
+     * the default separator
+     */
     private static final String DEFAULT_SEPARATOR = ",";
 	
     /**
@@ -60,97 +58,134 @@ public class StreamReportInput extends AbstractReportInput{
 	/**
      * the columns count
      */
-    private int columnsCount = COLUMN_COUNT_INITIAL_VALUE;
+    private int columnsCount = Integer.MIN_VALUE;
     
     /**
-     * the raw data ( unparsed and un-split in columns)
+     * this field represents the number of lines that should be skipped 
+     * from the beginning of the stream
+     */
+    private int skipFirstXLines = 0; 
+    
+
+	/**
+     * the raw data (unparsed and un-split in columns)
      */
     private String nextRawDataRow;
 	
     /**
-     * constructs having comma as separator 
+     * creates a stream input for the given file with comma as separator 
+     * 
      * @param fileName      the path name of the file containing data
      * @throws FileNotFoundException
      */
-    public StreamReportInput(String fileName) throws FileNotFoundException{
+    public StreamReportInput(String fileName){
 		this(fileName, DEFAULT_SEPARATOR);
 	}
 	
     /**
-     * constructor 
+     * creates an input for the given fileName using the provided separator
      * 
-     * @param fileName      the path and name of the file containing data
-     * @param separator     the separator used to identify each column
+     * @param fileName      the path of the file containing data
+     * @param separator     the separator used to identify data/column
+     * 
      * @throws FileNotFoundException 
      */
-	public StreamReportInput(String fileName, String separator) throws FileNotFoundException{
-	    this(new FileReader(fileName), separator);
+	public StreamReportInput(String fileName, String separator){
+		try{
+			setInputReader(new FileReader(fileName));
+			setSeparator(separator);
+		}catch(FileNotFoundException fnf){
+			throw new ReportInputException(fnf);
+		}
 	}
 	
 	
 	/**
+	 * creates a report input for the given InputStream using the specified encoding and data-separator
 	 * 
-	 * @param is
-	 * @param separator
+	 * @param is			the input stream
+	 * @param separator		data separator
+	 * @param charset		the encoding 
+	 * @throws UnsupportedEncodingException
+	 */
+	public StreamReportInput(InputStream is, String separator, String charset){
+		try{
+			setInputReader(new InputStreamReader(is, charset));
+			setSeparator(separator); 
+		}catch(UnsupportedEncodingException uee){
+			throw new ReportInputException(uee); 
+		}
+	}
+	
+	/**
+	 * creates a report input for the given InputStream using the default system encoding and the
+	 * specified data-separator
+	 * 
+	 * @param is			the input stream
+	 * @param separator		data-separator
+	 * @throws UnsupportedEncodingException
 	 */
 	public StreamReportInput(InputStream is, String separator){
-		this(new InputStreamReader(is), separator);
+		this(is, separator, System.getProperty("file.encoding"));
 	}
 	
 	/**
+	 * creates a report input for the given input stream using the default system encoding and comma 
+	 * as data-separator
 	 * 
-	 * @param is
+	 * @param is	the input stream
+	 * @throws UnsupportedEncodingException
 	 */
 	public StreamReportInput(InputStream is){
 		this(is, DEFAULT_SEPARATOR);
 	}
 	
 	/**
+	 * creates a report-input based on the provided reader using comma as data-separator
 	 * 
-	 * @param inReader
+	 * @param inReader	the reader
 	 */
 	public StreamReportInput(Reader inReader){
 		this(inReader, DEFAULT_SEPARATOR);
 	}
 	
 	/**
+	 * creates a report-input based on the provided reader and using separator to distinguish between
+	 * data/columns
 	 * 
-	 * @param is			the input stream 
-	 * @param separator		the separator used to identify each column
+	 * @param inReader		the reader
+	 * @param separator		the separator used to identify data/columns
 	 */
 	public StreamReportInput(Reader inReader, String separator){
-		this.inputReader = inReader;
-		this.separator = separator;
+		setInputReader(inReader); 
+		setSeparator(separator);
 	}
 	
 	/**
-	 * 
-	 * @param inFile
-	 * @param separator
-	 */
-	public StreamReportInput(File inFile, String separator) throws FileNotFoundException{
-		this(new FileReader(inFile), separator);
-	}
-    
-    /**
-     * 
+     * prepares the reader for further usaga. Actually this implementation
+     * already reads the first line in order to be prepared for calls to 
+     * #hasMoreRows() and #nextRow()
      */
-    public void open() throws ReportInputException {
-    	if(logger.isDebugEnabled()){
-    		logger.debug("opening the stream report input");
-    	}
-        super.open();
+    public void open() {
+    	super.open();
         try{
         	reader = new BufferedReader(inputReader);
- 
-            nextRawDataRow = readNextLine();
-            
+        	
+        	//we need to read at least one row even if the 
+        	// skipFirstXLines is zero because after open() 
+        	//we have to be able to respond to hasMoreRows() 
+        	int skipped = 0;
+        	while(skipped < skipFirstXLines){
+        		reader.readLine();
+        		skipped++;
+        	};
+        	nextRawDataRow = reader.readLine();
+        	
             if(nextRawDataRow != null){
                 columnsCount = new StringTokenizer(nextRawDataRow, separator).countTokens();
             }
-            
         }catch(IOException ioExc){
-            throw new ReportInputException("An IO Error occurred !", ioExc);
+            throw new ReportInputException("IO Error occurred when opening the StreamReportInput", ioExc);
         }
     }
     
@@ -158,7 +193,7 @@ public class StreamReportInput extends AbstractReportInput{
     /**
      * closes the input and releases all resources
      */
-    public void close() throws ReportInputException {
+    public void close() {
         super.close();
         try{
             if(reader != null){
@@ -181,8 +216,8 @@ public class StreamReportInput extends AbstractReportInput{
    
    /**
     * returns the next row of data if any row available otherwise returns null<br>
-    * You should combine the usage of this method with <source>hasMoreRows()</source>
-    * or you can iterator through the rows until null is returned<br/>
+    * You should combine this method with #hasMoreRows()
+    * or you can iterate through the rows until null is returned<br/>
     * Example:
     * <pre>
     * while(input.hasMoreRows()){             
@@ -208,7 +243,7 @@ public class StreamReportInput extends AbstractReportInput{
                 
                 
                 //now we read the next raw row
-                nextRawDataRow = readNextLine();
+                nextRawDataRow = reader.readLine();
                 result = tempDataRow.toArray(new Object[]{});
             }
         } catch (IOException e) {
@@ -225,8 +260,8 @@ public class StreamReportInput extends AbstractReportInput{
     public boolean hasMoreRows(){
         return nextRawDataRow != null;
     }
-
-	/**
+    
+    /**
      * getter for separator
      * @return the 
      */
@@ -235,18 +270,44 @@ public class StreamReportInput extends AbstractReportInput{
     }
 
     /**
-     * the separator is used for columns identification
-     * @param separator     the separator to be used 
+     * registers the data-separator which is used to differentiate among colums-data
+     * @param separator     the data/column separator 
      */    
     public void setSeparator(String separator) {
         this.separator = separator;
     }
     
     /**
-     * reads the next line 
+     * registers the provided input reader
+     * @param reader
+     */
+    public void setInputReader(Reader reader){
+    	this.inputReader = reader;
+    }
+    
+    /**
+     * returns the input reader
+     * @return	a reader
+     */
+    public Reader getInputReader(){
+    	return inputReader; 
+    }
+    
+    /**
+     * retrieves the number of lines to be skipped at the begining of the stream
      * @return
      */
-    private String readNextLine() throws IOException{
-        return reader.readLine();
-    }
+    public int getSkipFirstLines() {
+		return skipFirstXLines;
+	}
+
+    /**
+     * tells this input to skip the first specified lines. 
+     * This is useful when your input already has some column headers
+     * 
+     * @param skipFirstXLines
+     */
+	public void setSkipFirstLines(int skipFirstLines) {
+		this.skipFirstXLines = skipFirstLines;
+	}
 }

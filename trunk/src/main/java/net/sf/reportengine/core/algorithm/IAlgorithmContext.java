@@ -4,12 +4,15 @@
  */
 package net.sf.reportengine.core.algorithm;
 
+import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.out.IReportOutput;
+
 
 /**
  * report context interface
  *
- * interface for report context
- * @author dragos balan (dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.2
  */
 public interface IAlgorithmContext {
     
@@ -32,25 +35,25 @@ public interface IAlgorithmContext {
      * sets the input 
      * @param input
      */
-    public void setInput(IAlgorithmInput input);
+    public void setInput(IReportInput input);
     
     /**
      * getter for input
      * @return  the input 
      */
-    public IAlgorithmInput getInput();
+    public IReportInput getInput();
     
     /**
      * setter for output
      * @param output
      */
-    public void setOutput(IAlgorithmOutput output);
+    public void setOutput(IReportOutput output);
     
     /**
      * getter for output
      * @return  the output
      */
-    public IAlgorithmOutput getOutput();
+    public IReportOutput getOutput();
     
     
 }
