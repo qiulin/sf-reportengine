@@ -5,7 +5,10 @@ package net.sf.reportengine.out;
 
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+
+import net.sf.reportengine.in.ReportInputException;
 
 /**
  * An abstract implementation for IReportOutput. It is recommended
@@ -31,21 +34,24 @@ public abstract class AbstractOutput implements IReportOutput {
     private int rowCount = 0;
     
     /**
-     * constructs a report output.
-     * <b>You should never use this kind of constructor whithout using setOutputStream();</b> 
+     * 
+     * @param out
      */
-    public AbstractOutput(){
-        //empty
+    public AbstractOutput(OutputStream out){
+    	this(out, System.getProperty("file.encoding")); 
     }
-    
     
     /**
      * constructs a report output in the specified output stream 
      * 
      * @param out the stream used for output
      */
-    public AbstractOutput(OutputStream out) {
-        this(new OutputStreamWriter(out));
+    public AbstractOutput(OutputStream out, String encoding) {
+        try {
+			setWriter(new OutputStreamWriter(out, encoding));
+		} catch (UnsupportedEncodingException e) {
+			throw new ReportInputException(e);
+		}
     }
     
     /**

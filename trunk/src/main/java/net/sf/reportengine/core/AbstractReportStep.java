@@ -4,16 +4,12 @@
  */
 package net.sf.reportengine.core;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.reportengine.AbstractReport;
 import net.sf.reportengine.FlatReport;
-import net.sf.reportengine.config.IColumn;
-import net.sf.reportengine.config.ICtColumn;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.config.SubtotalsInfo;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.steps.AbstractAlgorithmStep;
 import net.sf.reportengine.core.calc.ICalculator;
@@ -21,13 +17,10 @@ import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
-import net.sf.reportengine.core.steps.LevelDetectorStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.filter.DataOutputFilter;
-import net.sf.reportengine.filter.ITotalsOutputFilter;
 import net.sf.reportengine.out.IReportOutput;
-import net.sf.reportengine.util.DistinctValuesHolder;
 
 /**
  * <p>
@@ -38,6 +31,11 @@ import net.sf.reportengine.util.DistinctValuesHolder;
  * @since 0.2
  */
 public abstract class AbstractReportStep extends AbstractAlgorithmStep{
+	
+	/**
+	 * constant for grand total grouping level
+	 */
+	public static final int GRAND_TOTAL_GROUPING_LEVEL = -1;
 	
     /**
      * empty constructor
@@ -64,35 +62,6 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     public int getGroupingLevel(){
     	return (Integer)getContext().get(GroupingLevelDetectorStep.CONTEXT_KEY_NEW_GROUPING_LEVEL);
     }
-    
-    /**
-     * getter for aggregation level count ( how many levels of aggregation has the report)
-     * @return
-     * @deprecated : use getGroupColumns.length instead
-     */
-    public int getAggLevelCount(){
-    	return (Integer)getContext().get(LevelDetectorStep.CONTEXT_KEY_AGG_LEVEL_COUNT);
-    }
-    
-    /**
-     * getter for aggregation columns
-     * @return
-     * @deprecated
-     */
-    public int[] getAggColumnsIndex(){
-    	 return (int[])getContext().get(LevelDetectorStep.CONTEXT_KEY_AGG_COLUMNS_INDEX);
-    }
-    
-    /**
-     * 
-     * @return
-     * @deprecated
-     */
-    public boolean[] getShowTotalOnAggLevel(){
-    	return (boolean[])getContext().get(LevelDetectorStep.CONTEXT_KEY_SHOW_TOTALS_FOR_AGG_COLUMNS);
-    }
-    
-
     
     /**
      * returns the calculator within context
@@ -145,43 +114,6 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     	return (String[])getContext().get(ComputeColumnValuesStep.CONTEXT_KEY_FORMATTED_CELL_VALUES);
     }
     
-    /**
-     * 
-     * @return
-     * @deprecated use getDataColumns/getGropingColumns instead
-     */
-    public IColumn[] getConfigColumns(){
-    	return (IColumn[])getContext().get(AbstractReport.CONTEXT_KEY_DATA_COLUMNS);
-    }
-    
-    public ICtColumn[] getCtHeaderColumns(){
-    	return (ICtColumn[])getContext().get(ComputeColumnValuesStep.CONTEXT_KEY_HEADER_COLUMNS);
-    }
-    
-//    /**
-//     * 
-//     * @param columns
-//     * @return
-//     * @deprecated
-//     */
-//    protected int[] extractColumnIndexesHavingCalculators(IColumn[] columns){
-//    	int[] tempIndexes = new int[columns.length];
-//    	int columnWithCalculatorsCount = 0;
-//    	for(int i=0; i<columns.length; i++){
-//    		ICalculator calculator = columns[i].getCalculator();
-//    		if(calculator != null){
-//    			tempIndexes[columnWithCalculatorsCount] = i;
-//    			columnWithCalculatorsCount++;
-//    		}
-//    	}
-//    	
-//    	int[] result = new int[columnWithCalculatorsCount];
-//    	System.arraycopy(tempIndexes, 0, result, 0, columnWithCalculatorsCount);
-//    	
-//    	return result;
-//    }
-    
-    
     
     public boolean getShowGrandTotal(){
     	return (Boolean)getContext().get(FlatReport.CONTEXT_KEY_SHOW_GRAND_TOTAL);
@@ -193,15 +125,6 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     
     public List<DataOutputFilter> getDataOutputFilterList(){
     	return (List<DataOutputFilter>)getContext().get(FlatReport.CONTEXT_KEY_DATA_OUT_FILTERS);
-    }
-    
-    /**
-     * 
-     * @return
-     * @deprecated
-     */
-    public List<ITotalsOutputFilter> getTotalsOutputFilterList(){
-    	return (List<ITotalsOutputFilter>)getContext().get(FlatReport.CONTEXT_KEY_TOTAL_OUT_FILTERS);
     }
     
     public IGroupColumn[] getGroupingColumns(){
@@ -223,7 +146,7 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     public String getTotalStringForGroupingLevel(int groupingLevel) {
     	String result = null;
 		
-    	if(SubtotalsInfo.GRAND_TOTAL_GROUPING_LEVEL == groupingLevel){
+    	if(GRAND_TOTAL_GROUPING_LEVEL == groupingLevel){
     		result = FlatReportTotalsOutputStep.GRAND_TOTAL_STRING;
     	}else{
     		Object[] prevDataRow = getPreviousRowOfGroupingValues(); 

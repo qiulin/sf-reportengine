@@ -5,13 +5,10 @@ package net.sf.reportengine.scenarios;
 
 import java.math.BigDecimal;
 
-import net.sf.reportengine.config.AbstractColumn;
 import net.sf.reportengine.config.AbstractDataColumn;
 import net.sf.reportengine.config.AbstractGroupColumn;
-import net.sf.reportengine.config.DefaultColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.config.IColumn;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;

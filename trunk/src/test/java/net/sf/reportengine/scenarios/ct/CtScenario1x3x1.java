@@ -6,7 +6,6 @@ package net.sf.reportengine.scenarios.ct;
 import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.ICrosstabData;
 import net.sf.reportengine.config.ICrosstabHeaderRow;
 import net.sf.reportengine.config.IDataColumn;
@@ -16,7 +15,6 @@ import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
 import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.in.MemoryReportInput;
 import net.sf.reportengine.util.IDistinctValuesHolder;
-import net.sf.reportengine.util.Locator;
 import net.sf.reportengine.util.MockDistinctValuesHolder;
 
 /**
@@ -33,14 +31,6 @@ public class CtScenario1x3x1 {
 	
 	public static final Boolean HAS_HEADER_TOTALS = new Boolean(true);
 	
-	public static final String TOTAL = Locator.TOTAL;
-	public static final String SPACE = Locator.SPACE;
-	
-	public static final String[][] HEADER_TEMPLATE = new String[][]{
-		new String[]{"North","North","North",	"North", "North","North","North","North","North",	"South","South","South","South","South","South","South","South","South","East",	"East",	"East",	"East",	"East",	"East",	"East",	"East",	"East",	"West",	"West",	"West",	"West",	"West",	"West",	"West",	"West",	"West",	TOTAL},
-		new String[]{"M",		"M",	"M",	"M",		"F",	"F",	"F",	"F", 	TOTAL, 	"M",	"M",	"M",	"M",	"F",	"F",	"F",	"F",	TOTAL, 	"M",	"M",	"M",	"M",	"F",	"F",	"F",	"F",	TOTAL,	"M",	"M",	"M",	"M",	"F",	"F",	"F",	"F",	TOTAL,	SPACE},
-		new String[]{"20",		"50",	"80",	TOTAL, 		"20",	"50",	"80",	TOTAL, 	SPACE, 	"20",	"50",	"80",	TOTAL, 	"20",	"50",	"80",	TOTAL, 	SPACE, 	"20",	"50",	"80",	TOTAL, 	"20",	"50",	"80",	TOTAL,	SPACE,	"20",	"50",	"80",	TOTAL,	"20",	"50",	"80", 	TOTAL, 	SPACE,	SPACE}
-	};
 	
 	public static final String[][] RAW_INPUT = new String[][]{
 		

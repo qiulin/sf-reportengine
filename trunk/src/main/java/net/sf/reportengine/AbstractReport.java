@@ -11,7 +11,6 @@ import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.ReportEngineRuntimeException;
-import net.sf.reportengine.core.algorithm.IAlgorithmInput;
 import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.out.IReportOutput;
 
@@ -180,7 +179,7 @@ public abstract class AbstractReport {
 			result = dataColumns; 
 		}else{
 			if(dataColsAsList != null){
-				result = dataColsAsList.toArray(new IDataColumn[]{});
+				result = dataColsAsList.toArray(new IDataColumn[dataColsAsList.size()]);
 				dataColumns = result; 
 			}else{
 				throw new ReportEngineRuntimeException("No data columns set. Please use one of the setter methods for data columns to fix this issue."); 
@@ -213,7 +212,7 @@ public abstract class AbstractReport {
 			result = groupColumns; 
 		}else{
 			if(groupColsAsList != null){
-				result = groupColsAsList.toArray(new IGroupColumn[]{}); 
+				result = groupColsAsList.toArray(new IGroupColumn[groupColsAsList.size()]); 
 				groupColumns = result; 
 			}
 		}

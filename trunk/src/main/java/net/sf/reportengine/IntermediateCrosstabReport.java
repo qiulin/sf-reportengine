@@ -114,7 +114,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
     	
     	//only for debug algorithm.addMainStep(new DataRowsOutputStep());
     	
-    	if(intermediateGroupCols != null && intermediateGroupCols.length > 0){
+    	if( intermediateGroupCols.length > 0){
     		algorithm.addMainStep(new PreviousRowManagerStep());
     	}
 	}
@@ -150,8 +150,8 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 		
 		if(logger.isDebugEnabled()){
 			logger.debug(	"transforming grouping crosstab config into flat intermediary report: origCtGroupingCols="+originalGroupColsLength+
-							", originalCtDataRows="+originalCtDataCols+
-							", originalCtHeaderRows="+originalCtHeaderRows);
+							", originalCtDataRows="+Arrays.toString(originalCtDataCols)+
+							", originalCtHeaderRows="+Arrays.toString(originalCtHeaderRows));
 		}
 		
 		int intermedGroupColsLength = originalGroupColsLength + originalDataColsLength + originalCtHeaderRows.length -1;

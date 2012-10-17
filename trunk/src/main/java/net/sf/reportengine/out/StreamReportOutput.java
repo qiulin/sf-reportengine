@@ -43,13 +43,6 @@ public class StreamReportOutput extends AbstractOutput {
 	private String separator;
 	
 	/**
-	 * 
-	 */
-	public StreamReportOutput() {
-		setSeparator(DEFAULT_DATA_SEPARATOR);
-	}
-
-	/**
 	 * @param out
 	 */
 	public StreamReportOutput(OutputStream out) {
@@ -57,10 +50,19 @@ public class StreamReportOutput extends AbstractOutput {
 	}
 	
 	/**
+	 * 
+	 * @param out
+	 * @param separator
+	 */
+	public StreamReportOutput(OutputStream out, String separator){
+		this(out, separator, System.getProperty("file.encoding")); 
+	}
+	
+	/**
 	 * @param out
 	 */
-	public StreamReportOutput(OutputStream out, String separator) {
-		super(out);
+	public StreamReportOutput(OutputStream out, String separator, String encoding) {
+		super(out, encoding);
 		setSeparator(separator);
 	}
 	

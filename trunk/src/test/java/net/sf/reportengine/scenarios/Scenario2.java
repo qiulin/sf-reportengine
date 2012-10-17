@@ -5,10 +5,8 @@ package net.sf.reportengine.scenarios;
 
 import java.math.BigDecimal;
 
-import net.sf.reportengine.config.DefaultColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.config.IColumn;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
@@ -48,18 +46,6 @@ public class Scenario2 {
 	};
 	
 	public static final Object[][] COMPUTED_INPUT = RAW_INPUT;
-	
-	/**
-	 * @deprecated
-	 */
-	public static final IColumn[] CONFIG_COLUMNS = new IColumn[]{
-		new DefaultColumn("Zero or One", 0, 0),
-		new DefaultColumn("Column A", 1, DefaultColumn.NO_GROUP_COLUMN),
-		new DefaultColumn("2 multiples", 2, 1),
-		new DefaultColumn("Column B", 3, DefaultColumn.NO_GROUP_COLUMN),
-		new DefaultColumn("3 Multiples", 4, 2),
-		new DefaultColumn("Column C", 5, DefaultColumn.NO_GROUP_COLUMN, Calculators.COUNT)
-	};
 	
 	public static final IGroupColumn[] GROUPING_COLUMNS = new IGroupColumn[]{
 		new DefaultGroupColumn("Zero or One", 0, 0), 

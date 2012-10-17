@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @author dragos balan
  * @since 0.4
  */
-public class IntermediateReportRow implements Serializable, Cloneable{
+public class IntermediateReportRow implements Serializable {
 	
 	/**
 	 * 
