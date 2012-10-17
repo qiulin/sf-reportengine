@@ -7,8 +7,10 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalGroupValuesList;
 
 /**
- * @author Administrator
- *
+ * This is only for internal use.
+ * 
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.4
  */
 public class SecondProcessGroupColumn implements IGroupColumn {
 	

@@ -12,8 +12,10 @@ import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedTotalsList;
 
 /**
- * @author Administrator
- *
+ * this is only for internal use
+ * 
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.4
  */
 public class SecondProcessTotalColumn extends AbstractDataColumn {
 	

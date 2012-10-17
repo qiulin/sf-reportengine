@@ -67,7 +67,7 @@ public class IntermComputedDataList implements Serializable{
 		for (IntermediateDataInfo dataInfo : dataList) {
 			int[] positionRelativeToHeader = dataInfo.getPositionRelativeToHeaderRows();
 			if(	positionRelativeToHeader != null 
-				& positionRelativeToHeader.length == headerRowIndex.length){
+				&& positionRelativeToHeader.length == headerRowIndex.length){
 				
 				allPositionsAreEqual =  true; 
 				
@@ -89,7 +89,7 @@ public class IntermComputedDataList implements Serializable{
 					break; 
 				}
 			}else{
-				throw new IllegalArgumentException("Invalid position array : "+headerRowIndex);
+				throw new IllegalArgumentException("Invalid position array : "+Arrays.toString(headerRowIndex));
 			}
 		}
 		return result;

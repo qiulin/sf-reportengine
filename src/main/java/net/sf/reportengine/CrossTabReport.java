@@ -189,7 +189,7 @@ public class CrossTabReport extends AbstractReport{
 			result = crosstabHeaderRows; 
 		}else{
 			if(crosstabHeaderRowsAsList != null){
-				result = crosstabHeaderRowsAsList.toArray(new ICrosstabHeaderRow[]{});
+				result = crosstabHeaderRowsAsList.toArray(new ICrosstabHeaderRow[crosstabHeaderRowsAsList.size()]);
 				crosstabHeaderRows = result; 
 			}else{
 				throw new ReportEngineRuntimeException("No header rows have been configured. Please use the setHeaderRows or addHeaderRow methods to fix this issue");
@@ -301,6 +301,6 @@ public class CrossTabReport extends AbstractReport{
 			auxListOfDataCols.add(new SecondProcessTotalColumn(null, Calculators.SUM, null, "GrandTotal")); 
 		}
 		
-		return auxListOfDataCols.toArray(new IDataColumn[]{}); 
+		return auxListOfDataCols.toArray(new IDataColumn[auxListOfDataCols.size()]); 
 	}
 }

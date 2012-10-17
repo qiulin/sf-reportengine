@@ -5,8 +5,8 @@
 package net.sf.reportengine.in;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -73,7 +73,7 @@ public class StreamReportInput extends AbstractReportInput{
     private String nextRawDataRow;
 	
     /**
-     * creates a stream input for the given file with comma as separator 
+     * creates a report input for the given file with comma as separator in the default encoding
      * 
      * @param fileName      the path name of the file containing data
      * @throws FileNotFoundException
@@ -83,19 +83,33 @@ public class StreamReportInput extends AbstractReportInput{
 	}
 	
     /**
-     * creates an input for the given fileName using the provided separator
+     * Creates a report input from the given fileName (in the default encoding) using the separator
+     * 
+     * @param fileName	path and filename
+     * @param separator	data-separator
+     */
+    public StreamReportInput(String fileName, String separator){
+    	this(fileName, separator, System.getProperty("file.encoding"));
+    }
+    
+    /**
+     * Creates an input for the given fileName using the provided separator.
+     * When reading the specified encoding is used.
      * 
      * @param fileName      the path of the file containing data
      * @param separator     the separator used to identify data/column
+     * @param encoding 		the encoding used when reading the file
      * 
      * @throws FileNotFoundException 
      */
-	public StreamReportInput(String fileName, String separator){
+	public StreamReportInput(String fileName, String separator, String encoding){
 		try{
-			setInputReader(new FileReader(fileName));
+			setInputReader(new InputStreamReader(new FileInputStream(fileName), encoding));
 			setSeparator(separator);
 		}catch(FileNotFoundException fnf){
 			throw new ReportInputException(fnf);
+		}catch(UnsupportedEncodingException uee){
+			throw new ReportInputException(uee);
 		}
 	}
 	
@@ -105,12 +119,12 @@ public class StreamReportInput extends AbstractReportInput{
 	 * 
 	 * @param is			the input stream
 	 * @param separator		data separator
-	 * @param charset		the encoding 
+	 * @param encoding		the encoding 
 	 * @throws UnsupportedEncodingException
 	 */
-	public StreamReportInput(InputStream is, String separator, String charset){
+	public StreamReportInput(InputStream is, String separator, String encoding){
 		try{
-			setInputReader(new InputStreamReader(is, charset));
+			setInputReader(new InputStreamReader(is, encoding));
 			setSeparator(separator); 
 		}catch(UnsupportedEncodingException uee){
 			throw new ReportInputException(uee); 
@@ -244,12 +258,11 @@ public class StreamReportInput extends AbstractReportInput{
                 
                 //now we read the next raw row
                 nextRawDataRow = reader.readLine();
-                result = tempDataRow.toArray(new Object[]{});
+                result = tempDataRow.toArray(new Object[tempDataRow.size()]);
             }
         } catch (IOException e) {
             throw new ReportInputException("An IO Error occured !",e);
         }
-        
         return result; 
     }
     

@@ -6,9 +6,7 @@ package net.sf.reportengine.core.steps;
 
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.config.SubtotalsInfo;
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.ReportConstants;
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
@@ -114,7 +112,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
         //now the grand total
         if(getShowGrandTotal()){
         	//outputTotalsRow("Grand Total", calculators[calculators.length-1]);
-        	outputTotalsRow(SubtotalsInfo.GRAND_TOTAL_GROUPING_LEVEL, 
+        	outputTotalsRow(GRAND_TOTAL_GROUPING_LEVEL, 
         					calculators[calculators.length-1]
         					);	
         }

@@ -7,9 +7,11 @@ package net.sf.reportengine;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.reportengine.config.IDataColumn;
+import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
-import net.sf.reportengine.core.algorithm.IReportAlgorithm;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportAlgorithm;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
@@ -19,7 +21,8 @@ import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.filter.DataOutputFilter;
-import net.sf.reportengine.filter.ITotalsOutputFilter;
+import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.out.IReportOutput;
 
 /**
  * <p>
@@ -84,11 +87,6 @@ public class FlatReport extends AbstractOneIterationReport {
      */
     private List<DataOutputFilter> dataOutputFilterList = null;
     
-    
-    /**
-     * the list of data output filters
-     */
-    private List<ITotalsOutputFilter> totalsOutputFilterList = null;
     
     /**
      * constructor
@@ -161,24 +159,5 @@ public class FlatReport extends AbstractOneIterationReport {
 	 */
 	public void setDataOutputFilterList(List<DataOutputFilter> filterList){
 		this.dataOutputFilterList = filterList;
-	}
-	
-	/**
-	 * 
-	 * @param filter
-	 */
-	public void addTotalOutputFilter(ITotalsOutputFilter filter){
-		if(totalsOutputFilterList == null){
-			totalsOutputFilterList = new ArrayList<ITotalsOutputFilter>();
-		}
-		totalsOutputFilterList.add(filter);
-	}
-    
-	/**
-	 * 
-	 * @param filterList
-	 */
-	public void setTotalsOutputFilterList(List<ITotalsOutputFilter> filterList){
-		this.totalsOutputFilterList = filterList;
 	}
 }

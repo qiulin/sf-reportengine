@@ -8,10 +8,13 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 /**
- * @author dragos
- *
+ * This output class keeps an in-memory array of objects wich can be later returned 
+ * by calling {@link #getCellMatrix()}
+ * 
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.3
  */
-public class MemoryOutput extends AbstractOutput {
+public class MemoryOutput implements IReportOutput {
 	
 	/**
 	 * the one and only logger
@@ -26,10 +29,6 @@ public class MemoryOutput extends AbstractOutput {
 		this.cellMatrix = new ArrayList<CellProps[]>();
 	}
 	
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.AbstractOutput#output(net.sf.reportengine.out.CellProps)
-	 */
-	@Override
 	public void output(CellProps cellProps) {
 		currentRowOfCells.add(cellProps);
 	}
@@ -39,7 +38,7 @@ public class MemoryOutput extends AbstractOutput {
 	}
 	
 	public void endRow(){
-		CellProps[] completeRow = currentRowOfCells.toArray(new CellProps[]{});
+		CellProps[] completeRow = currentRowOfCells.toArray(new CellProps[currentRowOfCells.size()]);
 		cellMatrix.add(completeRow);
 	}
 	
@@ -50,4 +49,8 @@ public class MemoryOutput extends AbstractOutput {
 		}
 		return result;
 	}
+
+	public void open() {}
+
+	public void close() {}
 }

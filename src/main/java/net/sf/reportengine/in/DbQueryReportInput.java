@@ -12,13 +12,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 /**
  * <p>
- * IReportInput implementation for database data sources <br/>
- * There are two ways of setting up this "provider" of data <br/>
+ * Report Input implementation for database queries <br/>
+ * There are two ways of setting up this data provider :<br/>
  *      Use case 1: providing database url, driver class , user and password<br/> 
  *      Use case 2: providing a connection  
  * </p> 
  * 
- * @author dragos balan(dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
 public class DbQueryReportInput extends AbstractReportInput {
@@ -105,7 +105,7 @@ public class DbQueryReportInput extends AbstractReportInput {
      * @param dbUser            the database user
      * @param dbPassword        database password
      */
-    public DbQueryReportInput(   String dbConnString, 
+    public DbQueryReportInput(  String dbConnString, 
                                 String driverClass, 
                                 String dbUser, 
                                 String dbPassword){

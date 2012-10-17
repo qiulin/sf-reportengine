@@ -9,17 +9,21 @@ import net.sf.reportengine.core.steps.crosstab.IntermOriginalDataColsList;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalGroupValuesList;
 
 /**
- * @author Administrator
- *
+ * This is only for internal usage !
+ * 
+ * 
+ * 
+ * @author dragos balan
  */
 public class SecondProcessDataColumnFromOriginalDataColumn implements IDataColumn {
 	
 	private IDataColumn originalDataColumn;
 	private int indexInOriginalDataColsArray; 
 	
-	public SecondProcessDataColumnFromOriginalDataColumn(IDataColumn origDataColumn, int indexInDataColsArray){
-		this.originalDataColumn = origDataColumn;  
-		
+	public SecondProcessDataColumnFromOriginalDataColumn(	IDataColumn origDataColumn, 
+															int indexInDataColsArray){
+		this.originalDataColumn = origDataColumn; 
+		this.indexInOriginalDataColsArray = indexInDataColsArray; 
 	}
 
 	public String getHeader() {

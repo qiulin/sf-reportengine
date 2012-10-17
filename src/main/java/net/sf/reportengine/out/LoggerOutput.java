@@ -8,23 +8,22 @@ import org.apache.log4j.Logger;
 /**
  * Debug implementation for IReportOutput where all outputed values go to the log file at each end of line
  * 
- * @author dragos balan (dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  *
  */
-public class LoggerOutput extends AbstractOutput {
+public class LoggerOutput implements IReportOutput {
 	
 	/**
 	 * the one and only logger
 	 */
 	private static final Logger logger = Logger.getLogger(LoggerOutput.class);
 	
-	private StringBuffer dataToLog = new StringBuffer();
+	private StringBuilder dataToLog = new StringBuilder();
 	
 	/**
      * empty implementation 
      */ 
     public void startRow(){
-        super.startRow();
         dataToLog.delete(0, dataToLog.length());
 	}
 	
@@ -32,12 +31,12 @@ public class LoggerOutput extends AbstractOutput {
 		logger.debug(dataToLog);
 	}
 	
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.AbstractOutput#output(net.sf.reportengine.out.CellProps)
-	 */
-	@Override
 	public void output(CellProps cellProps) {
 		dataToLog.append(" "+cellProps);
 	}
+
+	public void open() {}
+
+	public void close() {}
 
 }
