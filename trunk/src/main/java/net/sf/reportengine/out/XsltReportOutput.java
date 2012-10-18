@@ -19,6 +19,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.io.IOUtils;
+
+import net.sf.reportengine.core.ReportEngineRuntimeException;
+
 
 /**
  * XSLT based report output is created in two steps: <br/>
@@ -26,29 +30,51 @@ import javax.xml.transform.stream.StreamSource;
  * 1. Create a temporary XML report (STax) <br/> 
  * 2. Transform the temporary xml when closing the report
  * 
- * @author dragos balan (dragos.balan@gmail.com)
- * @version $Revision$
- * $log$
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.3
  */
-public class XsltReportOutput extends AbstractOutput {
-    
+public class XsltReportOutput implements IReportOutput {
+    /**
+     * 
+     */
     private InputStream xsltInputStream;
-    private StaxReportOutput staxReportOutput;
-    private File tempXmlFile; 
     
+    /**
+     * 
+     */
+    private StaxReportOutput staxReportOutput;
+    
+    /**
+     * 
+     */
+    private File tempXmlFile;
+    
+    /**
+     * 
+     */
+    private OutputStream outputStream; 
+    
+    /**
+     * 
+     * @param outStream
+     */
     public XsltReportOutput(OutputStream outStream){
         this(outStream, ClassLoader.getSystemResourceAsStream("net/sf/reportengine/defaultTemplate.xslt"));        
     }
     
+    /**
+     * 
+     * @param outStream
+     * @param xsltInputStream
+     */
     public XsltReportOutput(OutputStream outStream, InputStream xsltInputStream) {
-        super(outStream);
         try{
+        	this.outputStream = outStream; 
         	this.xsltInputStream = xsltInputStream;
         	this.tempXmlFile = File.createTempFile("report", ".tmp");
         	this.staxReportOutput = new StaxReportOutput(new FileOutputStream(tempXmlFile));
-        	//this.xmlTransformer = TransformerFactory.newInstance().newTransformer(new StreamSource(getXsltInputStream()));
         }catch(IOException exc){
-        	throw new RuntimeException(exc);
+        	throw new ReportEngineRuntimeException(exc);
         }
     }
     
@@ -57,15 +83,16 @@ public class XsltReportOutput extends AbstractOutput {
     }
     
     public void close(){
-    	staxReportOutput.close();
+    	staxReportOutput.close(); 
     	transform();
+		IOUtils.closeQuietly(outputStream); 
     }	
     
     protected void transform(){
     	try{
     		//get the temporary xml file created and transform it
     		Source xmlSource = new StreamSource(tempXmlFile);
-    		Result result = new StreamResult(getWriter());
+    		Result result = new StreamResult(outputStream);
     	
     		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(getXsltInputStream()));
     		transformer.transform(xmlSource, result);
@@ -76,12 +103,10 @@ public class XsltReportOutput extends AbstractOutput {
     	}
     }
     
-    @Override
     public void startRow(){
     	staxReportOutput.startRow();
     }
     
-    @Override
     public void endRow(){
     	staxReportOutput.endRow();
     }
@@ -89,6 +114,14 @@ public class XsltReportOutput extends AbstractOutput {
     
     public void output(CellProps cellProps){
     	staxReportOutput.output(cellProps);
+    }
+    
+    public void setOuputStream(OutputStream output){
+    	this.outputStream = output; 
+    }
+    
+    public OutputStream getOutputStream(){
+    	return this.outputStream; 
     }
     
     public InputStream getXsltInputStream() {

@@ -131,9 +131,7 @@ public class HtmlOutput extends AbstractOutput {
         	
             StringBuilder strContent = new StringBuilder("<td align =\"center\" colspan=\"");
             strContent.append(cellProps.getColspan());
-            strContent.append("\" rowspan=\"");
-            strContent.append(cellProps.getRowspan());
-            strContent.append("\" >");
+            strContent.append("\" rowspan=\"1\" >");
             
             if(contentType == ReportContent.CONTENT_COLUMN_HEADERS){
                 strContent.append("<b>");

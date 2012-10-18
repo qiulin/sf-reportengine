@@ -58,9 +58,9 @@ public class IntermediateRowDisplayStep extends AbstractCrosstabStep {
 		IReportOutput output = getOutput(); 
 		
 		output.startRow();
-		output.output(new CellProps("Intermediate row:", 1, 1, ReportContent.CONTENT_DATA));
+		output.output(new CellProps("Intermediate row:", 1, ReportContent.CONTENT_DATA));
 		for (IntermediateDataInfo element : intermediateRow.getIntermComputedDataList().getDataList()) {
-			output.output(new CellProps(element.toString(), 1, 1, ReportContent.CONTENT_DATA));
+			output.output(new CellProps(element.toString(), 1, ReportContent.CONTENT_DATA));
 		}		
 		output.endRow(); 
 	}
