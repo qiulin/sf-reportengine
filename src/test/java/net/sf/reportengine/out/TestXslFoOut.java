@@ -5,6 +5,7 @@ package net.sf.reportengine.out;
 
 import org.apache.xmlgraphics.util.MimeConstants;
 
+import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.test.ReportengineTC;
 
 /**
@@ -28,49 +29,80 @@ public class TestXslFoOut extends ReportengineTC {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
-
 	
 	
 	public void testPDFOutput(){
         try{
-            XslFoOutput xsltOutTest= new XslFoOutput(createTestOutputFile("testXslFoOut.pdf"));
-            xsltOutTest.open();
-            xsltOutTest.startRow();
-            xsltOutTest.output(new CellProps("row 1 col 1"));
-            xsltOutTest.endRow();
-            xsltOutTest.startRow();
-            xsltOutTest.output(new CellProps("row 2 col 1"));
-            xsltOutTest.endRow();
-            xsltOutTest.startRow();
-            xsltOutTest.output(new CellProps("row 3 col 1"));
-            xsltOutTest.endRow();
-            xsltOutTest.close();  
+            XslFoOutput classUnderTest= new XslFoOutput(createTestOutputFile("testXslFoOut.pdf"));
+            classUnderTest.open();
+            
+            classUnderTest.startRow(); 
+            classUnderTest.output(new CellProps("report title", 1, ReportContent.CONTENT_REPORT_TITLE));
+            classUnderTest.endRow();
+            classUnderTest.startRow();
+            classUnderTest.output(new CellProps("row 1 col 1"));
+            classUnderTest.endRow();
+            classUnderTest.startRow();
+            classUnderTest.output(new CellProps("row 2 col 1"));
+            classUnderTest.endRow();
+            classUnderTest.startRow();
+            classUnderTest.output(new CellProps("row 3 col 1"));
+            classUnderTest.endRow();
+            classUnderTest.close();  
         }catch(Throwable exc){
             exc.printStackTrace();
-            assertTrue(false);
+            fail(exc.getMessage());
         }
     }
 	
 	
-	public void testJPGOutput(){
+	public void testPNGOutput(){
         try{
-            XslFoOutput xsltOutTest= new XslFoOutput(createTestOutputFile("testXslFoOut.png"), MimeConstants.MIME_PNG);
-            xsltOutTest.open();
-            xsltOutTest.startRow();
-            xsltOutTest.output(new CellProps("row 1 col 1"));
-            xsltOutTest.endRow();
-            xsltOutTest.startRow();
-            xsltOutTest.output(new CellProps("row 2 col 1"));
-            xsltOutTest.endRow();
-            xsltOutTest.startRow();
-            xsltOutTest.output(new CellProps("row 3 col 1"));
-            xsltOutTest.endRow();
-            xsltOutTest.close();  
+            XslFoOutput classUnderTest= new XslFoOutput(createTestOutputFile("testXslFoOut.png"), MimeConstants.MIME_PNG);
+            classUnderTest.open();
+            
+            classUnderTest.startRow(); 
+            classUnderTest.output(new CellProps("report title", 1, ReportContent.CONTENT_REPORT_TITLE));
+            classUnderTest.endRow();
+            classUnderTest.startRow();
+            classUnderTest.output(new CellProps("row 1 col 1"));
+            classUnderTest.endRow();
+            classUnderTest.startRow();
+            classUnderTest.output(new CellProps("row 2 col 1"));
+            classUnderTest.endRow();
+            classUnderTest.startRow();
+            classUnderTest.output(new CellProps("row 3 col 1"));
+            classUnderTest.endRow();
+            classUnderTest.close();  
         }catch(Throwable exc){
             exc.printStackTrace();
-            assertTrue(false);
+            fail(exc.getMessage());
         }
     }
 	
-	
+	public void testPostScriptOutput(){
+		 try{
+            XslFoOutput classUnderTest= new XslFoOutput(
+            		createTestOutputFile("testXslFoOut.ps"), 
+            							MimeConstants.MIME_POSTSCRIPT);
+            classUnderTest.open();
+            
+            classUnderTest.startRow(); 
+            classUnderTest.output(new CellProps("report title", 1, ReportContent.CONTENT_REPORT_TITLE));
+            classUnderTest.endRow(); 
+            classUnderTest.startRow();
+            classUnderTest.output(new CellProps("row 1 col 1"));
+            classUnderTest.endRow();
+            classUnderTest.startRow();
+            classUnderTest.output(new CellProps("row 2 col 1"));
+            classUnderTest.endRow();
+            classUnderTest.startRow();
+            classUnderTest.output(new CellProps("row 3 col 1"));
+            classUnderTest.endRow();
+            classUnderTest.close();  
+       }catch(Throwable exc){
+            exc.printStackTrace();
+            fail(exc.getMessage());
+       }
+	}	
 }

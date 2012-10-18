@@ -7,42 +7,54 @@ package net.sf.reportengine.out;
 import net.sf.reportengine.core.ReportContent;
 
 /**
- * report cell properties bean
+ * report cell properties 
  * 
- * @author dragos balan (dragos.balan@gmail.com)
- *
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.3
  */
 public class CellProps {
 
     
     private int colspan = 1;
-    private int rowspan = 1; 
+    
     private ReportContent content = ReportContent.CONTENT_DATA;
     private Object value;
     
+    /**
+     * 
+     */
     public CellProps(){
         this("");
     }
     
+    /**
+     * 
+     * @param value
+     */
     public CellProps(Object value){
     	this(value, 1);
     }
     
+    /**
+     * 
+     * @param value
+     * @param colspan
+     */
     public CellProps(Object value, int colspan){
-    	this(value, colspan, 1, ReportContent.CONTENT_DATA);
+    	this(value, colspan, ReportContent.CONTENT_DATA);
     }
     
-    public CellProps(Object value, int colspan, int rowspan){
-    	this(value, colspan, rowspan, ReportContent.CONTENT_DATA); 
-    }
-    
-    public CellProps(Object value, int colspan, int rowspan, ReportContent contentType){
+    /**
+     * 
+     * @param value
+     * @param colspan
+     * @param contentType
+     */
+    public CellProps(Object value, int colspan, ReportContent contentType){
     	setColspan(colspan);
-    	setRowspan(rowspan);
-        setContentType(contentType);
+    	setContentType(contentType);
         setValue(value);
     }
-    
    
 
     public int getColspan(){
@@ -76,7 +88,6 @@ public class CellProps {
     		CellProps anotherAsCP = (CellProps)another;
     		result = getValue().equals(anotherAsCP.getValue()) 
     		        && getColspan() == anotherAsCP.getColspan()
-    		        && getRowspan() == anotherAsCP.getRowspan()
     		        && getContentType() == anotherAsCP.getContentType();
     	}
     	return result;
@@ -87,7 +98,6 @@ public class CellProps {
     	int result =3;
     	result = 97 * result  + value.hashCode();
     	result = 97 * result + colspan;
-    	result = 97 * result + rowspan; 
     	result = 97 * result + content.hashCode();  
     	return result;
     }
@@ -96,18 +106,8 @@ public class CellProps {
     	StringBuffer result = new StringBuffer("CP[");
     	result.append(value);
     	result.append(",cspan="+colspan);
-    	result.append(",rspan="+rowspan);
     	result.append(",cntnt="+content);
     	result.append("]");
     	return result.toString();
-    }
-
-	public int getRowspan() {
-		return rowspan;
-	}
-
-	public void setRowspan(int rowspan) {
-		this.rowspan = rowspan;
-	}
-        
+    }        
 }

@@ -19,6 +19,8 @@ import net.sf.reportengine.core.ReportContent;
  */
 public class StaxReportOutput extends AbstractXmlOutput {
 	
+	public static final String ENGINE_VERSION = "0.4";
+	
 	private XMLStreamWriter writer;
 	
 	public StaxReportOutput(OutputStream outputStream){
@@ -36,7 +38,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
 		try{
 			writer.writeStartDocument();
 			writer.writeStartElement(REPORT_TAG_NAME);
-			writer.writeAttribute(ATTR_ENGINE_VERSION, "0.3");
+			writer.writeAttribute(ATTR_ENGINE_VERSION, ENGINE_VERSION);
 		}catch(XMLStreamException streamException){
 			throw new RuntimeException(streamException);
 		}

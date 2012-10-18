@@ -56,7 +56,7 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
     	IReportOutput output = (IReportOutput)reportContext.getOutput();
         if(reportTitle != null){
         	output.startRow();
-            CellProps titleCellProps = new CellProps( reportTitle, outputColumnsCnt, 1, ReportContent.CONTENT_REPORT_TITLE);
+            CellProps titleCellProps = new CellProps( reportTitle, outputColumnsCnt, ReportContent.CONTENT_REPORT_TITLE);
             output.output(titleCellProps);
             output.endRow();
         }
@@ -66,12 +66,12 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
         CellProps cellProps = null;
         if(groupCols != null){
 	        for (IGroupColumn groupColumn : groupCols) {
-				cellProps = new CellProps(groupColumn.getHeader(), 1, 1, ReportContent.CONTENT_COLUMN_HEADERS);
+				cellProps = new CellProps(groupColumn.getHeader(), 1, ReportContent.CONTENT_COLUMN_HEADERS);
 				output.output(cellProps);
 			}
         }
         for (IDataColumn dataColumn: dataCols) {
-            cellProps = new CellProps(dataColumn.getHeader(), 1, 1, ReportContent.CONTENT_COLUMN_HEADERS);
+            cellProps = new CellProps(dataColumn.getHeader(), 1, ReportContent.CONTENT_COLUMN_HEADERS);
             output.output(cellProps);
         }
         

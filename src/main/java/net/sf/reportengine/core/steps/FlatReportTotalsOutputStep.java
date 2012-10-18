@@ -163,7 +163,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     			//for all others grouping columns put whitespaces 
     			//( groupColumns.length-1 colspan because the first column was already 
     			//filled with the word "Total xxxx"
-    			output.output(new CellProps(IReportOutput.WHITESPACE, groupCols.length-1, 1, ReportContent.CONTENT_DATA));
+    			output.output(new CellProps(IReportOutput.WHITESPACE, groupCols.length-1, ReportContent.CONTENT_DATA));
     		}
         }
         
