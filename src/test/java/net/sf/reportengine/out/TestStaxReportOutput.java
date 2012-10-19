@@ -46,5 +46,27 @@ public class TestStaxReportOutput extends ReportengineTC {
             assertTrue(false);
         }
     }
-
+	
+	
+	public void testStaxUTF8Output(){
+        try{
+            StaxReportOutput xmlOutTest = new StaxReportOutput(createTestOutputFile("testStaxUtf8Out.xml"), "UTF-8");
+            xmlOutTest.open();
+            xmlOutTest.startRow();
+            xmlOutTest.output(new CellProps("Πρωτόκολλο Αζήτητων"));
+            xmlOutTest.endRow();
+            
+            xmlOutTest.startRow();
+            xmlOutTest.output(new CellProps("Βιβλία"));
+            xmlOutTest.endRow();
+            
+            xmlOutTest.startRow();
+            xmlOutTest.output(new CellProps("и канализация са от"));
+            xmlOutTest.endRow();
+            xmlOutTest.close();            
+        }catch(Throwable exc){
+            exc.printStackTrace();
+            assertTrue(false);
+        }
+    }
 }

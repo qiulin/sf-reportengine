@@ -37,6 +37,13 @@ public abstract class AbstractOutput implements IReportOutput {
     
     /**
      * 
+     */
+    public AbstractOutput(){
+    	
+    }
+    
+    /**
+     * 
      * @param fileName
      */
     public AbstractOutput(String fileName){

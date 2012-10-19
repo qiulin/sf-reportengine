@@ -4,9 +4,14 @@
  */
 package net.sf.reportengine.out;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -16,6 +21,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
+
+import net.sf.reportengine.in.ReportInputException;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -41,6 +48,16 @@ import org.xml.sax.SAXException;
 public class XslFoOutput extends XsltReportOutput {
 	
 	/**
+	 * 
+	 */
+	private static final String DEFAULT_XSLFO_PATH = "net/sf/reportengine/default-xml2fo.xslt";
+	
+	/**
+	 * 
+	 */
+	private static final String DEFAULT_FO_CONF_PATH = "net/sf/reportengine/fop.xconf";
+	
+	/**
 	 * the mime type of the report
 	 */
 	private String mimeType;
@@ -49,6 +66,37 @@ public class XslFoOutput extends XsltReportOutput {
 	 * holds the FOP configuration 
 	 */
 	private InputStream configInputStream; 
+	
+	
+	/**
+	 * 
+	 */
+	public XslFoOutput(){
+		try{
+			this.init(	new FileOutputStream("XslFoOutput.pdf"), 
+			        	MimeConstants.MIME_PDF, 
+			        	ClassLoader.getSystemResourceAsStream(DEFAULT_XSLFO_PATH), 
+			        	ClassLoader.getSystemResourceAsStream(DEFAULT_FO_CONF_PATH));
+    	}catch(IOException e){
+    		throw new ReportInputException(e); 
+    	}
+	}
+	
+	/**
+	 * 
+	 * @param fileName
+	 */
+	public XslFoOutput(String fileName){
+		try{
+			this.init(	new FileOutputStream(fileName), 
+			        	MimeConstants.MIME_PDF, 
+			        	ClassLoader.getSystemResourceAsStream(DEFAULT_XSLFO_PATH), 
+			        	ClassLoader.getSystemResourceAsStream(DEFAULT_FO_CONF_PATH));
+    	}catch(IOException e){
+    		throw new ReportInputException(e); 
+    	}
+	}
+	
 	
 	/**
 	 * 
@@ -66,7 +114,7 @@ public class XslFoOutput extends XsltReportOutput {
     public XslFoOutput(OutputStream outStream, String mimeType){
     	this(outStream,  
     		mimeType,
-    		ClassLoader.getSystemResourceAsStream("net/sf/reportengine/default-xml2fo.xslt"));
+    		ClassLoader.getSystemResourceAsStream(DEFAULT_XSLFO_PATH));
     }
     
     /**
@@ -79,7 +127,7 @@ public class XslFoOutput extends XsltReportOutput {
     	this(	outStream, 
     			mimeType, 
     			xsltInputStream, 
-    			ClassLoader.getSystemResourceAsStream("net/sf/reportengine/fop.xconf")); 
+    			ClassLoader.getSystemResourceAsStream(DEFAULT_FO_CONF_PATH)); 
     }
     
     /**
@@ -93,11 +141,32 @@ public class XslFoOutput extends XsltReportOutput {
     					String mimeType,
     					InputStream xsltInputStream, 
     					InputStream configInputStream) {
-        super(outStream, xsltInputStream);
-        setMimeType(mimeType);
-        setFopConfigInputStream(configInputStream); 
+    	try{
+    		this.init(	outStream, 
+			        	mimeType, 
+			        	xsltInputStream, 
+			        	configInputStream);
+    	}catch(IOException e){
+    		throw new ReportInputException(e); 
+    	}
     }
-
+    
+    /**
+     * 
+     * @param outStream
+     * @param mimeType
+     * @param xsltInputStream
+     * @param configInputStream
+     */
+    protected void init(OutputStream outStream, 
+    					String mimeType, 
+    					InputStream xsltInputStream, 
+    					InputStream configInputStream) throws IOException{
+    	super.init(outStream, xsltInputStream);
+    	setMimeType(mimeType); 
+    	setFopConfigInputStream(configInputStream); 
+    }
+    
     @Override
     public void transform(){
     	try {
@@ -112,7 +181,8 @@ public class XslFoOutput extends XsltReportOutput {
 			TransformerFactory transformFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformFactory.newTransformer(new StreamSource(getXsltInputStream()));
 			
-			Source xmlSource = new StreamSource(getTempXmlFile());
+			Reader tempXmlReader = new InputStreamReader(new FileInputStream(getTempXmlFile()), "UTF-8"); 
+			Source xmlSource = new StreamSource(tempXmlReader);
 			Result result = new SAXResult(fop.getDefaultHandler());
 			transformer.transform(xmlSource, result); 
 			 
@@ -128,11 +198,17 @@ public class XslFoOutput extends XsltReportOutput {
 			throw new RuntimeException(e);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-		}finally{
-			IOUtils.closeQuietly(configInputStream);			
 		}
     }
-
+    
+    @Override
+    public void close(){
+    	super.close(); 
+    	IOUtils.closeQuietly(configInputStream);
+    	//TODO make sure you've closed everything
+    }
+    
+    
 	/**
 	 * @return the mimeType
 	 */

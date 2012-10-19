@@ -28,6 +28,11 @@ public abstract class AbstractXmlOutput extends AbstractOutput {
 	
 	public final static String ATTR_ROW_NUMBER = "rowNumber";
 	
+	public AbstractXmlOutput(){
+		
+	}
+	
+	
     public AbstractXmlOutput(OutputStream outputStream){
     	super(outputStream);
     }
