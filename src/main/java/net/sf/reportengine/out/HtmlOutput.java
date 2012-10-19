@@ -36,6 +36,16 @@ public class HtmlOutput extends AbstractOutput {
      */
     private boolean isStandalonePage = true;
     
+    
+    /**
+     * 
+     * @param fileName
+     */
+    public HtmlOutput(String fileName){
+    	super(fileName); 
+    }
+    
+    
     /**
      *
      * 
