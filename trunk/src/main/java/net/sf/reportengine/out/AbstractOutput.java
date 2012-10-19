@@ -3,6 +3,8 @@
  */
 package net.sf.reportengine.out;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -32,6 +34,18 @@ public abstract class AbstractOutput implements IReportOutput {
     
     
     private int rowCount = 0;
+    
+    /**
+     * 
+     * @param fileName
+     */
+    public AbstractOutput(String fileName){
+    	try {
+			setWriter(new FileWriter(fileName));
+		} catch (IOException e) {
+			throw new ReportInputException(e); 
+		} 
+    }
     
     /**
      * 
