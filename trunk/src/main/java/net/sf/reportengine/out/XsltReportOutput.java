@@ -22,6 +22,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.io.IOUtils;
 
 import net.sf.reportengine.core.ReportEngineRuntimeException;
+import net.sf.reportengine.in.ReportInputException;
 
 
 /**
@@ -34,6 +35,12 @@ import net.sf.reportengine.core.ReportEngineRuntimeException;
  * @since 0.3
  */
 public class XsltReportOutput implements IReportOutput {
+	
+	/**
+	 * 
+	 */
+	private static final String DEFAULT_XSLT_PATH = "net/sf/reportengine/defaultTemplate.xslt"; 
+	
     /**
      * 
      */
@@ -56,10 +63,40 @@ public class XsltReportOutput implements IReportOutput {
     
     /**
      * 
+     */
+    public XsltReportOutput(){
+    	try{
+    		init(new FileOutputStream("XsltReportOutput.html"), 
+    			ClassLoader.getSystemResourceAsStream(DEFAULT_XSLT_PATH));
+    	}catch(IOException e){
+    		throw new ReportInputException(e); 
+    	}
+    }
+    
+    /**
+     * 
+     * @param outFileName
+     */
+    public XsltReportOutput(String outFileName){
+    	try{
+    		init(new FileOutputStream(outFileName), 
+    			ClassLoader.getSystemResourceAsStream(DEFAULT_XSLT_PATH));
+    	}catch(IOException e){
+    		throw new ReportInputException(e); 
+    	}
+    }
+    
+    /**
+     * 
      * @param outStream
      */
     public XsltReportOutput(OutputStream outStream){
-        this(outStream, ClassLoader.getSystemResourceAsStream("net/sf/reportengine/defaultTemplate.xslt"));        
+    	try{
+    		init(outStream, 
+    			ClassLoader.getSystemResourceAsStream(DEFAULT_XSLT_PATH));
+    	}catch(IOException e){
+    		throw new ReportInputException(e); 
+    	}
     }
     
     /**
@@ -68,26 +105,45 @@ public class XsltReportOutput implements IReportOutput {
      * @param xsltInputStream
      */
     public XsltReportOutput(OutputStream outStream, InputStream xsltInputStream) {
-        try{
-        	this.outputStream = outStream; 
-        	this.xsltInputStream = xsltInputStream;
-        	this.tempXmlFile = File.createTempFile("report", ".tmp");
-        	this.staxReportOutput = new StaxReportOutput(new FileOutputStream(tempXmlFile));
-        }catch(IOException exc){
-        	throw new ReportEngineRuntimeException(exc);
-        }
+        try {
+			init(outStream, xsltInputStream);
+		} catch (IOException e) {
+			throw new ReportInputException(e); 
+		} 
     }
     
+    /**
+     * 
+     * @param outStream
+     * @param xsltInputStream
+     * @throws IOException
+     */
+    protected void init(OutputStream outStream, InputStream xsltInputStream) throws IOException{
+    	this.outputStream = outStream; 
+    	this.xsltInputStream = xsltInputStream;
+    	this.tempXmlFile = File.createTempFile("report", ".temp");
+    	this.staxReportOutput = new StaxReportOutput(new FileOutputStream(tempXmlFile), "UTF-8");
+    }
+    
+    /**
+     * 
+     */
     public void open(){
     	staxReportOutput.open();
     }
     
+    /**
+     * 
+     */
     public void close(){
     	staxReportOutput.close(); 
     	transform();
 		IOUtils.closeQuietly(outputStream); 
     }	
     
+    /**
+     * 
+     */
     protected void transform(){
     	try{
     		//get the temporary xml file created and transform it
@@ -103,31 +159,55 @@ public class XsltReportOutput implements IReportOutput {
     	}
     }
     
+    /**
+     * 
+     */
     public void startRow(){
     	staxReportOutput.startRow();
     }
     
+    /**
+     * 
+     */
     public void endRow(){
     	staxReportOutput.endRow();
     }
     
-    
+    /**
+     * 
+     */
     public void output(CellProps cellProps){
     	staxReportOutput.output(cellProps);
     }
     
+    /**
+     * 
+     * @param output
+     */
     public void setOuputStream(OutputStream output){
     	this.outputStream = output; 
     }
     
+    /**
+     * 
+     * @return
+     */
     public OutputStream getOutputStream(){
     	return this.outputStream; 
     }
     
+    /**
+     * 
+     * @return
+     */
     public InputStream getXsltInputStream() {
         return xsltInputStream;
     }
-
+    
+    /**
+     * 
+     * @param xsltInputStream
+     */
     public void setXsltInputStream(InputStream xsltInputStream) {
         this.xsltInputStream = xsltInputStream;
     }

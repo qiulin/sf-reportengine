@@ -9,7 +9,7 @@ import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.test.ReportengineTC;
 
 /**
- * @author dragos
+ * @author dragos balan
  *
  */
 public class TestXslFoOut extends ReportengineTC {
@@ -55,6 +55,30 @@ public class TestXslFoOut extends ReportengineTC {
         }
     }
 	
+	
+	public void testPdfUtf8Output(){
+        try{
+            XslFoOutput classUnderTest= new XslFoOutput("./target/testUtf8Out.pdf");
+            classUnderTest.open();
+            
+            classUnderTest.startRow(); 
+            classUnderTest.output(new CellProps("Действията", 1, ReportContent.CONTENT_REPORT_TITLE));
+            classUnderTest.endRow();
+            classUnderTest.startRow();
+            classUnderTest.output(new CellProps("Πρωτόκολλο Αζήτητων"));
+            classUnderTest.endRow();
+            classUnderTest.startRow();
+            classUnderTest.output(new CellProps("Βιβλία"));
+            classUnderTest.endRow();
+            classUnderTest.startRow();
+            classUnderTest.output(new CellProps("Ανασυσκευασία"));
+            classUnderTest.endRow();
+            classUnderTest.close();  
+        }catch(Throwable exc){
+            exc.printStackTrace();
+            fail(exc.getMessage());
+        }
+    }
 	
 	public void testPNGOutput(){
         try{

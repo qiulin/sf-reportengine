@@ -3,6 +3,9 @@
  */
 package net.sf.reportengine.scenarios;
 
+import java.util.Arrays;
+import java.util.List;
+
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.IDataColumn;
@@ -19,16 +22,20 @@ public class OhlcComputationScenario {
 	
 	public static final IReportInput INPUT = new StreamReportInput(OhlcComputationScenario.class.getClassLoader().getResourceAsStream(""),"\t");
 	
-	public static final IDataColumn[] DATA_COLUMNS = new IDataColumn[]{
+	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList(
+	new IDataColumn[]{
 		new DefaultDataColumn("Time",1, Calculators.FIRST),
-		new DefaultDataColumn("Open",2, Calculators.FIRST),
-		new DefaultDataColumn("High",3, Calculators.MAX),
-		new DefaultDataColumn("Low",4, 	Calculators.MIN),
-		new DefaultDataColumn("Close",5, Calculators.LAST),
-		new DefaultDataColumn("Volume",6, Calculators.SUM)
-	};
+		
+		new DefaultDataColumn("Volume",2, Calculators.SUM),
+		
+		new DefaultDataColumn("Open",3, Calculators.FIRST),
+		new DefaultDataColumn("High",4, Calculators.MAX),
+		new DefaultDataColumn("Low",5, 	Calculators.MIN),
+		new DefaultDataColumn("Close",6, Calculators.LAST)
+	});
 	
-	public static final IGroupColumn[] GROUP_COLUMNS = new IGroupColumn[]{
+	public static final List<IGroupColumn> GROUPING_COLUMNS = Arrays.asList(
+	new IGroupColumn[] {
 		new DefaultGroupColumn("Date", 0,0)
-	};
+	});
 }
