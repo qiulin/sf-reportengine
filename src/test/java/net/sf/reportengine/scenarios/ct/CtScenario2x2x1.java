@@ -3,6 +3,9 @@
  */
 package net.sf.reportengine.scenarios.ct;
 
+import java.util.Arrays;
+import java.util.List;
+
 import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
@@ -61,19 +64,21 @@ public class CtScenario2x2x1 {
 													3, 
 													2};  
 	
-	public static final IGroupColumn[] GROUPING_COLUMNS = new IGroupColumn[]{
-		new DefaultGroupColumn("Region", 0, 0) 
-		//new DefaultGroupColumn("Country",3, 1)
-	};
+	public static final List<IGroupColumn> GROUPING_COLUMNS = Arrays.asList(
+			new IGroupColumn[]{
+					new DefaultGroupColumn("Region", 0, 0) 
+					//new DefaultGroupColumn("Country",3, 1)
+	});
 	
-	public static final IDataColumn[] DATA_COLUMNS = new IDataColumn[]{
-		new DefaultDataColumn("Country", 3)
-	};
+	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList(
+			new IDataColumn[]{
+					new DefaultDataColumn("Country", 3)
+	});
 	
-	public static final ICrosstabHeaderRow[] HEADER_ROWS = new ICrosstabHeaderRow[]{
+	public static final List<ICrosstabHeaderRow> HEADER_ROWS = Arrays.asList(new ICrosstabHeaderRow[]{
 		new DefaultCrosstabHeaderRow(1, null), //Sex 
 		new DefaultCrosstabHeaderRow(2, null)   //Age
-	}; 
+	}); 
 	
 	public static final DefaultCrosstabData CROSSTAB_DATA = new DefaultCrosstabData(4, Calculators.SUM); //the count column
 	

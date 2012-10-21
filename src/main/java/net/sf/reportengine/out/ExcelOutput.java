@@ -128,8 +128,8 @@ public class ExcelOutput extends AbstractOutput {
     /**
      * ends the current line and creates a new one
      */
-    public void startRow() {
-        super.startRow();
+    public void startRow(RowProps rowProperties) {
+        super.startRow(rowProperties);
         currentRow = sheet.createRow((short) getRowCount()-1);
         currentCol = 0;
     }

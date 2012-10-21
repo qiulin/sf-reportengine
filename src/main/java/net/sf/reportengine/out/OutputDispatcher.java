@@ -35,9 +35,9 @@ public class OutputDispatcher implements IReportOutput{
         }
     }
     
-    public void startRow(){
+    public void startRow(RowProps rowProperties){
     	for(IReportOutput output: outputtersList){
-            output.startRow();
+            output.startRow(rowProperties);
         }
     }
     

@@ -5,6 +5,7 @@ package net.sf.reportengine.out;
 
 import java.io.Writer;
 
+import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.test.ReportengineTC;
 
 /**
@@ -30,13 +31,13 @@ public class TestHtmlOutput extends ReportengineTC {
 	public void testOutputUtf8() {
 		classUnderTest.open();
 		
-		classUnderTest.startRow(); 
+		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
 		classUnderTest.output(new CellProps("от Субсахарска")); 
 		classUnderTest.output(new CellProps("Африка"));
 		classUnderTest.output(new CellProps("постига"));
 		classUnderTest.endRow(); 
 		
-		classUnderTest.startRow(); 
+		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
 		classUnderTest.output(new CellProps("устойчиви резултати", 3));
 		classUnderTest.endRow(); 
 		

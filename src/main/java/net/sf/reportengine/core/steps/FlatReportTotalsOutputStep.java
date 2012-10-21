@@ -13,6 +13,7 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.RowProps;
 
 import org.apache.log4j.Logger;
 
@@ -151,7 +152,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     	}
     	
     	IReportOutput output = getOutput();
-    	output.startRow();
+    	output.startRow(new RowProps(ReportContent.CONTENT_DATA));
     	
     	if(groupCols != null && groupCols.length > 0){
     		//prepare and output the Total column

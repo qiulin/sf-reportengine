@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import net.sf.reportengine.config.ICrosstabData;
@@ -99,7 +100,6 @@ public class CrossTabReport extends AbstractReport{
 	
 	private SecondCrosstabProcessorReport secondReport; 
 	
-	private ICrosstabHeaderRow[] crosstabHeaderRows; 
 	private List<ICrosstabHeaderRow> crosstabHeaderRowsAsList; 
 	
 	private ICrosstabData crosstabData; 
@@ -185,15 +185,10 @@ public class CrossTabReport extends AbstractReport{
 	
 	public ICrosstabHeaderRow[] getCrosstabHeaderRows() {
 		ICrosstabHeaderRow[] result = null; 
-		if(crosstabHeaderRows != null){
-			result = crosstabHeaderRows; 
+		if(crosstabHeaderRowsAsList != null){
+			result = crosstabHeaderRowsAsList.toArray(new ICrosstabHeaderRow[crosstabHeaderRowsAsList.size()]);
 		}else{
-			if(crosstabHeaderRowsAsList != null){
-				result = crosstabHeaderRowsAsList.toArray(new ICrosstabHeaderRow[crosstabHeaderRowsAsList.size()]);
-				crosstabHeaderRows = result; 
-			}else{
-				throw new ReportEngineRuntimeException("No header rows have been configured. Please use the setHeaderRows or addHeaderRow methods to fix this issue");
-			}
+			throw new ReportEngineRuntimeException("No header rows have been configured. Please use the setHeaderRows or addHeaderRow methods to fix this issue");
 		}
 		return result;
 	}
@@ -204,7 +199,7 @@ public class CrossTabReport extends AbstractReport{
 	 * @deprecated use setHeaderRows(List) or addHeaderRow(IHeaderRow) instead
 	 */
 	public void setHeaderRows(ICrosstabHeaderRow[] crosstabHeaderRows) {
-		this.crosstabHeaderRows = crosstabHeaderRows;
+		this.crosstabHeaderRowsAsList = Arrays.asList(crosstabHeaderRows);
 	}
 	
 	public void setHeaderRows(List<ICrosstabHeaderRow> crosstabHeaderRowsList) {
@@ -223,6 +218,12 @@ public class CrossTabReport extends AbstractReport{
 		this.crosstabData = crosstabData;
 	}
 	
+	/**
+	 * 
+	 * @param originalGroupCols
+	 * @return
+	 * @deprecated
+	 */
 	protected IGroupColumn[] constructGroupColumnsForSecondProcess(IGroupColumn[] originalGroupCols){
 		IGroupColumn[] result = null; 
 		if(originalGroupCols != null && originalGroupCols.length > 0){
@@ -235,6 +236,32 @@ public class CrossTabReport extends AbstractReport{
 		return result; 
 	}
 	
+	/**
+	 * 
+	 * @param originalGroupCols
+	 * @return
+	 */
+	protected IGroupColumn[] constructGroupColumnsForSecondProcess(List<IGroupColumn> originalGroupCols){
+		IGroupColumn[] result = null; 
+		if(originalGroupCols != null && originalGroupCols.size() > 0){
+			result = new IGroupColumn[originalGroupCols.size()];
+			for (int i = 0; i < originalGroupCols.size(); i++) {
+				IGroupColumn origGroupColumn = originalGroupCols.get(i);
+				result[i] = new SecondProcessGroupColumn(origGroupColumn);
+			}
+		}
+		return result; 
+	}
+	
+	/**
+	 * 
+	 * @param crosstabMetadata
+	 * @param originalDataColumns
+	 * @param hasTotals
+	 * @param hasGrandTotal
+	 * @return
+	 * @deprecated
+	 */
 	protected IDataColumn[] constructDataColumnsForSecondProcess(	CtMetadata crosstabMetadata, 
 																	IDataColumn[] originalDataColumns, 
 																	boolean hasTotals, 
@@ -301,6 +328,83 @@ public class CrossTabReport extends AbstractReport{
 			auxListOfDataCols.add(new SecondProcessTotalColumn(null, Calculators.SUM, null, "GrandTotal")); 
 		}
 		
+		return auxListOfDataCols.toArray(new IDataColumn[auxListOfDataCols.size()]); 
+	}
+	
+	/**
+	 * 
+	 * @param crosstabMetadata
+	 * @param originalDataColumns
+	 * @param hasTotals
+	 * @param hasGrandTotal
+	 * @return
+	 */
+	protected IDataColumn[] constructDataColumnsForSecondProcess(	CtMetadata crosstabMetadata, 
+			List<IDataColumn> originalDataColumns, 
+			boolean hasTotals, 
+			boolean hasGrandTotal){
+
+		int dataColsCount = crosstabMetadata.getDataColumnCount(); 
+		int headerRowsCount = crosstabMetadata.getHeaderRowsCount(); 
+		
+		List<IDataColumn> auxListOfDataCols = new ArrayList<IDataColumn>();
+		
+		//first we add the original data columns (those declared by the user in his configuration)
+		for(int i=0; i < originalDataColumns.size(); i++){//TODO come back here and call addAll
+			auxListOfDataCols.add(new SecondProcessDataColumnFromOriginalDataColumn(originalDataColumns.get(i), i));
+		}
+
+		//then we construct the columns 
+		for(int column=0; column < dataColsCount; column++){
+		
+			//construct total columns 
+			if(hasTotals){
+				//we start bottom to top (from last header row -1 to first header row) 
+				for(int row=headerRowsCount-2; row >= 0; row--){
+					int colspan = crosstabMetadata.getColspanForLevel(row); 
+				
+					if(column != 0 && (column % colspan)==0){
+						int[] positionForCurrentTotal = new int[row+1]; //new int[headerRowsCount-1];
+					
+						for(int j=0; j < positionForCurrentTotal.length; j++){
+							positionForCurrentTotal[j] = ((column-1) / crosstabMetadata.getColspanForLevel(j)) % crosstabMetadata.getDistinctValuesCountForLevel(j);
+						}
+		
+						auxListOfDataCols.add(new SecondProcessTotalColumn(positionForCurrentTotal, Calculators.SUM, null, "Total column="+column+ ",colspan= "+colspan));
+					}
+				}
+			}//end if has totals
+
+			//data columns coming from data columns
+			int[] positionForCurrentColumn = new int[headerRowsCount];
+			for(int j=0; j < headerRowsCount; j++){
+				positionForCurrentColumn[j] = (column / crosstabMetadata.getColspanForLevel(j)) % crosstabMetadata.getDistinctValuesCountForLevel(j);
+			}
+		
+			auxListOfDataCols.add(new SecondProcessDataColumn(positionForCurrentColumn, Calculators.SUM, null)); 
+		}//end for columns
+		
+		if(hasTotals){
+			//final total columns
+			for(int row=headerRowsCount-2; row >= 0; row--){
+				int colspan = crosstabMetadata.getColspanForLevel(row); 
+			
+				if(dataColsCount!= 0 && (dataColsCount % colspan)==0){
+					int[] positionForCurrentTotal = new int[row+1];
+			
+					for(int j=0; j < positionForCurrentTotal.length; j++){
+						positionForCurrentTotal[j] = ((dataColsCount-1) / crosstabMetadata.getColspanForLevel(j)) % crosstabMetadata.getDistinctValuesCountForLevel(j);
+					}
+					auxListOfDataCols.add(new SecondProcessTotalColumn(positionForCurrentTotal, Calculators.SUM, null, "Total column="+(dataColsCount)+ ",colspan= "+colspan));
+				}
+			}
+		}//end if has totals
+
+		//grand total
+		if(hasGrandTotal){
+			auxListOfDataCols.add(new SecondProcessTotalColumn(null, Calculators.SUM, null, "GrandTotal")); 
+		}
+
 		return auxListOfDataCols.toArray(new IDataColumn[auxListOfDataCols.size()]); 
 	}
 }

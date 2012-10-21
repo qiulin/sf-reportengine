@@ -87,8 +87,8 @@ public class StreamReportOutput extends AbstractOutput {
 	/**
      * start row
      */ 
-    public void startRow(){
-        super.startRow();
+    public void startRow(RowProps rowProperties){
+        super.startRow(rowProperties);
         dataToLog.delete(0, dataToLog.length());
 	}
 	

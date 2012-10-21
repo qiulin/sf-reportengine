@@ -3,6 +3,7 @@
  */
 package net.sf.reportengine.out;
 
+import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.test.ReportengineTC;
 
 /**
@@ -32,15 +33,15 @@ public class TestXsltOut extends ReportengineTC {
         try{
             XsltReportOutput xsltOutTest= new XsltReportOutput(createTestOutputFile("testXSLTOut.html"));
             xsltOutTest.open();
-            xsltOutTest.startRow();
+            xsltOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
             xsltOutTest.output(new CellProps("value row 1"));
             xsltOutTest.endRow();
             
-            xsltOutTest.startRow();
+            xsltOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
             xsltOutTest.output(new CellProps("value row 2"));
             xsltOutTest.endRow();
             
-            xsltOutTest.startRow();
+            xsltOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
             xsltOutTest.output(new CellProps("value row 3"));
             xsltOutTest.endRow();
             

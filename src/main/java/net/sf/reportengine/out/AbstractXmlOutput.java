@@ -9,17 +9,22 @@ import java.io.Writer;
 /**
  * Abstract output for all xml based report output
  * 
- * @author dragos balan (dragos.balan@gmail.com)
- *
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.3
  */
 public abstract class AbstractXmlOutput extends AbstractOutput {
 	
-	public final static String REPORT_TAG_NAME = "report";
-    public final static String REPORT_TITLE_TAG_NAME = "title";
-    public final static String REC_DETAILS_TAG_NAME = "row";
-    public final static String DATA_TAG_NAME = "data";
-    public final static String TABLE_HEADER_TAG_NAME = "table-header";
-    public final static String REC_DETAILS_HEADER_TAG_NAME = "row-header";
+	public final static String TAG_REPORT = "report";
+	
+    public final static String TAG_TITLE = "title";
+    
+    public final static String TAG_ROW = "row";
+    
+    public final static String TAG_CELL = "cell";
+    
+    public final static String TAG_TABLE_HEADER = "table-header";
+    
+    public final static String TAG_ROW_HEADER = "row-header";
     
     public final static String ATTR_ENGINE_VERSION = "engineVersion";
 	public final static String ATTR_COLSPAN = "colspan";
@@ -28,15 +33,26 @@ public abstract class AbstractXmlOutput extends AbstractOutput {
 	
 	public final static String ATTR_ROW_NUMBER = "rowNumber";
 	
+	
+	/**
+	 * 
+	 */
 	public AbstractXmlOutput(){
 		
 	}
 	
-	
+	/**
+	 * 
+	 * @param outputStream
+	 */
     public AbstractXmlOutput(OutputStream outputStream){
     	super(outputStream);
     }
     
+    /**
+     * 
+     * @param writer
+     */
     public AbstractXmlOutput(Writer writer){
     	super(writer);
     }

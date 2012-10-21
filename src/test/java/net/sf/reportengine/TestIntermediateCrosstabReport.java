@@ -33,9 +33,10 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	}
 	
 	public void testTransfomCrosstabColsInIntermediateColsScenario2x2x1(){
-		IGroupColumn[] result = new IntermediateCrosstabReport(1,1).transformGroupingCrosstabConfigInFlatReportConfig(CtScenario2x2x1.GROUPING_COLUMNS, 
-																							CtScenario2x2x1.DATA_COLUMNS, 
-																							CtScenario2x2x1.HEADER_ROWS);
+		IGroupColumn[] result = new IntermediateCrosstabReport(1,1)
+			.transformGroupingCrosstabConfigInFlatReportConfig(	CtScenario2x2x1.GROUPING_COLUMNS, 
+																CtScenario2x2x1.DATA_COLUMNS, 
+																CtScenario2x2x1.HEADER_ROWS);
 		assertNotNull(result); 
 		assertEquals(3, result.length); 
 		assertTrue(result[0] instanceof DefaultGroupColumn); 

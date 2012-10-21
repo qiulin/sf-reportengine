@@ -4,6 +4,7 @@
  */
 package net.sf.reportengine.out;
 
+import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.test.ReportengineTC;
 
 public class TestXmlDOMOut extends ReportengineTC {
@@ -16,15 +17,15 @@ public class TestXmlDOMOut extends ReportengineTC {
         try{
             XmlDOMReportOutput xmlOutTest = new XmlDOMReportOutput(createTestOutputFile("testXMLOut.xml"));
             xmlOutTest.open();
-            xmlOutTest.startRow();
+            xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
             xmlOutTest.output(new CellProps("value row 1 col 1"));
             xmlOutTest.endRow();
             
-            xmlOutTest.startRow();
+            xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
             xmlOutTest.output(new CellProps("value row 2 col 1"));
             xmlOutTest.endRow();
             
-            xmlOutTest.startRow();
+            xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
             xmlOutTest.output(new CellProps("value row 3 col 1"));
             xmlOutTest.endRow();
             

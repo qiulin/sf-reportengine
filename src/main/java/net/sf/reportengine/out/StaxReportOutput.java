@@ -17,6 +17,29 @@ import net.sf.reportengine.in.ReportInputException;
 
 /**
  * XML report output based on Stax technology (fast & low memory footprint)
+ * The final xml should be : 
+ * <pre>
+ * 		<report>
+ * 				<title>Title of the report</title>
+ * 				<header>
+ * 					<row>
+ * 						<cell>Column header 1</cell>
+ * 						<cell>Column header 2</cell>
+ * 					</row>
+ * 					<row>
+ * 						...
+ * 					</row>
+ * 				<data>
+ * 					<row>
+ * 						<cell>Value 1</cell>
+ * 						<cell>Value 2</cell>
+ * 					</row>
+ * 					<row>
+ * 						...
+ * 					</row>
+ * 				</data>
+ * 		</report>
+ * </pre>
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
@@ -37,12 +60,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	 * 
 	 */
 	public StaxReportOutput(){
-		try{
-			init(new OutputStreamWriter(new FileOutputStream("StaxReportOutput.xml"), 
-					System.getProperty("file.encoding")));
-		}catch(IOException e){
-			throw new ReportInputException(e); 
-		}
+		
 	}
 	
 	/**
@@ -51,8 +69,9 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	 */
 	public StaxReportOutput(String outFileName){
 		try{
-			init(new OutputStreamWriter(new FileOutputStream(outFileName), 
-					System.getProperty("file.encoding"))); 
+			init(new OutputStreamWriter(
+						new FileOutputStream(outFileName), 
+						System.getProperty("file.encoding"))); 
 		}catch(IOException e){
 			throw new ReportInputException(e); 
 		}
@@ -112,7 +131,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
 		super.open();
 		try{
 			xmlWriter.writeStartDocument();
-			xmlWriter.writeStartElement(REPORT_TAG_NAME);
+			xmlWriter.writeStartElement(TAG_REPORT);
 			xmlWriter.writeAttribute(ATTR_ENGINE_VERSION, ENGINE_VERSION);
 		}catch(XMLStreamException streamException){
 			throw new RuntimeException(streamException);
@@ -137,18 +156,28 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	/**
      * new line
      */
-    public void startRow() {
-        super.startRow();
+    @Override public void startRow(RowProps rowProperties) {
+        super.startRow(rowProperties);
         try{
-        	xmlWriter.writeStartElement(REC_DETAILS_TAG_NAME);
-        	xmlWriter.writeAttribute(ATTR_ROW_NUMBER,""+getRowCount());
+        	switch(rowProperties.getContent()){
+        	case CONTENT_REPORT_TITLE: 
+        		xmlWriter.writeStartElement(TAG_TITLE);
+        		break; 
+        	case CONTENT_COLUMN_HEADERS: 
+        		xmlWriter.writeStartElement(TAG_TABLE_HEADER);
+            	xmlWriter.writeAttribute(ATTR_ROW_NUMBER,""+getRowCount());
+        		break; 
+        	default: 
+        		xmlWriter.writeStartElement(TAG_ROW);
+            	xmlWriter.writeAttribute(ATTR_ROW_NUMBER,""+getRowCount());
+        	}
         }catch(XMLStreamException streamExc){
         	throw new RuntimeException(streamExc);
         }
     }
     
     /**
-     * end up a line
+     * end a report line
      */
     public void endRow(){
         super.endRow();
@@ -164,34 +193,19 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	/**
      * output
      */
-    @Override
-    public void output(CellProps cellProps) {
-		String elementName = null;
-        switch (cellProps.getContentType()) {
-            case CONTENT_REPORT_TITLE :
-                elementName = "title";
-                break;
-            case CONTENT_DATA:
-                elementName = DATA_TAG_NAME;
-                break;
-            case CONTENT_COLUMN_HEADERS:
-                elementName = TABLE_HEADER_TAG_NAME;
-                break;
-            case CONTENT_ROW_HEADER:
-                elementName = REC_DETAILS_HEADER_TAG_NAME;            
-                break;
-            default:
-                throw new IllegalArgumentException(
-                        " content parameter " + cellProps.getContentType()+ 
-                        " must be one specified in ReportConstants.CONTENT_XXX ");
-        }
-        try{
-        	xmlWriter.writeStartElement(elementName);        
-        	xmlWriter.writeAttribute(ATTR_COLSPAN, ""+cellProps.getColspan());
-        	//xmlWriter.writeAttribute(ATTR_COLUMN_NUMBER,""+cellProps.getColCount());
-        	xmlWriter.writeAttribute(ATTR_CONTENT_TYPE,""+cellProps.getContentType());
-        	xmlWriter.writeCharacters(purifyData(cellProps.getValue()));
-        	xmlWriter.writeEndElement();
+    @Override public void output(CellProps cellProps) {
+    	try{
+	        switch (cellProps.getContentType()) {
+	            case CONTENT_REPORT_TITLE :
+	            	xmlWriter.writeCharacters(purifyData(cellProps.getValue()));
+	                break;
+	            default:
+	            	xmlWriter.writeStartElement(TAG_CELL);
+	            	xmlWriter.writeAttribute(ATTR_COLSPAN, ""+cellProps.getColspan());
+	            	xmlWriter.writeAttribute(ATTR_CONTENT_TYPE,""+cellProps.getContentType());
+	            	xmlWriter.writeCharacters(purifyData(cellProps.getValue()));
+	            	xmlWriter.writeEndElement();
+	        }
         }catch(XMLStreamException streamException){
         	throw new RuntimeException(streamException);
         }

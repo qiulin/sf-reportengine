@@ -30,8 +30,10 @@ public interface IReportOutput {
 	
 	/**
 	 * starts a new row in the report
+	 * 
+	 * @param rowProperties the properties of the row
 	 */
-	public void startRow();
+	public void startRow(RowProps rowProperties);
     
     /**
      * ends of a row in the report 

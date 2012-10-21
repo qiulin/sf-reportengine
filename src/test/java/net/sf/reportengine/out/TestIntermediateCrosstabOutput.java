@@ -3,6 +3,7 @@
  */
 package net.sf.reportengine.out;
 
+import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
 import net.sf.reportengine.core.steps.crosstab.IntermediateReportRow;
 import net.sf.reportengine.core.steps.crosstab.IntermediateTotalInfo;
@@ -40,7 +41,7 @@ public class TestIntermediateCrosstabOutput extends TestCase {
 		
 		IntermediateCrosstabOutput classUnderTest = new IntermediateCrosstabOutput(); 
 		classUnderTest.open(); 
-		classUnderTest.startRow(); 
+		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
 		classUnderTest.output(new CellProps(mockRow)); 
 		classUnderTest.endRow(); 
 		classUnderTest.close(); 

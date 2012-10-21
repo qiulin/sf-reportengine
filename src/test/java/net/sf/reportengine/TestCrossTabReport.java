@@ -6,6 +6,9 @@ package net.sf.reportengine;
 import java.io.FileNotFoundException;
 
 import net.sf.reportengine.out.HtmlOutput;
+import net.sf.reportengine.out.OutputDispatcher;
+import net.sf.reportengine.out.StaxReportOutput;
+import net.sf.reportengine.out.XslFoOutput;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1;
@@ -91,11 +94,18 @@ public class TestCrossTabReport extends ReportengineTC {
 	public void testExecute2x2x1() throws FileNotFoundException{
 		CrossTabReport classUnderTest = new CrossTabReport(); 
 		classUnderTest.setIn(CtScenario2x2x1.INPUT); 
-		classUnderTest.setOut(new HtmlOutput(createTestOutputFile("CrosstabReport2x2x1.html")));
+		
+		OutputDispatcher outDispatcher = new OutputDispatcher(); 
+		outDispatcher.registerOutput(new HtmlOutput("./target/CrosstabReport2x2x1.html"));
+		outDispatcher.registerOutput(new StaxReportOutput("./target/CrosstabReport2x2x1.xml"));
+		outDispatcher.registerOutput(new XslFoOutput("./target/CrosstabReport2x2x1.pdf"));
+		classUnderTest.setOut(outDispatcher);
+		
 		classUnderTest.setGroupColumns(CtScenario2x2x1.GROUPING_COLUMNS);
 		classUnderTest.setDataColumns(CtScenario2x2x1.DATA_COLUMNS); 
 		classUnderTest.setCrosstabData(CtScenario2x2x1.CROSSTAB_DATA); 
 		classUnderTest.setHeaderRows(CtScenario2x2x1.HEADER_ROWS); 
+		
 		classUnderTest.setShowTotals(false); 
 		classUnderTest.setShowGrandTotal(false); 
 		

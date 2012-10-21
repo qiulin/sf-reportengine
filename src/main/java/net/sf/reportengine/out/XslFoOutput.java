@@ -72,14 +72,7 @@ public class XslFoOutput extends XsltReportOutput {
 	 * 
 	 */
 	public XslFoOutput(){
-		try{
-			this.init(	new FileOutputStream("XslFoOutput.pdf"), 
-			        	MimeConstants.MIME_PDF, 
-			        	ClassLoader.getSystemResourceAsStream(DEFAULT_XSLFO_PATH), 
-			        	ClassLoader.getSystemResourceAsStream(DEFAULT_FO_CONF_PATH));
-    	}catch(IOException e){
-    		throw new ReportInputException(e); 
-    	}
+		
 	}
 	
 	/**

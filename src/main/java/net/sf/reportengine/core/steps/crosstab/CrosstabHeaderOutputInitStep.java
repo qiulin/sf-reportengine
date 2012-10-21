@@ -14,6 +14,7 @@ import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.CtMetadata;
 
 import org.apache.log4j.Logger;
@@ -66,7 +67,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 									IDataColumn[] dataCols, 
 									IGroupColumn[] groupCols){
 		for (int row = 0; row < ctMetadata.getHeaderRowsCount(); row++) {
-			reportOutput.startRow(); 
+			reportOutput.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS)); 
 			
 			//handle grouping columns header first: only the last row will contain something
 			//while the first will be empty
