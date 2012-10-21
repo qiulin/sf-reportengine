@@ -12,6 +12,7 @@ import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.RowProps;
 
 import org.apache.log4j.Logger;
 
@@ -55,14 +56,14 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
     	//output the title
     	IReportOutput output = (IReportOutput)reportContext.getOutput();
         if(reportTitle != null){
-        	output.startRow();
+        	output.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE));
             CellProps titleCellProps = new CellProps( reportTitle, outputColumnsCnt, ReportContent.CONTENT_REPORT_TITLE);
             output.output(titleCellProps);
             output.endRow();
         }
         
         //output the report column headers
-        output.startRow();
+        output.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS));
         CellProps cellProps = null;
         if(groupCols != null){
 	        for (IGroupColumn groupColumn : groupCols) {

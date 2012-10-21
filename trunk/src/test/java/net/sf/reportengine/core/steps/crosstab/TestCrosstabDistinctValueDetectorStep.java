@@ -4,6 +4,7 @@
 package net.sf.reportengine.core.steps.crosstab;
 
 import net.sf.reportengine.CrossTabReport;
+import net.sf.reportengine.config.ICrosstabHeaderRow;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.ReportAlgorithmStepTC;
@@ -33,7 +34,8 @@ public class TestCrosstabDistinctValueDetectorStep extends ReportAlgorithmStepTC
 	public void testExecuteCtScenario1() {
 		IAlgorithmContext reportContext = getTestContext(); 
 		
-		reportContext.set(CrossTabReport.CONTEXT_KEY_CROSSTAB_HEADER_ROWS, CtScenario2x2x1.HEADER_ROWS);
+		reportContext.set(	CrossTabReport.CONTEXT_KEY_CROSSTAB_HEADER_ROWS, 
+							CtScenario2x2x1.HEADER_ROWS.toArray(new ICrosstabHeaderRow[CtScenario2x2x1.HEADER_ROWS.size()]));
 		reportContext.set(CrossTabReport.CONTEXT_KEY_CROSSTAB_DATA, CtScenario2x2x1.CROSSTAB_DATA);
 		
 		classUnderTest.init(reportContext);

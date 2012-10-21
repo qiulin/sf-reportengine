@@ -3,11 +3,13 @@
  */
 package net.sf.reportengine.core.steps.crosstab;
 
+import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.RowProps;
 
 import org.apache.log4j.Logger;
 
@@ -191,7 +193,7 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 	
 	private void writeIntermediateRow(IntermediateReportRow intermediateRow){
 		IReportOutput output = getOutput(); 
-		output.startRow(); 
+		output.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
 		output.output(new CellProps(intermediateRow, 4 /*this is not taken into account except when debug*/)); 
 		output.endRow(); 
 	}

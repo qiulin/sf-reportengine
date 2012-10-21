@@ -5,6 +5,7 @@
 package net.sf.reportengine;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import net.sf.reportengine.config.IDataColumn;
@@ -67,13 +68,11 @@ public abstract class AbstractReport {
     /**
      * the data columns
      */
-    private IDataColumn[] dataColumns;
     private List<IDataColumn> dataColsAsList; 
     
     /**
      * grouping columns
      */
-    private IGroupColumn[] groupColumns;
     private List<IGroupColumn> groupColsAsList; 
     
     /**
@@ -175,15 +174,10 @@ public abstract class AbstractReport {
 	 */
 	public IDataColumn[] getDataColumns() {
 		IDataColumn[] result = null;
-		if(dataColumns !=  null){
-			result = dataColumns; 
+		if(dataColsAsList != null){
+			result = dataColsAsList.toArray(new IDataColumn[dataColsAsList.size()]);
 		}else{
-			if(dataColsAsList != null){
-				result = dataColsAsList.toArray(new IDataColumn[dataColsAsList.size()]);
-				dataColumns = result; 
-			}else{
-				throw new ReportEngineRuntimeException("No data columns set. Please use one of the setter methods for data columns to fix this issue."); 
-			}
+			throw new ReportEngineRuntimeException("No data columns set. Please use one of the setter methods for data columns to fix this issue."); 
 		}
 		return result; 
 	}
@@ -194,7 +188,7 @@ public abstract class AbstractReport {
 	 * @deprecated use the setDataColumn(List) or addDataColumn(IDataColumn) instead
 	 */
 	public void setDataColumns(IDataColumn[] dataColumns) {
-		this.dataColumns = dataColumns;
+		this.dataColsAsList = Arrays.asList(dataColumns);
 	}
 
 	
@@ -208,13 +202,8 @@ public abstract class AbstractReport {
 
 	public IGroupColumn[] getGroupColumns() {
 		IGroupColumn[] result = null; 
-		if(groupColumns != null){
-			result = groupColumns; 
-		}else{
-			if(groupColsAsList != null){
-				result = groupColsAsList.toArray(new IGroupColumn[groupColsAsList.size()]); 
-				groupColumns = result; 
-			}
+		if(groupColsAsList != null){
+			result = groupColsAsList.toArray(new IGroupColumn[groupColsAsList.size()]); 
 		}
 		return result;
 	}
@@ -225,7 +214,9 @@ public abstract class AbstractReport {
 	 * @deprecated use setGroupColumns(List) or addGroupColumn(IGroupColumn) instead
 	 */
 	public void setGroupColumns(IGroupColumn[] groupingColumns) {
-		this.groupColumns = groupingColumns;
+		if(groupingColumns != null){
+			this.groupColsAsList = Arrays.asList(groupingColumns);
+		}
 	}
 	
 	public void setGroupColumns(List<IGroupColumn> groupColsList){

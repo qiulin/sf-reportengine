@@ -32,7 +32,9 @@ public abstract class AbstractOutput implements IReportOutput {
      */
     private String nullsReplacement ;
     
-    
+    /**
+     * 
+     */
     private int rowCount = 0;
     
     /**
@@ -97,9 +99,9 @@ public abstract class AbstractOutput implements IReportOutput {
     
     
     /**
-     * empty implementation 
+     *  
      */ 
-    public void startRow(){
+    public void startRow(RowProps rowProperties){
         rowCount++;
     }
     

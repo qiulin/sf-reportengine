@@ -55,7 +55,7 @@ public class IntermediateCrosstabOutput implements IReportOutput {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.out.IReportOutput#startRow()
 	 */
-	public void startRow() {}
+	public void startRow(RowProps rowProperties) {}
 	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.out.IReportOutput#endRow()

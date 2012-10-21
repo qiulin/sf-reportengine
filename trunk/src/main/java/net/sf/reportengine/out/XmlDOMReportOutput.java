@@ -24,6 +24,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+/**
+ * 
+ * @author dragos balan 
+ * @since 0.2
+ * @deprecated use {@link StaxReportOutput} instead
+ */
 public class XmlDOMReportOutput extends AbstractXmlOutput {
     
     /**
@@ -60,7 +66,7 @@ public class XmlDOMReportOutput extends AbstractXmlOutput {
      */    
     public void open() {
         super.open();
-        root = document.createElement(REPORT_TAG_NAME);
+        root = document.createElement(TAG_REPORT);
         root.setAttribute(ATTR_ENGINE_VERSION,"0.3");
         document.appendChild(root);
     }
@@ -68,9 +74,9 @@ public class XmlDOMReportOutput extends AbstractXmlOutput {
     /**
      * new line
      */
-    public void startRow() {
-        super.startRow();
-        rowElement = document.createElement(REC_DETAILS_TAG_NAME);
+    public void startRow(RowProps rowProperties) {
+        super.startRow(rowProperties);
+        rowElement = document.createElement(TAG_ROW);
         rowElement.setAttribute(ATTR_ROW_NUMBER,""+getRowCount());
     }
     
@@ -97,13 +103,13 @@ public class XmlDOMReportOutput extends AbstractXmlOutput {
                 elementName = "title";
                 break;
             case CONTENT_DATA:
-                elementName = DATA_TAG_NAME;
+                elementName = TAG_CELL;
                 break;
             case CONTENT_COLUMN_HEADERS:
-                elementName = TABLE_HEADER_TAG_NAME;
+                elementName = TAG_TABLE_HEADER;
                 break;
             case CONTENT_ROW_HEADER:
-                elementName = REC_DETAILS_HEADER_TAG_NAME;            
+                elementName = TAG_ROW_HEADER;            
                 break;
             default:
                 throw new IllegalArgumentException(

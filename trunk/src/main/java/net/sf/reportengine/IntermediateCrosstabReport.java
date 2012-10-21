@@ -3,14 +3,16 @@
  */
 package net.sf.reportengine;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import net.sf.reportengine.config.ICrosstabData;
 import net.sf.reportengine.config.ICrosstabHeaderRow;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.core.algorithm.IReportAlgorithm;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportAlgorithm;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
@@ -39,7 +41,8 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 	
 	private ICrosstabData crosstabData; //TODO: try to remove the crosstab data from here
 	
-	private ICrosstabHeaderRow[] crosstabHeaderRows; //TODO: remove the header rows and crosstabData from here ( they belong only to Crosstabreport)
+	private List<ICrosstabHeaderRow> crosstabHeaderRowsAsList; //TODO: remove the header rows and crosstabData from here ( they belong only to Crosstabreport)
+	
 	
 	private int originalGroupColsCount;
 	private int originalDataColsCount ;
@@ -90,7 +93,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
     	context.set(ContextKeys.CONTEXT_KEY_ORIGINAL_CT_DATA_COLS_COUNT, originalDataColsCount);
     	context.set(ContextKeys.CONTEXT_KEY_ORIGINAL_CT_GROUP_COLS_COUNT, originalGroupColsCount);
     	
-		context.set(CrossTabReport.CONTEXT_KEY_CROSSTAB_HEADER_ROWS, crosstabHeaderRows); 
+		context.set(CrossTabReport.CONTEXT_KEY_CROSSTAB_HEADER_ROWS, getCrosstabHeaderRows()); 
 		context.set(CrossTabReport.CONTEXT_KEY_CROSSTAB_DATA, crosstabData); 
 		
 		//adding specific flat report steps to the algorithm
@@ -120,13 +123,26 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 	}
 
 	public ICrosstabHeaderRow[] getCrosstabHeaderRows() {
-		return crosstabHeaderRows;
+		return crosstabHeaderRowsAsList.toArray(new ICrosstabHeaderRow[crosstabHeaderRowsAsList.size()]);
 	}
-
+	
+	/**
+	 * 
+	 * @param crosstabHeaderRows
+	 * @deprecated
+	 */
 	public void setCrosstabHeaderRows(ICrosstabHeaderRow[] crosstabHeaderRows) {
-		this.crosstabHeaderRows = crosstabHeaderRows;
+		this.crosstabHeaderRowsAsList = Arrays.asList(crosstabHeaderRows);
 	}
-
+	
+	/**
+	 * 
+	 * @param crosstabHeaderRows
+	 */
+	public void setCrosstabHeaderRows(List<ICrosstabHeaderRow> crosstabHeaderRows){
+		this.crosstabHeaderRowsAsList = crosstabHeaderRows; 
+	}
+	
 	public ICrosstabData getCrosstabData() {
 		return crosstabData;
 	}
@@ -136,43 +152,68 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 	}
 	
 	/**
+	 * 
+	 * @param originalCtGroupingCols
+	 * @param originalCtDataCols
+	 * @param originalCtHeaderRows
+	 * @return
+	 * @deprecated
+	 */
+	protected IGroupColumn[] transformGroupingCrosstabConfigInFlatReportConfig(	
+			IGroupColumn[] originalCtGroupingCols, 
+			IDataColumn[] originalCtDataCols, 
+			ICrosstabHeaderRow[] originalCtHeaderRows){
+		
+		List<IGroupColumn> groupColsAsList = originalCtGroupingCols != null ? Arrays.asList(originalCtGroupingCols): new ArrayList<IGroupColumn>();
+		
+		return transformGroupingCrosstabConfigInFlatReportConfig(
+													groupColsAsList, 
+													Arrays.asList(originalCtDataCols), 
+													Arrays.asList(originalCtHeaderRows));
+	}
+	
+	/**
 	 * transforms the original crosstab columns into a flat report configuration 
 	 * 
 	 * @param originalCtGroupingCols
+	 * @param originalCtDataCols
 	 * @param originalCtHeaderRows
 	 * @return
 	 */
-	protected IGroupColumn[] transformGroupingCrosstabConfigInFlatReportConfig(IGroupColumn[] originalCtGroupingCols, 
-																				IDataColumn[] originalCtDataCols, 
-																				ICrosstabHeaderRow[] originalCtHeaderRows){
-		int originalGroupColsLength = originalCtGroupingCols != null ? originalCtGroupingCols.length: 0;
-		int originalDataColsLength = originalCtDataCols != null ? originalCtDataCols.length : 0 ; 
+	protected IGroupColumn[] transformGroupingCrosstabConfigInFlatReportConfig(	List<IGroupColumn> originalCtGroupingCols, 
+																				List<IDataColumn> originalCtDataCols, 
+																				List<ICrosstabHeaderRow> originalCtHeaderRows){
+		int originalGroupColsLength = originalCtGroupingCols != null ? originalCtGroupingCols.size(): 0;
+		int originalDataColsLength = originalCtDataCols != null ? originalCtDataCols.size() : 0 ; 
 		
 		if(logger.isDebugEnabled()){
 			logger.debug(	"transforming grouping crosstab config into flat intermediary report: origCtGroupingCols="+originalGroupColsLength+
-							", originalCtDataRows="+Arrays.toString(originalCtDataCols)+
-							", originalCtHeaderRows="+Arrays.toString(originalCtHeaderRows));
+							", originalCtDataRows="+originalCtDataCols+
+							", originalCtHeaderRows="+originalCtHeaderRows);
 		}
 		
-		int intermedGroupColsLength = originalGroupColsLength + originalDataColsLength + originalCtHeaderRows.length -1;
+		int intermedGroupColsLength = originalGroupColsLength + originalDataColsLength + originalCtHeaderRows.size() -1;
 		IGroupColumn[] result = new IGroupColumn[intermedGroupColsLength];
 		
 		//from 0 to original groupCols.length we copy the original group columns
 		if(originalGroupColsLength > 0){
-			System.arraycopy(originalCtGroupingCols, 0, result, 0, originalCtGroupingCols.length);
+			//System.arraycopy(originalCtGroupingCols, 0, result, 0, originalCtGroupingCols.size());
+			for(int i=0; i<originalCtGroupingCols.size(); i++){
+				result[i] = originalCtGroupingCols.get(i);
+			}
 		}
 		
 		//from groupCols.length to groupCols.lenght + dataCols.length we copy construct group columns from data columns
 		for(int i=0; i < originalDataColsLength; i++){
-			result[originalGroupColsLength+i] = new IntermGroupColFromCtDataCol(originalCtDataCols[i], originalGroupColsLength+i);
+			result[originalGroupColsLength+i] = new IntermGroupColFromCtDataCol(originalCtDataCols.get(i), originalGroupColsLength+i);
 		}
 		
 		//then we copy the header rows (of course transformed as groupCols)
 		//we don't need any grouping for the last header row (that's why we have headerRows.length-1 below
-		for (int i = 0; i < originalCtHeaderRows.length-1; i++) {
+		for (int i = 0; i < originalCtHeaderRows.size()-1; i++) {
 			
 			result[originalGroupColsLength+originalDataColsLength+i] = new IntermGroupColFromHeaderRow(
-																				originalCtHeaderRows[i], 
+																				originalCtHeaderRows.get(i), 
 																				originalGroupColsLength+originalDataColsLength+i);
 		}
 		

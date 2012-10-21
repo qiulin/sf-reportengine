@@ -3,6 +3,7 @@
  */
 package net.sf.reportengine.util;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,14 +34,22 @@ public class DistinctValuesHolder implements IDistinctValuesHolder{
 	private HashMap<Integer, DistinctValuesRow> distinctValuesMap; 
 	
 	
+	/**
+	 * 
+	 * @param headerRows
+	 * @deprecated
+	 */
+	public DistinctValuesHolder(ICrosstabHeaderRow[] headerRows){
+		this(Arrays.asList(headerRows)); 
+	}
 	
 	/**
 	 * 
-	 * @param columnInfo
+	 * @param headerRows
 	 */
-	public DistinctValuesHolder(ICrosstabHeaderRow[] headerRows){
-		distinctValuesMap = new HashMap<Integer, DistinctValuesRow>(headerRows.length); 
-		for (int i = 0; i < headerRows.length; i++) {
+	public DistinctValuesHolder(List<ICrosstabHeaderRow> headerRows){
+		distinctValuesMap = new HashMap<Integer, DistinctValuesRow>(headerRows.size()); 
+		for (int i = 0; i < headerRows.size(); i++) {
 			distinctValuesMap.put(i, new DistinctValuesRow());
 		}
 	}

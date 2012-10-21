@@ -98,10 +98,10 @@ public class HtmlOutput extends AbstractOutput {
      *  (non-Javadoc)
      * @see net.sf.reportengine.out.IReportOutput#newLine()
      */
-    public void startRow() {
+    public void startRow(RowProps rowProperties) {
         
         try {
-            super.startRow();
+            super.startRow(rowProperties);
             StringBuilder buffer = new StringBuilder("<tr bgcolor=\"");
             if(getRowCount() %2 ==0){
                 buffer.append(DEFAULT_EVEN_ROW_BG_COLOR);

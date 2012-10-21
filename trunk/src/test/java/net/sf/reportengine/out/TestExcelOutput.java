@@ -3,6 +3,7 @@
  */
 package net.sf.reportengine.out;
 
+import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.test.ReportengineTC;
 
 /**
@@ -33,7 +34,7 @@ public class TestExcelOutput extends ReportengineTC {
 	 */
 	public void testOutput() {
 		classUnderTest.open();
-		classUnderTest.startRow();
+		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
 		classUnderTest.output(new CellProps("value here"));
 		classUnderTest.endRow();
 		classUnderTest.close();

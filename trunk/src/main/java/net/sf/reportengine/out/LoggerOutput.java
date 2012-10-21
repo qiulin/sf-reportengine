@@ -23,7 +23,7 @@ public class LoggerOutput implements IReportOutput {
 	/**
      * empty implementation 
      */ 
-    public void startRow(){
+    public void startRow(RowProps rowProperties){
         dataToLog.delete(0, dataToLog.length());
 	}
 	

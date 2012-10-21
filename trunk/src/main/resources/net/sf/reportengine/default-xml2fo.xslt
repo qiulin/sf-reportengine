@@ -41,85 +41,64 @@
 						space-after="5mm"
 						text-align="center">
 				<!-- <xsl:value-of select="@title" /> -->
-				<xsl:value-of select="row/title" />
+				<xsl:value-of select="title" />
           	</fo:block> 
 			
-			<fo:block 	font-family="ArialUnicodeMS" 
-						font-size="12pt"
-						font-style="normal" 
-						>
-				<fo:table><!-- table-layout="fixed" -->
-					<fo:table-header>
-						<fo:table-row>  
-						<xsl:for-each select="row/table-header">
-							  <!-- <fo:table-column/>column-width="3cm" -->
-							  	<xsl:variable name="colspan" select="@colspan" />
-							  	<fo:table-cell number-columns-spanned="{$colspan}">
-		 								<fo:block font-weight="bold">
-		 									<xsl:value-of select="row/table-header" />
-											<!-- <xsl:value-of select="current()" /> -->
+			<fo:block>
+				 <fo:table>
+					
+					<fo:table-header border-bottom-style="solid">
+						<xsl:for-each select="table-header">
+							<fo:table-row>
+								<xsl:for-each select="cell">
+									<xsl:variable name="colspan" select="@colspan" />
+									<fo:table-cell number-columns-spanned="{$colspan}">
+		 								<fo:block 	font-family="ArialUnicodeMS" 
+													font-size="14pt"
+													font-style="normal" 
+													font-weight="bold"
+													margin-left="10pt"
+													text-align="center">
+											<xsl:value-of select="current()" />
 										</fo:block>
-								</fo:table-cell>							  
-						</xsl:for-each>
-						</fo:table-row> 
+									</fo:table-cell>
+								</xsl:for-each>
+							</fo:table-row>
+						</xsl:for-each>			
 					</fo:table-header>
 					
+					
 					<fo:table-body>
-						
-					</fo:table-body>						
-				</fo:table>
+						<xsl:for-each select="row">
+							<fo:table-row>
+								<xsl:choose>
+									<xsl:when test="@rowNumber mod 2 = 0">
+										<xsl:attribute name="background-color">#F5F5F5</xsl:attribute>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:attribute name="background-color">#FFFFFF</xsl:attribute>
+									</xsl:otherwise>
+								</xsl:choose>
+								
+								<xsl:for-each select="cell">
+									<xsl:variable name="colspan" select="@colspan" />
+									<fo:table-cell number-columns-spanned="{$colspan}">
+		 								<fo:block 	font-family="ArialUnicodeMS" 
+													font-size="12pt"
+													font-style="normal" 
+													margin-left="10pt">
+											<xsl:value-of select="current()" />
+										</fo:block>
+									</fo:table-cell>
+								</xsl:for-each>
+							</fo:table-row>
+						</xsl:for-each>
+					</fo:table-body>	
+									
+				</fo:table>	
 			</fo:block>
         </fo:flow>
       </fo:page-sequence>
     </fo:root>
 </xsl:template>
-
-<xsl:template match="row">
-	<xsl:choose>
-	<xsl:when test="@rowNumber mod 2 = 0">
-		<fo:table-row background-color="#F5F5F5">
-			<xsl:apply-templates />
-		</fo:table-row>	
-	</xsl:when>
-	<xsl:otherwise>
-		<fo:table-row background-color="#FFFFFF">
-			<xsl:apply-templates />
-		</fo:table-row>
-	</xsl:otherwise>	
-	</xsl:choose>
-</xsl:template>
-
- <!-- 
-<xsl:template match="row/table-header">
-	<xsl:variable name="colspan" select="@colspan" />
-	<fo:table-cell number-columns-spanned="{$colspan}">
-		 <fo:block font-weight="bold">
-				<xsl:value-of select="current()" />
-		</fo:block>
-	</fo:table-cell>
-</xsl:template>
-
-<xsl:template match="row-header">
-	<xsl:variable name="colspan" select="@colspan" />
-	
-	<fo:table-cell number-columns-spanned="{$colspan}">
-		 <fo:block>
-				<xsl:value-of select="current()" />
-			</fo:block>
-	</fo:table-cell>
-</xsl:template>
--->
- 
-
-
-<xsl:template match="data">
-	<xsl:variable name="colspan" select="@colspan" />
-	<fo:table-cell number-columns-spanned="{$colspan}">
-		 <fo:block>
-				<xsl:value-of select="current()" />
-			</fo:block>
-	</fo:table-cell>
-</xsl:template>
-
-
 </xsl:stylesheet>

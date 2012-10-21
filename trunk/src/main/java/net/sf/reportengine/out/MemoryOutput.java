@@ -33,7 +33,7 @@ public class MemoryOutput implements IReportOutput {
 		currentRowOfCells.add(cellProps);
 	}
 	
-	public void startRow(){
+	public void startRow(RowProps rowProperties){
 		currentRowOfCells = new ArrayList<CellProps>();
 	}
 	

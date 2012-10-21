@@ -13,6 +13,7 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.filter.DataOutputFilter;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.RowProps;
 
 import org.apache.log4j.Logger;
 
@@ -59,7 +60,7 @@ public class DataRowsOutputStep extends AbstractReportStep {
     	if(displayCurrentRow){
     		IReportOutput output = getOutput();
     	
-    		output.startRow();
+    		output.startRow(new RowProps(ReportContent.CONTENT_DATA));
         
     		CellProps  cellProperties = null;
     		for (int i = 0; i < currentRow.length; i++) {

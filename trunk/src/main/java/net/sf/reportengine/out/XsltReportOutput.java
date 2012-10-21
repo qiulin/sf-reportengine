@@ -65,12 +65,7 @@ public class XsltReportOutput implements IReportOutput {
      * 
      */
     public XsltReportOutput(){
-    	try{
-    		init(new FileOutputStream("XsltReportOutput.html"), 
-    			ClassLoader.getSystemResourceAsStream(DEFAULT_XSLT_PATH));
-    	}catch(IOException e){
-    		throw new ReportInputException(e); 
-    	}
+    	
     }
     
     /**
@@ -162,8 +157,8 @@ public class XsltReportOutput implements IReportOutput {
     /**
      * 
      */
-    public void startRow(){
-    	staxReportOutput.startRow();
+    public void startRow(RowProps rowProperties){
+    	staxReportOutput.startRow(rowProperties);
     }
     
     /**
