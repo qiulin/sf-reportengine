@@ -120,9 +120,25 @@ public class CrossTabReport extends AbstractReport{
 	}
 	
 	
-	@Override
-	protected void validateConfig() throws ConfigValidationException {
+	/**
+	 * validates the configuration
+	 */
+	@Override protected void validateConfig(){
 		super.validateConfig();
+		if(getCrosstabData() == null){
+			throw new ConfigValidationException("Crosstab reports need crosstab data configured"); 
+		}
+		
+		if(getCrosstabHeaderRows() == null || getCrosstabHeaderRows().length ==0){
+			throw new ConfigValidationException("Crosstab reports need header rows configured");
+		}
+		
+		if((getDataColumns() == null || getDataColumns().length == 0) 
+			&&
+			(getGroupColumns() == null || getGroupColumns().length == 0)
+			){
+			throw new ConfigValidationException("Crosstab reports need data and/or group columns configured"); 
+		}
 	}
 
     

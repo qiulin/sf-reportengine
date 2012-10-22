@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 /**
  * sum calculator implementation 
  * 
- * @author dragos balan (dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  */
 public class SumCalculator extends AbstractNumericCalculator {
     
@@ -49,4 +49,10 @@ public class SumCalculator extends AbstractNumericCalculator {
         }
     }
     
+    /**
+     * creates a new instance
+     */
+	public ICalculator newInstance() {
+		return new SumCalculator();
+	}
 }

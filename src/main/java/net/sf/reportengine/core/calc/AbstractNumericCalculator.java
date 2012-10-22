@@ -36,11 +36,6 @@ public abstract class AbstractNumericCalculator extends AbstractCalculator {
         value = BigDecimal.ZERO;
     }
     
-    /**
-     * each subclass should override this method 
-     * @param newValue
-     */
-    public abstract void compute(Object newValue);
     
     /* (non-Javadoc)
      * @see net.sf.reportengine.core.calc.ICalculator#getResult()

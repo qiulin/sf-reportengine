@@ -44,7 +44,7 @@ public class CalculatorMatrix {
      */
     public CalculatorMatrix(int rowCount, IDataColumn[] dataColumns){
     	extractCalculatorsData(dataColumns);
-    	this.calculators = clonePrototypes(rowCount, prototypeCalculators);
+    	this.calculators = createMultipleLines(rowCount, prototypeCalculators);
     }
     
     
@@ -95,18 +95,14 @@ public class CalculatorMatrix {
      * @param prototypes
      * @return
      */
-    private ICalculator[][] clonePrototypes(int rowCount, ICalculator[] prototypes ){
+    private ICalculator[][] createMultipleLines(int rowCount, ICalculator[] prototypes ){
         ICalculator[][] result = new ICalculator[rowCount][prototypes.length];
-        try{
-        	for(int i=0; i< rowCount; i++){
-        		result[i] = new ICalculator[prototypes.length];
-        		for (int j = 0; j < prototypes.length; j++) {
-        			result[i][j] = (ICalculator)prototypes[j].clone();
-        		}
-        	}
-        }catch(CloneNotSupportedException cloneExc){
-            throw new ReportEngineRuntimeException("The provided calculator does not support cloning !", cloneExc);
-        }
+    	for(int i=0; i< rowCount; i++){
+    		result[i] = new ICalculator[prototypes.length];
+    		for (int j = 0; j < prototypes.length; j++) {
+    			result[i][j] = (ICalculator)prototypes[j].newInstance();
+    		}
+    	}
         return result;
     }
     

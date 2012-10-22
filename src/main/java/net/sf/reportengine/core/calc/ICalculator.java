@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2
  */
-public interface ICalculator extends Cloneable, Serializable{
+public interface ICalculator extends Serializable{
     
     /**
      * initializer of the totals 
@@ -38,10 +38,11 @@ public interface ICalculator extends Cloneable, Serializable{
     
     
     /**
-     * clone method
-     * @return  a clone of this object
+     * creates a new instance of this object
+     * 
+     * @return  a new instance
      */
-    public Object clone() throws CloneNotSupportedException;
+    public ICalculator newInstance();
     
     
 }

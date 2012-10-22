@@ -38,5 +38,12 @@ public class LastCalculator extends AbstractCalculator {
 	 * empty implementation of #ICalculator.init()
 	 */
 	public void init() {}
-
+	
+	/**
+     * creates a new instance
+     */
+	public ICalculator newInstance() {
+		return new LastCalculator();
+	}
+	
 }

@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 /**
  * Maximum calculator 
- * @author dragos balan(dragos.balan@gmail.com)
+ * @author dragos balan(dragos dot balan at gmail dot com)
  */
 class MaxCalculator extends AbstractNumericCalculator {
     
@@ -18,15 +18,14 @@ class MaxCalculator extends AbstractNumericCalculator {
 	private static final long serialVersionUID = -3090912975869267129L;
 
 	/**
-     * 
-     *
+     * default constructor
      */
     MaxCalculator(){
         super();
     }
     
     /**
-     * compute mehtod which counts the maximum
+     * counts the maximum
      */
     public void compute(Object newValue) {
         
@@ -48,5 +47,13 @@ class MaxCalculator extends AbstractNumericCalculator {
         }
 
     }
+    
+    
+    /**
+     * creates a new instance
+     */
+	public ICalculator newInstance() {
+		return new MaxCalculator();
+	}
     
 }

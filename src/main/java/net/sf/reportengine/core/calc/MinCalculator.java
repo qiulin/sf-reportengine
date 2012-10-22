@@ -11,7 +11,7 @@ import java.math.BigDecimal;
  * Minimum calculator. 
  * 
  * </p> 
- * @author dragos balan (dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
 class MinCalculator extends AbstractNumericCalculator {
@@ -29,6 +29,9 @@ class MinCalculator extends AbstractNumericCalculator {
         super();
     }
     
+    /**
+     * 
+     */
     public void init() {
         value = new BigDecimal(Integer.MAX_VALUE);
     }
@@ -57,4 +60,11 @@ class MinCalculator extends AbstractNumericCalculator {
 
     }
     
+    
+    /**
+     * creates a new instance
+     */
+	public ICalculator newInstance() {
+		return new MinCalculator();
+	}
 }

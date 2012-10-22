@@ -4,7 +4,6 @@
  */
 package net.sf.reportengine;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.reportengine.config.IDataColumn;
@@ -89,8 +88,7 @@ public class FlatReport extends AbstractOneIterationReport {
     
     
     /**
-     * constructor
-     *
+     * default constructor
      */
     public FlatReport(){}
     
@@ -98,15 +96,18 @@ public class FlatReport extends AbstractOneIterationReport {
     /**
      * convenience method 
      */
-    protected void validateConfig() throws ConfigValidationException {
-        if(getIn() == null) throw new ConfigValidationException("The report has no input");
-        if(getOut() == null) throw new ConfigValidationException("The report has no output");
+    @Override protected void validateConfig() {
+        super.validateConfig(); //this one checks the Input and the output
+        
+        if(getDataColumns() == null || getDataColumns().length == 0){
+        	throw new ConfigValidationException("Any report needs at least one data column to work properly"); 
+        }
     }
     
     /**
      * algorithm configuration 
      */
-    protected void configAlgorithmSteps(){
+    @Override protected void configAlgorithmSteps(){
     	IReportAlgorithm algorithm = getAlgorithm();
     	IAlgorithmContext context = algorithm.getContext();
     	
@@ -140,24 +141,4 @@ public class FlatReport extends AbstractOneIterationReport {
         	algorithm.addMainStep(new PreviousRowManagerStep());
         }
     }
-
-
-	/**
-	 * 
-	 * @param filter
-	 */
-	public void addDataOutputFilter(DataOutputFilter filter){
-		if(dataOutputFilterList == null){
-			dataOutputFilterList = new ArrayList<DataOutputFilter>();
-		}
-		dataOutputFilterList.add(filter);
-	}
-    
-	/**
-	 * 
-	 * @param filterList
-	 */
-	public void setDataOutputFilterList(List<DataOutputFilter> filterList){
-		this.dataOutputFilterList = filterList;
-	}
 }

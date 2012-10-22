@@ -87,15 +87,16 @@ public abstract class AbstractReport {
     
     /**
      * validation of the configuration and default values setter
+     * 
      * @throws ConfigValidationException if the report was miss-configured
      */
-    protected void validateConfig() throws ConfigValidationException {
+    protected void validateConfig() {
         if(getIn() == null) throw new ConfigValidationException("The report has no input");
         if(getOut() == null) throw new ConfigValidationException("The report has no output");
     }
     
     /**
-     * algorithm configuration 
+     * configures the reports 
      */
     protected abstract void configAlgorithmSteps();
     
@@ -176,8 +177,6 @@ public abstract class AbstractReport {
 		IDataColumn[] result = null;
 		if(dataColsAsList != null){
 			result = dataColsAsList.toArray(new IDataColumn[dataColsAsList.size()]);
-		}else{
-			throw new ReportEngineRuntimeException("No data columns set. Please use one of the setter methods for data columns to fix this issue."); 
 		}
 		return result; 
 	}

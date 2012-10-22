@@ -49,5 +49,10 @@ public class FirstCalculator extends AbstractCalculator {
 		value = INIT_VALUE;
 	}
 
-	
+	/**
+     * creates a new instance
+     */
+	public ICalculator newInstance() {
+		return new FirstCalculator();
+	}
 }
