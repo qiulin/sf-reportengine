@@ -59,5 +59,11 @@ class AvgCalculator extends SumCalculator {
     	return sum.doubleValue() / elementsCount; 
         //return ((BigDecimal)super.getResult()).divide(new BigDecimal(elementsCount), BigDecimal.ROUND_HALF_EVEN);
     }
-
+    
+    /**
+     * creates a new instance
+     */
+	@Override public ICalculator newInstance() {
+		return new AvgCalculator();
+	}
 }

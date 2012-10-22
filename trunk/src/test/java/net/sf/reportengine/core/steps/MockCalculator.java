@@ -4,11 +4,11 @@
 package net.sf.reportengine.core.steps;
 
 import net.sf.reportengine.core.calc.AbstractCalculator;
-import net.sf.reportengine.core.calc.CalculatorException;
+import net.sf.reportengine.core.calc.ICalculator;
 
 /**
  * dummy implementation for ICalculator. 
- * It will always return the value passed as parameter to the contructor
+ * It will always return the value passed as parameter to the constructor
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
@@ -26,12 +26,33 @@ public class MockCalculator extends AbstractCalculator {
 	 */
 	private Object result; 
 	
+	/**
+	 * constructor
+	 * @param result
+	 */
 	public MockCalculator(Object result){
 		this.result = result;
 	}
+	
+	/**
+	 * it doesn't do anything
+	 */
 	public void compute(Object value) {}
-
+	
+	/**
+	 * retrieves the object set in the constructor
+	 */
 	public Object getResult() {return result;}
-
+	
+	/**
+	 * it doesn't do anything
+	 */
 	public void init() {}
+	
+	/**
+     * creates a new instance
+     */
+	public ICalculator newInstance() {
+		return new MockCalculator(result);
+	}
 }
