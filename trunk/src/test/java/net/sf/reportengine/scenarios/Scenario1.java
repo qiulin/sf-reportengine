@@ -4,7 +4,6 @@
 package net.sf.reportengine.scenarios;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,6 +14,7 @@ import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.ICalculatorsFactory;
 import net.sf.reportengine.core.steps.MockCalculator;
 import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.in.MemoryReportInput;
@@ -88,7 +88,8 @@ public class Scenario1 {
 		ROW_6_AGG_LEVEL
 	};
 	
-	public final static ICalculator[] TEST_CALCULATOR_PROTOTYPES = new ICalculator[]{Calculators.COUNT, Calculators.SUM};
+	public final static ICalculatorsFactory[] TEST_CALCULATOR_PROTOTYPES = new ICalculatorsFactory[]{Calculators.COUNT, Calculators.SUM};
+	
     public final static int[] TEST_COLUMNS_TO_COMPUTE_TOTALS_ON = new int[]{4,5};
     
     public final static ICalculator[][] ROW_1_CALCULATORS_RESULTS = new ICalculator[][]{

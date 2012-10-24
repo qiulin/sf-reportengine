@@ -7,11 +7,12 @@ import net.sf.reportengine.AbstractReport;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.ICalculatorsFactory;
 
 /**
- * @author Administrator
- *
+ * 
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.4
  */
 public class FlatReportExtractDataInitStep implements IAlgorithmInitStep {
 	
@@ -33,30 +34,34 @@ public class FlatReportExtractDataInitStep implements IAlgorithmInitStep {
      */
     private int[] calculatorsDistributionInDataColumnsArray; 
 	
+    
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)
 	 */
 	public void init(IAlgorithmContext reportContext) {
 		IDataColumn[] dataCols = (IDataColumn[])reportContext.get(AbstractReport.CONTEXT_KEY_DATA_COLUMNS);
-		calculatorsDistributionInDataColumnsArray = extractDistribution(dataCols); 
+		calculatorsDistributionInDataColumnsArray = extractDistributionOfCalculatorsAcrossColumns(dataCols); 
 		reportContext.set(CONTEXT_KEY_DISTRIBUTION_OF_CALCULATORS, calculatorsDistributionInDataColumnsArray);
 	}
 	
-	private int[] extractDistribution(IDataColumn[] dataCols){
+	/**
+	 * 
+	 * @param dataCols
+	 * @return
+	 */
+	private int[] extractDistributionOfCalculatorsAcrossColumns(IDataColumn[] dataCols){
 		int[] result = new int[dataCols.length];
     	
     	int columnWithCalculatorsCount = 0;
     	for(int i=0; i<dataCols.length; i++){
-    		ICalculator calculator = dataCols[i].getCalculator();
-    		if(calculator != null){
+    		ICalculatorsFactory calculatorsFactory = dataCols[i].getCalculator();
+    		if(calculatorsFactory != null){
     			result[i] = columnWithCalculatorsCount; 
     			columnWithCalculatorsCount++;
     		}else{
     			result[i] = NO_CALCULATOR_ON_THIS_POSITION; 
     		}
-    		
     	}
-		
 		return result; 
 	}
 

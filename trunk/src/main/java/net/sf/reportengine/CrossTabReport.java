@@ -320,7 +320,10 @@ public class CrossTabReport extends AbstractReport{
 				positionForCurrentColumn[j] = (column / crosstabMetadata.getColspanForLevel(j)) % crosstabMetadata.getDistinctValuesCountForLevel(j);
 			}
 			
-			auxListOfDataCols.add(new SecondProcessDataColumn(positionForCurrentColumn, Calculators.SUM, null)); 
+			auxListOfDataCols.add(
+					new SecondProcessDataColumn(positionForCurrentColumn, 
+												Calculators.SUM, 
+												null)); 
 		}
 		
 		if(hasTotals){

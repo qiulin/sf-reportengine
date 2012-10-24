@@ -58,12 +58,12 @@ public class TestCalculatorMatrix extends TestCase {
 		
 		assertNotNull(classUnderTest);
 		assertNotNull(classUnderTest.getDataColumnsHavingCalculators());
-		assertNotNull(classUnderTest.getPrototypeCalculators());
+		assertNotNull(classUnderTest.getCalculatorFactories());
 		assertNotNull(classUnderTest.getIndexOfColumnsHavingCalculators()); 
 		
 		assertEquals(2, classUnderTest.getDataColumnsHavingCalculators().length);
 		assertEquals(2, classUnderTest.getIndexOfColumnsHavingCalculators().length);
-		assertEquals(2, classUnderTest.getPrototypeCalculators().length);
+		assertEquals(2, classUnderTest.getCalculatorFactories().length);
 		
 		assertEquals(1, classUnderTest.getIndexOfColumnsHavingCalculators()[0]);
 		assertEquals(2, classUnderTest.getIndexOfColumnsHavingCalculators()[1]);

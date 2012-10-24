@@ -3,22 +3,23 @@ package net.sf.reportengine.config;
 import java.text.Format;
 
 import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.ICalculatorsFactory;
 
 public abstract class AbstractDataColumn implements IDataColumn {
 	
 	private String header; 
 	private Format formatter; 
-	private ICalculator calculator; 
+	private ICalculatorsFactory calculatorsFactory; 
 	
 	public AbstractDataColumn(String header){
 		this(header, null); 
 	}
 	
-	public AbstractDataColumn(String header, ICalculator calculator){
+	public AbstractDataColumn(String header, ICalculatorsFactory calculator){
 		this(header, calculator, null); 
 	}
 	
-	public AbstractDataColumn(String header, ICalculator calculator, Format formatter){
+	public AbstractDataColumn(String header, ICalculatorsFactory calculator, Format formatter){
 		setHeader(header); 
 		setFormatter(formatter); 
 		setCalculator(calculator); 
@@ -41,8 +42,8 @@ public abstract class AbstractDataColumn implements IDataColumn {
 	}
 	
 
-	public ICalculator getCalculator() {
-		return calculator;
+	public ICalculatorsFactory getCalculator() {
+		return calculatorsFactory;
 	}
 
 
@@ -56,8 +57,8 @@ public abstract class AbstractDataColumn implements IDataColumn {
 	}
 
 
-	public void setCalculator(ICalculator calculator) {
-		this.calculator = calculator;
+	public void setCalculator(ICalculatorsFactory calculatorFactory) {
+		this.calculatorsFactory = calculatorFactory;
 	}
 
 }
