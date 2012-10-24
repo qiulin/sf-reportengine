@@ -5,7 +5,7 @@ package net.sf.reportengine.config;
 
 import java.text.Format;
 
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.ICalculatorsFactory;
 
 
 /**
@@ -16,13 +16,15 @@ public abstract class AbstractCrosstabData implements ICrosstabData {
 
 	private Format formatter; 
 	
-	private ICalculator calculator; 
+	private ICalculatorsFactory calculatorFactory; 
 	
-	
-	
-	
-	public AbstractCrosstabData(ICalculator calculator, Format formatter){
-		setCalculator(calculator);
+	/**
+	 * 
+	 * @param calcFactory
+	 * @param formatter
+	 */
+	public AbstractCrosstabData(ICalculatorsFactory calcFactory, Format formatter){
+		setCalculator(calcFactory);
 		setFormatter(formatter);
 	}
 
@@ -49,12 +51,12 @@ public abstract class AbstractCrosstabData implements ICrosstabData {
 		this.formatter = formatter;
 	}
 
-	public ICalculator getCalculator() {
-		return calculator;
+	public ICalculatorsFactory getCalculator() {
+		return calculatorFactory;
 	}
 
-	public void setCalculator(ICalculator calculator) {
-		this.calculator = calculator;
+	public void setCalculator(ICalculatorsFactory calcFactory) {
+		this.calculatorFactory = calcFactory;
 	}
 
 }

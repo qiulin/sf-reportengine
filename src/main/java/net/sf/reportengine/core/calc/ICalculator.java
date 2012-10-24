@@ -35,14 +35,4 @@ public interface ICalculator extends Serializable{
      * @return	result
      */
     public Object getResult();
-    
-    
-    /**
-     * creates a new instance of this object
-     * 
-     * @return  a new instance
-     */
-    public ICalculator newInstance();
-    
-    
 }

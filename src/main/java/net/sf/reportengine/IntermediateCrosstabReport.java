@@ -14,7 +14,7 @@ import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.algorithm.IReportAlgorithm;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.ICalculatorsFactory;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
@@ -240,7 +240,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 			return crosstabData.getValue(newRowEvent);
 		}
 
-		public ICalculator getCalculator() {
+		public ICalculatorsFactory getCalculator() {
 			return crosstabData.getCalculator();
 		}
 	}

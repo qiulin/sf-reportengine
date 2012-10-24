@@ -4,7 +4,7 @@
 package net.sf.reportengine.config;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.ICalculatorsFactory;
 
 /**
  * @author Administrator
@@ -16,6 +16,6 @@ public interface ICrosstabData {
 	
 	public String getFormattedValue(Object unformattedValue);
 	
-	public ICalculator getCalculator();
+	public ICalculatorsFactory getCalculator();
 	
 }

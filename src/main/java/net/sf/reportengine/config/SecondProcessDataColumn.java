@@ -8,7 +8,7 @@ import java.text.Format;
 import java.util.Arrays;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.ICalculatorsFactory;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedDataList;
 
 /**
@@ -20,12 +20,18 @@ import net.sf.reportengine.core.steps.crosstab.IntermComputedDataList;
 public class SecondProcessDataColumn extends AbstractDataColumn{
 	
 	private int[] positionRelativeToHeader; 
-
+	
+	/**
+	 * 
+	 * @param positionRelativeToHeader
+	 * @param calculator
+	 * @param formatter
+	 */
 	public SecondProcessDataColumn(	int[] positionRelativeToHeader, 	
-									ICalculator calculator, 
+									ICalculatorsFactory calcFactory, 
 									Format formatter) {
 		//normally we don't need the column header
-		super("Data"+Arrays.toString(positionRelativeToHeader), calculator, formatter);
+		super("Data"+Arrays.toString(positionRelativeToHeader), calcFactory, formatter);
 		this.positionRelativeToHeader = positionRelativeToHeader; 
 	}
 	

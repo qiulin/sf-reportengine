@@ -5,10 +5,10 @@
 package net.sf.reportengine.util;
 
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.CalculatorException;
 import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.ICalculatorsFactory;
 
 /**
  * this is a wrapper around a matrix of ICalculator which builds itself based on the 
@@ -28,10 +28,19 @@ public class CalculatorMatrix {
      */
     private ICalculator[][] calculators;
     
-    private ICalculator[] prototypeCalculators; 
+    /**
+     * the calculator factories
+     */
+    private ICalculatorsFactory[] calculatorFactories; 
     
+    /**
+     * 
+     */
     private IDataColumn[] dataColumnsHavingCalculators; 
     
+    /**
+     * 
+     */
     private int[] indexOfColumnsHavingCalculators; 
     
     
@@ -40,11 +49,11 @@ public class CalculatorMatrix {
     /**
      * constructor
      * @param levelCount    defines how many levels (rows) we will have 
-     * @param prototypeCalculators   a prototype row of calculators
+     * @param calculatorFactories   a prototype row of calculators
      */
     public CalculatorMatrix(int rowCount, IDataColumn[] dataColumns){
     	extractCalculatorsData(dataColumns);
-    	this.calculators = createMultipleLines(rowCount, prototypeCalculators);
+    	this.calculators = createMultipleLines(rowCount, calculatorFactories);
     }
     
     
@@ -58,7 +67,7 @@ public class CalculatorMatrix {
     protected void extractCalculatorsData(IDataColumn[] columns){
     	
     	//prepare the temporary values 
-    	ICalculator[] tempCalcs = new ICalculator[columns.length];
+    	ICalculatorsFactory[] tempCalcFactories = new ICalculatorsFactory[columns.length];
     	IDataColumn[] tempDataCols = new IDataColumn[columns.length];
     	int[] tempColIndex = new int[columns.length];
     	
@@ -66,9 +75,9 @@ public class CalculatorMatrix {
     	
     	int columnWithCalculatorsCount = 0;
     	for(int i=0; i<columns.length; i++){
-    		ICalculator calculator = columns[i].getCalculator();
-    		if(calculator != null){
-    			tempCalcs[columnWithCalculatorsCount] = calculator;
+    		ICalculatorsFactory calculatorFactory = columns[i].getCalculator();
+    		if(calculatorFactory != null){
+    			tempCalcFactories[columnWithCalculatorsCount] = calculatorFactory;
     			tempDataCols[columnWithCalculatorsCount] = columns[i];
     			tempColIndex[columnWithCalculatorsCount] = i; 
     			columnWithCalculatorsCount++;
@@ -76,15 +85,14 @@ public class CalculatorMatrix {
     	}
     	
     	//prepare the results    	
-    	prototypeCalculators = new ICalculator[columnWithCalculatorsCount];
+    	calculatorFactories = new ICalculatorsFactory[columnWithCalculatorsCount];
     	dataColumnsHavingCalculators = new IDataColumn[columnWithCalculatorsCount];
     	indexOfColumnsHavingCalculators = new int[columnWithCalculatorsCount];
     	
     	//copy the temporary values to final destination
-    	System.arraycopy(tempCalcs, 0, prototypeCalculators, 0, columnWithCalculatorsCount);
+    	System.arraycopy(tempCalcFactories, 0, calculatorFactories, 0, columnWithCalculatorsCount);
     	System.arraycopy(tempDataCols, 0, dataColumnsHavingCalculators, 0, columnWithCalculatorsCount);
     	System.arraycopy(tempColIndex, 0, indexOfColumnsHavingCalculators, 0, columnWithCalculatorsCount);
-    	
     }
     
     
@@ -92,15 +100,15 @@ public class CalculatorMatrix {
      * clones the given prototypes and creates a matrix with rowCount rows and prototypes.length columns
      * 
      * @param rowCount
-     * @param prototypes
+     * @param calcFactories
      * @return
      */
-    private ICalculator[][] createMultipleLines(int rowCount, ICalculator[] prototypes ){
-        ICalculator[][] result = new ICalculator[rowCount][prototypes.length];
+    private ICalculator[][] createMultipleLines(int rowCount, ICalculatorsFactory[] calcFactories ){
+        ICalculator[][] result = new ICalculator[rowCount][calcFactories.length];
     	for(int i=0; i< rowCount; i++){
-    		result[i] = new ICalculator[prototypes.length];
-    		for (int j = 0; j < prototypes.length; j++) {
-    			result[i][j] = (ICalculator)prototypes[j].newInstance();
+    		result[i] = new ICalculator[calcFactories.length];
+    		for (int j = 0; j < calcFactories.length; j++) {
+    			result[i][j] = (ICalculator)calcFactories[j].newInstance();
     		}
     	}
         return result;
@@ -229,15 +237,15 @@ public class CalculatorMatrix {
 
 
 
-	public ICalculator[] getPrototypeCalculators() {
-		return prototypeCalculators;
+	public ICalculatorsFactory[] getCalculatorFactories() {
+		return calculatorFactories;
 	}
 
 
 
 
-	public void setPrototypeCalculators(ICalculator[] prototypeCalculators) {
-		this.prototypeCalculators = prototypeCalculators;
+	public void setCalculatorFactories(ICalculatorsFactory[] calcFactories) {
+		this.calculatorFactories = calcFactories;
 	}
 
 

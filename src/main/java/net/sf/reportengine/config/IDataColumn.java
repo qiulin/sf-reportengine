@@ -4,12 +4,12 @@
 package net.sf.reportengine.config;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.ICalculatorsFactory;
 
 /**
  * The basic interface for a report data column
  * 
- * @author dragos balan
+ * @author dragos balan (dragos dot balan at gmail dot com)
  *
  */
 public interface IDataColumn{
@@ -44,6 +44,6 @@ public interface IDataColumn{
 	 * returns the calculator (if any) to be used on this column 
 	 * @return
 	 */
-	public ICalculator getCalculator();
+	public ICalculatorsFactory getCalculator();
 	
 }
