@@ -4,23 +4,14 @@
  */
 package net.sf.reportengine.core;
 
-import java.util.List;
-
-import net.sf.reportengine.AbstractReport;
-import net.sf.reportengine.FlatReport;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.steps.AbstractAlgorithmStep;
 import net.sf.reportengine.core.calc.ICalculator;
-import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
-import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
-import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
-import net.sf.reportengine.core.steps.PreviousRowManagerStep;
-import net.sf.reportengine.core.steps.TotalsCalculatorStep;
-import net.sf.reportengine.filter.DataOutputFilter;
 import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.util.ContextKeys;
 
 /**
  * <p>
@@ -60,7 +51,7 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
      * @return  the aggregation level
      */
     public int getGroupingLevel(){
-    	return (Integer)getContext().get(GroupingLevelDetectorStep.CONTEXT_KEY_NEW_GROUPING_LEVEL);
+    	return (Integer)getContext().get(ContextKeys.CONTEXT_KEY_NEW_GROUPING_LEVEL);
     }
     
     /**
@@ -68,7 +59,7 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
      * @return
      */
     public ICalculator[][] getCalculatorMatrix(){
-    	return (ICalculator[][])getContext().get(TotalsCalculatorStep.CONTEXT_KEY_CALCULATORS);
+    	return (ICalculator[][])getContext().get(ContextKeys.CONTEXT_KEY_CALCULATORS);
     }
     
     
@@ -77,7 +68,7 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
      * @return
      */
     public int[] getCalculatorDistributionInColumnDataArray(){
-    	return (int[])getContext().get(FlatReportExtractDataInitStep.CONTEXT_KEY_DISTRIBUTION_OF_CALCULATORS);
+    	return (int[])getContext().get(ContextKeys.CONTEXT_KEY_DISTRIBUTION_OF_CALCULATORS);
     }
     
     /**
@@ -107,28 +98,24 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     }
     
     public Object[] getComputedCellValues(){
-    	return (Object[])getContext().get(ComputeColumnValuesStep.CONTEXT_KEY_COMPUTED_CELL_VALUES);
+    	return (Object[])getContext().get(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES);
     }
     
     public String[] getFormattedCellValues(){
-    	return (String[])getContext().get(ComputeColumnValuesStep.CONTEXT_KEY_FORMATTED_CELL_VALUES);
+    	return (String[])getContext().get(ContextKeys.CONTEXT_KEY_FORMATTED_CELL_VALUES);
     }
     
     
     public boolean getShowGrandTotal(){
-    	return (Boolean)getContext().get(FlatReport.CONTEXT_KEY_SHOW_GRAND_TOTAL);
+    	return (Boolean)getContext().get(ContextKeys.CONTEXT_KEY_SHOW_GRAND_TOTAL);
     }
     
     public boolean getShowTotals(){
-    	return (Boolean)getContext().get(FlatReport.CONTEXT_KEY_SHOW_TOTALS);
-    }
-    
-    public List<DataOutputFilter> getDataOutputFilterList(){
-    	return (List<DataOutputFilter>)getContext().get(FlatReport.CONTEXT_KEY_DATA_OUT_FILTERS);
+    	return (Boolean)getContext().get(ContextKeys.CONTEXT_KEY_SHOW_TOTALS);
     }
     
     public IGroupColumn[] getGroupingColumns(){
-    	return (IGroupColumn[])getContext().get(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS);
+    	return (IGroupColumn[])getContext().get(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS);
     }
     
     public int getGroupingColumnsLength(){
@@ -136,11 +123,11 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     }
     
     public IDataColumn[] getDataColumns(){
-    	return (IDataColumn[])getContext().get(AbstractReport.CONTEXT_KEY_DATA_COLUMNS);
+    	return (IDataColumn[])getContext().get(ContextKeys.CONTEXT_KEY_DATA_COLUMNS);
     }
     
     public Object[] getPreviousRowOfGroupingValues(){
-    	return (Object[])getContext().get(PreviousRowManagerStep.CONTEXT_KEY_LAST_GROUPING_VALUES);
+    	return (Object[])getContext().get(ContextKeys.CONTEXT_KEY_LAST_GROUPING_VALUES);
     }
 	 
     public String getTotalStringForGroupingLevel(int groupingLevel) {
@@ -203,13 +190,4 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     	}
 		return result;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-	 
 }

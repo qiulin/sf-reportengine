@@ -9,8 +9,9 @@ import org.apache.log4j.Logger;
 
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.util.ContextKeys;
 
 /**
  * 
@@ -28,18 +29,13 @@ public class PreviousRowManagerStep extends AbstractReportStep {
 	private static final Logger logger = Logger.getLogger(PreviousRowManagerStep.class);
 	
 	/**
-     * context key for last grouping values
-     */
-    public static final String CONTEXT_KEY_LAST_GROUPING_VALUES = "net.sf.reportengine.prevGroupingValues";
-	
-    /**
 	 * reference to the last row (this is very helpful since this class makes 
 	 * comparisons between the current row and the last row
 	 */
 	private Object[] previousRowOfGroupingColumnValues;
     
     
-	public void init(IAlgorithmContext reportContext){
+	public void init(IReportContext reportContext){
 		super.init(reportContext);
 		
 		
@@ -56,7 +52,7 @@ public class PreviousRowManagerStep extends AbstractReportStep {
 			previousRowOfGroupingColumnValues = new Object[getGroupingColumnsLength()];
 			copyGroupingValuesToLastRowOfGroupingColumnValues(getGroupingColumns(), rowEvent);
 			
-			getContext().set(CONTEXT_KEY_LAST_GROUPING_VALUES, previousRowOfGroupingColumnValues);
+			getContext().set(ContextKeys.CONTEXT_KEY_LAST_GROUPING_VALUES, previousRowOfGroupingColumnValues);
 		}else{
 			if(getGroupingLevel() > -1){
 				copyGroupingValuesToLastRowOfGroupingColumnValues(getGroupingColumns(), rowEvent);

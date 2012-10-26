@@ -11,28 +11,19 @@ import java.util.List;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
-import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.out.IReportOutput;
 
 
 /**
- * <p>
- * 	Abstract report support class with the following features: 
- *  </p>
+ * <p>Abstract report support class</p>
+ *  
+ *  
  * @author dragos balan(dragos.balan@gmail.com)
+ * @since 0.2
  */
 public abstract class AbstractReport {
     
-	/**
-	 * the key used to identify the configuration columns inside the report context
-	 */
-	public static final String CONTEXT_KEY_DATA_COLUMNS = "net.sf.reportengine.dataColumns";
-	
-	/**
-	 * the identifier of grouping columns inside the report context
-	 */
-	public final static String CONTEXT_KEY_GROUPING_COLUMNS = "net.sf.reportengine.groupingColumns";
 	
     /**
      * the title of the report

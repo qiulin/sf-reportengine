@@ -20,11 +20,11 @@ import net.sf.reportengine.config.SecondProcessGroupColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.ReportEngineRuntimeException;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.calc.Calculators;
-import net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep;
 import net.sf.reportengine.in.IntermediateCrosstabReportInput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
+import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
 import net.sf.reportengine.util.IDistinctValuesHolder;
 
@@ -104,16 +104,6 @@ public class CrossTabReport extends AbstractReport{
 	
 	private ICrosstabData crosstabData; 
 	
-	/**
-	 * 
-	 */
-	public static final String CONTEXT_KEY_CROSSTAB_GROUP_COLS = "net.sf.reportengine.crosstab.groupCols";
-	public static final String CONTEXT_KEY_CROSSTAB_HEADER_ROWS = "net.sf.reportengine.crosstab.headerRows"; 
-	public static final String CONTEXT_KEY_CROSSTAB_DATA = "net.sf.reportengine.crosstab.data"; 
-	public static final String CONTEXT_KEY_CROSSTAB_METADATA = "net.sf.reportengine.crosstab.metadata";
-	public static final String CONTEXT_KEY_CROSSTAB_HEADER_HAS_TOTALS = "net.sf.reportengine.crosstab.headerHasTotals";
-	
-	
 	
 	public CrossTabReport(){
 		this.crosstabHeaderRowsAsList = new ArrayList<ICrosstabHeaderRow>();
@@ -167,8 +157,8 @@ public class CrossTabReport extends AbstractReport{
 			firstReport.execute(); 
 			
 			//transfer data from first report to the second
-			IAlgorithmContext firstReportContext = firstReport.getAlgorithm().getContext(); 
-			IDistinctValuesHolder distinctValuesHolder = (IDistinctValuesHolder)firstReportContext.get(CrosstabDistinctValuesDetectorStep.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			IReportContext firstReportContext = firstReport.getAlgorithm().getContext(); 
+			IDistinctValuesHolder distinctValuesHolder = (IDistinctValuesHolder)firstReportContext.get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 			CtMetadata crosstabMetadata = new CtMetadata(distinctValuesHolder);
 			crosstabMetadata.computeCoefficients(); 
 			

@@ -46,7 +46,7 @@ public abstract class AbstractAlgorithm implements IReportAlgorithm {
     /**
      * the context of the report (holding important values)
      */
-    private IAlgorithmContext algorithmContext;
+    private IReportContext algorithmContext;
     
     /**
      * 
@@ -56,7 +56,7 @@ public abstract class AbstractAlgorithm implements IReportAlgorithm {
         this.initSteps = new LinkedList<IAlgorithmInitStep>();
         this.mainSteps = new LinkedList<IAlgorithmMainStep>();
         this.exitSteps = new LinkedList<IAlgorithmExitStep>();
-        this.algorithmContext = new DefaultAlgoContext();        
+        this.algorithmContext = new DefaultReportContext();        
     }
     
     /**
@@ -101,7 +101,7 @@ public abstract class AbstractAlgorithm implements IReportAlgorithm {
      * getter for the context of the algorithm
      * @return
      */
-    public IAlgorithmContext getContext(){
+    public IReportContext getContext(){
     	return algorithmContext;
     }
     

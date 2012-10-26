@@ -3,14 +3,14 @@
  */
 package net.sf.reportengine.core.steps.crosstab;
 
-import net.sf.reportengine.CrossTabReport;
 import net.sf.reportengine.config.ICrosstabHeaderRow;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.ReportAlgorithmStepTC;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1;
+import net.sf.reportengine.util.ContextKeys;
 
 /**
  * @author Administrator
@@ -32,11 +32,11 @@ public class TestCrosstabDistinctValueDetectorStep extends ReportAlgorithmStepTC
 	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
 	 */
 	public void testExecuteCtScenario1() {
-		IAlgorithmContext reportContext = getTestContext(); 
+		IReportContext reportContext = getTestContext(); 
 		
-		reportContext.set(	CrossTabReport.CONTEXT_KEY_CROSSTAB_HEADER_ROWS, 
+		reportContext.set(	ContextKeys.CONTEXT_KEY_CROSSTAB_HEADER_ROWS, 
 							CtScenario2x2x1.HEADER_ROWS.toArray(new ICrosstabHeaderRow[CtScenario2x2x1.HEADER_ROWS.size()]));
-		reportContext.set(CrossTabReport.CONTEXT_KEY_CROSSTAB_DATA, CtScenario2x2x1.CROSSTAB_DATA);
+		reportContext.set(ContextKeys.CONTEXT_KEY_CROSSTAB_DATA, CtScenario2x2x1.CROSSTAB_DATA);
 		
 		classUnderTest.init(reportContext);
 		assertNotNull(classUnderTest.getCrosstabHeaderRows());
@@ -45,7 +45,7 @@ public class TestCrosstabDistinctValueDetectorStep extends ReportAlgorithmStepTC
 			
 			classUnderTest.execute(new NewRowEvent(CtScenario2x2x1.RAW_INPUT[i]));
 			
-			IntermediateDataInfo intermediateDataInfo = (IntermediateDataInfo)reportContext.get(CrosstabDistinctValuesDetectorStep.CONTEXT_KEY_INTERMEDIATE_CROSSTAB_DATA_INFO);
+			IntermediateDataInfo intermediateDataInfo = (IntermediateDataInfo)reportContext.get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_CROSSTAB_DATA_INFO);
 			assertNotNull(intermediateDataInfo);
 			assertEquals(CtScenario2x2x1.INTERMEDIATE_DATA_INFO[i]  ,intermediateDataInfo); 
 		}
@@ -55,10 +55,10 @@ public class TestCrosstabDistinctValueDetectorStep extends ReportAlgorithmStepTC
 	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
 	 */
 	public void testExecuteCtScenario1x3x1() {
-		IAlgorithmContext reportContext = getTestContext(); 
+		IReportContext reportContext = getTestContext(); 
 		
-		reportContext.set(CrossTabReport.CONTEXT_KEY_CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS);
-		reportContext.set(CrossTabReport.CONTEXT_KEY_CROSSTAB_DATA, CtScenario1x3x1.CROSSTAB_DATA);
+		reportContext.set(ContextKeys.CONTEXT_KEY_CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS);
+		reportContext.set(ContextKeys.CONTEXT_KEY_CROSSTAB_DATA, CtScenario1x3x1.CROSSTAB_DATA);
 		
 		classUnderTest.init(reportContext);
 		assertNotNull(classUnderTest.getCrosstabHeaderRows());
@@ -67,7 +67,7 @@ public class TestCrosstabDistinctValueDetectorStep extends ReportAlgorithmStepTC
 			
 			classUnderTest.execute(new NewRowEvent(CtScenario1x3x1.RAW_INPUT[i]));
 			
-			IntermediateDataInfo intermediateDataInfo = (IntermediateDataInfo)reportContext.get(CrosstabDistinctValuesDetectorStep.CONTEXT_KEY_INTERMEDIATE_CROSSTAB_DATA_INFO);
+			IntermediateDataInfo intermediateDataInfo = (IntermediateDataInfo)reportContext.get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_CROSSTAB_DATA_INFO);
 			assertNotNull(intermediateDataInfo);
 			assertEquals(CtScenario1x3x1.INTERMEDIATE_DATA_INFO[i]  ,intermediateDataInfo); 
 		}
@@ -78,10 +78,10 @@ public class TestCrosstabDistinctValueDetectorStep extends ReportAlgorithmStepTC
 	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
 	 */
 	public void testExecuteCtScenario1x1x1() {
-		IAlgorithmContext reportContext = getTestContext(); 
+		IReportContext reportContext = getTestContext(); 
 		
-		reportContext.set(CrossTabReport.CONTEXT_KEY_CROSSTAB_HEADER_ROWS, CtScenario1x1x1.ROW_HEADERS);
-		reportContext.set(CrossTabReport.CONTEXT_KEY_CROSSTAB_DATA, CtScenario1x1x1.CROSSTAB_DATA_NO_TOTALS);
+		reportContext.set(ContextKeys.CONTEXT_KEY_CROSSTAB_HEADER_ROWS, CtScenario1x1x1.ROW_HEADERS);
+		reportContext.set(ContextKeys.CONTEXT_KEY_CROSSTAB_DATA, CtScenario1x1x1.CROSSTAB_DATA_NO_TOTALS);
 		
 		classUnderTest.init(reportContext);
 		assertNotNull(classUnderTest.getCrosstabHeaderRows());
@@ -90,7 +90,7 @@ public class TestCrosstabDistinctValueDetectorStep extends ReportAlgorithmStepTC
 			
 			classUnderTest.execute(new NewRowEvent(CtScenario1x1x1.RAW_INPUT[i]));
 			
-			IntermediateDataInfo intermediateDataInfo = (IntermediateDataInfo)reportContext.get(CrosstabDistinctValuesDetectorStep.CONTEXT_KEY_INTERMEDIATE_CROSSTAB_DATA_INFO);
+			IntermediateDataInfo intermediateDataInfo = (IntermediateDataInfo)reportContext.get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_CROSSTAB_DATA_INFO);
 			assertNotNull(intermediateDataInfo);
 			assertEquals(CtScenario1x1x1.INTERMEDIATE_DATA_INFO[i]  ,intermediateDataInfo); 
 		}

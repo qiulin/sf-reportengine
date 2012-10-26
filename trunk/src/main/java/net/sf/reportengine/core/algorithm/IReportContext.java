@@ -6,6 +6,7 @@ package net.sf.reportengine.core.algorithm;
 
 import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.util.ContextKeys;
 
 
 /**
@@ -14,21 +15,21 @@ import net.sf.reportengine.out.IReportOutput;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public interface IAlgorithmContext {
+public interface IReportContext {
     
     /**
      * registers the pair (key, object) in the report context
      * @param key		the identifier of the given object
      * @param obj		the object to be registered
      */
-    public void set(String key, Object obj);
+    public void set(ContextKeys key, Object obj);
     
     /**
      * gets a value from the context
-     * @param key	the indentifier of the reqeusted value
+     * @param key	the indentifier 
      * @return		the requested value
      */
-    public Object get(String key);
+    public Object get(ContextKeys key);
     
     
     /**
@@ -54,6 +55,4 @@ public interface IAlgorithmContext {
      * @return  the output
      */
     public IReportOutput getOutput();
-    
-    
 }

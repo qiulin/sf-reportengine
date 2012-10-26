@@ -3,8 +3,8 @@
  */
 package net.sf.reportengine;
 
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.IReportAlgorithm;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
@@ -13,6 +13,7 @@ import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.core.steps.crosstab.CrosstabHeaderOutputInitStep;
+import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
 
 /**
@@ -22,8 +23,6 @@ import net.sf.reportengine.util.CtMetadata;
  * @since 0.4
  */
 class SecondCrosstabProcessorReport extends AbstractOneIterationReport {
-	
-	public final static String CONTEXT_KEY_CROSSTAB_METADATA = "net.sf.reportengine.secondproc.ctMetadata";
 	
 	private CtMetadata ctMetadata = null; 
 	
@@ -37,18 +36,18 @@ class SecondCrosstabProcessorReport extends AbstractOneIterationReport {
 	@Override
 	protected void configAlgorithmSteps() {
 		IReportAlgorithm algorithm = getAlgorithm();
-    	IAlgorithmContext context = algorithm.getContext();
+    	IReportContext context = algorithm.getContext();
     	
     	//setting the input/output
     	algorithm.setIn(getIn());
     	algorithm.setOut(getOut());
     	
     	//context keys specific to a flat report
-		context.set(AbstractReport.CONTEXT_KEY_DATA_COLUMNS, getDataColumns());
-		context.set(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS, getGroupColumns()); 
-		context.set(FlatReport.CONTEXT_KEY_SHOW_TOTALS, getShowTotals());
-    	context.set(FlatReport.CONTEXT_KEY_SHOW_GRAND_TOTAL, getShowGrandTotal());
-    	context.set(CrossTabReport.CONTEXT_KEY_CROSSTAB_METADATA, ctMetadata); 
+		context.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, getDataColumns());
+		context.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, getGroupColumns()); 
+		context.set(ContextKeys.CONTEXT_KEY_SHOW_TOTALS, getShowTotals());
+    	context.set(ContextKeys.CONTEXT_KEY_SHOW_GRAND_TOTAL, getShowGrandTotal());
+    	context.set(ContextKeys.CONTEXT_KEY_CROSSTAB_METADATA, ctMetadata); 
     	
     	//adding steps to the algorithm
     	algorithm.addInitStep(new FlatReportExtractDataInitStep());

@@ -73,7 +73,7 @@ public class OneIterationAlgorithm extends AbstractAlgorithm{
      * execution of init method for each init step
      */
     protected void executeInitSteps() {
-    	IAlgorithmContext context = getContext();
+    	IReportContext context = getContext();
     	List<IAlgorithmInitStep> initSteps = getInitSteps();
     	
         for(IAlgorithmInitStep initStep: initSteps){
@@ -87,7 +87,7 @@ public class OneIterationAlgorithm extends AbstractAlgorithm{
      * 3. calls the exit method for each main step
      */
     protected void executeMainSteps() {
-    	IAlgorithmContext context = getContext();
+    	IReportContext context = getContext();
     	List<IAlgorithmMainStep> mainSteps = getMainSteps();
     	
     	//call init for each step

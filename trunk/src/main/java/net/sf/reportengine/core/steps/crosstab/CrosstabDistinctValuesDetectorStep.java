@@ -1,8 +1,9 @@
 package net.sf.reportengine.core.steps.crosstab;
 
 import net.sf.reportengine.config.ICrosstabHeaderRow;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.DistinctValuesHolder;
 
 import org.apache.log4j.Logger;
@@ -29,8 +30,8 @@ import org.apache.log4j.Logger;
  *  
  *  so the array will look like [2,1]
  * 
- * @author Administrator
- *
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.4
  */
 public class CrosstabDistinctValuesDetectorStep extends AbstractCrosstabStep {
 	
@@ -40,12 +41,10 @@ public class CrosstabDistinctValuesDetectorStep extends AbstractCrosstabStep {
 	 */
 	private static final Logger logger = Logger.getLogger(CrosstabDistinctValuesDetectorStep.class);
 	
-	
-	public final static String CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER = "net.sf.reportengine.intermediate.distinctValuesHolder";
-	public final static String CONTEXT_KEY_INTERMEDIATE_CROSSTAB_DATA_INFO = "net.sf.reportengine.intermediate.ctDataInfo";
-	
+	/**
+	 * the distinct values holder
+	 */
 	private DistinctValuesHolder distinctValuesHolder = null; 
-	
 	
 	
 	/**
@@ -54,12 +53,12 @@ public class CrosstabDistinctValuesDetectorStep extends AbstractCrosstabStep {
      * 
      */
 	@Override
-    public void init(IAlgorithmContext algoContext){
+    public void init(IReportContext algoContext){
         super.init(algoContext);
         ICrosstabHeaderRow[] headerRows = getCrosstabHeaderRows();
         distinctValuesHolder = new DistinctValuesHolder(headerRows);
         
-        algoContext.set(CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER, distinctValuesHolder);
+        algoContext.set(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER, distinctValuesHolder);
     }
 	
 	
@@ -85,10 +84,8 @@ public class CrosstabDistinctValuesDetectorStep extends AbstractCrosstabStep {
 		
 		
 		//getContext().set(CONTEXT_KEY_CROSSTAB_RELATIVE_POSITION, currentDataValueRelativePositionToHeaderValues);
-		getContext().set(CONTEXT_KEY_INTERMEDIATE_CROSSTAB_DATA_INFO, 
+		getContext().set(ContextKeys.CONTEXT_KEY_INTERMEDIATE_CROSSTAB_DATA_INFO, 
 						new IntermediateDataInfo(getCrosstabData().getValue(newRowEvent), 
 														currDataValueRelativePositionToHeaderValues)); 
 	}
-	
-	
 }

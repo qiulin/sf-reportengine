@@ -7,8 +7,9 @@ package net.sf.reportengine.core.steps;
 
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.util.ContextKeys;
 
 import org.apache.log4j.Logger;
 
@@ -54,22 +55,7 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
 	 */
 	private static final Logger logger = Logger.getLogger(GroupingLevelDetectorStep.class);
 	
-    /**
-     * context identifier (key) for aggregation level
-     */
-    public static final String CONTEXT_KEY_NEW_GROUPING_LEVEL = "net.sf.reportengine.newGroupingLevel";
     
-    
-    
-   
-    
-    /**
-	 * reference to the last row (this is very helpful since this class makes 
-	 * comparisons between the current row and the last row
-	 */
-	//private Object[] lastRowOfGroupingColumnValues;
-    
-	    
     /**
      * the aggregation level
      */
@@ -85,7 +71,7 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
      * registers some new values into the context
      * @see net.sf.reportengine.core.algorithm.IAlgorithmInitStep#init(IReportContext)()
      */
-    public void init(IAlgorithmContext reportContext){
+    public void init(IReportContext reportContext){
         super.init(reportContext);
     }
     
@@ -117,7 +103,7 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
 		}
 		
 		//set the result in context
-		getContext().set(CONTEXT_KEY_NEW_GROUPING_LEVEL, aggregationLevel);
+		getContext().set(ContextKeys.CONTEXT_KEY_NEW_GROUPING_LEVEL, aggregationLevel);
 		
 //		if(logger.isTraceEnabled()){
 //    		logger.trace("after copying the lastRow is "+Arrays.toString(lastRowOfGroupingColumnValues));

@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedDataList;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalGroupValuesList;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedTotalsList;
@@ -20,6 +19,7 @@ import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1;
 import net.sf.reportengine.scenarios.ct.CtScenario4x3x1;
 import net.sf.reportengine.test.ReportengineTC;
+import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.DistinctValuesHolder;
 
 public class TestIntermediateCrosstabReport extends ReportengineTC {
@@ -127,7 +127,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(CrosstabDistinctValuesDetectorStep.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 			assertNotNull(metadata);
 			
 			assertNotNull(memoryOutput.getCellMatrix());
@@ -181,7 +181,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(CrosstabDistinctValuesDetectorStep.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 		
 		
 		//TODO: check the output here
@@ -205,7 +205,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(CrosstabDistinctValuesDetectorStep.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 			assertNotNull(metadata);
 		
 		
@@ -229,7 +229,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(CrosstabDistinctValuesDetectorStep.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 			assertNotNull(metadata);
 		 
 		
@@ -254,7 +254,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(CrosstabDistinctValuesDetectorStep.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 			assertNotNull(metadata);
 		 
 		//TODO: check the output here
@@ -278,7 +278,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(CrosstabDistinctValuesDetectorStep.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 			assertNotNull(metadata);
 		 
 		//TODO: check the output here

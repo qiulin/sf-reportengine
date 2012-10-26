@@ -39,7 +39,7 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 	}
 		
 	public ICrosstabHeaderRow[] getCrosstabHeaderRows(){
-		return (ICrosstabHeaderRow[])getContext().get(CrossTabReport.CONTEXT_KEY_CROSSTAB_HEADER_ROWS); 
+		return (ICrosstabHeaderRow[])getContext().get(ContextKeys.CONTEXT_KEY_CROSSTAB_HEADER_ROWS); 
 	}
 	 
 	 public int getCrosstabHeaderRowsLength(){
@@ -47,7 +47,7 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 	 }
 		
 	 public ICrosstabData getCrosstabData(){
-		 return (ICrosstabData)getContext().get(CrossTabReport.CONTEXT_KEY_CROSSTAB_DATA); 
+		 return (ICrosstabData)getContext().get(ContextKeys.CONTEXT_KEY_CROSSTAB_DATA); 
 	 }
 	 
 //	 public int[] getDataRelativePositionToHeader(){
@@ -60,15 +60,15 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 	  * @return the crosstab metadata of the report
 	  */
 	 public DistinctValuesHolder getDistinctValuesHolder(){
-		 return (DistinctValuesHolder)getContext().get(CrosstabDistinctValuesDetectorStep.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER); 
+		 return (DistinctValuesHolder)getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER); 
 	 }
 	 
 	 public IntermediateDataInfo getIntermediateCrosstabDataInfo(){
-		 return (IntermediateDataInfo)getContext().get(CrosstabDistinctValuesDetectorStep.CONTEXT_KEY_INTERMEDIATE_CROSSTAB_DATA_INFO);
+		 return (IntermediateDataInfo)getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_CROSSTAB_DATA_INFO);
 	 }
 	 
 	 public IntermediateReportRow getIntermediateRow(){
-		 return (IntermediateReportRow)getContext().get(IntermediateCrosstabRowMangerStep.CONTEXT_KEY_INTERMEDIATE_ROW); 
+		 return (IntermediateReportRow)getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_ROW); 
 	 }
 	 
 	 public boolean getShowTotalsInHeader(){

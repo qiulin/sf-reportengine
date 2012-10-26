@@ -4,8 +4,8 @@
 package net.sf.reportengine;
 
 import junit.framework.TestCase;
-import net.sf.reportengine.core.algorithm.DefaultAlgoContext;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.DefaultReportContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
@@ -16,10 +16,11 @@ import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.MemoryOutput;
 import net.sf.reportengine.out.LoggerOutput;
+import net.sf.reportengine.out.MemoryOutput;
 import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.scenarios.Scenario1;
+import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.MatrixUtils;
 
 /**
@@ -28,7 +29,7 @@ import net.sf.reportengine.util.MatrixUtils;
  */
 public class TestStepsCombo extends TestCase {
 	
-	private IAlgorithmContext TEST_REPORT_CONTEXT; 
+	private IReportContext TEST_REPORT_CONTEXT; 
 	private OutputDispatcher TEST_OUTPUT_DISPATCHER; 
 	private MemoryOutput cumulativeReportOutput = null;
 	
@@ -46,13 +47,13 @@ public class TestStepsCombo extends TestCase {
 		TEST_OUTPUT_DISPATCHER.registerOutput(cumulativeReportOutput);
 		TEST_OUTPUT_DISPATCHER.registerOutput(new LoggerOutput());
 		
-		TEST_REPORT_CONTEXT = new DefaultAlgoContext();
+		TEST_REPORT_CONTEXT = new DefaultReportContext();
 		TEST_REPORT_CONTEXT.setOutput(TEST_OUTPUT_DISPATCHER);
 		
 		//simulate the context
-		TEST_REPORT_CONTEXT.set(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS.toArray()); 
-		TEST_REPORT_CONTEXT.set(FlatReport.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS.toArray());
-		TEST_REPORT_CONTEXT.set(FlatReport.CONTEXT_KEY_SHOW_GRAND_TOTAL, Scenario1.SHOW_GRAND_TOTAL);
+		TEST_REPORT_CONTEXT.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS.toArray()); 
+		TEST_REPORT_CONTEXT.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS.toArray());
+		TEST_REPORT_CONTEXT.set(ContextKeys.CONTEXT_KEY_SHOW_GRAND_TOTAL, Scenario1.SHOW_GRAND_TOTAL);
 		
 		
 		TEST_REPORT_CONTEXT.setInput(Scenario1.INPUT);

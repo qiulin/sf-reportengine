@@ -1,41 +1,22 @@
 package net.sf.reportengine.core.steps;
 
-import java.util.Arrays;
-
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.util.ContextKeys;
 
 /**
- * This step is responsible for managing 3 important components of the report
+ * This step is responsible for the following tasks :
  * 
- * 1. the computed cell values
- * 2. the formatted cell values
- * 3. the header columns ( for crosstab reports)
+ * 1. caches the cell values (by keeping an array of the values retrieved by IDataColumn.getValue())
+ * 2. caches the formatted cell values (also by using an array populated by IDataColumn.formatValue())
  * 
- * 
- * @author dragos balan
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
 public class ComputeColumnValuesStep extends AbstractReportStep{
-	
-	
-	/**
-	 * the context key for computed cell values
-	 */
-	public final static String CONTEXT_KEY_COMPUTED_CELL_VALUES =  "net.sf.reportengine.compCellsValues";
-	
-	/**
-	 * the context key for computed cell values
-	 */
-	public final static String CONTEXT_KEY_FORMATTED_CELL_VALUES =  "net.sf.reportengine.formattedCellValues";
-	
-	/**
-	 * the context key for the header columns array
-	 */
-	public final static String CONTEXT_KEY_HEADER_COLUMNS = "net.sf.reportentinge.headerColumns";
 	
 	
 	private int finalReportGroupCount = -1;
@@ -51,7 +32,7 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 	/**
 	 * this step's init method
 	 */
-	public void init(IAlgorithmContext context){
+	public void init(IReportContext context){
 		super.init(context);
 		
 		groupCols = getGroupingColumns();
@@ -60,8 +41,8 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 		finalReportGroupCount = groupCols != null ? groupCols.length : 0;
 		finalReportColumnCount = finalReportGroupCount + dataColumns.length; 
 		
-		context.set(CONTEXT_KEY_COMPUTED_CELL_VALUES, new Object[finalReportColumnCount]);
-		context.set(CONTEXT_KEY_FORMATTED_CELL_VALUES, new String[finalReportColumnCount]);	
+		context.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, new Object[finalReportColumnCount]);
+		context.set(ContextKeys.CONTEXT_KEY_FORMATTED_CELL_VALUES, new String[finalReportColumnCount]);	
 	}
 	
 	/**
@@ -86,7 +67,7 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 			formattedResults[finalReportGroupCount+i] = dataColumns[i].getFormattedValue(valueForCurrentColumn);
 		}
 		
-		getContext().set(CONTEXT_KEY_COMPUTED_CELL_VALUES, nonFormattedResults);
-		getContext().set(CONTEXT_KEY_FORMATTED_CELL_VALUES, formattedResults);
+		getContext().set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, nonFormattedResults);
+		getContext().set(ContextKeys.CONTEXT_KEY_FORMATTED_CELL_VALUES, formattedResults);
 	}
 }

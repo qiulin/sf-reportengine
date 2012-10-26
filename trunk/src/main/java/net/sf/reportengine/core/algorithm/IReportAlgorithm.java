@@ -54,5 +54,5 @@ public interface IReportAlgorithm {
     public void setOut(IReportOutput out);
     
     
-    public IAlgorithmContext getContext();
+    public IReportContext getContext();
 }
