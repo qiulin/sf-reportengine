@@ -3,13 +3,11 @@
  */
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.AbstractReport;
-import net.sf.reportengine.FlatReport;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.scenarios.CalculatedColumnsScenario;
 import net.sf.reportengine.scenarios.Scenario1;
+import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.MatrixUtils;
 
 
@@ -44,13 +42,13 @@ public class TestTotalsOutputStep extends ReportAlgorithmStepTC {
 	 * Test method for {@link net.sf.reportengine.core.steps.FlatReportTotalsOutputStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
 	 */
 	public void testExecuteScenario1() {
-		IAlgorithmContext reportContext = getTestContext(); 
+		IReportContext reportContext = getTestContext(); 
 		
 		//simulate the level detector
-		reportContext.set(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS.toArray()); 
-		reportContext.set(FlatReport.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS.toArray());
-        reportContext.set(FlatReport.CONTEXT_KEY_SHOW_GRAND_TOTAL, Scenario1.SHOW_GRAND_TOTAL);
-        reportContext.set(FlatReportExtractDataInitStep.CONTEXT_KEY_DISTRIBUTION_OF_CALCULATORS, Scenario1.DISTRIBUTION_OF_CALCULATOR_IN_DATA_ROW_ARRAY); 
+		reportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS.toArray()); 
+		reportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS.toArray());
+        reportContext.set(ContextKeys.CONTEXT_KEY_SHOW_GRAND_TOTAL, Scenario1.SHOW_GRAND_TOTAL);
+        reportContext.set(ContextKeys.CONTEXT_KEY_DISTRIBUTION_OF_CALCULATORS, Scenario1.DISTRIBUTION_OF_CALCULATOR_IN_DATA_ROW_ARRAY); 
         
 		getTestContext().setInput(Scenario1.INPUT);
 		classUnderTest.init(reportContext);

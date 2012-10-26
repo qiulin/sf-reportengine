@@ -11,7 +11,7 @@ import net.sf.reportengine.config.ICrosstabData;
 import net.sf.reportengine.config.ICrosstabHeaderRow;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.IReportAlgorithm;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.ICalculatorsFactory;
@@ -61,7 +61,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 	@Override
 	protected void configAlgorithmSteps() {
 		IReportAlgorithm algorithm = getAlgorithm();
-    	IAlgorithmContext context = algorithm.getContext();
+    	IReportContext context = algorithm.getContext();
     	
     	if(logger.isDebugEnabled()){
     		logger.debug("dataColsIsNull ? "+(getDataColumns()==null));
@@ -84,17 +84,17 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 		algorithm.setOut(getOut());
 		
 		//context keys specific to a flat report
-		context.set(AbstractReport.CONTEXT_KEY_DATA_COLUMNS, intermediateDataCols);
-		context.set(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS, intermediateGroupCols); 
+		context.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, intermediateDataCols);
+		context.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, intermediateGroupCols); 
 		
-		context.set(FlatReport.CONTEXT_KEY_SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
-    	context.set(FlatReport.CONTEXT_KEY_SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
+		context.set(ContextKeys.CONTEXT_KEY_SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
+    	context.set(ContextKeys.CONTEXT_KEY_SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
     	
     	context.set(ContextKeys.CONTEXT_KEY_ORIGINAL_CT_DATA_COLS_COUNT, originalDataColsCount);
     	context.set(ContextKeys.CONTEXT_KEY_ORIGINAL_CT_GROUP_COLS_COUNT, originalGroupColsCount);
     	
-		context.set(CrossTabReport.CONTEXT_KEY_CROSSTAB_HEADER_ROWS, getCrosstabHeaderRows()); 
-		context.set(CrossTabReport.CONTEXT_KEY_CROSSTAB_DATA, crosstabData); 
+		context.set(ContextKeys.CONTEXT_KEY_CROSSTAB_HEADER_ROWS, getCrosstabHeaderRows()); 
+		context.set(ContextKeys.CONTEXT_KEY_CROSSTAB_DATA, crosstabData); 
 		
 		//adding specific flat report steps to the algorithm
     	algorithm.addInitStep(new FlatReportExtractDataInitStep());

@@ -8,7 +8,7 @@ import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.ReportContent;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.out.CellProps;
@@ -67,7 +67,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     /**
      * the init of this step 
      */
-    public void init(IAlgorithmContext reportContext){
+    public void init(IReportContext reportContext){
     	super.init(reportContext);
     	
     	groupCols = getGroupingColumns();

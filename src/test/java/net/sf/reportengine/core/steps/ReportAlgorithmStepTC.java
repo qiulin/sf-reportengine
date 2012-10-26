@@ -3,14 +3,15 @@
  */
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.core.algorithm.DefaultAlgoContext;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.DefaultReportContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.out.MemoryOutput;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.LoggerOutput;
 import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.test.ReportengineTC;
+import net.sf.reportengine.util.ContextKeys;
 
 /**
  * utility test case containing usefull constants and properties for all 
@@ -21,7 +22,7 @@ import net.sf.reportengine.test.ReportengineTC;
  */
 public class ReportAlgorithmStepTC extends ReportengineTC {
 	
-	private IAlgorithmContext TEST_REPORT_CONTEXT; 
+	private IReportContext TEST_REPORT_CONTEXT; 
 	private OutputDispatcher TEST_OUTPUT_DISPATCHER; 
 	
 	private MemoryOutput cumulativeReportOutput = null;
@@ -35,7 +36,7 @@ public class ReportAlgorithmStepTC extends ReportengineTC {
 		TEST_OUTPUT_DISPATCHER.registerOutput(cumulativeReportOutput);
 		TEST_OUTPUT_DISPATCHER.registerOutput(new LoggerOutput());
 		
-		TEST_REPORT_CONTEXT = new DefaultAlgoContext();
+		TEST_REPORT_CONTEXT = new DefaultReportContext();
 		TEST_REPORT_CONTEXT.setOutput(TEST_OUTPUT_DISPATCHER);
 	}
 	
@@ -43,24 +44,24 @@ public class ReportAlgorithmStepTC extends ReportengineTC {
 		super.tearDown();
 	}
 	
-	protected IAlgorithmContext getTestContext(){
+	protected IReportContext getTestContext(){
 		return TEST_REPORT_CONTEXT;
 	}
 	
 	protected void setAggLevel(int aggLevel){
-		TEST_REPORT_CONTEXT.set(GroupingLevelDetectorStep.CONTEXT_KEY_NEW_GROUPING_LEVEL, aggLevel);
+		TEST_REPORT_CONTEXT.set(ContextKeys.CONTEXT_KEY_NEW_GROUPING_LEVEL, aggLevel);
 	}
 	
 	protected void setCalculatorMatrix(ICalculator[][] calculators){
-		TEST_REPORT_CONTEXT.set(TotalsCalculatorStep.CONTEXT_KEY_CALCULATORS, calculators);
+		TEST_REPORT_CONTEXT.set(ContextKeys.CONTEXT_KEY_CALCULATORS, calculators);
 	}
 	
 	protected void setComputedInputValues(Object[] computedValues){
-		TEST_REPORT_CONTEXT.set(ComputeColumnValuesStep.CONTEXT_KEY_COMPUTED_CELL_VALUES, computedValues);
+		TEST_REPORT_CONTEXT.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, computedValues);
 	}
 	
 	protected void setPreviousGroupValues(Object[] prevValues){
-		TEST_REPORT_CONTEXT.set(PreviousRowManagerStep.CONTEXT_KEY_LAST_GROUPING_VALUES, prevValues);
+		TEST_REPORT_CONTEXT.set(ContextKeys.CONTEXT_KEY_LAST_GROUPING_VALUES, prevValues);
 	}
 	
 	protected MemoryOutput getTestOutput(){
@@ -72,7 +73,7 @@ public class ReportAlgorithmStepTC extends ReportengineTC {
 	}
 	
 	protected void assertEqualsCalculatorValues(ICalculator[][] expectedValues){
-		ICalculator[][] calcMatrix = (ICalculator[][])TEST_REPORT_CONTEXT.get(TotalsCalculatorStep.CONTEXT_KEY_CALCULATORS);
+		ICalculator[][] calcMatrix = (ICalculator[][])TEST_REPORT_CONTEXT.get(ContextKeys.CONTEXT_KEY_CALCULATORS);
 		assertEquals(expectedValues.length, calcMatrix.length);
 		for(int i=0; i< expectedValues.length; i++){
 			assertEquals(expectedValues[i].length, calcMatrix[i].length);

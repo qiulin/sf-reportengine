@@ -3,11 +3,11 @@
  */
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.AbstractReport;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.util.ContextKeys;
 
 /**
  * @author Administrator
@@ -36,15 +36,15 @@ public class TestFlatReportExtractDataInitStep extends ReportAlgorithmStepTC {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.FlatReportExtractDataInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.FlatReportExtractDataInitStep#init(net.sf.reportengine.core.algorithm.IReportContext)}.
 	 */
 	public void testInit() {
-		IAlgorithmContext reportContext = getTestContext(); 
-		reportContext.set(AbstractReport.CONTEXT_KEY_DATA_COLUMNS, TEST_DATA_COLUMNS); 
+		IReportContext reportContext = getTestContext(); 
+		reportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, TEST_DATA_COLUMNS); 
 		
 		classUnderTest.init(reportContext); 
 		
-		int[] result = (int[])reportContext.get(FlatReportExtractDataInitStep.CONTEXT_KEY_DISTRIBUTION_OF_CALCULATORS);
+		int[] result = (int[])reportContext.get(ContextKeys.CONTEXT_KEY_DISTRIBUTION_OF_CALCULATORS);
 		assertNotNull(result);
 		assertEquals(TEST_DATA_COLUMNS.length, result.length);
 		

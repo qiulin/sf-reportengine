@@ -3,18 +3,17 @@
  */
 package net.sf.reportengine.core.steps.crosstab;
 
-import net.sf.reportengine.AbstractReport;
-import net.sf.reportengine.CrossTabReport;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.config.SecondProcessDataColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
 import net.sf.reportengine.core.ReportContent;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.RowProps;
+import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
 
 import org.apache.log4j.Logger;
@@ -34,12 +33,12 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)
 	 */
-	public void init(IAlgorithmContext reportContext) {
+	public void init(IReportContext reportContext) {
 		IReportOutput reportOutput = (IReportOutput)reportContext.getOutput();
-		IDataColumn[] dataColumns = (IDataColumn[])reportContext.get(AbstractReport.CONTEXT_KEY_DATA_COLUMNS);
-		IGroupColumn[] groupColumns = (IGroupColumn[])reportContext.get(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS); 
-		//ICrosstabHeaderRow[] headerRows = (ICrosstabHeaderRow[])reportContext.get(CrossTabReport.CONTEXT_KEY_CROSSTAB_HEADER_ROWS); 
-		CtMetadata ctMetadata = (CtMetadata)reportContext.get(CrossTabReport.CONTEXT_KEY_CROSSTAB_METADATA);
+		IDataColumn[] dataColumns = (IDataColumn[])reportContext.get(ContextKeys.CONTEXT_KEY_DATA_COLUMNS);
+		IGroupColumn[] groupColumns = (IGroupColumn[])reportContext.get(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS); 
+		//ICrosstabHeaderRow[] headerRows = (ICrosstabHeaderRow[])reportContext.get(ContextKeys.CONTEXT_KEY_CROSSTAB_HEADER_ROWS); 
+		CtMetadata ctMetadata = (CtMetadata)reportContext.get(ContextKeys.CONTEXT_KEY_CROSSTAB_METADATA);
 		
 //		reportOutput.startRow(); 
 //		if(groupColumns != null && groupColumns.length > 0){

@@ -4,15 +4,15 @@
  */
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.AbstractReport;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.ReportContent;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.RowProps;
+import net.sf.reportengine.util.ContextKeys;
 
 import org.apache.log4j.Logger;
 
@@ -46,10 +46,10 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
         this.reportTitle = title;
     }
     
-    public void init(IAlgorithmContext reportContext){
+    public void init(IReportContext reportContext){
     	logger.trace("initializing the column header step: output title and column headers");
-    	IDataColumn[] dataCols = (IDataColumn[])reportContext.get(AbstractReport.CONTEXT_KEY_DATA_COLUMNS);
-    	IGroupColumn[] groupCols = (IGroupColumn[])reportContext.get(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS); 
+    	IDataColumn[] dataCols = (IDataColumn[])reportContext.get(ContextKeys.CONTEXT_KEY_DATA_COLUMNS);
+    	IGroupColumn[] groupCols = (IGroupColumn[])reportContext.get(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS); 
     	
     	int outputColumnsCnt = dataCols.length + (groupCols != null ? groupCols.length : 0); 
     	

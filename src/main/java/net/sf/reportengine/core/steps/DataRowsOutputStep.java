@@ -21,15 +21,10 @@ import org.apache.log4j.Logger;
  * <p>
  *  Output step used mainly on Flat reports
  * </p>
- * @author dragos balan 
+ * @author dragos balan (dragos dot balan at gmail dot com)
  */
 public class DataRowsOutputStep extends AbstractReportStep {
     
-	/**
-	 * the one and only logger
-	 */
-	private static final Logger logger = Logger.getLogger(DataRowsOutputStep.class);
-	
     /**
 	 * 
      * constructor
@@ -41,37 +36,16 @@ public class DataRowsOutputStep extends AbstractReportStep {
      * execute. Constructs a cell for each value and sends it to output
      */
     public void execute(NewRowEvent rowEvent) {
-    	
     	String[] currentRow = getFormattedCellValues();
+    	IReportOutput output = getOutput();
     	
-    	//filter the values of the current row and check if the display is allowed
-    	boolean displayCurrentRow = true;
-    	List<DataOutputFilter> filterList = getDataOutputFilterList();
-    	if(filterList != null){
-    		for(DataOutputFilter filter: filterList){
-    			if(!filter.isDisplayable(currentRow)){
-    				displayCurrentRow = false;
-    				break;
-    			}
-    		}
-    	}
-    	
-    	//if display is allowed (not filtered) then output current row
-    	if(displayCurrentRow){
-    		IReportOutput output = getOutput();
-    	
-    		output.startRow(new RowProps(ReportContent.CONTENT_DATA));
-        
-    		CellProps  cellProperties = null;
-    		for (int i = 0; i < currentRow.length; i++) {
-    			cellProperties = new CellProps(	currentRow[i]);
-    			output.output(cellProperties);
-    		}
-    		output.endRow();
-    	}else{
-    		if(logger.isTraceEnabled()){
-    			logger.trace("the row "+Arrays.toString(currentRow)+" was filtered and it will not be displayed");
-    		}
-    	}
+		output.startRow(new RowProps(ReportContent.CONTENT_DATA));
+    
+		CellProps  cellProperties = null;
+		for (int i = 0; i < currentRow.length; i++) {
+			cellProperties = new CellProps(	currentRow[i]);
+			output.output(cellProperties);
+		}
+		output.endRow();
     }
 }

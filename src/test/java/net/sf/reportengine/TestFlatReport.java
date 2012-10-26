@@ -17,6 +17,7 @@ import net.sf.reportengine.scenarios.NoGroupsScenario;
 import net.sf.reportengine.scenarios.OhlcComputationScenario;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.Scenario2x3x1;
+import net.sf.reportengine.scenarios.ScenarioFormatedValues;
 import net.sf.reportengine.scenarios.ShowOnlySpecificTotalsScenario;
 import net.sf.reportengine.test.ReportengineTC;
 import net.sf.reportengine.util.MatrixUtils;
@@ -236,6 +237,15 @@ public class TestFlatReport extends ReportengineTC {
 		flatReport.setDataColumns(OhlcComputationScenario.DATA_COLUMNS);
 		flatReport.setShowTotals(true);
 		flatReport.setShowDataRows(true);
+		flatReport.execute();
+	}
+	
+	public void testFlatReportWithFormattedValues(){
+		flatReport.setIn(ScenarioFormatedValues.INPUT);
+		flatReport.setOut(new HtmlOutput("./target/testFormattedValues.html"));
+		
+		flatReport.setReportTitle("Formatted Values");
+		flatReport.setDataColumns(ScenarioFormatedValues.DATA_COLUMNS);
 		flatReport.execute();
 	}	
 }

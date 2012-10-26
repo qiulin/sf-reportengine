@@ -4,10 +4,11 @@
  */
 package net.sf.reportengine.core.algorithm;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 
 import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.util.ContextKeys;
 
 /**
  * 
@@ -19,20 +20,14 @@ import net.sf.reportengine.out.IReportOutput;
  * consult the documentation of each key . Also the hairs of this class should 
  * provide details to the values stored right next to the documentation of the key.
  * </p>
- * @author dragos balan (dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  */
-public class DefaultAlgoContext implements IAlgorithmContext{
+public class DefaultReportContext implements IReportContext{
     
-    /**
-     * used for performance : this is the initial prediction about the 
-     * content of the contextData
+	/**
+     * an enumMap containing the context data
      */
-    private final static int INITIAL_CAPACITY = 20;
-    
-    /**
-     * a hashmap containing the context data
-     */
-    private HashMap<String, Object> contextData;
+    private EnumMap<ContextKeys, Object> contextData;
     
     /**
      * the input of the report
@@ -49,8 +44,8 @@ public class DefaultAlgoContext implements IAlgorithmContext{
     /**
      * constructor of the class
      */
-    public DefaultAlgoContext(){
-        contextData = new HashMap<String, Object>(INITIAL_CAPACITY);
+    public DefaultReportContext(){
+        contextData = new EnumMap<ContextKeys, Object>(ContextKeys.class);
     }
     
     /**
@@ -58,14 +53,14 @@ public class DefaultAlgoContext implements IAlgorithmContext{
      * 
      * @return the object associated with the key
      */
-    public Object get(String key){
+    public Object get(ContextKeys key){
         return contextData.get(key);
     }
     
     /**
-     * @see net.sf.reportengine.core.algorithm.IAlgorithmContext#get(String)
+     * @see net.sf.reportengine.core.algorithm.IReportContext#get(String)
      */
-    public void set(String key, Object value){
+    public void set(ContextKeys key, Object value){
         contextData.put(key,value);
     }
     

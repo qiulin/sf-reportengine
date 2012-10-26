@@ -6,7 +6,7 @@ package net.sf.reportengine.core.algorithm.steps;
 import java.io.IOException;
 import java.io.Writer;
 
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 
 import org.apache.log4j.Logger;
@@ -49,7 +49,7 @@ public class DataCachingStep implements IAlgorithmMainStep {
     /**
      * empty implementation
      */
-    public void init(IAlgorithmContext reportContext) {} 
+    public void init(IReportContext reportContext) {} 
     
     /**
      * execute 

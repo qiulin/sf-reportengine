@@ -12,7 +12,7 @@ public class SumCalculatorsFactory implements ICalculatorsFactory {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.calc.ICalculatorsFactory#newInstance()
 	 */
-	public ICalculator newInstance() {
+	public ICalculator newCalculatorInstance() {
 		return new SumCalculator(); 
 	}
 }

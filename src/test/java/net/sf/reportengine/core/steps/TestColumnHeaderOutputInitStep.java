@@ -3,10 +3,10 @@
  */
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.AbstractReport;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.scenarios.Scenario1;
+import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.MatrixUtils;
 
 /**
@@ -27,12 +27,12 @@ public class TestColumnHeaderOutputInitStep extends ReportAlgorithmStepTC {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep#init(net.sf.reportengine.core.algorithm.IReportContext)}.
 	 */
 	public void testInitScenario1() {
-		IAlgorithmContext testReportContext = getTestContext();
-		testReportContext.set(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS.toArray());
-		testReportContext.set(AbstractReport.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS.toArray());
+		IReportContext testReportContext = getTestContext();
+		testReportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS.toArray());
+		testReportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS.toArray());
 		
 		classUnderTest.init(testReportContext);
 		

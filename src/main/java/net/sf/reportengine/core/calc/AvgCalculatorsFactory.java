@@ -8,7 +8,7 @@ package net.sf.reportengine.core.calc;
  */
 public class AvgCalculatorsFactory implements ICalculatorsFactory {
 
-	public ICalculator newInstance() {
+	public ICalculator newCalculatorInstance() {
 		return new AvgCalculator(); 
 	}
 }

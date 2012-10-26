@@ -108,7 +108,7 @@ public class CalculatorMatrix {
     	for(int i=0; i< rowCount; i++){
     		result[i] = new ICalculator[calcFactories.length];
     		for (int j = 0; j < calcFactories.length; j++) {
-    			result[i][j] = (ICalculator)calcFactories[j].newInstance();
+    			result[i][j] = (ICalculator)calcFactories[j].newCalculatorInstance();
     		}
     	}
         return result;

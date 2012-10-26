@@ -3,12 +3,11 @@
  */
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.AbstractReport;
-import net.sf.reportengine.FlatReport;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.scenarios.CalculatedColumnsScenario;
 import net.sf.reportengine.scenarios.Scenario1;
+import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.ReportEngineArrayUtils;
 
 /**
@@ -38,16 +37,16 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 	 * Test method for {@link net.sf.reportengine.core.steps.ComputeColumnValuesStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
 	 */
 	public void testExecuteScenario1() {
-		IAlgorithmContext reportContext = getTestContext(); 
+		IReportContext reportContext = getTestContext(); 
 		
-		reportContext.set(AbstractReport.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS.toArray());
-		reportContext.set(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS.toArray());
+		reportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS.toArray());
+		reportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS.toArray());
 		classUnderTest.init(reportContext);
 		
 		NewRowEvent dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_1);
 		classUnderTest.execute(dataRowEvent);
 		
-		Object[] results = (Object[])reportContext.get(ComputeColumnValuesStep.CONTEXT_KEY_COMPUTED_CELL_VALUES);
+		Object[] results = (Object[])reportContext.get(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES);
 		
 		assertNotNull(results);
 		assertEquals(6, results.length);
@@ -57,7 +56,7 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_2);
 		classUnderTest.execute(dataRowEvent);
 		
-		results = (Object[])reportContext.get(ComputeColumnValuesStep.CONTEXT_KEY_COMPUTED_CELL_VALUES);
+		results = (Object[])reportContext.get(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES);
 		
 		assertNotNull(results);
 		assertEquals(6, results.length);
@@ -65,10 +64,10 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 	}
 	
 	public void testExecuteComputedColumns(){
-		IAlgorithmContext reportContext = getTestContext(); 
+		IReportContext reportContext = getTestContext(); 
 		
-		reportContext.set(AbstractReport.CONTEXT_KEY_DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
-		reportContext.set(AbstractReport.CONTEXT_KEY_GROUPING_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
+		reportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
+		reportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
 		
 		classUnderTest.init(reportContext);
 		
@@ -76,7 +75,7 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 			NewRowEvent dataRowEvent = new NewRowEvent(CalculatedColumnsScenario.RAW_DATA[i]);
 			classUnderTest.execute(dataRowEvent);
 		
-			Object[] results = (Object[])reportContext.get(ComputeColumnValuesStep.CONTEXT_KEY_COMPUTED_CELL_VALUES);
+			Object[] results = (Object[])reportContext.get(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES);
 		
 			assertNotNull(results);
 			assertEquals(8, results.length);

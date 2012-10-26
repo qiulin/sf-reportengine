@@ -5,19 +5,19 @@
 package net.sf.reportengine.core.steps;
 
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.CalculatorException;
 import net.sf.reportengine.util.CalculatorMatrix;
+import net.sf.reportengine.util.ContextKeys;
 
 import org.apache.log4j.Logger;
 
 /**
  * this step is responsible for :
  * 	1. initializing / reinitializing the totals
- * 	2. calculation of the totals
+ * 	2. computing the totals
  * 
- * @author dragos balan (dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
 public class TotalsCalculatorStep extends AbstractReportStep{
@@ -28,18 +28,13 @@ public class TotalsCalculatorStep extends AbstractReportStep{
 	private static final Logger logger = Logger.getLogger(TotalsCalculatorStep.class);
 	
 	/**
-	 * the context key for the calculator matrix
-	 */
-    public static final String CONTEXT_KEY_CALCULATORS = "net.sf.reportengine.calculators";
-    
-    
-    
-    /**
      * the calculators matrix
      */
     private CalculatorMatrix calculatorMatrix;
     
-    
+    /**
+     * 
+     */
     int groupColsCnt = -1;
     
     /**
@@ -50,13 +45,10 @@ public class TotalsCalculatorStep extends AbstractReportStep{
     	
     }
     
-      
-    
-    
     /**
      * init
      */
-    public void init(IAlgorithmContext reportContext){
+    public void init(IReportContext reportContext){
         super.init(reportContext);
         
         //ICalculator[] prototypesCalc = extractCalculators(getDataColumns());
@@ -71,7 +63,7 @@ public class TotalsCalculatorStep extends AbstractReportStep{
         calculatorMatrix = new CalculatorMatrix(groupColsCnt + 1, getDataColumns());
         calculatorMatrix.initAllCalculators();
         
-        reportContext.set(CONTEXT_KEY_CALCULATORS, calculatorMatrix.getCalculators());
+        reportContext.set(ContextKeys.CONTEXT_KEY_CALCULATORS, calculatorMatrix.getCalculators());
     }
     
     /**

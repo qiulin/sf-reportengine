@@ -4,12 +4,13 @@
 package net.sf.reportengine.core.steps.crosstab;
 
 import net.sf.reportengine.core.ReportContent;
-import net.sf.reportengine.core.algorithm.IAlgorithmContext;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.RowProps;
+import net.sf.reportengine.util.ContextKeys;
 
 import org.apache.log4j.Logger;
 
@@ -18,8 +19,8 @@ import org.apache.log4j.Logger;
  * The intermediate crosstab row holds ICrosstabData (and some other usefull info) until
  * the grouping level is changed. At this moment the intermediate manager is resetting the intermediate row. 
  * 
- * @author dragos balan
- *
+ * @author dragos balan (dragos dot bala at gmail dot com)
+ * @since 0.4
  */
 public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 	
@@ -27,13 +28,6 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 	 * the logger
 	 */
 	private static final Logger logger = Logger.getLogger(IntermediateCrosstabRowMangerStep.class);
-	
-	/**
-	 * 
-	 */
-	public static final String CONTEXT_KEY_INTERMEDIATE_ROW = "net.sf.reportengine.int.intermediateRow";
-	
-	
 	
 	/**
 	 * this is an intermediate line containing values ( plus values meta-data like position of the value relative to headerrows values). 
@@ -44,13 +38,12 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 	private IntermediateReportRow intermediateRow = new IntermediateReportRow(); 
 	
 	
-	
 	/**
 	 * 
 	 */
-	public void init(IAlgorithmContext context){
+	public void init(IReportContext context){
 		super.init(context);
-		context.set(CONTEXT_KEY_INTERMEDIATE_ROW, intermediateRow);
+		context.set(ContextKeys.CONTEXT_KEY_INTERMEDIATE_ROW, intermediateRow);
 	}
 	
 	
