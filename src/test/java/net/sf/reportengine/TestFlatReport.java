@@ -80,7 +80,9 @@ public class TestFlatReport extends ReportengineTC {
 		
 		assertTrue(MatrixUtils.compareMatrices(testOut.getCellMatrix(), Scenario1.EXPECTED_OUTPUT));
 		
-}
+	}
+	
+	
 	
 	public void testExecuteScenarioOhlc(){
 		boolean flawless = true;
@@ -189,7 +191,7 @@ public class TestFlatReport extends ReportengineTC {
 		InputStream inputStream = getTestFileFromClasspath("Utf8Input.txt");
 		assertNotNull(inputStream);
 		
-		flatReport.setReportTitle("και εδαφικές προκλήσεις που");
+		flatReport.setReportTitle("ÎºÎ±Î¹ ÎµÎ´Î±Ï†Î¹ÎºÎ­Ï‚ Ï€Ï�Î¿ÎºÎ»Î®ÏƒÎµÎ¹Ï‚ Ï€Î¿Ï…");
 		
 		IReportInput reportInput = new StreamReportInput(inputStream, ",", "UTF-8"); 
 		flatReport.setIn(reportInput); 
@@ -208,7 +210,7 @@ public class TestFlatReport extends ReportengineTC {
 		InputStream inputStream = getTestFileFromClasspath("Utf8Input.txt");
 		assertNotNull(inputStream);
 		
-		flatReport.setReportTitle("και εδαφικές προκλήσεις που");
+		flatReport.setReportTitle("ÎºÎ±Î¹ ÎµÎ´Î±Ï†Î¹ÎºÎ­Ï‚ Ï€Ï�Î¿ÎºÎ»Î®ÏƒÎµÎ¹Ï‚ Ï€Î¿Ï…");
 		
 		IReportInput reportInput = new StreamReportInput(inputStream, ",", "UTF-8"); 
 		flatReport.setIn(reportInput); 
@@ -243,9 +245,13 @@ public class TestFlatReport extends ReportengineTC {
 	public void testFlatReportWithFormattedValues(){
 		flatReport.setIn(ScenarioFormatedValues.INPUT);
 		flatReport.setOut(new HtmlOutput("./target/testFormattedValues.html"));
-		
 		flatReport.setReportTitle("Formatted Values");
+		flatReport.setShowTotals(true); 
+		flatReport.setShowGrandTotal(true); 
+		
+		flatReport.setGroupColumns(ScenarioFormatedValues.GROUP_COLUMNS);
 		flatReport.setDataColumns(ScenarioFormatedValues.DATA_COLUMNS);
 		flatReport.execute();
-	}	
+	}
+	
 }
