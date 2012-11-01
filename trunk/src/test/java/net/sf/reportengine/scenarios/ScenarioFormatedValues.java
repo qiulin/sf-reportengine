@@ -4,7 +4,6 @@
 package net.sf.reportengine.scenarios;
 
 import java.text.DateFormat;
-import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -13,7 +12,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import net.sf.reportengine.config.DefaultDataColumn;
+import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.IDataColumn;
+import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.in.MemoryReportInput;
 
@@ -41,16 +43,21 @@ public class ScenarioFormatedValues {
 			new Object[]{Integer.valueOf(7), "80000000",Integer.valueOf(800), calendar.getTime()},
 	});
 	
+	public static final List<IGroupColumn> GROUP_COLUMNS = Arrays.asList(
+			new IGroupColumn[]{
+				new DefaultGroupColumn("Formatted group value", 0, 0, NumberFormat.getCurrencyInstance())
+			}
+	); 
+	
 	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList( 
 	new IDataColumn[]{
-		new DefaultDataColumn("Non formatted", 0),
 		new DefaultDataColumn("Formatted String", 1, null, null){
 			@Override
 			public String getFormattedValue(Object value){
 				return String.format("the value %s is formatted", value); 
 			}
 		},
-		new DefaultDataColumn("Formatted Integer", 2, null, NumberFormat.getCurrencyInstance()),
+		new DefaultDataColumn("Formatted Integer", 2, Calculators.MAX, NumberFormat.getCurrencyInstance()),
 		new DefaultDataColumn("Formatted Date", 3, null, SimpleDateFormat.getDateInstance(DateFormat.SHORT))
 	});
 }

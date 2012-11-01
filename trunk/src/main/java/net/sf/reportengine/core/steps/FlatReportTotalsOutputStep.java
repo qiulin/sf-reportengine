@@ -46,15 +46,18 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
    
     
     /**
-     * previous data row - used mainly to display the totals 
+     * local copy of the group columns
      */
-    //private Object[] previousDataRow; 
-    
-    
     private IGroupColumn[] groupCols; 
     
+    /**
+     * local copy of the data columns
+     */
     private IDataColumn[] dataCols;
     
+    /**
+     * 
+     */
     private int[] distribOfCalculatorsInDataColsArray; 
     
     /**
@@ -65,7 +68,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     }
     
     /**
-     * the init of this step 
+     * init method 
      */
     public void init(IReportContext reportContext){
     	super.init(reportContext);
@@ -143,7 +146,11 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
         }
     }
     
-    
+    /**
+     * 
+     * @param groupLevel
+     * @param calcForCurrentGroupingLevel
+     */
     private void outputTotalsRow(	int groupLevel, 
     								ICalculator[] calcForCurrentGroupingLevel){
     	if(distribOfCalculatorsInDataColsArray.length != dataCols.length){
@@ -164,17 +171,25 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     			//for all others grouping columns put whitespaces 
     			//( groupColumns.length-1 colspan because the first column was already 
     			//filled with the word "Total xxxx"
-    			output.output(new CellProps(IReportOutput.WHITESPACE, groupCols.length-1, ReportContent.CONTENT_DATA));
+    			output.output(new CellProps(IReportOutput.WHITESPACE, 
+    										groupCols.length-1, 
+    										ReportContent.CONTENT_DATA));
     		}
         }
         
+    	String formattedResult = null; 
+    	
         //then iterate over data columns to display the totals for those having calculators
     	for (int i = 0; i < dataCols.length; i++) {
 			IDataColumn column = dataCols[i];
 			if(column.getCalculator() != null){
 				int calculatorIndex = distribOfCalculatorsInDataColsArray[i];
-				Object calculatorResult = calcForCurrentGroupingLevel[calculatorIndex].getResult(); 
-				output.output(new CellProps(calculatorResult));
+				Object calculatorResult = calcForCurrentGroupingLevel[calculatorIndex].getResult();
+				
+				//format the computed value 
+				formattedResult = dataCols[i].getFormattedValue(calculatorResult); 
+				
+				output.output(new CellProps(formattedResult));
 			}else{
 				output.output(new CellProps(IReportOutput.WHITESPACE));
 			}
