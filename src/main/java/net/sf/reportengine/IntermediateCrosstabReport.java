@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.config.ICrosstabData;
 import net.sf.reportengine.config.ICrosstabHeaderRow;
 import net.sf.reportengine.config.IDataColumn;
@@ -243,6 +244,10 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 		public ICalculatorsFactory getCalculator() {
 			return crosstabData.getCalculator();
 		}
+
+		public HorizontalAlign getHorizAlign() {
+			return crosstabData.getHorizAlign(); 
+		}
 	}
 	
 	protected static class IntermGroupColFromCtDataCol implements IGroupColumn{
@@ -269,6 +274,10 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 
 		public Object getValue(NewRowEvent newRowEvent) {
 			return dataColumn.getValue(newRowEvent);
+		}
+
+		public HorizontalAlign getHorizAlign() {
+			return dataColumn.getHorizAlign(); 
 		}
 		
 	}
@@ -316,6 +325,10 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 				//TODO: come back here and return a formatted value
 			}
 			return result; 
+		}
+
+		public HorizontalAlign getHorizAlign() {
+			return HorizontalAlign.CENTER; //TODO: check if this is used
 		}
 
 }

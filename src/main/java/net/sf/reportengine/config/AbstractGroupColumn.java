@@ -7,24 +7,32 @@ import java.text.Format;
 
 
 /**
- * @author Administrator
- *
+ * 
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.4
  */
 public abstract class AbstractGroupColumn implements IGroupColumn {
-	
 	
 	private int groupingLevel; 
 	private String header; 
 	private Format formatter; 
+	private HorizontalAlign horizAlign; 
 	
-	
-	
+	/**
+	 * 
+	 * @param header
+	 * @param groupingLevel
+	 * @param formatter
+	 * @param horizAlign
+	 */
 	public AbstractGroupColumn(	String header, 
-									int groupingLevel, 
-									Format formatter){
+								int groupingLevel, 
+								Format formatter, 
+								HorizontalAlign horizAlign){
 		setHeader(header);
 		setGroupingLevel(groupingLevel);
 		setFormatter(formatter);
+		setHorizAlign(horizAlign); 
 	}
 	
 	/* (non-Javadoc)
@@ -66,6 +74,20 @@ public abstract class AbstractGroupColumn implements IGroupColumn {
 
 	public void setFormatter(Format formatter) {
 		this.formatter = formatter;
+	}
+
+	/**
+	 * @return the horizAlign
+	 */
+	public HorizontalAlign getHorizAlign() {
+		return horizAlign;
+	}
+
+	/**
+	 * @param horizAlign the horizAlign to set
+	 */
+	public void setHorizAlign(HorizontalAlign horizAlign) {
+		this.horizAlign = horizAlign;
 	}
 
 }

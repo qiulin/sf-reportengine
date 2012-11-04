@@ -9,23 +9,38 @@ import net.sf.reportengine.core.calc.ICalculatorsFactory;
 
 
 /**
- * @author dragos balan
- *
+ * 
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.4
  */
 public abstract class AbstractCrosstabData implements ICrosstabData {
-
+	
+	/**
+	 * 
+	 */
 	private Format formatter; 
 	
+	/**
+	 * 
+	 */
 	private ICalculatorsFactory calculatorFactory; 
+	
+	/**
+	 * 
+	 */
+	private HorizontalAlign horizAlign; 
 	
 	/**
 	 * 
 	 * @param calcFactory
 	 * @param formatter
 	 */
-	public AbstractCrosstabData(ICalculatorsFactory calcFactory, Format formatter){
+	public AbstractCrosstabData(ICalculatorsFactory calcFactory, 
+								Format formatter, 
+								HorizontalAlign horizAlign){
 		setCalculator(calcFactory);
 		setFormatter(formatter);
+		setHorizAlign(horizAlign); 
 	}
 
 	/* (non-Javadoc)
@@ -57,6 +72,20 @@ public abstract class AbstractCrosstabData implements ICrosstabData {
 
 	public void setCalculator(ICalculatorsFactory calcFactory) {
 		this.calculatorFactory = calcFactory;
+	}
+
+	/**
+	 * @return the horizAlign
+	 */
+	public HorizontalAlign getHorizAlign() {
+		return horizAlign;
+	}
+
+	/**
+	 * @param horizAlign the horizAlign to set
+	 */
+	public void setHorizAlign(HorizontalAlign horizAlign) {
+		this.horizAlign = horizAlign;
 	}
 
 }

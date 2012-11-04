@@ -7,15 +7,37 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.ICalculatorsFactory;
 
 /**
- * @author Administrator
- *
+ * Crosstab data
+ * 
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.4
  */
 public interface ICrosstabData {
 	
+	/**
+	 * 
+	 * @param newRowEvent
+	 * @return
+	 */
 	public Object getValue(NewRowEvent newRowEvent);
 	
+	/**
+	 * 
+	 * @param unformattedValue
+	 * @return
+	 */
 	public String getFormattedValue(Object unformattedValue);
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public ICalculatorsFactory getCalculator();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public HorizontalAlign getHorizAlign(); 
 	
 }

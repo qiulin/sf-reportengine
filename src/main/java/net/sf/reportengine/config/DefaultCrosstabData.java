@@ -22,20 +22,54 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	private int inputColumnIndex; 
 	
 	
+	/**
+	 * 
+	 */
 	public DefaultCrosstabData(){
 		this(0); 
 	}
 	
+	/**
+	 * 
+	 * @param inputColumnIndex
+	 */
 	public DefaultCrosstabData(int inputColumnIndex){
 		this(inputColumnIndex, null); 
 	}
 	
+	/**
+	 * 
+	 * @param inputColumnIndex
+	 * @param calcFactory
+	 */
 	public DefaultCrosstabData(int inputColumnIndex, ICalculatorsFactory calcFactory){
 		this(inputColumnIndex, calcFactory, null);
 	}
 	
-	public DefaultCrosstabData(int inputColumIndex, ICalculatorsFactory calcFactory, Format formatter){
-		super(calcFactory, formatter);
+	/**
+	 * 
+	 * @param inputColumIndex
+	 * @param calcFactory
+	 * @param formatter
+	 */
+	public DefaultCrosstabData(	int inputColumIndex, 
+								ICalculatorsFactory calcFactory, 
+								Format formatter){
+		this(inputColumIndex, calcFactory, formatter, HorizontalAlign.CENTER);
+	}
+	
+	/**
+	 * 
+	 * @param inputColumIndex
+	 * @param calcFactory
+	 * @param formatter
+	 * @param horizAlign
+	 */
+	public DefaultCrosstabData(	int inputColumIndex, 
+								ICalculatorsFactory calcFactory, 
+								Format formatter, 
+								HorizontalAlign horizAlign){
+		super(calcFactory, formatter, horizAlign);
 		setInputColumnIndex(inputColumIndex);
 	}
 	

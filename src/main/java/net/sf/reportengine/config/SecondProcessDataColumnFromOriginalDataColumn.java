@@ -60,4 +60,8 @@ public class SecondProcessDataColumnFromOriginalDataColumn implements IDataColum
 	public ICalculatorsFactory getCalculator() {
 		return originalDataColumn.getCalculator();
 	}
+
+	public HorizontalAlign getHorizAlign() {
+		return originalDataColumn.getHorizAlign(); 
+	}
 }
