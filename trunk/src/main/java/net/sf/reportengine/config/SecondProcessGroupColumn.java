@@ -48,4 +48,9 @@ public class SecondProcessGroupColumn implements IGroupColumn {
 	public String getFormattedValue(Object object) {
 		return originalGroupColumn.getFormattedValue(object);
 	}
+
+
+	public HorizontalAlign getHorizAlign() {
+		return originalGroupColumn.getHorizAlign(); 
+	}
 }

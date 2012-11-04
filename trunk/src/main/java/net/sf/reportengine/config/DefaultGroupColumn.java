@@ -33,12 +33,25 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 		this("Column "+inputColumnIndex, inputColumnIndex, groupingLevel);
 	}
 		
-	public DefaultGroupColumn(String header, int inputColumnIndex, int groupingLevel){
+	public DefaultGroupColumn(	String header, 
+								int inputColumnIndex, 
+								int groupingLevel){
 		this(header, inputColumnIndex, groupingLevel, null);
 	}
 	
-	public DefaultGroupColumn(String header, int inputColumnIndex, int groupingLevel, Format formatter){
-		super(header, groupingLevel, formatter);
+	public DefaultGroupColumn(	String header, 
+								int inputColumnIndex, 
+								int groupingLevel, 
+								Format formatter){
+		this(header, inputColumnIndex, groupingLevel, formatter, HorizontalAlign.CENTER); 
+	}
+	
+	public DefaultGroupColumn(	String header, 
+								int inputColumnIndex, 
+								int groupingLevel, 
+								Format formatter, 
+								HorizontalAlign horizAlign){
+		super(header, groupingLevel, formatter, horizAlign);
 		setInputColumnIndex(inputColumnIndex);
 	}
 	

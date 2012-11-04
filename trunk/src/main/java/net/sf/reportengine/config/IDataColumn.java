@@ -7,10 +7,10 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.ICalculatorsFactory;
 
 /**
- * The basic interface for a report data column
+ * Data column for flat and crosstab reports. 
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
- *
+ * @since 0.4
  */
 public interface IDataColumn{
 	
@@ -26,24 +26,33 @@ public interface IDataColumn{
 	
 	/**
 	 * returns the formatted value ready to be displayed on the report
-	 * @param value
-	 * @return
+	 * 
+	 * @param value	the unformatted value
+	 * @return	the formatted value
 	 */
 	public String getFormattedValue(Object value);
 	
 	
 	/**
+	 * retrieves the value for this column. 
+	 * This is the most important method as it retrieves the data for the row-column combination. 
+	 *  
 	 * 
-	 * @param newRowEvent
-	 * @return
+	 * @param newRowEvent the event containing the new row of data as an array
+	 * @return	the computed value for this column
 	 */
 	public Object getValue(NewRowEvent newRowEvent); 
 	
 	
 	/**
 	 * returns the calculator (if any) to be used on this column 
-	 * @return
 	 */
 	public ICalculatorsFactory getCalculator();
+	
+	
+	/**
+	 * returns the horizontal alignment to be used for this column
+	 */
+	public HorizontalAlign getHorizAlign();
 	
 }

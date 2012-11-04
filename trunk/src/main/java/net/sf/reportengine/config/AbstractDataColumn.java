@@ -2,7 +2,6 @@ package net.sf.reportengine.config;
 
 import java.text.Format;
 
-import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.core.calc.ICalculatorsFactory;
 
 public abstract class AbstractDataColumn implements IDataColumn {
@@ -10,16 +9,48 @@ public abstract class AbstractDataColumn implements IDataColumn {
 	private String header; 
 	private Format formatter; 
 	private ICalculatorsFactory calculatorsFactory; 
+	private HorizontalAlign horizAlign; 
 	
+	/**
+	 * 
+	 * @param header
+	 */
 	public AbstractDataColumn(String header){
 		this(header, null); 
 	}
 	
+	/**
+	 * 
+	 * @param header
+	 * @param calculator
+	 */
 	public AbstractDataColumn(String header, ICalculatorsFactory calculator){
 		this(header, calculator, null); 
 	}
 	
-	public AbstractDataColumn(String header, ICalculatorsFactory calculator, Format formatter){
+	/**
+	 * 
+	 * @param header
+	 * @param calculator
+	 * @param formatter
+	 */
+	public AbstractDataColumn(	String header, 
+								ICalculatorsFactory calculator, 
+								Format formatter){
+		this(header, calculator, formatter, HorizontalAlign.CENTER);
+	}
+	
+	/**
+	 * 
+	 * @param header
+	 * @param calculator
+	 * @param formatter
+	 * @param horizAlign
+	 */
+	public AbstractDataColumn(	String header, 
+								ICalculatorsFactory calculator, 
+								Format formatter, 
+								HorizontalAlign horizAlign){
 		setHeader(header); 
 		setFormatter(formatter); 
 		setCalculator(calculator); 
@@ -59,6 +90,20 @@ public abstract class AbstractDataColumn implements IDataColumn {
 
 	public void setCalculator(ICalculatorsFactory calculatorFactory) {
 		this.calculatorsFactory = calculatorFactory;
+	}
+
+	/**
+	 * @return the horizAlign
+	 */
+	public HorizontalAlign getHorizAlign() {
+		return horizAlign;
+	}
+
+	/**
+	 * @param horizAlign the horizAlign to set
+	 */
+	public void setHorizAlign(HorizontalAlign horizAlign) {
+		this.horizAlign = horizAlign;
 	}
 
 }
