@@ -10,10 +10,10 @@ import java.io.Serializable;
  * <p>
  *  Definition interface for any calculator
  * </p>
- * @author dragos balan (dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public interface ICalculator extends Serializable{
+public interface ICalculator extends Serializable, Cloneable {
     
     /**
      * initializer of the totals 
@@ -35,4 +35,11 @@ public interface ICalculator extends Serializable{
      * @return	result
      */
     public Object getResult();
+    
+    /**
+     * returns a deep copy of this calculator 
+     * (this is a variant of the Prototype pattern )
+     * @return	a clone of this calculator
+     */
+    public ICalculator clone(); 
 }

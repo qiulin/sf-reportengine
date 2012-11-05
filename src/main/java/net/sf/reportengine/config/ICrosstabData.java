@@ -4,7 +4,7 @@
 package net.sf.reportengine.config;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.ICalculatorsFactory;
+import net.sf.reportengine.core.calc.ICalculator;
 
 /**
  * Crosstab data
@@ -32,7 +32,7 @@ public interface ICrosstabData {
 	 * 
 	 * @return
 	 */
-	public ICalculatorsFactory getCalculator();
+	public ICalculator getCalculator();
 	
 	/**
 	 * 
