@@ -12,10 +12,10 @@ import net.sf.reportengine.config.ICrosstabData;
 import net.sf.reportengine.config.ICrosstabHeaderRow;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.IReportAlgorithm;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.ICalculatorsFactory;
+import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
@@ -241,7 +241,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 			return crosstabData.getValue(newRowEvent);
 		}
 
-		public ICalculatorsFactory getCalculator() {
+		public ICalculator getCalculator() {
 			return crosstabData.getCalculator();
 		}
 

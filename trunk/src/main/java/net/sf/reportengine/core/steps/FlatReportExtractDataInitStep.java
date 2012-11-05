@@ -6,11 +6,11 @@ package net.sf.reportengine.core.steps;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
-import net.sf.reportengine.core.calc.ICalculatorsFactory;
+import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.util.ContextKeys;
 
 /**
- * extracts some usefull data to be used by the next steps in the report. 
+ * extracts some useful data to be used by the next steps in the report. 
  * 
  * 1.The distribution of calculators among data columns
  * 
@@ -19,6 +19,9 @@ import net.sf.reportengine.util.ContextKeys;
  */
 public class FlatReportExtractDataInitStep implements IAlgorithmInitStep {
 	
+	/**
+	 * 
+	 */
 	public final static int NO_CALCULATOR_ON_THIS_POSITION = -1; 
 	
 	/**
@@ -55,8 +58,8 @@ public class FlatReportExtractDataInitStep implements IAlgorithmInitStep {
     	
     	int columnWithCalculatorsCount = 0;
     	for(int i=0; i<dataCols.length; i++){
-    		ICalculatorsFactory calculatorsFactory = dataCols[i].getCalculator();
-    		if(calculatorsFactory != null){
+    		ICalculator calculator = dataCols[i].getCalculator();
+    		if(calculator != null){
     			result[i] = columnWithCalculatorsCount; 
     			columnWithCalculatorsCount++;
     		}else{

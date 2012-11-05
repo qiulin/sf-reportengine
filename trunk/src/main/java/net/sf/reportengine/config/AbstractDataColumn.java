@@ -2,13 +2,13 @@ package net.sf.reportengine.config;
 
 import java.text.Format;
 
-import net.sf.reportengine.core.calc.ICalculatorsFactory;
+import net.sf.reportengine.core.calc.ICalculator;
 
 public abstract class AbstractDataColumn implements IDataColumn {
 	
 	private String header; 
 	private Format formatter; 
-	private ICalculatorsFactory calculatorsFactory; 
+	private ICalculator calculator; 
 	private HorizontalAlign horizAlign; 
 	
 	/**
@@ -24,7 +24,7 @@ public abstract class AbstractDataColumn implements IDataColumn {
 	 * @param header
 	 * @param calculator
 	 */
-	public AbstractDataColumn(String header, ICalculatorsFactory calculator){
+	public AbstractDataColumn(String header, ICalculator calculator){
 		this(header, calculator, null); 
 	}
 	
@@ -35,7 +35,7 @@ public abstract class AbstractDataColumn implements IDataColumn {
 	 * @param formatter
 	 */
 	public AbstractDataColumn(	String header, 
-								ICalculatorsFactory calculator, 
+								ICalculator calculator, 
 								Format formatter){
 		this(header, calculator, formatter, HorizontalAlign.CENTER);
 	}
@@ -48,7 +48,7 @@ public abstract class AbstractDataColumn implements IDataColumn {
 	 * @param horizAlign
 	 */
 	public AbstractDataColumn(	String header, 
-								ICalculatorsFactory calculator, 
+								ICalculator calculator, 
 								Format formatter, 
 								HorizontalAlign horizAlign){
 		setHeader(header); 
@@ -73,8 +73,8 @@ public abstract class AbstractDataColumn implements IDataColumn {
 	}
 	
 
-	public ICalculatorsFactory getCalculator() {
-		return calculatorsFactory;
+	public ICalculator getCalculator() {
+		return calculator;
 	}
 
 
@@ -88,8 +88,8 @@ public abstract class AbstractDataColumn implements IDataColumn {
 	}
 
 
-	public void setCalculator(ICalculatorsFactory calculatorFactory) {
-		this.calculatorsFactory = calculatorFactory;
+	public void setCalculator(ICalculator calculator) {
+		this.calculator = calculator;
 	}
 
 	/**

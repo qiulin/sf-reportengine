@@ -6,7 +6,7 @@ package net.sf.reportengine.config;
 import java.text.Format;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.ICalculatorsFactory;
+import net.sf.reportengine.core.calc.ICalculator;
 
 
 /**
@@ -42,8 +42,8 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	 * @param inputColumnIndex
 	 * @param calcFactory
 	 */
-	public DefaultCrosstabData(int inputColumnIndex, ICalculatorsFactory calcFactory){
-		this(inputColumnIndex, calcFactory, null);
+	public DefaultCrosstabData(int inputColumnIndex, ICalculator calc){
+		this(inputColumnIndex, calc, null);
 	}
 	
 	/**
@@ -53,9 +53,9 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	 * @param formatter
 	 */
 	public DefaultCrosstabData(	int inputColumIndex, 
-								ICalculatorsFactory calcFactory, 
+								ICalculator calc, 
 								Format formatter){
-		this(inputColumIndex, calcFactory, formatter, HorizontalAlign.CENTER);
+		this(inputColumIndex, calc, formatter, HorizontalAlign.CENTER);
 	}
 	
 	/**
@@ -66,10 +66,10 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	 * @param horizAlign
 	 */
 	public DefaultCrosstabData(	int inputColumIndex, 
-								ICalculatorsFactory calcFactory, 
+								ICalculator calc, 
 								Format formatter, 
 								HorizontalAlign horizAlign){
-		super(calcFactory, formatter, horizAlign);
+		super(calc, formatter, horizAlign);
 		setInputColumnIndex(inputColumIndex);
 	}
 	

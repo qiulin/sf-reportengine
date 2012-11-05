@@ -6,7 +6,7 @@ package net.sf.reportengine.config;
 import java.text.Format;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.ICalculatorsFactory;
+import net.sf.reportengine.core.calc.ICalculator;
 
 /**
  * This is the basic configuration of a report data column. 
@@ -59,8 +59,8 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 * @param inputColumnIndex
 	 * @param calculatorsFactory
 	 */
-	public DefaultDataColumn(String header, int inputColumnIndex, ICalculatorsFactory calculatorsFactory){
-		this(header, inputColumnIndex, calculatorsFactory, null);
+	public DefaultDataColumn(String header, int inputColumnIndex, ICalculator calculator){
+		this(header, inputColumnIndex, calculator, null);
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 */
 	public DefaultDataColumn(	String header,
 								int inputColumnIndex, 
-								ICalculatorsFactory calculator, 
+								ICalculator calculator, 
 								Format formatter){
 		super(header, calculator, formatter);
 		setInputColumnIndex(inputColumnIndex);

@@ -15,41 +15,40 @@ public class Calculators {
     /**
      * 
      */
-    public static final ICalculatorsFactory SUM = new SumCalculatorsFactory();
+    public static final ICalculator SUM = new SumCalculator();
     
     /**
      * 
      */
-    public static final ICalculatorsFactory COUNT = new CountCalculatorsFactory();
+    public static final ICalculator COUNT = new CountCalculator();
     
     /**
      * 
      */
-    public static final ICalculatorsFactory AVG = new AvgCalculatorsFactory();
+    public static final ICalculator AVG = new AvgCalculator();
     
     /**
      * 
      */
-    public static final ICalculatorsFactory MIN = new MinCalculatorsFactory();
+    public static final ICalculator MIN = new MinCalculator();
     
     /**
      * 
      */
-    public static final ICalculatorsFactory MAX = new MaxCalculatorsFactory();
+    public static final ICalculator MAX = new MaxCalculator();
     
     /**
      * 
      */
-    public static final ICalculatorsFactory FIRST = new FirstCalculatorsFactory();
+    public static final ICalculator FIRST = new FirstCalculator();
     
     /**
      * 
      */
-    public static final ICalculatorsFactory LAST = new LastCalculatorsFactory();
+    public static final ICalculator LAST = new LastCalculator();
+    
     
     private Calculators(){
         //dummy impl just to prevent inheritance
     }
-    
-    
 }
