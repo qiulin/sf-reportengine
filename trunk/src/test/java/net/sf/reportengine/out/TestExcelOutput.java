@@ -35,7 +35,7 @@ public class TestExcelOutput extends ReportengineTC {
 	public void testOutput() {
 		classUnderTest.open();
 		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-		classUnderTest.output(new CellProps("value here"));
+		classUnderTest.output(new CellProps.Builder("value here").build());
 		classUnderTest.endRow();
 		classUnderTest.close();
 	}

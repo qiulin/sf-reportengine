@@ -32,13 +32,13 @@ public class TestHtmlOutput extends ReportengineTC {
 		classUnderTest.open();
 		
 		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
-		classUnderTest.output(new CellProps("от Субсахарска")); 
-		classUnderTest.output(new CellProps("Африка"));
-		classUnderTest.output(new CellProps("постига"));
+		classUnderTest.output(new CellProps.Builder("от Субсахарска").build()); 
+		classUnderTest.output(new CellProps.Builder("Африка").build());
+		classUnderTest.output(new CellProps.Builder("постига").build());
 		classUnderTest.endRow(); 
 		
 		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
-		classUnderTest.output(new CellProps("устойчиви резултати", 3));
+		classUnderTest.output(new CellProps.Builder("устойчиви резултати").colspan(3).build());
 		classUnderTest.endRow(); 
 		
 		classUnderTest.close(); 

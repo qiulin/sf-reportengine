@@ -4,6 +4,7 @@
  */
 package net.sf.reportengine.core.steps;
 
+import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.ReportContent;
@@ -19,7 +20,7 @@ import org.apache.log4j.Logger;
 /**
  * basic output for report title and report column header 
  * 
- * @author dragos balan
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
 public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
@@ -42,10 +43,17 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
         this(null);
     }
     
+    /**
+     * 
+     * @param title
+     */
     public ColumnHeaderOutputInitStep(String title){
         this.reportTitle = title;
     }
     
+    /**
+     * 
+     */
     public void init(IReportContext reportContext){
     	logger.trace("initializing the column header step: output title and column headers");
     	IDataColumn[] dataCols = (IDataColumn[])reportContext.get(ContextKeys.CONTEXT_KEY_DATA_COLUMNS);
@@ -57,7 +65,11 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
     	IReportOutput output = (IReportOutput)reportContext.getOutput();
         if(reportTitle != null){
         	output.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE));
-            CellProps titleCellProps = new CellProps( reportTitle, outputColumnsCnt, ReportContent.CONTENT_REPORT_TITLE);
+            CellProps titleCellProps = new CellProps.Builder(reportTitle)
+            									.colspan(outputColumnsCnt)
+            									.contentType(ReportContent.CONTENT_REPORT_TITLE)
+            									.horizAlign(HorizontalAlign.CENTER)
+            									.build();
             output.output(titleCellProps);
             output.endRow();
         }
@@ -67,12 +79,20 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
         CellProps cellProps = null;
         if(groupCols != null){
 	        for (IGroupColumn groupColumn : groupCols) {
-				cellProps = new CellProps(groupColumn.getHeader(), 1, ReportContent.CONTENT_COLUMN_HEADERS);
+				cellProps = new CellProps.Builder(groupColumn.getHeader())
+										.colspan(1)
+										.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
+										.horizAlign(HorizontalAlign.CENTER)
+										.build();
 				output.output(cellProps);
 			}
         }
         for (IDataColumn dataColumn: dataCols) {
-            cellProps = new CellProps(dataColumn.getHeader(), 1, ReportContent.CONTENT_COLUMN_HEADERS);
+            cellProps = new CellProps.Builder(dataColumn.getHeader())
+            						.colspan(1)
+            						.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
+            						.horizAlign(HorizontalAlign.CENTER)
+            						.build();
             output.output(cellProps);
         }
         

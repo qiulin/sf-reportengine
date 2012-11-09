@@ -37,22 +37,22 @@ public class TestXslFoOut extends ReportengineTC {
             classUnderTest.open();
             
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE)); 
-            classUnderTest.output(new CellProps("report title", 1, ReportContent.CONTENT_REPORT_TITLE));
+            classUnderTest.output(new CellProps.Builder("report title").contentType(ReportContent.CONTENT_REPORT_TITLE).build());
             classUnderTest.endRow();
             
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS)); 
-            classUnderTest.output(new CellProps("column1 ", 1, ReportContent.CONTENT_COLUMN_HEADERS));
+            classUnderTest.output(new CellProps.Builder("column1 ").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build());
             classUnderTest.endRow();
             
            
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            classUnderTest.output(new CellProps("row 1 col 1"));
+            classUnderTest.output(new CellProps.Builder("row 1 col 1").build());
             classUnderTest.endRow();
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            classUnderTest.output(new CellProps("row 2 col 1"));
+            classUnderTest.output(new CellProps.Builder("row 2 col 1").build());
             classUnderTest.endRow();
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            classUnderTest.output(new CellProps("row 3 col 1"));
+            classUnderTest.output(new CellProps.Builder("row 3 col 1").build());
             classUnderTest.endRow();
             classUnderTest.close();  
         }catch(Throwable exc){
@@ -68,21 +68,21 @@ public class TestXslFoOut extends ReportengineTC {
             classUnderTest.open();
             
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE)); 
-            classUnderTest.output(new CellProps("Действията", 1, ReportContent.CONTENT_REPORT_TITLE));
+            classUnderTest.output(new CellProps.Builder("Действията").contentType(ReportContent.CONTENT_REPORT_TITLE).build());
             classUnderTest.endRow(); 
             
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS)); 
-            classUnderTest.output(new CellProps("column1 ", 1, ReportContent.CONTENT_COLUMN_HEADERS));
+            classUnderTest.output(new CellProps.Builder("column1 ").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build());
             classUnderTest.endRow();
             
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            classUnderTest.output(new CellProps("Πρωτόκολλο Αζήτητων"));
+            classUnderTest.output(new CellProps.Builder("Πρωτόκολλο Αζήτητων").build());
             classUnderTest.endRow();
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            classUnderTest.output(new CellProps("Βιβλία"));
+            classUnderTest.output(new CellProps.Builder("Βιβλία").build());
             classUnderTest.endRow();
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            classUnderTest.output(new CellProps("Ανασυσκευασία"));
+            classUnderTest.output(new CellProps.Builder("Ανασυσκευασία").build());
             classUnderTest.endRow();
             classUnderTest.close();  
         }catch(Throwable exc){
@@ -98,22 +98,22 @@ public class TestXslFoOut extends ReportengineTC {
             
             
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE)); 
-            classUnderTest.output(new CellProps("report title", 1, ReportContent.CONTENT_REPORT_TITLE));
+            classUnderTest.output(new CellProps.Builder("report title").contentType(ReportContent.CONTENT_REPORT_TITLE).build());
             classUnderTest.endRow();
             
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS)); 
-            classUnderTest.output(new CellProps("column1 ", 1, ReportContent.CONTENT_COLUMN_HEADERS));
+            classUnderTest.output(new CellProps.Builder("column1 ").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build());
             classUnderTest.endRow();
             
             
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            classUnderTest.output(new CellProps("row 1 col 1"));
+            classUnderTest.output(new CellProps.Builder("row 1 col 1").build());
             classUnderTest.endRow();
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            classUnderTest.output(new CellProps("row 2 col 1"));
+            classUnderTest.output(new CellProps.Builder("row 2 col 1").build());
             classUnderTest.endRow();
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            classUnderTest.output(new CellProps("row 3 col 1"));
+            classUnderTest.output(new CellProps.Builder("row 3 col 1").build());
             classUnderTest.endRow();
             classUnderTest.close();  
         }catch(Throwable exc){
@@ -130,22 +130,22 @@ public class TestXslFoOut extends ReportengineTC {
             classUnderTest.open();
             
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE)); 
-            classUnderTest.output(new CellProps("report title", 1, ReportContent.CONTENT_REPORT_TITLE));
+            classUnderTest.output(new CellProps.Builder("report title").contentType(ReportContent.CONTENT_REPORT_TITLE).build());
             classUnderTest.endRow(); 
             
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS)); 
-            classUnderTest.output(new CellProps("column1 ", 1, ReportContent.CONTENT_COLUMN_HEADERS));
+            classUnderTest.output(new CellProps.Builder("column1 ").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build());
             classUnderTest.endRow();
             
             
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            classUnderTest.output(new CellProps("row 1 col 1"));
+            classUnderTest.output(new CellProps.Builder("row 1 col 1").build());
             classUnderTest.endRow();
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            classUnderTest.output(new CellProps("row 2 col 1"));
+            classUnderTest.output(new CellProps.Builder("row 2 col 1").build());
             classUnderTest.endRow();
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            classUnderTest.output(new CellProps("row 3 col 1"));
+            classUnderTest.output(new CellProps.Builder("row 3 col 1").build());
             classUnderTest.endRow();
             classUnderTest.close();  
        }catch(Throwable exc){

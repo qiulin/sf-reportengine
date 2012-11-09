@@ -34,15 +34,15 @@ public class TestXsltOut extends ReportengineTC {
             XsltReportOutput xsltOutTest= new XsltReportOutput(createTestOutputFile("testXSLTOut.html"));
             xsltOutTest.open();
             xsltOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            xsltOutTest.output(new CellProps("value row 1"));
+            xsltOutTest.output(new CellProps.Builder("value row 1").build());
             xsltOutTest.endRow();
             
             xsltOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            xsltOutTest.output(new CellProps("value row 2"));
+            xsltOutTest.output(new CellProps.Builder("value row 2").build());
             xsltOutTest.endRow();
             
             xsltOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            xsltOutTest.output(new CellProps("value row 3"));
+            xsltOutTest.output(new CellProps.Builder("value row 3").build());
             xsltOutTest.endRow();
             
             xsltOutTest.close();            

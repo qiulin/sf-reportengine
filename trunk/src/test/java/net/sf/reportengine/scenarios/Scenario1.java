@@ -137,147 +137,147 @@ public class Scenario1 {
 	public final static CellProps[][] OUTPUT_TOTALS = new CellProps[][]{
 			//displayed on row 3
 			new CellProps[]{
-					new CellProps("Total 3"), 
-					new CellProps(" ", 2), 
-					new CellProps(" ", 1), 
-					new CellProps(""+ROW_2_CALCULATORS_RESULTS[0][0].getResult()), 
-					new CellProps(""+ROW_2_CALCULATORS_RESULTS[0][1].getResult())
+					new CellProps.Builder("Total 3").build(), 
+					new CellProps.Builder(" ").colspan(2).build(), 
+					new CellProps.Builder(" ").build(), 
+					new CellProps.Builder(""+ROW_2_CALCULATORS_RESULTS[0][0].getResult()).build(), 
+					new CellProps.Builder(""+ROW_2_CALCULATORS_RESULTS[0][1].getResult()).build()
 			},
 			
 			//displayed on row 4
 			new CellProps[]{
-					new CellProps("Total 2"), 
-					new CellProps(" ", 2), 
-					new CellProps(" ", 1),
-					new CellProps(""+ROW_3_CALCULATORS_RESULTS[0][0].getResult()), 
-					new CellProps(""+ROW_3_CALCULATORS_RESULTS[0][1].getResult())
+					new CellProps.Builder("Total 2").build(), 
+					new CellProps.Builder(" ").colspan(2).build(), 
+					new CellProps.Builder(" ").build(),
+					new CellProps.Builder(""+ROW_3_CALCULATORS_RESULTS[0][0].getResult()).build(), 
+					new CellProps.Builder(""+ROW_3_CALCULATORS_RESULTS[0][1].getResult()).build()
 			}, 
 			new CellProps[]{
-					new CellProps("Total 2"),
-					new CellProps(" ",2),
-					new CellProps(" ", 1),
-					new CellProps(""+ROW_3_CALCULATORS_RESULTS[1][0].getResult()),
-					new CellProps(""+ROW_3_CALCULATORS_RESULTS[1][1].getResult())
+					new CellProps.Builder("Total 2").build(),
+					new CellProps.Builder(" ").colspan(2).build(),
+					new CellProps.Builder(" ").build(),
+					new CellProps.Builder(""+ROW_3_CALCULATORS_RESULTS[1][0].getResult()).build(),
+					new CellProps.Builder(""+ROW_3_CALCULATORS_RESULTS[1][1].getResult()).build()
 			},
 			
 			//displayed on row 6
 			new CellProps[]{
-					new CellProps("Total 1"), 
-					new CellProps(" ", 2),
-					new CellProps(" ", 1),
-					new CellProps(""+ROW_5_CALCULATORS_RESULTS[0][0].getResult()), 
-					new CellProps(""+ROW_5_CALCULATORS_RESULTS[0][1].getResult())
+					new CellProps.Builder("Total 1").build(), 
+					new CellProps.Builder(" ").colspan(2).build(),
+					new CellProps.Builder(" ").build(),
+					new CellProps.Builder(""+ROW_5_CALCULATORS_RESULTS[0][0].getResult()).build(), 
+					new CellProps.Builder(""+ROW_5_CALCULATORS_RESULTS[0][1].getResult()).build()
 			},
 			new CellProps[]{
-					new CellProps("Total 1"), 
-					new CellProps(" ", 2),
-					new CellProps(" ", 1),
-					new CellProps(""+ROW_5_CALCULATORS_RESULTS[1][0].getResult()), 
-					new CellProps(""+ROW_5_CALCULATORS_RESULTS[1][1].getResult())
+					new CellProps.Builder("Total 1").build(), 
+					new CellProps.Builder(" ").colspan(2).build(),
+					new CellProps.Builder(" ").build(),
+					new CellProps.Builder(""+ROW_5_CALCULATORS_RESULTS[1][0].getResult()).build(), 
+					new CellProps.Builder(""+ROW_5_CALCULATORS_RESULTS[1][1].getResult()).build()
 			}, 
 			new CellProps[]{
-					new CellProps("Total 1"),
-					new CellProps(" ",2),
-					new CellProps(" ", 1),
-					new CellProps(""+ROW_5_CALCULATORS_RESULTS[2][0].getResult()),
-					new CellProps(""+ROW_5_CALCULATORS_RESULTS[2][1].getResult())
+					new CellProps.Builder("Total 1").build(),
+					new CellProps.Builder(" ").colspan(2).build(),
+					new CellProps.Builder(" ").build(),
+					new CellProps.Builder(""+ROW_5_CALCULATORS_RESULTS[2][0].getResult()).build(),
+					new CellProps.Builder(""+ROW_5_CALCULATORS_RESULTS[2][1].getResult()).build()
 			},
 			
 			//displayed on exit
 			new CellProps[]{
-					new CellProps("Total 1"), 
-					new CellProps(" ", 2),
-					new CellProps(" ", 1),
-					new CellProps(""+ROW_6_CALCULATORS_RESULTS[0][0].getResult()), 
-					new CellProps(""+ROW_6_CALCULATORS_RESULTS[0][1].getResult())
+					new CellProps.Builder("Total 1").build(), 
+					new CellProps.Builder(" ").colspan(2).build(),
+					new CellProps.Builder(" ").build(),
+					new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[0][0].getResult()).build(), 
+					new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[0][1].getResult()).build()
 			},
 			new CellProps[]{
-					new CellProps("Total 1"), 
-					new CellProps(" ", 2),
-					new CellProps(" ", 1),
-					new CellProps(""+ROW_6_CALCULATORS_RESULTS[1][0].getResult()), 
-					new CellProps(""+ROW_6_CALCULATORS_RESULTS[1][1].getResult())
+					new CellProps.Builder("Total 1").build(), 
+					new CellProps.Builder(" ").colspan(2).build(),
+					new CellProps.Builder(" ").build(),
+					new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[1][0].getResult()).build(), 
+					new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[1][1].getResult()).build()
 			}, 
 			new CellProps[]{
-					new CellProps("Total 7"),
-					new CellProps(" ",2),
-					new CellProps(" ", 1),
-					new CellProps(""+ROW_6_CALCULATORS_RESULTS[2][0].getResult()),
-					new CellProps(""+ROW_6_CALCULATORS_RESULTS[2][1].getResult())
+					new CellProps.Builder("Total 7").build(),
+					new CellProps.Builder(" ").colspan(2).build(),
+					new CellProps.Builder(" ").build(),
+					new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[2][0].getResult()).build(),
+					new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[2][1].getResult()).build()
 			},
 			new CellProps[]{
-					new CellProps("Grand Total"),
-					new CellProps(" ",2),
-					new CellProps(" ", 1),
-					new CellProps(""+ROW_6_CALCULATORS_RESULTS[3][0].getResult()),
-					new CellProps(""+ROW_6_CALCULATORS_RESULTS[3][1].getResult())
+					new CellProps.Builder("Grand Total").build(),
+					new CellProps.Builder(" ").colspan(2).build(),
+					new CellProps.Builder(" ").build(),
+					new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[3][0].getResult()).build(),
+					new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[3][1].getResult()).build()
 			}
 	};
 	
 	public final static CellProps[][] OUTPUT_DATA = new CellProps[][]{
 		//displayed on row 1
 		new CellProps[]{
-				new CellProps(ROW_OF_DATA_1[0]), 
-				new CellProps(ROW_OF_DATA_1[1]), 
-				new CellProps(ROW_OF_DATA_1[2]), 
-				new CellProps(ROW_OF_DATA_1[3]), 
-				new CellProps(ROW_OF_DATA_1[4]), 
-				new CellProps(ROW_OF_DATA_1[5]) 
+				new CellProps.Builder(ROW_OF_DATA_1[0]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1[1]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1[2]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1[3]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1[4]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1[5]).build() 
 		},
 		//displayed on row 2
 		new CellProps[]{
-				new CellProps(ROW_OF_DATA_2[0]), 
-				new CellProps(ROW_OF_DATA_2[1]), 
-				new CellProps(ROW_OF_DATA_2[2]), 
-				new CellProps(ROW_OF_DATA_2[3]), 
-				new CellProps(ROW_OF_DATA_2[4]), 
-				new CellProps(ROW_OF_DATA_2[5]) 
+				new CellProps.Builder(ROW_OF_DATA_2[0]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2[1]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2[2]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2[3]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2[4]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2[5]).build() 
 		},
 		//displayed on row 3
 		new CellProps[]{
-				new CellProps(ROW_OF_DATA_3[0]), 
-				new CellProps(ROW_OF_DATA_3[1]), 
-				new CellProps(ROW_OF_DATA_3[2]), 
-				new CellProps(ROW_OF_DATA_3[3]), 
-				new CellProps(ROW_OF_DATA_3[4]), 
-				new CellProps(ROW_OF_DATA_3[5]) 
+				new CellProps.Builder(ROW_OF_DATA_3[0]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3[1]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3[2]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3[3]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3[4]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3[5]).build() 
 		},
 		//displayed on row 4
 		new CellProps[]{
-				new CellProps(ROW_OF_DATA_4[0]), 
-				new CellProps(ROW_OF_DATA_4[1]), 
-				new CellProps(ROW_OF_DATA_4[2]), 
-				new CellProps(ROW_OF_DATA_4[3]), 
-				new CellProps(ROW_OF_DATA_4[4]), 
-				new CellProps(ROW_OF_DATA_4[5]) 
+				new CellProps.Builder(ROW_OF_DATA_4[0]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4[1]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4[2]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4[3]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4[4]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4[5]).build() 
 		},
 		//displayed on row 5
 		new CellProps[]{
-				new CellProps(ROW_OF_DATA_5[0]), 
-				new CellProps(ROW_OF_DATA_5[1]), 
-				new CellProps(ROW_OF_DATA_5[2]), 
-				new CellProps(ROW_OF_DATA_5[3]), 
-				new CellProps(ROW_OF_DATA_5[4]), 
-				new CellProps(ROW_OF_DATA_5[5]) 
+				new CellProps.Builder(ROW_OF_DATA_5[0]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5[1]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5[2]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5[3]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5[4]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5[5]).build() 
 		},
 		//displayed on row 6
 		new CellProps[]{
-				new CellProps(ROW_OF_DATA_6[0]), 
-				new CellProps(ROW_OF_DATA_6[1]), 
-				new CellProps(ROW_OF_DATA_6[2]), 
-				new CellProps(ROW_OF_DATA_6[3]), 
-				new CellProps(ROW_OF_DATA_6[4]), 
-				new CellProps(ROW_OF_DATA_6[5]) 
+				new CellProps.Builder(ROW_OF_DATA_6[0]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6[1]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6[2]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6[3]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6[4]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6[5]).build() 
 		}
 	};
 	
 	public final static CellProps[] EXPECTED_REPORT_COLUMNS_HEADER = new CellProps[]{
-		new CellProps("col 0", 1, ReportContent.CONTENT_COLUMN_HEADERS),
-		new CellProps("col 1", 1, ReportContent.CONTENT_COLUMN_HEADERS),	
-		new CellProps("col 2", 1, ReportContent.CONTENT_COLUMN_HEADERS),
-		new CellProps("col 3", 1, ReportContent.CONTENT_COLUMN_HEADERS),
-		new CellProps("col 4", 1, ReportContent.CONTENT_COLUMN_HEADERS),
-		new CellProps("col 5", 1, ReportContent.CONTENT_COLUMN_HEADERS)
+		new CellProps.Builder("col 0").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build(),
+		new CellProps.Builder("col 1").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build(),	
+		new CellProps.Builder("col 2").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build(),
+		new CellProps.Builder("col 3").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build(),
+		new CellProps.Builder("col 4").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build(),
+		new CellProps.Builder("col 5").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build()
 	}; 
 	
 	public final static CellProps[][] EXPECTED_OUTPUT = new CellProps[][]{
@@ -285,138 +285,138 @@ public class Scenario1 {
 		EXPECTED_REPORT_COLUMNS_HEADER, 
 		//displayed on row 1
 		new CellProps[]{
-				new CellProps(ROW_OF_DATA_1[0]), 
-				new CellProps(ROW_OF_DATA_1[1]), 
-				new CellProps(ROW_OF_DATA_1[2]), 
-				new CellProps(ROW_OF_DATA_1[3]), 
-				new CellProps(ROW_OF_DATA_1[4]), 
-				new CellProps(ROW_OF_DATA_1[5]) 
+				new CellProps.Builder(ROW_OF_DATA_1[0]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1[1]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1[2]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1[3]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1[4]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1[5]).build() 
 		},
 		//displayed on row 2
 		new CellProps[]{
-				new CellProps(ROW_OF_DATA_2[0]), 
-				new CellProps(ROW_OF_DATA_2[1]), 
-				new CellProps(ROW_OF_DATA_2[2]), 
-				new CellProps(ROW_OF_DATA_2[3]), 
-				new CellProps(ROW_OF_DATA_2[4]), 
-				new CellProps(ROW_OF_DATA_2[5]) 
+				new CellProps.Builder(ROW_OF_DATA_2[0]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2[1]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2[2]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2[3]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2[4]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2[5]).build() 
 		},
 		
 		//totals displayed on row 3
 		new CellProps[]{
-				new CellProps("Total 3"), 
-				new CellProps(" ", 2),
-				new CellProps(" ", 1),
-				new CellProps(""+ROW_2_CALCULATORS_RESULTS[0][0].getResult()), 
-				new CellProps(""+ROW_2_CALCULATORS_RESULTS[0][1].getResult())
+				new CellProps.Builder("Total 3").build(), 
+				new CellProps.Builder(" ").colspan(2).build(),
+				new CellProps.Builder(" ").build(),
+				new CellProps.Builder(""+ROW_2_CALCULATORS_RESULTS[0][0].getResult()).build(), 
+				new CellProps.Builder(""+ROW_2_CALCULATORS_RESULTS[0][1].getResult()).build()
 		},
 		
 		//displayed on row 3
 		new CellProps[]{
-				new CellProps(ROW_OF_DATA_3[0]), 
-				new CellProps(ROW_OF_DATA_3[1]), 
-				new CellProps(ROW_OF_DATA_3[2]), 
-				new CellProps(ROW_OF_DATA_3[3]), 
-				new CellProps(ROW_OF_DATA_3[4]), 
-				new CellProps(ROW_OF_DATA_3[5]) 
+				new CellProps.Builder(ROW_OF_DATA_3[0]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3[1]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3[2]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3[3]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3[4]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3[5]).build() 
 		},
 		
 		//totals displayed on row 4
 		new CellProps[]{
-				new CellProps("Total 2"), 
-				new CellProps(" ", 2),
-				new CellProps(" ", 1),
-				new CellProps(""+ROW_3_CALCULATORS_RESULTS[0][0].getResult()), 
-				new CellProps(""+ROW_3_CALCULATORS_RESULTS[0][1].getResult())
+				new CellProps.Builder("Total 2").build(), 
+				new CellProps.Builder(" ").colspan(2).build(),
+				new CellProps.Builder(" ").build(),
+				new CellProps.Builder(""+ROW_3_CALCULATORS_RESULTS[0][0].getResult()).build(), 
+				new CellProps.Builder(""+ROW_3_CALCULATORS_RESULTS[0][1].getResult()).build()
 		}, 
 		new CellProps[]{
-				new CellProps("Total 2"),
-				new CellProps(" ", 2),
-				new CellProps(" ", 1),
-				new CellProps(""+ROW_3_CALCULATORS_RESULTS[1][0].getResult()),
-				new CellProps(""+ROW_3_CALCULATORS_RESULTS[1][1].getResult())
+				new CellProps.Builder("Total 2").build(),
+				new CellProps.Builder(" ").colspan(2).build(),
+				new CellProps.Builder(" ").build(),
+				new CellProps.Builder(""+ROW_3_CALCULATORS_RESULTS[1][0].getResult()).build(),
+				new CellProps.Builder(""+ROW_3_CALCULATORS_RESULTS[1][1].getResult()).build()
 		},
 		
 		//displayed on row 4
 		new CellProps[]{
-				new CellProps(ROW_OF_DATA_4[0]), 
-				new CellProps(ROW_OF_DATA_4[1]), 
-				new CellProps(ROW_OF_DATA_4[2]), 
-				new CellProps(ROW_OF_DATA_4[3]), 
-				new CellProps(ROW_OF_DATA_4[4]), 
-				new CellProps(ROW_OF_DATA_4[5]) 
+				new CellProps.Builder(ROW_OF_DATA_4[0]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4[1]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4[2]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4[3]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4[4]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4[5]).build() 
 		},
 		//displayed on row 5
 		new CellProps[]{
-				new CellProps(ROW_OF_DATA_5[0]), 
-				new CellProps(ROW_OF_DATA_5[1]), 
-				new CellProps(ROW_OF_DATA_5[2]), 
-				new CellProps(ROW_OF_DATA_5[3]), 
-				new CellProps(ROW_OF_DATA_5[4]), 
-				new CellProps(ROW_OF_DATA_5[5]) 
+				new CellProps.Builder(ROW_OF_DATA_5[0]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5[1]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5[2]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5[3]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5[4]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5[5]).build() 
 		},
 		
 		//totals displayed on row 6
 		new CellProps[]{
-				new CellProps("Total 1"), 
-				new CellProps(" ", 2),
-				new CellProps(" ", 1), 
-				new CellProps(""+ROW_5_CALCULATORS_RESULTS[0][0].getResult()), 
-				new CellProps(""+ROW_5_CALCULATORS_RESULTS[0][1].getResult())
+				new CellProps.Builder("Total 1").build(), 
+				new CellProps.Builder(" ").colspan(2).build(),
+				new CellProps.Builder(" ").build(), 
+				new CellProps.Builder(""+ROW_5_CALCULATORS_RESULTS[0][0].getResult()).build(), 
+				new CellProps.Builder(""+ROW_5_CALCULATORS_RESULTS[0][1].getResult()).build()
 		},
 		new CellProps[]{
-				new CellProps("Total 1"), 
-				new CellProps(" ", 2),
-				new CellProps(" ", 1),
-				new CellProps(""+ROW_5_CALCULATORS_RESULTS[1][0].getResult()), 
-				new CellProps(""+ROW_5_CALCULATORS_RESULTS[1][1].getResult())
+				new CellProps.Builder("Total 1").build(), 
+				new CellProps.Builder(" ").colspan(2).build(),
+				new CellProps.Builder(" ").build(),
+				new CellProps.Builder(""+ROW_5_CALCULATORS_RESULTS[1][0].getResult()).build(), 
+				new CellProps.Builder(""+ROW_5_CALCULATORS_RESULTS[1][1].getResult()).build()
 		}, 
 		new CellProps[]{
-				new CellProps("Total 1"),
-				new CellProps(" ", 2),
-				new CellProps(" ", 1),
-				new CellProps(""+ROW_5_CALCULATORS_RESULTS[2][0].getResult()),
-				new CellProps(""+ROW_5_CALCULATORS_RESULTS[2][1].getResult())
+				new CellProps.Builder("Total 1").build(),
+				new CellProps.Builder(" ").colspan(2).build(),
+				new CellProps.Builder(" ").build(),
+				new CellProps.Builder(""+ROW_5_CALCULATORS_RESULTS[2][0].getResult()).build(),
+				new CellProps.Builder(""+ROW_5_CALCULATORS_RESULTS[2][1].getResult()).build()
 		},
 		
 		//displayed on row 6
 		new CellProps[]{
-				new CellProps(ROW_OF_DATA_6[0]), 
-				new CellProps(ROW_OF_DATA_6[1]), 
-				new CellProps(ROW_OF_DATA_6[2]), 
-				new CellProps(ROW_OF_DATA_6[3]), 
-				new CellProps(ROW_OF_DATA_6[4]), 
-				new CellProps(ROW_OF_DATA_6[5]) 
+				new CellProps.Builder(ROW_OF_DATA_6[0]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6[1]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6[2]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6[3]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6[4]).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6[5]).build() 
 		},
 		
 		//totals displayed on exit
 		new CellProps[]{
-				new CellProps("Total 1"), 
-				new CellProps(" ", 2),
-				new CellProps(" ", 1),
-				new CellProps(""+ROW_6_CALCULATORS_RESULTS[0][0].getResult()), 
-				new CellProps(""+ROW_6_CALCULATORS_RESULTS[0][1].getResult())
+				new CellProps.Builder("Total 1").build(), 
+				new CellProps.Builder(" ").colspan(2).build(),
+				new CellProps.Builder(" ").build(),
+				new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[0][0].getResult()).build(), 
+				new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[0][1].getResult()).build()
 		},
 		new CellProps[]{
-				new CellProps("Total 1"), 
-				new CellProps(" ", 2),
-				new CellProps(" ", 1),
-				new CellProps(""+ROW_6_CALCULATORS_RESULTS[1][0].getResult()), 
-				new CellProps(""+ROW_6_CALCULATORS_RESULTS[1][1].getResult())
+				new CellProps.Builder("Total 1").build(), 
+				new CellProps.Builder(" ").colspan(2).build(),
+				new CellProps.Builder(" ").build(),
+				new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[1][0].getResult()).build(), 
+				new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[1][1].getResult()).build()
 		}, 
 		new CellProps[]{
-				new CellProps("Total 7"),
-				new CellProps(" ", 2),
-				new CellProps(" ", 1),
-				new CellProps(""+ROW_6_CALCULATORS_RESULTS[2][0].getResult()),
-				new CellProps(""+ROW_6_CALCULATORS_RESULTS[2][1].getResult())
+				new CellProps.Builder("Total 7").build(),
+				new CellProps.Builder(" ").colspan(2).build(),
+				new CellProps.Builder(" ").build(),
+				new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[2][0].getResult()).build(),
+				new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[2][1].getResult()).build()
 		},
 		new CellProps[]{
-				new CellProps("Grand Total"),
-				new CellProps(" ", 2),
-				new CellProps(" ", 1),
-				new CellProps(""+ROW_6_CALCULATORS_RESULTS[3][0].getResult()),
-				new CellProps(""+ROW_6_CALCULATORS_RESULTS[3][1].getResult())
+				new CellProps.Builder("Grand Total").build(),
+				new CellProps.Builder(" ").colspan(2).build(),
+				new CellProps.Builder(" ").build(),
+				new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[3][0].getResult()).build(),
+				new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[3][1].getResult()).build()
 		}
 	};
 }
