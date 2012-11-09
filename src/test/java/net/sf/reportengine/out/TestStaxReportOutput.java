@@ -32,23 +32,23 @@ public class TestStaxReportOutput extends ReportengineTC {
             xmlOutTest.open();
             
             xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE));
-            xmlOutTest.output(new CellProps("this is the title", 1, ReportContent.CONTENT_REPORT_TITLE));
+            xmlOutTest.output(new CellProps.Builder("this is the title").contentType(ReportContent.CONTENT_REPORT_TITLE).build());
             xmlOutTest.endRow(); 
             
             xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS));
-            xmlOutTest.output(new CellProps("column 1", 1, ReportContent.CONTENT_COLUMN_HEADERS));
+            xmlOutTest.output(new CellProps.Builder("column 1").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build());
             xmlOutTest.endRow(); 
             
             xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            xmlOutTest.output(new CellProps("value row 1 col 1"));
+            xmlOutTest.output(new CellProps.Builder("value row 1 col 1").build());
             xmlOutTest.endRow();
             
             xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            xmlOutTest.output(new CellProps("value row 2 col 1"));
+            xmlOutTest.output(new CellProps.Builder("value row 2 col 1").build());
             xmlOutTest.endRow();
             
             xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            xmlOutTest.output(new CellProps("value row 3 col 1"));
+            xmlOutTest.output(new CellProps.Builder("value row 3 col 1").build());
             xmlOutTest.endRow();
             xmlOutTest.close();            
         }catch(Throwable exc){
@@ -63,15 +63,15 @@ public class TestStaxReportOutput extends ReportengineTC {
             StaxReportOutput xmlOutTest = new StaxReportOutput(createTestOutputFile("testStaxUtf8Out.xml"), "UTF-8");
             xmlOutTest.open();
             xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            xmlOutTest.output(new CellProps("Πρωτόκολλο Αζήτητων"));
+            xmlOutTest.output(new CellProps.Builder("Πρωτόκολλο Αζήτητων").build());
             xmlOutTest.endRow();
             
             xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            xmlOutTest.output(new CellProps("Βιβλία"));
+            xmlOutTest.output(new CellProps.Builder("Βιβλία").build());
             xmlOutTest.endRow();
             
             xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            xmlOutTest.output(new CellProps("и канализация са от"));
+            xmlOutTest.output(new CellProps.Builder("и канализация са от").build());
             xmlOutTest.endRow();
             xmlOutTest.close();            
         }catch(Throwable exc){

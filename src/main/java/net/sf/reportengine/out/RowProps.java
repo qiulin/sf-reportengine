@@ -7,10 +7,7 @@ package net.sf.reportengine.out;
 import net.sf.reportengine.core.ReportContent;
 
 /**
- * <p>
- * output row properties.<br/>
- * FOR FUTURE USE !
- * </p>
+ * <p>row properties holder</p>
  *  
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3 
@@ -20,13 +17,13 @@ public class RowProps {
 	/**
 	 * 
 	 */
-    private ReportContent reportContent =  ReportContent.CONTENT_DATA;
+    private final ReportContent reportContent;
     
     /**
      * 
      */
     public RowProps(){
-    	
+    	this(ReportContent.CONTENT_DATA);
     }
     
     /**
@@ -34,7 +31,7 @@ public class RowProps {
      * @param content
      */
     public RowProps(ReportContent content){
-    	setContent(content); 
+    	this.reportContent = content; 
     }
     
     /**
@@ -45,11 +42,5 @@ public class RowProps {
         return reportContent;
     }
     
-    /**
-     * 
-     * @param content
-     */
-    public void setContent(ReportContent content) {
-        this.reportContent = content;
-    }
+    
 }

@@ -11,8 +11,10 @@ import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.RowProps;
 
 /**
- * @author Administrator
- *
+ * This is used only for debug 
+ * 
+ * @author dragos balan 
+ * 
  */
 public class IntermediateRowDisplayStep extends AbstractCrosstabStep {
 	
@@ -59,9 +61,9 @@ public class IntermediateRowDisplayStep extends AbstractCrosstabStep {
 		IReportOutput output = getOutput(); 
 		
 		output.startRow(new RowProps(ReportContent.CONTENT_DATA));
-		output.output(new CellProps("Intermediate row:", 1, ReportContent.CONTENT_DATA));
+		output.output(new CellProps.Builder("Intermediate row:").build());
 		for (IntermediateDataInfo element : intermediateRow.getIntermComputedDataList().getDataList()) {
-			output.output(new CellProps(element.toString(), 1, ReportContent.CONTENT_DATA));
+			output.output(new CellProps.Builder(element.toString()).build());
 		}		
 		output.endRow(); 
 	}

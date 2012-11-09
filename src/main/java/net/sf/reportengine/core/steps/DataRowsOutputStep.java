@@ -4,18 +4,12 @@
  */
 package net.sf.reportengine.core.steps;
 
-import java.util.Arrays;
-import java.util.List;
-
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.filter.DataOutputFilter;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.RowProps;
-
-import org.apache.log4j.Logger;
 
 /**
  * <p>
@@ -43,7 +37,7 @@ public class DataRowsOutputStep extends AbstractReportStep {
     
 		CellProps  cellProperties = null;
 		for (int i = 0; i < currentRow.length; i++) {
-			cellProperties = new CellProps(	currentRow[i]);
+			cellProperties = new CellProps.Builder(currentRow[i]).build();
 			output.output(cellProperties);
 		}
 		output.endRow();

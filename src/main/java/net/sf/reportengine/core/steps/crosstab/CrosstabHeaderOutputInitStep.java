@@ -3,6 +3,7 @@
  */
 package net.sf.reportengine.core.steps.crosstab;
 
+import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.config.SecondProcessDataColumn;
@@ -74,20 +75,28 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 				//if last header row write the normal column headers
 				if(groupCols != null && groupCols.length > 0){
 					for (int i = 0; i < groupCols.length; i++) {
-						reportOutput.output(new CellProps(groupCols[i].getHeader(), 1, ReportContent.CONTENT_COLUMN_HEADERS)); 
+						reportOutput.output(new CellProps.Builder(groupCols[i].getHeader())
+													.colspan(1)
+													.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
+													.horizAlign(HorizontalAlign.CENTER)
+													.build()); 
 					}
 				}
 				//output header for SecondCrossta ... 
-				reportOutput.output(new CellProps(dataCols[0].getHeader(), 1, ReportContent.CONTENT_COLUMN_HEADERS));
+				reportOutput.output(new CellProps.Builder(dataCols[0].getHeader())
+											.colspan(1)
+											.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
+											.horizAlign(HorizontalAlign.CENTER)
+											.build());
 			}else{
 				//if last header row: 
 				if(groupCols != null && groupCols.length > 0){
 					for (int i = 0; i < groupCols.length; i++) {
-						reportOutput.output(new CellProps()); 
+						reportOutput.output(new CellProps.Builder(IReportOutput.WHITESPACE).build()); 
 					}
 				}
 				//output header for SecondCrossta ... 
-				reportOutput.output(new CellProps());
+				reportOutput.output(new CellProps.Builder(IReportOutput.WHITESPACE).build());
 			}
 			
 			
@@ -103,7 +112,11 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 				if(currentDataColumn instanceof SecondProcessDataColumn){
 					SecondProcessDataColumn currDataColumnAsSPDC = (SecondProcessDataColumn)currentDataColumn; 
 					Object value = ctMetadata.getDistincValueFor(row, currDataColumnAsSPDC.getPosition()[row]);
-					reportOutput.output(new CellProps(value, colspan, ReportContent.CONTENT_COLUMN_HEADERS));
+					reportOutput.output(new CellProps.Builder(value)
+												.colspan(colspan)
+												.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
+												.horizAlign(currDataColumnAsSPDC.getHorizAlign())
+												.build());
 					currentColumn += colspan; 
 				}else{
 					if(currentDataColumn instanceof SecondProcessTotalColumn){
@@ -113,20 +126,30 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 						if(position != null){
 							if(row < position.length){
 								Object value = ctMetadata.getDistincValueFor(row, position[row]);
-								reportOutput.output(new CellProps(value,1, ReportContent.CONTENT_COLUMN_HEADERS));
+								reportOutput.output(new CellProps.Builder(value)
+															.colspan(1)
+															.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
+															.horizAlign(currDataColumnAsSPTC.getHorizAlign())
+															.build());
 							}else{
 								if(row == position.length){
-									reportOutput.output(new CellProps("Total",1, ReportContent.CONTENT_COLUMN_HEADERS))	;
+									reportOutput.output(new CellProps.Builder("Total")
+																.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
+																.horizAlign(HorizontalAlign.CENTER)
+																.build());
 								}else{
-									reportOutput.output(new CellProps());
+									reportOutput.output(new CellProps.Builder(IReportOutput.WHITESPACE).build());
 								}
 							}
 						}else{
 							//grand total
 							if(row == 0){
-								reportOutput.output(new CellProps("Grand Total", 1, ReportContent.CONTENT_COLUMN_HEADERS));
+								reportOutput.output(new CellProps.Builder("Grand Total")
+															.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
+															.horizAlign(HorizontalAlign.LEFT)
+															.build());
 							}else{
-								reportOutput.output(new CellProps());
+								reportOutput.output(new CellProps.Builder(IReportOutput.WHITESPACE).build());
 							}
 						}
 						currentColumn++;
@@ -138,5 +161,4 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 			reportOutput.endRow(); 
 		}
 	}
-	
 }

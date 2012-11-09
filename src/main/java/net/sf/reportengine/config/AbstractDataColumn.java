@@ -4,11 +4,33 @@ import java.text.Format;
 
 import net.sf.reportengine.core.calc.ICalculator;
 
+/**
+ * Abstract implementation for IDataColumn. 
+ * 
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.3 
+ * @see IDataColumn, DefaultDataColumn
+ */
 public abstract class AbstractDataColumn implements IDataColumn {
 	
+	/**
+	 *  the column header
+	 */
 	private String header; 
+	
+	/**
+	 * the formatter
+	 */
 	private Format formatter; 
+	
+	/**
+	 * the calculator of this column
+	 */
 	private ICalculator calculator; 
+	
+	/**
+	 * the horizontal alignment
+	 */
 	private HorizontalAlign horizAlign; 
 	
 	/**
@@ -55,11 +77,26 @@ public abstract class AbstractDataColumn implements IDataColumn {
 		setFormatter(formatter); 
 		setCalculator(calculator); 
 	}
-		
+	
+	/**
+	 * getter for the column header
+	 */
 	public String getHeader() {
 		return header;
 	}
-
+	
+	/**
+	 * setter for this column's header
+	 * @param header
+	 */
+	public void setHeader(String header) {
+		this.header = header;
+	}
+	
+	
+	/**
+	 * returns the formatted value
+	 */
 	public String getFormattedValue(Object value) {
 		String result = "";
 		if(value != null){
@@ -72,24 +109,39 @@ public abstract class AbstractDataColumn implements IDataColumn {
 		return result; 
 	}
 	
-
+	/**
+	 * getter for this column's calculator (if any)
+	 */
 	public ICalculator getCalculator() {
 		return calculator;
 	}
-
-
-	public void setHeader(String header) {
-		this.header = header;
+	
+	/**
+	 * 
+	 * @param calculator
+	 */
+	public void setCalculator(ICalculator calculator) {
+		this.calculator = calculator;
 	}
-
-
+	
+	
+	/**
+	 * sets a formatter for this column. 
+	 * All values of this column will be formatted using this formatter when 
+	 * the report engine calls {@link #getFormattedValue(Object)}
+	 * 
+	 * @param formatter
+	 */
 	public void setFormatter(Format formatter) {
 		this.formatter = formatter;
 	}
-
-
-	public void setCalculator(ICalculator calculator) {
-		this.calculator = calculator;
+	
+	/**
+	 * getter for the formatter
+	 * @return
+	 */
+	public Format getFormatter(){
+		return formatter; 
 	}
 
 	/**
@@ -105,5 +157,4 @@ public abstract class AbstractDataColumn implements IDataColumn {
 	public void setHorizAlign(HorizontalAlign horizAlign) {
 		this.horizAlign = horizAlign;
 	}
-
 }

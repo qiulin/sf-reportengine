@@ -4,6 +4,7 @@
  */
 package net.sf.reportengine.core.steps;
 
+import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
@@ -164,16 +165,17 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     	if(groupCols != null && groupCols.length > 0){
     		//prepare and output the Total column
     		String totalString = getTotalStringForGroupingLevel(groupLevel);
-    		CellProps totalCellProps = new CellProps(totalString);
-    		output.output(totalCellProps);
+    		output.output(new CellProps.Builder(totalString)
+    							.horizAlign(HorizontalAlign.LEFT)
+    							.build());
     		
     		if(groupCols.length > 1){
     			//for all others grouping columns put whitespaces 
-    			//( groupColumns.length-1 colspan because the first column was already 
+    			//(groupColumns.length-1 colspan because the first column was already 
     			//filled with the word "Total xxxx"
-    			output.output(new CellProps(IReportOutput.WHITESPACE, 
-    										groupCols.length-1, 
-    										ReportContent.CONTENT_DATA));
+    			output.output(new CellProps.Builder(IReportOutput.WHITESPACE)
+    										.colspan(groupCols.length-1) 
+    										.build());
     		}
         }
         
@@ -189,9 +191,13 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
 				//format the computed value 
 				formattedResult = dataCols[i].getFormattedValue(calculatorResult); 
 				
-				output.output(new CellProps(formattedResult));
+				output.output(new CellProps.Builder(formattedResult)
+									.horizAlign(dataCols[i].getHorizAlign())
+									.build());
 			}else{
-				output.output(new CellProps(IReportOutput.WHITESPACE));
+				//if the column doesn't have a calculator asociated 
+				//then display an empty value (whitespace) with colspan 1
+				output.output(new CellProps.Builder(IReportOutput.WHITESPACE).build());
 			}
 		}
     	output.endRow();

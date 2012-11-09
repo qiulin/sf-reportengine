@@ -28,12 +28,12 @@ public class ReportEngineArrayUtils {
     }
 	
 	
-    
-    public static void outCalculatorsResults(ICalculator[] calculatorsArray, IReportOutput engineOut){
-        for (int i = 0; i < calculatorsArray.length; i++) {
-            engineOut.output(new CellProps(calculatorsArray[i].getResult()));
-        }
-    }
+//    
+//    public static void outCalculatorsResults(ICalculator[] calculatorsArray, IReportOutput engineOut){
+//        for (int i = 0; i < calculatorsArray.length; i++) {
+//            engineOut.output(new CellProps(calculatorsArray[i].getResult()));
+//        }
+//    }
     
     /**
      * returns an array filled with values starting with startValue and ending with endValue<br>
