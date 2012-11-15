@@ -56,19 +56,8 @@
 													font-size="14pt"
 													font-style="normal" 
 													font-weight="bold"
-													margin-left="10pt" >
-													<!-- text-align="{$horizAlign}" -->
-													<xsl:choose>
-														<xsl:when test="@horizAlign = 'LEFT'">
-															<xsl:attribute name="text-align">start</xsl:attribute>
-														</xsl:when>
-														<xsl:when test="@horizAlign = 'RIGHT'">
-															<xsl:attribute name="text-align">end</xsl:attribute>
-														</xsl:when>
-														<xsl:otherwise>
-															<xsl:attribute name="text-align">center</xsl:attribute>
-														</xsl:otherwise>
-													</xsl:choose>
+													margin-left="10pt" 
+													text-align="{$horizAlign}">													
 											<xsl:value-of select="current()" />
 										</fo:block>
 									</fo:table-cell>
@@ -92,11 +81,13 @@
 								
 								<xsl:for-each select="cell">
 									<xsl:variable name="colspan" select="@colspan" />
+									<xsl:variable name="horizAlign" select="@horizAlign" />
 									<fo:table-cell number-columns-spanned="{$colspan}">
 		 								<fo:block 	font-family="ArialUnicodeMS" 
 													font-size="12pt"
 													font-style="normal" 
-													margin-left="10pt">
+													margin-left="10pt"
+													text-align="{$horizAlign}">
 											<xsl:value-of select="current()" />
 										</fo:block>
 									</fo:table-cell>

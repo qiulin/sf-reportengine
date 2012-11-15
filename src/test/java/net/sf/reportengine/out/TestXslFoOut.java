@@ -79,7 +79,7 @@ public class TestXslFoOut extends ReportengineTC {
             classUnderTest.open();
             
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE)); 
-            classUnderTest.output(new CellProps.Builder("Действията").contentType(ReportContent.CONTENT_REPORT_TITLE).build());
+            classUnderTest.output(new CellProps.Builder("Ð”ÐµÐ¹Ñ�Ñ‚Ð²Ð¸Ñ�Ñ‚Ð°").contentType(ReportContent.CONTENT_REPORT_TITLE).build());
             classUnderTest.endRow(); 
             
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS)); 
@@ -87,13 +87,13 @@ public class TestXslFoOut extends ReportengineTC {
             classUnderTest.endRow();
             
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            classUnderTest.output(new CellProps.Builder("Πρωτόκολλο Αζήτητων").build());
+            classUnderTest.output(new CellProps.Builder("Î Ï�Ï‰Ï„ÏŒÎºÎ¿Î»Î»Î¿ Î‘Î¶Î®Ï„Î·Ï„Ï‰Î½").build());
             classUnderTest.endRow();
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            classUnderTest.output(new CellProps.Builder("Βιβλία").build());
+            classUnderTest.output(new CellProps.Builder("Î’Î¹Î²Î»Î¯Î±").build());
             classUnderTest.endRow();
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            classUnderTest.output(new CellProps.Builder("Ανασυσκευασία").build());
+            classUnderTest.output(new CellProps.Builder("Î‘Î½Î±ÏƒÏ…ÏƒÎºÎµÏ…Î±ÏƒÎ¯Î±").build());
             classUnderTest.endRow();
             classUnderTest.close();  
         }catch(Throwable exc){
