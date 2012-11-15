@@ -40,25 +40,35 @@
 						font-style="normal" 
 						space-after="5mm"
 						text-align="center">
-				<!-- <xsl:value-of select="@title" /> -->
 				<xsl:value-of select="title" />
           	</fo:block> 
 			
 			<fo:block>
 				 <fo:table>
-					
 					<fo:table-header border-bottom-style="solid">
 						<xsl:for-each select="table-header">
 							<fo:table-row>
 								<xsl:for-each select="cell">
 									<xsl:variable name="colspan" select="@colspan" />
+									<xsl:variable name="horizAlign" select="@horizAlign" />
 									<fo:table-cell number-columns-spanned="{$colspan}">
 		 								<fo:block 	font-family="ArialUnicodeMS" 
 													font-size="14pt"
 													font-style="normal" 
 													font-weight="bold"
-													margin-left="10pt"
-													text-align="center">
+													margin-left="10pt" >
+													<!-- text-align="{$horizAlign}" -->
+													<xsl:choose>
+														<xsl:when test="@horizAlign = 'LEFT'">
+															<xsl:attribute name="text-align">start</xsl:attribute>
+														</xsl:when>
+														<xsl:when test="@horizAlign = 'RIGHT'">
+															<xsl:attribute name="text-align">end</xsl:attribute>
+														</xsl:when>
+														<xsl:otherwise>
+															<xsl:attribute name="text-align">center</xsl:attribute>
+														</xsl:otherwise>
+													</xsl:choose>
 											<xsl:value-of select="current()" />
 										</fo:block>
 									</fo:table-cell>

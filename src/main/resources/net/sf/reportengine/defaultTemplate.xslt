@@ -3,62 +3,61 @@
 <xsl:output method="html" />
 
 <xsl:template match="report">
-	<html>
-	<head>
-		<title>
-			<xsl:value-of select="title" />
-		</title>
-	</head>
-	<body>
-		<h1>
-			<xsl:value-of select="title" /> 
-		</h1>
-		<table cellspacing="0" cellpadding="1" border="0">
-			<xsl:apply-templates select="row" />
-		</table>		
-	</body>
-	</html>
+<html>
+<head>
+	<title>
+		<xsl:value-of select="title" />
+	</title>
+</head>
+<body>
+<table>
+	<xsl:for-each select="table-header">
+			<tr>
+				<xsl:for-each select="cell">
+					<xsl:variable name="colspan" select="@colspan" />
+					<xsl:variable name="horizAlign" select="horizAlign" />
+					<td colspan="{$colspan}" 
+						style="	font-family='ArialUnicodeMS'  
+							   	font-size='14pt'
+								font-style='normal' 
+								font-weight='bold'
+								margin-left='10pt'
+								text-align='{$horizAlign}' ">
+						<xsl:value-of select="current()" />										
+					</td>
+				</xsl:for-each>
+			</tr>
+	</xsl:for-each>			
+					
+					
+					
+	<tbody>
+		<xsl:for-each select="row">
+				<tr>
+					<xsl:choose>
+						<xsl:when test="@rowNumber mod 2 = 0">
+							<xsl:attribute name="bgcolor">#F5F5F5</xsl:attribute>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:attribute name="bgcolor">#FFFFFF</xsl:attribute>
+						</xsl:otherwise>
+					</xsl:choose>
+								
+					<xsl:for-each select="cell">
+						<xsl:variable name="colspan" select="@colspan" />
+						<td colspan="{$colspan}"
+		 					style="	font-family='ArialUnicodeMS' 
+									font-size='12pt'
+									font-style='normal' 
+									margin-left='10pt'">
+											<xsl:value-of select="current()" />
+						</td>						
+					</xsl:for-each>
+				</tr>
+		</xsl:for-each>
+	</tbody>	
+</table>	
+</body>	
+</html>		
 </xsl:template>
-
-<xsl:template match="row">
-	<xsl:choose>
-	<xsl:when test="@rowNumber mod 2 = 0">
-		<tr bgcolor="#F5F5F5">
-			<xsl:apply-templates />
-		</tr>	
-	</xsl:when>
-	<xsl:otherwise>
-		<tr bgcolor="#FFFFFF">
-			<xsl:apply-templates />
-		</tr>
-	</xsl:otherwise>	
-	</xsl:choose>
-</xsl:template>
-
-<xsl:template match="table-header">
-	<xsl:variable name="colspan" select="@colspan" />
-	<th colspan="{$colspan}">
-		<xsl:value-of select="current()" />
-	</th>
-</xsl:template>
-
-<xsl:template match="row-header">
-	<xsl:variable name="colspan" select="@colspan" />
-	<td colspan="{$colspan}">
-		<xsl:value-of select="current()" />
-	</td>
-</xsl:template>
-
-<xsl:template match="data">
-	<xsl:variable name="colspan" select="@colspan" />
-	<td colspan="{$colspan}">
-		<xsl:value-of select="current()" />
-	</td>
-</xsl:template>
-
-<xsl:template match="title">
-<br />
-<h2> <xsl:apply-templates /> </h2>
-</xsl:template>
-
 </xsl:stylesheet>

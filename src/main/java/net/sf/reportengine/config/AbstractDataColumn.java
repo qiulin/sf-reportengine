@@ -76,6 +76,7 @@ public abstract class AbstractDataColumn implements IDataColumn {
 		setHeader(header); 
 		setFormatter(formatter); 
 		setCalculator(calculator); 
+		setHorizAlign(horizAlign); 
 	}
 	
 	/**

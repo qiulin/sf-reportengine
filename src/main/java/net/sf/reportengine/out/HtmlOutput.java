@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+
+import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.core.ReportContent;
 
 
@@ -139,7 +142,9 @@ public class HtmlOutput extends AbstractOutput {
         try {
         	ReportContent contentType = cellProps.getContentType();
         	
-            StringBuilder strContent = new StringBuilder("<td align =\"center\" colspan=\"");
+            StringBuilder strContent = new StringBuilder("<td align =\"");
+            strContent.append(translateHorizAlign(cellProps.getHorizontalAlign())); 
+            strContent.append("\" colspan=\"");
             strContent.append(cellProps.getColspan());
             strContent.append("\" rowspan=\"1\" >");
             
@@ -157,6 +162,11 @@ public class HtmlOutput extends AbstractOutput {
         }
     }
     
+    
+    private String translateHorizAlign(HorizontalAlign horizAlign){
+        return HorizontalAlign.CENTER.equals(horizAlign)? "center" :
+        					HorizontalAlign.LEFT.equals(horizAlign) ?  "left" : "right";
+    }
     
     /**
      * checks null & other impossible to print values

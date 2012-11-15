@@ -20,7 +20,7 @@ import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.in.MemoryReportInput;
 
 /**
- * @author dragos
+ * @author dragos balan
  *
  */
 public class CalculatedColumnsScenario {
@@ -57,7 +57,7 @@ public class CalculatedColumnsScenario {
 	    
 	public static final IGroupColumn[] GROUP_COLUMNS = new IGroupColumn[]{
 		new DefaultGroupColumn("Zero or One", 0, 0), 
-		new AbstractGroupColumn("Computed 0+2", 1, null, HorizontalAlign.CENTER) {
+		new AbstractGroupColumn("Computed 0+2", 1, null, HorizontalAlign.CENTER, false) {
 			public Integer getValue(NewRowEvent newRowEvent) {
 				Object[] data = newRowEvent.getInputDataRow();
 				return Integer.valueOf((String)data[0])+Integer.valueOf((String)data[2]);

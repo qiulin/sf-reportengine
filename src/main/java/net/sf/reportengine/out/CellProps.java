@@ -112,9 +112,10 @@ public class CellProps {
 		boolean result = false;
 		if (another instanceof CellProps) {
 			CellProps anotherAsCP = (CellProps) another;
-			result = getValue().equals(anotherAsCP.getValue())
-					&& getColspan() == anotherAsCP.getColspan()
-					&& getContentType() == anotherAsCP.getContentType();
+			result = value.equals(anotherAsCP.getValue()) 
+					 && (colspan == anotherAsCP.getColspan())
+					 && (content.equals(anotherAsCP.getContentType()))
+					 ;//&& (horizAlign.equals(anotherAsCP.getHorizontalAlign())); 
 		}
 		return result;
 	}

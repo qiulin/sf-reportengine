@@ -5,6 +5,7 @@ package net.sf.reportengine.out;
 
 import org.apache.xmlgraphics.util.MimeConstants;
 
+import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.test.ReportengineTC;
 
@@ -52,8 +53,18 @@ public class TestXslFoOut extends ReportengineTC {
             classUnderTest.output(new CellProps.Builder("row 2 col 1").build());
             classUnderTest.endRow();
             classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
-            classUnderTest.output(new CellProps.Builder("row 3 col 1").build());
+            classUnderTest.output(new CellProps.Builder("center").horizAlign(HorizontalAlign.CENTER).build());
             classUnderTest.endRow();
+            
+            classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+            classUnderTest.output(new CellProps.Builder("l align").horizAlign(HorizontalAlign.LEFT).build());
+            classUnderTest.endRow();
+            
+            classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+            classUnderTest.output(new CellProps.Builder("r align").horizAlign(HorizontalAlign.RIGHT).build());
+            classUnderTest.endRow();
+            
+            
             classUnderTest.close();  
         }catch(Throwable exc){
             exc.printStackTrace();
