@@ -4,13 +4,14 @@
  */
 package net.sf.reportengine.out;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.math.BigDecimal;
 
-import net.sf.reportengine.core.ReportConstants;
+import net.sf.reportengine.config.HorizontalAlign;
+import net.sf.reportengine.core.ReportEngineRuntimeException;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -24,8 +25,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
 
-import org.apache.commons.io.output.WriterOutputStream; 
-
 
 /**
  * A simple implementation of the AbstractReportOut having 
@@ -35,7 +34,7 @@ import org.apache.commons.io.output.WriterOutputStream;
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2
  */
-public class ExcelOutput extends AbstractOutput {
+public class ExcelOutput implements IReportOutput {
     
 	/**
 	 * the one and only logger
@@ -77,26 +76,50 @@ public class ExcelOutput extends AbstractOutput {
      */
     private HSSFCellStyle DEFAULT_HEADER_CELL_STYLE ;
     
+    /**
+     * column
+     */
     private int currentCol = 0;
-
+    
+    private OutputStream outStream; 
+    
+    private int rowCount = 0;
+    
+    
+    public ExcelOutput(String fileName){
+    	try {
+			outStream  = new FileOutputStream(fileName);
+		} catch (FileNotFoundException e) {
+			throw new ReportEngineRuntimeException(e); 
+		}
+    }
+    
+    
     /**
      * constructor 
      * @param out     the output stream
      */
     public ExcelOutput(OutputStream out){
-        super(out);
+        //super(out);
+    	outStream = out; 
     }
     
-    public ExcelOutput(Writer writer){
-    	super(writer);
-    }
+    
+    
+//    /**
+//     * 
+//     * @param writer
+//     */
+//    public ExcelOutput(Writer writer){
+//    	super(writer);
+//    }
 
     /**
      * starts the report
      */
     public void open() {
     	logger.trace("opening excel output");
-        super.open();
+        //super.open();
         workBook = new HSSFWorkbook();
         sheet = workBook.createSheet(sheetName);
 
@@ -129,13 +152,14 @@ public class ExcelOutput extends AbstractOutput {
      * ends the current line and creates a new one
      */
     public void startRow(RowProps rowProperties) {
-        super.startRow(rowProperties);
-        currentRow = sheet.createRow((short) getRowCount()-1);
+        //super.startRow(rowProperties);
+    	rowCount++;
+        currentRow = sheet.createRow((short) rowCount-1);
         currentCol = 0;
     }
     
     public void endRow(){
-        super.endRow();
+        //super.endRow();
     }
     
     /**
@@ -144,14 +168,14 @@ public class ExcelOutput extends AbstractOutput {
     public void output(CellProps algProps) {
         int colspan = algProps.getColspan();
         //int content = algProps.getContentType();
-        HSSFCell cell = currentRow.createCell((short) getCurrentCol() );
+        HSSFCell cell = currentRow.createCell((short) getCurrentCol());
         HSSFCellStyle cellStyle = null;
         
         //setting the style depending on the content type
         //if(content == ReportConstants.CONTENT_COLUMN_HEADERS){
         //	cellStyle = DEFAULT_HEADER_CELL_STYLE;
         //}else{
-            if(getRowCount() % 2 == 0 ){
+            if(rowCount % 2 == 0 ){
                 cellStyle = DEFAULT_EVEN_ROW_CELL_STYLE;
             }else{
                 cellStyle = DEFAULT_ODD_ROW_CELL_STYLE;
@@ -159,12 +183,12 @@ public class ExcelOutput extends AbstractOutput {
          //}
         
             
-        cellStyle.setAlignment(translateHorizAlign(HSSFCellStyle.ALIGN_CENTER/*cellProps.getHorizAlign()*/));
-        cellStyle.setVerticalAlignment(translateVertAlign(HSSFCellStyle.VERTICAL_CENTER/*cellProps.getVertAlign()*/));
+        cellStyle.setAlignment(translateHorizAlign(algProps.getHorizontalAlign()));
+        cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
         
         cell.setCellStyle(cellStyle);
         
-        String valueToWrite = purifyData(algProps.getValue());
+        String valueToWrite = algProps.getValue() != null ? algProps.getValue().toString() : " ";
         try {
             BigDecimal cellValue = new BigDecimal(valueToWrite);
             cell.setCellValue(cellValue.doubleValue());
@@ -175,9 +199,9 @@ public class ExcelOutput extends AbstractOutput {
         
         if (colspan != 1) {
             sheet.addMergedRegion(
-                    new Region(getRowCount()-1, 
+                    new Region(rowCount-1, 
                                (short)getCurrentCol(), 
-                               getRowCount()-1,
+                               rowCount-1,
                                (short) ((getCurrentCol() + colspan) - 1)));
         }
         currentCol += colspan;
@@ -189,9 +213,11 @@ public class ExcelOutput extends AbstractOutput {
     public void close() {
     	logger.trace("closing excel output");
         try {
-            super.close();
-            workBook.write(new WriterOutputStream(getWriter()));
-            getWriter().close();
+        	//OutputStream writerOutputStream = new WriterOutputStream(getWriter());  
+        	workBook.write(outStream);
+        	//writerOutputStream.close(); 
+            outStream.close();
+            //super.close();
         } catch (IOException exc) {
         	throw new RuntimeException(exc);
         }
@@ -205,14 +231,9 @@ public class ExcelOutput extends AbstractOutput {
         this.sheetName = name;
     }
     
-    public short translateVertAlign(int vertAlign){
-        return vertAlign == ReportConstants.ALIGN_VERT_MIDDLE ? HSSFCellStyle.VERTICAL_CENTER : 
-               vertAlign == ReportConstants.ALIGN_VERT_TOP ? HSSFCellStyle.VERTICAL_TOP : HSSFCellStyle.VERTICAL_BOTTOM ;
-    }
-    
-    public short translateHorizAlign(int horizAlign){
-        return horizAlign == ReportConstants.ALIGN_HORZ_CENTER ? HSSFCellStyle.ALIGN_CENTER :
-               horizAlign == ReportConstants.ALIGN_HORIZ_LEFT ?  HSSFCellStyle.ALIGN_LEFT : HSSFCellStyle.ALIGN_RIGHT;
+    private short translateHorizAlign(HorizontalAlign horizAlign){
+        return HorizontalAlign.CENTER.equals(horizAlign)? HSSFCellStyle.ALIGN_CENTER :
+        					HorizontalAlign.LEFT.equals(horizAlign) ?  HSSFCellStyle.ALIGN_LEFT : HSSFCellStyle.ALIGN_RIGHT;
     }
     
     

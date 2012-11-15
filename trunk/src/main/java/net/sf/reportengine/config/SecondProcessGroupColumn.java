@@ -53,4 +53,8 @@ public class SecondProcessGroupColumn implements IGroupColumn {
 	public HorizontalAlign getHorizAlign() {
 		return originalGroupColumn.getHorizAlign(); 
 	}
+	
+	public boolean showDuplicates(){
+		return originalGroupColumn.showDuplicates(); 
+	}
 }

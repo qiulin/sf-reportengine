@@ -280,6 +280,10 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 			return dataColumn.getHorizAlign(); 
 		}
 		
+		public boolean showDuplicates(){
+			return false; //TODO: check if this is used
+		}
+		
 	}
 	
 	protected static class IntermGroupColFromHeaderRow implements IGroupColumn {
@@ -329,6 +333,10 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 
 		public HorizontalAlign getHorizAlign() {
 			return HorizontalAlign.CENTER; //TODO: check if this is used
+		}
+		
+		public boolean showDuplicates(){
+			return false; //this is not used
 		}
 
 }

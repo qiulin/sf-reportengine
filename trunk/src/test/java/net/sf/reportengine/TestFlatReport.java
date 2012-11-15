@@ -48,7 +48,8 @@ public class TestFlatReport extends ReportengineTC {
 			flatReport.setGroupColumns(Scenario1.GROUPING_COLUMNS);
 			flatReport.setShowTotals(true);
 			flatReport.setShowDataRows(true);
-			flatReport.setShowGrandTotal(true); 
+			flatReport.setShowGrandTotal(true);
+			
 		
 			flatReport.execute();
 			

@@ -27,13 +27,16 @@ public abstract class AbstractXmlOutput extends AbstractOutput {
     public final static String TAG_ROW_HEADER = "row-header";
     
     public final static String ATTR_ENGINE_VERSION = "engineVersion";
+    
 	public final static String ATTR_COLSPAN = "colspan";
+	
     public final static String ATTR_COLUMN_NUMBER = "colNumber";
+    
 	public final static String ATTR_CONTENT_TYPE = "contentType";
 	
 	public final static String ATTR_ROW_NUMBER = "rowNumber";
 	
-	
+	public final static String ATTR_HORIZ_ALIGN = "horizAlign";
 	/**
 	 * 
 	 */

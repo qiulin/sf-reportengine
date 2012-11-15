@@ -21,24 +21,49 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 	 */
 	private int inputColumnIndex; 
 	
+	/**
+	 * 
+	 */
 	public DefaultGroupColumn(){
 		this(0);
 	}
 	
+	/**
+	 * 
+	 * @param inputColumnIndex
+	 */
 	public DefaultGroupColumn(int inputColumnIndex){
 		this("Column "+inputColumnIndex, inputColumnIndex, 0);
 	}
 	
+	/**
+	 * 
+	 * @param inputColumnIndex
+	 * @param groupingLevel
+	 */
 	public DefaultGroupColumn(int inputColumnIndex, int groupingLevel){
 		this("Column "+inputColumnIndex, inputColumnIndex, groupingLevel);
 	}
-		
+	
+	/**
+	 * 
+	 * @param header
+	 * @param inputColumnIndex
+	 * @param groupingLevel
+	 */
 	public DefaultGroupColumn(	String header, 
 								int inputColumnIndex, 
 								int groupingLevel){
 		this(header, inputColumnIndex, groupingLevel, null);
 	}
 	
+	/**
+	 * 
+	 * @param header
+	 * @param inputColumnIndex
+	 * @param groupingLevel
+	 * @param formatter
+	 */
 	public DefaultGroupColumn(	String header, 
 								int inputColumnIndex, 
 								int groupingLevel, 
@@ -46,12 +71,39 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 		this(header, inputColumnIndex, groupingLevel, formatter, HorizontalAlign.CENTER); 
 	}
 	
+	
+	/**
+	 * 
+	 * @param header
+	 * @param inputColumnIndex
+	 * @param groupingLevel
+	 * @param formatter
+	 * @param horizAlign
+	 */
 	public DefaultGroupColumn(	String header, 
 								int inputColumnIndex, 
 								int groupingLevel, 
 								Format formatter, 
 								HorizontalAlign horizAlign){
-		super(header, groupingLevel, formatter, horizAlign);
+		this(header, inputColumnIndex, groupingLevel, formatter, horizAlign, false); 
+	}
+	
+	/**
+	 * 
+	 * @param header
+	 * @param inputColumnIndex
+	 * @param groupingLevel
+	 * @param formatter
+	 * @param horizAlign
+	 * @param showDuplicates
+	 */
+	public DefaultGroupColumn(	String header, 
+								int inputColumnIndex, 
+								int groupingLevel, 
+								Format formatter, 
+								HorizontalAlign horizAlign, 
+								boolean showDuplicates){
+		super(header, groupingLevel, formatter, horizAlign, showDuplicates);
 		setInputColumnIndex(inputColumnIndex);
 	}
 	

@@ -17,6 +17,7 @@ public abstract class AbstractGroupColumn implements IGroupColumn {
 	private String header; 
 	private Format formatter; 
 	private HorizontalAlign horizAlign; 
+	private boolean showDuplicates; 
 	
 	/**
 	 * 
@@ -28,11 +29,13 @@ public abstract class AbstractGroupColumn implements IGroupColumn {
 	public AbstractGroupColumn(	String header, 
 								int groupingLevel, 
 								Format formatter, 
-								HorizontalAlign horizAlign){
+								HorizontalAlign horizAlign, 
+								boolean showDuplicates){
 		setHeader(header);
 		setGroupingLevel(groupingLevel);
 		setFormatter(formatter);
 		setHorizAlign(horizAlign); 
+		setShowDuplicates(showDuplicates); 
 	}
 	
 	/* (non-Javadoc)
@@ -88,6 +91,21 @@ public abstract class AbstractGroupColumn implements IGroupColumn {
 	 */
 	public void setHorizAlign(HorizontalAlign horizAlign) {
 		this.horizAlign = horizAlign;
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean showDuplicates(){
+		return showDuplicates; 
+	}
+	
+	/**
+	 * 
+	 * @param flag
+	 */
+	public void setShowDuplicates(boolean flag){
+		this.showDuplicates = flag; 
 	}
 
 }

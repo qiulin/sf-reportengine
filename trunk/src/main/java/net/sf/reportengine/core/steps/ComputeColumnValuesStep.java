@@ -5,6 +5,7 @@ import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 
 /**
@@ -54,13 +55,27 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 	public void execute(NewRowEvent newRowEvent){
 		String[] formattedResults = new String[finalReportColumnCount];
 		Object[] nonFormattedResults = new Object[finalReportColumnCount];
+		Object[] previousRowGrpValues = getPreviousRowOfGroupingValues();
 		
 		Object valueForCurrentColumn = null; 
+		
+		//handle the grouping columns first
+		IGroupColumn currentGrpCol = null; 
 		for(int i=0; i<finalReportGroupCount; i++){
-			valueForCurrentColumn = groupCols[i].getValue(newRowEvent);
-			nonFormattedResults[i] = valueForCurrentColumn; 
-			formattedResults[i] = groupCols[i].getFormattedValue(valueForCurrentColumn);
+			currentGrpCol = groupCols[i];
+			valueForCurrentColumn = currentGrpCol.getValue(newRowEvent);
+			nonFormattedResults[i] = valueForCurrentColumn;
+			
+			if(	currentGrpCol.showDuplicates() 
+				|| previousRowGrpValues == null 
+				|| !valueForCurrentColumn.equals(previousRowGrpValues[i])){
+				formattedResults[i] = currentGrpCol.getFormattedValue(valueForCurrentColumn);
+			}else{
+				formattedResults[i] = IReportOutput.WHITESPACE;
+			}
 		}
+		
+		//then handle the data columns
 		for(int i=0; i<dataColumns.length; i++){
 			valueForCurrentColumn = dataColumns[i].getValue(newRowEvent);
 			nonFormattedResults[finalReportGroupCount+i] = valueForCurrentColumn;

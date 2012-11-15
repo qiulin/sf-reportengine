@@ -5,6 +5,7 @@ package net.sf.reportengine;
 
 import java.io.FileNotFoundException;
 
+import net.sf.reportengine.out.ExcelOutput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.out.StaxReportOutput;
@@ -99,6 +100,7 @@ public class TestCrossTabReport extends ReportengineTC {
 		outDispatcher.registerOutput(new HtmlOutput("./target/CrosstabReport2x2x1.html"));
 		outDispatcher.registerOutput(new StaxReportOutput("./target/CrosstabReport2x2x1.xml"));
 		outDispatcher.registerOutput(new XslFoOutput("./target/CrosstabReport2x2x1.pdf"));
+		outDispatcher.registerOutput(new ExcelOutput("./target/CrossrabReport2x2x1.xls"));
 		classUnderTest.setOut(outDispatcher);
 		
 		classUnderTest.setGroupColumns(CtScenario2x2x1.GROUPING_COLUMNS);
