@@ -10,5 +10,11 @@ package net.sf.reportengine.config;
  * @since 0.6
  */
 public enum HorizontalAlign {
-	LEFT, CENTER, RIGHT
+	LEFT, 
+	CENTER, 
+	RIGHT; 
+	
+	@Override public String toString(){
+		return this.name().toLowerCase(); 
+	}
 }
