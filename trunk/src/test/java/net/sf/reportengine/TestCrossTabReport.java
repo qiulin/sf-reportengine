@@ -5,6 +5,7 @@ package net.sf.reportengine;
 
 import java.io.FileNotFoundException;
 
+import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.out.ExcelOutput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.OutputDispatcher;
@@ -140,5 +141,33 @@ public class TestCrossTabReport extends ReportengineTC {
 		classUnderTest.setShowGrandTotal(false); 
 		
 		classUnderTest.execute(); 
+	}
+	
+	public void testWrongConfiguration1(){
+		try{
+			CrossTabReport classUnderTest = new CrossTabReport(); 
+			//don't set any input nor output
+			classUnderTest.execute();
+			fail("this test should have thrown an exception in the method above");
+		}catch(ConfigValidationException configExc){
+			assertEquals(configExc.getMessage(), "The report has no input");
+		}catch(Throwable other){
+			fail("Expected config validation exception but found "+other.getClass());
+		}
+	}
+	
+	public void testWrongConfiguration2(){
+		try{
+			CrossTabReport classUnderTest = new CrossTabReport();
+			classUnderTest.setIn(CtScenario1x3x1.INPUT);
+			//don't set any output
+			
+			classUnderTest.execute();	
+			fail("this test should have thrown an exception in the method above");
+		}catch(ConfigValidationException configExc){
+			assertEquals(configExc.getMessage(), "The report has no output");
+		}catch(Throwable other){
+			fail("Expected config validation exception but found "+other.getClass());
+		}
 	}
 }

@@ -3,12 +3,13 @@
  */
 package net.sf.reportengine.core.steps;
 
+import java.util.Arrays;
+
 import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.scenarios.CalculatedColumnsScenario;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.ReportEngineArrayUtils;
 
 /**
  * @author dragos
@@ -50,7 +51,7 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 		
 		assertNotNull(results);
 		assertEquals(6, results.length);
-		assertTrue(ReportEngineArrayUtils.equalArraysAsStrings(results, Scenario1.ROW_OF_DATA_1));
+		assertTrue(Arrays.equals(results, Scenario1.ROW_OF_DATA_1));
 		
 		//row 2
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_2);
@@ -60,7 +61,7 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 		
 		assertNotNull(results);
 		assertEquals(6, results.length);
-		assertTrue(ReportEngineArrayUtils.equalArraysAsStrings(results, Scenario1.ROW_OF_DATA_2));
+		assertTrue(Arrays.equals(results, Scenario1.ROW_OF_DATA_2));
 	}
 	
 	public void testExecuteComputedColumns(){
@@ -79,7 +80,7 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 		
 			assertNotNull(results);
 			assertEquals(8, results.length);
-			assertTrue(ReportEngineArrayUtils.equalArraysAsStrings(results, CalculatedColumnsScenario.COMPUTED_VALUES[i]));
+			assertTrue(Arrays.equals(results, CalculatedColumnsScenario.COMPUTED_VALUES[i]));
 		}
 	}
 }

@@ -7,29 +7,21 @@ package net.sf.reportengine.in;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.Arrays;
 
 import junit.framework.TestCase;
-import net.sf.reportengine.util.ReportEngineArrayUtils;
 
 
 public class TestDbQueryReportInput extends TestCase {
     
-    private static final String[][] EXPECTED_DATA = new String[][]{
-        new String[]{"1","USA","EAST","New York","Males","Catholic","1001"},
-        new String[]{"2","USA","EAST","New York","Males","Orthodox","2001"},
-        //new String[]{"3","USA","EAST","New York","Males","Catholic","1001"},
-        new String[]{"3","USA","EAST","New York","Females","Catholic","1002"},
-        new String[]{"4","USA","EAST","New York","Females","Orthodox","2002"},
-        new String[]{"5","USA","EAST","Chicago","Males","Orthodox","101"},
-        new String[]{"6","USA","EAST","Chicago","Females","Muslim","101"}
-//        ,
-//        new String[]{"8","USA","WEST","Washington","Males","Orthodox","501"},
-//        new String[]{"9","USA","WEST","Washington","Males","Muslim","502"},
-//        new String[]{"10","USA","WEST","Washington","Females","Catholic","50"},
-//        new String[]{"11","USA","SOUTH","Dallas","Males","Catholic","100"},
-//        new String[]{"12","USA","SOUTH","Dallas","Females","Muslim","200"},
-//        new String[]{"13","USA","NORTH","Cincinatti","Males","Orthodox","50"},
-//        new String[]{"14","USA","NORTH","Cincinatti","Females","Orthodox","50"}
+	
+    private static final Object[][] EXPECTED_DATA = new Object[][]{
+        new Object[]{1,"USA","EAST","New York","Males","Catholic",1001},
+        new Object[]{2,"USA","EAST","New York","Males","Orthodox",2001},
+        new Object[]{3,"USA","EAST","New York","Females","Catholic",1002},
+        new Object[]{4,"USA","EAST","New York","Females","Orthodox",2002},
+        new Object[]{5,"USA","EAST","Chicago","Males","Orthodox",101},
+        new Object[]{6,"USA","EAST","Chicago","Females","Muslim",101}
     };
     
     private DbQueryReportInput dataProvider;
@@ -84,7 +76,7 @@ public class TestDbQueryReportInput extends TestCase {
             //dataProvider.first();
             while(dataProvider.hasMoreRows()){
                 Object[] nextRow = dataProvider.nextRow();
-                assertTrue(ReportEngineArrayUtils.equalArraysAsStrings(nextRow, EXPECTED_DATA[currentRow]));
+                assertTrue(Arrays.equals(nextRow, EXPECTED_DATA[currentRow]));
                 currentRow++;
             }           
             dataProvider.close();            

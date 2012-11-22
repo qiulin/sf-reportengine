@@ -211,7 +211,7 @@ public class TestFlatReport extends ReportengineTC {
 		InputStream inputStream = getTestFileFromClasspath("Utf8Input.txt");
 		assertNotNull(inputStream);
 		
-		flatReport.setReportTitle("ÎºÎ±Î¹ ÎµÎ´Î±Ï†Î¹ÎºÎ­Ï‚ Ï€Ï�Î¿ÎºÎ»Î®ÏƒÎµÎ¹Ï‚ Ï€Î¿Ï…");
+		flatReport.setReportTitle("Τη γλώσσα μου έδωσαν ελληνική");
 		
 		IReportInput reportInput = new StreamReportInput(inputStream, ",", "UTF-8"); 
 		flatReport.setIn(reportInput); 
