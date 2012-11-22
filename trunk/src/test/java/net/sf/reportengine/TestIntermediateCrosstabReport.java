@@ -52,7 +52,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		List<IGroupColumn> result = new IntermediateCrosstabReport(0,1).transformGroupingCrosstabConfigInFlatReportConfig(
 				CtScenario1x3x1.GROUP_COLUMNS, 
 				CtScenario1x3x1.DATA_COLUMNS, 
-				Arrays.asList(CtScenario1x3x1.HEADER_ROWS));
+				CtScenario1x3x1.HEADER_ROWS);
 		
 		assertNotNull(result); 
 		assertEquals(3, result.size()); 
@@ -68,7 +68,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		List<IGroupColumn> result = new IntermediateCrosstabReport(3,1).transformGroupingCrosstabConfigInFlatReportConfig(
 				CtScenario4x3x1.GROUP_COLUMNS, 
 				CtScenario4x3x1.DATA_COLUMNS, 
-				Arrays.asList(CtScenario4x3x1.HEADER_ROWS));
+				CtScenario4x3x1.HEADER_ROWS);
 		
 		assertNotNull(result); 
 		assertEquals(6, result.size()); 
@@ -97,7 +97,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		List<IGroupColumn> result = new IntermediateCrosstabReport(0,1).transformGroupingCrosstabConfigInFlatReportConfig(
 				CtScenario1x1x1.GROUP_COLUMNS, 
 				CtScenario1x1x1.DATA_COLUMNS, 
-				Arrays.asList(CtScenario1x1x1.ROW_HEADERS));
+				CtScenario1x1x1.ROW_HEADERS);
 		
 		assertNotNull(result); 
 		assertEquals(1, result.size()); 

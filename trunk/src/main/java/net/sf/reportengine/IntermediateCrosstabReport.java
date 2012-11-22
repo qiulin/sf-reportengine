@@ -70,7 +70,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
     	
 		List<IGroupColumn> intermediateGroupCols = transformGroupingCrosstabConfigInFlatReportConfig(getGroupColumns(),
 																								getDataColumns(), 
-																								Arrays.asList(getCrosstabHeaderRows()));
+																								getCrosstabHeaderRows());
 		List<IDataColumn> intermediateDataCols = new ArrayList<IDataColumn>(1);
 		intermediateDataCols.add(new IntermDataColumnFromCrosstabData(crosstabData)); 
 		//TODO: come back here. We need to take the last in the groupingLevel order not in the current order
@@ -125,8 +125,8 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
     	}
 	}
 
-	public ICrosstabHeaderRow[] getCrosstabHeaderRows() {
-		return crosstabHeaderRowsAsList.toArray(new ICrosstabHeaderRow[crosstabHeaderRowsAsList.size()]);
+	public List<ICrosstabHeaderRow> getCrosstabHeaderRows() {
+		return crosstabHeaderRowsAsList;
 	}
 	
 	/**
@@ -134,9 +134,9 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 	 * @param crosstabHeaderRows
 	 * @deprecated
 	 */
-	public void setCrosstabHeaderRows(ICrosstabHeaderRow[] crosstabHeaderRows) {
-		this.crosstabHeaderRowsAsList = Arrays.asList(crosstabHeaderRows);
-	}
+//	public void setCrosstabHeaderRows(ICrosstabHeaderRow[] crosstabHeaderRows) {
+//		this.crosstabHeaderRowsAsList = Arrays.asList(crosstabHeaderRows);
+//	}
 	
 	/**
 	 * 

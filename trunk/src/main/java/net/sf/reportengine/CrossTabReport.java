@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import net.sf.reportengine.config.ICrosstabData;
@@ -19,10 +18,11 @@ import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessGroupColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
 import net.sf.reportengine.core.ConfigValidationException;
-import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.in.IntermediateCrosstabReportInput;
+import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
@@ -119,7 +119,7 @@ public class CrossTabReport extends AbstractReport{
 			throw new ConfigValidationException("Crosstab reports need crosstab data configured"); 
 		}
 		
-		if(getCrosstabHeaderRows() == null || getCrosstabHeaderRows().length ==0){
+		if(getCrosstabHeaderRows() == null || getCrosstabHeaderRows().size() ==0){
 			throw new ConfigValidationException("Crosstab reports need header rows configured");
 		}
 		
@@ -190,24 +190,30 @@ public class CrossTabReport extends AbstractReport{
 		secondReport.execute(); 
 	}
 	
-	public ICrosstabHeaderRow[] getCrosstabHeaderRows() {
-		ICrosstabHeaderRow[] result = null; 
-		if(crosstabHeaderRowsAsList != null){
-			result = crosstabHeaderRowsAsList.toArray(new ICrosstabHeaderRow[crosstabHeaderRowsAsList.size()]);
-		}else{
-			throw new ReportEngineRuntimeException("No header rows have been configured. Please use the setHeaderRows or addHeaderRow methods to fix this issue");
-		}
-		return result;
+	/**
+	 * returns a list with the header rows
+	 * @return
+	 */
+	public List<ICrosstabHeaderRow> getCrosstabHeaderRows() {
+//		ICrosstabHeaderRow[] result = null; 
+//		if(crosstabHeaderRowsAsList != null){
+//			result = crosstabHeaderRowsAsList.toArray(new ICrosstabHeaderRow[crosstabHeaderRowsAsList.size()]);
+//		}else{
+//			//TODO : is this really necessary ? 
+//			throw new ReportEngineRuntimeException("No header rows have been configured. Please use the setHeaderRows or addHeaderRow methods to fix this issue");
+//		}
+//		return result;
+		return crosstabHeaderRowsAsList; 
 	}
 	
-	/**
-	 * 
-	 * @param crosstabHeaderRows
-	 * @deprecated use setHeaderRows(List) or addHeaderRow(IHeaderRow) instead
-	 */
-	public void setHeaderRows(ICrosstabHeaderRow[] crosstabHeaderRows) {
-		this.crosstabHeaderRowsAsList = Arrays.asList(crosstabHeaderRows);
-	}
+//	/**
+//	 * 
+//	 * @param crosstabHeaderRows
+//	 * @deprecated use setHeaderRows(List) or addHeaderRow(IHeaderRow) instead
+//	 */
+//	public void setHeaderRows(ICrosstabHeaderRow[] crosstabHeaderRows) {
+//		this.crosstabHeaderRowsAsList = Arrays.asList(crosstabHeaderRows);
+//	}
 	
 	public void setHeaderRows(List<ICrosstabHeaderRow> crosstabHeaderRowsList) {
 		this.crosstabHeaderRowsAsList = crosstabHeaderRowsList; 
