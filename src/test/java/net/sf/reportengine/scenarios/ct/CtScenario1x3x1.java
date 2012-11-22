@@ -64,11 +64,12 @@ public class CtScenario1x3x1 {
 				new DefaultDataColumn("Country", 0)
 	});
 	
-	public final static ICrosstabHeaderRow[] HEADER_ROWS = new ICrosstabHeaderRow[]{
+	public final static List<ICrosstabHeaderRow> HEADER_ROWS = Arrays.asList( 
+			new ICrosstabHeaderRow[]{
 		new DefaultCrosstabHeaderRow(1), 	//Region
 		new DefaultCrosstabHeaderRow(2),	//Sex
 		new DefaultCrosstabHeaderRow(3)		//Age
-	}; 
+	}); 
 	
 	public final static ICrosstabData CROSSTAB_DATA = new DefaultCrosstabData(4, Calculators.SUM);
 	

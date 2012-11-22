@@ -35,7 +35,7 @@ public class TestCrosstabDistinctValueDetectorStep extends ReportAlgorithmStepTC
 		IReportContext reportContext = getTestContext(); 
 		
 		reportContext.set(	ContextKeys.CONTEXT_KEY_CROSSTAB_HEADER_ROWS, 
-							CtScenario2x2x1.HEADER_ROWS.toArray(new ICrosstabHeaderRow[CtScenario2x2x1.HEADER_ROWS.size()]));
+							CtScenario2x2x1.HEADER_ROWS);
 		reportContext.set(ContextKeys.CONTEXT_KEY_CROSSTAB_DATA, CtScenario2x2x1.CROSSTAB_DATA);
 		
 		classUnderTest.init(reportContext);

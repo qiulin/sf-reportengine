@@ -3,7 +3,8 @@
  */
 package net.sf.reportengine.core.steps.crosstab;
 
-import net.sf.reportengine.CrossTabReport;
+import java.util.List;
+
 import net.sf.reportengine.config.ICrosstabData;
 import net.sf.reportengine.config.ICrosstabHeaderRow;
 import net.sf.reportengine.core.AbstractReportStep;
@@ -38,12 +39,12 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 		return (Integer)getContext().get(ContextKeys.CONTEXT_KEY_ORIGINAL_CT_DATA_COLS_COUNT); 
 	}
 		
-	public ICrosstabHeaderRow[] getCrosstabHeaderRows(){
-		return (ICrosstabHeaderRow[])getContext().get(ContextKeys.CONTEXT_KEY_CROSSTAB_HEADER_ROWS); 
+	public List<ICrosstabHeaderRow> getCrosstabHeaderRows(){
+		return (List<ICrosstabHeaderRow>)getContext().get(ContextKeys.CONTEXT_KEY_CROSSTAB_HEADER_ROWS); 
 	}
 	 
 	 public int getCrosstabHeaderRowsLength(){
-		 return getCrosstabHeaderRows().length;
+		 return getCrosstabHeaderRows().size();
 	 }
 		
 	 public ICrosstabData getCrosstabData(){

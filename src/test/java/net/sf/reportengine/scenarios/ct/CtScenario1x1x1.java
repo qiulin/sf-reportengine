@@ -56,9 +56,10 @@ public class CtScenario1x1x1 {
 					new DefaultDataColumn("Continent", 0)
 	});
 	
-	public static final ICrosstabHeaderRow[] ROW_HEADERS = new ICrosstabHeaderRow[]{
+	public static final List<ICrosstabHeaderRow> ROW_HEADERS = Arrays.asList( 
+			new ICrosstabHeaderRow[]{
 		new DefaultCrosstabHeaderRow(1)//Region - second column
-	};
+	});
 	
 	public static final ICrosstabData CROSSTAB_DATA_WITH_TOTALS = new DefaultCrosstabData(2, Calculators.SUM);
 	public static final ICrosstabData CROSSTAB_DATA_NO_TOTALS = new DefaultCrosstabData(2);
