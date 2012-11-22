@@ -1,12 +1,13 @@
 package net.sf.reportengine;
 
-import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.List;
 
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedDataList;
-import net.sf.reportengine.core.steps.crosstab.IntermOriginalGroupValuesList;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedTotalsList;
+import net.sf.reportengine.core.steps.crosstab.IntermOriginalGroupValuesList;
 import net.sf.reportengine.core.steps.crosstab.IntermediateReportRow;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.HtmlOutput;
@@ -33,75 +34,76 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	}
 	
 	public void testTransfomCrosstabColsInIntermediateColsScenario2x2x1(){
-		IGroupColumn[] result = new IntermediateCrosstabReport(1,1)
+		List<IGroupColumn> result = new IntermediateCrosstabReport(1,1)
 			.transformGroupingCrosstabConfigInFlatReportConfig(	CtScenario2x2x1.GROUPING_COLUMNS, 
 																CtScenario2x2x1.DATA_COLUMNS, 
 																CtScenario2x2x1.HEADER_ROWS);
 		assertNotNull(result); 
-		assertEquals(3, result.length); 
-		assertTrue(result[0] instanceof DefaultGroupColumn); 
-		assertEquals(0, result[0].getGroupingLevel()); 
-		assertTrue(result[1] instanceof IntermediateCrosstabReport.IntermGroupColFromCtDataCol); 
-		assertEquals(1, result[1].getGroupingLevel()); 
-		assertTrue(result[2] instanceof IntermediateCrosstabReport.IntermGroupColFromHeaderRow);
-		assertEquals(2, result[2].getGroupingLevel()); 
+		assertEquals(3, result.size()); 
+		assertTrue(result.get(0) instanceof DefaultGroupColumn); 
+		assertEquals(0, result.get(0).getGroupingLevel()); 
+		assertTrue(result.get(1) instanceof IntermediateCrosstabReport.IntermGroupColFromCtDataCol); 
+		assertEquals(1, result.get(1).getGroupingLevel()); 
+		assertTrue(result.get(2) instanceof IntermediateCrosstabReport.IntermGroupColFromHeaderRow);
+		assertEquals(2, result.get(2).getGroupingLevel()); 
 	}
 	
 	public void testTransfomCrosstabColsInIntermediateColsScenario1x3x1(){
-		IGroupColumn[] result = new IntermediateCrosstabReport(0,1).transformGroupingCrosstabConfigInFlatReportConfig(
+		List<IGroupColumn> result = new IntermediateCrosstabReport(0,1).transformGroupingCrosstabConfigInFlatReportConfig(
 				CtScenario1x3x1.GROUP_COLUMNS, 
 				CtScenario1x3x1.DATA_COLUMNS, 
-				CtScenario1x3x1.HEADER_ROWS);
+				Arrays.asList(CtScenario1x3x1.HEADER_ROWS));
+		
 		assertNotNull(result); 
-		assertEquals(3, result.length); 
-		assertTrue(result[0] instanceof IntermediateCrosstabReport.IntermGroupColFromCtDataCol); 
-		assertEquals(0, result[0].getGroupingLevel()); 
-		assertTrue(result[1] instanceof IntermediateCrosstabReport.IntermGroupColFromHeaderRow); 
-		assertEquals(1, result[1].getGroupingLevel()); 
-		assertTrue(result[2] instanceof IntermediateCrosstabReport.IntermGroupColFromHeaderRow);
-		assertEquals(2, result[2].getGroupingLevel()); 
+		assertEquals(3, result.size()); 
+		assertTrue(result.get(0) instanceof IntermediateCrosstabReport.IntermGroupColFromCtDataCol); 
+		assertEquals(0, result.get(0).getGroupingLevel()); 
+		assertTrue(result.get(1) instanceof IntermediateCrosstabReport.IntermGroupColFromHeaderRow); 
+		assertEquals(1, result.get(1).getGroupingLevel()); 
+		assertTrue(result.get(2) instanceof IntermediateCrosstabReport.IntermGroupColFromHeaderRow);
+		assertEquals(2, result.get(2).getGroupingLevel()); 
 	}
 	
 	public void testTransfomCrosstabColsInIntermediateColsScenario4x3x1(){
-		IGroupColumn[] result = new IntermediateCrosstabReport(3,1).transformGroupingCrosstabConfigInFlatReportConfig(
+		List<IGroupColumn> result = new IntermediateCrosstabReport(3,1).transformGroupingCrosstabConfigInFlatReportConfig(
 				CtScenario4x3x1.GROUP_COLUMNS, 
 				CtScenario4x3x1.DATA_COLUMNS, 
-				CtScenario4x3x1.HEADER_ROWS);
+				Arrays.asList(CtScenario4x3x1.HEADER_ROWS));
 		
 		assertNotNull(result); 
-		assertEquals(6, result.length); 
+		assertEquals(6, result.size()); 
 		
-		assertTrue(result[0] instanceof DefaultGroupColumn); 
-		assertEquals(0, result[0].getGroupingLevel());
+		assertTrue(result.get(0) instanceof DefaultGroupColumn); 
+		assertEquals(0, result.get(0).getGroupingLevel());
 		
-		assertTrue(result[1] instanceof DefaultGroupColumn); 
-		assertEquals(1, result[1].getGroupingLevel());
+		assertTrue(result.get(1) instanceof DefaultGroupColumn); 
+		assertEquals(1, result.get(1).getGroupingLevel());
 		
-		assertTrue(result[2] instanceof DefaultGroupColumn); 
-		assertEquals(2, result[2].getGroupingLevel());
+		assertTrue(result.get(2) instanceof DefaultGroupColumn); 
+		assertEquals(2, result.get(2).getGroupingLevel());
 		
-		assertTrue(result[3] instanceof IntermediateCrosstabReport.IntermGroupColFromCtDataCol); 
-		assertEquals(3, result[3].getGroupingLevel());
+		assertTrue(result.get(3) instanceof IntermediateCrosstabReport.IntermGroupColFromCtDataCol); 
+		assertEquals(3, result.get(3).getGroupingLevel());
 		
-		assertTrue(result[4] instanceof IntermediateCrosstabReport.IntermGroupColFromHeaderRow); 
-		assertEquals(4, result[4].getGroupingLevel()); 
+		assertTrue(result.get(4) instanceof IntermediateCrosstabReport.IntermGroupColFromHeaderRow); 
+		assertEquals(4, result.get(4).getGroupingLevel()); 
 		
-		assertTrue(result[5] instanceof IntermediateCrosstabReport.IntermGroupColFromHeaderRow);
-		assertEquals(5, result[5].getGroupingLevel()); 
+		assertTrue(result.get(5) instanceof IntermediateCrosstabReport.IntermGroupColFromHeaderRow);
+		assertEquals(5, result.get(5).getGroupingLevel()); 
 	}
 	
 	
 	public void testTransfomCrosstabColsInIntermediateColsScenario1x1x1(){
-		IGroupColumn[] result = new IntermediateCrosstabReport(0,1).transformGroupingCrosstabConfigInFlatReportConfig(
+		List<IGroupColumn> result = new IntermediateCrosstabReport(0,1).transformGroupingCrosstabConfigInFlatReportConfig(
 				CtScenario1x1x1.GROUP_COLUMNS, 
 				CtScenario1x1x1.DATA_COLUMNS, 
-				CtScenario1x1x1.ROW_HEADERS);
+				Arrays.asList(CtScenario1x1x1.ROW_HEADERS));
 		
 		assertNotNull(result); 
-		assertEquals(1, result.length); 
+		assertEquals(1, result.size()); 
 		
-		assertTrue(result[0] instanceof IntermediateCrosstabReport.IntermGroupColFromCtDataCol); 
-		assertEquals(0, result[0].getGroupingLevel());
+		assertTrue(result.get(0) instanceof IntermediateCrosstabReport.IntermGroupColFromCtDataCol); 
+		assertEquals(0, result.get(0).getGroupingLevel());
 	}
 	
 	public void testExecuteScenario2x2x1xT() {

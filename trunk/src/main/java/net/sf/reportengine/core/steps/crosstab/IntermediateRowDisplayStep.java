@@ -39,7 +39,7 @@ public class IntermediateRowDisplayStep extends AbstractCrosstabStep {
 		
 		if(groupingLevel >= 0){
 			//if grouping level changed
-			if(groupingLevel < getGroupingColumns().length){
+			if(groupingLevel < getGroupingColumns().size()){
 				//if grouping level changed for the GROUPING COLUMNS
 				displayIntermediateDebugInfo(getIntermediateRow());
 			}else{

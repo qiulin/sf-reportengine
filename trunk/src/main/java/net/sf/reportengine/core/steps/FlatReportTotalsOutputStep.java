@@ -51,7 +51,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     /**
      * local copy of the group columns
      */
-    private IGroupColumn[] groupCols; 
+    private List<IGroupColumn> groupCols; 
     
     /**
      * local copy of the data columns
@@ -164,19 +164,19 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     	IReportOutput output = getOutput();
     	output.startRow(new RowProps(ReportContent.CONTENT_DATA));
     	
-    	if(groupCols != null && groupCols.length > 0){
+    	if(groupCols != null && groupCols.size() > 0){
     		//prepare and output the Total column
     		String totalString = getTotalStringForGroupingLevel(groupLevel);
     		output.output(new CellProps.Builder(totalString)
     							.horizAlign(HorizontalAlign.LEFT)
     							.build());
     		
-    		if(groupCols.length > 1){
+    		if(groupCols.size() > 1){
     			//for all others grouping columns put whitespaces 
     			//(groupColumns.length-1 colspan because the first column was already 
     			//filled with the word "Total xxxx"
     			output.output(new CellProps.Builder(IReportOutput.WHITESPACE)
-    										.colspan(groupCols.length-1) 
+    										.colspan(groupCols.size()-1) 
     										.build());
     		}
         }

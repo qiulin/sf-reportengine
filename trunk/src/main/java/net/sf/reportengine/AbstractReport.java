@@ -5,7 +5,6 @@
 package net.sf.reportengine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import net.sf.reportengine.config.IDataColumn;
@@ -166,50 +165,45 @@ public abstract class AbstractReport {
 	 * @return 
 	 */
 	public List<IDataColumn> getDataColumns() {
-		//IDataColumn[] result = null;
-		//if(dataColsAsList != null){
-		//	result = dataColsAsList.toArray(new IDataColumn[dataColsAsList.size()]);
-		//}
-		//return result; 
 		return dataColsAsList; 
 	}
 
-
-//	/**
-//	 * @param configColumns the configColumns to set
-//	 * @deprecated use the setDataColumn(List) or addDataColumn(IDataColumn) instead
-//	 */
-//	public void setDataColumns(IDataColumn[] dataColumns) {
-//		this.dataColsAsList = Arrays.asList(dataColumns);
-//	}
-
-	
+	/**
+	 * setter for the list of data columns 
+	 * @param dataColsList
+	 */
 	public void setDataColumns(List<IDataColumn> dataColsList){
 		this.dataColsAsList = dataColsList; 
 	}
 	
+	/**
+	 * adds a data column to the existing list
+	 * @param newColumn
+	 */
 	public void addDataColumn(IDataColumn newColumn){
 		this.dataColsAsList.add(newColumn); 
 	}
-
-	public IGroupColumn[] getGroupColumns() {
-		IGroupColumn[] result = null; 
-		if(groupColsAsList != null){
-			result = groupColsAsList.toArray(new IGroupColumn[groupColsAsList.size()]); 
-		}
-		return result;
+	
+	
+	public List<IGroupColumn> getGroupColumns() {
+//		IGroupColumn[] result = null; 
+//		if(groupColsAsList != null){
+//			result = groupColsAsList.toArray(new IGroupColumn[groupColsAsList.size()]); 
+//		}
+//		return result;
+		return groupColsAsList; 
 	}
 
-	/**
-	 * 
-	 * @param groupingColumns
-	 * @deprecated use setGroupColumns(List) or addGroupColumn(IGroupColumn) instead
-	 */
-	public void setGroupColumns(IGroupColumn[] groupingColumns) {
-		if(groupingColumns != null){
-			this.groupColsAsList = Arrays.asList(groupingColumns);
-		}
-	}
+//	/**
+//	 * 
+//	 * @param groupingColumns
+//	 * @deprecated use setGroupColumns(List) or addGroupColumn(IGroupColumn) instead
+//	 */
+//	public void setGroupColumns(IGroupColumn[] groupingColumns) {
+//		if(groupingColumns != null){
+//			this.groupColsAsList = Arrays.asList(groupingColumns);
+//		}
+//	}
 	
 	public void setGroupColumns(List<IGroupColumn> groupColsList){
 		this.groupColsAsList = groupColsList;

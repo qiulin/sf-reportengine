@@ -125,7 +125,7 @@ public class CrossTabReport extends AbstractReport{
 		
 		if((getDataColumns() == null || getDataColumns().size() == 0) 
 			&&
-			(getGroupColumns() == null || getGroupColumns().length == 0)
+			(getGroupColumns() == null || getGroupColumns().size() == 0)
 			){
 			throw new ConfigValidationException("Crosstab reports need data and/or group columns configured"); 
 		}
@@ -135,10 +135,10 @@ public class CrossTabReport extends AbstractReport{
 	@Override
 	protected void configAlgorithmSteps() {
 		try{
-			IGroupColumn[] groupCols = getGroupColumns(); 
+			List<IGroupColumn> groupCols = getGroupColumns(); 
 			List<IDataColumn> dataColsList = getDataColumns(); 
 			
-			int groupColsLength = groupCols != null ? groupCols.length : 0;
+			int groupColsLength = groupCols != null ? groupCols.size() : 0;
 			int dataColsLength = dataColsList != null ? dataColsList.size() : 0;
 					
 			firstReportOutput = new IntermediateCrosstabOutput(); 		
@@ -173,7 +173,7 @@ public class CrossTabReport extends AbstractReport{
 														getDataColumns(), 
 														getShowTotals(), 
 														getShowGrandTotal());
-			IGroupColumn[] secondReportGroupCols = constructGroupColumnsForSecondProcess(getGroupColumns()); 
+			List<IGroupColumn> secondReportGroupCols = constructGroupColumnsForSecondProcess(getGroupColumns()); 
 			
 			secondReport.setGroupColumns(secondReportGroupCols); 
 			secondReport.setDataColumns(secondReportDataCols);
@@ -248,13 +248,14 @@ public class CrossTabReport extends AbstractReport{
 	 * @param originalGroupCols
 	 * @return
 	 */
-	protected IGroupColumn[] constructGroupColumnsForSecondProcess(List<IGroupColumn> originalGroupCols){
-		IGroupColumn[] result = null; 
+	protected List<IGroupColumn> constructGroupColumnsForSecondProcess(List<IGroupColumn> originalGroupCols){
+		List<IGroupColumn> result = null; 
 		if(originalGroupCols != null && originalGroupCols.size() > 0){
-			result = new IGroupColumn[originalGroupCols.size()];
+			result = new ArrayList<IGroupColumn>(originalGroupCols.size());
 			for (int i = 0; i < originalGroupCols.size(); i++) {
 				IGroupColumn origGroupColumn = originalGroupCols.get(i);
-				result[i] = new SecondProcessGroupColumn(origGroupColumn);
+				result.add(new SecondProcessGroupColumn(origGroupColumn));
+				//TODO: remove the i index 
 			}
 		}
 		return result; 

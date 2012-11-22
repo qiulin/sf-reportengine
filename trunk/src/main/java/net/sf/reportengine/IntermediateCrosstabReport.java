@@ -68,9 +68,9 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
     		logger.debug("dataColsIsNull ? "+(getDataColumns()==null));
     	}
     	
-		IGroupColumn[] intermediateGroupCols = transformGroupingCrosstabConfigInFlatReportConfig(getGroupColumns(),
-																									getDataColumns(), 
-																									getCrosstabHeaderRows());
+		List<IGroupColumn> intermediateGroupCols = transformGroupingCrosstabConfigInFlatReportConfig(getGroupColumns(),
+																								getDataColumns(), 
+																								Arrays.asList(getCrosstabHeaderRows()));
 		List<IDataColumn> intermediateDataCols = new ArrayList<IDataColumn>(1);
 		intermediateDataCols.add(new IntermDataColumnFromCrosstabData(crosstabData)); 
 		//TODO: come back here. We need to take the last in the groupingLevel order not in the current order
@@ -79,7 +79,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 		
 		
 		if(logger.isDebugEnabled()){
-			logger.debug("configuring intermediate report algorithm: intermediateGroupCols "+Arrays.toString(intermediateGroupCols)+" ");
+			logger.debug("configuring intermediate report algorithm: intermediateGroupCols "+intermediateGroupCols+" ");
 		}
 		
 		//setting the input/output
@@ -120,7 +120,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
     	
     	//only for debug algorithm.addMainStep(new DataRowsOutputStep());
     	
-    	if( intermediateGroupCols.length > 0){
+    	if( intermediateGroupCols.size() > 0){
     		algorithm.addMainStep(new PreviousRowManagerStep());
     	}
 	}
@@ -162,18 +162,18 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 	 * @return
 	 * @deprecated
 	 */
-	protected IGroupColumn[] transformGroupingCrosstabConfigInFlatReportConfig(	
-			IGroupColumn[] originalCtGroupingCols, 
-			List<IDataColumn> originalCtDataCols, 
-			ICrosstabHeaderRow[] originalCtHeaderRows){
-		
-		List<IGroupColumn> groupColsAsList = originalCtGroupingCols != null ? Arrays.asList(originalCtGroupingCols): new ArrayList<IGroupColumn>();
-		
-		return transformGroupingCrosstabConfigInFlatReportConfig(
-													groupColsAsList, 
-													originalCtDataCols, 
-													Arrays.asList(originalCtHeaderRows));
-	}
+//	protected IGroupColumn[] transformGroupingCrosstabConfigInFlatReportConfig(	
+//			IGroupColumn[] originalCtGroupingCols, 
+//			List<IDataColumn> originalCtDataCols, 
+//			ICrosstabHeaderRow[] originalCtHeaderRows){
+//		
+//		List<IGroupColumn> groupColsAsList = originalCtGroupingCols != null ? Arrays.asList(originalCtGroupingCols): new ArrayList<IGroupColumn>();
+//		
+//		return transformGroupingCrosstabConfigInFlatReportConfig(
+//													groupColsAsList, 
+//													originalCtDataCols, 
+//													Arrays.asList(originalCtHeaderRows));
+//	}
 	
 	/**
 	 * transforms the original crosstab columns into a flat report configuration 
@@ -183,9 +183,11 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 	 * @param originalCtHeaderRows
 	 * @return
 	 */
-	protected IGroupColumn[] transformGroupingCrosstabConfigInFlatReportConfig(	List<IGroupColumn> originalCtGroupingCols, 
-																				List<IDataColumn> originalCtDataCols, 
-																				List<ICrosstabHeaderRow> originalCtHeaderRows){
+	protected List<IGroupColumn> transformGroupingCrosstabConfigInFlatReportConfig(	
+			List<IGroupColumn> originalCtGroupingCols, 
+			List<IDataColumn> originalCtDataCols, 
+			List<ICrosstabHeaderRow> originalCtHeaderRows)
+	{
 		int originalGroupColsLength = originalCtGroupingCols != null ? originalCtGroupingCols.size(): 0;
 		int originalDataColsLength = originalCtDataCols != null ? originalCtDataCols.size() : 0 ; 
 		
@@ -196,28 +198,31 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 		}
 		
 		int intermedGroupColsLength = originalGroupColsLength + originalDataColsLength + originalCtHeaderRows.size() -1;
-		IGroupColumn[] result = new IGroupColumn[intermedGroupColsLength];
+		List<IGroupColumn> result = new ArrayList<IGroupColumn>(intermedGroupColsLength);
 		
 		//from 0 to original groupCols.length we copy the original group columns
 		if(originalGroupColsLength > 0){
 			//System.arraycopy(originalCtGroupingCols, 0, result, 0, originalCtGroupingCols.size());
 			for(int i=0; i<originalCtGroupingCols.size(); i++){
-				result[i] = originalCtGroupingCols.get(i);
+				//result[i] = originalCtGroupingCols.get(i);
+				result.add(originalCtGroupingCols.get(i));
 			}
 		}
 		
 		//from groupCols.length to groupCols.lenght + dataCols.length we copy construct group columns from data columns
 		for(int i=0; i < originalDataColsLength; i++){
-			result[originalGroupColsLength+i] = new IntermGroupColFromCtDataCol(originalCtDataCols.get(i), originalGroupColsLength+i);
+			//result[originalGroupColsLength+i] = new IntermGroupColFromCtDataCol(originalCtDataCols.get(i), originalGroupColsLength+i);
+			result.add(new IntermGroupColFromCtDataCol(originalCtDataCols.get(i), originalGroupColsLength+i));
 		}
 		
 		//then we copy the header rows (of course transformed as groupCols)
 		//we don't need any grouping for the last header row (that's why we have headerRows.length-1 below
 		for (int i = 0; i < originalCtHeaderRows.size()-1; i++) {
 			
-			result[originalGroupColsLength+originalDataColsLength+i] = new IntermGroupColFromHeaderRow(
-																				originalCtHeaderRows.get(i), 
-																				originalGroupColsLength+originalDataColsLength+i);
+			//result[originalGroupColsLength+originalDataColsLength+i] =
+			result.add(
+					new IntermGroupColFromHeaderRow(	originalCtHeaderRows.get(i), 
+														originalGroupColsLength+originalDataColsLength+i));
 		}
 		
 		return result; 

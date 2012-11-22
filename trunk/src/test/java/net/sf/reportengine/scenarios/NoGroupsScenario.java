@@ -34,7 +34,7 @@ public final class NoGroupsScenario {
 	
 	public final static IReportInput INPUT = new MemoryReportInput(RAW_INPUT);
 	
-	public static final IGroupColumn[] GROUPING_COLUMNS = null; 
+	public static final List<IGroupColumn> GROUPING_COLUMNS = null; 
 			
 	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList( 
 			new IDataColumn[]{

@@ -124,7 +124,7 @@ public class FlatReport extends AbstractOneIterationReport {
         	algorithm.addMainStep(new DataRowsOutputStep());
         }
         
-        if(getGroupColumns() != null && getGroupColumns().length > 0){
+        if(getGroupColumns() != null && getGroupColumns().size() > 0){
         	algorithm.addMainStep(new PreviousRowManagerStep());
         }
     }

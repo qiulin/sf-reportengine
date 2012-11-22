@@ -24,7 +24,7 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 	
 	private int finalReportGroupCount = -1;
 	private int finalReportColumnCount = -1; 
-	private IGroupColumn[] groupCols = null;
+	private List<IGroupColumn> groupCols = null;
 	private List<IDataColumn> dataColumns = null; 
 			
 	/**
@@ -41,7 +41,7 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 		groupCols = getGroupingColumns();
 		dataColumns = getDataColumns();
 		
-		finalReportGroupCount = groupCols != null ? groupCols.length : 0;
+		finalReportGroupCount = groupCols != null ? groupCols.size() : 0;
 		finalReportColumnCount = finalReportGroupCount + dataColumns.size(); 
 		
 		context.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, new Object[finalReportColumnCount]);
@@ -64,7 +64,7 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 		//handle the grouping columns first
 		IGroupColumn currentGrpCol = null; 
 		for(int i=0; i<finalReportGroupCount; i++){
-			currentGrpCol = groupCols[i];
+			currentGrpCol = groupCols.get(i);
 			valueForCurrentColumn = currentGrpCol.getValue(newRowEvent);
 			nonFormattedResults[i] = valueForCurrentColumn;
 			

@@ -53,7 +53,7 @@ public class TotalsCalculatorStep extends AbstractReportStep{
         
         //ICalculator[] prototypesCalc = extractCalculators(getDataColumns());
         
-        groupColsCnt = getGroupingColumns() != null ? getGroupingColumns().length : 0;
+        groupColsCnt = getGroupingColumns() != null ? getGroupingColumns().size() : 0;
         
         if(groupColsCnt == 0){
         	logger.warn("Dangerous setting: TotalsCalculatorStep was set in a report not having group columns");
