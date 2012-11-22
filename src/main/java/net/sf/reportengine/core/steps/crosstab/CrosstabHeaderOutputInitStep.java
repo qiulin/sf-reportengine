@@ -39,7 +39,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 	public void init(IReportContext reportContext) {
 		IReportOutput reportOutput = (IReportOutput)reportContext.getOutput();
 		List<IDataColumn> dataColumns = (List<IDataColumn>)reportContext.get(ContextKeys.CONTEXT_KEY_DATA_COLUMNS);
-		IGroupColumn[] groupColumns = (IGroupColumn[])reportContext.get(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS); 
+		List<IGroupColumn> groupColumns = (List<IGroupColumn>)reportContext.get(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS); 
 		//ICrosstabHeaderRow[] headerRows = (ICrosstabHeaderRow[])reportContext.get(ContextKeys.CONTEXT_KEY_CROSSTAB_HEADER_ROWS); 
 		CtMetadata ctMetadata = (CtMetadata)reportContext.get(ContextKeys.CONTEXT_KEY_CROSSTAB_METADATA);
 		
@@ -67,7 +67,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 	private void outputHeaderRowsByLoopingColumns(	IReportOutput reportOutput, 
 													CtMetadata ctMetadata, 
 													List<IDataColumn> dataCols, 
-													IGroupColumn[] groupCols){
+													List<IGroupColumn> groupCols){
 		for (int row = 0; row < ctMetadata.getHeaderRowsCount(); row++) {
 			reportOutput.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS)); 
 			
@@ -75,9 +75,9 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 			//while the first will be empty
 			if(row == ctMetadata.getHeaderRowsCount()-1){
 				//if last header row write the normal column headers
-				if(groupCols != null && groupCols.length > 0){
-					for (int i = 0; i < groupCols.length; i++) {
-						reportOutput.output(new CellProps.Builder(groupCols[i].getHeader())
+				if(groupCols != null && groupCols.size() > 0){
+					for (int i = 0; i < groupCols.size(); i++) {
+						reportOutput.output(new CellProps.Builder(groupCols.get(i).getHeader())
 													.colspan(1)
 													.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
 													.horizAlign(HorizontalAlign.CENTER)
@@ -92,8 +92,8 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 											.build());
 			}else{
 				//if last header row: 
-				if(groupCols != null && groupCols.length > 0){
-					for (int i = 0; i < groupCols.length; i++) {
+				if(groupCols != null && groupCols.size() > 0){
+					for (int i = 0; i < groupCols.size(); i++) {
 						reportOutput.output(new CellProps.Builder(IReportOutput.WHITESPACE).build()); 
 					}
 				}

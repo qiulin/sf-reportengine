@@ -65,9 +65,9 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		assertEquals(10, dataColumns.size()); 
 		report.setDataColumns(dataColumns);
 		
-		IGroupColumn[] groupColumns = mockCrosstabReport.constructGroupColumnsForSecondProcess(CtScenario2x2x1.GROUPING_COLUMNS);
+		List<IGroupColumn> groupColumns = mockCrosstabReport.constructGroupColumnsForSecondProcess(CtScenario2x2x1.GROUPING_COLUMNS);
 		assertNotNull(groupColumns); 
-		assertEquals(1, groupColumns.length);
+		assertEquals(1, groupColumns.size());
 		report.setGroupColumns(groupColumns); 
 		
 		report.execute(); 

@@ -58,14 +58,14 @@ class SecondCrosstabProcessorReport extends AbstractOneIterationReport {
     	algorithm.addMainStep(new ComputeColumnValuesStep());
     	algorithm.addMainStep(new GroupingLevelDetectorStep());
     	
-    	if(getShowTotals()||getShowGrandTotal()){
+    	if(getShowTotals() || getShowGrandTotal()){
     		algorithm.addMainStep(new FlatReportTotalsOutputStep());
     		algorithm.addMainStep(new TotalsCalculatorStep());
     	}
     	
         algorithm.addMainStep(new DataRowsOutputStep());
         
-        if(getGroupColumns() != null && getGroupColumns().length > 0){
+        if(getGroupColumns() != null && getGroupColumns().size() > 0){
         	algorithm.addMainStep(new PreviousRowManagerStep());
         }
 	}

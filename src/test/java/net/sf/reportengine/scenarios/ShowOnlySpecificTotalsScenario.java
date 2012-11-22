@@ -24,11 +24,12 @@ public class ShowOnlySpecificTotalsScenario extends Scenario2 {
 	
 	public static final boolean[] SHOW_TOTALS_ON_GROUPING_LEVEL = new boolean[]{true, false, true};
 	
-	public static final IGroupColumn[] GROUP_COLUMNS = new IGroupColumn[]{
-		new DefaultGroupColumn("Zero or One", 0, 0 ),
-		new DefaultGroupColumn("2 multiples", 2, 1), 
-		new DefaultGroupColumn("3 multiples",4, 2)
-	};
+	public static final List<IGroupColumn> GROUP_COLUMNS = Arrays.asList(
+			new IGroupColumn[]{
+					new DefaultGroupColumn("Zero or One", 0, 0 ),
+					new DefaultGroupColumn("2 multiples", 2, 1), 
+					new DefaultGroupColumn("3 multiples",4, 2)
+	});
 	
 	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList( 
 			new IDataColumn[]{

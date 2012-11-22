@@ -54,7 +54,7 @@ public class CtScenario1x3x1 {
 		new String[]{"France",	"West",		"F",	"20",	"30"}
     }; 
 	
-	public final static IGroupColumn[] GROUP_COLUMNS = null; 
+	public final static List<IGroupColumn> GROUP_COLUMNS = null; 
 		//new IGroupColumn[]{
 		//new DefaultGroupColumn("Country",  0, 0) 
 	//};

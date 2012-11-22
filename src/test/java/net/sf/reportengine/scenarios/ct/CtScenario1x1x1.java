@@ -46,7 +46,7 @@ public class CtScenario1x1x1 {
 	};
 	
 	
-	public static final IGroupColumn[] GROUP_COLUMNS = null; 
+	public static final List<IGroupColumn> GROUP_COLUMNS = null; 
 //		new IGroupColumn[]{
 //		new DefaultGroupColumn("Continent", 0, 0)
 //	};

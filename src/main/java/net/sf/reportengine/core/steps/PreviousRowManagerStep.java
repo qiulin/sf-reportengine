@@ -4,14 +4,15 @@
 package net.sf.reportengine.core.steps;
 
 import java.util.Arrays;
-
-import org.apache.log4j.Logger;
+import java.util.List;
 
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.util.ContextKeys;
+
+import org.apache.log4j.Logger;
 
 /**
  * 
@@ -34,7 +35,9 @@ public class PreviousRowManagerStep extends AbstractReportStep {
 	 */
 	private Object[] previousRowOfGroupingColumnValues;
     
-    
+    /**
+     * 
+     */
 	public void init(IReportContext reportContext){
 		super.init(reportContext);
 		
@@ -64,11 +67,14 @@ public class PreviousRowManagerStep extends AbstractReportStep {
     	}
 	}
 	
-	
-	private void copyGroupingValuesToLastRowOfGroupingColumnValues(IGroupColumn[] groupingCols, NewRowEvent newRowEvent){
-    	for (int i = 0; i < groupingCols.length; i++) {
-    		previousRowOfGroupingColumnValues[i] = groupingCols[i].getValue(newRowEvent);
+	/**
+	 * copies the current row valus into the previousValues array
+	 * @param groupingCols
+	 * @param newRowEvent
+	 */
+	private void copyGroupingValuesToLastRowOfGroupingColumnValues(List<IGroupColumn> groupingCols, NewRowEvent newRowEvent){
+    	for (int i = 0; i < groupingCols.size(); i++) {
+    		previousRowOfGroupingColumnValues[i] = groupingCols.get(i).getValue(newRowEvent);
     	}    	
     }
-	
 }

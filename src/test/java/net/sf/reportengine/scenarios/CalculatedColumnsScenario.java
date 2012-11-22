@@ -57,7 +57,7 @@ public class CalculatedColumnsScenario {
 	
 	 public final static IReportInput INPUT = new MemoryReportInput(RAW_DATA);
 	    
-	public static final IGroupColumn[] GROUP_COLUMNS = new IGroupColumn[]{
+	public static final List<IGroupColumn> GROUP_COLUMNS = Arrays.asList(new IGroupColumn[]{
 		new DefaultGroupColumn("Zero or One", 0, 0), 
 		new AbstractGroupColumn("Computed 0+2", 1, null, HorizontalAlign.CENTER, false) {
 			public Integer getValue(NewRowEvent newRowEvent) {
@@ -68,7 +68,7 @@ public class CalculatedColumnsScenario {
 		new DefaultGroupColumn("2 multiples", 2, 2), 
 		new DefaultGroupColumn("3 Multiples", 4, 3),
 		
-	};
+	});
 	
 	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList(new IDataColumn[] {
 		new DefaultDataColumn("Column A", 1),

@@ -49,11 +49,11 @@ public class Scenario2 {
 	
 	public static final Object[][] COMPUTED_INPUT = RAW_INPUT;
 	
-	public static final IGroupColumn[] GROUPING_COLUMNS = new IGroupColumn[]{
+	public static final List<IGroupColumn> GROUPING_COLUMNS = Arrays.asList(new IGroupColumn[]{
 		new DefaultGroupColumn("Zero or One", 0, 0), 
 		new DefaultGroupColumn("2 multiples", 2, 1), 
 		new DefaultGroupColumn("3 Multiples", 4, 2), 
-	};
+	});
 	
 	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList( 
 			new IDataColumn[]{

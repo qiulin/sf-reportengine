@@ -88,7 +88,7 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
      * @return
      */
     public int computeAggLevelForCalcRowNumber(int calcRowNumber){
-    	return getGroupingColumns().length - calcRowNumber - 1;
+    	return getGroupingColumns().size() - calcRowNumber - 1;
     }
     
     /**
@@ -116,12 +116,12 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     	return (Boolean)getContext().get(ContextKeys.CONTEXT_KEY_SHOW_TOTALS);
     }
     
-    public IGroupColumn[] getGroupingColumns(){
-    	return (IGroupColumn[])getContext().get(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS);
+    public List<IGroupColumn> getGroupingColumns(){
+    	return (List<IGroupColumn>)getContext().get(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS);
     }
     
     public int getGroupingColumnsLength(){
-    	return getGroupingColumns() != null ? getGroupingColumns().length : 0; 
+    	return getGroupingColumns() != null ? getGroupingColumns().size() : 0; 
     }
     
     public List<IDataColumn> getDataColumns(){
