@@ -3,6 +3,8 @@
  */
 package net.sf.reportengine.core.steps;
 
+import java.util.List;
+
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
@@ -43,9 +45,11 @@ public class FlatReportExtractDataInitStep implements IAlgorithmInitStep {
 	 * @see net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)
 	 */
 	public void init(IReportContext reportContext) {
-		IDataColumn[] dataCols = (IDataColumn[])reportContext.get(ContextKeys.CONTEXT_KEY_DATA_COLUMNS);
+		List<IDataColumn> dataCols = 
+				(List<IDataColumn>)reportContext.get(ContextKeys.CONTEXT_KEY_DATA_COLUMNS);
 		calculatorsDistributionInDataColumnsArray = extractDistributionOfCalculatorsAcrossColumns(dataCols); 
-		reportContext.set(ContextKeys.CONTEXT_KEY_DISTRIBUTION_OF_CALCULATORS, calculatorsDistributionInDataColumnsArray);
+		reportContext.set(	ContextKeys.CONTEXT_KEY_DISTRIBUTION_OF_CALCULATORS, 
+							calculatorsDistributionInDataColumnsArray);
 	}
 	
 	/**
@@ -53,12 +57,12 @@ public class FlatReportExtractDataInitStep implements IAlgorithmInitStep {
 	 * @param dataCols
 	 * @return
 	 */
-	private int[] extractDistributionOfCalculatorsAcrossColumns(IDataColumn[] dataCols){
-		int[] result = new int[dataCols.length];
+	private int[] extractDistributionOfCalculatorsAcrossColumns(List<IDataColumn> dataCols){
+		int[] result = new int[dataCols.size()];
     	
     	int columnWithCalculatorsCount = 0;
-    	for(int i=0; i<dataCols.length; i++){
-    		ICalculator calculator = dataCols[i].getCalculator();
+    	for(int i=0; i<dataCols.size(); i++){
+    		ICalculator calculator = dataCols.get(i).getCalculator();
     		if(calculator != null){
     			result[i] = columnWithCalculatorsCount; 
     			columnWithCalculatorsCount++;

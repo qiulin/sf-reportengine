@@ -3,14 +3,13 @@
  */
 package net.sf.reportengine.scenarios;
 
-import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
-import net.sf.reportengine.core.calc.ICalculator;
-import net.sf.reportengine.core.steps.MockCalculator;
 import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.in.MemoryReportInput;
 
@@ -37,14 +36,15 @@ public final class NoGroupsScenario {
 	
 	public static final IGroupColumn[] GROUPING_COLUMNS = null; 
 			
-	public static final IDataColumn[] DATA_COLUMNS = new IDataColumn[]{
+	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList( 
+			new IDataColumn[]{
 		new DefaultDataColumn("Zero or one", 0, null), 
 		new DefaultDataColumn("2 multiples", 2, Calculators.SUM), 
 		new DefaultDataColumn("3 multiples", 4, Calculators.AVG), 
 		new DefaultDataColumn("Column A", 1), 
 		new DefaultDataColumn("Column A", 3), 
 		new DefaultDataColumn("Column A", 5, Calculators.COUNT), 
-	};
+	});
 	
 	public final static int[] AGG_LEVEL = new int[]{
 		-1, 

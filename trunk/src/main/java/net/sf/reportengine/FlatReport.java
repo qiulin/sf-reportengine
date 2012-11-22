@@ -4,13 +4,11 @@
  */
 package net.sf.reportengine;
 
-import java.util.List;
-
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
-import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.IReportAlgorithm;
+import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
@@ -19,7 +17,6 @@ import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
-import net.sf.reportengine.filter.DataOutputFilter;
 import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.util.ContextKeys;
@@ -88,7 +85,7 @@ public class FlatReport extends AbstractOneIterationReport {
     @Override protected void validateConfig() {
         super.validateConfig(); //this one checks the Input and the output
         
-        if(getDataColumns() == null || getDataColumns().length == 0){
+        if(getDataColumns() == null || getDataColumns().size() == 0){
         	throw new ConfigValidationException("Any report needs at least one data column to work properly"); 
         }
     }
@@ -109,10 +106,12 @@ public class FlatReport extends AbstractOneIterationReport {
     	context.set(ContextKeys.CONTEXT_KEY_SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
     	context.set(ContextKeys.CONTEXT_KEY_SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
     	
-    	//adding steps to the algorithm
+    	//adding steps to the algorithm :
+    	//we start with the init steps
     	algorithm.addInitStep(new FlatReportExtractDataInitStep());
     	algorithm.addInitStep(new ColumnHeaderOutputInitStep(getReportTitle()));
         
+    	//then we add the main steps
     	algorithm.addMainStep(new ComputeColumnValuesStep());
     	algorithm.addMainStep(new GroupingLevelDetectorStep());
     	

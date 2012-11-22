@@ -52,7 +52,7 @@ public class TestStepsCombo extends TestCase {
 		
 		//simulate the context
 		TEST_REPORT_CONTEXT.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS.toArray()); 
-		TEST_REPORT_CONTEXT.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS.toArray());
+		TEST_REPORT_CONTEXT.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS);
 		TEST_REPORT_CONTEXT.set(ContextKeys.CONTEXT_KEY_SHOW_GRAND_TOTAL, Scenario1.SHOW_GRAND_TOTAL);
 		
 		

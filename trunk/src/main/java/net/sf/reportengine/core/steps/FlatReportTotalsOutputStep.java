@@ -4,6 +4,8 @@
  */
 package net.sf.reportengine.core.steps;
 
+import java.util.List;
+
 import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
@@ -54,7 +56,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     /**
      * local copy of the data columns
      */
-    private IDataColumn[] dataCols;
+    private List<IDataColumn> dataCols;
     
     /**
      * 
@@ -154,7 +156,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
      */
     private void outputTotalsRow(	int groupLevel, 
     								ICalculator[] calcForCurrentGroupingLevel){
-    	if(distribOfCalculatorsInDataColsArray.length != dataCols.length){
+    	if(distribOfCalculatorsInDataColsArray.length != dataCols.size()){
     		//TODO: improve
     		throw new IllegalArgumentException("dataRows and distributionOfCalculators arrays should have the same length"); 
     	}
@@ -182,17 +184,17 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     	String formattedResult = null; 
     	
         //then iterate over data columns to display the totals for those having calculators
-    	for (int i = 0; i < dataCols.length; i++) {
-			IDataColumn column = dataCols[i];
+    	for (int i = 0; i < dataCols.size(); i++) {
+			IDataColumn column = dataCols.get(i);
 			if(column.getCalculator() != null){
 				int calculatorIndex = distribOfCalculatorsInDataColsArray[i];
 				Object calculatorResult = calcForCurrentGroupingLevel[calculatorIndex].getResult();
 				
 				//format the computed value 
-				formattedResult = dataCols[i].getFormattedValue(calculatorResult); 
+				formattedResult = dataCols.get(i).getFormattedValue(calculatorResult); 
 				
 				output.output(new CellProps.Builder(formattedResult)
-									.horizAlign(dataCols[i].getHorizAlign())
+									.horizAlign(dataCols.get(i).getHorizAlign())
 									.build());
 			}else{
 				//if the column doesn't have a calculator asociated 
@@ -202,19 +204,4 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
 		}
     	output.endRow();
     }
-   
-    
- 
-    
-//    public String getTotalStringForGroupingLevel(int groupingLevel, Object[] prevDataRow) {
-//    	String result;
-//		
-//		if(groupingLevel != SubtotalsInfo.GRAND_TOTAL_GROUPING_LEVEL){
-//			String prevValueForGropingLevel = prevDataRow[groupingLevel].toString();
-//			result = TOTAL_STRING + " " + prevValueForGropingLevel;
-//		}else{
-//			result = GRAND_TOTAL_STRING;
-//		}
-//		return result;
-//    }
 }

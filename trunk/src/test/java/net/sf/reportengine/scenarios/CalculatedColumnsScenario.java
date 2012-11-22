@@ -4,6 +4,8 @@
 package net.sf.reportengine.scenarios;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 import net.sf.reportengine.config.AbstractDataColumn;
 import net.sf.reportengine.config.AbstractGroupColumn;
@@ -68,7 +70,7 @@ public class CalculatedColumnsScenario {
 		
 	};
 	
-	public static final IDataColumn[] DATA_COLUMNS = new IDataColumn[] {
+	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList(new IDataColumn[] {
 		new DefaultDataColumn("Column A", 1),
 		new DefaultDataColumn("Column B", 3), 
 		new DefaultDataColumn("Column C", 5, Calculators.COUNT),
@@ -78,7 +80,7 @@ public class CalculatedColumnsScenario {
 				return ""+data[0]+data[3];
 			}
 		}
-	};
+	});
 	
 	
 	public final static Object[][] COMPUTED_VALUES = new Object[][]{

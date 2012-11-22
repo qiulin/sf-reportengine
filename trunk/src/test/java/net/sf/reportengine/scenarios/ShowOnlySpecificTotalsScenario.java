@@ -3,6 +3,9 @@
  */
 package net.sf.reportengine.scenarios;
 
+import java.util.Arrays;
+import java.util.List;
+
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.IDataColumn;
@@ -27,10 +30,11 @@ public class ShowOnlySpecificTotalsScenario extends Scenario2 {
 		new DefaultGroupColumn("3 multiples",4, 2)
 	};
 	
-	public static final IDataColumn[] DATA_COLUMNS = new IDataColumn[]{
-		new DefaultDataColumn("Column A", 1),
-		new DefaultDataColumn("Column B", 3),
-		new DefaultDataColumn("Column C", 5, Calculators.COUNT)
-	};
+	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList( 
+			new IDataColumn[]{
+					new DefaultDataColumn("Column A", 1),
+					new DefaultDataColumn("Column B", 3),
+					new DefaultDataColumn("Column C", 5, Calculators.COUNT)
+	});
 	
 }

@@ -20,8 +20,7 @@ public abstract class AbstractOneIterationReport extends AbstractReport {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.AbstractReport#executeAlgorithm()
 	 */
-	@Override
-	protected void executeAlgorithm(){
+	@Override protected void executeAlgorithm(){
     	algorithm.executeAlgorithm();
     }
 	

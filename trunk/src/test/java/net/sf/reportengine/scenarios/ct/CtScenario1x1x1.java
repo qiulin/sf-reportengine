@@ -3,10 +3,12 @@
  */
 package net.sf.reportengine.scenarios.ct;
 
+import java.util.Arrays;
+import java.util.List;
+
 import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.ICrosstabData;
 import net.sf.reportengine.config.ICrosstabHeaderRow;
 import net.sf.reportengine.config.IDataColumn;
@@ -49,9 +51,10 @@ public class CtScenario1x1x1 {
 //		new DefaultGroupColumn("Continent", 0, 0)
 //	};
 	
-	public static final IDataColumn[] DATA_COLUMNS = new IDataColumn[]{
-		new DefaultDataColumn("Continent", 0)
-	};
+	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList( 
+			new IDataColumn[]{
+					new DefaultDataColumn("Continent", 0)
+	});
 	
 	public static final ICrosstabHeaderRow[] ROW_HEADERS = new ICrosstabHeaderRow[]{
 		new DefaultCrosstabHeaderRow(1)//Region - second column

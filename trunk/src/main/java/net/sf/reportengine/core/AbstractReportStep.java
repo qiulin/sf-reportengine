@@ -4,6 +4,8 @@
  */
 package net.sf.reportengine.core;
 
+import java.util.List;
+
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
@@ -122,8 +124,8 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     	return getGroupingColumns() != null ? getGroupingColumns().length : 0; 
     }
     
-    public IDataColumn[] getDataColumns(){
-    	return (IDataColumn[])getContext().get(ContextKeys.CONTEXT_KEY_DATA_COLUMNS);
+    public List<IDataColumn> getDataColumns(){
+    	return (List<IDataColumn>)getContext().get(ContextKeys.CONTEXT_KEY_DATA_COLUMNS);
     }
     
     public Object[] getPreviousRowOfGroupingValues(){

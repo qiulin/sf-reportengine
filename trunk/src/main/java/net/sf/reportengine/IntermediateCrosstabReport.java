@@ -71,10 +71,12 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 		IGroupColumn[] intermediateGroupCols = transformGroupingCrosstabConfigInFlatReportConfig(getGroupColumns(),
 																									getDataColumns(), 
 																									getCrosstabHeaderRows());
-		IDataColumn[] intermediateDataCols = new IDataColumn[]{
-				//TODO: come back here. We need to take the last in the groupingLevel order not in the current order
-				/*new FlatDataColumnFromHeaderRow(crosstabHeaderRows[crosstabHeaderRows.length-1]), */ 
-				new IntermDataColumnFromCrosstabData(crosstabData)};
+		List<IDataColumn> intermediateDataCols = new ArrayList<IDataColumn>(1);
+		intermediateDataCols.add(new IntermDataColumnFromCrosstabData(crosstabData)); 
+		//TODO: come back here. We need to take the last in the groupingLevel order not in the current order
+		/*new FlatDataColumnFromHeaderRow(crosstabHeaderRows[crosstabHeaderRows.length-1]), */ 
+		//new IntermDataColumnFromCrosstabData(crosstabData)};
+		
 		
 		if(logger.isDebugEnabled()){
 			logger.debug("configuring intermediate report algorithm: intermediateGroupCols "+Arrays.toString(intermediateGroupCols)+" ");
@@ -162,14 +164,14 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 	 */
 	protected IGroupColumn[] transformGroupingCrosstabConfigInFlatReportConfig(	
 			IGroupColumn[] originalCtGroupingCols, 
-			IDataColumn[] originalCtDataCols, 
+			List<IDataColumn> originalCtDataCols, 
 			ICrosstabHeaderRow[] originalCtHeaderRows){
 		
 		List<IGroupColumn> groupColsAsList = originalCtGroupingCols != null ? Arrays.asList(originalCtGroupingCols): new ArrayList<IGroupColumn>();
 		
 		return transformGroupingCrosstabConfigInFlatReportConfig(
 													groupColsAsList, 
-													Arrays.asList(originalCtDataCols), 
+													originalCtDataCols, 
 													Arrays.asList(originalCtHeaderRows));
 	}
 	

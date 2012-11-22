@@ -4,6 +4,8 @@
  */
 package net.sf.reportengine.core.steps;
 
+import java.util.List;
+
 import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
@@ -56,10 +58,10 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
      */
     public void init(IReportContext reportContext){
     	logger.trace("initializing the column header step: output title and column headers");
-    	IDataColumn[] dataCols = (IDataColumn[])reportContext.get(ContextKeys.CONTEXT_KEY_DATA_COLUMNS);
+    	List<IDataColumn> dataCols = (List<IDataColumn>)reportContext.get(ContextKeys.CONTEXT_KEY_DATA_COLUMNS);
     	IGroupColumn[] groupCols = (IGroupColumn[])reportContext.get(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS); 
     	
-    	int outputColumnsCnt = dataCols.length + (groupCols != null ? groupCols.length : 0); 
+    	int outputColumnsCnt = dataCols.size() + (groupCols != null ? groupCols.length : 0); 
     	
     	//output the title
     	IReportOutput output = (IReportOutput)reportContext.getOutput();
