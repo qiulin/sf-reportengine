@@ -3,7 +3,8 @@
  */
 package net.sf.reportengine.in;
 
-import net.sf.reportengine.util.ReportEngineArrayUtils;
+import java.util.Arrays;
+
 import junit.framework.TestCase;
 
 /**
@@ -43,25 +44,17 @@ public class TestMemoryReportInput extends TestCase {
 		classUnderTest.open();
 		assertTrue(classUnderTest.hasMoreRows());
 		Object[] row = classUnderTest.nextRow();
-		assertTrue(ReportEngineArrayUtils.equalArrays(row, DATA[0]));
+		assertTrue(Arrays.equals(row, DATA[0]));
 		
 		assertTrue(classUnderTest.hasMoreRows());
 		row = classUnderTest.nextRow();
-		assertTrue(ReportEngineArrayUtils.equalArrays(row, DATA[1]));
+		assertTrue(Arrays.equals(row, DATA[1]));
 		
 		assertTrue(classUnderTest.hasMoreRows());
 		row = classUnderTest.nextRow();
-		assertTrue(ReportEngineArrayUtils.equalArrays(row, DATA[2]));
+		assertTrue(Arrays.equals(row, DATA[2]));
 		
 		assertFalse(classUnderTest.hasMoreRows());
 	}
-
-	/**
-	 * Test method for {@link net.sf.reportengine.in.MemoryReportInput#getColumnsCount()}.
-	 */
-//	public void testGetColumnsCount() {
-//		classUnderTest.open();
-//		assertEquals(4,classUnderTest.getColumnsCount());
-//	}
-
+	
 }

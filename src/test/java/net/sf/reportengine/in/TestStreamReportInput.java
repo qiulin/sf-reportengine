@@ -4,10 +4,11 @@
  */
 package net.sf.reportengine.in;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 import net.sf.reportengine.test.ReportengineTC;
-import net.sf.reportengine.util.ReportEngineArrayUtils;
 
 public class TestStreamReportInput extends ReportengineTC {
     
@@ -61,7 +62,7 @@ public class TestStreamReportInput extends ReportengineTC {
             classUnderTest.open();
             while (classUnderTest.hasMoreRows()) {
                 data = classUnderTest.nextRow();
-                boolean arraysAreEqual = ReportEngineArrayUtils.equalArrays(data, EXPECTED_RESULT[index++]);
+                boolean arraysAreEqual = Arrays.equals(data, EXPECTED_RESULT[index++]);
                 assertTrue(arraysAreEqual);
             }
 
@@ -150,16 +151,16 @@ public class TestStreamReportInput extends ReportengineTC {
             classUnderTest.open();
             //classUnderTest.first();
             Object[] firstRow = classUnderTest.nextRow();
-            assertTrue(ReportEngineArrayUtils.equalArrays(firstRow, EXPECTED_RESULT[0]));
+            assertTrue(Arrays.equals(firstRow, EXPECTED_RESULT[0]));
             
             assertTrue(classUnderTest.hasMoreRows());
             Object[] secondRow = classUnderTest.nextRow();
-            assertTrue(ReportEngineArrayUtils.equalArrays(secondRow, EXPECTED_RESULT[1]));
+            assertTrue(Arrays.equals(secondRow, EXPECTED_RESULT[1]));
             
             
             assertTrue(classUnderTest.hasMoreRows());
             Object[] thirdRow = classUnderTest.nextRow();
-            assertTrue(ReportEngineArrayUtils.equalArrays(thirdRow, EXPECTED_RESULT[2]));            
+            assertTrue(Arrays.equals(thirdRow, EXPECTED_RESULT[2]));            
             
         } catch (ReportInputException e) {
             e.printStackTrace();
@@ -170,14 +171,13 @@ public class TestStreamReportInput extends ReportengineTC {
     }
     
     public void testException(){
-        boolean fnfExcThrown = false;
         try {
             classUnderTest = new StreamReportInput("inexistent.txt");
             classUnderTest.open();
+            fail("an exception should have been thrown by the method above");
         } catch (ReportInputException e) {
-            fnfExcThrown = true;            
-        } 
-        assertTrue(fnfExcThrown);        
+        	assertEquals(e.getCause().getClass(), FileNotFoundException.class);
+        }                
     }
     
     
