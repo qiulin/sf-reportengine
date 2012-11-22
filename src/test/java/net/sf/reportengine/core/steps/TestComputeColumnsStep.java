@@ -40,7 +40,7 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 	public void testExecuteScenario1() {
 		IReportContext reportContext = getTestContext(); 
 		
-		reportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS.toArray());
+		reportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS);
 		reportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS.toArray());
 		classUnderTest.init(reportContext);
 		

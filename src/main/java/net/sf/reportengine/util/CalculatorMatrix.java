@@ -4,6 +4,8 @@
  */
 package net.sf.reportengine.util;
 
+import java.util.List;
+
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.CalculatorException;
@@ -50,7 +52,7 @@ public class CalculatorMatrix {
      * @param levelCount    defines how many levels (rows) we will have 
      * @param calculatorFactories   a prototype row of calculators
      */
-    public CalculatorMatrix(int rowCount, IDataColumn[] dataColumns){
+    public CalculatorMatrix(int rowCount, List<IDataColumn> dataColumns){
     	extractCalculatorsData(dataColumns);
     	this.calculators = createMultipleRows(rowCount, calculatorPrototypes);
     }
@@ -66,21 +68,21 @@ public class CalculatorMatrix {
      *  
      * @param columns	data columns
      */
-    protected void extractCalculatorsData(IDataColumn[] columns){
+    protected void extractCalculatorsData(List<IDataColumn> columns){
     	
     	//prepare the temporary values 
-    	ICalculator[] tempCalcPrototypes = new ICalculator[columns.length];
-    	IDataColumn[] tempDataCols = new IDataColumn[columns.length];
-    	int[] tempColIndex = new int[columns.length];
+    	ICalculator[] tempCalcPrototypes = new ICalculator[columns.size()];
+    	IDataColumn[] tempDataCols = new IDataColumn[columns.size()];
+    	int[] tempColIndex = new int[columns.size()];
     	
     	//prepare also final value for calculatorsDistributionInDataColumnsArray
     	
     	int columnWithCalculatorsCount = 0;
-    	for(int i=0; i<columns.length; i++){
-    		ICalculator calcPrototype = columns[i].getCalculator();
+    	for(int i=0; i<columns.size(); i++){
+    		ICalculator calcPrototype = columns.get(i).getCalculator();
     		if(calcPrototype != null){
     			tempCalcPrototypes[columnWithCalculatorsCount] = calcPrototype;
-    			tempDataCols[columnWithCalculatorsCount] = columns[i];
+    			tempDataCols[columnWithCalculatorsCount] = columns.get(i);
     			tempColIndex[columnWithCalculatorsCount] = i; 
     			columnWithCalculatorsCount++;
     		}

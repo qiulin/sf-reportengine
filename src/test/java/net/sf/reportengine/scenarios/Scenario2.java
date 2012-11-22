@@ -4,6 +4,8 @@
 package net.sf.reportengine.scenarios;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
@@ -53,11 +55,12 @@ public class Scenario2 {
 		new DefaultGroupColumn("3 Multiples", 4, 2), 
 	};
 	
-	public static final IDataColumn[] DATA_COLUMNS = new IDataColumn[]{
+	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList( 
+			new IDataColumn[]{
 		new DefaultDataColumn("Column A", 1), 
 		new DefaultDataColumn("Column A", 3), 
 		new DefaultDataColumn("Column A", 5, Calculators.COUNT), 
-	};
+	});
 	
 	public static final int[] AGG_COLUMNS_INDEX = new int[]{0,2,4};
 	

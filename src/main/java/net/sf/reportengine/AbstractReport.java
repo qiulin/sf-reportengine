@@ -162,24 +162,26 @@ public abstract class AbstractReport {
 	
 	
 	/**
-	 * @return the configColumns
+	 * getter for data colums of this report
+	 * @return 
 	 */
-	public IDataColumn[] getDataColumns() {
-		IDataColumn[] result = null;
-		if(dataColsAsList != null){
-			result = dataColsAsList.toArray(new IDataColumn[dataColsAsList.size()]);
-		}
-		return result; 
+	public List<IDataColumn> getDataColumns() {
+		//IDataColumn[] result = null;
+		//if(dataColsAsList != null){
+		//	result = dataColsAsList.toArray(new IDataColumn[dataColsAsList.size()]);
+		//}
+		//return result; 
+		return dataColsAsList; 
 	}
 
 
-	/**
-	 * @param configColumns the configColumns to set
-	 * @deprecated use the setDataColumn(List) or addDataColumn(IDataColumn) instead
-	 */
-	public void setDataColumns(IDataColumn[] dataColumns) {
-		this.dataColsAsList = Arrays.asList(dataColumns);
-	}
+//	/**
+//	 * @param configColumns the configColumns to set
+//	 * @deprecated use the setDataColumn(List) or addDataColumn(IDataColumn) instead
+//	 */
+//	public void setDataColumns(IDataColumn[] dataColumns) {
+//		this.dataColsAsList = Arrays.asList(dataColumns);
+//	}
 
 	
 	public void setDataColumns(List<IDataColumn> dataColsList){

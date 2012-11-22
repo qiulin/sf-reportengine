@@ -3,6 +3,8 @@
  */
 package net.sf.reportengine.core.steps.crosstab;
 
+import java.util.List;
+
 import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
@@ -36,7 +38,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 	 */
 	public void init(IReportContext reportContext) {
 		IReportOutput reportOutput = (IReportOutput)reportContext.getOutput();
-		IDataColumn[] dataColumns = (IDataColumn[])reportContext.get(ContextKeys.CONTEXT_KEY_DATA_COLUMNS);
+		List<IDataColumn> dataColumns = (List<IDataColumn>)reportContext.get(ContextKeys.CONTEXT_KEY_DATA_COLUMNS);
 		IGroupColumn[] groupColumns = (IGroupColumn[])reportContext.get(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS); 
 		//ICrosstabHeaderRow[] headerRows = (ICrosstabHeaderRow[])reportContext.get(ContextKeys.CONTEXT_KEY_CROSSTAB_HEADER_ROWS); 
 		CtMetadata ctMetadata = (CtMetadata)reportContext.get(ContextKeys.CONTEXT_KEY_CROSSTAB_METADATA);
@@ -63,9 +65,9 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 	
 	
 	private void outputHeaderRowsByLoopingColumns(	IReportOutput reportOutput, 
-									CtMetadata ctMetadata, 
-									IDataColumn[] dataCols, 
-									IGroupColumn[] groupCols){
+													CtMetadata ctMetadata, 
+													List<IDataColumn> dataCols, 
+													IGroupColumn[] groupCols){
 		for (int row = 0; row < ctMetadata.getHeaderRowsCount(); row++) {
 			reportOutput.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS)); 
 			
@@ -83,7 +85,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 					}
 				}
 				//output header for SecondCrossta ... 
-				reportOutput.output(new CellProps.Builder(dataCols[0].getHeader())
+				reportOutput.output(new CellProps.Builder(dataCols.get(0).getHeader())
 											.colspan(1)
 											.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
 											.horizAlign(HorizontalAlign.CENTER)
@@ -106,8 +108,8 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 				colspan = ctMetadata.getColspanForLevel(ctMetadata.getHeaderRowsCount()-2);
 			}
 			int currentColumn = 1; 
-			while(currentColumn < dataCols.length){
-				IDataColumn currentDataColumn = dataCols[currentColumn];
+			while(currentColumn < dataCols.size()){
+				IDataColumn currentDataColumn = dataCols.get(currentColumn);
 				
 				if(currentDataColumn instanceof SecondProcessDataColumn){
 					SecondProcessDataColumn currDataColumnAsSPDC = (SecondProcessDataColumn)currentDataColumn; 

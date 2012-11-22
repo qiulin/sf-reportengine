@@ -4,6 +4,7 @@
 package net.sf.reportengine;
 
 import java.io.InputStream;
+import java.util.List;
 
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
@@ -56,12 +57,12 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		report.setIn(intermediateInput);
 		report.setOut(new HtmlOutput(createTestOutputFile("SecondProcessorOut2x2x1xT.html"))); 
 		
-		IDataColumn[] dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( 	crosstabMetadata, 
+		List<IDataColumn> dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( 	crosstabMetadata, 
 																								CtScenario2x2x1.DATA_COLUMNS, 
 																								true, 
 																								true);
 		assertNotNull(dataColumns); 
-		assertEquals(10, dataColumns.length); 
+		assertEquals(10, dataColumns.size()); 
 		report.setDataColumns(dataColumns);
 		
 		IGroupColumn[] groupColumns = mockCrosstabReport.constructGroupColumnsForSecondProcess(CtScenario2x2x1.GROUPING_COLUMNS);
@@ -89,7 +90,7 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		report.setIn(intermediateInput);
 		report.setOut(new HtmlOutput(createTestOutputFile("SecondProcessorOut1x3x1xT.html"))); 
 		
-		IDataColumn[] dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( crosstabMetadata, 
+		List<IDataColumn> dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( crosstabMetadata, 
 																							CtScenario1x3x1.DATA_COLUMNS, 
 																							true, 
 																							true);
@@ -125,7 +126,7 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		report.setShowTotals(false); 
 		report.setShowGrandTotal(false); 
 		
-		IDataColumn[] dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( 	crosstabMetadata, 
+		List<IDataColumn> dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( 	crosstabMetadata, 
 																								CtScenario1x3x1.DATA_COLUMNS, 
 																								false, 
 																								false);

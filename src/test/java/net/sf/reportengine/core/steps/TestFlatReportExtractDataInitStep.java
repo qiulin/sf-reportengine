@@ -3,6 +3,9 @@
  */
 package net.sf.reportengine.core.steps;
 
+import java.util.Arrays;
+import java.util.List;
+
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.core.algorithm.IReportContext;
@@ -15,14 +18,14 @@ import net.sf.reportengine.util.ContextKeys;
  */
 public class TestFlatReportExtractDataInitStep extends ReportAlgorithmStepTC {
 	
-	private static IDataColumn[] TEST_DATA_COLUMNS = new IDataColumn[]{
+	private static List<IDataColumn> TEST_DATA_COLUMNS = Arrays.asList(new IDataColumn[]{
 		new DefaultDataColumn("No calculator column", 0, null),
 		new DefaultDataColumn("Count Column", 1, Calculators.COUNT), 
 		new DefaultDataColumn("Sum Column", 2, Calculators.SUM), 
 		new DefaultDataColumn("We don't care about this one", 3), 
 		new DefaultDataColumn("Another column without calculator", 4), 
 		new DefaultDataColumn("Last calculator column", 5, Calculators.AVG)
-	};
+	});
 	
 	
 	private FlatReportExtractDataInitStep classUnderTest = null; 
@@ -46,7 +49,7 @@ public class TestFlatReportExtractDataInitStep extends ReportAlgorithmStepTC {
 		
 		int[] result = (int[])reportContext.get(ContextKeys.CONTEXT_KEY_DISTRIBUTION_OF_CALCULATORS);
 		assertNotNull(result);
-		assertEquals(TEST_DATA_COLUMNS.length, result.length);
+		assertEquals(TEST_DATA_COLUMNS.size(), result.length);
 		
 		
 		assertEquals(FlatReportExtractDataInitStep.NO_CALCULATOR_ON_THIS_POSITION, result[0]); 

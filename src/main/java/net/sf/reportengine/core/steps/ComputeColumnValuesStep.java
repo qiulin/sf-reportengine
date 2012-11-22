@@ -1,5 +1,7 @@
 package net.sf.reportengine.core.steps;
 
+import java.util.List;
+
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
@@ -23,7 +25,7 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 	private int finalReportGroupCount = -1;
 	private int finalReportColumnCount = -1; 
 	private IGroupColumn[] groupCols = null;
-	private IDataColumn[] dataColumns = null; 
+	private List<IDataColumn> dataColumns = null; 
 			
 	/**
 	 * empty constructor
@@ -40,7 +42,7 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 		dataColumns = getDataColumns();
 		
 		finalReportGroupCount = groupCols != null ? groupCols.length : 0;
-		finalReportColumnCount = finalReportGroupCount + dataColumns.length; 
+		finalReportColumnCount = finalReportGroupCount + dataColumns.size(); 
 		
 		context.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, new Object[finalReportColumnCount]);
 		context.set(ContextKeys.CONTEXT_KEY_FORMATTED_CELL_VALUES, new String[finalReportColumnCount]);	
@@ -76,10 +78,10 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 		}
 		
 		//then handle the data columns
-		for(int i=0; i<dataColumns.length; i++){
-			valueForCurrentColumn = dataColumns[i].getValue(newRowEvent);
+		for(int i=0; i<dataColumns.size(); i++){
+			valueForCurrentColumn = dataColumns.get(i).getValue(newRowEvent);
 			nonFormattedResults[finalReportGroupCount+i] = valueForCurrentColumn;
-			formattedResults[finalReportGroupCount+i] = dataColumns[i].getFormattedValue(valueForCurrentColumn);
+			formattedResults[finalReportGroupCount+i] = dataColumns.get(i).getFormattedValue(valueForCurrentColumn);
 		}
 		
 		getContext().set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, nonFormattedResults);
