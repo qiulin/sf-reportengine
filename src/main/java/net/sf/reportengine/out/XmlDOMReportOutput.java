@@ -65,7 +65,7 @@ public class XmlDOMReportOutput extends AbstractXmlOutput {
     public void open() {
         super.open();
         root = document.createElement(TAG_REPORT);
-        root.setAttribute(ATTR_ENGINE_VERSION,"0.3");
+        root.setAttribute(ATTR_ENGINE_VERSION,"0.6");
         document.appendChild(root);
     }
     

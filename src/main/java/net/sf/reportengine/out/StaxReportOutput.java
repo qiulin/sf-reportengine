@@ -49,7 +49,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	/**
 	 * 
 	 */
-	public static final String ENGINE_VERSION = "0.4";
+	public static final String ENGINE_VERSION = "0.6";
 	
 	/**
 	 * 
