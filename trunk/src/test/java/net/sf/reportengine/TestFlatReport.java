@@ -1,7 +1,6 @@
 package net.sf.reportengine;
 
 import java.io.InputStream;
-import java.io.OutputStream;
 
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.in.IReportInput;
@@ -150,16 +149,14 @@ public class TestFlatReport extends ReportengineTC {
             flatReport.setReportTitle("Test flat report 2x3x1d");    
             flatReport.setIn(input); 
             
-            OutputStream testOutput = createTestOutputFile("test_FlatReportTool_file_in.html");
-            assertNotNull(testOutput);
             
             InputStream xstlStream = getTestFileFromClasspath("net/sf/reportengine/defaultTemplate.xslt");
             assertNotNull(xstlStream);
             
             OutputDispatcher output = new OutputDispatcher();
-            //output.registerOutput(new HtmlOutput(createTestOutputFile("testExecute2x3x1.html")));
+            output.registerOutput(new HtmlOutput(createTestOutputFile("testExecute2x3x1.html")));
             output.registerOutput(new StaxReportOutput(createTestOutputFile("testExecute2x3x1.xml")));
-            //output.registerOutput(new XsltReportOutput(testOutput, xstlStream));
+            output.registerOutput(new XsltReportOutput(createTestOutputFile("testXsltOutput2x3x1.html"), xstlStream));
             output.registerOutput(new XslFoOutput(createTestOutputFile("testExecute2x3x1.pdf")));
             flatReport.setOut(output);
             
