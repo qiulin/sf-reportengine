@@ -252,4 +252,20 @@ public class TestFlatReport extends ReportengineTC {
 		flatReport.execute();
 	}
 	
+//	public void testMemoryLeaks(){
+//		
+//		flatReport.setIn(ScenarioFormatedValues.INPUT);
+//		flatReport.setOut(new HtmlOutput("./target/testMemoryLeaks.html"));
+//		flatReport.setReportTitle("Formatted Values");
+//		flatReport.setShowTotals(true); 
+//		flatReport.setShowGrandTotal(true); 
+//		
+//		flatReport.setGroupColumns(ScenarioFormatedValues.GROUP_COLUMNS);
+//		flatReport.setDataColumns(ScenarioFormatedValues.DATA_COLUMNS);
+//		
+//		for(int i=0;i<1000;i++){
+//			flatReport.execute();
+//		}
+//	}
+	
 }
