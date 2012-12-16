@@ -1,0 +1,3 @@
+<td>
+	${cellProps.value}
+</td>
