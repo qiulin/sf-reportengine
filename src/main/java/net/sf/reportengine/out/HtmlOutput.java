@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-
 import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.core.ReportContent;
 
