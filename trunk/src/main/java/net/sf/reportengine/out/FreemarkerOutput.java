@@ -18,24 +18,46 @@ import freemarker.template.TemplateException;
  * @author dragos balan (dragos dot balan at gmail dot com)
  *
  */
-public class FreeMarkerOutput extends AbstractOutput {
+public class FreemarkerOutput extends AbstractOutput {
 	
+	/**
+	 * freemarker configuration class
+	 */
 	private Configuration freemarkerConfig = null;
 	
+	/**
+	 * report templates
+	 */
 	private Template startReportTemplate = null; 
 	private Template endReportTemplate = null; 
 	
+	/**
+	 * row templates
+	 */
 	private Template startRowTemplate = null;
 	private Template endRowTemplate = null; 
 	
+	/**
+	 * cell template
+	 */
 	private Template cellTemplate = null; 
 	
+	/**
+	 * root data for templates
+	 */
+	private Map<String, RowProps> rootDataForRowTemplate = null;
+	private Map<String, CellProps> rootDataForCellTemplate = null; 
+	
+	/**
+	 * the template loader
+	 */
 	private TemplateLoader templateLoader = null; 
 	
 	/**
 	 * 
+	 * @param filename
 	 */
-	public FreeMarkerOutput(String filename){
+	public FreemarkerOutput(String filename){
 		super(filename); 
 		
 		freemarkerConfig = new Configuration(); 
@@ -43,33 +65,13 @@ public class FreeMarkerOutput extends AbstractOutput {
 		
 		templateLoader = new ClassTemplateLoader(getClass(), "/net/sf/reportengine"); 
 		freemarkerConfig.setTemplateLoader(templateLoader); 
+		
+		//init root data
+		rootDataForCellTemplate = new HashMap<String, CellProps>(); 
+		rootDataForRowTemplate = new HashMap<String, RowProps>(); 
 	}
 	
-	/**
-	 * 
-	 */
-	public void startRow(RowProps rowProperties) {
-		try {
-			startRowTemplate.process(rowProperties, getWriter());
-		} catch (TemplateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		
-	}
 	
-	/**
-	 * 
-	 */
-	public void endRow() {
-		try {
-			endRowTemplate.process(new HashMap(), getWriter());
-		} catch (TemplateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
-	}
 	
 	/**
 	 * 
@@ -98,18 +100,45 @@ public class FreeMarkerOutput extends AbstractOutput {
 	/**
 	 * 
 	 */
-	public void output(CellProps cellProps) {
+	public void startRow(RowProps rowProperties) {
 		try {
-			Map<String, CellProps> root = new HashMap<String, CellProps>(); 
-			root.put("cellProps", cellProps); 
-			cellTemplate.process(root, getWriter());
+			rootDataForRowTemplate.put("rowProps", rowProperties); 
+			startRowTemplate.process(rootDataForRowTemplate, getWriter());
+		} catch (TemplateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	/**
+	 * 
+	 */
+	public void endRow() {
+		try {
+			endRowTemplate.process(rootDataForRowTemplate, getWriter());
 		} catch (TemplateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
-		
 	}
+	
+	
+	/**
+	 * 
+	 */
+	public void output(CellProps cellProps) {
+		try {
+			rootDataForCellTemplate.put("cellProps", cellProps); 
+			cellTemplate.process(rootDataForCellTemplate, getWriter());
+		} catch (TemplateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
+	
 	
 	public void close() {
 		try {
