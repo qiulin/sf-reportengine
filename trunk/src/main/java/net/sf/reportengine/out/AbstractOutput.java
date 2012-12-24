@@ -21,6 +21,12 @@ import net.sf.reportengine.in.ReportInputException;
  */
 public abstract class AbstractOutput implements IReportOutput {
     
+	public final static String NO_WRITER_SET_ERROR_MESSAGE = "Output not ready ! Please set a writer or a filename to your output";
+	
+	/**
+	 * the default system file encoding 
+	 */
+	public final static String SYSTEM_FILE_ENCODING = System.getProperty("file.encoding"); 
     
    /**
      * the output writer
@@ -28,32 +34,44 @@ public abstract class AbstractOutput implements IReportOutput {
     private Writer outputWriter;
     
     /**
+     * the filename (used only if the report output is a file)
+     */
+    private String fileName;
+    
+    /**
      * tells whether or not to replace null values with white spaces
      */
     private String nullsReplacement ;
     
     /**
-     * 
+     * row count
      */
     private int rowCount = 0;
     
     /**
-     * 
+     * isOpen flag 
      */
-    public AbstractOutput(){
-    	
-    }
+    private boolean isOpen = false; 
+    
+    
+    
+    /**
+     * empty output. 
+     * If you use this constructor you will have to set the 
+     * other properties by calling the setter methods 
+     * ({@link #setFileName(String)}
+     * {@link #setWriter(Writer)}
+     * {@link #setOutputStream(OutputStream)}
+     * {@link #setOutputStream(OutputStream, String)}
+     */
+    public AbstractOutput(){}
     
     /**
      * 
      * @param fileName
      */
     public AbstractOutput(String fileName){
-    	try {
-			setWriter(new FileWriter(fileName));
-		} catch (IOException e) {
-			throw new ReportInputException(e); 
-		} 
+    	setFileName(fileName); 
     }
     
     /**
@@ -61,7 +79,7 @@ public abstract class AbstractOutput implements IReportOutput {
      * @param out
      */
     public AbstractOutput(OutputStream out){
-    	this(out, System.getProperty("file.encoding")); 
+    	setOutputStream(out);
     }
     
     /**
@@ -70,11 +88,7 @@ public abstract class AbstractOutput implements IReportOutput {
      * @param out the stream used for output
      */
     public AbstractOutput(OutputStream out, String encoding) {
-        try {
-			setWriter(new OutputStreamWriter(out, encoding));
-		} catch (UnsupportedEncodingException e) {
-			throw new ReportInputException(e);
-		}
+        setOutputStream(out, encoding); 
     }
     
     /**
@@ -89,13 +103,35 @@ public abstract class AbstractOutput implements IReportOutput {
     /**
      * empty implementation
      */
-    public void open(){}
+    public void open(){
+    	if(outputWriter == null){
+    		//check if the filename is specified
+    		if(fileName != null){
+    			try {
+    				setWriter(new FileWriter(fileName));
+    			} catch (IOException e) {
+    				throw new ReportOutputException(e); 
+    			} 
+    		}else{
+    			//filename is also null
+    			throw new ReportOutputException(NO_WRITER_SET_ERROR_MESSAGE); 
+    		} 
+    	}
+    	isOpen = true; 
+    }
     
     
     /**
      * empty implementation
      */
-    public void close(){}
+    public void close(){
+    	try {
+			outputWriter.close();
+		} catch (IOException e) {
+			throw new ReportOutputException(e);
+		}
+    	isOpen = false;
+    }
     
     
     /**
@@ -113,12 +149,6 @@ public abstract class AbstractOutput implements IReportOutput {
     
     
     /**
-     * outputs data
-     * @param algorithmProps  the properties imposed by the algorithm  
-     */
-    public abstract void output(CellProps algorithmProps);
-    
-    /**
      * 
      * @return
      */
@@ -132,6 +162,27 @@ public abstract class AbstractOutput implements IReportOutput {
      */
     public void setWriter(Writer writer){
         this.outputWriter = writer;
+    }
+    
+    /**
+     * 
+     * @param outStream
+     * @param encoding
+     */
+    public void setOutputStream(OutputStream outStream, String encoding){
+    	try {
+			setWriter(new OutputStreamWriter(outStream, encoding));
+		} catch (UnsupportedEncodingException e) {
+			throw new ReportInputException(e);
+		}
+    }
+    
+    /**
+     * 
+     * @param outStream
+     */
+    public void setOutputStream(OutputStream outStream){
+    	setOutputStream(outStream, SYSTEM_FILE_ENCODING);
     }
     
     
@@ -161,11 +212,27 @@ public abstract class AbstractOutput implements IReportOutput {
         this.nullsReplacement = nullsReplacement;
     }
 
-
 	/**
 	 * @return the rowCount
 	 */
 	public int getRowCount() {
 		return rowCount;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String filename) {
+		this.fileName = filename;
+	}
+	
+	/**
+	 * use it to find if the output was open
+	 * 
+	 * @return	true if the report was open or false otherwise
+	 */
+	protected boolean isOutputOpen(){
+		return isOpen; 
 	}
 }
