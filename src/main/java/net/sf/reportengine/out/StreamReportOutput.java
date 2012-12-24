@@ -10,7 +10,7 @@ import java.io.Writer;
 import org.apache.log4j.Logger;
 
 /**
- * 
+ * output report data into a stream (Writer or OutputStream)
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
@@ -35,12 +35,24 @@ public class StreamReportOutput extends AbstractOutput {
 	/**
 	 * buffer for the current line to be output
 	 */
-	private StringBuilder dataToLog = new StringBuilder();
+	private StringBuilder dataToOutput = new StringBuilder();
 	
 	/**
 	 * data separator
 	 */
 	private String separator;
+	
+	/**
+	 * empty stream output. 
+	 * Use the setter methods to be able to use this output
+	 * {@link #setFileName(String)}
+	 * {@link #setOutputStream(OutputStream)}
+	 * {@link #setOutputStream(OutputStream, String)}
+	 * {@link #setWriter(Writer)}
+	 */
+	public StreamReportOutput(){
+		setSeparator(DEFAULT_DATA_SEPARATOR); 
+	}
 	
 	/**
 	 * @param out
@@ -55,7 +67,7 @@ public class StreamReportOutput extends AbstractOutput {
 	 * @param separator
 	 */
 	public StreamReportOutput(OutputStream out, String separator){
-		this(out, separator, System.getProperty("file.encoding")); 
+		this(out, separator, SYSTEM_FILE_ENCODING); 
 	}
 	
 	/**
@@ -89,25 +101,25 @@ public class StreamReportOutput extends AbstractOutput {
      */ 
     public void startRow(RowProps rowProperties){
         super.startRow(rowProperties);
-        dataToLog.delete(0, dataToLog.length());
+        dataToOutput.delete(0, dataToOutput.length());
 	}
 	
+    /**
+     * end row
+     */
 	public void endRow(){
 		try {
-			dataToLog.append(LINE_SEPARATOR);
-			getWriter().write(dataToLog.toString());
+			dataToOutput.append(LINE_SEPARATOR);
+			getWriter().write(dataToOutput.toString());
 		} catch (IOException e) {
 			logger.error(e);
 			throw new RuntimeException(e);
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.AbstractOutput#output(net.sf.reportengine.out.CellProps)
-	 */
-	@Override
+	
 	public void output(CellProps cellProps) {
-		dataToLog.append(separator+cellProps);
+		dataToOutput.append(separator+cellProps);
 	}
 
 	/**
@@ -123,5 +135,4 @@ public class StreamReportOutput extends AbstractOutput {
 	public void setSeparator(String separator) {
 		this.separator = separator;
 	}
-
 }
