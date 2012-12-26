@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
+ * @deprecated please use one of the html, excel, fo outputters with a StringWriter in order to obtain a similar functionality
  */
 public class MemoryOutput implements IReportOutput {
 	

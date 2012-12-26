@@ -3,17 +3,12 @@
  */
 package net.sf.reportengine.out;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-
-import net.sf.reportengine.in.ReportInputException;
 
 /**
  * XML report output based on Stax technology (fast & low memory footprint)
@@ -49,7 +44,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	/**
 	 * 
 	 */
-	public static final String ENGINE_VERSION = "0.6";
+	public static final String ENGINE_VERSION = "0.7";
 	
 	/**
 	 * 
@@ -57,24 +52,17 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	private XMLStreamWriter xmlWriter;
 	
 	/**
-	 * 
+	 * empty constructor. Please be aware that you will have to set manually the writer or the fileName
 	 */
-	public StaxReportOutput(){
-		
-	}
+	public StaxReportOutput(){}
 	
 	/**
 	 * 
 	 * @param outFileName
 	 */
 	public StaxReportOutput(String outFileName){
-		try{
-			init(new OutputStreamWriter(
-						new FileOutputStream(outFileName), 
-						System.getProperty("file.encoding"))); 
-		}catch(IOException e){
-			throw new ReportInputException(e); 
-		}
+		super(outFileName); 
+		init(); 
 	}
 	
 	/**
@@ -82,11 +70,8 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	 * @param outStream
 	 */
 	public StaxReportOutput(OutputStream outStream){
-		try{
-			init(new OutputStreamWriter(outStream, System.getProperty("file.encoding")));
-		}catch(IOException e){
-			throw new ReportInputException(e); 
-		}
+		super(outStream); 
+		init();
 	}
 	
 	/**
@@ -95,11 +80,9 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	 * @param encoding
 	 */
 	public StaxReportOutput(OutputStream outStream, String encoding){
-		try{
-			init(new OutputStreamWriter(outStream, encoding));
-		}catch(IOException e){
-			throw new ReportInputException(e); 
-		}
+		super(outStream, encoding);
+		init();
+		
 	}
 	
 	/**
@@ -107,16 +90,16 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	 * @param writer
 	 */
 	public StaxReportOutput(Writer writer){
-		init(writer);
+		super(writer);
+		init(); 
 	}
 	
 	/**
 	 * 
 	 * @param writer
 	 */
-	private void init(Writer writer){
+	private void init(){
 		try{
-			setWriter(writer);
 			XMLOutputFactory factory = XMLOutputFactory.newInstance();
 			this.xmlWriter = factory.createXMLStreamWriter(getWriter());
 		}catch(XMLStreamException streamExc){
@@ -156,7 +139,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	/**
      * new line
      */
-    @Override public void startRow(RowProps rowProperties) {
+    public void startRow(RowProps rowProperties) {
         super.startRow(rowProperties);
         try{
         	switch(rowProperties.getContent()){
@@ -193,7 +176,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	/**
      * output
      */
-    @Override public void output(CellProps cellProps) {
+    public void output(CellProps cellProps) {
     	try{
 	        switch (cellProps.getContentType()) {
 	            case CONTENT_REPORT_TITLE :

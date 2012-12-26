@@ -236,7 +236,6 @@ public class ExcelOutput implements IReportOutput {
         					HorizontalAlign.LEFT.equals(horizAlign) ?  HSSFCellStyle.ALIGN_LEFT : HSSFCellStyle.ALIGN_RIGHT;
     }
     
-    
     public int getCurrentCol(){
         return this.currentCol;
     }
