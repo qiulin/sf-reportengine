@@ -8,14 +8,32 @@ import net.sf.reportengine.core.ReportEngineRuntimeException;
 
 public class ReportOutputException extends ReportEngineRuntimeException{
     
-    public ReportOutputException(String message){
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8977998834641107249L;
+	
+	/**
+	 * 
+	 * @param message
+	 */
+	public ReportOutputException(String message){
         super(message);
     }
     
+	/**
+	 * 
+	 * @param cause
+	 */
     public ReportOutputException(Throwable cause){
         super(cause);
     }
     
+    /**
+     * 
+     * @param message
+     * @param cause
+     */
     public ReportOutputException(String message, Throwable cause){
         super(message, cause);
     }

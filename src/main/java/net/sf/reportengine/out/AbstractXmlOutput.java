@@ -3,7 +3,6 @@
  */
 package net.sf.reportengine.out;
 
-import java.io.OutputStream;
 import java.io.Writer;
 
 /**
@@ -12,7 +11,7 @@ import java.io.Writer;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public abstract class AbstractXmlOutput extends AbstractOutput {
+public abstract class AbstractXmlOutput extends AbstractCharacterOutput {
 	
 	public final static String TAG_REPORT = "report";
 	
@@ -49,23 +48,6 @@ public abstract class AbstractXmlOutput extends AbstractOutput {
 	 */
 	public AbstractXmlOutput(String fileName){
 		super(fileName); 
-	}
-	
-	/**
-	 * 
-	 * @param outStream
-	 */
-	public AbstractXmlOutput(OutputStream outStream){
-		super(outStream); 
-	}
-	
-	/**
-	 * 
-	 * @param outStream
-	 * @param encoding
-	 */
-	public AbstractXmlOutput(OutputStream outStream, String encoding){
-		super(outStream, encoding); 
 	}
 	
 	/**

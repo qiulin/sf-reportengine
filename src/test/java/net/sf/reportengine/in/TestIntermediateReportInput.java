@@ -28,7 +28,7 @@ public class TestIntermediateReportInput extends ReportengineTC {
 	
 	public void testReadIntermediateReportWhenTotals(){
 		
-		InputStream intermInput = getTestFileFromClasspath("TestIntermediateInput2x2x1xT.rep");
+		InputStream intermInput = getInputStreamFromClasspath("TestIntermediateInput2x2x1xT.rep");
 		
 		assertNotNull(intermInput);
 		
@@ -106,7 +106,7 @@ public class TestIntermediateReportInput extends ReportengineTC {
 	
 	public void testReadIntermediateReportNoTotals(){
 		
-		InputStream intermInput = getTestFileFromClasspath("TestIntermediateInput1x3x1.rep");
+		InputStream intermInput = getInputStreamFromClasspath("TestIntermediateInput1x3x1.rep");
 		
 		assertNotNull(intermInput);
 		

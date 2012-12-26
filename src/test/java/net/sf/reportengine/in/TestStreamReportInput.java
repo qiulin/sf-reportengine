@@ -55,7 +55,7 @@ public class TestStreamReportInput extends ReportengineTC {
      */
     public void testNextRow(){
         try {
-            classUnderTest = new StreamReportInput(getTestFileFromClasspath(TEST_FILE),",");
+            classUnderTest = new StreamReportInput(getInputStreamFromClasspath(TEST_FILE),",");
             
             int index = 0;
             Object[] data;
@@ -80,7 +80,7 @@ public class TestStreamReportInput extends ReportengineTC {
     public void testHasMoreRows() {
         int rowsCount = 0;
         try{
-            classUnderTest = new StreamReportInput(getTestFileFromClasspath(TEST_FILE));
+            classUnderTest = new StreamReportInput(getInputStreamFromClasspath(TEST_FILE));
             classUnderTest.open();
             while(classUnderTest.hasMoreRows()){
                 classUnderTest.nextRow();
@@ -105,7 +105,7 @@ public class TestStreamReportInput extends ReportengineTC {
     public void testGetColumnsCount1() {
         int result = -1;
         try {
-            classUnderTest = new StreamReportInput(getTestFileFromClasspath(TEST_FILE));
+            classUnderTest = new StreamReportInput(getInputStreamFromClasspath(TEST_FILE));
             classUnderTest.open();
             result = classUnderTest.getColumnsCount();
         } catch (Throwable e) {
@@ -123,7 +123,7 @@ public class TestStreamReportInput extends ReportengineTC {
     public void testGetColumnsCount2() {
         int result= -1;
         try {
-            classUnderTest = new StreamReportInput(getTestFileFromClasspath(TEST_FILE));
+            classUnderTest = new StreamReportInput(getInputStreamFromClasspath(TEST_FILE));
             classUnderTest.open();
             classUnderTest.nextRow();
             classUnderTest.nextRow();
@@ -147,7 +147,7 @@ public class TestStreamReportInput extends ReportengineTC {
     
     public void testFirstRow(){
         try {
-            classUnderTest = new StreamReportInput(getTestFileFromClasspath(TEST_FILE));
+            classUnderTest = new StreamReportInput(getInputStreamFromClasspath(TEST_FILE));
             classUnderTest.open();
             //classUnderTest.first();
             Object[] firstRow = classUnderTest.nextRow();
@@ -187,7 +187,7 @@ public class TestStreamReportInput extends ReportengineTC {
     public void testHasMoreRowsOnEmptyFile(){
         boolean hasMoreRows = true;
         try {
-            classUnderTest = new StreamReportInput(getTestFileFromClasspath("empty.txt"));
+            classUnderTest = new StreamReportInput(getInputStreamFromClasspath("empty.txt"));
             classUnderTest.open();
             hasMoreRows = classUnderTest.hasMoreRows();
         } catch (ReportInputException e) {
@@ -207,7 +207,7 @@ public class TestStreamReportInput extends ReportengineTC {
     public void testNextRowOnEmptyFile(){
         Object[] nextRow = null;
         try {
-            classUnderTest = new StreamReportInput(getTestFileFromClasspath("empty.txt"));
+            classUnderTest = new StreamReportInput(getInputStreamFromClasspath("empty.txt"));
             classUnderTest.open();
             nextRow = classUnderTest.nextRow();
         } catch (ReportInputException e) {
@@ -228,7 +228,7 @@ public class TestStreamReportInput extends ReportengineTC {
         Object[] nextRow = null;
         boolean hasMoreRows = true;
         try {
-            classUnderTest = new StreamReportInput(getTestFileFromClasspath("empty.txt"));
+            classUnderTest = new StreamReportInput(getInputStreamFromClasspath("empty.txt"));
             classUnderTest.open();
             //classUnderTest.first();
             
@@ -249,7 +249,7 @@ public class TestStreamReportInput extends ReportengineTC {
     
     public void testUtf8Characters(){
     	int linesCount = 0;
-    	classUnderTest = new StreamReportInput(getTestFileFromClasspath("Utf8Input.txt"), ",", "UTF-8");
+    	classUnderTest = new StreamReportInput(getInputStreamFromClasspath("Utf8Input.txt"), ",", "UTF-8");
     	classUnderTest.open(); 
     	Object[] row = null; 
     	while(classUnderTest.hasMoreRows()){
@@ -276,7 +276,7 @@ public class TestStreamReportInput extends ReportengineTC {
     
     public void testSkipFirstLines(){
     	int rowsCount = 0;
-    	InputStream inputStream = getTestFileFromClasspath("2x3x1WithColumnHeaders.txt");
+    	InputStream inputStream = getInputStreamFromClasspath("2x3x1WithColumnHeaders.txt");
     	classUnderTest = new StreamReportInput(inputStream); 
     	classUnderTest.setSkipFirstLines(1);
     	classUnderTest.open(); 
@@ -295,7 +295,7 @@ public class TestStreamReportInput extends ReportengineTC {
     
     public void testSkipFirst2Lines(){
     	int rowsCount = 0;
-    	InputStream inputStream = getTestFileFromClasspath("2x3x1With2ColumnHeaders.txt");
+    	InputStream inputStream = getInputStreamFromClasspath("2x3x1With2ColumnHeaders.txt");
     	classUnderTest = new StreamReportInput(inputStream); 
     	classUnderTest.setSkipFirstLines(2);
     	classUnderTest.open(); 

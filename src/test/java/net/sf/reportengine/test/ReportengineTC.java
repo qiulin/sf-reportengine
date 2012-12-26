@@ -8,8 +8,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.Writer;
 
 import junit.framework.TestCase;
@@ -18,8 +20,12 @@ public class ReportengineTC extends TestCase {
     
       protected String TEST_REPORTS_PATH = "./target/";
       
-      protected InputStream getTestFileFromClasspath(String file){
+      protected InputStream getInputStreamFromClasspath(String file){
     	  return this.getClass().getClassLoader().getResourceAsStream(file);
+      }
+      
+      protected Reader getReaderFromClasspath(String path){
+    	  return new InputStreamReader(getInputStreamFromClasspath(path)); 
       }
       
       protected OutputStream createTestOutputFile(String fileName) {

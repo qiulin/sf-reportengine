@@ -14,7 +14,7 @@ import junit.framework.TestCase;
  * @author dragos balan
  *
  */
-public class TestStreamOutput extends TestCase {
+public class TestTxtOutput extends TestCase {
 
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
@@ -24,22 +24,43 @@ public class TestStreamOutput extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.out.StreamReportOutput#output(net.sf.reportengine.out.CellProps)}.
+	 * Test method for {@link net.sf.reportengine.out.TxtOutput#output(net.sf.reportengine.out.CellProps)}.
 	 */
 	public void testOpenWhenNoWriterSet() {
+		TxtOutput classUnderTest = new TxtOutput(); 
+		classUnderTest.open();
+		classUnderTest.startRow(new RowProps()); 
+		classUnderTest.output(new CellProps.Builder("value x").build()); 
+		classUnderTest.endRow(); 
+		classUnderTest.close(); 
+		
+		Writer result = classUnderTest.getOutputWriter(); 
+		assertNotNull(result); 
+		assertTrue(result instanceof StringWriter);
+		StringBuffer resultBuffer = ((StringWriter)result).getBuffer();  
+		assertNotNull(resultBuffer); 
+		assertTrue(resultBuffer.indexOf("value x") > 0);
+	}
+	
+	/**
+	 * 
+	 */
+	public void testStartRowWithoutOpen(){
 		try{
-			StreamReportOutput classUnderTest = new StreamReportOutput(); 
-			classUnderTest.open();
-			fail("An exception should have been thrown");
+			TxtOutput classUnderTest = new TxtOutput(); 
+			classUnderTest.startRow(new RowProps()); 
+			fail("an exception should have been thrown"); 
 		}catch(ReportOutputException roe){
-			assertEquals(AbstractOutput.NO_WRITER_SET_ERROR_MESSAGE, roe.getMessage());
+			assertEquals(TxtOutput.OUTPUT_NOT_OPEN, roe.getMessage()); 
 		}
 	}
 	
-	
+	/**
+	 * 
+	 */
 	public void testOutputWhenFilenameSet(){
-		StreamReportOutput classUnderTest = new StreamReportOutput(); 
-		classUnderTest.setFileName("target/streamOutputHavingFilenameSet.txt");
+		TxtOutput classUnderTest = new TxtOutput(); 
+		classUnderTest.setFilePath("target/streamOutputHavingFilenameSet.txt");
 		
 		classUnderTest.open(); 
 		classUnderTest.startRow(new RowProps());
@@ -51,9 +72,9 @@ public class TestStreamOutput extends TestCase {
 	}
 	
 	public void testOutputWhenWriterSet(){
-		StreamReportOutput classUnderTest = new StreamReportOutput(); 
+		TxtOutput classUnderTest = new TxtOutput(); 
 		try {
-			classUnderTest.setWriter(new FileWriter("target/streamOutputHavingWriterSet.txt"));
+			classUnderTest.setOutputWriter(new FileWriter("target/streamOutputHavingWriterSet.txt"));
 			classUnderTest.open(); 
 			classUnderTest.startRow(new RowProps());
 			classUnderTest.output(new CellProps.Builder("cell 0 0").build());
@@ -67,8 +88,8 @@ public class TestStreamOutput extends TestCase {
 	}
 	
 	public void testManyOutputsForDifferentFilenames(){
-		StreamReportOutput classUnderTest = new StreamReportOutput(); 
-		classUnderTest.setFileName("target/reusedStreamOutput1.txt");
+		TxtOutput classUnderTest = new TxtOutput(); 
+		classUnderTest.setFilePath("target/reusedStreamOutput1.txt");
 		
 		classUnderTest.open(); 
 		classUnderTest.startRow(new RowProps());
@@ -77,7 +98,7 @@ public class TestStreamOutput extends TestCase {
 		classUnderTest.endRow(); 
 		classUnderTest.close();
 		
-		classUnderTest.setFileName("target/reusedStreamOutput2.txt");
+		classUnderTest.setFilePath("target/reusedStreamOutput2.txt");
 		classUnderTest.open(); 
 		classUnderTest.startRow(new RowProps());
 		classUnderTest.output(new CellProps.Builder("cell 0 0").build());
@@ -88,8 +109,8 @@ public class TestStreamOutput extends TestCase {
 	
 	public void testManyOutputsForDifferentWriters(){
 		StringWriter writer1 = new StringWriter(); 
-		StreamReportOutput classUnderTest = new StreamReportOutput(); 
-		classUnderTest.setWriter(writer1);
+		TxtOutput classUnderTest = new TxtOutput(); 
+		classUnderTest.setOutputWriter(writer1);
 		
 		classUnderTest.open(); 
 		classUnderTest.startRow(new RowProps());
@@ -105,7 +126,7 @@ public class TestStreamOutput extends TestCase {
 		
 		
 		StringWriter writer2 = new StringWriter(); 
-		classUnderTest.setWriter(writer2);
+		classUnderTest.setOutputWriter(writer2);
 		classUnderTest.open(); 
 		classUnderTest.startRow(new RowProps());
 		classUnderTest.output(new CellProps.Builder("cell 0 0").build());

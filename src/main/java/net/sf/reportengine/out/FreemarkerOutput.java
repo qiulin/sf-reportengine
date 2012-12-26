@@ -27,7 +27,7 @@ import freemarker.template.TemplateException;
  * @author dragos balan (dragos dot balan at gmail dot com)
  *
  */
-public class FreemarkerOutput extends AbstractOutput {
+public class FreemarkerOutput extends AbstractCharacterOutput {
 	
 	/**
 	 * freemarker configuration class
@@ -71,10 +71,10 @@ public class FreemarkerOutput extends AbstractOutput {
 	
 	
 	/**
-	 * empty constructor
+	 * output into memory ( using a StringWriter)
 	 */
 	public FreemarkerOutput(){
-		
+		super(); 
 	}
 	
 	/**
@@ -83,8 +83,6 @@ public class FreemarkerOutput extends AbstractOutput {
 	 */
 	public FreemarkerOutput(String filename){
 		super(filename);
-		initFreemarkerDefaultConfig(); 
-		initRootFreemarkerData(); 
 	}
 	
 	/**
@@ -94,8 +92,7 @@ public class FreemarkerOutput extends AbstractOutput {
 	 */
 	public FreemarkerOutput(String fileName, Configuration freemarkerConfig){
 		super(fileName); 
-		initRootFreemarkerData(); 
-		this.freemarkerConfig = freemarkerConfig; 
+		setFreemarkerConfig(freemarkerConfig); 
 	}
 	
 	/**
@@ -104,8 +101,6 @@ public class FreemarkerOutput extends AbstractOutput {
 	 */
 	public FreemarkerOutput(Writer writer){
 		super(writer); 
-		initFreemarkerDefaultConfig(); 
-		initRootFreemarkerData(); 
 	}
 	
 	/**
@@ -115,8 +110,7 @@ public class FreemarkerOutput extends AbstractOutput {
 	 */
 	public FreemarkerOutput(Writer writer, Configuration freemarkerConfig){
 		super(writer); 
-		initRootFreemarkerData(); 
-		this.freemarkerConfig = freemarkerConfig; 
+		setFreemarkerConfig(freemarkerConfig); 
 	}
 	
 	
@@ -144,23 +138,37 @@ public class FreemarkerOutput extends AbstractOutput {
 	public void open() {
 		super.open(); 
 		try {
-			//get the templates from classpath
-			startReportTemplate = freemarkerConfig.getTemplate(START_REPORT_TEMPLATE); 
-			endReportTemplate = freemarkerConfig.getTemplate(END_REPORT_TEMPLATE); 
-			startRowTemplate = freemarkerConfig.getTemplate(START_ROW_TEMPLATE);
-			endRowTemplate = freemarkerConfig.getTemplate(END_ROW_TEMPLATE); 
-			cellTemplate = freemarkerConfig.getTemplate(CELL_TEMPLATE);
+			if(freemarkerConfig == null){
+				initFreemarkerDefaultConfig(); 
+			}
+			
+			//init root hash maps
+			initRootFreemarkerData(); 
+			
+			//get the templates from configuration
+			initRootTemplateData();
 			
 			//process the start report template
 			ReportProps reportProps = new ReportProps(); 
 			rootDataForReportTemplate.put("reportProps", reportProps);
-			startReportTemplate.process(rootDataForReportTemplate, getWriter()); 
+			startReportTemplate.process(rootDataForReportTemplate, getOutputWriter()); 
 			
 		} catch (IOException e) {
 			throw new ReportOutputException(e); 
 		} catch (TemplateException e) {
 			throw new ReportOutputException(e); 
 		} 
+	}
+
+	/**
+	 * @throws IOException
+	 */
+	protected void initRootTemplateData() throws IOException {
+		startReportTemplate = freemarkerConfig.getTemplate(START_REPORT_TEMPLATE); 
+		endReportTemplate = freemarkerConfig.getTemplate(END_REPORT_TEMPLATE); 
+		startRowTemplate = freemarkerConfig.getTemplate(START_ROW_TEMPLATE);
+		endRowTemplate = freemarkerConfig.getTemplate(END_ROW_TEMPLATE); 
+		cellTemplate = freemarkerConfig.getTemplate(CELL_TEMPLATE);
 	}
 	
 	/**
@@ -170,7 +178,7 @@ public class FreemarkerOutput extends AbstractOutput {
 		super.startRow(rowProperties); 
 		try {
 			rootDataForRowTemplate.put("rowProps", rowProperties); 
-			startRowTemplate.process(rootDataForRowTemplate, getWriter());
+			startRowTemplate.process(rootDataForRowTemplate, getOutputWriter());
 		} catch (TemplateException e) {
 			throw new ReportOutputException(e); 
 		} catch (IOException e) {
@@ -183,7 +191,7 @@ public class FreemarkerOutput extends AbstractOutput {
 	 */
 	public void endRow() {
 		try {
-			endRowTemplate.process(rootDataForRowTemplate, getWriter());
+			endRowTemplate.process(rootDataForRowTemplate, getOutputWriter());
 		} catch (TemplateException e) {
 			throw new ReportOutputException(e); 
 		} catch (IOException e) {
@@ -198,7 +206,7 @@ public class FreemarkerOutput extends AbstractOutput {
 	public void output(CellProps cellProps) {
 		try {
 			rootDataForCellTemplate.put("cellProps", cellProps); 
-			cellTemplate.process(rootDataForCellTemplate, getWriter());
+			cellTemplate.process(rootDataForCellTemplate, getOutputWriter());
 		} catch (TemplateException e) {
 			throw new ReportOutputException(e); 
 		} catch (IOException e) {
@@ -211,12 +219,26 @@ public class FreemarkerOutput extends AbstractOutput {
 	 */
 	public void close() {
 		try {
-			endReportTemplate.process(rootDataForReportTemplate, getWriter());
+			endReportTemplate.process(rootDataForReportTemplate, getOutputWriter());
 			super.close(); //flush and close the writer
 		} catch (IOException e) {
 			throw new ReportOutputException(e); 
 		} catch (TemplateException e) {
 			throw new ReportOutputException(e); 
 		} 
+	}
+
+	/**
+	 * @return the freemarkerConfig
+	 */
+	public Configuration getFreemarkerConfig() {
+		return freemarkerConfig;
+	}
+
+	/**
+	 * @param freemarkerConfig the freemarkerConfig to set
+	 */
+	public void setFreemarkerConfig(Configuration freemarkerConfig) {
+		this.freemarkerConfig = freemarkerConfig;
 	}
 }

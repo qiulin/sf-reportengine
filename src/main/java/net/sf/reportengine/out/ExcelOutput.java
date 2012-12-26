@@ -4,14 +4,11 @@
  */
 package net.sf.reportengine.out;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 
 import net.sf.reportengine.config.HorizontalAlign;
-import net.sf.reportengine.core.ReportEngineRuntimeException;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -34,12 +31,12 @@ import org.apache.poi.hssf.util.Region;
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2
  */
-public class ExcelOutput implements IReportOutput {
+public class ExcelOutput extends AbstractByteOutput {
     
 	/**
-	 * the one and only logger
+	 * the one and only LOGGER
 	 */
-	private static final Logger logger = Logger.getLogger(ExcelOutput.class);
+	private static final Logger LOGGER = Logger.getLogger(ExcelOutput.class);
 	
     /**
      * the xls workbook
@@ -81,45 +78,38 @@ public class ExcelOutput implements IReportOutput {
      */
     private int currentCol = 0;
     
-    private OutputStream outStream; 
+    /**
+     * outputs in memory (if no other outputStream is set)
+     */
+    public ExcelOutput(){
+    	super(); 
+    }
     
-    private int rowCount = 0;
-    
-    
+    /**
+     * output into a file 
+     * @param fileName
+     */
     public ExcelOutput(String fileName){
-    	try {
-			outStream  = new FileOutputStream(fileName);
-		} catch (FileNotFoundException e) {
-			throw new ReportEngineRuntimeException(e); 
-		}
+    	super(fileName); 
     }
     
     
     /**
-     * constructor 
+     * output into an outputStream
      * @param out     the output stream
      */
     public ExcelOutput(OutputStream out){
-        //super(out);
-    	outStream = out; 
+        super(out); 
     }
-    
-    
-    
-//    /**
-//     * 
-//     * @param writer
-//     */
-//    public ExcelOutput(Writer writer){
-//    	super(writer);
-//    }
-
+        
     /**
      * starts the report
      */
     public void open() {
-    	logger.trace("opening excel output");
-        //super.open();
+    	super.open(); 
+    	
+    	if(LOGGER.isTraceEnabled())LOGGER.trace("opening excel output");
+    	
         workBook = new HSSFWorkbook();
         sheet = workBook.createSheet(sheetName);
 
@@ -152,22 +142,19 @@ public class ExcelOutput implements IReportOutput {
      * ends the current line and creates a new one
      */
     public void startRow(RowProps rowProperties) {
-        //super.startRow(rowProperties);
-    	rowCount++;
-        currentRow = sheet.createRow((short) rowCount-1);
+        super.startRow(rowProperties);
+        currentRow = sheet.createRow((short) getRowCount()-1);
         currentCol = 0;
     }
     
-    public void endRow(){
-        //super.endRow();
-    }
     
     /**
      * output the specified value 
      */
     public void output(CellProps algProps) {
         int colspan = algProps.getColspan();
-        //int content = algProps.getContentType();
+        int rowCount = getRowCount(); 
+        
         HSSFCell cell = currentRow.createCell((short) getCurrentCol());
         HSSFCellStyle cellStyle = null;
         
@@ -200,9 +187,9 @@ public class ExcelOutput implements IReportOutput {
         if (colspan != 1) {
             sheet.addMergedRegion(
                     new Region(rowCount-1, 
-                               (short)getCurrentCol(), 
+                               (short)currentCol, 
                                rowCount-1,
-                               (short) ((getCurrentCol() + colspan) - 1)));
+                               (short) (currentCol + colspan - 1)));
         }
         currentCol += colspan;
     }
@@ -211,13 +198,10 @@ public class ExcelOutput implements IReportOutput {
      * ends the report
      */
     public void close() {
-    	logger.trace("closing excel output");
+    	if(LOGGER.isTraceEnabled())LOGGER.trace("closing excel output");
         try {
-        	//OutputStream writerOutputStream = new WriterOutputStream(getWriter());  
-        	workBook.write(outStream);
-        	//writerOutputStream.close(); 
-            outStream.close();
-            //super.close();
+        	workBook.write(getOutputStream());
+            super.close();//flushes the output stream and closes the output
         } catch (IOException exc) {
         	throw new RuntimeException(exc);
         }
@@ -237,6 +221,6 @@ public class ExcelOutput implements IReportOutput {
     }
     
     public int getCurrentCol(){
-        return this.currentCol;
+        return currentCol;
     }
 }

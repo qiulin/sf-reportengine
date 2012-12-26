@@ -7,7 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.test.ReportengineTC;
@@ -33,8 +36,7 @@ public class TestHtmlOutput extends ReportengineTC {
 	 * Test method for {@link net.sf.reportengine.out.HtmlOutput#output(net.sf.reportengine.out.CellProps)}.
 	 */
 	public void testOutputWithDefaultCss() {
-		try {
-			classUnderTest = new HtmlOutput(new FileOutputStream("target/testHtmlOutHavingCssInside.html"), "UTF-8");
+			classUnderTest = new HtmlOutput("target/testHtmlOutHavingCssInside.html");
 		
 			classUnderTest.open();
 			
@@ -61,9 +63,6 @@ public class TestHtmlOutput extends ReportengineTC {
 			classUnderTest.endRow(); 
 			
 			classUnderTest.close(); 
-		} catch (FileNotFoundException e) {
-			fail(e.getMessage());
-		}
 	}
 	
 	/**
@@ -72,7 +71,7 @@ public class TestHtmlOutput extends ReportengineTC {
 	public void testOutputWithExternalCss() {
 		try {
 			classUnderTest = new HtmlOutput();
-			classUnderTest.setWriter(new FileWriter("target/testHtmlOutHavingExternalCss.html"));
+			classUnderTest.setOutputWriter(new FileWriter("target/testHtmlOutHavingExternalCss.html"));
 			classUnderTest.setCssPath("testReport.css");
 			
 			classUnderTest.open();
@@ -107,8 +106,10 @@ public class TestHtmlOutput extends ReportengineTC {
 	 */
 	public void testOutputUtf8() {
 		try{
-			classUnderTest = new HtmlOutput(new FileOutputStream("target/testHtmlOutStreamUtf8.html"), "UTF-8");
-			
+			Writer writer = new OutputStreamWriter(	new FileOutputStream("target/testHtmlOutStreamUtf8.html"), 
+													HtmlOutput.UTF8_ENCODING); 
+			classUnderTest = new HtmlOutput();
+			classUnderTest.setOutputWriter(writer); 
 			classUnderTest.open();
 			
 			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
@@ -124,7 +125,10 @@ public class TestHtmlOutput extends ReportengineTC {
 			classUnderTest.close(); 
 		} catch (FileNotFoundException e) {
 			fail(e.getMessage());
+		} catch(UnsupportedEncodingException e){
+			fail(e.getMessage()); 
 		}
+		
 	}
 	
 	/**
@@ -153,7 +157,7 @@ public class TestHtmlOutput extends ReportengineTC {
 			
 			//second use
 			StringWriter newWriter = new StringWriter(); 
-			classUnderTest.setWriter(newWriter); 
+			classUnderTest.setOutputWriter(newWriter); 
 			classUnderTest.open(); 
 			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
 			classUnderTest.output(new CellProps.Builder("test value").build());

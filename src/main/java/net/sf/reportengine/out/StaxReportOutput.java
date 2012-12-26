@@ -3,7 +3,6 @@
  */
 package net.sf.reportengine.out;
 
-import java.io.OutputStream;
 import java.io.Writer;
 
 import javax.xml.stream.XMLOutputFactory;
@@ -52,59 +51,24 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	private XMLStreamWriter xmlWriter;
 	
 	/**
-	 * empty constructor. Please be aware that you will have to set manually the writer or the fileName
+	 * outputs into a string if no other writer is set
 	 */
 	public StaxReportOutput(){}
 	
 	/**
-	 * 
+	 * outputs into a file
 	 * @param outFileName
 	 */
 	public StaxReportOutput(String outFileName){
 		super(outFileName); 
-		init(); 
 	}
 	
 	/**
-	 * 
-	 * @param outStream
-	 */
-	public StaxReportOutput(OutputStream outStream){
-		super(outStream); 
-		init();
-	}
-	
-	/**
-	 * 
-	 * @param outStream
-	 * @param encoding
-	 */
-	public StaxReportOutput(OutputStream outStream, String encoding){
-		super(outStream, encoding);
-		init();
-		
-	}
-	
-	/**
-	 * 
+	 * outputs into the specified writer
 	 * @param writer
 	 */
 	public StaxReportOutput(Writer writer){
 		super(writer);
-		init(); 
-	}
-	
-	/**
-	 * 
-	 * @param writer
-	 */
-	private void init(){
-		try{
-			XMLOutputFactory factory = XMLOutputFactory.newInstance();
-			this.xmlWriter = factory.createXMLStreamWriter(getWriter());
-		}catch(XMLStreamException streamExc){
-			throw new RuntimeException(streamExc);
-		}
 	}
 	
 	/**
@@ -113,6 +77,8 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	public void open(){
 		super.open();
 		try{
+			XMLOutputFactory factory = XMLOutputFactory.newInstance();
+			xmlWriter = factory.createXMLStreamWriter(getOutputWriter());
 			xmlWriter.writeStartDocument();
 			xmlWriter.writeStartElement(TAG_REPORT);
 			xmlWriter.writeAttribute(ATTR_ENGINE_VERSION, ENGINE_VERSION);
@@ -170,8 +136,6 @@ public class StaxReportOutput extends AbstractXmlOutput {
         	throw new RuntimeException(streamExc);
         }
     }
-	
-	
 	
 	/**
      * output
