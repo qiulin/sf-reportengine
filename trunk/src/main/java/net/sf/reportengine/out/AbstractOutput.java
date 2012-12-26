@@ -21,12 +21,20 @@ import net.sf.reportengine.in.ReportInputException;
  */
 public abstract class AbstractOutput implements IReportOutput {
     
+	/**
+	 * error message displayed when not writer has been set 
+	 */
 	public final static String NO_WRITER_SET_ERROR_MESSAGE = "Output not ready ! Please set a writer or a filename to your output";
 	
 	/**
 	 * the default system file encoding 
 	 */
 	public final static String SYSTEM_FILE_ENCODING = System.getProperty("file.encoding"); 
+	
+	/**
+	 * the default system line separator
+	 */
+	public final static String LINE_SEPARATOR = System.getProperty("line.separator");
     
    /**
      * the output writer
@@ -53,7 +61,10 @@ public abstract class AbstractOutput implements IReportOutput {
      */
     private boolean isOpen = false; 
     
-    
+    /**
+     * the properties of the current row
+     */
+    private RowProps currentRowProps; 
     
     /**
      * empty output. 
@@ -67,7 +78,7 @@ public abstract class AbstractOutput implements IReportOutput {
     public AbstractOutput(){}
     
     /**
-     * 
+     * constructs a report output based on a file and the default system character set
      * @param fileName
      */
     public AbstractOutput(String fileName){
@@ -104,18 +115,17 @@ public abstract class AbstractOutput implements IReportOutput {
      * empty implementation
      */
     public void open(){
-    	if(outputWriter == null){
-    		//check if the filename is specified
-    		if(fileName != null){
-    			try {
-    				setWriter(new FileWriter(fileName));
-    			} catch (IOException e) {
-    				throw new ReportOutputException(e); 
-    			} 
-    		}else{
-    			//filename is also null
+    	if(fileName != null){
+    		try {
+				setWriter(new FileWriter(fileName));
+			} catch (IOException e) {
+				throw new ReportOutputException(e); 
+			}
+    	}else{
+    		//if filename null and outputwriter also null
+    		if(outputWriter == null){
     			throw new ReportOutputException(NO_WRITER_SET_ERROR_MESSAGE); 
-    		} 
+    		}
     	}
     	isOpen = true; 
     }
@@ -126,10 +136,12 @@ public abstract class AbstractOutput implements IReportOutput {
      */
     public void close(){
     	try {
+    		outputWriter.flush(); 
 			outputWriter.close();
 		} catch (IOException e) {
 			throw new ReportOutputException(e);
 		}
+		this.currentRowProps = null; 
     	isOpen = false;
     }
     
@@ -138,6 +150,7 @@ public abstract class AbstractOutput implements IReportOutput {
      *  
      */ 
     public void startRow(RowProps rowProperties){
+    	this.currentRowProps = rowProperties; 
         rowCount++;
     }
     
@@ -234,5 +247,12 @@ public abstract class AbstractOutput implements IReportOutput {
 	 */
 	protected boolean isOutputOpen(){
 		return isOpen; 
+	}
+
+	/**
+	 * @return the currentRowProps
+	 */
+	protected RowProps getCurrentRowProps() {
+		return currentRowProps;
 	}
 }

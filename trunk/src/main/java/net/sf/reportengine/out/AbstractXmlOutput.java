@@ -37,22 +37,38 @@ public abstract class AbstractXmlOutput extends AbstractOutput {
 	public final static String ATTR_ROW_NUMBER = "rowNumber";
 	
 	public final static String ATTR_HORIZ_ALIGN = "horizAlign";
+	
+	/**
+	 * empty constructor
+	 */
+	public AbstractXmlOutput(){}
+	
 	/**
 	 * 
+	 * @param fileName
 	 */
-	public AbstractXmlOutput(){
-		
+	public AbstractXmlOutput(String fileName){
+		super(fileName); 
 	}
 	
 	/**
 	 * 
-	 * @param outputStream
+	 * @param outStream
 	 */
-    public AbstractXmlOutput(OutputStream outputStream){
-    	super(outputStream);
-    }
-    
-    /**
+	public AbstractXmlOutput(OutputStream outStream){
+		super(outStream); 
+	}
+	
+	/**
+	 * 
+	 * @param outStream
+	 * @param encoding
+	 */
+	public AbstractXmlOutput(OutputStream outStream, String encoding){
+		super(outStream, encoding); 
+	}
+	
+	/**
      * 
      * @param writer
      */

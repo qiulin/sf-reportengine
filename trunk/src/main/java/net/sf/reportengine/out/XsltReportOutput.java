@@ -19,10 +19,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.io.IOUtils;
-
-import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.in.ReportInputException;
+
+import org.apache.commons.io.IOUtils;
 
 
 /**
@@ -39,7 +38,7 @@ public class XsltReportOutput implements IReportOutput {
 	/**
 	 * 
 	 */
-	private static final String DEFAULT_XSLT_PATH = "net/sf/reportengine/defaultTemplate.xslt"; 
+	private static final String DEFAULT_XSLT_PATH = "net/sf/reportengine/xslt/defaultTemplate.xslt"; 
 	
     /**
      * 

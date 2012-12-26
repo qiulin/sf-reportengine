@@ -50,12 +50,12 @@ public class XslFoOutput extends XsltReportOutput {
 	/**
 	 * 
 	 */
-	private static final String DEFAULT_XSLFO_PATH = "net/sf/reportengine/default-xml2fo.xslt";
+	private static final String DEFAULT_XSLFO_PATH = "net/sf/reportengine/fop/default-xml2fo.xslt";
 	
 	/**
 	 * 
 	 */
-	private static final String DEFAULT_FO_CONF_PATH = "net/sf/reportengine/fop.xconf";
+	private static final String DEFAULT_FO_CONF_PATH = "net/sf/reportengine/fop/fop.xconf";
 	
 	/**
 	 * the mime type of the report

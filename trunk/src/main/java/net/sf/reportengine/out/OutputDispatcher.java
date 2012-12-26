@@ -13,7 +13,7 @@ import java.util.List;
  * dispatches the output to the outputters
  * </p> 
  * @author dragos balan (dragos.balan@gmail.com)
- *
+ * @since 0.3
  */
 public class OutputDispatcher implements IReportOutput{
     

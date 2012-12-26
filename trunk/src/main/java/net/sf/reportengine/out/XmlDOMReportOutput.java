@@ -146,8 +146,7 @@ public class XmlDOMReportOutput extends AbstractXmlOutput {
     public void close() {
         try {
             transformXml();
-            getWriter().close();
-            super.close();        
+            super.close();   //flush and close the writer     
         } catch (Exception exc) {
         	exc.printStackTrace();
             throw new ReportOutputException("Error closing the xml output ", exc);

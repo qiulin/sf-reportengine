@@ -164,9 +164,10 @@ public class FreemarkerOutput extends AbstractOutput {
 	}
 	
 	/**
-	 * 
+	 * calls the start row template
 	 */
 	public void startRow(RowProps rowProperties) {
+		super.startRow(rowProperties); 
 		try {
 			rootDataForRowTemplate.put("rowProps", rowProperties); 
 			startRowTemplate.process(rootDataForRowTemplate, getWriter());
@@ -178,7 +179,7 @@ public class FreemarkerOutput extends AbstractOutput {
 	}
 	
 	/**
-	 * 
+	 * calls the end row template 
 	 */
 	public void endRow() {
 		try {
@@ -206,15 +207,12 @@ public class FreemarkerOutput extends AbstractOutput {
 	}
 	
 	/**
-	 * 
+	 * calls the end report template and closes the writer
 	 */
 	public void close() {
 		try {
 			endReportTemplate.process(rootDataForReportTemplate, getWriter());
-			super.close(); 
-			
-			getWriter().flush(); 
-			getWriter().close();
+			super.close(); //flush and close the writer
 		} catch (IOException e) {
 			throw new ReportOutputException(e); 
 		} catch (TemplateException e) {
