@@ -3,6 +3,10 @@
  */
 package net.sf.reportengine.out;
 
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.test.ReportengineTC;
 
@@ -28,7 +32,7 @@ public class TestStaxReportOutput extends ReportengineTC {
 
 	public void testStaxOutput(){
         try{
-            StaxReportOutput xmlOutTest = new StaxReportOutput(createTestOutputFile("testStaxOutput.xml"));
+            StaxReportOutput xmlOutTest = new StaxReportOutput("target/testStaxOutput.xml");
             xmlOutTest.open();
             
             xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE));
@@ -60,7 +64,8 @@ public class TestStaxReportOutput extends ReportengineTC {
 	
 	public void testStaxUTF8Output(){
         try{
-            StaxReportOutput xmlOutTest = new StaxReportOutput(createTestOutputFile("testStaxUtf8Out.xml"), "UTF-8");
+        	Writer writer = new OutputStreamWriter(new FileOutputStream("target/testStaxUtf8Out.xml"), StaxReportOutput.UTF8_ENCODING);
+            StaxReportOutput xmlOutTest = new StaxReportOutput(writer);
             xmlOutTest.open();
             xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
             xmlOutTest.output(new CellProps.Builder("Πρωτόκολλο Αζήτητων").build());

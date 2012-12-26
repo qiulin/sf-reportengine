@@ -11,7 +11,7 @@ import net.sf.reportengine.out.MemoryOutput;
 import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.out.StaxReportOutput;
 import net.sf.reportengine.out.XslFoOutput;
-import net.sf.reportengine.out.XsltReportOutput;
+import net.sf.reportengine.out.XsltOutput;
 import net.sf.reportengine.scenarios.NoGroupsScenario;
 import net.sf.reportengine.scenarios.OhlcComputationScenario;
 import net.sf.reportengine.scenarios.Scenario1;
@@ -87,14 +87,14 @@ public class TestFlatReport extends ReportengineTC {
 	public void testExecuteScenarioOhlc(){
 		boolean flawless = true;
 			try {
-				InputStream testStream = getTestFileFromClasspath("EURUSD_2007-2009_FirstHours.txt");
+				InputStream testStream = getInputStreamFromClasspath("EURUSD_2007-2009_FirstHours.txt");
 				assertNotNull(testStream);
 				
 				StreamReportInput in = new StreamReportInput(testStream,"\t");
 				
 				OutputDispatcher output = new OutputDispatcher();
-				output.registerOutput(new HtmlOutput(createTestOutputFile("testFlatReportOHLC.html")));
-				output.registerOutput(new ExcelOutput(createTestOutputFile("testFlatReportOHLC.xls")));
+				output.registerOutput(new HtmlOutput("target/testFlatReportOHLC.html"));
+				output.registerOutput(new ExcelOutput("target/testFlatReportOHLC.xls"));
 				
 				flatReport.setIn(in);
 				flatReport.setOut(output);
@@ -119,7 +119,7 @@ public class TestFlatReport extends ReportengineTC {
 			
 			flatReport.setIn(ShowOnlySpecificTotalsScenario.INPUT);
 			flatReport.setOut(testOut);
-			flatReport.setOut(new HtmlOutput(createTestOutputFile("onlySpecificTotals.html")));
+			flatReport.setOut(new HtmlOutput("target/onlySpecificTotals.html"));
 			flatReport.setGroupColumns(ShowOnlySpecificTotalsScenario.GROUP_COLUMNS);
 			flatReport.setDataColumns(ShowOnlySpecificTotalsScenario.DATA_COLUMNS);
 			flatReport.setShowTotals(true);
@@ -140,7 +140,7 @@ public class TestFlatReport extends ReportengineTC {
 	
 	public void testExecute2x3x1(){
         try{
-        	InputStream inputStream = getTestFileFromClasspath("2x3x1.txt");
+        	InputStream inputStream = getInputStreamFromClasspath("2x3x1.txt");
         	StreamReportInput input = new StreamReportInput(inputStream);
         	
         	flatReport.setGroupColumns(Scenario2x3x1.GROUP_COLUMNS);
@@ -149,15 +149,12 @@ public class TestFlatReport extends ReportengineTC {
             flatReport.setReportTitle("Test flat report 2x3x1d");    
             flatReport.setIn(input); 
             
-            
-            InputStream xstlStream = getTestFileFromClasspath("net/sf/reportengine/defaultTemplate.xslt");
-            assertNotNull(xstlStream);
-            
             OutputDispatcher output = new OutputDispatcher();
-            output.registerOutput(new HtmlOutput(createTestOutputFile("testExecute2x3x1.html")));
-            output.registerOutput(new StaxReportOutput(createTestOutputFile("testExecute2x3x1.xml")));
-            output.registerOutput(new XsltReportOutput(createTestOutputFile("testXsltOutput2x3x1.html"), xstlStream));
-            output.registerOutput(new XslFoOutput(createTestOutputFile("testExecute2x3x1.pdf")));
+            output.registerOutput(new HtmlOutput("target/testExecute2x3x1.html"));
+            output.registerOutput(new StaxReportOutput("target/testExecute2x3x1.xml"));
+            output.registerOutput(new XsltOutput(	"target/testXsltOutput2x3x1.html", 
+            										getReaderFromClasspath("net/sf/reportengine/xslt/defaultTemplate.xslt")));
+            output.registerOutput(new XslFoOutput("target/testExecute2x3x1.pdf"));
             flatReport.setOut(output);
             
             flatReport.setShowTotals(true);
@@ -177,7 +174,7 @@ public class TestFlatReport extends ReportengineTC {
         flatReport.setIn(NoGroupsScenario.INPUT); 
         
         OutputDispatcher output = new OutputDispatcher();
-        output.registerOutput(new HtmlOutput(createTestOutputFile("testFlatReportNoGroupings.html")));
+        output.registerOutput(new HtmlOutput("target/testFlatReportNoGroupings.html"));
         flatReport.setOut(output);
         flatReport.setShowTotals(true); 
         flatReport.setShowGrandTotal(true); 
@@ -186,10 +183,10 @@ public class TestFlatReport extends ReportengineTC {
 	}
 	
 	public void testFlatReportUtf8Output(){
-		InputStream inputStream = getTestFileFromClasspath("Utf8Input.txt");
+		InputStream inputStream = getInputStreamFromClasspath("Utf8Input.txt");
 		assertNotNull(inputStream);
 		
-		flatReport.setReportTitle("ÎºÎ±Î¹ ÎµÎ´Î±Ï†Î¹ÎºÎ­Ï‚ Ï€Ï�Î¿ÎºÎ»Î®ÏƒÎµÎ¹Ï‚ Ï€Î¿Ï…");
+		flatReport.setReportTitle("Τη γλώσσα μου έδωσαν ελληνική");
 		
 		IReportInput reportInput = new StreamReportInput(inputStream, ",", "UTF-8"); 
 		flatReport.setIn(reportInput); 
@@ -205,7 +202,7 @@ public class TestFlatReport extends ReportengineTC {
 	}
 	
 	public void testFlatReportUtf8PdfOutput(){
-		InputStream inputStream = getTestFileFromClasspath("Utf8Input.txt");
+		InputStream inputStream = getInputStreamFromClasspath("Utf8Input.txt");
 		assertNotNull(inputStream);
 		
 		flatReport.setReportTitle("Τη γλώσσα μου έδωσαν ελληνική");
@@ -224,7 +221,7 @@ public class TestFlatReport extends ReportengineTC {
 	}
 	
 	public void testHugeReportHtmlOut(){
-		InputStream testStream = getTestFileFromClasspath("2010-1MIN-DATA.tsv");
+		InputStream testStream = getInputStreamFromClasspath("2010-1MIN-DATA.tsv");
 		assertNotNull(testStream);
 		
 		StreamReportInput in = new StreamReportInput(testStream, "\t");

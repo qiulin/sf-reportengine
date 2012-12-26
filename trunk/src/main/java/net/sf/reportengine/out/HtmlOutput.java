@@ -26,7 +26,7 @@ import net.sf.reportengine.core.ReportContent;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class HtmlOutput extends AbstractOutput {
+public class HtmlOutput extends AbstractCharacterOutput {
     /**
      * css style
      */
@@ -72,9 +72,11 @@ public class HtmlOutput extends AbstractOutput {
     private String cssPath ; 
     
     /**
-     * empty constructor
+     * outputs everything into a stringWriter if no other writer is set
      */
-    public HtmlOutput(){}
+    public HtmlOutput(){
+    	super(); 
+    }
     
     /**
      * html output to the specified file
@@ -83,26 +85,6 @@ public class HtmlOutput extends AbstractOutput {
      */
     public HtmlOutput(String fileName){
     	super(fileName); 
-    }
-    
-    
-    /**
-     * html output to the specified stream using default system encoding
-     * 
-     * @param out	the result stream
-     */
-    public HtmlOutput(OutputStream out) {
-       super(out, SYSTEM_FILE_ENCODING);
-    }
-    
-    /**
-     * html output to the specified stream using the encoding specified as parameter
-     * 
-     * @param out		the output stream
-     * @param encoding	the encoding
-     */
-    public HtmlOutput(OutputStream out, String encoding) {
-        super(out, encoding);
     }
     
     /**
@@ -121,7 +103,7 @@ public class HtmlOutput extends AbstractOutput {
         try {
             super.open();
             if(isStandalonePage){
-            	Writer writer = getWriter(); 
+            	Writer writer = getOutputWriter(); 
             	writer.write(HTML_HEAD_START);
             	writer.write(LINE_SEPARATOR);
             	writer.write(ENCODING_DECLARATION);
@@ -135,7 +117,7 @@ public class HtmlOutput extends AbstractOutput {
             	}
             	writer.write(HTML_HEAD_END);
             }
-            getWriter().write("<table cellpading=\"0\" cellspacing=\"0\" class=\"reportTable\">");
+            getOutputWriter().write("<table cellpading=\"0\" cellspacing=\"0\" class=\"reportTable\">");
         } catch (IOException ioExc) {
         	throw new RuntimeException(ioExc);
         }
@@ -146,9 +128,9 @@ public class HtmlOutput extends AbstractOutput {
      */
     public void close() {
         try {
-            getWriter().write("</table>");
+            getOutputWriter().write("</table>");
             if(isStandalonePage){
-            	getWriter().write(HTML_END);
+            	getOutputWriter().write(HTML_END);
             }
             super.close();//this closes the writer
         } catch (IOException ioExc) {
@@ -174,7 +156,7 @@ public class HtmlOutput extends AbstractOutput {
                 }
                 buffer.append("\" >");
             }
-            getWriter().write(buffer.toString());            
+            getOutputWriter().write(buffer.toString());            
         } catch (IOException ioExc) {
         	throw new ReportOutputException(ioExc);
         }
@@ -187,11 +169,11 @@ public class HtmlOutput extends AbstractOutput {
         try{
             super.endRow();
             if(ReportContent.CONTENT_COLUMN_HEADERS.equals(getCurrentRowProps().getContent())){
-            	getWriter().write("</th>");
+            	getOutputWriter().write("</th>");
             }else{
-            	getWriter().write("</tr>"); 
+            	getOutputWriter().write("</tr>"); 
             }
-            getWriter().write(LINE_SEPARATOR);
+            getOutputWriter().write(LINE_SEPARATOR);
         }catch (IOException ioExc) {
         	throw new ReportOutputException(ioExc);
         }
@@ -211,7 +193,7 @@ public class HtmlOutput extends AbstractOutput {
             strContent.append("\" rowspan=\"1\" >");
             strContent.append(toWrite);
             strContent.append("</td>");
-            getWriter().write(strContent.toString());
+            getOutputWriter().write(strContent.toString());
         } catch (IOException ioExc) {
             throw new ReportOutputException(ioExc);
         }

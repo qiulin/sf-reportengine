@@ -54,7 +54,7 @@ public class TestCrossTabReport extends ReportengineTC {
 	public void testExecute1x1x1xT(){
 		CrossTabReport classUnderTest = new CrossTabReport(); 
 		classUnderTest.setIn(CtScenario1x1x1.INPUT); 
-		classUnderTest.setOut(new HtmlOutput("./target/CrosstabReport1x1x1xT.html"));
+		classUnderTest.setOut(new HtmlOutput("target/CrosstabReport1x1x1xT.html"));
 		classUnderTest.setGroupColumns(CtScenario1x1x1.GROUP_COLUMNS);
 		classUnderTest.setDataColumns(CtScenario1x1x1.DATA_COLUMNS); 
 		classUnderTest.setCrosstabData(CtScenario1x1x1.CROSSTAB_DATA_WITH_TOTALS); 
@@ -68,7 +68,7 @@ public class TestCrossTabReport extends ReportengineTC {
 	public void testExecute1x1x1() throws FileNotFoundException{
 		CrossTabReport classUnderTest = new CrossTabReport(); 
 		classUnderTest.setIn(CtScenario1x1x1.INPUT); 
-		classUnderTest.setOut(new HtmlOutput(createTestOutputFile("CrosstabReport1x1x1.html")));
+		classUnderTest.setOut(new HtmlOutput("target/CrosstabReport1x1x1.html"));
 		classUnderTest.setGroupColumns(CtScenario1x1x1.GROUP_COLUMNS);
 		classUnderTest.setDataColumns(CtScenario1x1x1.DATA_COLUMNS); 
 		classUnderTest.setCrosstabData(CtScenario1x1x1.CROSSTAB_DATA_NO_TOTALS); 
@@ -82,7 +82,7 @@ public class TestCrossTabReport extends ReportengineTC {
 	public void testExecute2x2x1xT() throws FileNotFoundException{
 		CrossTabReport classUnderTest = new CrossTabReport(); 
 		classUnderTest.setIn(CtScenario2x2x1.INPUT); 
-		classUnderTest.setOut(new HtmlOutput(createTestOutputFile("CrosstabReport2x2x1xT.html")));
+		classUnderTest.setOut(new HtmlOutput("target/CrosstabReport2x2x1xT.html"));
 		classUnderTest.setGroupColumns(CtScenario2x2x1.GROUPING_COLUMNS);
 		classUnderTest.setDataColumns(CtScenario2x2x1.DATA_COLUMNS); 
 		classUnderTest.setCrosstabData(CtScenario2x2x1.CROSSTAB_DATA); 
@@ -118,7 +118,7 @@ public class TestCrossTabReport extends ReportengineTC {
 	public void testExecute1x3x1xT() throws FileNotFoundException{
 		CrossTabReport classUnderTest = new CrossTabReport(); 
 		classUnderTest.setIn(CtScenario1x3x1.INPUT); 
-		classUnderTest.setOut(new HtmlOutput(createTestOutputFile("CrosstabReport1x3x1xT.html")));
+		classUnderTest.setOut(new HtmlOutput("target/CrosstabReport1x3x1xT.html"));
 		classUnderTest.setGroupColumns(CtScenario1x3x1.GROUP_COLUMNS);
 		classUnderTest.setDataColumns(CtScenario1x3x1.DATA_COLUMNS); 
 		classUnderTest.setCrosstabData(CtScenario1x3x1.CROSSTAB_DATA); 
@@ -132,7 +132,7 @@ public class TestCrossTabReport extends ReportengineTC {
 	public void testExecute1x3x1() throws FileNotFoundException{
 		CrossTabReport classUnderTest = new CrossTabReport(); 
 		classUnderTest.setIn(CtScenario1x3x1.INPUT); 
-		classUnderTest.setOut(new HtmlOutput(createTestOutputFile("CrosstabReport1x3x1.html")));
+		classUnderTest.setOut(new HtmlOutput("target/CrosstabReport1x3x1.html"));
 		classUnderTest.setGroupColumns(CtScenario1x3x1.GROUP_COLUMNS);
 		classUnderTest.setDataColumns(CtScenario1x3x1.DATA_COLUMNS); 
 		classUnderTest.setCrosstabData(CtScenario1x3x1.CROSSTAB_DATA); 

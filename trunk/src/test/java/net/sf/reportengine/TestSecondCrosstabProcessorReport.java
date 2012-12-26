@@ -49,13 +49,13 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		CtMetadata crosstabMetadata = new CtMetadata(distinctValuesHolder);
 		crosstabMetadata.computeCoefficients(); 
 		
-		InputStream intermObjectStream = getTestFileFromClasspath("TestIntermediateInput2x2x1xT.rep");
+		InputStream intermObjectStream = getInputStreamFromClasspath("TestIntermediateInput2x2x1xT.rep");
 		assertNotNull(intermObjectStream);
 		IntermediateCrosstabReportInput intermediateInput = new IntermediateCrosstabReportInput(intermObjectStream); 
 		
 		SecondCrosstabProcessorReport report = new SecondCrosstabProcessorReport(crosstabMetadata); 
 		report.setIn(intermediateInput);
-		report.setOut(new HtmlOutput(createTestOutputFile("SecondProcessorOut2x2x1xT.html"))); 
+		report.setOut(new HtmlOutput("target/SecondProcessorOut2x2x1xT.html")); 
 		
 		List<IDataColumn> dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( 	crosstabMetadata, 
 																								CtScenario2x2x1.DATA_COLUMNS, 
@@ -82,13 +82,13 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		CtMetadata crosstabMetadata = new CtMetadata(distinctValuesHolder);
 		crosstabMetadata.computeCoefficients(); 
 		
-		InputStream intermObjectStream = getTestFileFromClasspath("TestIntermediateInput1x3x1xT.rep");
+		InputStream intermObjectStream = getInputStreamFromClasspath("TestIntermediateInput1x3x1xT.rep");
 		assertNotNull(intermObjectStream);
 		IntermediateCrosstabReportInput intermediateInput = new IntermediateCrosstabReportInput(intermObjectStream); 
 		
 		SecondCrosstabProcessorReport report = new SecondCrosstabProcessorReport(crosstabMetadata); 
 		report.setIn(intermediateInput);
-		report.setOut(new HtmlOutput(createTestOutputFile("SecondProcessorOut1x3x1xT.html"))); 
+		report.setOut(new HtmlOutput("target/SecondProcessorOut1x3x1xT.html")); 
 		
 		List<IDataColumn> dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( crosstabMetadata, 
 																							CtScenario1x3x1.DATA_COLUMNS, 
@@ -116,13 +116,13 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		CtMetadata crosstabMetadata = new CtMetadata(distinctValuesHolder);
 		crosstabMetadata.computeCoefficients(); 
 		
-		InputStream intermObjectStream = getTestFileFromClasspath("TestIntermediateInput1x3x1.rep");
+		InputStream intermObjectStream = getInputStreamFromClasspath("TestIntermediateInput1x3x1.rep");
 		assertNotNull(intermObjectStream);
 		IntermediateCrosstabReportInput intermediateInput = new IntermediateCrosstabReportInput(intermObjectStream); 
 		
 		SecondCrosstabProcessorReport report = new SecondCrosstabProcessorReport(crosstabMetadata); 
 		report.setIn(intermediateInput);
-		report.setOut(new HtmlOutput(createTestOutputFile("SecondProcessorOut1x3x1.html"))); 
+		report.setOut(new HtmlOutput("target/SecondProcessorOut1x3x1.html")); 
 		report.setShowTotals(false); 
 		report.setShowGrandTotal(false); 
 		

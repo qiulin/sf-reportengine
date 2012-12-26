@@ -4,8 +4,9 @@
  */
 package net.sf.reportengine.out;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,16 +23,16 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
-import net.sf.reportengine.in.ReportInputException;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.WriterOutputStream;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
+import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
 /**
@@ -45,7 +46,12 @@ import org.xml.sax.SAXException;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public class XslFoOutput extends XsltReportOutput {
+public class XslFoOutput extends AbstractByteOutput {
+	
+	/**
+	 * the one and only logger
+	 */
+	private static final Logger LOGGER = Logger.getLogger(XslFoOutput.class);
 	
 	/**
 	 * 
@@ -67,36 +73,52 @@ public class XslFoOutput extends XsltReportOutput {
 	 */
 	private InputStream configInputStream; 
 	
-	
+	/**
+     * stax report output to create the xml file 
+     */
+    private StaxReportOutput staxReportOutput = new StaxReportOutput();
+    
+    /**
+     * the reader of the template
+     */
+    private Reader templateReader;
+    
+    /**
+     * temporary xml file path
+     */
+    private String tempXmlFilePath;
+    
 	/**
 	 * 
 	 */
 	public XslFoOutput(){
-		
+		super(); 
 	}
 	
 	/**
 	 * 
-	 * @param fileName
+	 * @param filePath	the path of the result file
 	 */
-	public XslFoOutput(String fileName){
-		try{
-			this.init(	new FileOutputStream(fileName), 
-			        	MimeConstants.MIME_PDF, 
-			        	ClassLoader.getSystemResourceAsStream(DEFAULT_XSLFO_PATH), 
-			        	ClassLoader.getSystemResourceAsStream(DEFAULT_FO_CONF_PATH));
-    	}catch(IOException e){
-    		throw new ReportInputException(e); 
-    	}
+	public XslFoOutput(String filePath){
+		super(filePath);
 	}
 	
+	/**
+	 * 
+	 * @param filePath
+	 * @param mimeType
+	 */
+	public XslFoOutput(String filePath, String mimeType){
+		super(filePath); 
+		setMimeType(mimeType); 
+	}
 	
 	/**
 	 * 
 	 * @param outStream
 	 */
     public XslFoOutput(OutputStream outStream) {
-        this(outStream, MimeConstants.MIME_PDF);
+        super(outStream);
     }
     
     /**
@@ -105,22 +127,20 @@ public class XslFoOutput extends XsltReportOutput {
      * @param mimeType
      */
     public XslFoOutput(OutputStream outStream, String mimeType){
-    	this(outStream,  
-    		mimeType,
-    		ClassLoader.getSystemResourceAsStream(DEFAULT_XSLFO_PATH));
+    	super(outStream); 
+    	setMimeType(mimeType); 
     }
     
     /**
      * 
      * @param outStream
      * @param mimeType
-     * @param xsltInputStream
+     * @param templateReader
      */
-    public XslFoOutput(OutputStream outStream, String mimeType, InputStream xsltInputStream){
-    	this(	outStream, 
-    			mimeType, 
-    			xsltInputStream, 
-    			ClassLoader.getSystemResourceAsStream(DEFAULT_FO_CONF_PATH)); 
+    public XslFoOutput(OutputStream outStream, String mimeType, Reader templateReader){
+    	super(outStream); 
+    	setMimeType(mimeType); 
+    	setTemplateReader(templateReader); 
     }
     
     /**
@@ -132,35 +152,59 @@ public class XslFoOutput extends XsltReportOutput {
      */
     public XslFoOutput(	OutputStream outStream, 
     					String mimeType,
-    					InputStream xsltInputStream, 
+    					Reader templateReader, 
     					InputStream configInputStream) {
-    	try{
-    		this.init(	outStream, 
-			        	mimeType, 
-			        	xsltInputStream, 
-			        	configInputStream);
-    	}catch(IOException e){
-    		throw new ReportInputException(e); 
+    	super(outStream); 
+    	setMimeType(mimeType); 
+    	setTemplateReader(templateReader); 
+    	setFopConfigInputStream(configInputStream);
+    }
+    
+    /**
+     * 
+     */
+    public void open(){
+    	try {
+	    	super.open(); 
+	    	if(mimeType == null){
+	    		setMimeType(MimeConstants.MIME_PDF);
+	    	}
+	    	if(configInputStream == null){
+	    		setFopConfigInputStream(ClassLoader.getSystemResourceAsStream(DEFAULT_FO_CONF_PATH)); 
+	    	}
+	    	if(getTemplateReader() == null){
+				setTemplateReader(new InputStreamReader(
+											ClassLoader.getSystemResourceAsStream(DEFAULT_XSLFO_PATH), 
+											UTF8_ENCODING));
+	    	}
+	    	if(tempXmlFilePath== null){
+	    		File tempXmlFile = File.createTempFile("report", ".tmp");
+	    		if(LOGGER.isInfoEnabled())
+	    			LOGGER.info("creating temporary xml file "+tempXmlFile.getAbsolutePath());
+	    		setTempXmlFilePath(tempXmlFile.getAbsolutePath());
+	    	}
+	    	staxReportOutput.setFilePath(getTempXmlFilePath());
+	    	staxReportOutput.open();
+    	} catch (IOException e) {
+    		throw new ReportOutputException(e); 
     	}
     }
     
     /**
      * 
-     * @param outStream
-     * @param mimeType
-     * @param xsltInputStream
-     * @param configInputStream
      */
-    protected void init(OutputStream outStream, 
-    					String mimeType, 
-    					InputStream xsltInputStream, 
-    					InputStream configInputStream) throws IOException{
-    	super.init(outStream, xsltInputStream);
-    	setMimeType(mimeType); 
-    	setFopConfigInputStream(configInputStream); 
-    }
+    public void close(){
+    	try{
+	    	staxReportOutput.close(); 
+	    	transform();
+	    	getTemplateReader().close(); 
+	    	getFopConfigInputStream().close(); 
+    	}catch(IOException ioExc){
+    		throw new ReportOutputException(ioExc); 
+    	}
+    	super.close(); 
+    }	
     
-    @Override
     public void transform(){
     	try {
     		DefaultConfigurationBuilder configBuilder = new DefaultConfigurationBuilder();
@@ -169,37 +213,32 @@ public class XslFoOutput extends XsltReportOutput {
     		FopFactory fopFactory = FopFactory.newInstance();
     		fopFactory.setUserConfig(configuration); 
     		
+    		//unfortunately fop requires an outputStream 
     		Fop fop = fopFactory.newFop(mimeType, getOutputStream());
 		
 			TransformerFactory transformFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformFactory.newTransformer(new StreamSource(getXsltInputStream()));
+			Transformer transformer = transformFactory.newTransformer(new StreamSource(getTemplateReader()));
 			
-			Reader tempXmlReader = new InputStreamReader(new FileInputStream(getTempXmlFile()), "UTF-8"); 
-			Source xmlSource = new StreamSource(tempXmlReader);
+			Source xmlSource = constructXmlSourceFromTempFile(); 
 			Result result = new SAXResult(fop.getDefaultHandler());
 			transformer.transform(xmlSource, result); 
-			 
+			
 		}catch(TransformerConfigurationException e){
-			throw new RuntimeException(e);
+			throw new ReportOutputException(e);
 		}catch(TransformerException e){
-			throw new RuntimeException(e);
+			throw new ReportOutputException(e);
     	}catch (FOPException e) {
-			throw new RuntimeException(e);
+    		throw new ReportOutputException(e);
 		} catch (ConfigurationException e) {
-			throw new RuntimeException(e);
+			throw new ReportOutputException(e);
 		} catch (SAXException e) {
-			throw new RuntimeException(e);
+			throw new ReportOutputException(e);
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new ReportOutputException(e);
 		}
     }
     
-    @Override
-    public void close(){
-    	super.close(); 
-    	IOUtils.closeQuietly(configInputStream);
-    	//TODO make sure you've closed everything
-    }
+    
     
     
 	/**
@@ -230,5 +269,74 @@ public class XslFoOutput extends XsltReportOutput {
 	public InputStream getFopConfigInputStream(){
 		return configInputStream; 
 	}
+	
+	
+	/**
+     * 
+     */
+    public void startRow(RowProps rowProperties){
+    	staxReportOutput.startRow(rowProperties);
+    }
+    
+    /**
+     * 
+     */
+    public void endRow(){
+    	staxReportOutput.endRow();
+    }
+    
+    /**
+     * 
+     */
+    public void output(CellProps cellProps){
+    	staxReportOutput.output(cellProps);
+    }
 
+	/**
+	 * @return the templateReader
+	 */
+	public Reader getTemplateReader() {
+		return templateReader;
+	}
+
+	/**
+	 * @param templateReader the templateReader to set
+	 */
+	public void setTemplateReader(Reader templateReader) {
+		this.templateReader = templateReader;
+	}
+
+	/**
+	 * @return the tempXmlFileName
+	 */
+	public String getTempXmlFilePath() {
+		return tempXmlFilePath;
+	}
+
+	/**
+	 * @param tempXmlFileName the tempXmlFileName to set
+	 */
+	public void setTempXmlFilePath(String tempXmlFilePath) {
+		this.tempXmlFilePath = tempXmlFilePath;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	protected Source constructXmlSourceFromTempFile(){
+		Source result = null; 
+		try {
+			if(tempXmlFilePath != null){
+				result = new StreamSource(new InputStreamReader(new FileInputStream(tempXmlFilePath), UTF8_ENCODING));
+			}else{
+				LOGGER.warn("the construction of the xml source failed. No temporary xml file path was found"); 
+			}
+		} catch (UnsupportedEncodingException e) {
+			throw new ReportOutputException(e); 
+		} catch (FileNotFoundException e) {
+			throw new ReportOutputException(e); 
+		}
+		return result; 
+	}
 }

@@ -5,10 +5,11 @@
 package net.sf.reportengine.out;
 
 import java.io.FileNotFoundException;
-import java.io.OutputStream;
+import java.io.Writer;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -23,10 +24,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
+ * XML output based on DOM technology
  * 
  * @author dragos balan 
  * @since 0.2
- * @deprecated use {@link StaxReportOutput} instead
  */
 public class XmlDOMReportOutput extends AbstractXmlOutput {
     
@@ -45,18 +46,27 @@ public class XmlDOMReportOutput extends AbstractXmlOutput {
      */
     private Element rowElement = null;
     
+    /**
+     * 
+     */
+    public XmlDOMReportOutput(){
+    	super(); 
+    }
     
-    public XmlDOMReportOutput(OutputStream stream){
-        super(stream);
-        try{
-            DocumentBuilderFactory docBuilderFactory = 
-                DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            document = docBuilder.newDocument();  
-            
-        }catch(Exception exc){
-            throw new RuntimeException(exc);
-        }        
+    /**
+     * 
+     * @param filePath
+     */
+    public XmlDOMReportOutput(String filePath){
+    	super(filePath); 
+    }
+    
+    /**
+     * 
+     * @param outputWriter
+     */
+    public XmlDOMReportOutput(Writer outputWriter){
+    	super(outputWriter); 
     }
     
     /**
@@ -64,9 +74,17 @@ public class XmlDOMReportOutput extends AbstractXmlOutput {
      */    
     public void open() {
         super.open();
-        root = document.createElement(TAG_REPORT);
-        root.setAttribute(ATTR_ENGINE_VERSION,"0.6");
-        document.appendChild(root);
+		try {
+			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+		
+	        document = docBuilder.newDocument(); 
+	        root = document.createElement(TAG_REPORT);
+	        root.setAttribute(ATTR_ENGINE_VERSION,"0.6");
+	        document.appendChild(root);
+		} catch (ParserConfigurationException e) {
+			throw new ReportOutputException(e); 
+		}
     }
     
     /**
@@ -125,20 +143,7 @@ public class XmlDOMReportOutput extends AbstractXmlOutput {
         dataElement.appendChild(text);
         rowElement.appendChild(dataElement);
     }
-    
-    public Source getXmlSource(){
-    	return new DOMSource(document);
-    }
-    
-    public Transformer getXmlTransformer(){
-    	Transformer result = null;
-    	try{
-    		result = TransformerFactory.newInstance().newTransformer();
-    	}catch(TransformerConfigurationException configExc){
-    		throw new RuntimeException(configExc);
-    	}
-    	return result;
-    }
+   
     
     /**
      * closes the report
@@ -154,17 +159,12 @@ public class XmlDOMReportOutput extends AbstractXmlOutput {
     }
 	
     
-    protected void transformXml() 
-    	throws  	TransformerConfigurationException, 
-    				TransformerException, 
-    				FileNotFoundException {
-    	Source source = getXmlSource();
-    	Transformer transformer = getXmlTransformer();
-    	Result result = getTransformationResult(); 
+    protected void transformXml() 	throws  TransformerConfigurationException, 
+    										TransformerException, 
+    										FileNotFoundException {
+    	Source source = new DOMSource(document);
+    	Transformer transformer = TransformerFactory.newInstance().newTransformer();
+    	Result result = new StreamResult(getOutputWriter());
     	transformer.transform(source, result);         
-    }
-    
-    public Result getTransformationResult(){
-    	return new StreamResult(getWriter());
     }
 }

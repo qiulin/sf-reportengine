@@ -3,8 +3,6 @@
  */
 package net.sf.reportengine.out;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -22,30 +20,24 @@ import net.sf.reportengine.in.ReportInputException;
 public abstract class AbstractOutput implements IReportOutput {
     
 	/**
-	 * error message displayed when not writer has been set 
+	 * error message displayed when open() was not used
 	 */
-	public final static String NO_WRITER_SET_ERROR_MESSAGE = "Output not ready ! Please set a writer or a filename to your output";
-	
+	public final static String OUTPUT_NOT_OPEN = "Output not ready! Please call open() method.";
 	/**
-	 * the default system file encoding 
+	 * system file encoding 
 	 */
 	public final static String SYSTEM_FILE_ENCODING = System.getProperty("file.encoding"); 
+	
+	/**
+	 * utf-8 encoding 
+	 */
+	public final static String UTF8_ENCODING =  "UTF-8"; 
 	
 	/**
 	 * the default system line separator
 	 */
 	public final static String LINE_SEPARATOR = System.getProperty("line.separator");
-    
-   /**
-     * the output writer
-     */
-    private Writer outputWriter;
-    
-    /**
-     * the filename (used only if the report output is a file)
-     */
-    private String fileName;
-    
+	
     /**
      * tells whether or not to replace null values with white spaces
      */
@@ -67,66 +59,17 @@ public abstract class AbstractOutput implements IReportOutput {
     private RowProps currentRowProps; 
     
     /**
-     * empty output. 
-     * If you use this constructor you will have to set the 
-     * other properties by calling the setter methods 
-     * ({@link #setFileName(String)}
-     * {@link #setWriter(Writer)}
-     * {@link #setOutputStream(OutputStream)}
-     * {@link #setOutputStream(OutputStream, String)}
+     * constructor
      */
-    public AbstractOutput(){}
-    
-    /**
-     * constructs a report output based on a file and the default system character set
-     * @param fileName
-     */
-    public AbstractOutput(String fileName){
-    	setFileName(fileName); 
-    }
-    
-    /**
-     * 
-     * @param out
-     */
-    public AbstractOutput(OutputStream out){
-    	setOutputStream(out);
-    }
-    
-    /**
-     * constructs a report output in the specified output stream 
-     * 
-     * @param out the stream used for output
-     */
-    public AbstractOutput(OutputStream out, String encoding) {
-        setOutputStream(out, encoding); 
-    }
-    
-    /**
-     * 
-     * @param writer
-     */
-    public AbstractOutput(Writer writer){
-    	setWriter(writer);
+    public AbstractOutput(){
+    	
     }
     
     
     /**
-     * empty implementation
+     * marks this output as open
      */
     public void open(){
-    	if(fileName != null){
-    		try {
-				setWriter(new FileWriter(fileName));
-			} catch (IOException e) {
-				throw new ReportOutputException(e); 
-			}
-    	}else{
-    		//if filename null and outputwriter also null
-    		if(outputWriter == null){
-    			throw new ReportOutputException(NO_WRITER_SET_ERROR_MESSAGE); 
-    		}
-    	}
     	isOpen = true; 
     }
     
@@ -135,21 +78,16 @@ public abstract class AbstractOutput implements IReportOutput {
      * empty implementation
      */
     public void close(){
-    	try {
-    		outputWriter.flush(); 
-			outputWriter.close();
-		} catch (IOException e) {
-			throw new ReportOutputException(e);
-		}
 		this.currentRowProps = null; 
     	isOpen = false;
     }
     
     
     /**
-     *  
+     *  makes the necessary checks to start the row
      */ 
     public void startRow(RowProps rowProperties){
+    	if(!isOpen) throw new ReportOutputException(OUTPUT_NOT_OPEN); 
     	this.currentRowProps = rowProperties; 
         rowCount++;
     }
@@ -160,45 +98,6 @@ public abstract class AbstractOutput implements IReportOutput {
      */
     public void endRow(){}
     
-    
-    /**
-     * 
-     * @return
-     */
-    public Writer getWriter() {
-        return outputWriter;
-    }
-    
-    /**
-     * registers the writer 
-     * @param outStream
-     */
-    public void setWriter(Writer writer){
-        this.outputWriter = writer;
-    }
-    
-    /**
-     * 
-     * @param outStream
-     * @param encoding
-     */
-    public void setOutputStream(OutputStream outStream, String encoding){
-    	try {
-			setWriter(new OutputStreamWriter(outStream, encoding));
-		} catch (UnsupportedEncodingException e) {
-			throw new ReportInputException(e);
-		}
-    }
-    
-    /**
-     * 
-     * @param outStream
-     */
-    public void setOutputStream(OutputStream outStream){
-    	setOutputStream(outStream, SYSTEM_FILE_ENCODING);
-    }
-    
-    
     /**
      * checks null & other impossible to print values
      */
@@ -206,7 +105,6 @@ public abstract class AbstractOutput implements IReportOutput {
     	String result = val != null ? val.toString() : nullsReplacement;
         return result;
     }
-    
     
     /**
      * getter for nulls replacement
@@ -232,14 +130,6 @@ public abstract class AbstractOutput implements IReportOutput {
 		return rowCount;
 	}
 
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String filename) {
-		this.fileName = filename;
-	}
-	
 	/**
 	 * use it to find if the output was open
 	 * 
@@ -248,7 +138,21 @@ public abstract class AbstractOutput implements IReportOutput {
 	protected boolean isOutputOpen(){
 		return isOpen; 
 	}
-
+	
+	/**
+	 * marks this output as being open
+	 */
+	protected void markAsOpen(){
+		isOpen = true; 
+	}
+	
+	/**
+	 * marks this output as closed
+	 */
+	protected void markAsClosed(){
+		isOpen = false; 
+	}
+	
 	/**
 	 * @return the currentRowProps
 	 */

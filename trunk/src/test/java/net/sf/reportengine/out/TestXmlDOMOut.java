@@ -15,7 +15,7 @@ public class TestXmlDOMOut extends ReportengineTC {
     
     public void testXML(){
         try{
-            XmlDOMReportOutput xmlOutTest = new XmlDOMReportOutput(createTestOutputFile("testXMLOut.xml"));
+            XmlDOMReportOutput xmlOutTest = new XmlDOMReportOutput("target/testXMLOut.xml");
             xmlOutTest.open();
             xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
             xmlOutTest.output(new CellProps.Builder("value row 1 col 1").build());
@@ -35,9 +35,4 @@ public class TestXmlDOMOut extends ReportengineTC {
             assertTrue(false);
         }
     }
-    
-    
-    
-    
-
 }
