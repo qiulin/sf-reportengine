@@ -39,7 +39,7 @@ public class TestTxtOutput extends TestCase {
 		assertTrue(result instanceof StringWriter);
 		StringBuffer resultBuffer = ((StringWriter)result).getBuffer();  
 		assertNotNull(resultBuffer); 
-		assertTrue(resultBuffer.indexOf("value x") > 0);
+		assertTrue(resultBuffer.indexOf("value x") >= 0);
 	}
 	
 	/**
@@ -121,7 +121,7 @@ public class TestTxtOutput extends TestCase {
 		
 		StringBuffer result = writer1.getBuffer(); 
 		assertNotNull(result);
-		assertTrue(result.indexOf("cell 0 0") > 0);
+		assertTrue(result.indexOf("cell 0 0") >= 0);
 		assertTrue(result.indexOf("cell 0 2") > 0);
 		
 		
@@ -136,7 +136,7 @@ public class TestTxtOutput extends TestCase {
 		
 		result = writer2.getBuffer(); 
 		assertNotNull(result);
-		assertTrue(result.indexOf("cell 0 0") > 0);
+		assertTrue(result.indexOf("cell 0 0") >= 0);
 		assertTrue(result.indexOf("cell 0 2") > 0);
 	}
 	

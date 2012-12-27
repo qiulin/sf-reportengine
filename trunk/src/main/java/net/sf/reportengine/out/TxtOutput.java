@@ -9,7 +9,9 @@ import java.io.Writer;
 import org.apache.log4j.Logger;
 
 /**
- * output report data into a stream (Writer or OutputStream)
+ * txt output report data as separated data. 
+ * Because the data is separated by commans (or something else) this output is not 
+ * effective for Crosstab reports. A better version will be provided in the next releases
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
@@ -19,22 +21,22 @@ public class TxtOutput extends AbstractCharacterOutput{
 	/**
 	 * default data/columns separator
 	 */
-	public static final String DEFAULT_DATA_SEPARATOR = "\t";
+	public static final String DEFAULT_DATA_SEPARATOR = ",";
 	
 	/**
-	 * the one and only logger
+	 * the one and only LOGGER
 	 */
-	private static final Logger logger = Logger.getLogger(TxtOutput.class);
+	private static final Logger LOGGER = Logger.getLogger(TxtOutput.class);
 	
 	/**
 	 * buffer for the current line to be output
 	 */
-	private StringBuilder dataToOutput = new StringBuilder();
-	
+	private StringBuilder rowDataBuffer;  
+		
 	/**
 	 * data separator
 	 */
-	private String separator;
+	private String separator = DEFAULT_DATA_SEPARATOR;
 	
 	/**
 	 * outputs into a String if no other writer is set
@@ -66,7 +68,7 @@ public class TxtOutput extends AbstractCharacterOutput{
      */ 
     public void startRow(RowProps rowProperties){
         super.startRow(rowProperties);
-        dataToOutput.delete(0, dataToOutput.length());
+        rowDataBuffer = new StringBuilder();
 	}
 	
     /**
@@ -74,17 +76,19 @@ public class TxtOutput extends AbstractCharacterOutput{
      */
 	public void endRow(){
 		try {
-			dataToOutput.append(LINE_SEPARATOR);
-			getOutputWriter().write(dataToOutput.toString());
+			rowDataBuffer.append(LINE_SEPARATOR);
+			getOutputWriter().write(rowDataBuffer.toString());
 		} catch (IOException e) {
-			logger.error(e);
-			throw new RuntimeException(e);
+			LOGGER.error(e);
+			throw new ReportOutputException(e);
 		}
 	}
 	
-	
+	/**
+	 * output
+	 */
 	public void output(CellProps cellProps) {
-		dataToOutput.append(separator+cellProps);
+		rowDataBuffer.append(cellProps.getValue()).append(separator);
 	}
 
 	/**
