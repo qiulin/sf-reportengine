@@ -9,6 +9,7 @@ import java.io.Writer;
 
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.test.ReportengineTC;
+import net.sf.reportengine.util.ReportIoUtils;
 
 /**
  * @author dragos
@@ -64,7 +65,7 @@ public class TestStaxReportOutput extends ReportengineTC {
 	
 	public void testStaxUTF8Output(){
         try{
-        	Writer writer = new OutputStreamWriter(new FileOutputStream("target/testStaxUtf8Out.xml"), StaxReportOutput.UTF8_ENCODING);
+        	Writer writer = ReportIoUtils.createWriterFromPath("target/testStaxUtf8Out.xml");
             StaxReportOutput xmlOutTest = new StaxReportOutput(writer);
             xmlOutTest.open();
             xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));

@@ -56,7 +56,7 @@ import org.apache.log4j.Logger;
  *  CrossTabReport report = new CrossTabReport(); 
  *	
  *  //set up the input/output			
- *  IReportInput in = new StreamReportInput(new FileInputStream("expenses.csv"));
+ *  IReportInput in = new TextInput(new FileInputStream("expenses.csv"));
  *  report.setIn(input); 
  *			
  *  IReportOutput output = new HtmlOutput(new FileOutputStream("xpenses.html")); 

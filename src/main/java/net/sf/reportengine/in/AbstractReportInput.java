@@ -35,12 +35,13 @@ public abstract class AbstractReportInput implements IReportInput {
      * marks the input as open. 
      */
     public void open() throws ReportInputException{
-    	if(logger.isDebugEnabled()){
-    		logger.debug("opening the stream report input");
-    	}
-        if(isOpen){
+    	if(isOpen){
             throw new IllegalStateException("You cannot open twice the same input. Close it and then reopen it !");
         }
+    	
+    	if(logger.isDebugEnabled()){
+    		logger.debug("opening the report input");
+    	}
         isOpen = true;
     }
 

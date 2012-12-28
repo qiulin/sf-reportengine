@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.in.IReportInput;
-import net.sf.reportengine.in.StreamReportInput;
+import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.ExcelOutput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.MemoryOutput;
@@ -90,7 +90,7 @@ public class TestFlatReport extends ReportengineTC {
 				InputStream testStream = getInputStreamFromClasspath("EURUSD_2007-2009_FirstHours.txt");
 				assertNotNull(testStream);
 				
-				StreamReportInput in = new StreamReportInput(testStream,"\t");
+				TextInput in = new TextInput(testStream,"\t");
 				
 				OutputDispatcher output = new OutputDispatcher();
 				output.registerOutput(new HtmlOutput("target/testFlatReportOHLC.html"));
@@ -141,7 +141,7 @@ public class TestFlatReport extends ReportengineTC {
 	public void testExecute2x3x1(){
         try{
         	InputStream inputStream = getInputStreamFromClasspath("2x3x1.txt");
-        	StreamReportInput input = new StreamReportInput(inputStream);
+        	TextInput input = new TextInput(inputStream);
         	
         	flatReport.setGroupColumns(Scenario2x3x1.GROUP_COLUMNS);
             flatReport.setDataColumns(Scenario2x3x1.DATA_COLUMNS);
@@ -188,7 +188,7 @@ public class TestFlatReport extends ReportengineTC {
 		
 		flatReport.setReportTitle("Τη γλώσσα μου έδωσαν ελληνική");
 		
-		IReportInput reportInput = new StreamReportInput(inputStream, ",", "UTF-8"); 
+		IReportInput reportInput = new TextInput(inputStream, ",", "UTF-8"); 
 		flatReport.setIn(reportInput); 
 		
 		flatReport.addDataColumn(new DefaultDataColumn(0)); 
@@ -207,7 +207,7 @@ public class TestFlatReport extends ReportengineTC {
 		
 		flatReport.setReportTitle("Τη γλώσσα μου έδωσαν ελληνική");
 		
-		IReportInput reportInput = new StreamReportInput(inputStream, ",", "UTF-8"); 
+		IReportInput reportInput = new TextInput(inputStream, ",", "UTF-8"); 
 		flatReport.setIn(reportInput); 
 		
 		flatReport.addDataColumn(new DefaultDataColumn(0)); 
@@ -224,7 +224,7 @@ public class TestFlatReport extends ReportengineTC {
 		InputStream testStream = getInputStreamFromClasspath("2010-1MIN-DATA.tsv");
 		assertNotNull(testStream);
 		
-		StreamReportInput in = new StreamReportInput(testStream, "\t");
+		TextInput in = new TextInput(testStream, "\t");
 		
 		flatReport.setIn(in);
 		flatReport.setOut(new HtmlOutput("./target/testHugeReport.html"));

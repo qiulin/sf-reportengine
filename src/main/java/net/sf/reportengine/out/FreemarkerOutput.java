@@ -62,7 +62,7 @@ public class FreemarkerOutput extends AbstractCharacterOutput {
 	/**
 	 * the default templates class path
 	 */
-	public final static String DEFAULT_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/freemarker/html"; 
+	public final static String DEFAULT_HTML_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/freemarker/html"; 
 	public final static String START_REPORT_TEMPLATE = "startReport.ftl";
 	public final static String END_REPORT_TEMPLATE = "endReport.ftl";
 	public final static String START_ROW_TEMPLATE = "startRow.ftl";
@@ -122,7 +122,7 @@ public class FreemarkerOutput extends AbstractCharacterOutput {
 		freemarkerConfig.setObjectWrapper(new DefaultObjectWrapper()); 
 		freemarkerConfig.setTemplateLoader(
 				new ClassTemplateLoader(getClass(), 
-										DEFAULT_TEMPLATES_CLASS_PATH)); 
+										DEFAULT_HTML_TEMPLATES_CLASS_PATH)); 
 	}
 	
 	protected void initRootFreemarkerData(){

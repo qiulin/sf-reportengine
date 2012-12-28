@@ -43,7 +43,7 @@ import net.sf.reportengine.util.ContextKeys;
  * FlatReport flatReport = new FlatReport();	
  * 
  * //input configuration
- * IReportInput input = new StreamReportInput(new FileInputStream("input.txt"));
+ * IReportInput input = new TextInput(new FileInputStream("input.txt"));
  * flatReport.setIn(input);
  *
  * //output configuration

@@ -3,6 +3,9 @@
  */
 package net.sf.reportengine.out;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.test.ReportengineTC;
 
@@ -28,7 +31,28 @@ public class TestExcelOutput extends ReportengineTC {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
-
+	
+	/**
+	 * Test method for {@link net.sf.reportengine.out.ExcelOutput#output(net.sf.reportengine.out.CellProps)}.
+	 */
+	public void testOutputEmptyConstructor() {
+		classUnderTest = new ExcelOutput();
+		classUnderTest.open();
+		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+		classUnderTest.output(new CellProps.Builder("value here").build());
+		classUnderTest.endRow();
+		classUnderTest.close();
+		
+		OutputStream os = classUnderTest.getOutputStream();
+		assertNotNull(os); 
+		
+		assertTrue(os instanceof ByteArrayOutputStream); 
+		ByteArrayOutputStream baos = (ByteArrayOutputStream)os; 
+		String result = baos.toString();
+		assertNotNull(result); 
+		assertTrue(result.indexOf("value here") > 0);
+	}
+	
 	/**
 	 * Test method for {@link net.sf.reportengine.out.ExcelOutput#output(net.sf.reportengine.out.CellProps)}.
 	 */

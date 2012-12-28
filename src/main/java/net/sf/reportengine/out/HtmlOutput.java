@@ -4,11 +4,11 @@
 package net.sf.reportengine.out;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Writer;
 
 import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.core.ReportContent;
+import net.sf.reportengine.util.ReportIoUtils;
 
 
 /**
@@ -105,9 +105,9 @@ public class HtmlOutput extends AbstractCharacterOutput {
             if(isStandalonePage){
             	Writer writer = getOutputWriter(); 
             	writer.write(HTML_HEAD_START);
-            	writer.write(LINE_SEPARATOR);
+            	writer.write(ReportIoUtils.LINE_SEPARATOR);
             	writer.write(ENCODING_DECLARATION);
-            	writer.write(LINE_SEPARATOR); 
+            	writer.write(ReportIoUtils.LINE_SEPARATOR); 
             	if(cssPath != null){
             		writer.write("<link rel=\"stylesheet\" href=\"");
             		writer.write(cssPath); 
@@ -173,7 +173,7 @@ public class HtmlOutput extends AbstractCharacterOutput {
             }else{
             	getOutputWriter().write("</tr>"); 
             }
-            getOutputWriter().write(LINE_SEPARATOR);
+            getOutputWriter().write(ReportIoUtils.LINE_SEPARATOR);
         }catch (IOException ioExc) {
         	throw new ReportOutputException(ioExc);
         }

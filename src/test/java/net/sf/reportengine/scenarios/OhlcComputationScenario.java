@@ -12,7 +12,7 @@ import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.IReportInput;
-import net.sf.reportengine.in.StreamReportInput;
+import net.sf.reportengine.in.TextInput;
 
 /**
  * @author dragos balan
@@ -20,7 +20,7 @@ import net.sf.reportengine.in.StreamReportInput;
  */
 public class OhlcComputationScenario {
 	
-	public static final IReportInput INPUT = new StreamReportInput(OhlcComputationScenario.class.getClassLoader().getResourceAsStream(""),"\t");
+	public static final IReportInput INPUT = new TextInput(OhlcComputationScenario.class.getClassLoader().getResourceAsStream(""),"\t");
 	
 	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList(
 	new IDataColumn[]{
