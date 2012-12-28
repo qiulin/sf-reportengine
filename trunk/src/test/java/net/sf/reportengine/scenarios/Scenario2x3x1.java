@@ -12,7 +12,7 @@ import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.IReportInput;
-import net.sf.reportengine.in.StreamReportInput;
+import net.sf.reportengine.in.TextInput;
 
 /**
  * @author dragos
@@ -20,7 +20,7 @@ import net.sf.reportengine.in.StreamReportInput;
  */
 public class Scenario2x3x1 {
 	
-	public static final IReportInput INPUT = new StreamReportInput(Scenario2x3x1.class.getClassLoader().getResourceAsStream("2x3x1.txt"),",");
+	public static final IReportInput INPUT = new TextInput(Scenario2x3x1.class.getClassLoader().getResourceAsStream("2x3x1.txt"),",");
 	
 	public static final List<IGroupColumn> GROUP_COLUMNS = Arrays.asList(
 		new IGroupColumn[]{

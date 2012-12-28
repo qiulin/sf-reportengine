@@ -20,13 +20,26 @@ public class ReportengineTC extends TestCase {
     
       protected String TEST_REPORTS_PATH = "./target/";
       
+      /**
+       * 
+       * @param file
+       * @return
+       * @deprecated use ReportIoUtils.createInputStreamFromClassPath instead
+       */
       protected InputStream getInputStreamFromClasspath(String file){
     	  return this.getClass().getClassLoader().getResourceAsStream(file);
       }
       
+      /**
+       * 
+       * @param path
+       * @return
+       * @deprecated use ReportIoUtils.createReaderFromClassPath instead
+       */
       protected Reader getReaderFromClasspath(String path){
     	  return new InputStreamReader(getInputStreamFromClasspath(path)); 
       }
+      
       
       protected OutputStream createTestOutputFile(String fileName) {
     	OutputStream result = null; 

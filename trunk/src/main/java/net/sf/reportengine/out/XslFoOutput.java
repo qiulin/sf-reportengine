@@ -23,11 +23,11 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
+import net.sf.reportengine.util.ReportIoUtils;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.output.WriterOutputStream;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
@@ -56,7 +56,7 @@ public class XslFoOutput extends AbstractByteOutput {
 	/**
 	 * 
 	 */
-	private static final String DEFAULT_XSLFO_PATH = "net/sf/reportengine/fop/default-xml2fo.xslt";
+	private static final String DEFAULT_XSLFO_CLASSPATH = "net/sf/reportengine/fop/default-xml2fo.xslt";
 	
 	/**
 	 * 
@@ -173,9 +173,7 @@ public class XslFoOutput extends AbstractByteOutput {
 	    		setFopConfigInputStream(ClassLoader.getSystemResourceAsStream(DEFAULT_FO_CONF_PATH)); 
 	    	}
 	    	if(getTemplateReader() == null){
-				setTemplateReader(new InputStreamReader(
-											ClassLoader.getSystemResourceAsStream(DEFAULT_XSLFO_PATH), 
-											UTF8_ENCODING));
+				setTemplateReader(ReportIoUtils.createReaderFromClassPath(DEFAULT_XSLFO_CLASSPATH));
 	    	}
 	    	if(tempXmlFilePath== null){
 	    		File tempXmlFile = File.createTempFile("report", ".tmp");
@@ -326,16 +324,10 @@ public class XslFoOutput extends AbstractByteOutput {
 	 */
 	protected Source constructXmlSourceFromTempFile(){
 		Source result = null; 
-		try {
-			if(tempXmlFilePath != null){
-				result = new StreamSource(new InputStreamReader(new FileInputStream(tempXmlFilePath), UTF8_ENCODING));
-			}else{
-				LOGGER.warn("the construction of the xml source failed. No temporary xml file path was found"); 
-			}
-		} catch (UnsupportedEncodingException e) {
-			throw new ReportOutputException(e); 
-		} catch (FileNotFoundException e) {
-			throw new ReportOutputException(e); 
+		if(tempXmlFilePath != null){
+			result = new StreamSource(ReportIoUtils.createReaderFromPath(tempXmlFilePath));
+		}else{
+			LOGGER.warn("the construction of the xml source failed. No temporary xml file path was found"); 
 		}
 		return result; 
 	}

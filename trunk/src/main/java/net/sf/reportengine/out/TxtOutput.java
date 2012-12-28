@@ -6,6 +6,8 @@ package net.sf.reportengine.out;
 import java.io.IOException;
 import java.io.Writer;
 
+import net.sf.reportengine.util.ReportIoUtils;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -76,7 +78,7 @@ public class TxtOutput extends AbstractCharacterOutput{
      */
 	public void endRow(){
 		try {
-			rowDataBuffer.append(LINE_SEPARATOR);
+			rowDataBuffer.append(ReportIoUtils.LINE_SEPARATOR);
 			getOutputWriter().write(rowDataBuffer.toString());
 		} catch (IOException e) {
 			LOGGER.error(e);

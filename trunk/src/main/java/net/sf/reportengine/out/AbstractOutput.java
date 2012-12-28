@@ -3,12 +3,6 @@
  */
 package net.sf.reportengine.out;
 
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-
-import net.sf.reportengine.in.ReportInputException;
 
 /**
  * An abstract implementation for IReportOutput. It is recommended
@@ -23,20 +17,7 @@ public abstract class AbstractOutput implements IReportOutput {
 	 * error message displayed when open() was not used
 	 */
 	public final static String OUTPUT_NOT_OPEN = "Output not ready! Please call open() method.";
-	/**
-	 * system file encoding 
-	 */
-	public final static String SYSTEM_FILE_ENCODING = System.getProperty("file.encoding"); 
 	
-	/**
-	 * utf-8 encoding 
-	 */
-	public final static String UTF8_ENCODING =  "UTF-8"; 
-	
-	/**
-	 * the default system line separator
-	 */
-	public final static String LINE_SEPARATOR = System.getProperty("line.separator");
 	
     /**
      * tells whether or not to replace null values with white spaces

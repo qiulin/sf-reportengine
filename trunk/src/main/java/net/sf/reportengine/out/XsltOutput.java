@@ -5,12 +5,9 @@
 package net.sf.reportengine.out;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
 import javax.xml.transform.Result;
@@ -21,6 +18,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+
+import net.sf.reportengine.util.ReportIoUtils;
 
 import org.apache.log4j.Logger;
 
@@ -59,7 +58,7 @@ public class XsltOutput extends AbstractCharacterOutput {
     /**
      * 
      */
-    private String tempXmlFileName;
+    private String tempXmlFilePath;
     
     /**
      * output into memory ( using a StringWriter)
@@ -114,11 +113,11 @@ public class XsltOutput extends AbstractCharacterOutput {
 	    		if(LOGGER.isDebugEnabled())LOGGER.debug("No xslt reader found ... creating default xslt reader from classpath"); 
 	    		setXsltReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(DEFAULT_XSLT_PATH)));
 	    	}
-	    	if(tempXmlFileName == null){
+	    	if(tempXmlFilePath == null){
 	    		File tempXmlFile = File.createTempFile("report", ".tmp");
 	    		if(LOGGER.isInfoEnabled())
 	    			LOGGER.info("creating temporary xml file "+tempXmlFile.getAbsolutePath());
-	    		setTempXmlFileName(tempXmlFile.getAbsolutePath());
+	    		setTempXmlFilePath(tempXmlFile.getAbsolutePath());
 	    	}
 	    	staxReportOutput.setFilePath(getTempXmlFilePath());
 	    	
@@ -205,14 +204,14 @@ public class XsltOutput extends AbstractCharacterOutput {
 	 * @return the tempXmlFile
 	 */
 	public String getTempXmlFilePath() {
-		return tempXmlFileName;
+		return tempXmlFilePath;
 	}
 
 	/**
 	 * @param tempXmlFile the tempXmlFile to set
 	 */
-	public void setTempXmlFileName(String tempXmlFile) {
-		this.tempXmlFileName = tempXmlFile;
+	public void setTempXmlFilePath(String tempXmlPath) {
+		this.tempXmlFilePath = tempXmlPath;
 	}
 	
 	/**
@@ -221,16 +220,10 @@ public class XsltOutput extends AbstractCharacterOutput {
 	 */
 	protected Source constructXmlSourceFromTempFile(){
 		Source result = null; 
-		try {
-			if(tempXmlFileName != null){
-				result = new StreamSource(new InputStreamReader(new FileInputStream(tempXmlFileName), UTF8_ENCODING));
-			}else{
-				LOGGER.warn("the construction of the xml source failed. No temporary xml file path was found"); 
-			}
-		} catch (UnsupportedEncodingException e) {
-			throw new ReportOutputException(e); 
-		} catch (FileNotFoundException e) {
-			throw new ReportOutputException(e); 
+		if(tempXmlFilePath != null){
+			result = new StreamSource(ReportIoUtils.createReaderFromPath(tempXmlFilePath));
+		}else{
+			LOGGER.warn("the construction of the xml source failed. No temporary xml file path was found"); 
 		}
 		return result; 
 	}

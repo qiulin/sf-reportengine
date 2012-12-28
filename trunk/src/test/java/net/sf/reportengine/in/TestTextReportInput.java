@@ -9,8 +9,9 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 import net.sf.reportengine.test.ReportengineTC;
+import net.sf.reportengine.util.ReportIoUtils;
 
-public class TestStreamReportInput extends ReportengineTC {
+public class TestTextReportInput extends ReportengineTC {
     
     
     private String TEST_FILE = "2x3x1.txt";    
@@ -44,7 +45,7 @@ public class TestStreamReportInput extends ReportengineTC {
            {"Asia","South","Thailand","Females","over 61","25"},
     };
     
-    private StreamReportInput classUnderTest;
+    private TextInput classUnderTest;
 
     protected void setUp() throws Exception {
         super.setUp();
@@ -55,7 +56,9 @@ public class TestStreamReportInput extends ReportengineTC {
      */
     public void testNextRow(){
         try {
-            classUnderTest = new StreamReportInput(getInputStreamFromClasspath(TEST_FILE),",");
+            classUnderTest = new TextInput();
+            classUnderTest.setInputReader(ReportIoUtils.createReaderFromClassPath(TEST_FILE));
+            classUnderTest.setSeparator(",");
             
             int index = 0;
             Object[] data;
@@ -80,7 +83,7 @@ public class TestStreamReportInput extends ReportengineTC {
     public void testHasMoreRows() {
         int rowsCount = 0;
         try{
-            classUnderTest = new StreamReportInput(getInputStreamFromClasspath(TEST_FILE));
+            classUnderTest = new TextInput(getInputStreamFromClasspath(TEST_FILE));
             classUnderTest.open();
             while(classUnderTest.hasMoreRows()){
                 classUnderTest.nextRow();
@@ -105,7 +108,7 @@ public class TestStreamReportInput extends ReportengineTC {
     public void testGetColumnsCount1() {
         int result = -1;
         try {
-            classUnderTest = new StreamReportInput(getInputStreamFromClasspath(TEST_FILE));
+            classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath((TEST_FILE)));
             classUnderTest.open();
             result = classUnderTest.getColumnsCount();
         } catch (Throwable e) {
@@ -123,7 +126,7 @@ public class TestStreamReportInput extends ReportengineTC {
     public void testGetColumnsCount2() {
         int result= -1;
         try {
-            classUnderTest = new StreamReportInput(getInputStreamFromClasspath(TEST_FILE));
+            classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath(TEST_FILE));
             classUnderTest.open();
             classUnderTest.nextRow();
             classUnderTest.nextRow();
@@ -147,7 +150,9 @@ public class TestStreamReportInput extends ReportengineTC {
     
     public void testFirstRow(){
         try {
-            classUnderTest = new StreamReportInput(getInputStreamFromClasspath(TEST_FILE));
+            classUnderTest = new TextInput();
+            classUnderTest.setInputReader(ReportIoUtils.createReaderFromClassPath(TEST_FILE));
+            
             classUnderTest.open();
             //classUnderTest.first();
             Object[] firstRow = classUnderTest.nextRow();
@@ -170,9 +175,9 @@ public class TestStreamReportInput extends ReportengineTC {
         }
     }
     
-    public void testException(){
+    public void testExceptionNonExistentFile(){
         try {
-            classUnderTest = new StreamReportInput("inexistent.txt");
+            classUnderTest = new TextInput("inexistent.txt");
             classUnderTest.open();
             fail("an exception should have been thrown by the method above");
         } catch (ReportInputException e) {
@@ -181,13 +186,23 @@ public class TestStreamReportInput extends ReportengineTC {
     }
     
     
+    public void testExceptionNoWriterSet(){
+        try {
+            classUnderTest = new TextInput();
+            classUnderTest.open();
+            fail("an exception should have been thrown by the method above");
+        } catch (ReportInputException e) {
+        	assertEquals(TextInput.NO_WRITER_SET_ERROR_MESSAGE, e.getMessage());
+        }                
+    }
+    
     /**
      * testing hasMoreRows method for an empty file 
      */
     public void testHasMoreRowsOnEmptyFile(){
         boolean hasMoreRows = true;
         try {
-            classUnderTest = new StreamReportInput(getInputStreamFromClasspath("empty.txt"));
+            classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath("empty.txt"));
             classUnderTest.open();
             hasMoreRows = classUnderTest.hasMoreRows();
         } catch (ReportInputException e) {
@@ -207,7 +222,7 @@ public class TestStreamReportInput extends ReportengineTC {
     public void testNextRowOnEmptyFile(){
         Object[] nextRow = null;
         try {
-            classUnderTest = new StreamReportInput(getInputStreamFromClasspath("empty.txt"));
+            classUnderTest = new TextInput(getInputStreamFromClasspath("empty.txt"));
             classUnderTest.open();
             nextRow = classUnderTest.nextRow();
         } catch (ReportInputException e) {
@@ -228,7 +243,7 @@ public class TestStreamReportInput extends ReportengineTC {
         Object[] nextRow = null;
         boolean hasMoreRows = true;
         try {
-            classUnderTest = new StreamReportInput(getInputStreamFromClasspath("empty.txt"));
+            classUnderTest = new TextInput(getInputStreamFromClasspath("empty.txt"));
             classUnderTest.open();
             //classUnderTest.first();
             
@@ -249,7 +264,7 @@ public class TestStreamReportInput extends ReportengineTC {
     
     public void testUtf8Characters(){
     	int linesCount = 0;
-    	classUnderTest = new StreamReportInput(getInputStreamFromClasspath("Utf8Input.txt"), ",", "UTF-8");
+    	classUnderTest = new TextInput(getInputStreamFromClasspath("Utf8Input.txt"), ",", "UTF-8");
     	classUnderTest.open(); 
     	Object[] row = null; 
     	while(classUnderTest.hasMoreRows()){
@@ -277,8 +292,8 @@ public class TestStreamReportInput extends ReportengineTC {
     public void testSkipFirstLines(){
     	int rowsCount = 0;
     	InputStream inputStream = getInputStreamFromClasspath("2x3x1WithColumnHeaders.txt");
-    	classUnderTest = new StreamReportInput(inputStream); 
-    	classUnderTest.setSkipFirstLines(1);
+    	classUnderTest = new TextInput(inputStream); 
+    	classUnderTest.setLinesToBeSkipped(1);
     	classUnderTest.open(); 
     	
     	assertTrue(classUnderTest.hasMoreRows()); 
@@ -296,8 +311,8 @@ public class TestStreamReportInput extends ReportengineTC {
     public void testSkipFirst2Lines(){
     	int rowsCount = 0;
     	InputStream inputStream = getInputStreamFromClasspath("2x3x1With2ColumnHeaders.txt");
-    	classUnderTest = new StreamReportInput(inputStream); 
-    	classUnderTest.setSkipFirstLines(2);
+    	classUnderTest = new TextInput(inputStream); 
+    	classUnderTest.setLinesToBeSkipped(2);
     	classUnderTest.open(); 
     	
     	assertTrue(classUnderTest.hasMoreRows()); 

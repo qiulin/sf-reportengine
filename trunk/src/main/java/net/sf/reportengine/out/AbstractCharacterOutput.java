@@ -3,13 +3,11 @@
  */
 package net.sf.reportengine.out;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+
+import net.sf.reportengine.util.ReportIoUtils;
 
 /**
  * @author dragos balan
@@ -76,13 +74,7 @@ public abstract class AbstractCharacterOutput extends AbstractOutput {
 	 * @param filePath
 	 */
 	public void setFilePath(String filePath) {
-		try {
-			setOutputWriter(new OutputStreamWriter(new FileOutputStream(filePath), UTF8_ENCODING));
-		} catch (FileNotFoundException e) {
-			throw new ReportOutputException(e); 
-		} catch(UnsupportedEncodingException e){
-			throw new ReportOutputException(e); 
-		}
+		setOutputWriter(ReportIoUtils.createWriterFromPath(filePath));
 	}
 
 }
