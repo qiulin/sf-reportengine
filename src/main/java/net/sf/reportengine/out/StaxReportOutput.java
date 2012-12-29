@@ -109,10 +109,10 @@ public class StaxReportOutput extends AbstractXmlOutput {
         super.startRow(rowProperties);
         try{
         	switch(rowProperties.getContent()){
-        	case CONTENT_REPORT_TITLE: 
+        	case REPORT_TITLE: 
         		xmlWriter.writeStartElement(TAG_TITLE);
         		break; 
-        	case CONTENT_COLUMN_HEADERS: 
+        	case COLUMN_HEADER: 
         		xmlWriter.writeStartElement(TAG_TABLE_HEADER);
             	xmlWriter.writeAttribute(ATTR_ROW_NUMBER,""+getRowCount());
         		break; 
@@ -143,7 +143,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
     public void output(CellProps cellProps) {
     	try{
 	        switch (cellProps.getContentType()) {
-	            case CONTENT_REPORT_TITLE :
+	            case REPORT_TITLE :
 	            	xmlWriter.writeCharacters(purifyData(cellProps.getValue()));
 	                break;
 	            default:

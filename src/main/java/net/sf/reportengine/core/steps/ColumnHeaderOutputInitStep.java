@@ -66,10 +66,10 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
     	//output the title
     	IReportOutput output = (IReportOutput)reportContext.getOutput();
         if(reportTitle != null){
-        	output.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE));
+        	output.startRow(new RowProps(ReportContent.REPORT_TITLE));
             CellProps titleCellProps = new CellProps.Builder(reportTitle)
             									.colspan(outputColumnsCnt)
-            									.contentType(ReportContent.CONTENT_REPORT_TITLE)
+            									.contentType(ReportContent.REPORT_TITLE)
             									.horizAlign(HorizontalAlign.CENTER)
             									.build();
             output.output(titleCellProps);
@@ -77,13 +77,13 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
         }
         
         //output the report column headers
-        output.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS));
+        output.startRow(new RowProps(ReportContent.COLUMN_HEADER));
         CellProps cellProps = null;
         if(groupCols != null){
 	        for (IGroupColumn groupColumn : groupCols) {
 				cellProps = new CellProps.Builder(groupColumn.getHeader())
 										.colspan(1)
-										.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
+										.contentType(ReportContent.COLUMN_HEADER)
 										.horizAlign(HorizontalAlign.CENTER)
 										.build();
 				output.output(cellProps);
@@ -92,7 +92,7 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
         for (IDataColumn dataColumn: dataCols) {
             cellProps = new CellProps.Builder(dataColumn.getHeader())
             						.colspan(1)
-            						.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
+            						.contentType(ReportContent.COLUMN_HEADER)
             						.horizAlign(HorizontalAlign.CENTER)
             						.build();
             output.output(cellProps);

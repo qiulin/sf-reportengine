@@ -32,7 +32,7 @@ public class RowProps {
      * 
      */
     public RowProps(){
-    	this(ReportContent.CONTENT_DATA, 0);
+    	this(ReportContent.DATA, 0);
     }
     
     /**

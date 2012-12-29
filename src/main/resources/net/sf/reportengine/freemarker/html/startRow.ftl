@@ -1,7 +1,6 @@
-<tr bgcolor="
-<#if rowProps.rowNumber % 2 == 0>
-#F5F5F5
-<#else>
-#FFFFFF  
-</#if>  
+<tr class="
+<#if rowProps.content == "COLUMN_HEADER">reportTableHeader
+<#elseif rowProps.content = "DATA">
+	<#if rowProps.rowNumber % 2 == 0>even<#else>odd</#if>	
+</#if>
 ">

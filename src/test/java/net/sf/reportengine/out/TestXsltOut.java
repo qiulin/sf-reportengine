@@ -36,15 +36,15 @@ public class TestXsltOut extends ReportengineTC {
         try{
             XsltOutput xsltOutTest= new XsltOutput("target/testXSLTOut.html");
             xsltOutTest.open();
-            xsltOutTest.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE));
+            xsltOutTest.startRow(new RowProps(ReportContent.REPORT_TITLE));
             xsltOutTest.output(new CellProps.Builder("report title").build());
             xsltOutTest.endRow();
             
-            xsltOutTest.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS));
+            xsltOutTest.startRow(new RowProps(ReportContent.COLUMN_HEADER));
             xsltOutTest.output(new CellProps.Builder("col header").build());
             xsltOutTest.endRow();
             
-            xsltOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+            xsltOutTest.startRow(new RowProps(ReportContent.DATA));
             xsltOutTest.output(new CellProps.Builder("test value").build());
             xsltOutTest.endRow();
             
@@ -65,15 +65,15 @@ public class TestXsltOut extends ReportengineTC {
             xsltOutTest.setOutputWriter(writer); 
             
             xsltOutTest.open();
-            xsltOutTest.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE));
+            xsltOutTest.startRow(new RowProps(ReportContent.REPORT_TITLE));
             xsltOutTest.output(new CellProps.Builder("Βιβλία").build());
             xsltOutTest.endRow();
             
-            xsltOutTest.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS));
+            xsltOutTest.startRow(new RowProps(ReportContent.COLUMN_HEADER));
             xsltOutTest.output(new CellProps.Builder("col header").build());
             xsltOutTest.endRow();
             
-            xsltOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+            xsltOutTest.startRow(new RowProps(ReportContent.DATA));
             xsltOutTest.output(new CellProps.Builder("и канализация са от").build());
             xsltOutTest.endRow();
             
@@ -99,15 +99,15 @@ public class TestXsltOut extends ReportengineTC {
             xsltOutTest.setFilePath("target/testXsltUtf8.html"); 
             
             xsltOutTest.open();
-            xsltOutTest.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE));
+            xsltOutTest.startRow(new RowProps(ReportContent.REPORT_TITLE));
             xsltOutTest.output(new CellProps.Builder("Report title").build());
             xsltOutTest.endRow();
             
-            xsltOutTest.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS));
+            xsltOutTest.startRow(new RowProps(ReportContent.COLUMN_HEADER));
             xsltOutTest.output(new CellProps.Builder("Βιβλία").build());
             xsltOutTest.endRow();
             
-            xsltOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+            xsltOutTest.startRow(new RowProps(ReportContent.DATA));
             xsltOutTest.output(new CellProps.Builder("и канализация са от").build());
             xsltOutTest.endRow();
             

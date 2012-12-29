@@ -273,12 +273,12 @@ public class Scenario1 {
 	};
 	
 	public final static CellProps[] EXPECTED_REPORT_COLUMNS_HEADER = new CellProps[]{
-		new CellProps.Builder("col 0").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build(),
-		new CellProps.Builder("col 1").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build(),	
-		new CellProps.Builder("col 2").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build(),
-		new CellProps.Builder("col 3").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build(),
-		new CellProps.Builder("col 4").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build(),
-		new CellProps.Builder("col 5").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build()
+		new CellProps.Builder("col 0").contentType(ReportContent.COLUMN_HEADER).build(),
+		new CellProps.Builder("col 1").contentType(ReportContent.COLUMN_HEADER).build(),	
+		new CellProps.Builder("col 2").contentType(ReportContent.COLUMN_HEADER).build(),
+		new CellProps.Builder("col 3").contentType(ReportContent.COLUMN_HEADER).build(),
+		new CellProps.Builder("col 4").contentType(ReportContent.COLUMN_HEADER).build(),
+		new CellProps.Builder("col 5").contentType(ReportContent.COLUMN_HEADER).build()
 	}; 
 	
 	public final static CellProps[][] EXPECTED_OUTPUT = new CellProps[][]{

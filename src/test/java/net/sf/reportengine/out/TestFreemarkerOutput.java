@@ -27,21 +27,32 @@ public class TestFreemarkerOutput extends TestCase {
 		classUnderTest = new FreemarkerOutput("target/ftlOutputFilenameConstructor.html"); 
 		classUnderTest.open();
 		
-		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE, 0)); 
-		classUnderTest.output(new CellProps.Builder("test value").colspan(2).build());
-		classUnderTest.output(new CellProps.Builder(" span 1").colspan(1).build()); 
+		classUnderTest.startRow(new RowProps(ReportContent.REPORT_TITLE, 0)); 
+		classUnderTest.output(new CellProps.Builder("title").colspan(3).build());
 		classUnderTest.endRow(); 
 		
-		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS, 1));
+		classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER, 1));
 		classUnderTest.output(new CellProps.Builder(" cell 1,0").colspan(1).build());
 		classUnderTest.output(new CellProps.Builder(" cell 1,1").colspan(1).build());
 		classUnderTest.output(new CellProps.Builder(" cell 1,2").colspan(1).build());
 		classUnderTest.endRow(); 
 		
-		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA, 2));
+		classUnderTest.startRow(new RowProps(ReportContent.DATA, 2));
 		classUnderTest.output(new CellProps.Builder(" cell 2,0").colspan(1).build());
 		classUnderTest.output(new CellProps.Builder(" cell 2,1").colspan(1).build());
 		classUnderTest.output(new CellProps.Builder(" cell 2,2").colspan(1).build());
+		classUnderTest.endRow();
+		
+		classUnderTest.startRow(new RowProps(ReportContent.DATA, 3));
+		classUnderTest.output(new CellProps.Builder(" cell 3,0").colspan(1).build());
+		classUnderTest.output(new CellProps.Builder(" cell 3,1").colspan(1).build());
+		classUnderTest.output(new CellProps.Builder(" cell 3,2").colspan(1).build());
+		classUnderTest.endRow();
+		
+		classUnderTest.startRow(new RowProps(ReportContent.DATA, 4));
+		classUnderTest.output(new CellProps.Builder(" cell 4,0").colspan(1).build());
+		classUnderTest.output(new CellProps.Builder(" cell 4,1").colspan(1).build());
+		classUnderTest.output(new CellProps.Builder(" cell 4,2").colspan(1).build());
 		classUnderTest.endRow();
 		
 		classUnderTest.close(); 
@@ -53,18 +64,17 @@ public class TestFreemarkerOutput extends TestCase {
 			classUnderTest = new FreemarkerOutput(new FileWriter("target/ftlOutputWriterConstructor.html"));
 		
 			classUnderTest.open();
-			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE, 0)); 
-			classUnderTest.output(new CellProps.Builder("test value").colspan(2).build());
-			classUnderTest.output(new CellProps.Builder(" span 1").colspan(1).build()); 
+			classUnderTest.startRow(new RowProps(ReportContent.REPORT_TITLE, 0)); 
+			classUnderTest.output(new CellProps.Builder("test value").colspan(3).build());
 			classUnderTest.endRow(); 
 			
-			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS, 1));
+			classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER, 1));
 			classUnderTest.output(new CellProps.Builder(" cell 1,0").colspan(1).build());
 			classUnderTest.output(new CellProps.Builder(" cell 1,1").colspan(1).build());
 			classUnderTest.output(new CellProps.Builder(" cell 1,2").colspan(1).build());
 			classUnderTest.endRow(); 
 			
-			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA, 2));
+			classUnderTest.startRow(new RowProps(ReportContent.DATA, 2));
 			classUnderTest.output(new CellProps.Builder(" cell 2,0").colspan(1).build());
 			classUnderTest.output(new CellProps.Builder(" cell 2,1").colspan(1).build());
 			classUnderTest.output(new CellProps.Builder(" cell 2,2").colspan(1).build());
@@ -86,18 +96,17 @@ public class TestFreemarkerOutput extends TestCase {
 													nonDefaultConfig);
 		
 			classUnderTest.open();
-			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE, 0)); 
-			classUnderTest.output(new CellProps.Builder("test value").colspan(2).build());
-			classUnderTest.output(new CellProps.Builder(" span 1").colspan(1).build()); 
+			classUnderTest.startRow(new RowProps(ReportContent.REPORT_TITLE, 0)); 
+			classUnderTest.output(new CellProps.Builder("test value").colspan(3).build());
 			classUnderTest.endRow(); 
 			
-			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS, 1));
+			classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER, 1));
 			classUnderTest.output(new CellProps.Builder(" cell 1,0").colspan(1).build());
 			classUnderTest.output(new CellProps.Builder(" cell 1,1").colspan(1).build());
 			classUnderTest.output(new CellProps.Builder(" cell 1,2").colspan(1).build());
 			classUnderTest.endRow(); 
 			
-			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA, 2));
+			classUnderTest.startRow(new RowProps(ReportContent.DATA, 2));
 			classUnderTest.output(new CellProps.Builder(" cell 2,0").colspan(1).build());
 			classUnderTest.output(new CellProps.Builder(" cell 2,1").colspan(1).build());
 			classUnderTest.output(new CellProps.Builder(" cell 2,2").colspan(1).build());

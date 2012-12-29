@@ -33,7 +33,7 @@ public class DataRowsOutputStep extends AbstractReportStep {
     	String[] currentRow = getFormattedCellValues();
     	IReportOutput output = getOutput();
     	
-		output.startRow(new RowProps(ReportContent.CONTENT_DATA));
+		output.startRow(new RowProps(ReportContent.DATA));
     
 		CellProps  cellProperties = null;
 		for (int i = 0; i < currentRow.length; i++) {

@@ -41,7 +41,7 @@ public class TestIntermediateCrosstabOutput extends TestCase {
 		
 		IntermediateCrosstabOutput classUnderTest = new IntermediateCrosstabOutput(); 
 		classUnderTest.open(); 
-		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
+		classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
 		classUnderTest.output(new CellProps.Builder(mockRow).build()); 
 		classUnderTest.endRow(); 
 		classUnderTest.close(); 

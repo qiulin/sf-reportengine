@@ -15,17 +15,23 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 /**
- * Output based on freemarker templates.
- * It has a template for every step of the report: 
+ * <p> Output based on freemarker templates.</p>
  * 
- *  1. startReport
- *  2. startRow
- *  3. outputCell
- *  4. endRow
- *  5. endReport
+ * This report output has a template for every step of the report: 
+ * <ol>
+ * 	<li>startReport.ftl</li>
+ *  <li>startRow.ftl</li>
+ *  <li>cell.ftl</li>
+ *  <li>endRow.ftl</li>
+ *  <li>endReport.ftl</li>
+ *  </ol>
+ *  
+ *  The default provided templates  will output html but you are strongly encouraged 
+ *  to create your own templates for whatever format you like. Keep in mind that the template names 
+ *  should remain the same but you can always change the location whether it's file system or classpath
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
- *
+ * @since 0.7
  */
 public class FreemarkerOutput extends AbstractCharacterOutput {
 	
@@ -71,42 +77,47 @@ public class FreemarkerOutput extends AbstractCharacterOutput {
 	
 	
 	/**
-	 * output into memory ( using a StringWriter)
+	 * Output into memory (using a StringWriter). 
+	 * To change the default output writer one can use this constructor together 
+	 * with {@link #setOutputWriter(Writer)} or {@link #setFilePath(String)}
 	 */
 	public FreemarkerOutput(){
 		super(); 
 	}
 	
 	/**
-	 * 
-	 * @param filename
+	 * Output into the specified file using Utf-8 encoding
+	 * @param filePath	the path of the file
 	 */
-	public FreemarkerOutput(String filename){
-		super(filename);
+	public FreemarkerOutput(String filePath){
+		super(filePath);
 	}
 	
 	/**
+	 * Output into the specified file using the provided freemarker configuration
 	 * 
-	 * @param fileName
-	 * @param freemarkerConfig
+	 * @param filePath			the path of the output file
+	 * @param freemarkerConfig	the freemarker configuration 
 	 */
-	public FreemarkerOutput(String fileName, Configuration freemarkerConfig){
-		super(fileName); 
+	public FreemarkerOutput(String filePath, Configuration freemarkerConfig){
+		super(filePath); 
 		setFreemarkerConfig(freemarkerConfig); 
 	}
 	
 	/**
+	 * output into the specified writer
 	 * 
-	 * @param writer
+	 * @param writer	the output writer
 	 */
 	public FreemarkerOutput(Writer writer){
 		super(writer); 
 	}
 	
 	/**
+	 * output into the specified writer using the configuration provided
 	 * 
-	 * @param writer
-	 * @param freemarkerConfig
+	 * @param writer			the output writer
+	 * @param freemarkerConfig	the freemarker configuration
 	 */
 	public FreemarkerOutput(Writer writer, Configuration freemarkerConfig){
 		super(writer); 
@@ -115,7 +126,7 @@ public class FreemarkerOutput extends AbstractCharacterOutput {
 	
 	
 	/**
-	 * initializer for the default freemarker configuration
+	 * initializer for the default html freemarker configuration
 	 */
 	protected void initFreemarkerDefaultConfig(){
 		freemarkerConfig = new Configuration(); 
@@ -125,6 +136,9 @@ public class FreemarkerOutput extends AbstractCharacterOutput {
 										DEFAULT_HTML_TEMPLATES_CLASS_PATH)); 
 	}
 	
+	/**
+	 * init for root freemarker data
+	 */
 	protected void initRootFreemarkerData(){
 		//init root data
 		rootDataForReportTemplate = new HashMap<String, ReportProps>();
@@ -133,7 +147,12 @@ public class FreemarkerOutput extends AbstractCharacterOutput {
 	}
 	
 	/**
-	 * 
+	 * opens the output by : 
+	 * <ol>
+	 * 		<li>creating the default freemarker configuration (if none was provided)</li>
+	 * 		<li>creating the root data for the templates</li>
+	 * 		<li>calling the startReport template</li>
+	 * </ol>
 	 */
 	public void open() {
 		super.open(); 
@@ -161,6 +180,7 @@ public class FreemarkerOutput extends AbstractCharacterOutput {
 	}
 
 	/**
+	 * initializes the root data for all freemarker templates
 	 * @throws IOException
 	 */
 	protected void initRootTemplateData() throws IOException {
@@ -201,7 +221,7 @@ public class FreemarkerOutput extends AbstractCharacterOutput {
 	
 	
 	/**
-	 * 
+	 * calls the cell.ftl template
 	 */
 	public void output(CellProps cellProps) {
 		try {

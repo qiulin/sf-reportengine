@@ -41,23 +41,23 @@ public class TestHtmlOutput extends ReportengineTC {
 		
 			classUnderTest.open();
 			
-			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS)); 
+			classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER)); 
 			classUnderTest.output(new CellProps.Builder("header1").build()); 
 			classUnderTest.output(new CellProps.Builder("header2").build());
 			classUnderTest.output(new CellProps.Builder("header3").build());
 			classUnderTest.endRow(); 
 			
-			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
+			classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
 			classUnderTest.output(new CellProps.Builder("first cell").build()); 
 			classUnderTest.output(new CellProps.Builder("second cell").build());
 			classUnderTest.output(new CellProps.Builder("third cell").build());
 			classUnderTest.endRow(); 
 			
-			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
+			classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
 			classUnderTest.output(new CellProps.Builder("this cell has a colspan of 3").colspan(3).build());
 			classUnderTest.endRow(); 
 			
-			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
+			classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
 			classUnderTest.output(new CellProps.Builder("row 3 value 1").build()); 
 			classUnderTest.output(new CellProps.Builder("row 3 value 2").build());
 			classUnderTest.output(new CellProps.Builder("row 3 value 3").build());
@@ -77,17 +77,17 @@ public class TestHtmlOutput extends ReportengineTC {
 			
 			classUnderTest.open();
 			
-			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
+			classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
 			classUnderTest.output(new CellProps.Builder("first cell").build()); 
 			classUnderTest.output(new CellProps.Builder("second cell").build());
 			classUnderTest.output(new CellProps.Builder("third cell").build());
 			classUnderTest.endRow(); 
 			
-			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
+			classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
 			classUnderTest.output(new CellProps.Builder("this cell has a colspan of 3").colspan(3).build());
 			classUnderTest.endRow(); 
 			
-			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
+			classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
 			classUnderTest.output(new CellProps.Builder("row 3 value 1").build()); 
 			classUnderTest.output(new CellProps.Builder("row 3 value 2").build());
 			classUnderTest.output(new CellProps.Builder("row 3 value 3").build());
@@ -112,13 +112,13 @@ public class TestHtmlOutput extends ReportengineTC {
 		classUnderTest.setOutputWriter(writer); 
 		classUnderTest.open();
 		
-		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
+		classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
 		classUnderTest.output(new CellProps.Builder("от Субсахарска").build()); 
 		classUnderTest.output(new CellProps.Builder("Африка").build());
 		classUnderTest.output(new CellProps.Builder("постига").build());
 		classUnderTest.endRow(); 
 		
-		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
+		classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
 		classUnderTest.output(new CellProps.Builder("устойчиви резултати").colspan(3).build());
 		classUnderTest.endRow(); 
 		
@@ -132,12 +132,12 @@ public class TestHtmlOutput extends ReportengineTC {
 			StringWriter firstWriter = new StringWriter(); 
 			classUnderTest = new HtmlOutput(firstWriter);
 			classUnderTest.open();
-			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
+			classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
 			classUnderTest.output(new CellProps.Builder("от Субсахарска").build()); 
 			classUnderTest.output(new CellProps.Builder("Африка").build());
 			classUnderTest.output(new CellProps.Builder("постига").build());
 			classUnderTest.endRow(); 
-			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
+			classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
 			classUnderTest.output(new CellProps.Builder("устойчиви резултати").colspan(3).build());
 			classUnderTest.endRow(); 
 			classUnderTest.close(); 
@@ -153,7 +153,7 @@ public class TestHtmlOutput extends ReportengineTC {
 			StringWriter newWriter = new StringWriter(); 
 			classUnderTest.setOutputWriter(newWriter); 
 			classUnderTest.open(); 
-			classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+			classUnderTest.startRow(new RowProps(ReportContent.DATA));
 			classUnderTest.output(new CellProps.Builder("test value").build());
 			classUnderTest.endRow(); 
 			classUnderTest.close(); 
