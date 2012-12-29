@@ -86,10 +86,10 @@ public class CtScenario1x1x1 {
 	
 	public final static CellProps[][] OUTPUT_DATA = new CellProps[][]{
 	    new CellProps[]{
-	            new CellProps.Builder("East").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build(), 
-	            new CellProps.Builder("North").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build(), 
-	            new CellProps.Builder("South").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build(), 
-	            new CellProps.Builder("West").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build()},
+	            new CellProps.Builder("East").contentType(ReportContent.COLUMN_HEADER).build(), 
+	            new CellProps.Builder("North").contentType(ReportContent.COLUMN_HEADER).build(), 
+	            new CellProps.Builder("South").contentType(ReportContent.COLUMN_HEADER).build(), 
+	            new CellProps.Builder("West").contentType(ReportContent.COLUMN_HEADER).build()},
 	    
 	};
 	

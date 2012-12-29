@@ -17,15 +17,15 @@ public class TestXmlDOMOut extends ReportengineTC {
         try{
             XmlDOMReportOutput xmlOutTest = new XmlDOMReportOutput("target/testXMLOut.xml");
             xmlOutTest.open();
-            xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+            xmlOutTest.startRow(new RowProps(ReportContent.DATA));
             xmlOutTest.output(new CellProps.Builder("value row 1 col 1").build());
             xmlOutTest.endRow();
             
-            xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+            xmlOutTest.startRow(new RowProps(ReportContent.DATA));
             xmlOutTest.output(new CellProps.Builder("value row 2 col 1").build());
             xmlOutTest.endRow();
             
-            xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+            xmlOutTest.startRow(new RowProps(ReportContent.DATA));
             xmlOutTest.output(new CellProps.Builder("value row 3 col 1").build());
             xmlOutTest.endRow();
             

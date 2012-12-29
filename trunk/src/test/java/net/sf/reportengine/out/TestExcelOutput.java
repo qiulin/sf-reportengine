@@ -38,7 +38,7 @@ public class TestExcelOutput extends ReportengineTC {
 	public void testOutputEmptyConstructor() {
 		classUnderTest = new ExcelOutput();
 		classUnderTest.open();
-		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+		classUnderTest.startRow(new RowProps(ReportContent.DATA));
 		classUnderTest.output(new CellProps.Builder("value here").build());
 		classUnderTest.endRow();
 		classUnderTest.close();
@@ -59,7 +59,7 @@ public class TestExcelOutput extends ReportengineTC {
 	public void testOutput() {
 		classUnderTest = new ExcelOutput(createTestOutputFile("testExcel.xls"));
 		classUnderTest.open();
-		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+		classUnderTest.startRow(new RowProps(ReportContent.DATA));
 		classUnderTest.output(new CellProps.Builder("value here").build());
 		classUnderTest.endRow();
 		classUnderTest.close();
@@ -68,7 +68,7 @@ public class TestExcelOutput extends ReportengineTC {
 	public void testOutputUtf8(){
 		classUnderTest = new ExcelOutput(createTestOutputFile("testExcelUtf8.xls"));
 		classUnderTest.open();
-		classUnderTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+		classUnderTest.startRow(new RowProps(ReportContent.DATA));
 		classUnderTest.output(new CellProps.Builder("А Б В Г Д Е Ё Ж З И Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ъ Ы Ь Э Ю Я").build());
 		classUnderTest.endRow();
 		classUnderTest.startRow(new RowProps()); 

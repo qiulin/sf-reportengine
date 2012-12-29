@@ -36,23 +36,23 @@ public class TestStaxReportOutput extends ReportengineTC {
             StaxReportOutput xmlOutTest = new StaxReportOutput("target/testStaxOutput.xml");
             xmlOutTest.open();
             
-            xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_REPORT_TITLE));
-            xmlOutTest.output(new CellProps.Builder("this is the title").contentType(ReportContent.CONTENT_REPORT_TITLE).build());
+            xmlOutTest.startRow(new RowProps(ReportContent.REPORT_TITLE));
+            xmlOutTest.output(new CellProps.Builder("this is the title").contentType(ReportContent.REPORT_TITLE).build());
             xmlOutTest.endRow(); 
             
-            xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS));
-            xmlOutTest.output(new CellProps.Builder("column 1").contentType(ReportContent.CONTENT_COLUMN_HEADERS).build());
+            xmlOutTest.startRow(new RowProps(ReportContent.COLUMN_HEADER));
+            xmlOutTest.output(new CellProps.Builder("column 1").contentType(ReportContent.COLUMN_HEADER).build());
             xmlOutTest.endRow(); 
             
-            xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+            xmlOutTest.startRow(new RowProps(ReportContent.DATA));
             xmlOutTest.output(new CellProps.Builder("value row 1 col 1").build());
             xmlOutTest.endRow();
             
-            xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+            xmlOutTest.startRow(new RowProps(ReportContent.DATA));
             xmlOutTest.output(new CellProps.Builder("value row 2 col 1").build());
             xmlOutTest.endRow();
             
-            xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+            xmlOutTest.startRow(new RowProps(ReportContent.DATA));
             xmlOutTest.output(new CellProps.Builder("value row 3 col 1").build());
             xmlOutTest.endRow();
             xmlOutTest.close();            
@@ -68,15 +68,15 @@ public class TestStaxReportOutput extends ReportengineTC {
         	Writer writer = ReportIoUtils.createWriterFromPath("target/testStaxUtf8Out.xml");
             StaxReportOutput xmlOutTest = new StaxReportOutput(writer);
             xmlOutTest.open();
-            xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+            xmlOutTest.startRow(new RowProps(ReportContent.DATA));
             xmlOutTest.output(new CellProps.Builder("Πρωτόκολλο Αζήτητων").build());
             xmlOutTest.endRow();
             
-            xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+            xmlOutTest.startRow(new RowProps(ReportContent.DATA));
             xmlOutTest.output(new CellProps.Builder("Βιβλία").build());
             xmlOutTest.endRow();
             
-            xmlOutTest.startRow(new RowProps(ReportContent.CONTENT_DATA));
+            xmlOutTest.startRow(new RowProps(ReportContent.DATA));
             xmlOutTest.output(new CellProps.Builder("и канализация са от").build());
             xmlOutTest.endRow();
             xmlOutTest.close();            

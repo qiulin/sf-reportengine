@@ -186,7 +186,7 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 	
 	private void writeIntermediateRow(IntermediateReportRow intermediateRow){
 		IReportOutput output = getOutput(); 
-		output.startRow(new RowProps(ReportContent.CONTENT_DATA)); 
+		output.startRow(new RowProps(ReportContent.DATA)); 
 		output.output(new CellProps.Builder(intermediateRow)
 							.colspan(4) /*this is not taken into account except when debug*/
 							.build()); 

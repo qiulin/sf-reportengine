@@ -4,14 +4,16 @@
 package net.sf.reportengine.core;
 
 /**
- * @author Administrator
- *
+ * enum for report content
+ * 
+ * @author dragos balan
+ * @since 0.4
  */
 public enum ReportContent {
 	
-	CONTENT_REPORT_TITLE,
-	CONTENT_DATA,
-	CONTENT_COLUMN_HEADERS,
-	CONTENT_ROW_HEADER
+	REPORT_TITLE,
+	DATA,
+	COLUMN_HEADER,
+	ROW_HEADER
 	
 }

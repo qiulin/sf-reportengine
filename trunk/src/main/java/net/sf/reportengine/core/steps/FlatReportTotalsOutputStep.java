@@ -162,7 +162,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     	}
     	
     	IReportOutput output = getOutput();
-    	output.startRow(new RowProps(ReportContent.CONTENT_DATA));
+    	output.startRow(new RowProps(ReportContent.DATA));
     	
     	if(groupCols != null && groupCols.size() > 0){
     		//prepare and output the Total column

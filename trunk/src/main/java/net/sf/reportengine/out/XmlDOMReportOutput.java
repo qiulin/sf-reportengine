@@ -115,16 +115,16 @@ public class XmlDOMReportOutput extends AbstractXmlOutput {
         Element dataElement = null;
         String elementName = null;
         switch (cellProps.getContentType()) {
-            case CONTENT_REPORT_TITLE :
+            case REPORT_TITLE :
                 elementName = "title";
                 break;
-            case CONTENT_DATA:
+            case DATA:
                 elementName = TAG_CELL;
                 break;
-            case CONTENT_COLUMN_HEADERS:
+            case COLUMN_HEADER:
                 elementName = TAG_TABLE_HEADER;
                 break;
-            case CONTENT_ROW_HEADER:
+            case ROW_HEADER:
                 elementName = TAG_ROW_HEADER;            
                 break;
             default:

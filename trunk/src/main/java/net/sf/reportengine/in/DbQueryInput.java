@@ -6,10 +6,12 @@ package net.sf.reportengine.in;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
+
+import org.apache.log4j.Logger;
 /**
  * <p>
  * Report Input implementation for database queries <br/>
@@ -21,7 +23,12 @@ import java.sql.Statement;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class DbQueryReportInput extends AbstractReportInput {
+public class DbQueryInput extends AbstractReportInput {
+	
+	/**
+	 * the LOGGER
+	 */
+	private static final Logger LOGGER = Logger.getLogger(DbQueryInput.class);
     
     /**
      * the sql query
@@ -84,7 +91,7 @@ public class DbQueryReportInput extends AbstractReportInput {
      * You have to add some more properties like dbUser, dbPassword, sqlStatement or you can 
      * provide your own connection and use the <source>QueryDataProvider(Connection conn)</source>
      */
-    public DbQueryReportInput(){
+    public DbQueryInput(){
         
     }
     
@@ -93,7 +100,7 @@ public class DbQueryReportInput extends AbstractReportInput {
      * Besides the connection you have to provide a query statement using <source>setSqlStatement(String)</source>
      * @param conn      the connection provided 
      */
-    public DbQueryReportInput(Connection conn){
+    public DbQueryInput(Connection conn){
         this.dbConnection = conn;
     }
     
@@ -105,10 +112,10 @@ public class DbQueryReportInput extends AbstractReportInput {
      * @param dbUser            the database user
      * @param dbPassword        database password
      */
-    public DbQueryReportInput(  String dbConnString, 
-                                String driverClass, 
-                                String dbUser, 
-                                String dbPassword){
+    public DbQueryInput(  String dbConnString, 
+                          String driverClass, 
+                          String dbUser, 
+                          String dbPassword){
         this.dbConnString = dbConnString;
         this.dbDriverClass = driverClass;
         this.dbUser = dbUser;
@@ -170,23 +177,6 @@ public class DbQueryReportInput extends AbstractReportInput {
     public int getColumnsCount(){
         return columnsCount;
     }
-    
-    /**
-     * moves the pointer before the first position. 
-     * 
-     * @throws ReportInputException if an SQLException occurs 
-     * @throws IllegalStateException if the input is not open
-     */
-//    public void first() throws ReportInputException {
-//        checkIsOpen();
-//        try {
-//            if(!resultSet.isFirst()){
-//                hasMoreRows = resultSet.first();
-//            }
-//        } catch (SQLException e) {
-//            throw new ReportInputException("Calling first() caused an SQL error ", e);
-//        }
-//    }
     
     /**
      * returns the next row
@@ -309,27 +299,18 @@ public class DbQueryReportInput extends AbstractReportInput {
      */
     private void readMetaData() throws ReportInputException{
         try {
+        	if(LOGGER.isDebugEnabled())LOGGER.debug("reading metadata"); 
             if(dbConnection == null){
                 initDBConnection();
             }
             
-            Statement stmt = dbConnection.createStatement(  
+            PreparedStatement stmt = dbConnection.prepareStatement(sqlStatement,   
                                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                                     ResultSet.CONCUR_READ_ONLY);
             
             //execute the statement : the return should be true 
             //if it's a select query or false if it's an update
-            boolean isResultSet = stmt.execute(sqlStatement);
-            
-            if(isResultSet){
-                resultSet = stmt.getResultSet();
-            }else{
-                //rollback if an update was executed
-                dbConnection.rollback();
-                stmt.close();
-                throw new IllegalArgumentException("You provided an update statement. Only query statements are allowed !");
-            }
-            
+            resultSet = stmt.executeQuery();
             metaData = resultSet.getMetaData();
             columnsCount = metaData.getColumnCount();
 
@@ -360,5 +341,4 @@ public class DbQueryReportInput extends AbstractReportInput {
         	//scloseDbConnection();
         }
     }
-
 }

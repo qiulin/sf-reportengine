@@ -145,7 +145,7 @@ public class HtmlOutput extends AbstractCharacterOutput {
         try {
             super.startRow(rowProperties);
             StringBuilder buffer = new StringBuilder();
-            if(ReportContent.CONTENT_COLUMN_HEADERS.equals(rowProperties.getContent())){
+            if(ReportContent.COLUMN_HEADER.equals(rowProperties.getContent())){
             	buffer.append("<tr class=\"reportTableHeader\"/>");
             }else{
             	buffer.append("<tr class=\"");
@@ -168,7 +168,7 @@ public class HtmlOutput extends AbstractCharacterOutput {
     public void endRow(){
         try{
             super.endRow();
-            if(ReportContent.CONTENT_COLUMN_HEADERS.equals(getCurrentRowProps().getContent())){
+            if(ReportContent.COLUMN_HEADER.equals(getCurrentRowProps().getContent())){
             	getOutputWriter().write("</th>");
             }else{
             	getOutputWriter().write("</tr>"); 

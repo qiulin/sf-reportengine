@@ -3,12 +3,11 @@
  */
 package net.sf.reportengine.in;
 
-import javax.management.openmbean.OpenDataException;
 
 /**
- * Report Input implementation based on a 2D array held in memory
+ * Report Input implementation based on a 2 dimensional in memory array
  * 
- * @author dragos balan (dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
 public class MemoryReportInput extends AbstractReportInput {
@@ -25,7 +24,7 @@ public class MemoryReportInput extends AbstractReportInput {
 		this.data = data;
 	}
 	
-	 /**
+	/**
      * 
      */
     public void open() throws ReportInputException{

@@ -47,7 +47,7 @@ public class CellProps {
 //
 //	
 //	private CellProps(Object value, int colspan) {
-//		this(value, colspan, ReportContent.CONTENT_DATA);
+//		this(value, colspan, ReportContent.DATA);
 //	}
 //	
 //	
@@ -153,7 +153,7 @@ public class CellProps {
 		private final Object value;
 		
 		private int colspan = 1;
-		private ReportContent content = ReportContent.CONTENT_DATA;
+		private ReportContent content = ReportContent.DATA;
 		private HorizontalAlign horizAlign = HorizontalAlign.CENTER;
 		
 		public Builder(Object value){

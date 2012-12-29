@@ -47,13 +47,13 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 //		if(groupColumns != null && groupColumns.length > 0){
 //			//we skip the first data column (obtained from an initial grouping column)
 //			for (int col = 0; col < groupColumns.length; col++) {
-//				reportOutput.output(new CellProps(groupColumns[col].getHeader(), 1, ctMetadata.getHeaderRowsCount(), ReportContent.CONTENT_COLUMN_HEADERS));		
+//				reportOutput.output(new CellProps(groupColumns[col].getHeader(), 1, ctMetadata.getHeaderRowsCount(), ReportContent.COLUMN_HEADER));		
 //			}
 //		}
 //		
 //		//we skip the first data column (obtained from an initial grouping column)
 //		for (int col = 1; col < dataColumns.length; col++) {
-//			reportOutput.output(new CellProps(dataColumns[col].getHeader(), 1, 1, ReportContent.CONTENT_COLUMN_HEADERS)); 				
+//			reportOutput.output(new CellProps(dataColumns[col].getHeader(), 1, 1, ReportContent.COLUMN_HEADER)); 				
 //		}
 //		
 //		reportOutput.endRow(); 
@@ -69,7 +69,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 													List<IDataColumn> dataCols, 
 													List<IGroupColumn> groupCols){
 		for (int row = 0; row < ctMetadata.getHeaderRowsCount(); row++) {
-			reportOutput.startRow(new RowProps(ReportContent.CONTENT_COLUMN_HEADERS)); 
+			reportOutput.startRow(new RowProps(ReportContent.COLUMN_HEADER)); 
 			
 			//handle grouping columns header first: only the last row will contain something
 			//while the first will be empty
@@ -79,7 +79,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 					for (int i = 0; i < groupCols.size(); i++) {
 						reportOutput.output(new CellProps.Builder(groupCols.get(i).getHeader())
 													.colspan(1)
-													.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
+													.contentType(ReportContent.COLUMN_HEADER)
 													.horizAlign(HorizontalAlign.CENTER)
 													.build()); 
 					}
@@ -87,7 +87,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 				//output header for SecondCrossta ... 
 				reportOutput.output(new CellProps.Builder(dataCols.get(0).getHeader())
 											.colspan(1)
-											.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
+											.contentType(ReportContent.COLUMN_HEADER)
 											.horizAlign(HorizontalAlign.CENTER)
 											.build());
 			}else{
@@ -116,7 +116,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 					Object value = ctMetadata.getDistincValueFor(row, currDataColumnAsSPDC.getPosition()[row]);
 					reportOutput.output(new CellProps.Builder(value)
 												.colspan(colspan)
-												.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
+												.contentType(ReportContent.COLUMN_HEADER)
 												.horizAlign(currDataColumnAsSPDC.getHorizAlign())
 												.build());
 					currentColumn += colspan; 
@@ -130,13 +130,13 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 								Object value = ctMetadata.getDistincValueFor(row, position[row]);
 								reportOutput.output(new CellProps.Builder(value)
 															.colspan(1)
-															.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
+															.contentType(ReportContent.COLUMN_HEADER)
 															.horizAlign(currDataColumnAsSPTC.getHorizAlign())
 															.build());
 							}else{
 								if(row == position.length){
 									reportOutput.output(new CellProps.Builder("Total")
-																.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
+																.contentType(ReportContent.COLUMN_HEADER)
 																.horizAlign(HorizontalAlign.CENTER)
 																.build());
 								}else{
@@ -147,7 +147,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 							//grand total
 							if(row == 0){
 								reportOutput.output(new CellProps.Builder("Grand Total")
-															.contentType(ReportContent.CONTENT_COLUMN_HEADERS)
+															.contentType(ReportContent.COLUMN_HEADER)
 															.horizAlign(HorizontalAlign.LEFT)
 															.build());
 							}else{
