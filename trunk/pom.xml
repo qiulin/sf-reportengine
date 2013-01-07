@@ -101,7 +101,7 @@
 				<inherited>true</inherited>
 			</plugin> 
 			
-			 
+			 <!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
@@ -116,7 +116,7 @@
 				</executions>
 			</plugin>
 			
-			<!--
+			
 			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.3.2</version>
