@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 
 import net.sf.reportengine.config.HorizontalAlign;
+import net.sf.reportengine.core.ReportContent;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -131,10 +132,11 @@ public class ExcelOutput extends AbstractByteOutput {
         //settings for header style 
         HSSFFont columnHeaderFont = workBook.createFont();
         columnHeaderFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+        columnHeaderFont.setColor(HSSFColor.WHITE.index); 
         DEFAULT_HEADER_CELL_STYLE = workBook.createCellStyle();
         DEFAULT_HEADER_CELL_STYLE.setAlignment(HSSFCellStyle.ALIGN_CENTER);
         DEFAULT_HEADER_CELL_STYLE.setFont(columnHeaderFont);
-        DEFAULT_HEADER_CELL_STYLE.setFillForegroundColor(HSSFColor.CORNFLOWER_BLUE.index);
+        DEFAULT_HEADER_CELL_STYLE.setFillForegroundColor(HSSFColor.BLACK.index);
         DEFAULT_HEADER_CELL_STYLE.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
     }
     
@@ -151,31 +153,31 @@ public class ExcelOutput extends AbstractByteOutput {
     /**
      * output the specified value 
      */
-    public void output(CellProps algProps) {
-        int colspan = algProps.getColspan();
+    public void output(CellProps cellProps) {
+        int colspan = cellProps.getColspan();
         int rowCount = getRowCount(); 
         
         HSSFCell cell = currentRow.createCell((short) getCurrentCol());
         HSSFCellStyle cellStyle = null;
         
         //setting the style depending on the content type
-        //if(content == ReportConstants.CONTENT_COLUMN_HEADERS){
-        //	cellStyle = DEFAULT_HEADER_CELL_STYLE;
-        //}else{
+        if(cellProps.getContentType().equals(ReportContent.COLUMN_HEADER)){
+        	cellStyle = DEFAULT_HEADER_CELL_STYLE;
+        }else{
             if(rowCount % 2 == 0 ){
                 cellStyle = DEFAULT_EVEN_ROW_CELL_STYLE;
             }else{
                 cellStyle = DEFAULT_ODD_ROW_CELL_STYLE;
             }
-         //}
+         }
         
             
-        cellStyle.setAlignment(translateHorizAlign(algProps.getHorizontalAlign()));
+        cellStyle.setAlignment(translateHorizAlign(cellProps.getHorizontalAlign()));
         cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
         
         cell.setCellStyle(cellStyle);
         
-        String valueToWrite = algProps.getValue() != null ? algProps.getValue().toString() : " ";
+        String valueToWrite = cellProps.getValue() != null ? cellProps.getValue().toString() : " ";
         try {
             BigDecimal cellValue = new BigDecimal(valueToWrite);
             cell.setCellValue(cellValue.doubleValue());
