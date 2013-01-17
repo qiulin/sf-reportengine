@@ -48,11 +48,13 @@
 					<fo:table-header border-bottom-style="solid">
 						<xsl:for-each select="table-header">
 							<fo:table-row>
+								<xsl:attribute name="background-color">#000000</xsl:attribute>
 								<xsl:for-each select="cell">
 									<xsl:variable name="colspan" select="@colspan" />
 									<xsl:variable name="horizAlign" select="@horizAlign" />
 									<fo:table-cell number-columns-spanned="{$colspan}">
-		 								<fo:block 	font-family="ArialUnicodeMS" 
+		 								<fo:block 	color="white"
+		 											font-family="ArialUnicodeMS" 
 													font-size="14pt"
 													font-style="normal" 
 													font-weight="bold"
@@ -72,7 +74,7 @@
 							<fo:table-row>
 								<xsl:choose>
 									<xsl:when test="@rowNumber mod 2 = 0">
-										<xsl:attribute name="background-color">#F5F5F5</xsl:attribute>
+										<xsl:attribute name="background-color">#C0C0C0</xsl:attribute>
 									</xsl:when>
 									<xsl:otherwise>
 										<xsl:attribute name="background-color">#FFFFFF</xsl:attribute>
@@ -83,9 +85,11 @@
 									<xsl:variable name="colspan" select="@colspan" />
 									<xsl:variable name="horizAlign" select="@horizAlign" />
 									<fo:table-cell number-columns-spanned="{$colspan}">
-		 								<fo:block 	font-family="ArialUnicodeMS" 
+		 								<fo:block 	color="black"
+		 											font-family="ArialUnicodeMS" 
 													font-size="12pt"
 													font-style="normal" 
+													font-weight="normal"
 													margin-left="10pt"
 													text-align="{$horizAlign}">
 											<xsl:value-of select="current()" />

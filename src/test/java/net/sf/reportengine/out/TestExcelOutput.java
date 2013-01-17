@@ -59,9 +59,31 @@ public class TestExcelOutput extends ReportengineTC {
 	public void testOutput() {
 		classUnderTest = new ExcelOutput(createTestOutputFile("testExcel.xls"));
 		classUnderTest.open();
-		classUnderTest.startRow(new RowProps(ReportContent.DATA));
-		classUnderTest.output(new CellProps.Builder("value here").build());
+		
+		classUnderTest.startRow(new RowProps(ReportContent.REPORT_TITLE));
+		classUnderTest.output(new CellProps.Builder("this is the title")
+										.contentType(ReportContent.REPORT_TITLE)
+										.build());
 		classUnderTest.endRow();
+		
+		classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER));
+		classUnderTest.output(new CellProps.Builder("column header")
+										.contentType(ReportContent.COLUMN_HEADER)
+										.build());
+		classUnderTest.endRow();
+		
+		classUnderTest.startRow(new RowProps(ReportContent.DATA));
+		classUnderTest.output(new CellProps.Builder("1st row with data")
+											.contentType(ReportContent.DATA)
+											.build());
+		classUnderTest.endRow();
+		
+		classUnderTest.startRow(new RowProps(ReportContent.DATA));
+		classUnderTest.output(new CellProps.Builder("2nd row with data")
+											.contentType(ReportContent.DATA)
+											.build());
+		classUnderTest.endRow();
+		
 		classUnderTest.close();
 	}
 	
