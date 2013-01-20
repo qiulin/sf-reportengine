@@ -10,7 +10,7 @@ import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 
-public class TestFreemarkerOutput extends TestCase {
+public class TestHtmlFreemarkerOutput extends TestCase {
 	
 	private FreemarkerOutput classUnderTest;
 	
@@ -24,7 +24,7 @@ public class TestFreemarkerOutput extends TestCase {
 	}
 
 	public void testTemplateFilename() {
-		classUnderTest = new FreemarkerOutput("target/ftlOutputFilenameConstructor.html"); 
+		classUnderTest = new ConfigurableHtmlOutput("target/ftlOutputFilenameConstructor.html"); 
 		classUnderTest.open();
 		
 		classUnderTest.startRow(new RowProps(ReportContent.REPORT_TITLE, 0)); 
@@ -61,7 +61,7 @@ public class TestFreemarkerOutput extends TestCase {
 	
 	public void testTemplateWriter() {
 		try {
-			classUnderTest = new FreemarkerOutput(new FileWriter("target/ftlOutputWriterConstructor.html"));
+			classUnderTest = new ConfigurableHtmlOutput(new FileWriter("target/ftlOutputWriterConstructor.html"));
 		
 			classUnderTest.open();
 			classUnderTest.startRow(new RowProps(ReportContent.REPORT_TITLE, 0)); 
@@ -92,7 +92,7 @@ public class TestFreemarkerOutput extends TestCase {
 			nonDefaultConfig.setObjectWrapper(new DefaultObjectWrapper()); 
 			nonDefaultConfig.setTemplateLoader(new FileTemplateLoader(new File("target/test-classes/freemarker")));
 			
-			classUnderTest = new FreemarkerOutput(	new FileWriter("target/ftlOutputCustomConfig.txt"), 
+			classUnderTest = new ConfigurableHtmlOutput(	new FileWriter("target/ftlOutputCustomConfig.txt"), 
 													nonDefaultConfig);
 		
 			classUnderTest.open();

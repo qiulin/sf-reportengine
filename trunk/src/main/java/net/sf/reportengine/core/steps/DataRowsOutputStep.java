@@ -4,6 +4,7 @@
  */
 package net.sf.reportengine.core.steps;
 
+import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
@@ -19,12 +20,6 @@ import net.sf.reportengine.out.RowProps;
  */
 public class DataRowsOutputStep extends AbstractReportStep {
     
-    /**
-	 * 
-     * constructor
-     *
-     */
-    public DataRowsOutputStep(){}
     
 	/**
      * execute. Constructs a cell for each value and sends it to output
@@ -33,11 +28,14 @@ public class DataRowsOutputStep extends AbstractReportStep {
     	String[] currentRow = getFormattedCellValues();
     	IReportOutput output = getOutput();
     	
+    	
 		output.startRow(new RowProps(ReportContent.DATA));
     
 		CellProps  cellProperties = null;
 		for (int i = 0; i < currentRow.length; i++) {
-			cellProperties = new CellProps.Builder(currentRow[i]).build();
+			cellProperties = new CellProps.Builder(currentRow[i])
+									.horizAlign(HorizontalAlign.LEFT)
+									.build();
 			output.output(cellProperties);
 		}
 		output.endRow();
