@@ -8,7 +8,9 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
@@ -31,7 +33,7 @@ import freemarker.template.TemplateException;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.7
  */
-public abstract class FreemarkerOutput extends AbstractCharacterOutput {
+public class FreemarkerOutput extends AbstractCharacterOutput {
 	
 	/**
 	 * freemarker configuration class
@@ -126,7 +128,14 @@ public abstract class FreemarkerOutput extends AbstractCharacterOutput {
 	/**
 	 * initializer for the default html freemarker configuration
 	 */
-	protected abstract Configuration initFreemarkerDefaultConfig();
+	protected Configuration initFreemarkerDefaultConfig(){
+		Configuration freemarkerConfig = new Configuration(); 
+		freemarkerConfig.setObjectWrapper(new DefaultObjectWrapper()); 
+		freemarkerConfig.setTemplateLoader(
+				new ClassTemplateLoader(getClass(), 
+										DEFAULT_HTML_TEMPLATES_CLASS_PATH)); 
+		return freemarkerConfig; 
+	}
 	
 	/**
 	 * init for root freemarker data
