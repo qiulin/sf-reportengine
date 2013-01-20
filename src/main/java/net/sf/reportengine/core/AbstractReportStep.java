@@ -103,7 +103,7 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     	return (Object[])getContext().get(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES);
     }
     
-    public String[] getFormattedCellValues(){
+	public String[] getFormattedCellValues(){
     	return (String[])getContext().get(ContextKeys.CONTEXT_KEY_FORMATTED_CELL_VALUES);
     }
     
