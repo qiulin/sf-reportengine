@@ -112,7 +112,7 @@ public class FlatReport extends AbstractOneIterationReport {
     	algorithm.addInitStep(new ColumnHeaderOutputInitStep(getReportTitle()));
         
     	//then we add the main steps
-    	algorithm.addMainStep(new ComputeColumnValuesStep());
+    	//algorithm.addMainStep(new ComputeColumnValuesStep());
     	algorithm.addMainStep(new GroupingLevelDetectorStep());
     	
         if(getShowTotals() || getShowGrandTotal()){

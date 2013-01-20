@@ -6,7 +6,6 @@ package net.sf.reportengine.out;
 import java.io.IOException;
 import java.io.Writer;
 
-import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.util.ReportIoUtils;
 
@@ -184,7 +183,6 @@ public class HtmlOutput extends AbstractCharacterOutput {
      */
     public void output(CellProps cellProps) {
         String toWrite = purifyData(cellProps.getValue());
-        System.out.println("outputting "+toWrite+" with horizontal align "+cellProps.getHorizontalAlign());
         try {
             StringBuilder strContent = new StringBuilder("<td align =\"");
             strContent.append(cellProps.getHorizontalAlign().toString()); 
@@ -199,11 +197,6 @@ public class HtmlOutput extends AbstractCharacterOutput {
         }
     }
     
-    
-    private String translateHorizAlign(HorizontalAlign horizAlign){
-        return HorizontalAlign.CENTER.equals(horizAlign)? "center" :
-        					HorizontalAlign.LEFT.equals(horizAlign) ?  "left" : "right";
-    }
     
     /**
      * checks null & other impossible to print values
