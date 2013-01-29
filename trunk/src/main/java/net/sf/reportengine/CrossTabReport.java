@@ -80,7 +80,7 @@ import org.apache.log4j.Logger;
  * 
  * @see IReportInput
  * @see IReportOutput
- * @see IHeaderRow
+ * @see ICrosstabHeaderRow
  * @see IDataColumn
  * @see IGroupColumn
  * @see ICrosstabData
@@ -132,8 +132,10 @@ public class CrossTabReport extends AbstractReport{
 	}
 
     
-	@Override
-	protected void configAlgorithmSteps() {
+	/**
+	 * configures the algorithm steps
+	 */
+	@Override protected void configAlgorithmSteps() {
 		try{
 			List<IGroupColumn> groupCols = getGroupColumns(); 
 			List<IDataColumn> dataColsList = getDataColumns(); 
@@ -185,48 +187,49 @@ public class CrossTabReport extends AbstractReport{
 		}
 	}
 
-	@Override
-	protected void executeAlgorithm() {
+	/**
+	 * executes the second report algorithm
+	 */
+	@Override protected void executeAlgorithm() {
 		secondReport.execute(); 
 	}
 	
 	/**
-	 * returns a list with the header rows
-	 * @return
+	 * getter method for crosstabl header rows
+	 * @return	a list of header rows
 	 */
 	public List<ICrosstabHeaderRow> getCrosstabHeaderRows() {
-//		ICrosstabHeaderRow[] result = null; 
-//		if(crosstabHeaderRowsAsList != null){
-//			result = crosstabHeaderRowsAsList.toArray(new ICrosstabHeaderRow[crosstabHeaderRowsAsList.size()]);
-//		}else{
-//			//TODO : is this really necessary ? 
-//			throw new ReportEngineRuntimeException("No header rows have been configured. Please use the setHeaderRows or addHeaderRow methods to fix this issue");
-//		}
-//		return result;
 		return crosstabHeaderRowsAsList; 
 	}
 	
-//	/**
-//	 * 
-//	 * @param crosstabHeaderRows
-//	 * @deprecated use setHeaderRows(List) or addHeaderRow(IHeaderRow) instead
-//	 */
-//	public void setHeaderRows(ICrosstabHeaderRow[] crosstabHeaderRows) {
-//		this.crosstabHeaderRowsAsList = Arrays.asList(crosstabHeaderRows);
-//	}
-	
+	/**
+	 * setter for the header rows of the crosstab report
+	 * @param crosstabHeaderRowsList	
+	 */
 	public void setHeaderRows(List<ICrosstabHeaderRow> crosstabHeaderRowsList) {
 		this.crosstabHeaderRowsAsList = crosstabHeaderRowsList; 
 	}
 	
+	/**
+	 * adds a new header row at the end of the existing header rows list
+	 * @param newHeaderRow
+	 */
 	public void addHeaderRow(ICrosstabHeaderRow newHeaderRow){
 		this.crosstabHeaderRowsAsList.add(newHeaderRow);
 	}
 	
+	/**
+	 * getter for crosstab data
+	 * @return	the crosstab data
+	 */
 	public ICrosstabData getCrosstabData() {
 		return crosstabData;
 	}
 
+	/**
+	 * setter for crosstab data
+	 * @param crosstabData
+	 */
 	public void setCrosstabData(ICrosstabData crosstabData) {
 		this.crosstabData = crosstabData;
 	}
@@ -234,7 +237,7 @@ public class CrossTabReport extends AbstractReport{
 	/**
 	 * 
 	 * @param originalGroupCols
-	 * @return
+	 * @return	an array of group columns
 	 * @deprecated
 	 */
 	protected IGroupColumn[] constructGroupColumnsForSecondProcess(IGroupColumn[] originalGroupCols){
@@ -250,9 +253,10 @@ public class CrossTabReport extends AbstractReport{
 	}
 	
 	/**
+	 * creates a list of group columns for the second report based on the original group columns
 	 * 
 	 * @param originalGroupCols
-	 * @return
+	 * @return	a list of group columns necessary to the second processing
 	 */
 	protected List<IGroupColumn> constructGroupColumnsForSecondProcess(List<IGroupColumn> originalGroupCols){
 		List<IGroupColumn> result = null; 
@@ -354,7 +358,7 @@ public class CrossTabReport extends AbstractReport{
 	 * @param originalDataColumns
 	 * @param hasTotals
 	 * @param hasGrandTotal
-	 * @return
+	 * @return	a list data columns necessary to the second process
 	 */
 	protected List<IDataColumn> constructDataColumnsForSecondProcess(	CtMetadata crosstabMetadata, 
 																		List<IDataColumn> originalDataColumns, 

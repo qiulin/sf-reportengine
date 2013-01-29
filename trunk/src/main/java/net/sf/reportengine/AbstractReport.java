@@ -15,11 +15,31 @@ import net.sf.reportengine.out.IReportOutput;
 
 
 /**
- * <p>Abstract report support class</p>
+ * <p>Abstract report support class covering basic functionality for reports</p>
+ * <p>
+ * 	the features provided to the children are:
+ * <ul>
+ * 	<li>title</li>
+ * 	<li>input</li>
+ * 	<li>output</li>
+ * 	<li>dataColumns</li>
+ *  <li>groupColumns</li>
+ *  <li>show methods</li>	
+ *  <li>validation of input/output</li>
+ * </ul> 
+ * 
+ * When extending this class you should only override 
+ * <ul>
+ * 	<li>{@link #validateConfig()} - basic input/output functionality already provided so you may consider using super.validateConfig()</li>
+ * 	<li>{@link #configAlgorithmSteps()}</li>
+ * 	<li>{@link #executeAlgorithm()}</li>
+ * <ul>
+ * </p>
  *  
- *  
- * @author dragos balan(dragos.balan@gmail.com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
+ * @see FlatReport
+ * @see CrossTabReport
  */
 public abstract class AbstractReport {
     
@@ -74,7 +94,6 @@ public abstract class AbstractReport {
     	groupColsAsList = new ArrayList<IGroupColumn>();
     }
    
-    
     /**
      * validation of the configuration and default values setter
      * 
@@ -162,7 +181,7 @@ public abstract class AbstractReport {
 	
 	/**
 	 * getter for data colums of this report
-	 * @return 
+	 * @return an ordered list of data columns
 	 */
 	public List<IDataColumn> getDataColumns() {
 		return dataColsAsList; 
@@ -184,31 +203,31 @@ public abstract class AbstractReport {
 		this.dataColsAsList.add(newColumn); 
 	}
 	
-	
+	/**
+	 * getter for the list of group columns
+	 * @return an ordered list of group columns
+	 */
 	public List<IGroupColumn> getGroupColumns() {
-//		IGroupColumn[] result = null; 
-//		if(groupColsAsList != null){
-//			result = groupColsAsList.toArray(new IGroupColumn[groupColsAsList.size()]); 
-//		}
-//		return result;
 		return groupColsAsList; 
 	}
-
-//	/**
-//	 * 
-//	 * @param groupingColumns
-//	 * @deprecated use setGroupColumns(List) or addGroupColumn(IGroupColumn) instead
-//	 */
-//	public void setGroupColumns(IGroupColumn[] groupingColumns) {
-//		if(groupingColumns != null){
-//			this.groupColsAsList = Arrays.asList(groupingColumns);
-//		}
-//	}
 	
+	/**
+	 * sets the given columns lists. 
+	 * Please note that you cannot use {@link #setGroupColumns(List)} after {@link #addGroupColumn(IGroupColumn)}
+	 * because it will override the existing columns. 
+	 * 
+	 * @param groupColsList the new list of group columns
+	 */
 	public void setGroupColumns(List<IGroupColumn> groupColsList){
 		this.groupColsAsList = groupColsList;
 	}
 	
+	/**
+	 * adds a new group column to the list of the existing columns. 
+	 * Please note that your column is added at the end of the existing list
+	 * 
+	 * @param newGroupCol the new group column
+	 */
 	public void addGroupColumn(IGroupColumn newGroupCol){
 		this.groupColsAsList.add(newGroupCol); 
 	}
@@ -249,7 +268,7 @@ public abstract class AbstractReport {
     
     /**
      * getter for showGrandTotal flag
-     * @return
+     * @return true if this report will show the grand totals
      */
     public boolean getShowGrandTotal(){
     	return showGrandTotal;

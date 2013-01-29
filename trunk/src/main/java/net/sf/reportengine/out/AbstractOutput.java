@@ -5,10 +5,15 @@ package net.sf.reportengine.out;
 
 
 /**
- * An abstract implementation for IReportOutput. It is recommended
- * that you extend this class rather then implement IReportOutput 
+ * An abstract implementation for IReportOutput containing basic functionality for 
+ * marking the opening/closing reports, null values replacement, counting rows. 
+ * 
+ * For better functionality it is recommended to extend one of the two children  
+ * {@link AbstractByteOutput} or {@link AbstractCharacterOutput}
+ * 
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
+ * @see {@link AbstractByteOutput}, {@link AbstractCharacterOutput}
  * @since 0.2
  */
 public abstract class AbstractOutput implements IReportOutput {
@@ -20,7 +25,7 @@ public abstract class AbstractOutput implements IReportOutput {
 	
 	
     /**
-     * tells whether or not to replace null values with white spaces
+     * whether or not to replace null values with white spaces
      */
     private String nullsReplacement ;
     
@@ -42,9 +47,7 @@ public abstract class AbstractOutput implements IReportOutput {
     /**
      * constructor
      */
-    public AbstractOutput(){
-    	
-    }
+    public AbstractOutput(){}
     
     
     /**
