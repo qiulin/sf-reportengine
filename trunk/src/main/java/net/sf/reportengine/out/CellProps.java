@@ -8,62 +8,37 @@ import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.core.ReportContent;
 
 /**
- * immutable cell properties class
+ * immutable cell properties class. 
+ * This is constructed internally to send data to the output.
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public class CellProps {
+public final class CellProps {
 
 	/**
-     * 
+     * the column span
      */
 	private final int colspan;
 
 	/**
-     * 
+     * the report content
      */
 	private final ReportContent content;
 
 	/**
-     * 
+     * the value to be displayed in the cell
      */
 	private final Object value;
 
 	/**
-     * 
+     * horizontal alignment
      */
 	private final HorizontalAlign horizAlign;
 
 	
-//	private CellProps() {
-//		this("");
-//	}
-//
-//	
-//	private CellProps(Object value) {
-//		this(value, 1);
-//	}
-//
-//	
-//	private CellProps(Object value, int colspan) {
-//		this(value, colspan, ReportContent.DATA);
-//	}
-//	
-//	
-//	private CellProps(Object value, int colspan, ReportContent contentType){
-//		this(value, colspan, contentType, HorizontalAlign.CENTER); 
-//	}
-//	
-//	
-//	private CellProps(Object value, int colspan, ReportContent contentType, HorizontalAlign horizAlign) {
-//		this.value = value; 
-//		this.colspan = colspan; 
-//		this.content = contentType;
-//		this.horizAlign = horizAlign; 
-//	}
-	
 	/**
+	 * constructor using the fluent builder for CellProps
 	 * 
 	 * @param propsBuilder
 	 */
@@ -74,54 +49,58 @@ public class CellProps {
 		this.horizAlign = propsBuilder.horizAlign; 
 	}
 	
-	
+	/**
+	 * column span
+	 * @return
+	 */
 	public int getColspan() {
 		return colspan;
 	}
-
-//	public void setColspan(int colspan) {
-//		this.colspan = colspan;
-//	}
-
+	
+	/**
+	 * the content type
+	 * @return
+	 */
 	public ReportContent getContentType() {
 		return content;
 	}
-
-//	public void setContentType(ReportContent contentType) {
-//		this.content = contentType;
-//	}
-
+	
+	/**
+	 * the value to be displayed
+	 * @return
+	 */
 	public Object getValue() {
 		return value;
 	}
-
-//	public void setValue(Object value) {
-//		this.value = value;
-//	}
 	
+	/**
+	 * the horizontal align
+	 * @return
+	 */
 	public HorizontalAlign getHorizontalAlign() {
 		return horizAlign;
 	}
-
-//	public void setHorizontalAlign(HorizontalAlign horizAlign) {
-//		this.horizAlign = horizAlign;
-//	}
 	
-	@Override
-	public boolean equals(Object another) {
+	/**
+	 * equals
+	 */
+	@Override public boolean equals(Object another) {
 		boolean result = false;
 		if (another instanceof CellProps) {
 			CellProps anotherAsCP = (CellProps) another;
 			result = value.equals(anotherAsCP.getValue()) 
 					 && (colspan == anotherAsCP.getColspan())
-					 && (content.equals(anotherAsCP.getContentType()))
-					 ;//&& (horizAlign.equals(anotherAsCP.getHorizontalAlign())); 
+					 && (content.equals(anotherAsCP.getContentType()));
+					 // TODO include the horizontal alignment in the equals
+					 //&& (horizAlign.equals(anotherAsCP.getHorizontalAlign())); 
 		}
 		return result;
 	}
-
-	@Override
-	public int hashCode() {
+	
+	/**
+	 * hashCode
+	 */
+	@Override public int hashCode() {
 		int result = 3;
 		result = 97 * result + value.hashCode();
 		result = 97 * result + colspan;
@@ -130,8 +109,10 @@ public class CellProps {
 		return result;
 	}
 	
-	@Override
-	public String toString() {
+	/**
+	 * toString
+	 */
+	@Override public String toString() {
 		StringBuilder result = new StringBuilder("CP[");
 		result.append(value);
 		result.append(",cspan=").append(colspan);
@@ -149,9 +130,7 @@ public class CellProps {
 	 */
 	public static class Builder{
 		
-		
 		private final Object value;
-		
 		private int colspan = 1;
 		private ReportContent content = ReportContent.DATA;
 		private HorizontalAlign horizAlign = HorizontalAlign.CENTER;

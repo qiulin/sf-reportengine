@@ -50,7 +50,7 @@ import org.apache.log4j.Logger;
  * 	<li>output</li>
  * </ul>
  * 
- * A simple pivot table repost example is: 
+ * A simple pivot table report example is: 
  * <pre>
  * {@code
  *  CrossTabReport report = new CrossTabReport(); 

@@ -13,6 +13,7 @@ package net.sf.reportengine.in;
 public class MemoryReportInput extends AbstractReportInput {
 
 	private Object[][] data;
+	
 	private int currentRow = 0;
 	
 	
@@ -51,7 +52,7 @@ public class MemoryReportInput extends AbstractReportInput {
 	 * @see net.sf.reportengine.in.AbstractReportInput#nextRow()
 	 */
 	@Override
-	public Object[] nextRow() throws ReportInputException {
+	public Object[] nextRow(){
 		return data[currentRow++];
 	}
 
