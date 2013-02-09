@@ -34,7 +34,7 @@ public abstract class AbstractReportInput implements IReportInput {
     /**
      * marks the input as open. 
      */
-    public void open() throws ReportInputException{
+    public void open(){
     	if(isOpen){
             throw new IllegalStateException("You cannot open twice the same input. Close it and then reopen it !");
         }
@@ -48,7 +48,7 @@ public abstract class AbstractReportInput implements IReportInput {
     /**
      * marks the input as closed
      */
-    public void close() throws ReportInputException {
+    public void close(){
     	if(!isOpen){
             throw new IllegalStateException("You cannot close an input which is not open !");
         }

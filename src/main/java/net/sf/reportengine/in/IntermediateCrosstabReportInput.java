@@ -8,22 +8,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.Arrays;
-import java.util.List;
-
-import org.apache.log4j.Logger;
 
 import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedDataList;
+import net.sf.reportengine.core.steps.crosstab.IntermComputedTotalsList;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalDataColsList;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalGroupValuesList;
-import net.sf.reportengine.core.steps.crosstab.IntermComputedTotalsList;
-import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
 import net.sf.reportengine.core.steps.crosstab.IntermediateReportRow;
-import net.sf.reportengine.core.steps.crosstab.IntermediateTotalInfo;
+
+import org.apache.log4j.Logger;
 
 /**
- * @author Administrator
- *
+ * 
+ * 
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.4
  */
 public class IntermediateCrosstabReportInput extends AbstractReportInput {
 	

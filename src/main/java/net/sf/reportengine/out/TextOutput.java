@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public class TxtOutput extends AbstractCharacterOutput{
+public class TextOutput extends AbstractCharacterOutput{
 	
 	/**
 	 * default data/columns separator
@@ -28,7 +28,7 @@ public class TxtOutput extends AbstractCharacterOutput{
 	/**
 	 * the one and only LOGGER
 	 */
-	private static final Logger LOGGER = Logger.getLogger(TxtOutput.class);
+	private static final Logger LOGGER = Logger.getLogger(TextOutput.class);
 	
 	/**
 	 * buffer for the current line to be output
@@ -43,7 +43,7 @@ public class TxtOutput extends AbstractCharacterOutput{
 	/**
 	 * outputs into a String if no other writer is set
 	 */
-	public TxtOutput(){
+	public TextOutput(){
 		super(); 
 	}
 	
@@ -51,7 +51,7 @@ public class TxtOutput extends AbstractCharacterOutput{
 	 * 
 	 * @param writer
 	 */
-	public TxtOutput(Writer writer){
+	public TextOutput(Writer writer){
 		this(writer, DEFAULT_DATA_SEPARATOR);
 	}
 	
@@ -60,7 +60,7 @@ public class TxtOutput extends AbstractCharacterOutput{
 	 * @param writer
 	 * @param separator
 	 */
-	public TxtOutput(Writer writer, String separator){
+	public TextOutput(Writer writer, String separator){
 		super(writer);
 		setSeparator(separator); 
 	}

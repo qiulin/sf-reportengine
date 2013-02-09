@@ -24,10 +24,10 @@ public class TestTxtOutput extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.out.TxtOutput#output(net.sf.reportengine.out.CellProps)}.
+	 * Test method for {@link net.sf.reportengine.out.TextOutput#output(net.sf.reportengine.out.CellProps)}.
 	 */
 	public void testOpenWhenNoWriterSet() {
-		TxtOutput classUnderTest = new TxtOutput(); 
+		TextOutput classUnderTest = new TextOutput(); 
 		classUnderTest.open();
 		classUnderTest.startRow(new RowProps()); 
 		classUnderTest.output(new CellProps.Builder("value x").build()); 
@@ -47,11 +47,11 @@ public class TestTxtOutput extends TestCase {
 	 */
 	public void testStartRowWithoutOpen(){
 		try{
-			TxtOutput classUnderTest = new TxtOutput(); 
+			TextOutput classUnderTest = new TextOutput(); 
 			classUnderTest.startRow(new RowProps()); 
 			fail("an exception should have been thrown"); 
 		}catch(ReportOutputException roe){
-			assertEquals(TxtOutput.OUTPUT_NOT_OPEN, roe.getMessage()); 
+			assertEquals(TextOutput.OUTPUT_NOT_OPEN, roe.getMessage()); 
 		}
 	}
 	
@@ -59,7 +59,7 @@ public class TestTxtOutput extends TestCase {
 	 * 
 	 */
 	public void testOutputWhenFilenameSet(){
-		TxtOutput classUnderTest = new TxtOutput(); 
+		TextOutput classUnderTest = new TextOutput(); 
 		classUnderTest.setFilePath("target/streamOutputHavingFilenameSet.txt");
 		
 		classUnderTest.open(); 
@@ -72,7 +72,7 @@ public class TestTxtOutput extends TestCase {
 	}
 	
 	public void testOutputWhenWriterSet(){
-		TxtOutput classUnderTest = new TxtOutput(); 
+		TextOutput classUnderTest = new TextOutput(); 
 		try {
 			classUnderTest.setOutputWriter(new FileWriter("target/streamOutputHavingWriterSet.txt"));
 			classUnderTest.open(); 
@@ -88,7 +88,7 @@ public class TestTxtOutput extends TestCase {
 	}
 	
 	public void testManyOutputsForDifferentFilenames(){
-		TxtOutput classUnderTest = new TxtOutput(); 
+		TextOutput classUnderTest = new TextOutput(); 
 		classUnderTest.setFilePath("target/reusedStreamOutput1.txt");
 		
 		classUnderTest.open(); 
@@ -109,7 +109,7 @@ public class TestTxtOutput extends TestCase {
 	
 	public void testManyOutputsForDifferentWriters(){
 		StringWriter writer1 = new StringWriter(); 
-		TxtOutput classUnderTest = new TxtOutput(); 
+		TextOutput classUnderTest = new TextOutput(); 
 		classUnderTest.setOutputWriter(writer1);
 		
 		classUnderTest.open(); 

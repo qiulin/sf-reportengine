@@ -34,7 +34,7 @@ import net.sf.reportengine.util.ReportIoUtils;
  * 
  * @author dragos balan (dragos dot balan @ gmail dot com)
  * @since 0.7
- * @see {@link AbstractByteOutput} {@link TxtOutput} {@link HtmlOutput} {@link StaxReportOutput}
+ * @see {@link AbstractByteOutput} {@link TextOutput} {@link HtmlOutput} {@link StaxReportOutput}
  */
 public abstract class AbstractCharacterOutput extends AbstractOutput {
 	

@@ -7,7 +7,7 @@ package net.sf.reportengine.in;
 
 
 /**
- * Interface for report input. 
+ * <p>This is the top interface for report input.</p> 
  * 
  * @author dragos balan (dragos dot balan at gmail.com)
  * @since 0.2
