@@ -17,7 +17,7 @@ import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.LoggerOutput;
-import net.sf.reportengine.out.MemoryOutput;
+import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.util.ContextKeys;
@@ -31,7 +31,7 @@ public class TestStepsCombo extends TestCase {
 	
 	private IReportContext TEST_REPORT_CONTEXT; 
 	private OutputDispatcher TEST_OUTPUT_DISPATCHER; 
-	private MemoryOutput cumulativeReportOutput = null;
+	private CellPropsArrayOutput cumulativeReportOutput = null;
 	
 	
 	
@@ -41,7 +41,7 @@ public class TestStepsCombo extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		cumulativeReportOutput = new MemoryOutput();
+		cumulativeReportOutput = new CellPropsArrayOutput();
 		
 		TEST_OUTPUT_DISPATCHER = new OutputDispatcher();
 		TEST_OUTPUT_DISPATCHER.registerOutput(cumulativeReportOutput);

@@ -8,25 +8,20 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 /**
- * This output class keeps an in-memory array of objects wich can be later returned 
- * by calling {@link #getCellMatrix()}
+ * This output class keeps an in-memory array of objects which can be later returned 
+ * by calling {@link #getCellMatrix()}. 
+ * Only for testing purposes. 
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
- * @since 0.3
- * @deprecated please use one of the html, excel, fo outputters with a StringWriter in order to obtain a similar functionality
+ * @since 0.7
  */
-public class MemoryOutput implements IReportOutput {
-	
-	/**
-	 * the one and only logger
-	 */
-	private static final Logger logger = Logger.getLogger(MemoryOutput.class);
+public class CellPropsArrayOutput implements IReportOutput {
 	
 	private ArrayList<CellProps[]> cellMatrix;
 	private ArrayList<CellProps> currentRowOfCells;
 	
 	
-	public MemoryOutput(){
+	public CellPropsArrayOutput(){
 		this.cellMatrix = new ArrayList<CellProps[]>();
 	}
 	

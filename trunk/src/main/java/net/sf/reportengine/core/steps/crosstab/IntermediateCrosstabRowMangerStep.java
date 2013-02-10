@@ -16,8 +16,9 @@ import org.apache.log4j.Logger;
 
 /**
  * This is the manager of the intermediate crosstab row. 
- * The intermediate crosstab row holds ICrosstabData (and some other usefull info) until
- * the grouping level is changed. At this moment the intermediate manager is resetting the intermediate row. 
+ * The intermediate crosstab row holds ICrosstabData (and some other useful info) until
+ * the grouping level is changed. At this moment the intermediate manager 
+ * is resetting the intermediate row. 
  * 
  * @author dragos balan (dragos dot bala at gmail dot com)
  * @since 0.4
@@ -66,7 +67,7 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 				//this is a change in the original group so
 				
 				//First we update all remaining totals (if the report contains totals)
-				if(getShowTotals()||getShowGrandTotal()){
+				if(getShowTotals() || getShowGrandTotal()){
 					//we don't need all totals. From the groupingColumns we take only the first one
 					updateIntermediateTotals(	originalGroupColsLength+originalDataColsLength-1, 
 												getGroupingColumnsLength() , 

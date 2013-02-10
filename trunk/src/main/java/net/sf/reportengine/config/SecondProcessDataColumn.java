@@ -15,7 +15,7 @@ import net.sf.reportengine.core.steps.crosstab.IntermComputedDataList;
  * this is only for internal use. 
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
- *
+ * @since 0.4
  */
 public class SecondProcessDataColumn extends AbstractDataColumn{
 	

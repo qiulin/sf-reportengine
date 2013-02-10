@@ -4,8 +4,16 @@
 package net.sf.reportengine;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
+import net.sf.reportengine.config.DefaultCrosstabData;
+import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
+import net.sf.reportengine.config.DefaultDataColumn;
+import net.sf.reportengine.config.DefaultGroupColumn;
+import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.core.ConfigValidationException;
+import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.ExcelOutput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.OutputDispatcher;
@@ -15,6 +23,8 @@ import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1;
 import net.sf.reportengine.test.ReportengineTC;
+import net.sf.reportengine.util.CtMetadata;
+import net.sf.reportengine.util.ReportIoUtils;
 
 /**
  * @author dragos balan
@@ -44,12 +54,19 @@ public class TestCrossTabReport extends ReportengineTC {
 	 * Test method for {@link net.sf.reportengine.AbstractReport#execute()}.
 	 */
 	public void testConstructSecondReportDataColumns() {
-		//TODO: complete test
+		CrossTabReport classUnderTest = new CrossTabReport(); 
+		
+		
+		CtMetadata testMetadata = new CtMetadata(CtScenario2x2x1.MOCK_DISTINCT_VALUES_HOLDER); 
+		
+		List<IDataColumn> result = classUnderTest.constructDataColumnsForSecondProcess(testMetadata, 
+															CtScenario2x2x1.DATA_COLUMNS, 
+															false, 
+															false); 
+		assertNotNull(result);
+		//TODO: continue the test
 	}
 	
-	public void testConstructSecondReportGroupColumns(){
-		//TODO: complete report
-	}
 	
 	public void testExecute1x1x1xT(){
 		CrossTabReport classUnderTest = new CrossTabReport(); 
@@ -65,7 +82,7 @@ public class TestCrossTabReport extends ReportengineTC {
 		classUnderTest.execute(); 
 	}
 	
-	public void testExecute1x1x1() throws FileNotFoundException{
+	public void testExecute1x1x1() {
 		CrossTabReport classUnderTest = new CrossTabReport(); 
 		classUnderTest.setIn(CtScenario1x1x1.INPUT); 
 		classUnderTest.setOut(new HtmlOutput("target/CrosstabReport1x1x1.html"));
@@ -142,6 +159,49 @@ public class TestCrossTabReport extends ReportengineTC {
 		
 		classUnderTest.execute(); 
 	}
+	
+	public void testExecute3x2x1xT(){
+		CrossTabReport classUnderTest = new CrossTabReport(); 
+		classUnderTest.setIn(new TextInput(ReportIoUtils.createInputStreamFromClassPath("3x2x1.txt"), ",")); 
+		classUnderTest.setOut(new HtmlOutput("target/CrosstabReport3x2x1xT.html"));
+		
+		classUnderTest.addGroupColumn(new DefaultGroupColumn("Country", 0, 0));
+		classUnderTest.addGroupColumn(new DefaultGroupColumn("Region", 1, 1));
+		
+		classUnderTest.addDataColumn(new DefaultDataColumn("City", 2, Calculators.COUNT));
+		
+		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(3)); 
+		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(4)); 
+		
+		classUnderTest.setCrosstabData(new DefaultCrosstabData(5, Calculators.SUM)); 
+		
+		classUnderTest.setShowTotals(true); 
+		classUnderTest.setShowGrandTotal(true); 
+		
+		classUnderTest.execute(); 
+	}
+	
+	//TODO
+//	public void testExecute3x2x1xTHavingNoGroupColumns(){
+//		CrossTabReport classUnderTest = new CrossTabReport(); 
+//		classUnderTest.setIn(new TextInput(ReportIoUtils.createInputStreamFromClassPath("3x2x1.txt"), ",")); 
+//		classUnderTest.setOut(new HtmlOutput("target/CrosstabReport3x2x1xTxNoGroupColumns.html"));
+//		
+//		classUnderTest.addDataColumn(new DefaultDataColumn("Country", 0)); 
+//		classUnderTest.addDataColumn(new DefaultDataColumn("Region", 1));
+//		classUnderTest.addDataColumn(new DefaultDataColumn("City", 2));
+//		
+//		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(3)); 
+//		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(4)); 
+//		
+//		classUnderTest.setCrosstabData(new DefaultCrosstabData(5, Calculators.SUM)); 
+//		
+//		classUnderTest.setShowTotals(false); 
+//		classUnderTest.setShowGrandTotal(false); 
+//		
+//		classUnderTest.execute(); 
+//	}
+	
 	
 	public void testWrongConfiguration1(){
 		try{

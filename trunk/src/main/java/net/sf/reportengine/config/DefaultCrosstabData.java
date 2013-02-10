@@ -85,8 +85,4 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	public void setInputColumnIndex(int inputColumnIndex) {
 		this.inputColumnIndex = inputColumnIndex;
 	}
-	
-	
-	
-	
 }

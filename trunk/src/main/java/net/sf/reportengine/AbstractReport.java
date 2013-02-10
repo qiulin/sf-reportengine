@@ -281,4 +281,19 @@ public abstract class AbstractReport {
     public void setShowGrandTotal(boolean flag){
     	this.showGrandTotal = flag;
     }
+    
+    /**
+     * check if all data columns have calculators assigned
+     * @return
+     */
+    protected boolean atLeastOneDataColumHasCalculators(){
+    	boolean atLeastOneCalculator = false; 
+    	for(IDataColumn dataColumn: getDataColumns()){
+    		if(dataColumn.getCalculator() != null){
+    			atLeastOneCalculator = true;
+    			break; 
+    		}
+    	}
+    	return atLeastOneCalculator; 
+    }
 }

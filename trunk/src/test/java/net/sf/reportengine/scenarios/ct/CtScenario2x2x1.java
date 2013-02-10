@@ -22,7 +22,7 @@ import net.sf.reportengine.util.MockDistinctValuesHolder;
 
 
 /**
- * @author dragos
+ * @author dragos balan
  *
  */
 public class CtScenario2x2x1 {
@@ -70,10 +70,7 @@ public class CtScenario2x2x1 {
 					//new DefaultGroupColumn("Country",3, 1)
 	});
 	
-	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList(
-			new IDataColumn[]{
-					new DefaultDataColumn("Country", 3)
-	});
+	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList(new IDataColumn[]{new DefaultDataColumn("Country", 3)});
 	
 	public static final List<ICrosstabHeaderRow> HEADER_ROWS = Arrays.asList(new ICrosstabHeaderRow[]{
 		new DefaultCrosstabHeaderRow(1, null), //Sex 
