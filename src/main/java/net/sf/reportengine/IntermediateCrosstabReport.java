@@ -4,7 +4,6 @@
 package net.sf.reportengine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import net.sf.reportengine.config.HorizontalAlign;
@@ -28,7 +27,12 @@ import net.sf.reportengine.util.ContextKeys;
 import org.apache.log4j.Logger;
 
 /**
- * This is for internal use only.  
+ * This is for internal use only.
+ * 
+ *  The original crosstab configuration is used to create a flat intermediate report:
+ *  
+ *  1. all initial group + data + header columns will be used as group column in this intermediate report
+ *  2. only the initial crosstab-data will be used as data column in this intermediate report
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
@@ -40,20 +44,37 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 	 */
 	private static final Logger logger = Logger.getLogger(IntermediateCrosstabReport.class);
 	
+	/**
+	 * 
+	 */
 	private ICrosstabData crosstabData; //TODO: try to remove the crosstab data from here
 	
-	private List<ICrosstabHeaderRow> crosstabHeaderRowsAsList; //TODO: remove the header rows and crosstabData from here ( they belong only to Crosstabreport)
+	/**
+	 * 
+	 */
+	private List<? extends ICrosstabHeaderRow> crosstabHeaderRowsAsList; //TODO: remove the header rows and crosstabData from here ( they belong only to Crosstabreport)
 	
-	
+	/**
+	 * the initial group columns count
+	 */
 	private int originalGroupColsCount;
+	
+	/**
+	 * the initial data columns count
+	 */
 	private int originalDataColsCount ;
 	
+	/**
+	 * 
+	 * @param originalGroupColsCount
+	 * @param originalDataColsCount
+	 */
 	public IntermediateCrosstabReport(int originalGroupColsCount, int originalDataColsCount){
+		if(logger.isDebugEnabled())
+			logger.debug(	"constructing intermediate report algorithm origGrpCols="+
+							originalGroupColsCount+", origDataColsCnt="+originalDataColsCount);
 		this.originalDataColsCount = originalDataColsCount; 
 		this.originalGroupColsCount = originalGroupColsCount;
-		if(logger.isDebugEnabled()){
-			logger.debug("constructing intermediate report algorithm origGrpCols="+originalGroupColsCount+", origDataColsCnt="+originalDataColsCount);
-		}
 	}
 	
 	/* (non-Javadoc)
@@ -67,19 +88,23 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
     	if(logger.isDebugEnabled()){
     		logger.debug("dataColsIsNull ? "+(getDataColumns()==null));
     	}
-    	
-		List<IGroupColumn> intermediateGroupCols = transformGroupingCrosstabConfigInFlatReportConfig(getGroupColumns(),
-																								getDataColumns(), 
-																								getCrosstabHeaderRows());
+    	//all initial group + data + header columns will be used as group column in this intermediate report
+		List<IGroupColumn> intermediateGroupCols = 
+			transformGroupingCrosstabConfigInFlatReportConfig(	getGroupColumns(),
+																getDataColumns(), 
+																getCrosstabHeaderRows());
+		//only the initial crosstab-data will be used as data column in this intermediate report
 		List<IDataColumn> intermediateDataCols = new ArrayList<IDataColumn>(1);
 		intermediateDataCols.add(new IntermDataColumnFromCrosstabData(crosstabData)); 
+		
 		//TODO: come back here. We need to take the last in the groupingLevel order not in the current order
 		/*new FlatDataColumnFromHeaderRow(crosstabHeaderRows[crosstabHeaderRows.length-1]), */ 
 		//new IntermDataColumnFromCrosstabData(crosstabData)};
-		
-		
+				
 		if(logger.isDebugEnabled()){
-			logger.debug("configuring intermediate report algorithm: intermediateGroupCols "+intermediateGroupCols+" ");
+			logger.debug("configuring intermediate report algorithm: ");
+			logger.debug("intermediateGroupCols "+intermediateGroupCols);
+			logger.debug("intermediateDataCols="+intermediateDataCols); 
 		}
 		
 		//setting the input/output
@@ -111,7 +136,6 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
     	
     	//only for debug if( getShowTotals() || getShowGrandTotal()) algorithm.addMainStep(new FlatReportTotalsOutputStep());
     	
-    	
     	algorithm.addMainStep(new IntermediateCrosstabRowMangerStep());
     	
     	if(getShowTotals() || getShowGrandTotal()){
@@ -125,7 +149,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
     	}
 	}
 
-	public List<ICrosstabHeaderRow> getCrosstabHeaderRows() {
+	public List<? extends ICrosstabHeaderRow> getCrosstabHeaderRows() {
 		return crosstabHeaderRowsAsList;
 	}
 	
@@ -142,7 +166,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 	 * 
 	 * @param crosstabHeaderRows
 	 */
-	public void setCrosstabHeaderRows(List<ICrosstabHeaderRow> crosstabHeaderRows){
+	public void setCrosstabHeaderRows(List<? extends ICrosstabHeaderRow> crosstabHeaderRows){
 		this.crosstabHeaderRowsAsList = crosstabHeaderRows; 
 	}
 	
@@ -176,25 +200,29 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 //	}
 	
 	/**
-	 * transforms the original crosstab columns into a flat report configuration 
+	 * transforms the original grouping + data + header columns into intermediate group columns
+	 * 
+	 * 1. from 0 to original groupCols.length we copy the original group columns
+	 * 2. from groupCols.length to groupCols.lenght + dataCols.length we copy construct group columns from data columns
+	 * 3. then we copy the header rows (of course transformed as groupCols)
 	 * 
 	 * @param originalCtGroupingCols
 	 * @param originalCtDataCols
 	 * @param originalCtHeaderRows
 	 * @return
 	 */
-	protected List<IGroupColumn> transformGroupingCrosstabConfigInFlatReportConfig(	
-			List<IGroupColumn> originalCtGroupingCols, 
-			List<IDataColumn> originalCtDataCols, 
-			List<ICrosstabHeaderRow> originalCtHeaderRows)
-	{
+	protected List<IGroupColumn> transformGroupingCrosstabConfigInFlatReportConfig(	List<? extends IGroupColumn> originalCtGroupingCols, 
+																					List<? extends IDataColumn> originalCtDataCols, 
+																					List<? extends ICrosstabHeaderRow> originalCtHeaderRows){
+		
 		int originalGroupColsLength = originalCtGroupingCols != null ? originalCtGroupingCols.size(): 0;
 		int originalDataColsLength = originalCtDataCols != null ? originalCtDataCols.size() : 0 ; 
 		
 		if(logger.isDebugEnabled()){
-			logger.debug(	"transforming grouping crosstab config into flat intermediary report: origCtGroupingCols="+originalGroupColsLength+
-							", originalCtDataRows="+originalCtDataCols+
-							", originalCtHeaderRows="+originalCtHeaderRows);
+			logger.debug("transforming grouping crosstab config into flat intermediary report: ");
+			logger.debug("origCtGroupingCols="+originalCtGroupingCols);
+			logger.debug("originalCtDataRows="+originalCtDataCols);
+			logger.debug(" originalCtHeaderRows="+originalCtHeaderRows);
 		}
 		
 		int intermedGroupColsLength = originalGroupColsLength + originalDataColsLength + originalCtHeaderRows.size() -1;
@@ -218,7 +246,6 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 		//then we copy the header rows (of course transformed as groupCols)
 		//we don't need any grouping for the last header row (that's why we have headerRows.length-1 below
 		for (int i = 0; i < originalCtHeaderRows.size()-1; i++) {
-			
 			//result[originalGroupColsLength+originalDataColsLength+i] =
 			result.add(
 					new IntermGroupColFromHeaderRow(	originalCtHeaderRows.get(i), 

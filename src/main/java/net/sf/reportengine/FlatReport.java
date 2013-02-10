@@ -88,6 +88,11 @@ public class FlatReport extends AbstractOneIterationReport {
         if(getDataColumns() == null || getDataColumns().size() == 0){
         	throw new ConfigValidationException("Any report needs at least one data column to work properly"); 
         }
+        
+        //if totals are needed then check if any Calculators have been added to ALL DataColumns
+		if((getShowTotals() || getShowGrandTotal()) && !atLeastOneDataColumHasCalculators()){
+			throw new ConfigValidationException("If you want to see totals please configure Calculators to at least one DataColumn");
+		}
     }
     
     /**

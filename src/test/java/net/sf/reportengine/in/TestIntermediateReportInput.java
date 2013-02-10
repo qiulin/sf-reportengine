@@ -10,9 +10,11 @@ import net.sf.reportengine.core.steps.crosstab.IntermOriginalDataColsList;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalGroupValuesList;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedTotalsList;
 import net.sf.reportengine.test.ReportengineTC;
+import net.sf.reportengine.util.ReportIoUtils;
 
 /**
- * @author Administrator
+ * 
+ * @author dragos balan
  *
  */
 public class TestIntermediateReportInput extends ReportengineTC {
@@ -28,7 +30,7 @@ public class TestIntermediateReportInput extends ReportengineTC {
 	
 	public void testReadIntermediateReportWhenTotals(){
 		
-		InputStream intermInput = getInputStreamFromClasspath("TestIntermediateInput2x2x1xT.rep");
+		InputStream intermInput = ReportIoUtils.createInputStreamFromClassPath("TestIntermediateInput2x2x1xT.rep");
 		
 		assertNotNull(intermInput);
 		
@@ -106,7 +108,7 @@ public class TestIntermediateReportInput extends ReportengineTC {
 	
 	public void testReadIntermediateReportNoTotals(){
 		
-		InputStream intermInput = getInputStreamFromClasspath("TestIntermediateInput1x3x1.rep");
+		InputStream intermInput = ReportIoUtils.createInputStreamFromClassPath("TestIntermediateInput1x3x1.rep");
 		
 		assertNotNull(intermInput);
 		
@@ -142,6 +144,4 @@ public class TestIntermediateReportInput extends ReportengineTC {
 		
 		classUnderTest.close(); 
 	}
-
-	//TODO: create assert statements for all test above
 }

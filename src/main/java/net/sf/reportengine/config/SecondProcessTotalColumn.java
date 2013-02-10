@@ -57,5 +57,4 @@ public class SecondProcessTotalColumn extends AbstractDataColumn {
 	public int[] getPosition(){
 		return positionRelativeToHeader; 
 	}
-
 }

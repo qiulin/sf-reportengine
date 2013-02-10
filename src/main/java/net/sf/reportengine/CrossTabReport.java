@@ -124,10 +124,14 @@ public class CrossTabReport extends AbstractReport{
 		}
 		
 		if((getDataColumns() == null || getDataColumns().size() == 0) 
-			&&
-			(getGroupColumns() == null || getGroupColumns().size() == 0)
-			){
+			&& (getGroupColumns() == null || getGroupColumns().size() == 0)){
 			throw new ConfigValidationException("Crosstab reports need data and/or group columns configured"); 
+		}
+		
+		//if totals are needed then check if any Calculators have been added to CrosstabData
+		if(		(getShowTotals() || getShowGrandTotal()) 
+				&& (getCrosstabData().getCalculator() == null)){
+			throw new ConfigValidationException("If you want to see totals please configure at least one calculator to CrosstabData");
 		}
 	}
 
@@ -147,7 +151,7 @@ public class CrossTabReport extends AbstractReport{
 			firstReport = new IntermediateCrosstabReport(groupColsLength, dataColsLength); 
 			firstReport.setIn(getIn()); 
 			firstReport.setOut(firstReportOutput); 
-			firstReport.setGroupColumns(getGroupColumns()); 
+			firstReport.setGroupColumns(groupCols); 
 			firstReport.setDataColumns(dataColsList); 
 			firstReport.setCrosstabHeaderRows(getCrosstabHeaderRows()); 
 			firstReport.setCrosstabData(getCrosstabData()); 
@@ -235,24 +239,6 @@ public class CrossTabReport extends AbstractReport{
 	}
 	
 	/**
-	 * 
-	 * @param originalGroupCols
-	 * @return	an array of group columns
-	 * @deprecated
-	 */
-	protected IGroupColumn[] constructGroupColumnsForSecondProcess(IGroupColumn[] originalGroupCols){
-		IGroupColumn[] result = null; 
-		if(originalGroupCols != null && originalGroupCols.length > 0){
-			result = new IGroupColumn[originalGroupCols.length];
-			for (int i = 0; i < originalGroupCols.length; i++) {
-				IGroupColumn origGroupColumn = originalGroupCols[i];
-				result[i] = new SecondProcessGroupColumn(origGroupColumn);
-			}
-		}
-		return result; 
-	}
-	
-	/**
 	 * creates a list of group columns for the second report based on the original group columns
 	 * 
 	 * @param originalGroupCols
@@ -262,10 +248,8 @@ public class CrossTabReport extends AbstractReport{
 		List<IGroupColumn> result = null; 
 		if(originalGroupCols != null && originalGroupCols.size() > 0){
 			result = new ArrayList<IGroupColumn>(originalGroupCols.size());
-			for (int i = 0; i < originalGroupCols.size(); i++) {
-				IGroupColumn origGroupColumn = originalGroupCols.get(i);
-				result.add(new SecondProcessGroupColumn(origGroupColumn));
-				//TODO: remove the i index 
+			for (IGroupColumn originalGroupColumn : originalGroupCols) {
+				result.add(new SecondProcessGroupColumn(originalGroupColumn));
 			}
 		}
 		return result; 
@@ -364,18 +348,17 @@ public class CrossTabReport extends AbstractReport{
 																		List<IDataColumn> originalDataColumns, 
 																		boolean hasTotals, 
 																		boolean hasGrandTotal){
-
 		int dataColsCount = crosstabMetadata.getDataColumnCount(); 
 		int headerRowsCount = crosstabMetadata.getHeaderRowsCount(); 
 		
 		List<IDataColumn> resultDataColsList = new ArrayList<IDataColumn>();
 		
 		//first we add the original data columns (those declared by the user in his configuration)
-		for(int i=0; i < originalDataColumns.size(); i++){//TODO come back here and call addAll
+		for(int i=0; i < originalDataColumns.size(); i++){
 			resultDataColsList.add(new SecondProcessDataColumnFromOriginalDataColumn(originalDataColumns.get(i), i));
 		}
 
-		//then we construct the columns 
+		// then we construct the columns 
 		for(int column=0; column < dataColsCount; column++){
 		
 			//construct total columns 
@@ -391,7 +374,11 @@ public class CrossTabReport extends AbstractReport{
 							positionForCurrentTotal[j] = ((column-1) / crosstabMetadata.getColspanForLevel(j)) % crosstabMetadata.getDistinctValuesCountForLevel(j);
 						}
 		
-						resultDataColsList.add(new SecondProcessTotalColumn(positionForCurrentTotal, Calculators.SUM, null, "Total column="+column+ ",colspan= "+colspan));
+						resultDataColsList.add(
+								new SecondProcessTotalColumn(	positionForCurrentTotal, 
+																Calculators.SUM, 
+																null, 
+																"Total column="+column+ ",colspan= "+colspan));
 					}
 				}
 			}//end if has totals
@@ -405,6 +392,7 @@ public class CrossTabReport extends AbstractReport{
 			resultDataColsList.add(new SecondProcessDataColumn(positionForCurrentColumn, Calculators.SUM, null)); 
 		}//end for columns
 		
+		//at the end we add one more total 
 		if(hasTotals){
 			//final total columns
 			for(int row=headerRowsCount-2; row >= 0; row--){
@@ -421,9 +409,9 @@ public class CrossTabReport extends AbstractReport{
 			}
 		}//end if has totals
 
-		//grand total
+		// .. and finally the grand total
 		if(hasGrandTotal){
-			resultDataColsList.add(new SecondProcessTotalColumn(null, Calculators.SUM, null, "GrandTotal")); 
+			resultDataColsList.add(new SecondProcessTotalColumn(null, Calculators.SUM, null, "Grand Total")); 
 		}
 
 		return resultDataColsList; 

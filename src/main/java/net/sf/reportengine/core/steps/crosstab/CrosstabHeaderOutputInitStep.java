@@ -9,6 +9,7 @@ import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.config.SecondProcessDataColumn;
+import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.algorithm.IReportContext;
@@ -63,17 +64,25 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 		
 	}
 	
-	
+	/**
+	 * 
+	 * @param reportOutput
+	 * @param ctMetadata
+	 * @param dataCols
+	 * @param groupCols
+	 */
 	private void outputHeaderRowsByLoopingColumns(	IReportOutput reportOutput, 
 													CtMetadata ctMetadata, 
 													List<IDataColumn> dataCols, 
 													List<IGroupColumn> groupCols){
-		for (int row = 0; row < ctMetadata.getHeaderRowsCount(); row++) {
+		//loop through all header rows
+		for (int currHeaderRow = 0; currHeaderRow < ctMetadata.getHeaderRowsCount(); currHeaderRow++) {
 			reportOutput.startRow(new RowProps(ReportContent.COLUMN_HEADER)); 
 			
-			//handle grouping columns header first: only the last row will contain something
-			//while the first will be empty
-			if(row == ctMetadata.getHeaderRowsCount()-1){
+			//1. handle grouping columns header first 
+			
+			//only the last row will contain something while the first will be empty
+			if(currHeaderRow == ctMetadata.getHeaderRowsCount()-1){
 				//if last header row write the normal column headers
 				if(groupCols != null && groupCols.size() > 0){
 					for (int i = 0; i < groupCols.size(); i++) {
@@ -91,7 +100,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 											.horizAlign(HorizontalAlign.CENTER)
 											.build());
 			}else{
-				//if last header row: 
+				//first header rows will contain only spaces (for group headers): 
 				if(groupCols != null && groupCols.size() > 0){
 					for (int i = 0; i < groupCols.size(); i++) {
 						reportOutput.output(new CellProps.Builder(IReportOutput.WHITESPACE).build()); 
@@ -102,18 +111,20 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 			}
 			
 			
-			//now data columns
+			//2. now handle data columns
 			int colspan = 1;
-			if(row < ctMetadata.getHeaderRowsCount()-1){
+			if(currHeaderRow < ctMetadata.getHeaderRowsCount()-1){
+				//for all rows except the last header row we read the colspan
 				colspan = ctMetadata.getColspanForLevel(ctMetadata.getHeaderRowsCount()-2);
 			}
 			int currentColumn = 1; 
 			while(currentColumn < dataCols.size()){
 				IDataColumn currentDataColumn = dataCols.get(currentColumn);
 				
+				//if this column is a column created during 
 				if(currentDataColumn instanceof SecondProcessDataColumn){
 					SecondProcessDataColumn currDataColumnAsSPDC = (SecondProcessDataColumn)currentDataColumn; 
-					Object value = ctMetadata.getDistincValueFor(row, currDataColumnAsSPDC.getPosition()[row]);
+					Object value = ctMetadata.getDistincValueFor(currHeaderRow, currDataColumnAsSPDC.getPosition()[currHeaderRow]);
 					reportOutput.output(new CellProps.Builder(value)
 												.colspan(colspan)
 												.contentType(ReportContent.COLUMN_HEADER)
@@ -126,15 +137,15 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 						int[] position = currDataColumnAsSPTC.getPosition();
 						
 						if(position != null){
-							if(row < position.length){
-								Object value = ctMetadata.getDistincValueFor(row, position[row]);
+							if(currHeaderRow < position.length){
+								Object value = ctMetadata.getDistincValueFor(currHeaderRow, position[currHeaderRow]);
 								reportOutput.output(new CellProps.Builder(value)
 															.colspan(1)
 															.contentType(ReportContent.COLUMN_HEADER)
 															.horizAlign(currDataColumnAsSPTC.getHorizAlign())
 															.build());
 							}else{
-								if(row == position.length){
+								if(currHeaderRow == position.length){
 									reportOutput.output(new CellProps.Builder("Total")
 																.contentType(ReportContent.COLUMN_HEADER)
 																.horizAlign(HorizontalAlign.CENTER)
@@ -145,7 +156,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 							}
 						}else{
 							//grand total
-							if(row == 0){
+							if(currHeaderRow == 0){
 								reportOutput.output(new CellProps.Builder("Grand Total")
 															.contentType(ReportContent.COLUMN_HEADER)
 															.horizAlign(HorizontalAlign.LEFT)

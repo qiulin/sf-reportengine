@@ -8,7 +8,7 @@ import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.IAlgorithmMainStep;
 import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.in.MemoryReportInput;
-import net.sf.reportengine.out.MemoryOutput;
+import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.util.ContextKeys;
 
 /**
@@ -22,7 +22,7 @@ public class TestOneIterationAlgorithm extends TestCase {
 					new String[]{"1","2","3"},
 					new String[]{"4","5","6"}
 			});
-	private MemoryOutput testOut = new MemoryOutput();
+	private CellPropsArrayOutput testOut = new CellPropsArrayOutput();
 	
 	private IAlgorithmInitStep testInitStep = new IAlgorithmInitStep(){
 		public void init(IReportContext context){

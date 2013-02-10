@@ -15,9 +15,10 @@ import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1;
 import net.sf.reportengine.util.CtMetadata;
 import net.sf.reportengine.util.IDistinctValuesHolder;
+import net.sf.reportengine.util.ReportIoUtils;
 
 /**
- * @author Administrator
+ * @author dragos balan
  *
  */
 public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
@@ -49,7 +50,7 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		CtMetadata crosstabMetadata = new CtMetadata(distinctValuesHolder);
 		crosstabMetadata.computeCoefficients(); 
 		
-		InputStream intermObjectStream = getInputStreamFromClasspath("TestIntermediateInput2x2x1xT.rep");
+		InputStream intermObjectStream = ReportIoUtils.createInputStreamFromClassPath("TestIntermediateInput2x2x1xT.rep");
 		assertNotNull(intermObjectStream);
 		IntermediateCrosstabReportInput intermediateInput = new IntermediateCrosstabReportInput(intermObjectStream); 
 		

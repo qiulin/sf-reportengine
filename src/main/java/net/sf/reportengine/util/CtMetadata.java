@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author Administrator
- *
+ * @author dragos balan
+ * @since 0.4
  */
 public class CtMetadata {
 	
@@ -19,6 +19,9 @@ public class CtMetadata {
 	 */
 	private int dataColumnsCount = -1; 
 	
+	/**
+	 * 
+	 */
 	private int[] distinctValuesPerLevel = null;
 	
 	private int[] spanPerLevel = null;
@@ -101,7 +104,7 @@ public class CtMetadata {
 	 */
 	public String toString(){
 		StringBuffer result = new StringBuffer(); 
-		result.append("CrosstabMetadata[");
+		result.append("CtMetadata[");
 		result.append("distValuesCnt=");
 		result.append(Arrays.toString(distinctValuesPerLevel));
 		result.append(", span=");

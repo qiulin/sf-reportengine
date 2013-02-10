@@ -21,7 +21,7 @@ import net.sf.reportengine.util.IDistinctValuesHolder;
 import net.sf.reportengine.util.MockDistinctValuesHolder;
 
 /**
- * @author dragos
+ * @author dragos balan
  *
  */
 public class CtScenario1x3x1 {
