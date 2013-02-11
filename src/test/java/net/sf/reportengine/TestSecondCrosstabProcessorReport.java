@@ -12,7 +12,7 @@ import net.sf.reportengine.core.steps.ReportAlgorithmStepTC;
 import net.sf.reportengine.in.IntermediateCrosstabReportInput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
-import net.sf.reportengine.scenarios.ct.CtScenario2x2x1;
+import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
 import net.sf.reportengine.util.CtMetadata;
 import net.sf.reportengine.util.IDistinctValuesHolder;
 import net.sf.reportengine.util.ReportIoUtils;
@@ -46,7 +46,7 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 	 */
 	public void testExecute2x2x1xT() throws Exception{
 		
-		IDistinctValuesHolder distinctValuesHolder = CtScenario2x2x1.MOCK_DISTINCT_VALUES_HOLDER; 
+		IDistinctValuesHolder distinctValuesHolder = CtScenario2x2x1With1G1D.MOCK_DISTINCT_VALUES_HOLDER; 
 		CtMetadata crosstabMetadata = new CtMetadata(distinctValuesHolder);
 		crosstabMetadata.computeCoefficients(); 
 		
@@ -59,14 +59,14 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		report.setOut(new HtmlOutput("target/SecondProcessorOut2x2x1xT.html")); 
 		
 		List<IDataColumn> dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( 	crosstabMetadata, 
-																								CtScenario2x2x1.DATA_COLUMNS, 
+																								CtScenario2x2x1With1G1D.DATA_COLUMNS, 
 																								true, 
 																								true);
 		assertNotNull(dataColumns); 
 		assertEquals(10, dataColumns.size()); 
 		report.setDataColumns(dataColumns);
 		
-		List<IGroupColumn> groupColumns = mockCrosstabReport.constructGroupColumnsForSecondProcess(CtScenario2x2x1.GROUPING_COLUMNS);
+		List<IGroupColumn> groupColumns = mockCrosstabReport.constructGroupColumnsForSecondProcess(CtScenario2x2x1With1G1D.GROUPING_COLUMNS);
 		assertNotNull(groupColumns); 
 		assertEquals(1, groupColumns.size());
 		report.setGroupColumns(groupColumns); 

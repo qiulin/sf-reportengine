@@ -8,8 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Administrator
- *
+ * this class holds total values computed by intermediate report on CrosstabData and 
+ * destined for special total-data columns in the final report
+ * 
+ * The order is not important because all IntermediateTotalInfo objects have a position inside
+ * 
+ * @author dragos balan
+ * @since 0.4
  */
 public class IntermComputedTotalsList implements Serializable{
 	
@@ -19,17 +24,32 @@ public class IntermComputedTotalsList implements Serializable{
 	 */
 	private static final long serialVersionUID = 3388048740067218435L;
 	
-	
+	/**
+	 * the total values holder
+	 */
 	private List<IntermediateTotalInfo> totalsDataList;
 	
+	/**
+	 * the one and only constructor
+	 */
 	public IntermComputedTotalsList(){
 		totalsDataList = new ArrayList<IntermediateTotalInfo>(); 
 	}
 	
+	/**
+	 * adds the specified totalsData into the existing list
+	 * @param totalsData
+	 */
 	public void addTotalsData(IntermediateTotalInfo totalsData){
 		totalsDataList.add(totalsData); 
 	}
 	
+	/**
+	 * retrieves the totalInfo for the specified position (relative to the header)
+	 * 
+	 * @param position	an array of indexes ( position relative to header)
+	 * @return
+	 */
 	public Object getValueFor(int...position){
 		Object result = null; 
 		boolean allPositionsAreEqual =  true; 
@@ -77,19 +97,30 @@ public class IntermComputedTotalsList implements Serializable{
 		return result;
 	}
 	
+	/**
+	 * clears the list 
+	 */
 	public void empty(){
 		totalsDataList.clear(); 
 	}
 	
+	/**
+	 * returns the last value in the list
+	 * @return
+	 */
 	public Object getLastValueInTotalList(){
 		return totalsDataList.get(totalsDataList.size()-1);
 	}
 	
-	//TODO: try to remove this
-	public List<IntermediateTotalInfo> getTotalsDataList(){
+	/**
+	 * retrieves the list behind this class
+	 * @return
+	 */
+	public List<IntermediateTotalInfo> getTotalsDataList(){//TODO: try to remove this
 		return totalsDataList; 
 	}
 	
+	@Override
 	public boolean equals(Object another){
 		boolean result = false;
 		if(another instanceof IntermComputedTotalsList){
@@ -98,6 +129,7 @@ public class IntermComputedTotalsList implements Serializable{
 		return result; 
 	}
 	
+	@Override
 	public String toString(){
 		StringBuffer result = new StringBuffer("IntermCtTotalList"); 
 		result.append(totalsDataList.toString());

@@ -22,7 +22,8 @@ import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
-import net.sf.reportengine.scenarios.ct.CtScenario2x2x1;
+import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With0G2D;
+import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
 import net.sf.reportengine.scenarios.ct.CtScenario4x3x1;
 import net.sf.reportengine.test.ReportengineTC;
 import net.sf.reportengine.util.ContextKeys;
@@ -292,23 +293,47 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 //		//TODO: check the output here
 //	}
 	
-	
-	public void testExecuteScenario3x2x1() {
+	public void testExecuteScenario2x2x1With0G2D() {
 		
-		IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput();
-		HtmlOutput testOutput = new HtmlOutput("target/intermediateReport3x2x1.html");
+		OutputDispatcher output = new OutputDispatcher(); 
+		output.registerOutput(new IntermediateCrosstabOutput());
+		output.registerOutput(new HtmlOutput("target/intermediateReport2x2x1With0G2D.html"));
 		
 		IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(2,1);
-		classUnderTest.setIn(new TextInput(ReportIoUtils.createInputStreamFromClassPath("3x2x1.txt")));
-		classUnderTest.setOut(realLifeOutput);
+		classUnderTest.setIn(CtScenario2x2x1With0G2D.INPUT);
+		classUnderTest.setOut(output);
 		
-		classUnderTest.addGroupColumn(new DefaultGroupColumn("Country", 0, 0)); 
-		classUnderTest.addGroupColumn(new DefaultGroupColumn("Region", 1, 1)); 
+		classUnderTest.setGroupColumns(null); 
+		classUnderTest.setDataColumns(CtScenario2x2x1With0G2D.DATA_COLUMNS); 
+		classUnderTest.setCrosstabHeaderRows(CtScenario2x2x1With0G2D.HEADER_ROWS);
+		classUnderTest.setCrosstabData(CtScenario2x2x1With0G2D.CROSSTAB_DATA); 
 		
-		classUnderTest.addDataColumn(new DefaultDataColumn("City", 2)); 
+		classUnderTest.setShowDataRows(true); 
+		classUnderTest.setShowTotals(false); 
+		classUnderTest.setShowGrandTotal(false);
 		
-		classUnderTest.setCrosstabHeaderRows(Arrays.asList(new DefaultCrosstabHeaderRow(3), new DefaultCrosstabHeaderRow(4)));
-		classUnderTest.setCrosstabData(new DefaultCrosstabData(5, Calculators.SUM)); 
+		classUnderTest.execute();
+		
+		DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+		assertNotNull(metadata);
+	 
+	//TODO: check the output here
+	}
+	
+	public void testExecuteScenario2x2x1xTWith0G2D() {
+		
+		OutputDispatcher output = new OutputDispatcher(); 
+		output.registerOutput(new IntermediateCrosstabOutput());
+		output.registerOutput(new HtmlOutput("target/intermediateReport2x2x1xTWith0G2D.html"));
+		
+		IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(2,1);
+		classUnderTest.setIn(CtScenario2x2x1With0G2D.INPUT);
+		classUnderTest.setOut(output);
+		
+		classUnderTest.setGroupColumns(null); 
+		classUnderTest.setDataColumns(CtScenario2x2x1With0G2D.DATA_COLUMNS); 
+		classUnderTest.setCrosstabHeaderRows(CtScenario2x2x1With0G2D.HEADER_ROWS);
+		classUnderTest.setCrosstabData(CtScenario2x2x1With0G2D.CROSSTAB_DATA); 
 		
 		classUnderTest.setShowDataRows(true); 
 		classUnderTest.setShowTotals(true); 
@@ -321,4 +346,34 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	 
 	//TODO: check the output here
 	}
+	
+	
+//	public void testExecuteScenario3x2x1() {
+//		
+//		IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput();
+//		HtmlOutput testOutput = new HtmlOutput("target/intermediateReport3x2x1.html");
+//		
+//		IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(2,1);
+//		classUnderTest.setIn(new TextInput(ReportIoUtils.createInputStreamFromClassPath("3x2x1.txt")));
+//		classUnderTest.setOut(realLifeOutput);
+//		
+//		classUnderTest.addGroupColumn(new DefaultGroupColumn("Country", 0, 0)); 
+//		classUnderTest.addGroupColumn(new DefaultGroupColumn("Region", 1, 1)); 
+//		
+//		classUnderTest.addDataColumn(new DefaultDataColumn("City", 2)); 
+//		
+//		classUnderTest.setCrosstabHeaderRows(Arrays.asList(new DefaultCrosstabHeaderRow(3), new DefaultCrosstabHeaderRow(4)));
+//		classUnderTest.setCrosstabData(new DefaultCrosstabData(5, Calculators.SUM)); 
+//		
+//		classUnderTest.setShowDataRows(true); 
+//		classUnderTest.setShowTotals(true); 
+//		classUnderTest.setShowGrandTotal(true);
+//		
+//		classUnderTest.execute();
+//		
+//		DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+//		assertNotNull(metadata);
+//	 
+//	//TODO: check the output here
+//	}
 }

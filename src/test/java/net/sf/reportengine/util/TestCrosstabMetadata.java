@@ -4,7 +4,7 @@
 package net.sf.reportengine.util;
 
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
-import net.sf.reportengine.scenarios.ct.CtScenario2x2x1;
+import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
 import junit.framework.TestCase;
 
 /**
@@ -29,7 +29,7 @@ public class TestCrosstabMetadata extends TestCase {
 	}
 	
 	public void testComputeCoefficients2x2x1(){
-		DistinctValuesHolder distinctValuesHolder = new DistinctValuesHolder(CtScenario2x2x1.HEADER_ROWS); 
+		DistinctValuesHolder distinctValuesHolder = new DistinctValuesHolder(CtScenario2x2x1With1G1D.HEADER_ROWS); 
 		assertNotNull(distinctValuesHolder);
 		
 		distinctValuesHolder.addValueIfNotExist(0, "North");

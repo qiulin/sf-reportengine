@@ -17,7 +17,7 @@ import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
 import net.sf.reportengine.in.IReportInput;
-import net.sf.reportengine.in.MemoryReportInput;
+import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.util.CrossTabCoefficients;
 
@@ -65,7 +65,7 @@ public class CtScenario1x1x1 {
 	public static final ICrosstabData CROSSTAB_DATA_NO_TOTALS = new DefaultCrosstabData(2);
 	
 	
-	public final static IReportInput INPUT = new MemoryReportInput(RAW_INPUT);
+	public final static IReportInput INPUT = new ArrayReportInput(RAW_INPUT);
     
 	
 	public final static int[] AGG_LEVEL = new int[]{

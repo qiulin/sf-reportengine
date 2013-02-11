@@ -5,7 +5,7 @@ package net.sf.reportengine.util;
 
 import junit.framework.TestCase;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
-import net.sf.reportengine.scenarios.ct.CtScenario2x2x1;
+import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
 
 /**
  * @author Administrator
@@ -24,7 +24,7 @@ public class TestDistinctValuesHolder extends TestCase {
 	 * Test method for {@link net.sf.reportengine.util.DistinctValuesHolder#addValueIfNotExist(int, java.lang.Object)}.
 	 */
 	public void testAddValueIfNotExist() {
-		DistinctValuesHolder classUnderTest = new DistinctValuesHolder(CtScenario2x2x1.HEADER_ROWS); 
+		DistinctValuesHolder classUnderTest = new DistinctValuesHolder(CtScenario2x2x1With1G1D.HEADER_ROWS); 
 		
 		//add on first level
 		assertEquals(0, classUnderTest.addValueIfNotExist(0, "level0value0"));
@@ -57,7 +57,7 @@ public class TestDistinctValuesHolder extends TestCase {
 	 * Test method for {@link net.sf.reportengine.util.DistinctValuesHolder#computeCrosstabCoefficients()}.
 	 */
 	public void testComputeCrosstabCoefficient2x2x1sNoTotals() {
-			DistinctValuesHolder classUnderTest = new DistinctValuesHolder(CtScenario2x2x1.HEADER_ROWS); 
+			DistinctValuesHolder classUnderTest = new DistinctValuesHolder(CtScenario2x2x1With1G1D.HEADER_ROWS); 
 			assertNotNull(classUnderTest);
 			
 			classUnderTest.addValueIfNotExist(0, "North");

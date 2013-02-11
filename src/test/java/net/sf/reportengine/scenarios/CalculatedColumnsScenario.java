@@ -19,7 +19,7 @@ import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.core.steps.MockCalculator;
 import net.sf.reportengine.in.IReportInput;
-import net.sf.reportengine.in.MemoryReportInput;
+import net.sf.reportengine.in.ArrayReportInput;
 
 /**
  * @author dragos balan
@@ -55,7 +55,7 @@ public class CalculatedColumnsScenario {
 	
 	
 	
-	 public final static IReportInput INPUT = new MemoryReportInput(RAW_DATA);
+	 public final static IReportInput INPUT = new ArrayReportInput(RAW_DATA);
 	    
 	public static final List<IGroupColumn> GROUP_COLUMNS = Arrays.asList(new IGroupColumn[]{
 		new DefaultGroupColumn("Zero or One", 0, 0), 

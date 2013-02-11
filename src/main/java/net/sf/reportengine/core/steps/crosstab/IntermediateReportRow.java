@@ -11,8 +11,8 @@ import java.io.Serializable;
  *  <ol>
  *  	<li>values belonging to group columns in the final report (declared as group columns by the user)</li>
  *  	<li>values belonging to data columns in the final report (declared as data columns by the user)</li>
- *  	<li>values computed by the Intermediary report (coming from CrosstabData) 
- *  	<li>total values computed by Intermediary report on CrosstabData and destined for special total-data columns in the final report</li>
+ *  	<li>values computed by the intermediate report (coming from CrosstabData) 
+ *  	<li>total values computed by intermediate report on CrosstabData and destined for special total-data columns in the final report</li>
  *  </ol>
  * 
  * @author dragos balan

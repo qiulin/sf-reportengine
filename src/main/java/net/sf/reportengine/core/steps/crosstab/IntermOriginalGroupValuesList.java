@@ -8,8 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Administrator
- *
+ * this class holds values belonging to group columns in the final report 
+ * (declared as group columns by the user)
+ * 
+ * The order of the values is exactly as the order of the group columns in the final report1
+ * 
+ * @author dragos balan
+ * @since 0.4
  */
 public class IntermOriginalGroupValuesList implements Serializable {
 

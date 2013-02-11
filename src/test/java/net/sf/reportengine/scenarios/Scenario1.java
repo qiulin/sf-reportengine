@@ -17,7 +17,7 @@ import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.core.steps.MockCalculator;
 import net.sf.reportengine.in.IReportInput;
-import net.sf.reportengine.in.MemoryReportInput;
+import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.out.CellProps;
 
 /**
@@ -133,7 +133,7 @@ public class Scenario1 {
     	new ICalculator[]{new MockCalculator(new BigDecimal(6)),new MockCalculator(new BigDecimal(14))}
 	};
 	
-    public final static IReportInput INPUT = new MemoryReportInput(RAW_DATA);
+    public final static IReportInput INPUT = new ArrayReportInput(RAW_DATA);
     
 	public final static CellProps[][] OUTPUT_TOTALS = new CellProps[][]{
 			//displayed on row 3

@@ -17,7 +17,7 @@ import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.IReportInput;
-import net.sf.reportengine.in.MemoryReportInput;
+import net.sf.reportengine.in.ArrayReportInput;
 
 /**
  * @author dragos balan
@@ -32,7 +32,7 @@ public class ScenarioFormatedValues {
 	} 
 	
 	
-	public static final IReportInput INPUT = new MemoryReportInput(new Object[][]{
+	public static final IReportInput INPUT = new ArrayReportInput(new Object[][]{
 			new Object[]{Integer.valueOf(0), "1000", 	Integer.valueOf(100), calendar.getTime()}, 
 			new Object[]{Integer.valueOf(1), "20000", 	Integer.valueOf(200), calendar.getTime()},
 			new Object[]{Integer.valueOf(2), "3000", 	Integer.valueOf(300), calendar.getTime()},

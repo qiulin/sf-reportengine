@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 /**
- * @author Administrator
- *
+ * @author dragos balan
+ * @since 0.4
  */
 public class IntermediateTotalInfo implements Serializable{
 	
