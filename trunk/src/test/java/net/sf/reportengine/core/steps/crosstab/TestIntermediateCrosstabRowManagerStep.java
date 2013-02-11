@@ -5,7 +5,7 @@ package net.sf.reportengine.core.steps.crosstab;
 
 import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.steps.ReportAlgorithmStepTC;
-import net.sf.reportengine.scenarios.ct.CtScenario2x2x1;
+import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
 import net.sf.reportengine.util.ContextKeys;
 
 /**
@@ -30,7 +30,7 @@ public class TestIntermediateCrosstabRowManagerStep extends ReportAlgorithmStepT
 	public void testExecuteCtScenario1() {
 		IReportContext reportContext = getTestContext(); 
 		
-		reportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, CtScenario2x2x1.GROUPING_COLUMNS);
+		reportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, CtScenario2x2x1With1G1D.GROUPING_COLUMNS);
 	}
 
 }

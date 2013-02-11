@@ -10,7 +10,7 @@ package net.sf.reportengine.in;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public class MemoryReportInput extends AbstractReportInput {
+public class ArrayReportInput extends AbstractReportInput {
 
 	private Object[][] data;
 	
@@ -21,7 +21,7 @@ public class MemoryReportInput extends AbstractReportInput {
 	 * 
 	 * @param data
 	 */
-	public MemoryReportInput(Object[][] data){
+	public ArrayReportInput(Object[][] data){
 		this.data = data;
 	}
 	

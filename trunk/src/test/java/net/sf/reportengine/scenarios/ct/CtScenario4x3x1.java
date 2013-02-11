@@ -17,7 +17,7 @@ import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
 import net.sf.reportengine.in.IReportInput;
-import net.sf.reportengine.in.MemoryReportInput;
+import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.util.IDistinctValuesHolder;
 import net.sf.reportengine.util.MockDistinctValuesHolder;
 
@@ -80,7 +80,7 @@ public class CtScenario4x3x1 {
 	public final static ICrosstabData CROSSTAB_DATA = 
 		new DefaultCrosstabData(7, Calculators.SUM);
 	
-	public final static IReportInput INPUT = new MemoryReportInput(RAW_INPUT);
+	public final static IReportInput INPUT = new ArrayReportInput(RAW_INPUT);
 	
 	//untested
 	public final static int[] AGG_LEVEL = new int[]{

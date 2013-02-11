@@ -9,56 +9,64 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author Administrator
- *
+ * this class holds values computed by the intermediate report (coming from CrosstabData) and arranged as a single object
+ * in the intermediate row
+ * 
+ * The order of the objects is not important because any IntermediateDataInfo object has the position specified as an array
+ * 
+ * @author dragos balan
+ * @since 0.4
  */
 public class IntermComputedDataList implements Serializable{
 	
 	
 	/**
-	 * 
+	 * serial version id
 	 */
 	private static final long serialVersionUID = -308220872583199439L;
 	
 	/**
-	 * 
+	 * the values list
 	 */
 	private List<IntermediateDataInfo> dataList; 
 	
 	
 	/**
-	 * 
+	 * the one and only constructor
 	 */
 	public IntermComputedDataList(){
 		dataList = new ArrayList<IntermediateDataInfo>();
 	}
 	
+	/**
+	 * adds the specified data into the list
+	 * @param info
+	 */
 	public void addData(IntermediateDataInfo info){
 		dataList.add(info);
 	}
 	
+	/**
+	 * returns the data list
+	 * @return
+	 */
 	public List<IntermediateDataInfo> getDataList(){
 		return dataList; 
 	}
 	
+	/**
+	 * clears the values of data
+	 */
 	public void empty(){
 		dataList.clear(); 
 	}
 	
-	public boolean equals(Object another){
-		boolean result = false;
-		if(another instanceof IntermComputedDataList){
-			result = this.dataList.equals(((IntermComputedDataList)another).getDataList()); 
-		}
-		return result; 
-	}
-	
-	public String toString(){
-		StringBuffer buffer = new StringBuffer("IntermComputedDataList");
-		buffer.append(dataList.toString());
-		return buffer.toString(); 
-	}
-	
+	/**
+	 * returns the value for the given position
+	 * 
+	 * @param headerRowIndex	the position relative to header
+	 * @return
+	 */
 	public Object getValueFor(int...headerRowIndex){
 		Object result = null; 
 		boolean allPositionsAreEqual =  true; 
@@ -95,4 +103,19 @@ public class IntermComputedDataList implements Serializable{
 		return result;
 	}
 	
+	@Override
+	public boolean equals(Object another){
+		boolean result = false;
+		if(another instanceof IntermComputedDataList){
+			result = this.dataList.equals(((IntermComputedDataList)another).getDataList()); 
+		}
+		return result; 
+	}
+	
+	@Override
+	public String toString(){
+		StringBuffer buffer = new StringBuffer("IntermComputedDataList");
+		buffer.append(dataList.toString());
+		return buffer.toString(); 
+	}
 }

@@ -16,19 +16,18 @@ import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
 import net.sf.reportengine.in.IReportInput;
-import net.sf.reportengine.in.MemoryReportInput;
+import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.util.IDistinctValuesHolder;
 import net.sf.reportengine.util.MockDistinctValuesHolder;
 
 
 /**
+ * 
+ * 
  * @author dragos balan
  *
  */
-public class CtScenario2x2x1 {
-	
-	public static final Boolean HAS_HEADER_TOTALS = new Boolean(false);
-	
+public class CtScenario2x2x1With1G1D {
 	
 	public static final String[][] RAW_INPUT = new String[][]{
 		new String[]{"North",	"M",	"20",	"Sweden", 	"1000"},
@@ -47,7 +46,7 @@ public class CtScenario2x2x1 {
 		new String[]{"West",	"F",	"20",	"France", 	"30"}
     }; 
 	
-	public final static IReportInput INPUT = new MemoryReportInput(RAW_INPUT);
+	public final static IReportInput INPUT = new ArrayReportInput(RAW_INPUT);
 	
 	public final static int[] AGG_LEVEL = new int[]{-1,
 													3,
@@ -66,8 +65,7 @@ public class CtScenario2x2x1 {
 	
 	public static final List<IGroupColumn> GROUPING_COLUMNS = Arrays.asList(
 			new IGroupColumn[]{
-					new DefaultGroupColumn("Region", 0, 0) 
-					//new DefaultGroupColumn("Country",3, 1)
+					new DefaultGroupColumn("Region", 0, 0)					
 	});
 	
 	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList(new IDataColumn[]{new DefaultDataColumn("Country", 3)});

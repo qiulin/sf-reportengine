@@ -11,7 +11,7 @@ import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.IReportInput;
-import net.sf.reportengine.in.MemoryReportInput;
+import net.sf.reportengine.in.ArrayReportInput;
 
 /**
  * @author Administrator
@@ -32,7 +32,7 @@ public final class NoGroupsScenario {
 		new String[]{"0","a","4","b","6","c"}
 	};
 	
-	public final static IReportInput INPUT = new MemoryReportInput(RAW_INPUT);
+	public final static IReportInput INPUT = new ArrayReportInput(RAW_INPUT);
 	
 	public static final List<IGroupColumn> GROUPING_COLUMNS = null; 
 			

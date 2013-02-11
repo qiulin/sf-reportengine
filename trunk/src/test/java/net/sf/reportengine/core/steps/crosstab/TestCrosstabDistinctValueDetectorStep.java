@@ -9,7 +9,7 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.ReportAlgorithmStepTC;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
-import net.sf.reportengine.scenarios.ct.CtScenario2x2x1;
+import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
 import net.sf.reportengine.util.ContextKeys;
 
 /**
@@ -35,19 +35,19 @@ public class TestCrosstabDistinctValueDetectorStep extends ReportAlgorithmStepTC
 		IReportContext reportContext = getTestContext(); 
 		
 		reportContext.set(	ContextKeys.CONTEXT_KEY_CROSSTAB_HEADER_ROWS, 
-							CtScenario2x2x1.HEADER_ROWS);
-		reportContext.set(ContextKeys.CONTEXT_KEY_CROSSTAB_DATA, CtScenario2x2x1.CROSSTAB_DATA);
+							CtScenario2x2x1With1G1D.HEADER_ROWS);
+		reportContext.set(ContextKeys.CONTEXT_KEY_CROSSTAB_DATA, CtScenario2x2x1With1G1D.CROSSTAB_DATA);
 		
 		classUnderTest.init(reportContext);
 		assertNotNull(classUnderTest.getCrosstabHeaderRows());
 		
-		for (int i = 0; i < CtScenario2x2x1.RAW_INPUT.length; i++) {
+		for (int i = 0; i < CtScenario2x2x1With1G1D.RAW_INPUT.length; i++) {
 			
-			classUnderTest.execute(new NewRowEvent(CtScenario2x2x1.RAW_INPUT[i]));
+			classUnderTest.execute(new NewRowEvent(CtScenario2x2x1With1G1D.RAW_INPUT[i]));
 			
 			IntermediateDataInfo intermediateDataInfo = (IntermediateDataInfo)reportContext.get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_CROSSTAB_DATA_INFO);
 			assertNotNull(intermediateDataInfo);
-			assertEquals(CtScenario2x2x1.INTERMEDIATE_DATA_INFO[i]  ,intermediateDataInfo); 
+			assertEquals(CtScenario2x2x1With1G1D.INTERMEDIATE_DATA_INFO[i]  ,intermediateDataInfo); 
 		}
 	}
 	
