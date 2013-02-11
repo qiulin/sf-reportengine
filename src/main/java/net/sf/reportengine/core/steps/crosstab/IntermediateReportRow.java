@@ -36,6 +36,10 @@ public class IntermediateReportRow implements Serializable {
 	private IntermComputedDataList intermComputedDataList; 
 	private IntermComputedTotalsList intermComputedTotalsList; 
 	
+	
+	/**
+	 * the one and only constructor
+	 */
 	public IntermediateReportRow(){
 		intermOrigGroupValuesList = new IntermOriginalGroupValuesList();
 		intermOriginalDataValues = new IntermOriginalDataColsList(); 
@@ -60,22 +64,41 @@ public class IntermediateReportRow implements Serializable {
 	}
 
 	
+	/**
+	 * adds the given group value to the existing intemediate group values list
+	 * @param groupValue
+	 */
 	public void addOrigGroupValue(Object groupValue){
 		this.intermOrigGroupValuesList.addGroupValue(groupValue); 
 	}
 	
+	/**
+	 * adds the given value to the data values list
+	 * @param dataValue
+	 */
 	public void addOrigDataColValue(Object dataValue){
 		this.intermOriginalDataValues.addDataColumnValue(dataValue); 
 	}
 	
+	/**
+	 * adds the given DataInfo to the existing intermediate data list
+	 * @param info
+	 */
 	public void addIntermComputedData(IntermediateDataInfo info){
 		this.intermComputedDataList.addData(info);
 	}
 	
+	/**
+	 * adds the given total info to the total info list
+	 * @param info
+	 */
 	public void addIntermTotalsInfo(IntermediateTotalInfo info){
 		this.intermComputedTotalsList.addTotalsData(info);
 	}
 	
+	/**
+	 * clears all 4 lists of values
+	 */
 	public void emptyRow(){
 		intermOrigGroupValuesList.empty(); 
 		intermOriginalDataValues.empty(); 
@@ -83,14 +106,23 @@ public class IntermediateReportRow implements Serializable {
 		intermComputedTotalsList.empty();
 	}
 	
+	/**
+	 * returns true if this row is the last
+	 * @return
+	 */
 	public boolean isLast() {
 		return isLast;
 	}
-
+	
+	/**
+	 * sets this row as being the last
+	 * @param isLast
+	 */
 	public void setLast(boolean isLast) {
 		this.isLast = isLast;
 	}
 	
+	@Override
 	public boolean equals(Object another){
 		boolean result = false; 
 		
@@ -105,6 +137,7 @@ public class IntermediateReportRow implements Serializable {
 		return result; 
 	}
 	
+	@Override
 	public String toString(){
 		StringBuilder result = new StringBuilder("IRR[isLast=");
 		result.append(isLast);

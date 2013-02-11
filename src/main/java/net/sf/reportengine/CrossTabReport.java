@@ -337,6 +337,11 @@ public class CrossTabReport extends AbstractReport{
 	}
 	
 	/**
+	 * creates a list of IDataColumn objects from 
+	 * 
+	 * 1. original data columns 
+	 * 2. columns needed for displaying the values under the header values ( computed form crosstab-data) 
+	 * 3. (if needed ) columns needed to display the totals and grand total 
 	 * 
 	 * @param crosstabMetadata
 	 * @param originalDataColumns
@@ -380,7 +385,7 @@ public class CrossTabReport extends AbstractReport{
 																null, 
 																"Total column="+column+ ",colspan= "+colspan));
 					}
-				}
+				}//end for
 			}//end if has totals
 
 			//data columns coming from data columns

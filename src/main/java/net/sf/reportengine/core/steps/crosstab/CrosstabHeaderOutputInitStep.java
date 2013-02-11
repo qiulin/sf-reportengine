@@ -81,7 +81,8 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 			
 			//1. handle grouping columns header first 
 			
-			//only the last row will contain something while the first will be empty
+			//for group columns only the last header row will contain something 
+			// the first will be empty
 			if(currHeaderRow == ctMetadata.getHeaderRowsCount()-1){
 				//if last header row write the normal column headers
 				if(groupCols != null && groupCols.size() > 0){
@@ -93,7 +94,8 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 													.build()); 
 					}
 				}
-				//output header for SecondCrossta ... 
+				//output header for SecondCrossta ...  ????? 
+				//TODO why do I need the data cols here ( they are treated at the end of this method)
 				reportOutput.output(new CellProps.Builder(dataCols.get(0).getHeader())
 											.colspan(1)
 											.contentType(ReportContent.COLUMN_HEADER)
@@ -107,6 +109,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 					}
 				}
 				//output header for SecondCrossta ... 
+				//TODO why do I need the data cols here ( they are treated at the end of this method)
 				reportOutput.output(new CellProps.Builder(IReportOutput.WHITESPACE).build());
 			}
 			
@@ -167,7 +170,25 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 						}
 						currentColumn++;
 					}else{
-						throw new IllegalArgumentException("there's no handler for "+currentDataColumn.getClass()); 
+						if(currentDataColumn instanceof SecondProcessDataColumnFromOriginalDataColumn){
+							
+							//only on the last header row we display the header values for the original data columns
+							if(currHeaderRow == ctMetadata.getHeaderRowsCount()-1){
+								SecondProcessDataColumnFromOriginalDataColumn originalDataColumn = (SecondProcessDataColumnFromOriginalDataColumn)currentDataColumn; 
+								reportOutput.output(new CellProps.Builder(originalDataColumn.getHeader())
+																.colspan(1)
+																.contentType(ReportContent.COLUMN_HEADER)
+																.horizAlign(HorizontalAlign.CENTER)
+																.build()); 
+							}else{
+								//first header rows will contain empty cells
+								reportOutput.output(new CellProps.Builder(IReportOutput.WHITESPACE).build());
+							}
+							currentColumn++; 
+						}else{
+							//no other type of data column is accepted
+							throw new IllegalArgumentException("there's no handler for "+currentDataColumn.getClass());
+						}
 					}
 				}
 			}//end while 
