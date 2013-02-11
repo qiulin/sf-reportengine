@@ -12,6 +12,7 @@ import net.sf.reportengine.core.steps.ReportAlgorithmStepTC;
 import net.sf.reportengine.in.IntermediateCrosstabReportInput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
+import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With0G2D;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
 import net.sf.reportengine.util.CtMetadata;
 import net.sf.reportengine.util.IDistinctValuesHolder;
@@ -74,6 +75,40 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		report.execute(); 
 	}
 	
+	
+	/**
+	 * Test method for {@link net.sf.reportengine.AbstractReport#execute()}.
+	 */
+	public void testExecute2x2x1With0G2D() throws Exception{
+		
+		CtMetadata crosstabMetadata = new CtMetadata(CtScenario2x2x1With0G2D.MOCK_DISTINCT_VALUES_HOLDER);
+		crosstabMetadata.computeCoefficients(); 
+		
+		InputStream intermObjectStream = ReportIoUtils.createInputStreamFromClassPath("TestIntermediateInput2x2x1With0G2D.rep");
+		assertNotNull(intermObjectStream);
+		IntermediateCrosstabReportInput intermediateInput = new IntermediateCrosstabReportInput(intermObjectStream); 
+		
+		SecondCrosstabProcessorReport report = new SecondCrosstabProcessorReport(crosstabMetadata); 
+		report.setIn(intermediateInput);
+		report.setOut(new HtmlOutput("target/SecondProcessorOut2x2x1With0G2D.html")); 
+		
+		List<IDataColumn> dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( 	crosstabMetadata, 
+																									CtScenario2x2x1With0G2D.DATA_COLUMNS, 
+																									false, 
+																									false);
+		assertNotNull(dataColumns); 
+		//assertEquals(10, dataColumns.size()); 
+		report.setDataColumns(dataColumns);
+		
+		List<IGroupColumn> groupColumns = mockCrosstabReport.constructGroupColumnsForSecondProcess(CtScenario2x2x1With0G2D.GROUPING_COLUMNS);
+		assertNull(groupColumns); 
+		
+		report.setGroupColumns(groupColumns); 
+		
+		report.execute(); 
+	}
+	
+	
 	/**
 	 * Test method for {@link net.sf.reportengine.AbstractReport#execute()}.
 	 */
@@ -83,7 +118,7 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		CtMetadata crosstabMetadata = new CtMetadata(distinctValuesHolder);
 		crosstabMetadata.computeCoefficients(); 
 		
-		InputStream intermObjectStream = getInputStreamFromClasspath("TestIntermediateInput1x3x1xT.rep");
+		InputStream intermObjectStream = ReportIoUtils.createInputStreamFromClassPath("TestIntermediateInput1x3x1xT.rep");
 		assertNotNull(intermObjectStream);
 		IntermediateCrosstabReportInput intermediateInput = new IntermediateCrosstabReportInput(intermObjectStream); 
 		
@@ -117,7 +152,7 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		CtMetadata crosstabMetadata = new CtMetadata(distinctValuesHolder);
 		crosstabMetadata.computeCoefficients(); 
 		
-		InputStream intermObjectStream = getInputStreamFromClasspath("TestIntermediateInput1x3x1.rep");
+		InputStream intermObjectStream = ReportIoUtils.createInputStreamFromClassPath("TestIntermediateInput1x3x1.rep");
 		assertNotNull(intermObjectStream);
 		IntermediateCrosstabReportInput intermediateInput = new IntermediateCrosstabReportInput(intermObjectStream); 
 		
