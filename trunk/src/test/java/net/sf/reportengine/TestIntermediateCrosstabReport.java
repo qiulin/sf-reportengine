@@ -174,7 +174,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	
 	public void testExecuteScenario1x3x1xT() {
 		
-			HtmlOutput testOutput = new HtmlOutput("target/intermediateReport1x3x1xT.html"); 
+			//HtmlOutput testOutput = new HtmlOutput("target/intermediateReport1x3x1xT.html"); 
 			IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput(); 
 			
 			IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(0,1);
@@ -198,7 +198,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	
 	public void testExecuteScenario1x1x1xT() {
 		
-			HtmlOutput testOutput = new HtmlOutput("target/intermediateReport1x1x1xT.html");
+			//HtmlOutput testOutput = new HtmlOutput("target/intermediateReport1x1x1xT.html");
 			IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput(); 
 			
 			IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(0,1);
@@ -223,7 +223,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	
 	public void testExecuteScenario1x3x1xNoTotals() {
 		
-			HtmlOutput testOutput = new HtmlOutput("target/intermediateReport1x3x1.html");
+			//HtmlOutput testOutput = new HtmlOutput("target/intermediateReport1x3x1.html");
 			IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput();
 			
 			IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(0,1);
@@ -247,7 +247,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	
 	public void testExecuteScenario4x3x1xT() {
 		
-			HtmlOutput testOutput = new HtmlOutput("target/intermediateReport4x3x1xT.html");
+			//HtmlOutput testOutput = new HtmlOutput("target/intermediateReport4x3x1xT.html");
 			IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput();
 			
 			IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(3,1);
@@ -272,7 +272,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	public void testExecuteScenario4x3x1() {
 		
 			IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput();
-			HtmlOutput testOutput = new HtmlOutput("target/intermediateReport4x3x1.html");
+			//HtmlOutput testOutput = new HtmlOutput("target/intermediateReport4x3x1.html");
 			
 			IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(3,1);
 			classUnderTest.setIn(CtScenario4x3x1.INPUT);
@@ -351,7 +351,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	public void testExecuteScenario3x2x1() {
 		
 		IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput();
-		HtmlOutput testOutput = new HtmlOutput("target/intermediateReport3x2x1.html");
+		//HtmlOutput testOutput = new HtmlOutput("target/intermediateReport3x2x1.html");
 		
 		IntermediateCrosstabReport classUnderTest = new IntermediateCrosstabReport(2,1);
 		classUnderTest.setIn(new TextInput(ReportIoUtils.createInputStreamFromClassPath("3x2x1.txt")));
