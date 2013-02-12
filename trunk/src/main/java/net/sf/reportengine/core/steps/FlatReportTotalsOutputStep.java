@@ -175,9 +175,16 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     			//for all others grouping columns put whitespaces 
     			//(groupColumns.length-1 colspan because the first column was already 
     			//filled with the word "Total xxxx"
-    			output.output(new CellProps.Builder(IReportOutput.WHITESPACE)
-    										.colspan(groupCols.size()-1) 
-    										.build());
+    			
+    			//if you want a single cell spanning multiple rows decomment this
+    			//output.output(new CellProps.Builder(IReportOutput.WHITESPACE)
+    			//							.colspan(groupCols.size()-1) 
+    			//							.build());
+    			
+    			//this is to display an empty cell for every remaining group column
+    			for(int i=1; i<groupCols.size(); i++){
+    				output.output(CellProps.EMPTY_CELL); 
+    			}
     		}
         }
         

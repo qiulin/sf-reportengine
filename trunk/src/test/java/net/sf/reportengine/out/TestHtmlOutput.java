@@ -41,6 +41,10 @@ public class TestHtmlOutput extends ReportengineTC {
 		
 			classUnderTest.open();
 			
+			classUnderTest.startRow(new RowProps(ReportContent.REPORT_TITLE));
+			classUnderTest.output(new CellProps.Builder("report title").colspan(3).build());
+			classUnderTest.endRow(); 
+			
 			classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER)); 
 			classUnderTest.output(new CellProps.Builder("header1").build()); 
 			classUnderTest.output(new CellProps.Builder("header2").build());

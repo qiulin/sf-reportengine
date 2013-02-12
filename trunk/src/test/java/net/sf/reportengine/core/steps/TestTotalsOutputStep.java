@@ -102,7 +102,7 @@ public class TestTotalsOutputStep extends ReportAlgorithmStepTC {
 		classUnderTest.exit();
 		
 		CellProps[][] resultCellMatrix = getTestOutput().getCellMatrix();
-		MatrixUtils.logMatrix(resultCellMatrix); 
+		//MatrixUtils.logMatrix(resultCellMatrix); 
 		assertTrue(MatrixUtils.compareMatrices(Scenario1.OUTPUT_TOTALS, resultCellMatrix));
 	}
 	
