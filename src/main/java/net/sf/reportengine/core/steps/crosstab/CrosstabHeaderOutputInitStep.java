@@ -23,11 +23,12 @@ import net.sf.reportengine.util.CtMetadata;
 import org.apache.log4j.Logger;
 
 /**
- * @author Administrator
- *
+ * displays the column headers for the crosstab report
+ * 
+ * @author dragos balan
+ * @since 0.4
  */
 public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
-	
 	
 	/**
 	 * the one and only logger
@@ -44,24 +45,8 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 		//ICrosstabHeaderRow[] headerRows = (ICrosstabHeaderRow[])reportContext.get(ContextKeys.CONTEXT_KEY_CROSSTAB_HEADER_ROWS); 
 		CtMetadata ctMetadata = (CtMetadata)reportContext.get(ContextKeys.CONTEXT_KEY_CROSSTAB_METADATA);
 		
-//		reportOutput.startRow(); 
-//		if(groupColumns != null && groupColumns.length > 0){
-//			//we skip the first data column (obtained from an initial grouping column)
-//			for (int col = 0; col < groupColumns.length; col++) {
-//				reportOutput.output(new CellProps(groupColumns[col].getHeader(), 1, ctMetadata.getHeaderRowsCount(), ReportContent.COLUMN_HEADER));		
-//			}
-//		}
-//		
-//		//we skip the first data column (obtained from an initial grouping column)
-//		for (int col = 1; col < dataColumns.length; col++) {
-//			reportOutput.output(new CellProps(dataColumns[col].getHeader(), 1, 1, ReportContent.COLUMN_HEADER)); 				
-//		}
-//		
-//		reportOutput.endRow(); 
-		
-		//next rows 
-		outputHeaderRowsByLoopingColumns(reportOutput, ctMetadata, dataColumns, groupColumns); 
-		
+		//display header rows
+		outputHeaderRows(reportOutput, ctMetadata, dataColumns, groupColumns); 
 	}
 	
 	/**
@@ -71,119 +56,46 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 	 * @param dataCols
 	 * @param groupCols
 	 */
-	private void outputHeaderRowsByLoopingColumns(	IReportOutput reportOutput, 
-													CtMetadata ctMetadata, 
-													List<IDataColumn> dataCols, 
-													List<IGroupColumn> groupCols){
+	private void outputHeaderRows(	IReportOutput reportOutput, 
+									CtMetadata ctMetadata, 
+									List<IDataColumn> dataCols, 
+									List<IGroupColumn> groupCols){
 		//loop through all header rows
 		for (int currHeaderRow = 0; currHeaderRow < ctMetadata.getHeaderRowsCount(); currHeaderRow++) {
 			reportOutput.startRow(new RowProps(ReportContent.COLUMN_HEADER)); 
 			
+			boolean isLastHeaderRow = currHeaderRow == ctMetadata.getHeaderRowsCount()-1; 
+			
 			//1. handle grouping columns header first 
+			displayHeaderForGroupingCols(	groupCols, 
+											reportOutput,
+											isLastHeaderRow);
 			
-			//for group columns only the last header row will contain something 
-			// the first will be empty
-			if(currHeaderRow == ctMetadata.getHeaderRowsCount()-1){
-				//if last header row write the normal column headers
-				if(groupCols != null && groupCols.size() > 0){
-					for (int i = 0; i < groupCols.size(); i++) {
-						reportOutput.output(new CellProps.Builder(groupCols.get(i).getHeader())
-													.colspan(1)
-													.contentType(ReportContent.COLUMN_HEADER)
-													.horizAlign(HorizontalAlign.CENTER)
-													.build()); 
-					}
-				}
-				//output header for SecondCrossta ...  ????? 
-				//TODO why do I need the data cols here ( they are treated at the end of this method)
-				reportOutput.output(new CellProps.Builder(dataCols.get(0).getHeader())
-											.colspan(1)
-											.contentType(ReportContent.COLUMN_HEADER)
-											.horizAlign(HorizontalAlign.CENTER)
-											.build());
-			}else{
-				//first header rows will contain only spaces (for group headers): 
-				if(groupCols != null && groupCols.size() > 0){
-					for (int i = 0; i < groupCols.size(); i++) {
-						reportOutput.output(new CellProps.Builder(IReportOutput.WHITESPACE).build()); 
-					}
-				}
-				//output header for SecondCrossta ... 
-				//TODO why do I need the data cols here ( they are treated at the end of this method)
-				reportOutput.output(new CellProps.Builder(IReportOutput.WHITESPACE).build());
-			}
-			
-			
-			//2. now handle data columns
-			int colspan = 1;
-			if(currHeaderRow < ctMetadata.getHeaderRowsCount()-1){
-				//for all rows except the last header row we read the colspan
-				colspan = ctMetadata.getColspanForLevel(ctMetadata.getHeaderRowsCount()-2);
-			}
-			int currentColumn = 1; 
+			//2. now loop through data columns
+			int currentColumn = 0; 
 			while(currentColumn < dataCols.size()){
 				IDataColumn currentDataColumn = dataCols.get(currentColumn);
 				
 				//if this column is a column created during 
 				if(currentDataColumn instanceof SecondProcessDataColumn){
-					SecondProcessDataColumn currDataColumnAsSPDC = (SecondProcessDataColumn)currentDataColumn; 
-					Object value = ctMetadata.getDistincValueFor(currHeaderRow, currDataColumnAsSPDC.getPosition()[currHeaderRow]);
-					reportOutput.output(new CellProps.Builder(value)
-												.colspan(colspan)
-												.contentType(ReportContent.COLUMN_HEADER)
-												.horizAlign(currDataColumnAsSPDC.getHorizAlign())
-												.build());
+					int colspan = displayDataColumnHeader(	(SecondProcessDataColumn)currentDataColumn,
+															reportOutput,
+															ctMetadata, 
+															currHeaderRow, 
+															isLastHeaderRow);
 					currentColumn += colspan; 
 				}else{
 					if(currentDataColumn instanceof SecondProcessTotalColumn){
-						SecondProcessTotalColumn currDataColumnAsSPTC = (SecondProcessTotalColumn)currentDataColumn; 
-						int[] position = currDataColumnAsSPTC.getPosition();
-						
-						if(position != null){
-							if(currHeaderRow < position.length){
-								Object value = ctMetadata.getDistincValueFor(currHeaderRow, position[currHeaderRow]);
-								reportOutput.output(new CellProps.Builder(value)
-															.colspan(1)
-															.contentType(ReportContent.COLUMN_HEADER)
-															.horizAlign(currDataColumnAsSPTC.getHorizAlign())
-															.build());
-							}else{
-								if(currHeaderRow == position.length){
-									reportOutput.output(new CellProps.Builder("Total")
-																.contentType(ReportContent.COLUMN_HEADER)
-																.horizAlign(HorizontalAlign.CENTER)
-																.build());
-								}else{
-									reportOutput.output(new CellProps.Builder(IReportOutput.WHITESPACE).build());
-								}
-							}
-						}else{
-							//grand total
-							if(currHeaderRow == 0){
-								reportOutput.output(new CellProps.Builder("Grand Total")
-															.contentType(ReportContent.COLUMN_HEADER)
-															.horizAlign(HorizontalAlign.LEFT)
-															.build());
-							}else{
-								reportOutput.output(new CellProps.Builder(IReportOutput.WHITESPACE).build());
-							}
-						}
+						displayHeaderForTotalColumn((SecondProcessTotalColumn)currentDataColumn,
+													reportOutput, 
+													ctMetadata, 
+													currHeaderRow);
 						currentColumn++;
 					}else{
 						if(currentDataColumn instanceof SecondProcessDataColumnFromOriginalDataColumn){
-							
-							//only on the last header row we display the header values for the original data columns
-							if(currHeaderRow == ctMetadata.getHeaderRowsCount()-1){
-								SecondProcessDataColumnFromOriginalDataColumn originalDataColumn = (SecondProcessDataColumnFromOriginalDataColumn)currentDataColumn; 
-								reportOutput.output(new CellProps.Builder(originalDataColumn.getHeader())
-																.colspan(1)
-																.contentType(ReportContent.COLUMN_HEADER)
-																.horizAlign(HorizontalAlign.CENTER)
-																.build()); 
-							}else{
-								//first header rows will contain empty cells
-								reportOutput.output(new CellProps.Builder(IReportOutput.WHITESPACE).build());
-							}
+							displayHeaderForOriginalDataColumn(	currentDataColumn, 
+																reportOutput,
+																isLastHeaderRow);
 							currentColumn++; 
 						}else{
 							//no other type of data column is accepted
@@ -194,5 +106,137 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 			}//end while 
 			reportOutput.endRow(); 
 		}
+	}
+
+	/**
+	 * displays the headers for group columns
+	 * @param groupCols
+	 * @param reportOutput
+	 * @param isLastHeaderRow
+	 */
+	private void displayHeaderForGroupingCols(	List<IGroupColumn> groupCols,
+												IReportOutput reportOutput, 
+												boolean isLastHeaderRow) {
+		//if last header row write the normal column headers
+		if(groupCols != null && groupCols.size() > 0){
+			if(isLastHeaderRow){
+				//for group columns only the last header row will contain something 
+				// the first will be empty	
+				for (int i = 0; i < groupCols.size(); i++) {
+					reportOutput.output(new CellProps.Builder(groupCols.get(i).getHeader())
+												.colspan(1)
+												.contentType(ReportContent.COLUMN_HEADER)
+												.horizAlign(HorizontalAlign.CENTER)
+												.build()); 
+				}
+			}else{
+				//first header rows will contain only spaces (for group headers):
+				for (int i = 0; i < groupCols.size(); i++) {
+					reportOutput.output(CellProps.EMPTY_CELL); 
+				}
+			}
+		}else{
+			if(logger.isDebugEnabled())logger.debug("no group columns headers found"); 
+		}		
+	}
+
+	/**
+	 * displays the header for the original data columns
+	 * @param currentDataColumn
+	 * @param reportOutput
+	 * @param isLastHeaderRow
+	 */
+	private void displayHeaderForOriginalDataColumn(	IDataColumn currentDataColumn, 
+														IReportOutput reportOutput,
+														boolean isLastHeaderRow) {
+		//only on the last header row we display the header values for the original data columns
+		if(isLastHeaderRow){
+			SecondProcessDataColumnFromOriginalDataColumn originalDataColumn = (SecondProcessDataColumnFromOriginalDataColumn)currentDataColumn; 
+			reportOutput.output(new CellProps.Builder(originalDataColumn.getHeader())
+											.colspan(1)
+											.contentType(ReportContent.COLUMN_HEADER)
+											.horizAlign(HorizontalAlign.CENTER)
+											.build()); 
+		}else{
+			//first header rows will contain empty cells
+			reportOutput.output(CellProps.EMPTY_CELL);
+		}
+	}
+
+	/**
+	 * displays the headers for data columns of type SecondProcessTotalColumn
+	 * 
+	 * @param secondProcessTotalCol
+	 * @param reportOutput
+	 * @param ctMetadata
+	 * @param currHeaderRow
+	 */
+	private void displayHeaderForTotalColumn(	SecondProcessTotalColumn secondProcessTotalCol,
+												IReportOutput reportOutput, 
+												CtMetadata ctMetadata, 
+												int currHeaderRow) {
+		int[] position = secondProcessTotalCol.getPosition();
+		
+		if(position != null){
+			if(currHeaderRow < position.length){
+				Object value = ctMetadata.getDistincValueFor(currHeaderRow, position[currHeaderRow]);
+				reportOutput.output(new CellProps.Builder(value)
+											.colspan(1)
+											.contentType(ReportContent.COLUMN_HEADER)
+											.horizAlign(secondProcessTotalCol.getHorizAlign())
+											.build());
+			}else{
+				//if there's no position for this header row then this is a hard-coded "TOTAL" 
+				if(currHeaderRow == position.length){
+					reportOutput.output(new CellProps.Builder("Total")
+												.contentType(ReportContent.COLUMN_HEADER)
+												.horizAlign(HorizontalAlign.CENTER)
+												.build());
+				}else{
+					reportOutput.output(CellProps.EMPTY_CELL);
+				}
+			}
+		}else{
+			//the only data column that has null positions is the grand total column
+			if(currHeaderRow == 0){
+				reportOutput.output(new CellProps.Builder("Grand Total")
+											.contentType(ReportContent.COLUMN_HEADER)
+											.horizAlign(HorizontalAlign.LEFT)
+											.build());
+			}else{
+				reportOutput.output(CellProps.EMPTY_CELL);
+			}
+		}
+	}
+
+	/**
+	 * displays the column header for objects of type SecondProcessDataColumn
+	 * 
+	 * @param secondProcDataColumn
+	 * @param reportOutput
+	 * @param ctMetadata
+	 * @param currHeaderRow
+	 * @param isLastHeaderRow
+	 * 
+	 * @return	the colspan
+	 */
+	private int displayDataColumnHeader(SecondProcessDataColumn secondProcDataColumn,
+										IReportOutput reportOutput,
+										CtMetadata ctMetadata, 
+										int currHeaderRow, 
+										boolean isLastHeaderRow ) {
+		int colspan = 1;
+		if(!isLastHeaderRow){
+			//for all rows except the last header row we read the colspan
+			colspan = ctMetadata.getColspanForLevel(ctMetadata.getHeaderRowsCount()-2);
+		}
+		
+		Object value = ctMetadata.getDistincValueFor(currHeaderRow, secondProcDataColumn.getPosition()[currHeaderRow]);
+		reportOutput.output(new CellProps.Builder(value)
+									.colspan(colspan)
+									.contentType(ReportContent.COLUMN_HEADER)
+									.horizAlign(secondProcDataColumn.getHorizAlign())
+									.build());
+		return colspan;
 	}
 }

@@ -15,6 +15,11 @@ import net.sf.reportengine.core.ReportContent;
  * @since 0.3
  */
 public final class CellProps {
+	
+	/**
+	 * empty cell having a colspan of 1 
+	 */
+	public static final CellProps EMPTY_CELL = new CellProps.Builder(IReportOutput.WHITESPACE).build(); 
 
 	/**
      * the column span

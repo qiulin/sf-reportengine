@@ -199,7 +199,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
 			}else{
 				//if the column doesn't have a calculator asociated 
 				//then display an empty value (whitespace) with colspan 1
-				output.output(new CellProps.Builder(IReportOutput.WHITESPACE).build());
+				output.output(CellProps.EMPTY_CELL);
 			}
 		}
     	output.endRow();
