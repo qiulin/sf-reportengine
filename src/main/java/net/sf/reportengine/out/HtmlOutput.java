@@ -32,10 +32,11 @@ public class HtmlOutput extends AbstractCharacterOutput {
     private static final String DEFAULT_INSIDE_PAGE_CSS_DECLARATION = new StringBuilder()
     																	.append("<style type=\"text/css\"> ")
     																	.append("body {background-color: #ffffff } ")
-    																	.append("table.reportTable {border-width:thin; border-style:solid; border-color: #000000;} ")
+    																	.append("table.reportTable {border-width:1px; border-style:solid; border-color: #000000; border-collapse:collapse; } ")
     																	.append("tr.reportTableHeader {color: #ffffff; background-color: #000000; font-weight: bold;} ")
-    																	.append("tr.even {color: #000000; background-color: #c0c0c0 }") //#f5f5f5;
-    																	.append("tr.odd {color: #000000; background-color: #ffffff}" )
+    																	.append("tr.even {color: #000000; background-color: #c0c0c0;}")
+    																	.append("tr.odd {color: #000000; background-color: #ffffff ;}" )
+    																	.append("td {border:1px solid #000000; padding:1px 3px 1px 3px;}" )
     																	.append("</style>")
     																	.toString();
     /**
@@ -167,11 +168,7 @@ public class HtmlOutput extends AbstractCharacterOutput {
     public void endRow(){
         try{
             super.endRow();
-            if(ReportContent.COLUMN_HEADER.equals(getCurrentRowProps().getContent())){
-            	getOutputWriter().write("</th>");
-            }else{
-            	getOutputWriter().write("</tr>"); 
-            }
+            getOutputWriter().write("</tr>"); 
             getOutputWriter().write(ReportIoUtils.LINE_SEPARATOR);
         }catch (IOException ioExc) {
         	throw new ReportOutputException(ioExc);
