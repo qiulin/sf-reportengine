@@ -44,7 +44,14 @@
           	</fo:block> 
 			
 			<fo:block>
-				 <fo:table>
+				 <fo:table 	border-top-style="solid"
+				 			border-bottom-style="solid"
+				 			border-left-style="solid"
+				 			border-right-style="solid">
+				 			<!-- border-top-color="#000000"
+				 			border-bottom-color="#000000"
+				 			border-left-color="#000000"
+				 			border-right-color="#000000" -->
 					<fo:table-header border-bottom-style="solid">
 						<xsl:for-each select="table-header">
 							<fo:table-row>
@@ -52,14 +59,18 @@
 								<xsl:for-each select="cell">
 									<xsl:variable name="colspan" select="@colspan" />
 									<xsl:variable name="horizAlign" select="@horizAlign" />
-									<fo:table-cell number-columns-spanned="{$colspan}">
+									<fo:table-cell 	number-columns-spanned="{$colspan}"
+													padding-left="3pt"
+													padding-right="3pt"
+													padding-top="1pt"
+													padding-bottom="1pt">
 		 								<fo:block 	color="white"
 		 											font-family="ArialUnicodeMS" 
 													font-size="14pt"
 													font-style="normal" 
 													font-weight="bold"
 													margin-left="10pt" 
-													text-align="{$horizAlign}">													
+													text-align="{$horizAlign}" >													
 											<xsl:value-of select="current()" />
 										</fo:block>
 									</fo:table-cell>
@@ -84,7 +95,20 @@
 								<xsl:for-each select="cell">
 									<xsl:variable name="colspan" select="@colspan" />
 									<xsl:variable name="horizAlign" select="@horizAlign" />
-									<fo:table-cell number-columns-spanned="{$colspan}">
+									<fo:table-cell 	number-columns-spanned="{$colspan}"
+													padding-left="3pt"
+													padding-right="3pt"
+													padding-top="1pt"
+													padding-bottom="1pt"
+													border-top-style="solid"
+				 									border-bottom-style="solid"
+				 									border-left-style="solid"
+				 									border-right-style="solid"
+				 									>
+				 									<!-- border-top-color="#000000"
+				 									border-bottom-color="#000000"
+				 									border-left-color="#000000"
+				 									border-right-color="#000000" -->
 		 								<fo:block 	color="black"
 		 											font-family="ArialUnicodeMS" 
 													font-size="12pt"
