@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sf.reportengine</groupId>
   <artifactId>samples</artifactId>
-  <version>0.7.0</version>
+  <version>0.7.1</version>
   <name>ReportengineSamples</name>
   <description>Sample reports created with reportengine</description>
   
