@@ -27,7 +27,9 @@ public interface IReportInput {
     public void close();
 	
     /**
-     * retrieves the next row of data 
+     * <p>retrieves the next row of data </p>
+     * This method should always return the same number of objects otherwise 
+     * the framework will throw an IllegaArgumentException
      * @return an array of data objects
      */
     public Object[] nextRow();
@@ -37,4 +39,18 @@ public interface IReportInput {
      * @return  true if the input has more rows to return
      */
     public boolean hasMoreRows();
+    
+    /**
+     * tells whether this input is able to provide medata or not
+     * 
+     * @return	true if this imput is able to provide metadata
+     */
+    public boolean suppportsColumnMetadata();
+    
+    /**
+     * <p>getter for columns metadata</p>
+     *  
+     * @return the column metadata if this input supports metadata otherwise an empty array
+     */
+    public ColumnMetadata[] getColumnMetadata(); 
 }

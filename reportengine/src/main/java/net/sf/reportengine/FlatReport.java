@@ -10,10 +10,10 @@ import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.IReportAlgorithm;
 import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
-import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
+import net.sf.reportengine.core.steps.FlatReportValidationInitStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
@@ -110,9 +110,11 @@ public class FlatReport extends AbstractOneIterationReport {
     	context.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, getGroupColumns());
     	context.set(ContextKeys.CONTEXT_KEY_SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
     	context.set(ContextKeys.CONTEXT_KEY_SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
+    	context.set(ContextKeys.CONTEXT_KEY_USER_COLUMN_PREFERENCES, getUserColumnPrefs()); 
     	
     	//adding steps to the algorithm :
     	//we start with the init steps
+    	algorithm.addInitStep(new FlatReportValidationInitStep()); 
     	algorithm.addInitStep(new FlatReportExtractDataInitStep());
     	algorithm.addInitStep(new ColumnHeaderOutputInitStep(getReportTitle()));
         
