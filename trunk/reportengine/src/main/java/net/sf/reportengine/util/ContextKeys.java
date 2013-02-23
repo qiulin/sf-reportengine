@@ -23,6 +23,11 @@ public enum ContextKeys {
 	CONTEXT_KEY_GROUPING_COLUMNS, //= "net.sf.reportengine.groupingColumns";
 	
 	/**
+	 * the identifier of the column preferences
+	 */
+	CONTEXT_KEY_USER_COLUMN_PREFERENCES, 
+	
+	/**
 	 * 
 	 */
 	CONTEXT_KEY_SHOW_TOTALS, // = "net.sf.reportengine.showTotals";

@@ -5,11 +5,14 @@
 package net.sf.reportengine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
+import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.out.IReportOutput;
 
@@ -86,12 +89,18 @@ public abstract class AbstractReport {
     private List<IGroupColumn> groupColsAsList; 
     
     /**
+     * the user column preferences
+     */
+    private Map<String, ColumnPreferences> userColumnPrefs; 
+    
+    /**
      * this is a constructor for 
      * a single algorithm 
      */
     public AbstractReport(){
     	dataColsAsList = new ArrayList<IDataColumn>();
     	groupColsAsList = new ArrayList<IGroupColumn>();
+    	userColumnPrefs = new HashMap<String, ColumnPreferences>(); 
     }
    
     /**
@@ -295,5 +304,28 @@ public abstract class AbstractReport {
     		}
     	}
     	return atLeastOneCalculator; 
+    }
+    
+    
+    /**
+     * creates the column preferences object (if it's the case) and retrieves it
+     * for later use
+     * 
+     * @param columnId
+     * @return
+     */
+    public ColumnPreferences forColumn(String columnId){
+    	if(!userColumnPrefs.containsKey(columnId)){
+    		userColumnPrefs.put(columnId, new ColumnPreferences()); 
+    	}    	
+    	return userColumnPrefs.get(columnId); 
+    }
+    
+    /**
+     * retrieves the map of user column preferences
+     * @return
+     */
+    protected Map<String, ColumnPreferences> getUserColumnPrefs(){
+    	return userColumnPrefs; 
     }
 }

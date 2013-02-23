@@ -64,4 +64,22 @@ public abstract class AbstractReportInput implements IReportInput {
     public boolean isOpen(){
     	return isOpen; 
     }
+    
+    /**
+     * this default implementation returns false
+     * because this abstract input doesn't support column metadata
+     * 
+     * @return	false
+     */
+    public boolean suppportsColumnMetadata(){
+    	return false; 
+    }
+    
+    /**
+     * this default implementation returns an empty array because this abstract input 
+     * doesn't support column metadata
+     */
+    public ColumnMetadata[] getColumnMetadata(){
+    	return new ColumnMetadata[]{}; 
+    }
 }

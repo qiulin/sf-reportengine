@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
 public class DbQueryInput extends AbstractReportInput {
 	
 	/**
-	 * the LOGGER
+	 * the one and only LOGGER
 	 */
 	private static final Logger LOGGER = Logger.getLogger(DbQueryInput.class);
     
@@ -84,6 +84,11 @@ public class DbQueryInput extends AbstractReportInput {
      * hasMoreRows flag 
      */
     private boolean hasMoreRows = false;
+    
+    /**
+     * the columns metadata
+     */
+    private ColumnMetadata[] columnMetadata; 
     
     /**
      * Empty constructor for query data provider. Just using this simple constructor it's not enough <br/>
@@ -217,54 +222,63 @@ public class DbQueryInput extends AbstractReportInput {
     public String getDbConnString() {
         return dbConnString;
     }
+    
     /**
      * @param dbConnString The dbConnString to set.
      */
     public void setDbConnString(String dbConnString) {
         this.dbConnString = dbConnString;
     }
+    
     /**
      * @return Returns the dbDriverClass.
      */
     public String getDbDriverClass() {
         return dbDriverClass;
     }
+    
     /**
      * @param dbDriverClass The dbDriverClass to set.
      */
     public void setDbDriverClass(String dbDriverClass) {
         this.dbDriverClass = dbDriverClass;
     }
+    
     /**
      * @return Returns the dbPassword.
      */
     public String getDbPassword() {
         return dbPassword;
     }
+    
     /**
      * @param dbPassword The dbPassword to set.
      */
     public void setDbPassword(String dbPassword) {
         this.dbPassword = dbPassword;
     }
+    
     /**
      * @return Returns the dbUser.
      */
     public String getDbUser() {
         return dbUser;
     }
+    
     /**
      * @param dbUser The dbUser to set.
      */
     public void setDbUser(String dbUser) {
         this.dbUser = dbUser;
     }
+    
     /**
      * @return Returns the sqlStatement.
      */
     public String getSqlStatement() {
         return sqlStatement;
     }
+    
     /**
      * @param sqlStatement The sqlStatement to set.
      */
@@ -314,16 +328,15 @@ public class DbQueryInput extends AbstractReportInput {
             metaData = resultSet.getMetaData();
             columnsCount = metaData.getColumnCount();
 
-            int[] tempColType = new int[columnsCount];
-            String[] tempColHeaders = new String[columnsCount];
+            columnMetadata = new ColumnMetadata[columnsCount];
             //looping through columns to get their type
             for(int i=0; i < columnsCount; i++){
-                tempColType[i] = metaData.getColumnType(i+1);
-                tempColHeaders[i] = metaData.getColumnLabel(i+1);
+            	columnMetadata[i] = new ColumnMetadata(); 
+            	columnMetadata[i].setColumnLabel(metaData.getColumnLabel(i+1));
+            	columnMetadata[i].setColumnType(metaData.getColumnType(i+1));
+            	columnMetadata[i].setColumnId(metaData.getColumnName(i+1)); 
             }
-            //setColumnTypes(tempColType);
-            //setColumnHeaders(tempColHeaders);
-                        
+                                    
             hasMoreRows = resultSet.first();
             //hasMoreRows = resultSet.next();
             
@@ -340,5 +353,24 @@ public class DbQueryInput extends AbstractReportInput {
         } finally{
         	//scloseDbConnection();
         }
+    }
+    
+    /**
+     * this default implementation returns true 
+     * because this sql query input fully supports column metadata
+     * 
+     * @return	false
+     */
+    @Override
+    public boolean suppportsColumnMetadata(){
+    	return false; 
+    }
+    
+    /**
+     * this default implementation returns an empty array because this abstract input 
+     * doesn't support column metadata
+     */
+    public ColumnMetadata[] getColumnMetadata(){
+    	return columnMetadata; 
     }
 }
