@@ -40,10 +40,10 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 	 */
 	public void init(IReportContext reportContext) {
 		IReportOutput reportOutput = (IReportOutput)reportContext.getOutput();
-		List<IDataColumn> dataColumns = (List<IDataColumn>)reportContext.get(ContextKeys.CONTEXT_KEY_DATA_COLUMNS);
-		List<IGroupColumn> groupColumns = (List<IGroupColumn>)reportContext.get(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS); 
-		//ICrosstabHeaderRow[] headerRows = (ICrosstabHeaderRow[])reportContext.get(ContextKeys.CONTEXT_KEY_CROSSTAB_HEADER_ROWS); 
-		CtMetadata ctMetadata = (CtMetadata)reportContext.get(ContextKeys.CONTEXT_KEY_CROSSTAB_METADATA);
+		List<IDataColumn> dataColumns = (List<IDataColumn>)reportContext.get(ContextKeys.DATA_COLUMNS);
+		List<IGroupColumn> groupColumns = (List<IGroupColumn>)reportContext.get(ContextKeys.GROUPING_COLUMNS); 
+		//ICrosstabHeaderRow[] headerRows = (ICrosstabHeaderRow[])reportContext.get(ContextKeys.CROSSTAB_HEADER_ROWS); 
+		CtMetadata ctMetadata = (CtMetadata)reportContext.get(ContextKeys.CROSSTAB_METADATA);
 		
 		//display header rows
 		outputHeaderRows(reportOutput, ctMetadata, dataColumns, groupColumns); 

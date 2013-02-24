@@ -63,7 +63,7 @@ public class TotalsCalculatorStep extends AbstractReportStep{
         calculatorMatrix = new CalculatorMatrix(groupColsCnt + 1, getDataColumns());
         calculatorMatrix.initAllCalculators();
         
-        reportContext.set(ContextKeys.CONTEXT_KEY_CALCULATORS, calculatorMatrix.getCalculators());
+        reportContext.set(ContextKeys.CALCULATORS, calculatorMatrix.getCalculators());
     }
     
     /**

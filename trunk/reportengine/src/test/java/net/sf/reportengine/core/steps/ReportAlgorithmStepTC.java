@@ -17,7 +17,7 @@ import net.sf.reportengine.util.ContextKeys;
  * utility test case containing usefull constants and properties for all 
  * steps to be tested
  * 
- * @author dragos
+ * @author dragos balan
  *
  */
 public class ReportAlgorithmStepTC extends ReportengineTC {
@@ -49,19 +49,19 @@ public class ReportAlgorithmStepTC extends ReportengineTC {
 	}
 	
 	protected void setAggLevel(int aggLevel){
-		TEST_REPORT_CONTEXT.set(ContextKeys.CONTEXT_KEY_NEW_GROUPING_LEVEL, aggLevel);
+		TEST_REPORT_CONTEXT.set(ContextKeys.NEW_GROUPING_LEVEL, aggLevel);
 	}
 	
 	protected void setCalculatorMatrix(ICalculator[][] calculators){
-		TEST_REPORT_CONTEXT.set(ContextKeys.CONTEXT_KEY_CALCULATORS, calculators);
+		TEST_REPORT_CONTEXT.set(ContextKeys.CALCULATORS, calculators);
 	}
 	
 	protected void setComputedInputValues(Object[] computedValues){
-		TEST_REPORT_CONTEXT.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, computedValues);
+		TEST_REPORT_CONTEXT.set(ContextKeys.COMPUTED_CELL_VALUES, computedValues);
 	}
 	
 	protected void setPreviousGroupValues(Object[] prevValues){
-		TEST_REPORT_CONTEXT.set(ContextKeys.CONTEXT_KEY_LAST_GROUPING_VALUES, prevValues);
+		TEST_REPORT_CONTEXT.set(ContextKeys.LAST_GROUPING_VALUES, prevValues);
 	}
 	
 	protected CellPropsArrayOutput getTestOutput(){
@@ -73,7 +73,7 @@ public class ReportAlgorithmStepTC extends ReportengineTC {
 	}
 	
 	protected void assertEqualsCalculatorValues(ICalculator[][] expectedValues){
-		ICalculator[][] calcMatrix = (ICalculator[][])TEST_REPORT_CONTEXT.get(ContextKeys.CONTEXT_KEY_CALCULATORS);
+		ICalculator[][] calcMatrix = (ICalculator[][])TEST_REPORT_CONTEXT.get(ContextKeys.CALCULATORS);
 		assertEquals(expectedValues.length, calcMatrix.length);
 		for(int i=0; i< expectedValues.length; i++){
 			assertEquals(expectedValues[i].length, calcMatrix[i].length);

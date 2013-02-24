@@ -35,38 +35,38 @@ public class TestDataRowsOutputStep extends ReportAlgorithmStepTC {
 		IReportContext reportContext = getTestContext();
 		
 		reportContext.setInput(Scenario1.INPUT);
-		reportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS);
-		reportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
+		reportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
+		reportContext.set(ContextKeys.GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
 		classUnderTest.init(reportContext); 
 
 		NewRowEvent dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_1);
-		reportContext.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_1);
-		reportContext.set(ContextKeys.CONTEXT_KEY_FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_1);
+		reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_1);
+		reportContext.set(ContextKeys.FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_1);
 		classUnderTest.execute(dataRowEvent);
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_2);
-		reportContext.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_2);
-		reportContext.set(ContextKeys.CONTEXT_KEY_FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_2);
+		reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_2);
+		reportContext.set(ContextKeys.FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_2);
 		classUnderTest.execute(dataRowEvent);
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_3);
-		reportContext.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_3);
-		reportContext.set(ContextKeys.CONTEXT_KEY_FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_3);
+		reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_3);
+		reportContext.set(ContextKeys.FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_3);
 		classUnderTest.execute(dataRowEvent);
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_4);
-		reportContext.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_4);
-		reportContext.set(ContextKeys.CONTEXT_KEY_FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_4);
+		reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_4);
+		reportContext.set(ContextKeys.FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_4);
 		classUnderTest.execute(dataRowEvent);
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_5);
-		reportContext.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_5);
-		reportContext.set(ContextKeys.CONTEXT_KEY_FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_5);
+		reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_5);
+		reportContext.set(ContextKeys.FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_5);
 		classUnderTest.execute(dataRowEvent);
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_6);
-		reportContext.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_6);
-		reportContext.set(ContextKeys.CONTEXT_KEY_FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_6);
+		reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_6);
+		reportContext.set(ContextKeys.FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_6);
 		classUnderTest.execute(dataRowEvent);
 		
 		CellProps[][] resultCellMatrix = getTestOutput().getCellMatrix();

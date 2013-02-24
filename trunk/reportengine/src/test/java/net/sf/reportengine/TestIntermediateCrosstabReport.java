@@ -136,7 +136,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 			assertNotNull(metadata);
 			
 			assertNotNull(memoryOutput.getCellMatrix());
@@ -190,7 +190,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 		
 		
 		//TODO: check the output here
@@ -214,7 +214,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 			assertNotNull(metadata);
 		
 		
@@ -238,7 +238,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 			assertNotNull(metadata);
 		 
 		
@@ -263,7 +263,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 			assertNotNull(metadata);
 		 
 		//TODO: check the output here
@@ -287,7 +287,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 			assertNotNull(metadata);
 		 
 		//TODO: check the output here
@@ -314,7 +314,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		
 		classUnderTest.execute();
 		
-		DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+		DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 		assertNotNull(metadata);
 	 
 	//TODO: check the output here
@@ -341,7 +341,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		
 		classUnderTest.execute();
 		
-		DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+		DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 		assertNotNull(metadata);
 	 
 		//TODO: check the output here
@@ -371,7 +371,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		
 		classUnderTest.execute();
 		
-		DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+		DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 		assertNotNull(metadata);
 	 
 	//TODO: check the output here

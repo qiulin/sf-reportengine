@@ -106,11 +106,11 @@ public class FlatReport extends AbstractOneIterationReport {
     	algorithm.setIn(getIn());
     	algorithm.setOut(getOut());
     	
-    	context.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, getDataColumns());
-    	context.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, getGroupColumns());
-    	context.set(ContextKeys.CONTEXT_KEY_SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
-    	context.set(ContextKeys.CONTEXT_KEY_SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
-    	context.set(ContextKeys.CONTEXT_KEY_USER_COLUMN_PREFERENCES, getUserColumnPrefs()); 
+    	context.set(ContextKeys.DATA_COLUMNS, getDataColumns());
+    	context.set(ContextKeys.GROUPING_COLUMNS, getGroupColumns());
+    	context.set(ContextKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
+    	context.set(ContextKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
+    	context.set(ContextKeys.USER_COLUMN_PREFERENCES, getUserColumnPrefs()); 
     	
     	//adding steps to the algorithm :
     	//we start with the init steps

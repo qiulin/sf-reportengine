@@ -27,7 +27,7 @@ public class TestOneIterationAlgorithm extends TestCase {
 	private IAlgorithmInitStep testInitStep = new IAlgorithmInitStep(){
 		public void init(IReportContext context){
 			//context.set("isInitCalledOnInitStep", true);
-			context.set(ContextKeys.CONTEXT_KEY_SHOW_GRAND_TOTAL, true);
+			context.set(ContextKeys.SHOW_GRAND_TOTAL, true);
 		}
 	};
 	
@@ -37,15 +37,15 @@ public class TestOneIterationAlgorithm extends TestCase {
 		public void init(IReportContext context){
 			this.context = context;
 			//this.context.set("isInitCalledOnMainStep", true);
-			this.context.set(ContextKeys.CONTEXT_KEY_SHOW_TOTALS, true);
+			this.context.set(ContextKeys.SHOW_TOTALS, true);
 			
 			//this.context.set("executionCount", new Integer(0));
-			this.context.set(ContextKeys.CONTEXT_KEY_NEW_GROUPING_LEVEL, new Integer(0));
+			this.context.set(ContextKeys.NEW_GROUPING_LEVEL, new Integer(0));
 		}
 		
 		public void execute(NewRowEvent dataRowEvent){
-			Integer executionCounts = (Integer)context.get(ContextKeys.CONTEXT_KEY_NEW_GROUPING_LEVEL);
-			context.set(ContextKeys.CONTEXT_KEY_NEW_GROUPING_LEVEL, executionCounts+1);
+			Integer executionCounts = (Integer)context.get(ContextKeys.NEW_GROUPING_LEVEL);
+			context.set(ContextKeys.NEW_GROUPING_LEVEL, executionCounts+1);
 		}
 		
 		public void exit(){
@@ -80,8 +80,8 @@ public class TestOneIterationAlgorithm extends TestCase {
 	 */
 	public void testExecuteAlgorithm() {
 		classUnderTest.executeAlgorithm();
-		assertTrue((Boolean)classUnderTest.getContext().get(ContextKeys.CONTEXT_KEY_SHOW_GRAND_TOTAL));
-		assertTrue((Boolean)classUnderTest.getContext().get(ContextKeys.CONTEXT_KEY_SHOW_TOTALS));
-		assertEquals(2, classUnderTest.getContext().get(ContextKeys.CONTEXT_KEY_NEW_GROUPING_LEVEL));
+		assertTrue((Boolean)classUnderTest.getContext().get(ContextKeys.SHOW_GRAND_TOTAL));
+		assertTrue((Boolean)classUnderTest.getContext().get(ContextKeys.SHOW_TOTALS));
+		assertEquals(2, classUnderTest.getContext().get(ContextKeys.NEW_GROUPING_LEVEL));
 	}
 }

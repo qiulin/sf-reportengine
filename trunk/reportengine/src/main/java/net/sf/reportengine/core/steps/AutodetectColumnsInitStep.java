@@ -40,7 +40,7 @@ public class AutodetectColumnsInitStep implements IAlgorithmInitStep {
 			if(LOGGER.isInfoEnabled())LOGGER.info("Autodetecting the columns ..."); 
 			reportContext.getInput().open(); 
 			ColumnMetadata[] colMetadata = reportContext.getInput().getColumnMetadata(); 
-			Map<String, ColumnPreferences> userPreferences = (Map<String, ColumnPreferences>)reportContext.get(ContextKeys.CONTEXT_KEY_USER_COLUMN_PREFERENCES); 
+			Map<String, ColumnPreferences> userPreferences = (Map<String, ColumnPreferences>)reportContext.get(ContextKeys.USER_COLUMN_PREFERENCES); 
 			
 			//prepare the data/group column results
 			List<IDataColumn> resultDataColumn = new ArrayList<IDataColumn>(); 
@@ -68,8 +68,8 @@ public class AutodetectColumnsInitStep implements IAlgorithmInitStep {
 			
 			
 			//set the result in context
-			reportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, resultDataColumn);
-			reportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, resultGroupColumn); 
+			reportContext.set(ContextKeys.DATA_COLUMNS, resultDataColumn);
+			reportContext.set(ContextKeys.GROUPING_COLUMNS, resultGroupColumn); 
 		}else{
 			if(LOGGER.isInfoEnabled())LOGGER.info("The input doesn't support metadata. No autodetection of columns could be done."); 
 		}

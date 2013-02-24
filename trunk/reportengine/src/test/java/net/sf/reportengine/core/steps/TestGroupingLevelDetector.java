@@ -21,15 +21,15 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 	public void testExecuteScenario1() {
 		IReportContext testReportContext = getTestContext();
 		
-		testReportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
+		testReportContext.set(ContextKeys.GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
 		classUnderTest.init(testReportContext);
 		
 		for(int i=0; i<Scenario1.RAW_DATA.length; i++){
 			NewRowEvent dataRowEvent = new NewRowEvent(Scenario1.RAW_DATA[i]);
 			classUnderTest.execute(dataRowEvent);
-			assertEquals(testReportContext.get(ContextKeys.CONTEXT_KEY_NEW_GROUPING_LEVEL), Scenario1.AGG_LEVEL[i]);
+			assertEquals(testReportContext.get(ContextKeys.NEW_GROUPING_LEVEL), Scenario1.AGG_LEVEL[i]);
 			
-			testReportContext.set(ContextKeys.CONTEXT_KEY_LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[i]);
+			testReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[i]);
 		}
 	}
 	
@@ -37,15 +37,15 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 	public void testExecuteScenario2() {
 		IReportContext testReportContext = getTestContext();
 		
-		testReportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, Scenario2.GROUPING_COLUMNS);
+		testReportContext.set(ContextKeys.GROUPING_COLUMNS, Scenario2.GROUPING_COLUMNS);
 		classUnderTest.init(testReportContext);
 		
 		for(int i=0; i<Scenario2.RAW_INPUT.length; i++){
 			NewRowEvent dataRowEvent = new NewRowEvent(Scenario2.RAW_INPUT[i]);
 			classUnderTest.execute(dataRowEvent);
-			assertEquals(testReportContext.get(ContextKeys.CONTEXT_KEY_NEW_GROUPING_LEVEL), Scenario2.AGG_LEVEL[i]);
+			assertEquals(testReportContext.get(ContextKeys.NEW_GROUPING_LEVEL), Scenario2.AGG_LEVEL[i]);
 			
-			testReportContext.set(ContextKeys.CONTEXT_KEY_LAST_GROUPING_VALUES, Scenario2.PREVIOUS_GROUP_VALUES[i]);
+			testReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario2.PREVIOUS_GROUP_VALUES[i]);
 		}
 	}
 
@@ -54,18 +54,18 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 	public void testExecuteCalculatedColumnsScenario() {
 		IReportContext testReportContext = getTestContext();
 		
-		testReportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
-		testReportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
+		testReportContext.set(ContextKeys.DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
+		testReportContext.set(ContextKeys.GROUPING_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
 		
 		classUnderTest.init(testReportContext);
 		
 		for(int i=0; i<Scenario2.RAW_INPUT.length; i++){
 			NewRowEvent dataRowEvent = new NewRowEvent(CalculatedColumnsScenario.RAW_DATA[i]);
-			testReportContext.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, CalculatedColumnsScenario.COMPUTED_VALUES[i]);
+			testReportContext.set(ContextKeys.COMPUTED_CELL_VALUES, CalculatedColumnsScenario.COMPUTED_VALUES[i]);
 			classUnderTest.execute(dataRowEvent);
-			assertEquals(testReportContext.get(ContextKeys.CONTEXT_KEY_NEW_GROUPING_LEVEL), CalculatedColumnsScenario.AGG_LEVEL[i]);
+			assertEquals(testReportContext.get(ContextKeys.NEW_GROUPING_LEVEL), CalculatedColumnsScenario.AGG_LEVEL[i]);
 			
-			testReportContext.set(ContextKeys.CONTEXT_KEY_LAST_GROUPING_VALUES, CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i]);
+			testReportContext.set(ContextKeys.LAST_GROUPING_VALUES, CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i]);
 		}
 	}
 	

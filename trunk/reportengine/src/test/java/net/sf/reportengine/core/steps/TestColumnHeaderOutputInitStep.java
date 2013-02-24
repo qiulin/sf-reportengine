@@ -31,8 +31,8 @@ public class TestColumnHeaderOutputInitStep extends ReportAlgorithmStepTC {
 	 */
 	public void testInitScenario1() {
 		IReportContext testReportContext = getTestContext();
-		testReportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
-		testReportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS);
+		testReportContext.set(ContextKeys.GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
+		testReportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
 		
 		classUnderTest.init(testReportContext);
 		

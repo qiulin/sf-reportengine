@@ -44,7 +44,7 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 	 */
 	public void init(IReportContext context){
 		super.init(context);
-		context.set(ContextKeys.CONTEXT_KEY_INTERMEDIATE_ROW, intermediateRow);
+		context.set(ContextKeys.INTERMEDIATE_ROW, intermediateRow);
 	}
 	
 	

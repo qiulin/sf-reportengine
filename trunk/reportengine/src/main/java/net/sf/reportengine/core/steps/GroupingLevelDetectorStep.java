@@ -105,7 +105,7 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
 		}
 		
 		//set the result in context
-		getContext().set(ContextKeys.CONTEXT_KEY_NEW_GROUPING_LEVEL, aggregationLevel);
+		getContext().set(ContextKeys.NEW_GROUPING_LEVEL, aggregationLevel);
 		
 //		if(logger.isTraceEnabled()){
 //    		logger.trace("after copying the lastRow is "+Arrays.toString(lastRowOfGroupingColumnValues));

@@ -40,9 +40,9 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     	classUnderTest = new TotalsCalculatorStep();
          
         //simulate the level detector
-    	reportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS);
-    	reportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
-    	reportContext.set(ContextKeys.CONTEXT_KEY_NEW_GROUPING_LEVEL, Scenario1.AGG_COLUMNS_INDEX);
+    	reportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
+    	reportContext.set(ContextKeys.GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
+    	reportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.AGG_COLUMNS_INDEX);
         
     	
         classUnderTest.init(reportContext);      
@@ -51,10 +51,10 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     	setAggLevel(Scenario1.ROW_1_AGG_LEVEL);
     	
     	NewRowEvent dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_1);
-    	reportContext.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_1);
+    	reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_1);
 		classUnderTest.execute(dataRowEvent);
 		
-		ICalculator[][] calcMatrix = (ICalculator[][])reportContext.get(ContextKeys.CONTEXT_KEY_CALCULATORS);
+		ICalculator[][] calcMatrix = (ICalculator[][])reportContext.get(ContextKeys.CALCULATORS);
 		assertNotNull(calcMatrix);
 		assertEquals(calcMatrix.length, Scenario1.AGG_COLUMNS_INDEX.length + 1 /* for Grand total*/);
 		
@@ -64,7 +64,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
 		setAggLevel(Scenario1.ROW_2_AGG_LEVEL);
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_2);
-		reportContext.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_2);
+		reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_2);
 		classUnderTest.execute(dataRowEvent);
 		
 		assertEqualsCalculatorValues(Scenario1.ROW_2_CALCULATORS_RESULTS);
@@ -72,7 +72,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
 		//simulate level detector
 		setAggLevel(Scenario1.ROW_3_AGG_LEVEL);
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_3);
-		reportContext.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_3);
+		reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_3);
 		classUnderTest.execute(dataRowEvent);
 		
 		assertEqualsCalculatorValues(Scenario1.ROW_3_CALCULATORS_RESULTS);
@@ -80,7 +80,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
 		//simulate level detector
 		setAggLevel(Scenario1.ROW_4_AGG_LEVEL);
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_4);
-		reportContext.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_4);
+		reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_4);
 		classUnderTest.execute(dataRowEvent);
 		
 		assertEqualsCalculatorValues(Scenario1.ROW_4_CALCULATORS_RESULTS);
@@ -88,14 +88,14 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
 		//simulate level detector
 		setAggLevel(Scenario1.ROW_5_AGG_LEVEL);
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_5);
-		reportContext.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_5);
+		reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_5);
 		classUnderTest.execute(dataRowEvent);
 		
 		assertEqualsCalculatorValues(Scenario1.ROW_5_CALCULATORS_RESULTS);
 		
 		//simulate level detector
 		setAggLevel(Scenario1.ROW_6_AGG_LEVEL);
-		reportContext.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_6);
+		reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_6);
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_6);
 		classUnderTest.execute(dataRowEvent);
 		
@@ -108,8 +108,8 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     	classUnderTest = new TotalsCalculatorStep();
          
         //simulate the level detector
-    	reportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, Scenario2.DATA_COLUMNS);
-    	reportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, Scenario2.GROUPING_COLUMNS);
+    	reportContext.set(ContextKeys.DATA_COLUMNS, Scenario2.DATA_COLUMNS);
+    	reportContext.set(ContextKeys.GROUPING_COLUMNS, Scenario2.GROUPING_COLUMNS);
     	//reportContext.set(LevelDetectorStep.CONTEXT_KEY_AGG_COLUMNS_INDEX, Scenario2.AGG_COLUMNS_INDEX);
     	//reportContext.set(LevelDetectorStep.CONTEXT_KEY_AGG_LEVEL_COUNT, Scenario2.AGG_COLUMNS_INDEX.length);
          
@@ -118,7 +118,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
         for(int i=0; i<CalculatedColumnsScenario.RAW_DATA.length; i++){
         	//simulate the level detector and all other preceeding steps
         	setAggLevel(Scenario2.AGG_LEVEL[i]);
-        	reportContext.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, Scenario2.COMPUTED_INPUT[i]);
+        	reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario2.COMPUTED_INPUT[i]);
         	
         	//call execute
         	NewRowEvent dataRowEvent = new NewRowEvent(Scenario2.RAW_INPUT[i]);
@@ -134,8 +134,8 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     	classUnderTest = new TotalsCalculatorStep();
          
         //simulate the level detector
-    	reportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
-    	reportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
+    	reportContext.set(ContextKeys.DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
+    	reportContext.set(ContextKeys.GROUPING_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
         //reportContext.set(LevelDetectorStep.CONTEXT_KEY_AGG_COLUMNS_INDEX, CalculatedColumnsScenario.AGG_COLUMNS_INDEX);
         //reportContext.set(LevelDetectorStep.CONTEXT_KEY_AGG_LEVEL_COUNT, CalculatedColumnsScenario.AGG_COLUMNS_INDEX.length);
          
@@ -144,7 +144,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
         for(int i=0; i<CalculatedColumnsScenario.RAW_DATA.length; i++){
         	//simulate the level detector and all other preceeding steps
         	setAggLevel(CalculatedColumnsScenario.AGG_LEVEL[i]);
-        	reportContext.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, CalculatedColumnsScenario.COMPUTED_VALUES[i]);
+        	reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, CalculatedColumnsScenario.COMPUTED_VALUES[i]);
         	
         	//call execute
         	NewRowEvent dataRowEvent = new NewRowEvent(CalculatedColumnsScenario.RAW_DATA[i]);

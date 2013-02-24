@@ -43,11 +43,11 @@ public class TestFlatReportExtractDataInitStep extends ReportAlgorithmStepTC {
 	 */
 	public void testInit() {
 		IReportContext reportContext = getTestContext(); 
-		reportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, TEST_DATA_COLUMNS); 
+		reportContext.set(ContextKeys.DATA_COLUMNS, TEST_DATA_COLUMNS); 
 		
 		classUnderTest.init(reportContext); 
 		
-		int[] result = (int[])reportContext.get(ContextKeys.CONTEXT_KEY_DISTRIBUTION_OF_CALCULATORS);
+		int[] result = (int[])reportContext.get(ContextKeys.DISTRIBUTION_OF_CALCULATORS);
 		assertNotNull(result);
 		assertEquals(TEST_DATA_COLUMNS.size(), result.length);
 		
