@@ -58,8 +58,8 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
      */
     public void init(IReportContext reportContext){
     	logger.trace("initializing the column header step: output title and column headers");
-    	List<IDataColumn> dataCols = (List<IDataColumn>)reportContext.get(ContextKeys.CONTEXT_KEY_DATA_COLUMNS);
-    	List<IGroupColumn> groupCols = (List<IGroupColumn>)reportContext.get(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS); 
+    	List<IDataColumn> dataCols = (List<IDataColumn>)reportContext.get(ContextKeys.DATA_COLUMNS);
+    	List<IGroupColumn> groupCols = (List<IGroupColumn>)reportContext.get(ContextKeys.GROUPING_COLUMNS); 
     	
     	int outputColumnsCnt = dataCols.size() + (groupCols != null ? groupCols.size() : 0); 
     	

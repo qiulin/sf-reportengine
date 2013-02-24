@@ -32,15 +32,15 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 //	}
 	
 	public Integer getOriginalCrosstabGroupingColsLength(){
-		return (Integer)getContext().get(ContextKeys.CONTEXT_KEY_ORIGINAL_CT_GROUP_COLS_COUNT); 
+		return (Integer)getContext().get(ContextKeys.ORIGINAL_CT_GROUP_COLS_COUNT); 
 	}
 	
 	public int getOriginalCrosstabDataColsLength(){
-		return (Integer)getContext().get(ContextKeys.CONTEXT_KEY_ORIGINAL_CT_DATA_COLS_COUNT); 
+		return (Integer)getContext().get(ContextKeys.ORIGINAL_CT_DATA_COLS_COUNT); 
 	}
 		
 	public List<ICrosstabHeaderRow> getCrosstabHeaderRows(){
-		return (List<ICrosstabHeaderRow>)getContext().get(ContextKeys.CONTEXT_KEY_CROSSTAB_HEADER_ROWS); 
+		return (List<ICrosstabHeaderRow>)getContext().get(ContextKeys.CROSSTAB_HEADER_ROWS); 
 	}
 	 
 	 public int getCrosstabHeaderRowsLength(){
@@ -48,7 +48,7 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 	 }
 		
 	 public ICrosstabData getCrosstabData(){
-		 return (ICrosstabData)getContext().get(ContextKeys.CONTEXT_KEY_CROSSTAB_DATA); 
+		 return (ICrosstabData)getContext().get(ContextKeys.CROSSTAB_DATA); 
 	 }
 	 
 //	 public int[] getDataRelativePositionToHeader(){
@@ -56,20 +56,20 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 //	 }
 	 
 	 /**
-	  * getter for CONTEXT_KEY_CROSSTAB_METADATA 
+	  * getter for CROSSTAB_METADATA 
 	  * 
 	  * @return the crosstab metadata of the report
 	  */
 	 public DistinctValuesHolder getDistinctValuesHolder(){
-		 return (DistinctValuesHolder)getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER); 
+		 return (DistinctValuesHolder)getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER); 
 	 }
 	 
 	 public IntermediateDataInfo getIntermediateCrosstabDataInfo(){
-		 return (IntermediateDataInfo)getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_CROSSTAB_DATA_INFO);
+		 return (IntermediateDataInfo)getContext().get(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO);
 	 }
 	 
 	 public IntermediateReportRow getIntermediateRow(){
-		 return (IntermediateReportRow)getContext().get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_ROW); 
+		 return (IntermediateReportRow)getContext().get(ContextKeys.INTERMEDIATE_ROW); 
 	 }
 	 
 	 public boolean getShowTotalsInHeader(){

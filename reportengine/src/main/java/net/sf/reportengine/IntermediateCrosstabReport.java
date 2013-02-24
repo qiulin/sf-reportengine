@@ -112,17 +112,17 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 		algorithm.setOut(getOut());
 		
 		//context keys specific to a flat report
-		context.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, intermediateDataCols);
-		context.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, intermediateGroupCols); 
+		context.set(ContextKeys.DATA_COLUMNS, intermediateDataCols);
+		context.set(ContextKeys.GROUPING_COLUMNS, intermediateGroupCols); 
 		
-		context.set(ContextKeys.CONTEXT_KEY_SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
-    	context.set(ContextKeys.CONTEXT_KEY_SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
+		context.set(ContextKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
+    	context.set(ContextKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
     	
-    	context.set(ContextKeys.CONTEXT_KEY_ORIGINAL_CT_DATA_COLS_COUNT, originalDataColsCount);
-    	context.set(ContextKeys.CONTEXT_KEY_ORIGINAL_CT_GROUP_COLS_COUNT, originalGroupColsCount);
+    	context.set(ContextKeys.ORIGINAL_CT_DATA_COLS_COUNT, originalDataColsCount);
+    	context.set(ContextKeys.ORIGINAL_CT_GROUP_COLS_COUNT, originalGroupColsCount);
     	
-		context.set(ContextKeys.CONTEXT_KEY_CROSSTAB_HEADER_ROWS, getCrosstabHeaderRows()); 
-		context.set(ContextKeys.CONTEXT_KEY_CROSSTAB_DATA, crosstabData); 
+		context.set(ContextKeys.CROSSTAB_HEADER_ROWS, getCrosstabHeaderRows()); 
+		context.set(ContextKeys.CROSSTAB_DATA, crosstabData); 
 		
 		//adding specific flat report steps to the algorithm
     	algorithm.addInitStep(new FlatReportExtractDataInitStep());

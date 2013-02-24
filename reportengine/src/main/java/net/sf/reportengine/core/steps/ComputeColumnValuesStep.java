@@ -44,8 +44,8 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 		finalReportGroupCount = groupCols != null ? groupCols.size() : 0;
 		finalReportColumnCount = finalReportGroupCount + dataColumns.size(); 
 		
-		context.set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, new Object[finalReportColumnCount]);
-		context.set(ContextKeys.CONTEXT_KEY_FORMATTED_CELL_VALUES, new String[finalReportColumnCount]);	
+		context.set(ContextKeys.COMPUTED_CELL_VALUES, new Object[finalReportColumnCount]);
+		context.set(ContextKeys.FORMATTED_CELL_VALUES, new String[finalReportColumnCount]);	
 	}
 	
 	/**
@@ -84,7 +84,7 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 			formattedResults[finalReportGroupCount+i] = dataColumns.get(i).getFormattedValue(valueForCurrentColumn);
 		}
 		
-		getContext().set(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES, nonFormattedResults);
-		getContext().set(ContextKeys.CONTEXT_KEY_FORMATTED_CELL_VALUES, formattedResults);
+		getContext().set(ContextKeys.COMPUTED_CELL_VALUES, nonFormattedResults);
+		getContext().set(ContextKeys.FORMATTED_CELL_VALUES, formattedResults);
 	}
 }

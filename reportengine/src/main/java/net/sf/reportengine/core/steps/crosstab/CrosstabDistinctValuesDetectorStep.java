@@ -60,7 +60,7 @@ public class CrosstabDistinctValuesDetectorStep extends AbstractCrosstabStep {
         List<ICrosstabHeaderRow> headerRows = getCrosstabHeaderRows();
         distinctValuesHolder = new DistinctValuesHolder(headerRows);
         
-        algoContext.set(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER, distinctValuesHolder);
+        algoContext.set(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER, distinctValuesHolder);
     }
 	
 	
@@ -86,7 +86,7 @@ public class CrosstabDistinctValuesDetectorStep extends AbstractCrosstabStep {
 		
 		
 		//getContext().set(CONTEXT_KEY_CROSSTAB_RELATIVE_POSITION, currentDataValueRelativePositionToHeaderValues);
-		getContext().set(ContextKeys.CONTEXT_KEY_INTERMEDIATE_CROSSTAB_DATA_INFO, 
+		getContext().set(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO, 
 						new IntermediateDataInfo(getCrosstabData().getValue(newRowEvent), 
 														currDataValueRelativePositionToHeaderValues)); 
 	}

@@ -55,7 +55,7 @@ public class PreviousRowManagerStep extends AbstractReportStep {
 			previousRowOfGroupingColumnValues = new Object[getGroupingColumnsLength()];
 			copyGroupingValuesToLastRowOfGroupingColumnValues(getGroupingColumns(), rowEvent);
 			
-			getContext().set(ContextKeys.CONTEXT_KEY_LAST_GROUPING_VALUES, previousRowOfGroupingColumnValues);
+			getContext().set(ContextKeys.LAST_GROUPING_VALUES, previousRowOfGroupingColumnValues);
 		}else{
 			if(getGroupingLevel() > -1){
 				copyGroupingValuesToLastRowOfGroupingColumnValues(getGroupingColumns(), rowEvent);

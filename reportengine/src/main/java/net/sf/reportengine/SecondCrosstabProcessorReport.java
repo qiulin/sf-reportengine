@@ -43,11 +43,11 @@ class SecondCrosstabProcessorReport extends AbstractOneIterationReport {
     	algorithm.setOut(getOut());
     	
     	//context keys specific to a flat report
-		context.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, getDataColumns());
-		context.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, getGroupColumns()); 
-		context.set(ContextKeys.CONTEXT_KEY_SHOW_TOTALS, getShowTotals());
-    	context.set(ContextKeys.CONTEXT_KEY_SHOW_GRAND_TOTAL, getShowGrandTotal());
-    	context.set(ContextKeys.CONTEXT_KEY_CROSSTAB_METADATA, ctMetadata); 
+		context.set(ContextKeys.DATA_COLUMNS, getDataColumns());
+		context.set(ContextKeys.GROUPING_COLUMNS, getGroupColumns()); 
+		context.set(ContextKeys.SHOW_TOTALS, getShowTotals());
+    	context.set(ContextKeys.SHOW_GRAND_TOTAL, getShowGrandTotal());
+    	context.set(ContextKeys.CROSSTAB_METADATA, ctMetadata); 
     	
     	//adding steps to the algorithm
     	algorithm.addInitStep(new FlatReportExtractDataInitStep());

@@ -164,7 +164,7 @@ public class CrossTabReport extends AbstractReport{
 			
 			//transfer data from first report to the second
 			IReportContext firstReportContext = firstReport.getAlgorithm().getContext(); 
-			IDistinctValuesHolder distinctValuesHolder = (IDistinctValuesHolder)firstReportContext.get(ContextKeys.CONTEXT_KEY_INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			IDistinctValuesHolder distinctValuesHolder = (IDistinctValuesHolder)firstReportContext.get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 			CtMetadata crosstabMetadata = new CtMetadata(distinctValuesHolder);
 			crosstabMetadata.computeCoefficients(); 
 			

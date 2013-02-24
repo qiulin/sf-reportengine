@@ -35,21 +35,21 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 	public void testExecuteScenario1() {
 		IReportContext testReportContext = getTestContext();
 		
-		testReportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
+		testReportContext.set(ContextKeys.GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
 		classUnderTest.init(testReportContext);
 		
 		
 		//first we check that previous data row is null
-		assertNull(testReportContext.get(ContextKeys.CONTEXT_KEY_LAST_GROUPING_VALUES));
+		assertNull(testReportContext.get(ContextKeys.LAST_GROUPING_VALUES));
 		
 		for(int i=0; i<Scenario1.RAW_DATA.length; i++){
 			
 			//first simulate the grouping level detector
-			testReportContext.set(ContextKeys.CONTEXT_KEY_NEW_GROUPING_LEVEL, Scenario1.AGG_LEVEL[i]);
+			testReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.AGG_LEVEL[i]);
 			NewRowEvent dataRowEvent = new NewRowEvent(Scenario1.RAW_DATA[i]);
 			classUnderTest.execute(dataRowEvent);
 			
-			Object[] prevValues = (Object[])testReportContext.get(ContextKeys.CONTEXT_KEY_LAST_GROUPING_VALUES);
+			Object[] prevValues = (Object[])testReportContext.get(ContextKeys.LAST_GROUPING_VALUES);
 			assertNotNull(prevValues);
 			assertEquals(Scenario1.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
 			
@@ -61,21 +61,21 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 	public void testExecuteScenario2() {
 		IReportContext testReportContext = getTestContext();
 		
-		testReportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, Scenario2.GROUPING_COLUMNS);
+		testReportContext.set(ContextKeys.GROUPING_COLUMNS, Scenario2.GROUPING_COLUMNS);
 		classUnderTest.init(testReportContext);
 		
 		
 		//first we check that previous data row is null
-		assertNull(testReportContext.get(ContextKeys.CONTEXT_KEY_LAST_GROUPING_VALUES));
+		assertNull(testReportContext.get(ContextKeys.LAST_GROUPING_VALUES));
 		
 		for(int i=0; i<Scenario2.RAW_INPUT.length; i++){
 			
 			//first simulate the grouping level detector
-			testReportContext.set(ContextKeys.CONTEXT_KEY_NEW_GROUPING_LEVEL, Scenario2.AGG_LEVEL[i]);
+			testReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario2.AGG_LEVEL[i]);
 			NewRowEvent dataRowEvent = new NewRowEvent(Scenario2.RAW_INPUT[i]);
 			classUnderTest.execute(dataRowEvent);
 			
-			Object[] prevValues = (Object[])testReportContext.get(ContextKeys.CONTEXT_KEY_LAST_GROUPING_VALUES);
+			Object[] prevValues = (Object[])testReportContext.get(ContextKeys.LAST_GROUPING_VALUES);
 			assertNotNull(prevValues);
 			assertEquals(Scenario2.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
 			
@@ -88,21 +88,21 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 	public void testExecuteCalculatedColumnsScenario() {
 		IReportContext testReportContext = getTestContext();
 		
-		testReportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
+		testReportContext.set(ContextKeys.GROUPING_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
 		classUnderTest.init(testReportContext);
 		
 		
 		//first we check that previous data row is null
-		assertNull(testReportContext.get(ContextKeys.CONTEXT_KEY_LAST_GROUPING_VALUES));
+		assertNull(testReportContext.get(ContextKeys.LAST_GROUPING_VALUES));
 		
 		for(int i=0; i<CalculatedColumnsScenario.RAW_DATA.length; i++){
 			
 			//first simulate the grouping level detector
-			testReportContext.set(ContextKeys.CONTEXT_KEY_NEW_GROUPING_LEVEL, CalculatedColumnsScenario.AGG_LEVEL[i]);
+			testReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, CalculatedColumnsScenario.AGG_LEVEL[i]);
 			NewRowEvent dataRowEvent = new NewRowEvent(CalculatedColumnsScenario.RAW_DATA[i]);
 			classUnderTest.execute(dataRowEvent);
 			
-			Object[] prevValues = (Object[])testReportContext.get(ContextKeys.CONTEXT_KEY_LAST_GROUPING_VALUES);
+			Object[] prevValues = (Object[])testReportContext.get(ContextKeys.LAST_GROUPING_VALUES);
 			assertNotNull(prevValues);
 			assertEquals(CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
 			

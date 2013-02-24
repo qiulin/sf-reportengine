@@ -46,9 +46,9 @@ public class FlatReportExtractDataInitStep implements IAlgorithmInitStep {
 	 */
 	public void init(IReportContext reportContext) {
 		List<IDataColumn> dataCols = 
-				(List<IDataColumn>)reportContext.get(ContextKeys.CONTEXT_KEY_DATA_COLUMNS);
+				(List<IDataColumn>)reportContext.get(ContextKeys.DATA_COLUMNS);
 		calculatorsDistributionInDataColumnsArray = extractDistributionOfCalculatorsAcrossColumns(dataCols); 
-		reportContext.set(	ContextKeys.CONTEXT_KEY_DISTRIBUTION_OF_CALCULATORS, 
+		reportContext.set(	ContextKeys.DISTRIBUTION_OF_CALCULATORS, 
 							calculatorsDistributionInDataColumnsArray);
 	}
 	

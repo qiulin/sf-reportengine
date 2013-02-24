@@ -40,14 +40,14 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 	public void testExecuteScenario1() {
 		IReportContext reportContext = getTestContext(); 
 		
-		reportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, Scenario1.DATA_COLUMNS);
-		reportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
+		reportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
+		reportContext.set(ContextKeys.GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
 		classUnderTest.init(reportContext);
 		
 		NewRowEvent dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_1);
 		classUnderTest.execute(dataRowEvent);
 		
-		Object[] results = (Object[])reportContext.get(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES);
+		Object[] results = (Object[])reportContext.get(ContextKeys.COMPUTED_CELL_VALUES);
 		
 		assertNotNull(results);
 		assertEquals(6, results.length);
@@ -57,7 +57,7 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_2);
 		classUnderTest.execute(dataRowEvent);
 		
-		results = (Object[])reportContext.get(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES);
+		results = (Object[])reportContext.get(ContextKeys.COMPUTED_CELL_VALUES);
 		
 		assertNotNull(results);
 		assertEquals(6, results.length);
@@ -67,8 +67,8 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 	public void testExecuteComputedColumns(){
 		IReportContext reportContext = getTestContext(); 
 		
-		reportContext.set(ContextKeys.CONTEXT_KEY_DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
-		reportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
+		reportContext.set(ContextKeys.DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
+		reportContext.set(ContextKeys.GROUPING_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
 		
 		classUnderTest.init(reportContext);
 		
@@ -76,7 +76,7 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 			NewRowEvent dataRowEvent = new NewRowEvent(CalculatedColumnsScenario.RAW_DATA[i]);
 			classUnderTest.execute(dataRowEvent);
 		
-			Object[] results = (Object[])reportContext.get(ContextKeys.CONTEXT_KEY_COMPUTED_CELL_VALUES);
+			Object[] results = (Object[])reportContext.get(ContextKeys.COMPUTED_CELL_VALUES);
 		
 			assertNotNull(results);
 			assertEquals(8, results.length);

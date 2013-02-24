@@ -30,7 +30,7 @@ public class TestIntermediateCrosstabRowManagerStep extends ReportAlgorithmStepT
 	public void testExecuteCtScenario1() {
 		IReportContext reportContext = getTestContext(); 
 		
-		reportContext.set(ContextKeys.CONTEXT_KEY_GROUPING_COLUMNS, CtScenario2x2x1With1G1D.GROUPING_COLUMNS);
+		reportContext.set(ContextKeys.GROUPING_COLUMNS, CtScenario2x2x1With1G1D.GROUPING_COLUMNS);
 	}
 
 }
