@@ -104,16 +104,6 @@ public abstract class AbstractReport {
     }
    
     /**
-     * validation of the configuration and default values setter
-     * 
-     * @throws ConfigValidationException if the report was miss-configured
-     */
-    protected void validateConfig() {
-        if(getIn() == null) throw new ConfigValidationException("The report has no input");
-        if(getOut() == null) throw new ConfigValidationException("The report has no output");
-    }
-    
-    /**
      * configures the reports 
      */
     protected abstract void configAlgorithmSteps();
@@ -136,7 +126,6 @@ public abstract class AbstractReport {
      * </ul>
      */
     public void execute(){
-        validateConfig();
         configAlgorithmSteps();
         executeAlgorithm();
     }
@@ -291,20 +280,7 @@ public abstract class AbstractReport {
     	this.showGrandTotal = flag;
     }
     
-    /**
-     * check if all data columns have calculators assigned
-     * @return
-     */
-    protected boolean atLeastOneDataColumHasCalculators(){
-    	boolean atLeastOneCalculator = false; 
-    	for(IDataColumn dataColumn: getDataColumns()){
-    		if(dataColumn.getCalculator() != null){
-    			atLeastOneCalculator = true;
-    			break; 
-    		}
-    	}
-    	return atLeastOneCalculator; 
-    }
+    
     
     
     /**
