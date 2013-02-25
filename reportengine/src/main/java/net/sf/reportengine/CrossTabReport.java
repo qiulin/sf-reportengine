@@ -93,7 +93,7 @@ public class CrossTabReport extends AbstractReport{
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(CrossTabReport.class);
+	private static final Logger LOGGER = Logger.getLogger(CrossTabReport.class);
 	
 	private IntermediateCrosstabReport firstReport;
 	private IntermediateCrosstabOutput firstReportOutput;
@@ -110,32 +110,6 @@ public class CrossTabReport extends AbstractReport{
 	}
 	
 	
-	/**
-	 * validates the configuration
-	 */
-	@Override protected void validateConfig(){
-		super.validateConfig();
-		if(getCrosstabData() == null){
-			throw new ConfigValidationException("Crosstab reports need crosstab data configured"); 
-		}
-		
-		if(getCrosstabHeaderRows() == null || getCrosstabHeaderRows().size() ==0){
-			throw new ConfigValidationException("Crosstab reports need header rows configured");
-		}
-		
-		if((getDataColumns() == null || getDataColumns().size() == 0) 
-			&& (getGroupColumns() == null || getGroupColumns().size() == 0)){
-			throw new ConfigValidationException("Crosstab reports need data and/or group columns configured"); 
-		}
-		
-		//if totals are needed then check if any Calculators have been added to CrosstabData
-		if(		(getShowTotals() || getShowGrandTotal()) 
-				&& (getCrosstabData().getCalculator() == null)){
-			throw new ConfigValidationException("If you want to see totals please configure at least one calculator to CrosstabData");
-		}
-	}
-
-    
 	/**
 	 * configures the algorithm steps
 	 */
