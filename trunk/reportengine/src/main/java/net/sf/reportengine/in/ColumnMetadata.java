@@ -15,8 +15,6 @@ public final class ColumnMetadata {
 	
 	private String columnLabel; 
 	
-	private int columnType;
-	
 	private String columnId; 
 	
 	private HorizontalAlign horizontalAlign; 
@@ -39,22 +37,6 @@ public final class ColumnMetadata {
 	 */
 	public void setColumnLabel(String columnLabel) {
 		this.columnLabel = columnLabel;
-	}
-
-
-	/**
-	 * @return the columnType
-	 */
-	public int getColumnType() {
-		return columnType;
-	}
-
-
-	/**
-	 * @param columnType the columnType to set
-	 */
-	public void setColumnType(int columnType) {
-		this.columnType = columnType;
 	}
 
 

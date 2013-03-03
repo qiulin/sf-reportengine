@@ -6,9 +6,10 @@ package net.sf.reportengine;
 
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.core.ConfigValidationException;
-import net.sf.reportengine.core.algorithm.IReportAlgorithm;
+import net.sf.reportengine.core.algorithm.IAlgorithm;
 import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.OneIterationAlgorithm;
+import net.sf.reportengine.core.steps.AutodetectColumnsInitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
@@ -69,21 +70,23 @@ import net.sf.reportengine.util.ContextKeys;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class FlatReport extends AbstractOneIterationReport {
+public class FlatReport extends AbstractOneStepReport {
     
     
     
     /**
      * default constructor
      */
-    public FlatReport(){}
+    public FlatReport(){
+    	super(new OneIterationAlgorithm()); 
+    }
     
     
     /**
      * algorithm configuration 
      */
     @Override protected void configAlgorithmSteps(){
-    	IReportAlgorithm algorithm = getAlgorithm();
+    	IAlgorithm algorithm = getAlgorithm();
     	IReportContext context = algorithm.getContext();
     	
     	//preparing the context of the report algorithm 
@@ -91,13 +94,14 @@ public class FlatReport extends AbstractOneIterationReport {
     	algorithm.setOut(getOut());
     	
     	context.set(ContextKeys.DATA_COLUMNS, getDataColumns());
-    	context.set(ContextKeys.GROUPING_COLUMNS, getGroupColumns());
+    	context.set(ContextKeys.GROUP_COLUMNS, getGroupColumns());
     	context.set(ContextKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
     	context.set(ContextKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
     	context.set(ContextKeys.USER_COLUMN_PREFERENCES, getUserColumnPrefs()); 
     	
     	//adding steps to the algorithm :
     	//we start with the init steps
+    	algorithm.addInitStep(new AutodetectColumnsInitStep()); 
     	algorithm.addInitStep(new FlatReportValidationInitStep()); 
     	algorithm.addInitStep(new FlatReportExtractDataInitStep());
     	algorithm.addInitStep(new ColumnHeaderOutputInitStep(getReportTitle()));

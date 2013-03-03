@@ -16,7 +16,7 @@ import net.sf.reportengine.out.IReportOutput;
  * </p> 
  * @author dragos balan (dragos dot balan at gmail dot com)
  */
-public interface IReportAlgorithm {
+public interface IAlgorithm {
     
     /**
      * sets the input of the report.
@@ -53,6 +53,9 @@ public interface IReportAlgorithm {
      */
     public void setOut(IReportOutput out);
     
-    
+    /**
+     * getter for the context
+     * @return
+     */
     public IReportContext getContext();
 }

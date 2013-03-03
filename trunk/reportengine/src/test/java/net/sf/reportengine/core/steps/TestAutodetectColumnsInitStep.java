@@ -5,10 +5,8 @@ package net.sf.reportengine.core.steps;
 
 
 import static net.sf.reportengine.util.ContextKeys.DATA_COLUMNS;
-import static net.sf.reportengine.util.ContextKeys.GROUPING_COLUMNS;
+import static net.sf.reportengine.util.ContextKeys.GROUP_COLUMNS;
 import static net.sf.reportengine.util.ContextKeys.USER_COLUMN_PREFERENCES;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +17,8 @@ import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
 import net.sf.reportengine.core.algorithm.DefaultReportContext;
 import net.sf.reportengine.core.algorithm.IReportContext;
-import net.sf.reportengine.in.ColumnMetadata;
 import net.sf.reportengine.in.ColumnPreferences;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.scenarios.AutodetectConfigurationScenario;
 
 
 /**
@@ -38,28 +35,10 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 	 */
 	protected void setUp() throws Exception {
 		super.setUp();
-		
-		//set up report input
-		ColumnMetadata colMetadata1 = new ColumnMetadata(); 
-		colMetadata1.setColumnId("col1"); 
-		colMetadata1.setColumnLabel("col1label"); 
-		colMetadata1.setColumnType(1); 
-		colMetadata1.setHorizontalAlign(HorizontalAlign.CENTER);
-		
-		ColumnMetadata colMetadata2 = new ColumnMetadata(); 
-		colMetadata2.setColumnId("col2"); 
-		colMetadata2.setColumnLabel("col2label"); 
-		colMetadata2.setColumnType(2); 
-		colMetadata2.setHorizontalAlign(HorizontalAlign.LEFT);
-		
-		ColumnMetadata[] columnMetadata = new ColumnMetadata[]{colMetadata1, colMetadata2};
-		
-		IReportInput reportInput = mock(IReportInput.class);
-		when(reportInput.suppportsColumnMetadata()).thenReturn(true); 
-		when(reportInput.getColumnMetadata()).thenReturn(columnMetadata); 
+		AutodetectConfigurationScenario.initScenario();
 		
 		reportContext = new DefaultReportContext(); 
-		reportContext.setInput(reportInput); 
+		reportContext.setInput(AutodetectConfigurationScenario.INPUT); 
 	}
 
 	/* (non-Javadoc)
@@ -100,7 +79,7 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		assertEquals("Header Data Col 1", dataCols.get(0).getHeader());
 		assertEquals("Header Data Col 2", dataCols.get(1).getHeader()); 
 		
-		List<IGroupColumn>groupCols = (List<IGroupColumn>)reportContext.get(GROUPING_COLUMNS); 
+		List<IGroupColumn>groupCols = (List<IGroupColumn>)reportContext.get(GROUP_COLUMNS); 
 		assertNotNull(groupCols);
 		assertEquals(0, groupCols.size());
 	}
@@ -137,7 +116,7 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		assertEquals("Header Data Col 1", dataCols.get(0).getHeader());
 		assertEquals("col2label", dataCols.get(1).getHeader()); 
 		
-		List<IGroupColumn>groupCols = (List<IGroupColumn>)reportContext.get(GROUPING_COLUMNS); 
+		List<IGroupColumn>groupCols = (List<IGroupColumn>)reportContext.get(GROUP_COLUMNS); 
 		assertNotNull(groupCols);
 		assertEquals(0, groupCols.size());
 	}
@@ -168,7 +147,7 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		assertEquals("col1label", dataCols.get(0).getHeader()); 
 		assertEquals("Second Column Prefs", dataCols.get(1).getHeader()); 
 		
-		List<IGroupColumn>groupCols = (List<IGroupColumn>)reportContext.get(GROUPING_COLUMNS); 
+		List<IGroupColumn>groupCols = (List<IGroupColumn>)reportContext.get(GROUP_COLUMNS); 
 		assertNotNull(groupCols);
 		assertEquals(0, groupCols.size());
 	}
@@ -202,7 +181,7 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		assertNotNull(dataCols);
 		assertEquals(0, dataCols.size()); 
 		 
-		List<IGroupColumn>groupCols = (List<IGroupColumn>)reportContext.get(GROUPING_COLUMNS); 
+		List<IGroupColumn>groupCols = (List<IGroupColumn>)reportContext.get(GROUP_COLUMNS); 
 		assertNotNull(groupCols);
 		assertEquals(2, groupCols.size());
 		assertEquals("Header Group Col 1", groupCols.get(0).getHeader());
@@ -234,7 +213,7 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		assertEquals(1, dataCols.size()); 
 		assertEquals("col1label", dataCols.get(0).getHeader());
 		
-		List<IGroupColumn>groupCols = (List<IGroupColumn>)reportContext.get(GROUPING_COLUMNS); 
+		List<IGroupColumn>groupCols = (List<IGroupColumn>)reportContext.get(GROUP_COLUMNS); 
 		assertNotNull(groupCols);
 		assertEquals(1, groupCols.size());
 		assertEquals("Header Group Col 2", groupCols.get(0).getHeader());

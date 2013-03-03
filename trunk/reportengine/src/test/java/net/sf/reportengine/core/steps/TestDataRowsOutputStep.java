@@ -36,7 +36,7 @@ public class TestDataRowsOutputStep extends ReportAlgorithmStepTC {
 		
 		reportContext.setInput(Scenario1.INPUT);
 		reportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
-		reportContext.set(ContextKeys.GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
+		reportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
 		classUnderTest.init(reportContext); 
 
 		NewRowEvent dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_1);

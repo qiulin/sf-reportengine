@@ -3,6 +3,7 @@ package net.sf.reportengine;
 import java.io.InputStream;
 
 import net.sf.reportengine.config.DefaultDataColumn;
+import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.CellPropsArrayOutput;
@@ -12,6 +13,7 @@ import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.out.StaxReportOutput;
 import net.sf.reportengine.out.XslFoOutput;
 import net.sf.reportengine.out.XsltOutput;
+import net.sf.reportengine.scenarios.AutodetectConfigurationScenario;
 import net.sf.reportengine.scenarios.NoGroupsScenario;
 import net.sf.reportengine.scenarios.OhlcComputationScenario;
 import net.sf.reportengine.scenarios.Scenario1;
@@ -213,6 +215,25 @@ public class TestFlatReport extends ReportengineTC {
 		flatReport.execute();
 		
 		//TODO: assert here
+	}
+	
+	public void testAutodetectColumnsFromMetadata(){
+		AutodetectConfigurationScenario.initScenario(); 
+		
+		flatReport.setIn(AutodetectConfigurationScenario.INPUT); 
+		flatReport.setOut(new HtmlOutput("./target/testBasicAutodetect.html")); 
+		flatReport.execute(); 
+	}
+	
+	
+	public void testAutodetectColumnsFromMetadataAndPreferences(){
+		AutodetectConfigurationScenario.initScenario(); 
+		
+		flatReport.setIn(AutodetectConfigurationScenario.INPUT); 
+		flatReport.setOut(new HtmlOutput("./target/testAutodetectWithUserPrefs.html")); 
+		flatReport.forColumn("col1").setHeader("First column forced by prefs to right align"); 
+		flatReport.forColumn("col1").setHorizAlign(HorizontalAlign.RIGHT); 
+		flatReport.execute(); 
 	}
 	
 //	public void testMemoryLeaks(){

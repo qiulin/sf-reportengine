@@ -35,7 +35,7 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 	public void testExecuteScenario1() {
 		IReportContext testReportContext = getTestContext();
 		
-		testReportContext.set(ContextKeys.GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
+		testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
 		classUnderTest.init(testReportContext);
 		
 		
@@ -61,7 +61,7 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 	public void testExecuteScenario2() {
 		IReportContext testReportContext = getTestContext();
 		
-		testReportContext.set(ContextKeys.GROUPING_COLUMNS, Scenario2.GROUPING_COLUMNS);
+		testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario2.GROUPING_COLUMNS);
 		classUnderTest.init(testReportContext);
 		
 		
@@ -88,7 +88,7 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 	public void testExecuteCalculatedColumnsScenario() {
 		IReportContext testReportContext = getTestContext();
 		
-		testReportContext.set(ContextKeys.GROUPING_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
+		testReportContext.set(ContextKeys.GROUP_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
 		classUnderTest.init(testReportContext);
 		
 		

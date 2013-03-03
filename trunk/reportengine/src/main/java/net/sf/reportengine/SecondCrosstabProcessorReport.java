@@ -4,7 +4,8 @@
 package net.sf.reportengine;
 
 import net.sf.reportengine.core.algorithm.IReportContext;
-import net.sf.reportengine.core.algorithm.IReportAlgorithm;
+import net.sf.reportengine.core.algorithm.IAlgorithm;
+import net.sf.reportengine.core.algorithm.OneIterationAlgorithm;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
@@ -22,11 +23,12 @@ import net.sf.reportengine.util.CtMetadata;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-class SecondCrosstabProcessorReport extends AbstractOneIterationReport {
+class SecondCrosstabProcessorReport extends AbstractOneStepReport {
 	
 	private CtMetadata ctMetadata = null; 
 	
 	public SecondCrosstabProcessorReport(CtMetadata metadata){
+		super(new OneIterationAlgorithm()); 
 		this.ctMetadata = metadata; 
 	}
 	
@@ -35,7 +37,7 @@ class SecondCrosstabProcessorReport extends AbstractOneIterationReport {
 	 */
 	@Override
 	protected void configAlgorithmSteps() {
-		IReportAlgorithm algorithm = getAlgorithm();
+		IAlgorithm algorithm = getAlgorithm();
     	IReportContext context = algorithm.getContext();
     	
     	//setting the input/output
@@ -44,7 +46,7 @@ class SecondCrosstabProcessorReport extends AbstractOneIterationReport {
     	
     	//context keys specific to a flat report
 		context.set(ContextKeys.DATA_COLUMNS, getDataColumns());
-		context.set(ContextKeys.GROUPING_COLUMNS, getGroupColumns()); 
+		context.set(ContextKeys.GROUP_COLUMNS, getGroupColumns()); 
 		context.set(ContextKeys.SHOW_TOTALS, getShowTotals());
     	context.set(ContextKeys.SHOW_GRAND_TOTAL, getShowGrandTotal());
     	context.set(ContextKeys.CROSSTAB_METADATA, ctMetadata); 

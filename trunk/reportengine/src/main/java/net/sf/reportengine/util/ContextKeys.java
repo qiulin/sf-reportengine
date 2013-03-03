@@ -20,7 +20,7 @@ public enum ContextKeys {
 	/**
 	 * the identifier of grouping columns inside the report context
 	 */
-	GROUPING_COLUMNS, //= "net.sf.reportengine.groupingColumns";
+	GROUP_COLUMNS, //= "net.sf.reportengine.groupingColumns";
 	
 	/**
 	 * the identifier of the column preferences

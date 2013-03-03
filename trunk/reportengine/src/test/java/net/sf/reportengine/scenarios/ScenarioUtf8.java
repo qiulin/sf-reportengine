@@ -4,7 +4,7 @@
 package net.sf.reportengine.scenarios;
 
 /**
- * @author balan
+ * @author dragos balan
  *
  */
 public class ScenarioUtf8 {

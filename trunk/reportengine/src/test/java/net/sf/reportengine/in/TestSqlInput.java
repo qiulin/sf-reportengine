@@ -13,7 +13,7 @@ import java.util.Arrays;
 import junit.framework.TestCase;
 
 
-public class TestDbQueryInput extends TestCase {
+public class TestSqlInput extends TestCase {
     
 	
     private static final Object[][] EXPECTED_DATA = new Object[][]{
@@ -46,7 +46,7 @@ public class TestDbQueryInput extends TestCase {
 	         insertStatement.addBatch("INSERT INTO testreport VALUES(6,'USA','EAST','Chicago','Females','Muslim', 101)");
 	         insertStatement.executeBatch();
 	         
-    	 } catch (ClassNotFoundException e) {
+    	} catch (ClassNotFoundException e) {
  			e.printStackTrace();
  		} catch (SQLException e) {
 			e.printStackTrace();
@@ -64,7 +64,7 @@ public class TestDbQueryInput extends TestCase {
 
     
     public void testNextAndHasMore(){
-    	DbQueryInput dataProvider = new DbQueryInput();
+    	SqlInput dataProvider = new SqlInput();
     	dataProvider.setSqlStatement("select id, country, region, city, sex, religion, value from testreport t order by id");
     	dataProvider.setConnection(testConnection); 
     	
@@ -86,7 +86,7 @@ public class TestDbQueryInput extends TestCase {
     
     public void testNonQuery(){
     	try{
-    		DbQueryInput dataProvider = new DbQueryInput(); 
+    		SqlInput dataProvider = new SqlInput(); 
     		dataProvider.setDbConnString("jdbc:hsqldb:mem:testdb");
     		dataProvider.setDbDriverClass("org.hsqldb.jdbcDriver");
     		dataProvider.setDbUser("sa");
@@ -102,6 +102,19 @@ public class TestDbQueryInput extends TestCase {
     	}
     }
    
-    
+    public void testReadMetadata(){
+    	SqlInput dataProvider = new SqlInput();
+    	dataProvider.setSqlStatement("select id, country, region, city, sex, religion, value from testreport t order by id");
+    	dataProvider.setDbConnString("jdbc:hsqldb:mem:testdb");
+		dataProvider.setDbDriverClass("org.hsqldb.jdbcDriver");
+		dataProvider.setDbUser("sa");
+		dataProvider.setDbPassword("");
+    	dataProvider.open(); 
+    	
+    	assertTrue(dataProvider.suppportsColumnMetadata());
+    	assertNotNull(dataProvider.getColumnMetadata()); 
+    	assertEquals(7, dataProvider.getColumnMetadata().length);
+    	assertEquals("ID", dataProvider.getColumnMetadata()[0].getColumnLabel());
+    }
    
 }

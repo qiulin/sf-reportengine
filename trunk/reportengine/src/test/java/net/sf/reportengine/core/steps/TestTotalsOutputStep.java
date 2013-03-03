@@ -45,7 +45,7 @@ public class TestTotalsOutputStep extends ReportAlgorithmStepTC {
 		IReportContext reportContext = getTestContext(); 
 		
 		//simulate the level detector
-		reportContext.set(ContextKeys.GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS); 
+		reportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS); 
 		reportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
         reportContext.set(ContextKeys.SHOW_GRAND_TOTAL, Scenario1.SHOW_GRAND_TOTAL);
         reportContext.set(ContextKeys.DISTRIBUTION_OF_CALCULATORS, Scenario1.DISTRIBUTION_OF_CALCULATOR_IN_DATA_ROW_ARRAY); 

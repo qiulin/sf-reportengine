@@ -11,9 +11,10 @@ import net.sf.reportengine.config.ICrosstabData;
 import net.sf.reportengine.config.ICrosstabHeaderRow;
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.core.algorithm.IReportAlgorithm;
+import net.sf.reportengine.core.algorithm.IAlgorithm;
 import net.sf.reportengine.core.algorithm.IReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.algorithm.OneIterationAlgorithm;
 import net.sf.reportengine.core.calc.ICalculator;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
@@ -37,7 +38,7 @@ import org.apache.log4j.Logger;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-class IntermediateCrosstabReport extends AbstractOneIterationReport {
+class IntermediateCrosstabReport extends AbstractOneStepReport {
 	
 	/**
 	 * the logger
@@ -70,6 +71,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 	 * @param originalDataColsCount
 	 */
 	public IntermediateCrosstabReport(int originalGroupColsCount, int originalDataColsCount){
+		super(new OneIterationAlgorithm()); 
 		if(logger.isDebugEnabled())
 			logger.debug(	"constructing intermediate report algorithm origGrpCols="+
 							originalGroupColsCount+", origDataColsCnt="+originalDataColsCount);
@@ -82,7 +84,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 	 */
 	@Override
 	protected void configAlgorithmSteps() {
-		IReportAlgorithm algorithm = getAlgorithm();
+		IAlgorithm algorithm = getAlgorithm();
     	IReportContext context = algorithm.getContext();
     	
     	if(logger.isDebugEnabled()){
@@ -113,7 +115,7 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 		
 		//context keys specific to a flat report
 		context.set(ContextKeys.DATA_COLUMNS, intermediateDataCols);
-		context.set(ContextKeys.GROUPING_COLUMNS, intermediateGroupCols); 
+		context.set(ContextKeys.GROUP_COLUMNS, intermediateGroupCols); 
 		
 		context.set(ContextKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
     	context.set(ContextKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
@@ -124,8 +126,8 @@ class IntermediateCrosstabReport extends AbstractOneIterationReport {
 		context.set(ContextKeys.CROSSTAB_HEADER_ROWS, getCrosstabHeaderRows()); 
 		context.set(ContextKeys.CROSSTAB_DATA, crosstabData); 
 		
-		//adding specific flat report steps to the algorithm
-    	algorithm.addInitStep(new FlatReportExtractDataInitStep());
+		//init steps 
+		algorithm.addInitStep(new FlatReportExtractDataInitStep());
     	//only for debug
     	//algorithm.addInitStep(new ColumnHeaderOutputInitStep("Intermediate report"));
         

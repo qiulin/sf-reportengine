@@ -41,7 +41,7 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 		IReportContext reportContext = getTestContext(); 
 		
 		reportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
-		reportContext.set(ContextKeys.GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
+		reportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
 		classUnderTest.init(reportContext);
 		
 		NewRowEvent dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_1);
@@ -68,7 +68,7 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 		IReportContext reportContext = getTestContext(); 
 		
 		reportContext.set(ContextKeys.DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
-		reportContext.set(ContextKeys.GROUPING_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
+		reportContext.set(ContextKeys.GROUP_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
 		
 		classUnderTest.init(reportContext);
 		

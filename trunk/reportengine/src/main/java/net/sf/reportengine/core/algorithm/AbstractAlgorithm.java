@@ -12,19 +12,11 @@ import net.sf.reportengine.core.algorithm.steps.IAlgorithmMainStep;
 import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.out.IReportOutput;
 
-import org.apache.log4j.Logger;
-
 /**
- * @author dragos balan (dragos.balan@gmail.com)
- * @version $Revision$
- * $log$
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.2
  */
-public abstract class AbstractAlgorithm implements IReportAlgorithm {
-	
-	/**
-	 * the one and only logger
-	 */
-	private static final Logger logger = Logger.getLogger(AbstractAlgorithm.class);
+public abstract class AbstractAlgorithm implements IAlgorithm {
 	
 	/**
      * A list containing all the steps <code>net.sf.reportengine.algorithm.IAlgoritmStep</code>
@@ -49,8 +41,7 @@ public abstract class AbstractAlgorithm implements IReportAlgorithm {
     private IReportContext algorithmContext;
     
     /**
-     * 
-     * @param context
+     * Initializes all steps lists and the algorithm context
      */
     public AbstractAlgorithm(){
         this.initSteps = new LinkedList<IAlgorithmInitStep>();
