@@ -117,7 +117,7 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     }
     
     public List<IGroupColumn> getGroupingColumns(){
-    	return (List<IGroupColumn>)getContext().get(ContextKeys.GROUPING_COLUMNS);
+    	return (List<IGroupColumn>)getContext().get(ContextKeys.GROUP_COLUMNS);
     }
     
     public int getGroupingColumnsLength(){

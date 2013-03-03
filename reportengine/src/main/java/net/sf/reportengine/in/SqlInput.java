@@ -10,6 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import static java.sql.Types.*;
+
+import net.sf.reportengine.config.HorizontalAlign;
 
 import org.apache.log4j.Logger;
 /**
@@ -23,12 +26,12 @@ import org.apache.log4j.Logger;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class DbQueryInput extends AbstractReportInput {
+public class SqlInput extends AbstractReportInput {
 	
 	/**
 	 * the one and only LOGGER
 	 */
-	private static final Logger LOGGER = Logger.getLogger(DbQueryInput.class);
+	private static final Logger LOGGER = Logger.getLogger(SqlInput.class);
     
     /**
      * the sql query
@@ -96,7 +99,7 @@ public class DbQueryInput extends AbstractReportInput {
      * You have to add some more properties like dbUser, dbPassword, sqlStatement or you can 
      * provide your own connection and use the <source>QueryDataProvider(Connection conn)</source>
      */
-    public DbQueryInput(){
+    public SqlInput(){
         
     }
     
@@ -105,7 +108,7 @@ public class DbQueryInput extends AbstractReportInput {
      * Besides the connection you have to provide a query statement using <source>setSqlStatement(String)</source>
      * @param conn      the connection provided 
      */
-    public DbQueryInput(Connection conn){
+    public SqlInput(Connection conn){
         this.dbConnection = conn;
     }
     
@@ -117,7 +120,7 @@ public class DbQueryInput extends AbstractReportInput {
      * @param dbUser            the database user
      * @param dbPassword        database password
      */
-    public DbQueryInput(  String dbConnString, 
+    public SqlInput(  String dbConnString, 
                           String driverClass, 
                           String dbUser, 
                           String dbPassword){
@@ -290,7 +293,8 @@ public class DbQueryInput extends AbstractReportInput {
      * database connection setter . 
      * Use this method to avoid the lazy database connection construction  
      * Please note that when using this method you are not required to 
-     * provide also the dbUser, password or any other parameters 
+     * provide dbUser, password or any other parameters 
+     * 
      * @param conn  the connection 
      */
     public void setConnection(Connection conn){
@@ -333,7 +337,7 @@ public class DbQueryInput extends AbstractReportInput {
             for(int i=0; i < columnsCount; i++){
             	columnMetadata[i] = new ColumnMetadata(); 
             	columnMetadata[i].setColumnLabel(metaData.getColumnLabel(i+1));
-            	columnMetadata[i].setColumnType(metaData.getColumnType(i+1));
+            	columnMetadata[i].setHorizontalAlign(getAlignmentFromColumnType(metaData.getColumnType(i+1)));
             	columnMetadata[i].setColumnId(metaData.getColumnName(i+1)); 
             }
                                     
@@ -351,7 +355,7 @@ public class DbQueryInput extends AbstractReportInput {
         } catch (SQLException e) {
            throw new ReportInputException("When reading Input data an SQL Error occured - see the cause !", e);
         } finally{
-        	//scloseDbConnection();
+        	//closeDbConnection();
         }
     }
     
@@ -361,9 +365,8 @@ public class DbQueryInput extends AbstractReportInput {
      * 
      * @return	false
      */
-    @Override
-    public boolean suppportsColumnMetadata(){
-    	return false; 
+    @Override public boolean suppportsColumnMetadata(){
+    	return true; 
     }
     
     /**
@@ -372,5 +375,27 @@ public class DbQueryInput extends AbstractReportInput {
      */
     public ColumnMetadata[] getColumnMetadata(){
     	return columnMetadata; 
+    }
+    
+    /**
+     * 
+     * @param colType
+     * @return
+     */
+    private HorizontalAlign getAlignmentFromColumnType(int colType){
+    	HorizontalAlign result = null; 
+    	if(	colType == INTEGER || colType == BIGINT || colType == DECIMAL || colType == DOUBLE 
+    		|| colType == NUMERIC || colType == FLOAT ||  colType == REAL
+    		|| colType == SMALLINT || colType == TINYINT){
+    		result = HorizontalAlign.RIGHT; 
+    	}else{
+    		if(colType == LONGNVARCHAR || colType == NCHAR || colType == NVARCHAR || colType == VARCHAR){
+    			result = HorizontalAlign.LEFT; 
+    		}else{
+    			result = HorizontalAlign.CENTER; 
+    		}
+    	}
+    	
+    	return result; 
     }
 }

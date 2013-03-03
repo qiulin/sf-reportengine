@@ -41,7 +41,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
          
         //simulate the level detector
     	reportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
-    	reportContext.set(ContextKeys.GROUPING_COLUMNS, Scenario1.GROUPING_COLUMNS);
+    	reportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
     	reportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.AGG_COLUMNS_INDEX);
         
     	
@@ -109,7 +109,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
          
         //simulate the level detector
     	reportContext.set(ContextKeys.DATA_COLUMNS, Scenario2.DATA_COLUMNS);
-    	reportContext.set(ContextKeys.GROUPING_COLUMNS, Scenario2.GROUPING_COLUMNS);
+    	reportContext.set(ContextKeys.GROUP_COLUMNS, Scenario2.GROUPING_COLUMNS);
     	//reportContext.set(LevelDetectorStep.CONTEXT_KEY_AGG_COLUMNS_INDEX, Scenario2.AGG_COLUMNS_INDEX);
     	//reportContext.set(LevelDetectorStep.CONTEXT_KEY_AGG_LEVEL_COUNT, Scenario2.AGG_COLUMNS_INDEX.length);
          
@@ -135,7 +135,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
          
         //simulate the level detector
     	reportContext.set(ContextKeys.DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
-    	reportContext.set(ContextKeys.GROUPING_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
+    	reportContext.set(ContextKeys.GROUP_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
         //reportContext.set(LevelDetectorStep.CONTEXT_KEY_AGG_COLUMNS_INDEX, CalculatedColumnsScenario.AGG_COLUMNS_INDEX);
         //reportContext.set(LevelDetectorStep.CONTEXT_KEY_AGG_LEVEL_COUNT, CalculatedColumnsScenario.AGG_COLUMNS_INDEX.length);
          

@@ -95,56 +95,114 @@ public class CrossTabReport extends AbstractReport{
 	 */
 	private static final Logger LOGGER = Logger.getLogger(CrossTabReport.class);
 	
+	/**
+	 * the intermediate report in charge of : 
+	 * 	1. discovering the distinct values for the header 
+	 *  2. arranging the initial crosstab data into rows for the second report
+	 *  3. computing totals on the crosstab data.
+	 */
 	private IntermediateCrosstabReport firstReport;
-	private IntermediateCrosstabOutput firstReportOutput;
 	
+	/**
+	 * the second report is in charge of: 
+	 * 1. getting the input from the first report's output
+	 * 2. computing the totals on data rows 
+	 * 3. outputting into the user defined output
+	 */
 	private SecondCrosstabProcessorReport secondReport; 
 	
+	/**
+	 * the crosstab header rows
+	 */
 	private List<ICrosstabHeaderRow> crosstabHeaderRowsAsList; 
 	
+	/**
+	 * the crossta data
+	 */
 	private ICrosstabData crosstabData; 
 	
-	
+	/**
+	 * constructs a new crosstab report
+	 */
 	public CrossTabReport(){
 		this.crosstabHeaderRowsAsList = new ArrayList<ICrosstabHeaderRow>();
 	}
 	
+	/**
+	 * validates the configuration 
+	 */
+	private void validateConfig(){
+		if(LOGGER.isInfoEnabled())LOGGER.info("validating crosstab configuration ..."); 
+		//input/output verification
+		if(getIn() == null) throw new ConfigValidationException("The report has no input");
+        if(getOut() == null) throw new ConfigValidationException("The report has no output");
+        
+        //crosstab data existence check
+        ICrosstabData ctData = getCrosstabData(); 
+        if(getCrosstabData() == null){
+			throw new ConfigValidationException("Crosstab reports need crosstab data configured"); 
+		}
+		
+        //crosstab header validation
+        List<ICrosstabHeaderRow> ctHeader = getCrosstabHeaderRows(); 
+		if(ctHeader == null || ctHeader.size() == 0){
+			throw new ConfigValidationException("Crosstab reports need header rows configured");
+		}
+		
+		//the crosstab report needs at least one group column or data column
+		List<IDataColumn> dataColumns = getDataColumns();
+		List<IGroupColumn> groupColumns = getGroupColumns();
+		if((dataColumns == null || dataColumns.size() == 0) 
+			&& (groupColumns == null || groupColumns.size() == 0)){
+			throw new ConfigValidationException("Crosstab reports need data and/or group columns configured"); 
+		}
+		
+		//if totals are needed then check if any Calculators have been added to ALL DataColumns
+        if(	(getShowTotals() || getShowGrandTotal()) 
+			&& ctData.getCalculator() == null){
+			throw new ConfigValidationException("Please configure a Calculator to CrosstabData to display totals");
+		}
+	}
 	
 	/**
-	 * configures the algorithm steps
+	 * configures the first algorithm steps
 	 */
-	@Override protected void configAlgorithmSteps() {
+	private void configIntermediateReport() {
+		List<IGroupColumn> groupCols = getGroupColumns(); 
+		List<IDataColumn> dataColsList = getDataColumns(); 
+		
+		int groupColsLength = groupCols != null ? groupCols.size() : 0;
+		int dataColsLength = dataColsList != null ? dataColsList.size() : 0;
+		
+		IntermediateCrosstabOutput firstReportOutput = new IntermediateCrosstabOutput(); 		
+		firstReport = new IntermediateCrosstabReport(groupColsLength, dataColsLength); 
+		firstReport.setIn(getIn()); 
+		firstReport.setOut(firstReportOutput); 
+		firstReport.setGroupColumns(groupCols); 
+		firstReport.setDataColumns(dataColsList); 
+		firstReport.setCrosstabHeaderRows(getCrosstabHeaderRows()); 
+		firstReport.setCrosstabData(getCrosstabData()); 
+		firstReport.setShowDataRows(true); 
+		firstReport.setShowTotals(getShowTotals());
+		firstReport.setShowGrandTotal(getShowGrandTotal()); 
+	}
+			
+	
+	/**
+	 * configuration of the second report based on the results of the first one
+	 */
+	private void configSecondReport() {
 		try{
-			List<IGroupColumn> groupCols = getGroupColumns(); 
-			List<IDataColumn> dataColsList = getDataColumns(); 
-			
-			int groupColsLength = groupCols != null ? groupCols.size() : 0;
-			int dataColsLength = dataColsList != null ? dataColsList.size() : 0;
-					
-			firstReportOutput = new IntermediateCrosstabOutput(); 		
-			firstReport = new IntermediateCrosstabReport(groupColsLength, dataColsLength); 
-			firstReport.setIn(getIn()); 
-			firstReport.setOut(firstReportOutput); 
-			firstReport.setGroupColumns(groupCols); 
-			firstReport.setDataColumns(dataColsList); 
-			firstReport.setCrosstabHeaderRows(getCrosstabHeaderRows()); 
-			firstReport.setCrosstabData(getCrosstabData()); 
-			firstReport.setShowDataRows(true); 
-			firstReport.setShowTotals(getShowTotals());
-			firstReport.setShowGrandTotal(getShowGrandTotal()); 
-			
-			//the execute method
-			firstReport.execute(); 
-			
-			//transfer data from first report to the second
+			//transfer data from first report to the second 
+			//TODO: Move this in the transfer method and improve
 			IReportContext firstReportContext = firstReport.getAlgorithm().getContext(); 
-			IDistinctValuesHolder distinctValuesHolder = (IDistinctValuesHolder)firstReportContext.get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			IDistinctValuesHolder distinctValuesHolder = 
+				(IDistinctValuesHolder)firstReportContext.get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 			CtMetadata crosstabMetadata = new CtMetadata(distinctValuesHolder);
 			crosstabMetadata.computeCoefficients(); 
 			
-			//config the second report
 			secondReport = new SecondCrosstabProcessorReport(crosstabMetadata);  
-			InputStream secondReportInput = new FileInputStream(firstReportOutput.getSerializedOutputFile()); 
+			InputStream secondReportInput = new FileInputStream(((IntermediateCrosstabOutput)firstReport.getOut()).getSerializedOutputFile()); 
 			secondReport.setIn(new IntermediateCrosstabReportInput(secondReportInput)); 
 			secondReport.setOut(getOut()); 
 			
@@ -164,12 +222,12 @@ public class CrossTabReport extends AbstractReport{
 			throw new ConfigValidationException(fnfExc); 
 		}
 	}
-
+	
 	/**
-	 * executes the second report algorithm
+	 * transfer data between reports
 	 */
-	@Override protected void executeAlgorithm() {
-		secondReport.execute(); 
+	private void transferDataBetweenReports() {
+		
 	}
 	
 	/**
@@ -227,87 +285,6 @@ public class CrossTabReport extends AbstractReport{
 			}
 		}
 		return result; 
-	}
-	
-	/**
-	 * 
-	 * @param crosstabMetadata
-	 * @param originalDataColumns
-	 * @param hasTotals
-	 * @param hasGrandTotal
-	 * @return
-	 * @deprecated
-	 */
-	protected IDataColumn[] constructDataColumnsForSecondProcess(	CtMetadata crosstabMetadata, 
-																	IDataColumn[] originalDataColumns, 
-																	boolean hasTotals, 
-																	boolean hasGrandTotal){
-		
-		int dataColsCount = crosstabMetadata.getDataColumnCount(); 
-		int headerRowsCount = crosstabMetadata.getHeaderRowsCount(); 
-		
-		List<IDataColumn> auxListOfDataCols = new ArrayList<IDataColumn>();
-		
-		//first we add the original data columns (those declared by the user in his configuration)
-		for(int i=0; i < originalDataColumns.length; i++){
-			auxListOfDataCols.add(new SecondProcessDataColumnFromOriginalDataColumn(originalDataColumns[i], i));
-		}
-		
-		//then we construct the columns 
-		for(int column=0; column < dataColsCount; column++){
-			
-			//construct total columns 
-			if(hasTotals){
-				//we start bottom to top (from last header row -1 to first header row) 
-				for(int row=headerRowsCount-2; row >= 0; row--){
-					int colspan = crosstabMetadata.getColspanForLevel(row); 
-					
-					if(column != 0 && (column % colspan)==0){
-						int[] positionForCurrentTotal = new int[row+1]; //new int[headerRowsCount-1];
-						
-						for(int j=0; j < positionForCurrentTotal.length; j++){
-							positionForCurrentTotal[j] = ((column-1) / crosstabMetadata.getColspanForLevel(j)) % crosstabMetadata.getDistinctValuesCountForLevel(j);
-						}
-						
-						auxListOfDataCols.add(new SecondProcessTotalColumn(positionForCurrentTotal, Calculators.SUM, null, "Total column="+column+ ",colspan= "+colspan));
-					}
-				}
-			}//end if has totals
-			
-			//data columns coming from data columns
-			int[] positionForCurrentColumn = new int[headerRowsCount];
-			for(int j=0; j < headerRowsCount; j++){
-				positionForCurrentColumn[j] = (column / crosstabMetadata.getColspanForLevel(j)) % crosstabMetadata.getDistinctValuesCountForLevel(j);
-			}
-			
-			auxListOfDataCols.add(
-					new SecondProcessDataColumn(positionForCurrentColumn, 
-												Calculators.SUM, 
-												null)); 
-		}
-		
-		if(hasTotals){
-			//final total columns
-			for(int row=headerRowsCount-2; row >= 0; row--){
-				int colspan = crosstabMetadata.getColspanForLevel(row); 
-				
-				if(dataColsCount!= 0 && (dataColsCount % colspan)==0){
-					int[] positionForCurrentTotal = new int[row+1];
-					
-					for(int j=0; j < positionForCurrentTotal.length; j++){
-						positionForCurrentTotal[j] = ((dataColsCount-1) / crosstabMetadata.getColspanForLevel(j)) % crosstabMetadata.getDistinctValuesCountForLevel(j);
-					}
-					auxListOfDataCols.add(new SecondProcessTotalColumn(positionForCurrentTotal, Calculators.SUM, null, "Total column="+(dataColsCount)+ ",colspan= "+colspan));
-				}
-			}
-		}
-		
-		//grand total
-		if(hasGrandTotal){
-			auxListOfDataCols.add(new SecondProcessTotalColumn(null, Calculators.SUM, null, "GrandTotal")); 
-		}
-		
-		return auxListOfDataCols.toArray(new IDataColumn[auxListOfDataCols.size()]); 
 	}
 	
 	/**
@@ -395,4 +372,28 @@ public class CrossTabReport extends AbstractReport{
 
 		return resultDataColsList; 
 	}
+	
+	/**
+     * Call this method for execution of the report<br> 
+     * Behind the scenes, this method does the following :<br>
+     * <ul>
+     *  <li>validates the configuration</li>
+     *  <li>configures the report(s)</li>
+     *  <li>opens the output - output.open()</li>
+     *  <li>runs each algorithm execute() method</li>
+     *  <li>closes the output - output.close()</li>
+     * </ul>
+     */
+    @Override public void execute(){
+    	
+    	validateConfig(); 
+    	
+        configIntermediateReport();
+        firstReport.execute(); 
+        
+        transferDataBetweenReports(); 
+        
+        configSecondReport();
+        secondReport.execute(); 
+    }
 }

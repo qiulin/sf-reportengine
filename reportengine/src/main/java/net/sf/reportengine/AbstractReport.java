@@ -11,7 +11,6 @@ import java.util.Map;
 
 import net.sf.reportengine.config.IDataColumn;
 import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.in.IReportInput;
 import net.sf.reportengine.out.IReportOutput;
@@ -104,31 +103,10 @@ public abstract class AbstractReport {
     }
    
     /**
-     * configures the reports 
+     * call this method to execute the report after you've configured
+     * your report (with input, output, title, columns etc.)
      */
-    protected abstract void configAlgorithmSteps();
-    
-    /**
-     * the main execution of the algorithms 
-     */
-    protected abstract void executeAlgorithm();
-    
-    
-    /**
-     * Call this method for execution of the report<br> 
-     * What this method does: <br>
-     * <ul>
-     *  <li>validates the configuration - validateConfig() method call</li>
-     *  <li>configures the algorithms - configAlgorithms() method call</li>
-     *  <li>opens the output - output.open()</li>
-     *  <li>runs each algorithm execute() method</li>
-     *  <li>closes the output - output.close()</li>
-     * </ul>
-     */
-    public void execute(){
-        configAlgorithmSteps();
-        executeAlgorithm();
-    }
+    public abstract void execute();
     
     /**
      * getter for the report title

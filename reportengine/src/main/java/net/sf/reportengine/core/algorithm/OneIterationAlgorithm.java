@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2 
  */
-public class OneIterationAlgorithm extends AbstractAlgorithm{
+public class OneIterationAlgorithm extends AbstractAlgorithm {
     
 	/**
 	 * the one and only logger
@@ -82,8 +82,7 @@ public class OneIterationAlgorithm extends AbstractAlgorithm{
     } 
     
     /**
-     * 1. executes the init method for each main step 
-     * 2. for each row of data ( from input) executes the execute method
+     * 2. for each input row of data executes the execute method
      * 3. calls the exit method for each main step
      */
     protected void executeMainSteps() {

@@ -66,11 +66,11 @@ public class AutodetectColumnsInitStep implements IAlgorithmInitStep {
 				}else{
 					resultDataColumn.add(createDataColumn(colIndex, columnMetadata)); 
 				}
-			}//end for columnMetadata
+			}//end for COLUMN_METADATA
 			
 			//set the result in context
 			reportContext.set(ContextKeys.DATA_COLUMNS, resultDataColumn);
-			reportContext.set(ContextKeys.GROUPING_COLUMNS, resultGroupColumn); 
+			reportContext.set(ContextKeys.GROUP_COLUMNS, resultGroupColumn); 
 		}else{
 			if(LOGGER.isInfoEnabled())LOGGER.info("The input doesn't support metadata. No autodetection of columns could be done."); 
 		}
