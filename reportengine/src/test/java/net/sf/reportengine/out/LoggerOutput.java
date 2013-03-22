@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
  * Debug implementation for IReportOutput where all outputed values go to the log file at each end of line
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
- * @deprecated please use html, exce, fo etc outputters with a StringWriter writer to obtain the same functionality
  */
 public class LoggerOutput implements IReportOutput {
 	

@@ -111,7 +111,6 @@ public class TestSqlInput extends TestCase {
 		dataProvider.setDbPassword("");
     	dataProvider.open(); 
     	
-    	assertTrue(dataProvider.suppportsColumnMetadata());
     	assertNotNull(dataProvider.getColumnMetadata()); 
     	assertEquals(7, dataProvider.getColumnMetadata().length);
     	assertEquals("ID", dataProvider.getColumnMetadata()[0].getColumnLabel());

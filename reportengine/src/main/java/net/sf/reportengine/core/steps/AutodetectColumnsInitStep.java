@@ -36,11 +36,10 @@ public class AutodetectColumnsInitStep implements IAlgorithmInitStep {
 	 * @see net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IReportContext)
 	 */
 	public void init(IReportContext reportContext) {
-		
-		if(reportContext.getInput().suppportsColumnMetadata()){
+		ColumnMetadata[] colMetadata = reportContext.getInput().getColumnMetadata(); 
+		if(colMetadata != null && colMetadata.length > 0){
 			if(LOGGER.isInfoEnabled())LOGGER.info("Autodetecting the columns ..."); 
 			reportContext.getInput().open(); 
-			ColumnMetadata[] colMetadata = reportContext.getInput().getColumnMetadata(); 
 			Map<String, ColumnPreferences> userPreferences = (Map<String, ColumnPreferences>)reportContext.get(ContextKeys.USER_COLUMN_PREFERENCES); 
 			
 			//prepare the data/group column results

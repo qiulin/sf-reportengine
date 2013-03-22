@@ -231,8 +231,8 @@ public class TestFlatReport extends ReportengineTC {
 		
 		flatReport.setIn(AutodetectConfigurationScenario.INPUT); 
 		flatReport.setOut(new HtmlOutput("./target/testAutodetectWithUserPrefs.html")); 
-		flatReport.forColumn("col1").setHeader("First column forced by prefs to right align"); 
-		flatReport.forColumn("col1").setHorizAlign(HorizontalAlign.RIGHT); 
+		flatReport.forColumn("col1").header("First column forced by prefs to right align")
+									.align(HorizontalAlign.RIGHT); 
 		flatReport.execute(); 
 	}
 	
