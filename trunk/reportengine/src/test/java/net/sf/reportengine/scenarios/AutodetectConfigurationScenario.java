@@ -29,7 +29,6 @@ public class AutodetectConfigurationScenario {
 		COLUMN_METADATA[1].setColumnLabel("col2label"); 
 		COLUMN_METADATA[1].setHorizontalAlign(HorizontalAlign.LEFT);
 		
-		when(INPUT.suppportsColumnMetadata()).thenReturn(true); 
 		when(INPUT.getColumnMetadata()).thenReturn(COLUMN_METADATA);
 		when(INPUT.hasMoreRows()).thenReturn(true, true, true, false); 
 		when(INPUT.nextRow()).thenReturn(

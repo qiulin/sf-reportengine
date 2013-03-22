@@ -41,14 +41,8 @@ public interface IReportInput {
     public boolean hasMoreRows();
     
     /**
-     * tells whether this input is able to provide medata or not
-     * 
-     * @return	true if this imput is able to provide metadata
-     */
-    public boolean suppportsColumnMetadata();
-    
-    /**
-     * <p>getter for columns metadata</p>
+     * <p>getter for columns metadata (column label/header, horizontal alignment, etc.)</p>
+     * This is an optional method. If your input doesn't contain any metadata then return an empty array. 
      *  
      * @return the column metadata if this input supports metadata otherwise an empty array
      */

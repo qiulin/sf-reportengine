@@ -56,15 +56,11 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		//set up user preferences
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
-		column1Prefs.setGroup(false); 
-		column1Prefs.setHeader("Header Data Col 1"); 
-		column1Prefs.setHorizAlign(HorizontalAlign.LEFT); 
+		column1Prefs.group(false).header("Header Data Col 1").align(HorizontalAlign.LEFT); 
 		userPrefs.put("col1", column1Prefs); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
-		column2Prefs.setGroup(false); 
-		column2Prefs.setHeader("Header Data Col 2"); 
-		column2Prefs.setHorizAlign(HorizontalAlign.RIGHT); 
+		column2Prefs.group(false).header("Header Data Col 2").align(HorizontalAlign.RIGHT); 
 		userPrefs.put("col2", column2Prefs);
 		
 		reportContext.set(USER_COLUMN_PREFERENCES, userPrefs); 
@@ -93,15 +89,11 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		//set up user preferences
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
-		column1Prefs.setGroup(false); 
-		column1Prefs.setHeader("Header Data Col 1"); 
-		column1Prefs.setHorizAlign(HorizontalAlign.LEFT); 
+		column1Prefs.group(false).header("Header Data Col 1").align(HorizontalAlign.LEFT); 
 		userPrefs.put("col1", column1Prefs); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
-		column2Prefs.setGroup(false); 
-		column2Prefs.setHeader("Header Data Col 2"); 
-		column2Prefs.setHorizAlign(HorizontalAlign.RIGHT); 
+		column2Prefs.group(false).header("Header Data Col 2").align(HorizontalAlign.RIGHT); 
 		userPrefs.put("col3", column2Prefs);//NOT TAKEN INTO ACCCOUNT BECAUSE THERE is no metadata with id col3
 		
 		reportContext.set(USER_COLUMN_PREFERENCES, userPrefs); 
@@ -129,9 +121,7 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		
 		//set up report context
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
-		column1Prefs.setGroup(false); 
-		column1Prefs.setHeader("Second Column Prefs"); 
-		column1Prefs.setHorizAlign(HorizontalAlign.LEFT); 
+		column1Prefs.group(false).header("Second Column Prefs").align(HorizontalAlign.LEFT); 
 		
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		userPrefs.put("col2", column1Prefs); 
@@ -160,15 +150,11 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		//set up user preferences
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
-		column1Prefs.setGroup(true); 
-		column1Prefs.setHeader("Header Group Col 1"); 
-		column1Prefs.setHorizAlign(HorizontalAlign.LEFT); 
+		column1Prefs.group(true).header("Header Group Col 1").align(HorizontalAlign.LEFT); 
 		userPrefs.put("col1", column1Prefs); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
-		column2Prefs.setGroup(true); 
-		column2Prefs.setHeader("Header Group Col 2"); 
-		column2Prefs.setHorizAlign(HorizontalAlign.RIGHT); 
+		column2Prefs.group(true).header("Header Group Col 2").align(HorizontalAlign.RIGHT); 
 		userPrefs.put("col2", column2Prefs);
 		
 		reportContext.set(USER_COLUMN_PREFERENCES, userPrefs); 
@@ -197,9 +183,7 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
-		column2Prefs.setGroup(true); 
-		column2Prefs.setHeader("Header Group Col 2"); 
-		column2Prefs.setHorizAlign(HorizontalAlign.RIGHT); 
+		column2Prefs.group(true).header("Header Group Col 2").align(HorizontalAlign.RIGHT); 
 		userPrefs.put("col2", column2Prefs);
 		
 		reportContext.set(USER_COLUMN_PREFERENCES, userPrefs); 

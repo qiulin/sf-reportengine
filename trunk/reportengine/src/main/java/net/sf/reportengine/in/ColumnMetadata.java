@@ -12,13 +12,25 @@ import net.sf.reportengine.config.HorizontalAlign;
  */
 public final class ColumnMetadata {
 	
-	
+	/**
+	 * the label of the column ( also known as column header)
+	 */
 	private String columnLabel; 
 	
+	/**
+	 * the column identifier
+	 */
 	private String columnId; 
 	
+	/**
+	 * the horizontal alignment
+	 */
 	private HorizontalAlign horizontalAlign; 
 	
+	
+	/**
+	 * the constructor
+	 */
 	public ColumnMetadata(){
 		
 	}

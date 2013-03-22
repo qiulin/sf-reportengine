@@ -359,15 +359,6 @@ public class SqlInput extends AbstractReportInput {
         }
     }
     
-    /**
-     * this default implementation returns true 
-     * because this sql query input fully supports column metadata
-     * 
-     * @return	false
-     */
-    @Override public boolean suppportsColumnMetadata(){
-    	return true; 
-    }
     
     /**
      * this default implementation returns an empty array because this abstract input 
