@@ -66,18 +66,9 @@ public abstract class AbstractReportInput implements IReportInput {
     }
     
     /**
-     * this default implementation returns false
-     * because this abstract input doesn't support column metadata
-     * 
-     * @return	false
-     */
-    public boolean suppportsColumnMetadata(){
-    	return false; 
-    }
-    
-    /**
-     * this default implementation returns an empty array because this abstract input 
-     * doesn't support column metadata
+     * this default implementation returns an empty array.
+     * Don't hesitate to overwrite this method and return a non-empty array if your input
+     * has metadata 
      */
     public ColumnMetadata[] getColumnMetadata(){
     	return new ColumnMetadata[]{}; 
