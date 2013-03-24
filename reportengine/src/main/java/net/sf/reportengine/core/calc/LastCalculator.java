@@ -35,14 +35,14 @@ public class LastCalculator extends AbstractCalculator {
 	}
 	
 	/**
-	 * empty implementation of #ICalculator.init()
+	 * empty implementation of #Calculator.init()
 	 */
 	public void init() {}
 	
 	/**
      * creates a new instance
      */
-	public ICalculator newInstance() {
+	public Calculator newInstance() {
 		return new LastCalculator();
 	}
 	

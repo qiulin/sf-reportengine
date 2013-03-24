@@ -4,7 +4,7 @@
  */
 package net.sf.reportengine.core.algorithm.steps;
 
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 
 
 /**
@@ -13,25 +13,25 @@ import net.sf.reportengine.core.algorithm.IReportContext;
  * 
  * @author dragos balan(dragos.balan@gmail.com)
  */
-public abstract class AbstractAlgorithmStep implements IAlgorithmMainStep {
+public abstract class AbstractAlgorithmStep implements AlgorithmMainStep {
     
     /**
      * this is a reference to the report context
      */
-    private IReportContext algorithmContext;
+    private ReportContext algorithmContext;
     
     /**
-     * default implementation for IAlgorithmInitStep.init() method
+     * default implementation for AlgorithmInitStep.init() method
      * which only sets the algorithm context  
      * 
      */
-    public void init(IReportContext algoContext){
+    public void init(ReportContext algoContext){
         this.algorithmContext = algoContext;        
     }
     
     /**
      * just an empty implementation for exit 
-     * @see net.sf.reportengine.core.algorithm.IAlgorithmMainStep#exit()
+     * @see net.sf.reportengine.core.algorithm.AlgorithmMainStep#exit()
      */
     public void exit() {}
     
@@ -40,7 +40,7 @@ public abstract class AbstractAlgorithmStep implements IAlgorithmMainStep {
      * getter for the context
      * @return
      */
-    protected IReportContext getContext(){
+    protected ReportContext getContext(){
     	return algorithmContext;
     }
     

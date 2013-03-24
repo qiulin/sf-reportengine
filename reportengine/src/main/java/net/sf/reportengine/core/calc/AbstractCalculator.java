@@ -4,12 +4,12 @@
 package net.sf.reportengine.core.calc;
 
 /**
- * abstract implementation for ICalculator interface
+ * abstract implementation for Calculator interface
  * 
  * @author dragos dragos (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public abstract class AbstractCalculator implements ICalculator {
+public abstract class AbstractCalculator implements Calculator {
 
 	
 
@@ -21,10 +21,10 @@ public abstract class AbstractCalculator implements ICalculator {
 	/**
 	 * deep copy of this object
 	 */
-	public ICalculator clone(){
-		ICalculator result = null; 
+	public Calculator clone(){
+		Calculator result = null; 
 		try {
-			result = (ICalculator)super.clone();
+			result = (Calculator)super.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new CalculatorException("Cloning is not supported", e);
 		}

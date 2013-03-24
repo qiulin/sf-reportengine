@@ -6,7 +6,7 @@ package net.sf.reportengine.core.algorithm.steps;
 import java.io.IOException;
 import java.io.Writer;
 
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 
 import org.apache.log4j.Logger;
@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
  * @version $Revision$
  * $log$
  */
-public class DataCachingStep implements IAlgorithmMainStep {
+public class DataCachingStep implements AlgorithmMainStep {
     
     /**
      * the logger
@@ -49,7 +49,7 @@ public class DataCachingStep implements IAlgorithmMainStep {
     /**
      * empty implementation
      */
-    public void init(IReportContext reportContext) {} 
+    public void init(ReportContext reportContext) {} 
     
     /**
      * execute 

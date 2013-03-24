@@ -6,7 +6,7 @@ package net.sf.reportengine.core.algorithm;
 
 import java.util.EnumMap;
 
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 
@@ -22,7 +22,7 @@ import net.sf.reportengine.util.ContextKeys;
  * </p>
  * @author dragos balan (dragos dot balan at gmail dot com)
  */
-public class DefaultReportContext implements IReportContext{
+public class DefaultReportContext implements ReportContext{
     
 	/**
      * an enumMap containing the context data
@@ -32,7 +32,7 @@ public class DefaultReportContext implements IReportContext{
     /**
      * the input of the report
      */
-    private IReportInput input;
+    private ReportInput input;
     
     
     /**
@@ -58,17 +58,17 @@ public class DefaultReportContext implements IReportContext{
     }
     
     /**
-     * @see net.sf.reportengine.core.algorithm.IReportContext#get(String)
+     * @see net.sf.reportengine.core.algorithm.ReportContext#get(String)
      */
     public void set(ContextKeys key, Object value){
         contextData.put(key,value);
     }
     
-    public void setInput(IReportInput in){
+    public void setInput(ReportInput in){
         this.input = in;
     }
     
-    public IReportInput getInput(){
+    public ReportInput getInput(){
         return input;
     }
     

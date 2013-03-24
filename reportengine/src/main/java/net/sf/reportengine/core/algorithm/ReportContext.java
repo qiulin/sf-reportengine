@@ -4,7 +4,7 @@
  */
 package net.sf.reportengine.core.algorithm;
 
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 
@@ -15,7 +15,7 @@ import net.sf.reportengine.util.ContextKeys;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public interface IReportContext {
+public interface ReportContext {
     
     /**
      * registers the pair (key, object) in the report context
@@ -36,13 +36,13 @@ public interface IReportContext {
      * sets the input 
      * @param input
      */
-    public void setInput(IReportInput input);
+    public void setInput(ReportInput input);
     
     /**
      * getter for input
      * @return  the input 
      */
-    public IReportInput getInput();
+    public ReportInput getInput();
     
     /**
      * setter for output
