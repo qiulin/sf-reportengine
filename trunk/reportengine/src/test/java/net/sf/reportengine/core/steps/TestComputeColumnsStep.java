@@ -5,7 +5,7 @@ package net.sf.reportengine.core.steps;
 
 import java.util.Arrays;
 
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.scenarios.CalculatedColumnsScenario;
 import net.sf.reportengine.scenarios.Scenario1;
@@ -38,7 +38,7 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 	 * Test method for {@link net.sf.reportengine.core.steps.ComputeColumnValuesStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
 	 */
 	public void testExecuteScenario1() {
-		IReportContext reportContext = getTestContext(); 
+		ReportContext reportContext = getTestContext(); 
 		
 		reportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
 		reportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
@@ -65,7 +65,7 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 	}
 	
 	public void testExecuteComputedColumns(){
-		IReportContext reportContext = getTestContext(); 
+		ReportContext reportContext = getTestContext(); 
 		
 		reportContext.set(ContextKeys.DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
 		reportContext.set(ContextKeys.GROUP_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);

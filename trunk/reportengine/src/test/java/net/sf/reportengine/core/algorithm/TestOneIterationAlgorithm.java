@@ -4,9 +4,9 @@
 package net.sf.reportengine.core.algorithm;
 
 import junit.framework.TestCase;
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmMainStep;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.util.ContextKeys;
@@ -17,24 +17,24 @@ import net.sf.reportengine.util.ContextKeys;
  */
 public class TestOneIterationAlgorithm extends TestCase {
 	
-	private IReportInput testInput = new ArrayReportInput(
+	private ReportInput testInput = new ArrayReportInput(
 			new Object[][]{
 					new String[]{"1","2","3"},
 					new String[]{"4","5","6"}
 			});
 	private CellPropsArrayOutput testOut = new CellPropsArrayOutput();
 	
-	private IAlgorithmInitStep testInitStep = new IAlgorithmInitStep(){
-		public void init(IReportContext context){
+	private AlgorithmInitStep testInitStep = new AlgorithmInitStep(){
+		public void init(ReportContext context){
 			//context.set("isInitCalledOnInitStep", true);
 			context.set(ContextKeys.SHOW_GRAND_TOTAL, true);
 		}
 	};
 	
-	private IAlgorithmMainStep testMainStep = new IAlgorithmMainStep(){
-		IReportContext context = null;
+	private AlgorithmMainStep testMainStep = new AlgorithmMainStep(){
+		ReportContext context = null;
 		
-		public void init(IReportContext context){
+		public void init(ReportContext context){
 			this.context = context;
 			//this.context.set("isInitCalledOnMainStep", true);
 			this.context.set(ContextKeys.SHOW_TOTALS, true);
@@ -53,7 +53,7 @@ public class TestOneIterationAlgorithm extends TestCase {
 		}
 	};
 	
-	private OneIterationAlgorithm classUnderTest = null;
+	private OneLoopAlgorithm classUnderTest = null;
 	
 	
 	/* (non-Javadoc)
@@ -61,7 +61,7 @@ public class TestOneIterationAlgorithm extends TestCase {
 	 */
 	protected void setUp() throws Exception {
 		super.setUp();
-		classUnderTest = new OneIterationAlgorithm();
+		classUnderTest = new OneLoopAlgorithm();
 		classUnderTest.setIn(testInput);
 		classUnderTest.setOut(testOut);
 		classUnderTest.addInitStep(testInitStep);
@@ -76,7 +76,7 @@ public class TestOneIterationAlgorithm extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.core.algorithm.OneIterationAlgorithm#executeAlgorithm()}.
+	 * Test method for {@link net.sf.reportengine.core.algorithm.OneLoopAlgorithm#executeAlgorithm()}.
 	 */
 	public void testExecuteAlgorithm() {
 		classUnderTest.executeAlgorithm();

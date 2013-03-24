@@ -5,7 +5,7 @@ package net.sf.reportengine;
 
 import junit.framework.TestCase;
 import net.sf.reportengine.core.algorithm.DefaultReportContext;
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
@@ -29,7 +29,7 @@ import net.sf.reportengine.util.MatrixUtils;
  */
 public class TestStepsCombo extends TestCase {
 	
-	private IReportContext TEST_REPORT_CONTEXT; 
+	private ReportContext TEST_REPORT_CONTEXT; 
 	private OutputDispatcher TEST_OUTPUT_DISPATCHER; 
 	private CellPropsArrayOutput cumulativeReportOutput = null;
 	

@@ -4,8 +4,8 @@
 package net.sf.reportengine.core.steps;
 
 import net.sf.reportengine.core.algorithm.DefaultReportContext;
-import net.sf.reportengine.core.algorithm.IReportContext;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.LoggerOutput;
@@ -22,7 +22,7 @@ import net.sf.reportengine.util.ContextKeys;
  */
 public class ReportAlgorithmStepTC extends ReportengineTC {
 	
-	private IReportContext TEST_REPORT_CONTEXT; 
+	private ReportContext TEST_REPORT_CONTEXT; 
 	private OutputDispatcher TEST_OUTPUT_DISPATCHER; 
 	
 	private CellPropsArrayOutput cumulativeReportOutput = null;
@@ -44,7 +44,7 @@ public class ReportAlgorithmStepTC extends ReportengineTC {
 		super.tearDown();
 	}
 	
-	protected IReportContext getTestContext(){
+	protected ReportContext getTestContext(){
 		return TEST_REPORT_CONTEXT;
 	}
 	
@@ -52,7 +52,7 @@ public class ReportAlgorithmStepTC extends ReportengineTC {
 		TEST_REPORT_CONTEXT.set(ContextKeys.NEW_GROUPING_LEVEL, aggLevel);
 	}
 	
-	protected void setCalculatorMatrix(ICalculator[][] calculators){
+	protected void setCalculatorMatrix(Calculator[][] calculators){
 		TEST_REPORT_CONTEXT.set(ContextKeys.CALCULATORS, calculators);
 	}
 	
@@ -72,8 +72,8 @@ public class ReportAlgorithmStepTC extends ReportengineTC {
 		TEST_OUTPUT_DISPATCHER.registerOutput(output);
 	}
 	
-	protected void assertEqualsCalculatorValues(ICalculator[][] expectedValues){
-		ICalculator[][] calcMatrix = (ICalculator[][])TEST_REPORT_CONTEXT.get(ContextKeys.CALCULATORS);
+	protected void assertEqualsCalculatorValues(Calculator[][] expectedValues){
+		Calculator[][] calcMatrix = (Calculator[][])TEST_REPORT_CONTEXT.get(ContextKeys.CALCULATORS);
 		assertEquals(expectedValues.length, calcMatrix.length);
 		for(int i=0; i< expectedValues.length; i++){
 			assertEquals(expectedValues[i].length, calcMatrix[i].length);

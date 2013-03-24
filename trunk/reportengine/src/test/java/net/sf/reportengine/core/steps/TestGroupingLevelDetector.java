@@ -1,6 +1,6 @@
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.scenarios.CalculatedColumnsScenario;
 import net.sf.reportengine.scenarios.Scenario1;
@@ -19,7 +19,7 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 	
 	
 	public void testExecuteScenario1() {
-		IReportContext testReportContext = getTestContext();
+		ReportContext testReportContext = getTestContext();
 		
 		testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
 		classUnderTest.init(testReportContext);
@@ -35,7 +35,7 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 	
 	
 	public void testExecuteScenario2() {
-		IReportContext testReportContext = getTestContext();
+		ReportContext testReportContext = getTestContext();
 		
 		testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario2.GROUPING_COLUMNS);
 		classUnderTest.init(testReportContext);
@@ -52,7 +52,7 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 	
 	
 	public void testExecuteCalculatedColumnsScenario() {
-		IReportContext testReportContext = getTestContext();
+		ReportContext testReportContext = getTestContext();
 		
 		testReportContext.set(ContextKeys.DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
 		testReportContext.set(ContextKeys.GROUP_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);

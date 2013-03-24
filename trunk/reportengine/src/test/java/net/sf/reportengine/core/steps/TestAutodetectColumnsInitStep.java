@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.reportengine.config.HorizontalAlign;
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.algorithm.DefaultReportContext;
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.scenarios.AutodetectConfigurationScenario;
 
@@ -27,7 +27,7 @@ import net.sf.reportengine.scenarios.AutodetectConfigurationScenario;
  */
 public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 	
-	private IReportContext reportContext; 
+	private ReportContext reportContext; 
 	
 	
 	/* (non-Javadoc)
@@ -49,7 +49,7 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 	}
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.AutodetectColumnsInitStep#init(net.sf.reportengine.core.algorithm.IReportContext)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.AutodetectColumnsInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)}.
 	 */
 	public void testInit_AsManyPreferencesAsMetadataColumns() {
 		
@@ -69,20 +69,18 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		new AutodetectColumnsInitStep().init(reportContext); 
 		
 		//test the result
-		List<IDataColumn> dataCols = (List<IDataColumn>)reportContext.get(DATA_COLUMNS);
+		List<DataColumn> dataCols = (List<DataColumn>)reportContext.get(DATA_COLUMNS);
 		assertNotNull(dataCols);
 		assertEquals(2, dataCols.size()); 
 		assertEquals("Header Data Col 1", dataCols.get(0).getHeader());
 		assertEquals("Header Data Col 2", dataCols.get(1).getHeader()); 
 		
-		List<IGroupColumn>groupCols = (List<IGroupColumn>)reportContext.get(GROUP_COLUMNS); 
-		assertNotNull(groupCols);
-		assertEquals(0, groupCols.size());
+		assertNull(reportContext.get(GROUP_COLUMNS)); 
 	}
 	
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.AutodetectColumnsInitStep#init(net.sf.reportengine.core.algorithm.IReportContext)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.AutodetectColumnsInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)}.
 	 */
 	public void testInit_MorePreferencesThanMetadata() {
 		
@@ -102,19 +100,17 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		new AutodetectColumnsInitStep().init(reportContext); 
 		
 		//test the result
-		List<IDataColumn> dataCols = (List<IDataColumn>)reportContext.get(DATA_COLUMNS);
+		List<DataColumn> dataCols = (List<DataColumn>)reportContext.get(DATA_COLUMNS);
 		assertNotNull(dataCols);
 		assertEquals(2, dataCols.size()); 
 		assertEquals("Header Data Col 1", dataCols.get(0).getHeader());
 		assertEquals("col2label", dataCols.get(1).getHeader()); 
 		
-		List<IGroupColumn>groupCols = (List<IGroupColumn>)reportContext.get(GROUP_COLUMNS); 
-		assertNotNull(groupCols);
-		assertEquals(0, groupCols.size());
+		assertNull(reportContext.get(GROUP_COLUMNS));
 	}
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.AutodetectColumnsInitStep#init(net.sf.reportengine.core.algorithm.IReportContext)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.AutodetectColumnsInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)}.
 	 */
 	public void testInit_LessPreferencesThanMetadata() {
 		AutodetectColumnsInitStep classUnderTest = new AutodetectColumnsInitStep();
@@ -131,19 +127,17 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		classUnderTest.init(reportContext); 
 		
 		//test the result
-		List<IDataColumn> dataCols = (List<IDataColumn>)reportContext.get(DATA_COLUMNS);
+		List<DataColumn> dataCols = (List<DataColumn>)reportContext.get(DATA_COLUMNS);
 		assertNotNull(dataCols);
 		assertEquals(2, dataCols.size()); 
 		assertEquals("col1label", dataCols.get(0).getHeader()); 
 		assertEquals("Second Column Prefs", dataCols.get(1).getHeader()); 
 		
-		List<IGroupColumn>groupCols = (List<IGroupColumn>)reportContext.get(GROUP_COLUMNS); 
-		assertNotNull(groupCols);
-		assertEquals(0, groupCols.size());
+		assertNull(reportContext.get(GROUP_COLUMNS)); 
 	}
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.AutodetectColumnsInitStep#init(net.sf.reportengine.core.algorithm.IReportContext)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.AutodetectColumnsInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)}.
 	 */
 	public void testInit_AsManyPreferencesAsMetadataWithGroups() {
 		
@@ -163,11 +157,11 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		new AutodetectColumnsInitStep().init(reportContext); 
 		
 		//test the result
-		List<IDataColumn> dataCols = (List<IDataColumn>)reportContext.get(DATA_COLUMNS);
+		List<DataColumn> dataCols = (List<DataColumn>)reportContext.get(DATA_COLUMNS);
 		assertNotNull(dataCols);
 		assertEquals(0, dataCols.size()); 
 		 
-		List<IGroupColumn>groupCols = (List<IGroupColumn>)reportContext.get(GROUP_COLUMNS); 
+		List<GroupColumn>groupCols = (List<GroupColumn>)reportContext.get(GROUP_COLUMNS); 
 		assertNotNull(groupCols);
 		assertEquals(2, groupCols.size());
 		assertEquals("Header Group Col 1", groupCols.get(0).getHeader());
@@ -175,7 +169,7 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 	}
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.AutodetectColumnsInitStep#init(net.sf.reportengine.core.algorithm.IReportContext)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.AutodetectColumnsInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)}.
 	 */
 	public void testInit_LessPreferencesThanMetadataWithGroups() {
 		
@@ -192,12 +186,12 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		new AutodetectColumnsInitStep().init(reportContext); 
 		
 		//test the result
-		List<IDataColumn> dataCols = (List<IDataColumn>)reportContext.get(DATA_COLUMNS);
+		List<DataColumn> dataCols = (List<DataColumn>)reportContext.get(DATA_COLUMNS);
 		assertNotNull(dataCols);
 		assertEquals(1, dataCols.size()); 
 		assertEquals("col1label", dataCols.get(0).getHeader());
 		
-		List<IGroupColumn>groupCols = (List<IGroupColumn>)reportContext.get(GROUP_COLUMNS); 
+		List<GroupColumn>groupCols = (List<GroupColumn>)reportContext.get(GROUP_COLUMNS); 
 		assertNotNull(groupCols);
 		assertEquals(1, groupCols.size());
 		assertEquals("Header Group Col 2", groupCols.get(0).getHeader());

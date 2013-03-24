@@ -10,7 +10,7 @@ import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.config.IDataColumn;
+import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.TextInput;
@@ -60,7 +60,7 @@ public class TestCrossTabReport extends ReportengineTC {
 		
 		CtMetadata testMetadata = new CtMetadata(CtScenario2x2x1With1G1D.MOCK_DISTINCT_VALUES_HOLDER); 
 		
-		List<IDataColumn> result = classUnderTest.constructDataColumnsForSecondProcess(testMetadata, 
+		List<DataColumn> result = classUnderTest.constructDataColumnsForSecondProcess(testMetadata, 
 															CtScenario2x2x1With1G1D.DATA_COLUMNS, 
 															false, 
 															false); 

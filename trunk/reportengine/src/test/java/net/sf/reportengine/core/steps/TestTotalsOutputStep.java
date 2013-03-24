@@ -3,7 +3,7 @@
  */
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.scenarios.Scenario1;
@@ -42,7 +42,7 @@ public class TestTotalsOutputStep extends ReportAlgorithmStepTC {
 	 * Test method for {@link net.sf.reportengine.core.steps.FlatReportTotalsOutputStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
 	 */
 	public void testExecuteScenario1() {
-		IReportContext reportContext = getTestContext(); 
+		ReportContext reportContext = getTestContext(); 
 		
 		//simulate the level detector
 		reportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS); 

@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.util.ContextKeys;
 
@@ -18,7 +18,7 @@ import net.sf.reportengine.util.ContextKeys;
  */
 public class TestFlatReportExtractDataInitStep extends ReportAlgorithmStepTC {
 	
-	private static List<IDataColumn> TEST_DATA_COLUMNS = Arrays.asList(new IDataColumn[]{
+	private static List<DataColumn> TEST_DATA_COLUMNS = Arrays.asList(new DataColumn[]{
 		new DefaultDataColumn("No calculator column", 0, null),
 		new DefaultDataColumn("Count Column", 1, Calculators.COUNT), 
 		new DefaultDataColumn("Sum Column", 2, Calculators.SUM), 
@@ -39,10 +39,10 @@ public class TestFlatReportExtractDataInitStep extends ReportAlgorithmStepTC {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.FlatReportExtractDataInitStep#init(net.sf.reportengine.core.algorithm.IReportContext)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.FlatReportExtractDataInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)}.
 	 */
 	public void testInit() {
-		IReportContext reportContext = getTestContext(); 
+		ReportContext reportContext = getTestContext(); 
 		reportContext.set(ContextKeys.DATA_COLUMNS, TEST_DATA_COLUMNS); 
 		
 		classUnderTest.init(reportContext); 

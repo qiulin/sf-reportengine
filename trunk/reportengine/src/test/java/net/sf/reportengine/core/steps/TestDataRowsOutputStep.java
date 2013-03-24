@@ -3,7 +3,7 @@
  */
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.scenarios.Scenario1;
@@ -32,7 +32,7 @@ public class TestDataRowsOutputStep extends ReportAlgorithmStepTC {
 	 * Test method for {@link net.sf.reportengine.core.steps.DataRowsOutputStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
 	 */
 	public void testExecuteScenario1() {
-		IReportContext reportContext = getTestContext();
+		ReportContext reportContext = getTestContext();
 		
 		reportContext.setInput(Scenario1.INPUT);
 		reportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
