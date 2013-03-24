@@ -3,7 +3,7 @@
  */
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.util.ContextKeys;
@@ -27,10 +27,10 @@ public class TestColumnHeaderOutputInitStep extends ReportAlgorithmStepTC {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep#init(net.sf.reportengine.core.algorithm.IReportContext)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)}.
 	 */
 	public void testInitScenario1() {
-		IReportContext testReportContext = getTestContext();
+		ReportContext testReportContext = getTestContext();
 		testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
 		testReportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
 		

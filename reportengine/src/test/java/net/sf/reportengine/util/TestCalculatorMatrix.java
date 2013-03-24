@@ -9,10 +9,10 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.IDataColumn;
+import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.Calculators;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.Calculator;
 
 /**
  * @author dragos
@@ -27,10 +27,10 @@ public class TestCalculatorMatrix extends TestCase {
 	
 	//private static int[] TEST_COLUMNNS_TO_COMPUTE = new int[]{1,2};
 	private static Integer[] TEST_VALUES = new Integer[]{1,2,3,4,5,6,7};
-	//private static ICalculator[] TEST_PROTOTYPE = new ICalculator[]{Calculators.COUNT, Calculators.SUM};
+	//private static Calculator[] TEST_PROTOTYPE = new Calculator[]{Calculators.COUNT, Calculators.SUM};
 	
-	private static List<IDataColumn> TEST_DATA_COLUMNS = Arrays.asList(
-			new IDataColumn[]{
+	private static List<DataColumn> TEST_DATA_COLUMNS = Arrays.asList(
+			new DataColumn[]{
 					new DefaultDataColumn("No calculator column", 0, null),
 					new DefaultDataColumn("Count Column", 1, Calculators.COUNT), 
 					new DefaultDataColumn("Sum Column", 2, Calculators.SUM), 
@@ -82,21 +82,21 @@ public class TestCalculatorMatrix extends TestCase {
 		assertNotNull(classUnderTest);
 		
 		//the first row should be reinited
-		ICalculator[] row1 = classUnderTest.getRow(0);
+		Calculator[] row1 = classUnderTest.getRow(0);
 		assertNotNull(row1);
 		assertEquals(row1.length, 2);
 		assertEquals(row1[0].getResult(), BigDecimal.ZERO);
 		assertEquals(row1[1].getResult(), BigDecimal.ZERO);
 		
 		//the second row should be also reinited
-		ICalculator[] row2 = classUnderTest.getRow(1);
+		Calculator[] row2 = classUnderTest.getRow(1);
 		assertNotNull(row2);
 		assertEquals(row2.length, 2);
 		assertEquals(row2[0].getResult(), BigDecimal.ZERO);
 		assertEquals(row2[1].getResult(), BigDecimal.ZERO);
 		
 		//the third row should not be reinited
-		ICalculator[] row3 = classUnderTest.getRow(2);
+		Calculator[] row3 = classUnderTest.getRow(2);
 		assertNotNull(row3);
 		assertEquals(row3.length, 2);
 		assertNotSame(row3[0].getResult(), BigDecimal.ZERO);
@@ -118,7 +118,7 @@ public class TestCalculatorMatrix extends TestCase {
 		classUnderTest.addValuesToEachRow(new NewRowEvent(TEST_VALUES));
 		
 		assertNotNull(classUnderTest);
-		ICalculator[] row = null; 
+		Calculator[] row = null; 
 		for(int i=0; i< 3; i++){
 			row = classUnderTest.getRow(i);
 			assertNotNull(row);
@@ -137,7 +137,7 @@ public class TestCalculatorMatrix extends TestCase {
 			assertEquals(((BigDecimal)result).intValue(), 3);
 		
 			try{
-				ICalculator calc = row[2];
+				Calculator calc = row[2];
 				assertTrue(false);
 			}catch(ArrayIndexOutOfBoundsException exc){
 				assertTrue(true);

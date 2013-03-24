@@ -4,10 +4,10 @@
 package net.sf.reportengine.core.steps;
 
 import net.sf.reportengine.core.calc.AbstractCalculator;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.Calculator;
 
 /**
- * dummy implementation for ICalculator. 
+ * dummy implementation for Calculator. 
  * It will always return the value passed as parameter to the constructor
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
@@ -52,7 +52,7 @@ public class MockCalculator extends AbstractCalculator {
 	/**
      * creates a new instance
      */
-	public ICalculator newInstance() {
+	public Calculator newInstance() {
 		return new MockCalculator(result);
 	}
 }

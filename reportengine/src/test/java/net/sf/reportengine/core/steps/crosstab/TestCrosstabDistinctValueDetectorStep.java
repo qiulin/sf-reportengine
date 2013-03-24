@@ -3,8 +3,8 @@
  */
 package net.sf.reportengine.core.steps.crosstab;
 
-import net.sf.reportengine.config.ICrosstabHeaderRow;
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.ReportAlgorithmStepTC;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
@@ -32,7 +32,7 @@ public class TestCrosstabDistinctValueDetectorStep extends ReportAlgorithmStepTC
 	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
 	 */
 	public void testExecuteCtScenario1() {
-		IReportContext reportContext = getTestContext(); 
+		ReportContext reportContext = getTestContext(); 
 		
 		reportContext.set(	ContextKeys.CROSSTAB_HEADER_ROWS, 
 							CtScenario2x2x1With1G1D.HEADER_ROWS);
@@ -55,7 +55,7 @@ public class TestCrosstabDistinctValueDetectorStep extends ReportAlgorithmStepTC
 	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
 	 */
 	public void testExecuteCtScenario1x3x1() {
-		IReportContext reportContext = getTestContext(); 
+		ReportContext reportContext = getTestContext(); 
 		
 		reportContext.set(ContextKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS);
 		reportContext.set(ContextKeys.CROSSTAB_DATA, CtScenario1x3x1.CROSSTAB_DATA);
@@ -78,7 +78,7 @@ public class TestCrosstabDistinctValueDetectorStep extends ReportAlgorithmStepTC
 	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
 	 */
 	public void testExecuteCtScenario1x1x1() {
-		IReportContext reportContext = getTestContext(); 
+		ReportContext reportContext = getTestContext(); 
 		
 		reportContext.set(ContextKeys.CROSSTAB_HEADER_ROWS, CtScenario1x1x1.ROW_HEADERS);
 		reportContext.set(ContextKeys.CROSSTAB_DATA, CtScenario1x1x1.CROSSTAB_DATA_NO_TOTALS);

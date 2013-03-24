@@ -4,9 +4,9 @@
  */
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.scenarios.CalculatedColumnsScenario;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.Scenario2;
@@ -16,7 +16,7 @@ import net.sf.reportengine.util.ContextKeys;
  * @author dragos balan (dragos.balan@gmail.com)
  *
  * used to test the changes made in any of the below classes :
- * ThirdCalculatorStep, CalculatorsPack, ICalculator
+ * ThirdCalculatorStep, CalculatorsPack, Calculator
  * 
  */
 public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
@@ -35,7 +35,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     }
 
     public void testExecuteScenario1() {
-    	IReportContext reportContext = getTestContext();
+    	ReportContext reportContext = getTestContext();
     	
     	classUnderTest = new TotalsCalculatorStep();
          
@@ -54,7 +54,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     	reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_1);
 		classUnderTest.execute(dataRowEvent);
 		
-		ICalculator[][] calcMatrix = (ICalculator[][])reportContext.get(ContextKeys.CALCULATORS);
+		Calculator[][] calcMatrix = (Calculator[][])reportContext.get(ContextKeys.CALCULATORS);
 		assertNotNull(calcMatrix);
 		assertEquals(calcMatrix.length, Scenario1.AGG_COLUMNS_INDEX.length + 1 /* for Grand total*/);
 		
@@ -103,7 +103,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     }   
     
     public void testExecuteScenario2(){
-    	IReportContext reportContext = getTestContext();
+    	ReportContext reportContext = getTestContext();
     	
     	classUnderTest = new TotalsCalculatorStep();
          
@@ -129,7 +129,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     }
     
     public void testExecuteCalculatedColumnsScenario(){
-    	IReportContext reportContext = getTestContext();
+    	ReportContext reportContext = getTestContext();
     	
     	classUnderTest = new TotalsCalculatorStep();
          

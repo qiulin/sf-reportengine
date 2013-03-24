@@ -6,8 +6,8 @@ package net.sf.reportengine;
 import java.io.InputStream;
 import java.util.List;
 
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.steps.ReportAlgorithmStepTC;
 import net.sf.reportengine.in.IntermediateCrosstabReportInput;
 import net.sf.reportengine.out.HtmlOutput;
@@ -59,7 +59,7 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		report.setIn(intermediateInput);
 		report.setOut(new HtmlOutput("target/SecondProcessorOut2x2x1xT.html")); 
 		
-		List<IDataColumn> dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( 	crosstabMetadata, 
+		List<DataColumn> dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( 	crosstabMetadata, 
 																								CtScenario2x2x1With1G1D.DATA_COLUMNS, 
 																								true, 
 																								true);
@@ -67,7 +67,7 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		assertEquals(10, dataColumns.size()); 
 		report.setDataColumns(dataColumns);
 		
-		List<IGroupColumn> groupColumns = mockCrosstabReport.constructGroupColumnsForSecondProcess(CtScenario2x2x1With1G1D.GROUPING_COLUMNS);
+		List<GroupColumn> groupColumns = mockCrosstabReport.constructGroupColumnsForSecondProcess(CtScenario2x2x1With1G1D.GROUPING_COLUMNS);
 		assertNotNull(groupColumns); 
 		assertEquals(1, groupColumns.size());
 		report.setGroupColumns(groupColumns); 
@@ -92,7 +92,7 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		report.setIn(intermediateInput);
 		report.setOut(new HtmlOutput("target/SecondProcessorOut2x2x1With0G2D.html")); 
 		
-		List<IDataColumn> dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( 	crosstabMetadata, 
+		List<DataColumn> dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( 	crosstabMetadata, 
 																									CtScenario2x2x1With0G2D.DATA_COLUMNS, 
 																									false, 
 																									false);
@@ -100,7 +100,7 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		//assertEquals(10, dataColumns.size()); 
 		report.setDataColumns(dataColumns);
 		
-		List<IGroupColumn> groupColumns = mockCrosstabReport.constructGroupColumnsForSecondProcess(CtScenario2x2x1With0G2D.GROUPING_COLUMNS);
+		List<GroupColumn> groupColumns = mockCrosstabReport.constructGroupColumnsForSecondProcess(CtScenario2x2x1With0G2D.GROUPING_COLUMNS);
 		assertNull(groupColumns); 
 		
 		report.setGroupColumns(groupColumns); 
@@ -126,7 +126,7 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		report.setIn(intermediateInput);
 		report.setOut(new HtmlOutput("target/SecondProcessorOut1x3x1xT.html")); 
 		
-		List<IDataColumn> dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( crosstabMetadata, 
+		List<DataColumn> dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( crosstabMetadata, 
 																							CtScenario1x3x1.DATA_COLUMNS, 
 																							true, 
 																							true);
@@ -134,7 +134,7 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		//assertEquals(10, dataColumns.length); 
 		report.setDataColumns(dataColumns);
 		
-//		IGroupColumn[] groupColumns = CrossTabReport.constructGroupColumnsForSecondProcess(CtScenario1x3x1.GROUP_COLUMNS[0]);
+//		GroupColumn[] groupColumns = CrossTabReport.constructGroupColumnsForSecondProcess(CtScenario1x3x1.GROUP_COLUMNS[0]);
 //		assertNotNull(groupColumns); 
 //		assertEquals(1, groupColumns.length);
 //		report.setGroupingColumns(groupColumns); 
@@ -162,7 +162,7 @@ public class TestSecondCrosstabProcessorReport extends ReportAlgorithmStepTC {
 		report.setShowTotals(false); 
 		report.setShowGrandTotal(false); 
 		
-		List<IDataColumn> dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( 	crosstabMetadata, 
+		List<DataColumn> dataColumns = mockCrosstabReport.constructDataColumnsForSecondProcess( 	crosstabMetadata, 
 																								CtScenario1x3x1.DATA_COLUMNS, 
 																								false, 
 																								false);
