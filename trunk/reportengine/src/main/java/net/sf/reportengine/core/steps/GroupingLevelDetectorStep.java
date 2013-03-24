@@ -7,9 +7,9 @@ package net.sf.reportengine.core.steps;
 
 import java.util.List;
 
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.util.ContextKeys;
 
@@ -71,9 +71,9 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
     
 	/**
      * registers some new values into the context
-     * @see net.sf.reportengine.core.algorithm.IAlgorithmInitStep#init(IReportContext)()
+     * @see net.sf.reportengine.core.algorithm.IAlgorithmInitStep#init(ReportContext)()
      */
-    public void init(IReportContext reportContext){
+    public void init(ReportContext reportContext){
         super.init(reportContext);
     }
     
@@ -82,7 +82,7 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
 	 */
 	public void execute(NewRowEvent newRowEvent) {
         
-        List<IGroupColumn> groupingCols = getGroupingColumns();
+        List<GroupColumn> groupingCols = getGroupingColumns();
         
 		//first time we cannot make any comparison so the return level is zero
 		if(getPreviousRowOfGroupingValues() == null){
@@ -113,20 +113,20 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
 	}
     
     
-//    private void copyGroupingValuesToLastRowOfGroupingColumnValues(IGroupColumn[] groupingCols, NewRowEvent newRowEvent){
+//    private void copyGroupingValuesToLastRowOfGroupingColumnValues(GroupColumn[] groupingCols, NewRowEvent newRowEvent){
 //    	for (int i = 0; i < groupingCols.length; i++) {
 //    		lastRowOfGroupingColumnValues[i] = groupingCols[i].getValue(newRowEvent);
 //    	}    	
 //    }
     
     
-    private int checkLevelChangedInGroupingColumns(List<IGroupColumn> groupingColumns, Object[] lastRowOfGroupingValues, NewRowEvent newRowEvent){
+    private int checkLevelChangedInGroupingColumns(List<GroupColumn> groupingColumns, Object[] lastRowOfGroupingValues, NewRowEvent newRowEvent){
 		boolean aggregationLevelFound = false;
 		int i = 0;
 		
 		//TODO: groupings assumed ordered by grouping order: make sure they are ordered
 		//iterate through last row for comparison with the new row of data
-		IGroupColumn currentGroupColumn = null; 
+		GroupColumn currentGroupColumn = null; 
 		while (!aggregationLevelFound && i < groupingColumns.size()){
 			currentGroupColumn = groupingColumns.get(i); 
 			Object valueToBeCompared = currentGroupColumn.getValue(newRowEvent);

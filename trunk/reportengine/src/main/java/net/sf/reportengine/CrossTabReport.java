@@ -9,18 +9,18 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.reportengine.config.ICrosstabData;
-import net.sf.reportengine.config.ICrosstabHeaderRow;
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.CrosstabData;
+import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.SecondProcessDataColumn;
 import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessGroupColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
 import net.sf.reportengine.core.ConfigValidationException;
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculators;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.IntermediateCrosstabReportInput;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
@@ -56,7 +56,7 @@ import org.apache.log4j.Logger;
  *  CrossTabReport report = new CrossTabReport(); 
  *	
  *  //set up the input/output			
- *  IReportInput in = new TextInput(new FileInputStream("expenses.csv"));
+ *  ReportInput in = new TextInput(new FileInputStream("expenses.csv"));
  *  report.setIn(input); 
  *			
  *  IReportOutput output = new HtmlOutput(new FileOutputStream("xpenses.html")); 
@@ -78,17 +78,17 @@ import org.apache.log4j.Logger;
  * </pre>
  * </p>
  * 
- * @see IReportInput
+ * @see ReportInput
  * @see IReportOutput
- * @see ICrosstabHeaderRow
- * @see IDataColumn
- * @see IGroupColumn
- * @see ICrosstabData
+ * @see CrosstabHeaderRow
+ * @see DataColumn
+ * @see GroupColumn
+ * @see CrosstabData
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2 
  */
-public class CrossTabReport extends AbstractReport{
+public class CrossTabReport extends AbstractColumnBasedReport{
 	
 	/**
 	 * the one and only logger
@@ -114,44 +114,43 @@ public class CrossTabReport extends AbstractReport{
 	/**
 	 * the crosstab header rows
 	 */
-	private List<ICrosstabHeaderRow> crosstabHeaderRowsAsList; 
+	private List<CrosstabHeaderRow> crosstabHeaderRowsAsList; 
 	
 	/**
 	 * the crossta data
 	 */
-	private ICrosstabData crosstabData; 
+	private CrosstabData crosstabData; 
 	
 	/**
 	 * constructs a new crosstab report
 	 */
 	public CrossTabReport(){
-		this.crosstabHeaderRowsAsList = new ArrayList<ICrosstabHeaderRow>();
+		this.crosstabHeaderRowsAsList = new ArrayList<CrosstabHeaderRow>();
 	}
 	
 	/**
 	 * validates the configuration 
 	 */
-	private void validateConfig(){
+	@Override protected void validate(){
 		if(LOGGER.isInfoEnabled())LOGGER.info("validating crosstab configuration ..."); 
 		//input/output verification
-		if(getIn() == null) throw new ConfigValidationException("The report has no input");
-        if(getOut() == null) throw new ConfigValidationException("The report has no output");
+		super.validate(); 
         
         //crosstab data existence check
-        ICrosstabData ctData = getCrosstabData(); 
+        CrosstabData ctData = getCrosstabData(); 
         if(getCrosstabData() == null){
 			throw new ConfigValidationException("Crosstab reports need crosstab data configured"); 
 		}
 		
         //crosstab header validation
-        List<ICrosstabHeaderRow> ctHeader = getCrosstabHeaderRows(); 
+        List<CrosstabHeaderRow> ctHeader = getCrosstabHeaderRows(); 
 		if(ctHeader == null || ctHeader.size() == 0){
 			throw new ConfigValidationException("Crosstab reports need header rows configured");
 		}
 		
 		//the crosstab report needs at least one group column or data column
-		List<IDataColumn> dataColumns = getDataColumns();
-		List<IGroupColumn> groupColumns = getGroupColumns();
+		List<DataColumn> dataColumns = getDataColumns();
+		List<GroupColumn> groupColumns = getGroupColumns();
 		if((dataColumns == null || dataColumns.size() == 0) 
 			&& (groupColumns == null || groupColumns.size() == 0)){
 			throw new ConfigValidationException("Crosstab reports need data and/or group columns configured"); 
@@ -165,11 +164,14 @@ public class CrossTabReport extends AbstractReport{
 	}
 	
 	/**
-	 * configures the first algorithm steps
+	 * configures the first intermediate report. 
+	 * Keep in mind that another method is needed to configure the second report
+	 * 
+	 * @see #configSecondReport()
 	 */
-	private void configIntermediateReport() {
-		List<IGroupColumn> groupCols = getGroupColumns(); 
-		List<IDataColumn> dataColsList = getDataColumns(); 
+	protected void config() {
+		List<GroupColumn> groupCols = getGroupColumns(); 
+		List<DataColumn> dataColsList = getDataColumns(); 
 		
 		int groupColsLength = groupCols != null ? groupCols.size() : 0;
 		int dataColsLength = dataColsList != null ? dataColsList.size() : 0;
@@ -195,7 +197,7 @@ public class CrossTabReport extends AbstractReport{
 		try{
 			//transfer data from first report to the second 
 			//TODO: Move this in the transfer method and improve
-			IReportContext firstReportContext = firstReport.getAlgorithm().getContext(); 
+			ReportContext firstReportContext = firstReport.getAlgorithm().getContext(); 
 			IDistinctValuesHolder distinctValuesHolder = 
 				(IDistinctValuesHolder)firstReportContext.get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 			CtMetadata crosstabMetadata = new CtMetadata(distinctValuesHolder);
@@ -206,12 +208,12 @@ public class CrossTabReport extends AbstractReport{
 			secondReport.setIn(new IntermediateCrosstabReportInput(secondReportInput)); 
 			secondReport.setOut(getOut()); 
 			
-			List<IDataColumn> secondReportDataCols = 
+			List<DataColumn> secondReportDataCols = 
 					constructDataColumnsForSecondProcess(crosstabMetadata, 
 														getDataColumns(), 
 														getShowTotals(), 
 														getShowGrandTotal());
-			List<IGroupColumn> secondReportGroupCols = constructGroupColumnsForSecondProcess(getGroupColumns()); 
+			List<GroupColumn> secondReportGroupCols = constructGroupColumnsForSecondProcess(getGroupColumns()); 
 			
 			secondReport.setGroupColumns(secondReportGroupCols); 
 			secondReport.setDataColumns(secondReportDataCols);
@@ -234,7 +236,7 @@ public class CrossTabReport extends AbstractReport{
 	 * getter method for crosstabl header rows
 	 * @return	a list of header rows
 	 */
-	public List<ICrosstabHeaderRow> getCrosstabHeaderRows() {
+	public List<CrosstabHeaderRow> getCrosstabHeaderRows() {
 		return crosstabHeaderRowsAsList; 
 	}
 	
@@ -242,7 +244,7 @@ public class CrossTabReport extends AbstractReport{
 	 * setter for the header rows of the crosstab report
 	 * @param crosstabHeaderRowsList	
 	 */
-	public void setHeaderRows(List<ICrosstabHeaderRow> crosstabHeaderRowsList) {
+	public void setHeaderRows(List<CrosstabHeaderRow> crosstabHeaderRowsList) {
 		this.crosstabHeaderRowsAsList = crosstabHeaderRowsList; 
 	}
 	
@@ -250,7 +252,7 @@ public class CrossTabReport extends AbstractReport{
 	 * adds a new header row at the end of the existing header rows list
 	 * @param newHeaderRow
 	 */
-	public void addHeaderRow(ICrosstabHeaderRow newHeaderRow){
+	public void addHeaderRow(CrosstabHeaderRow newHeaderRow){
 		this.crosstabHeaderRowsAsList.add(newHeaderRow);
 	}
 	
@@ -258,7 +260,7 @@ public class CrossTabReport extends AbstractReport{
 	 * getter for crosstab data
 	 * @return	the crosstab data
 	 */
-	public ICrosstabData getCrosstabData() {
+	public CrosstabData getCrosstabData() {
 		return crosstabData;
 	}
 
@@ -266,7 +268,7 @@ public class CrossTabReport extends AbstractReport{
 	 * setter for crosstab data
 	 * @param crosstabData
 	 */
-	public void setCrosstabData(ICrosstabData crosstabData) {
+	public void setCrosstabData(CrosstabData crosstabData) {
 		this.crosstabData = crosstabData;
 	}
 	
@@ -276,11 +278,11 @@ public class CrossTabReport extends AbstractReport{
 	 * @param originalGroupCols
 	 * @return	a list of group columns necessary to the second processing
 	 */
-	protected List<IGroupColumn> constructGroupColumnsForSecondProcess(List<IGroupColumn> originalGroupCols){
-		List<IGroupColumn> result = null; 
+	protected List<GroupColumn> constructGroupColumnsForSecondProcess(List<GroupColumn> originalGroupCols){
+		List<GroupColumn> result = null; 
 		if(originalGroupCols != null && originalGroupCols.size() > 0){
-			result = new ArrayList<IGroupColumn>(originalGroupCols.size());
-			for (IGroupColumn originalGroupColumn : originalGroupCols) {
+			result = new ArrayList<GroupColumn>(originalGroupCols.size());
+			for (GroupColumn originalGroupColumn : originalGroupCols) {
 				result.add(new SecondProcessGroupColumn(originalGroupColumn));
 			}
 		}
@@ -288,7 +290,7 @@ public class CrossTabReport extends AbstractReport{
 	}
 	
 	/**
-	 * creates a list of IDataColumn objects from 
+	 * creates a list of DataColumn objects from 
 	 * 
 	 * 1. original data columns 
 	 * 2. columns needed for displaying the values under the header values ( computed form crosstab-data) 
@@ -300,14 +302,14 @@ public class CrossTabReport extends AbstractReport{
 	 * @param hasGrandTotal
 	 * @return	a list data columns necessary to the second process
 	 */
-	protected List<IDataColumn> constructDataColumnsForSecondProcess(	CtMetadata crosstabMetadata, 
-																		List<IDataColumn> originalDataColumns, 
+	protected List<DataColumn> constructDataColumnsForSecondProcess(	CtMetadata crosstabMetadata, 
+																		List<DataColumn> originalDataColumns, 
 																		boolean hasTotals, 
 																		boolean hasGrandTotal){
 		int dataColsCount = crosstabMetadata.getDataColumnCount(); 
 		int headerRowsCount = crosstabMetadata.getHeaderRowsCount(); 
 		
-		List<IDataColumn> resultDataColsList = new ArrayList<IDataColumn>();
+		List<DataColumn> resultDataColsList = new ArrayList<DataColumn>();
 		
 		//first we add the original data columns (those declared by the user in his configuration)
 		for(int i=0; i < originalDataColumns.size(); i++){
@@ -385,14 +387,17 @@ public class CrossTabReport extends AbstractReport{
      * </ul>
      */
     @Override public void execute(){
+    	//validation of the configuration
+    	validate(); 
     	
-    	validateConfig(); 
-    	
-        configIntermediateReport();
+    	//configuration of the first report
+        config();
         firstReport.execute(); 
         
+        //transfer data between reports
         transferDataBetweenReports(); 
         
+        //configure the second report
         configSecondReport();
         secondReport.execute(); 
     }
