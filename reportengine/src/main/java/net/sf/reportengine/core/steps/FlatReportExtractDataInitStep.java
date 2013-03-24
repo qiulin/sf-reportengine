@@ -5,10 +5,10 @@ package net.sf.reportengine.core.steps;
 
 import java.util.List;
 
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.core.algorithm.IReportContext;
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
+import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.util.ContextKeys;
 
 /**
@@ -19,7 +19,7 @@ import net.sf.reportengine.util.ContextKeys;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public class FlatReportExtractDataInitStep implements IAlgorithmInitStep {
+public class FlatReportExtractDataInitStep implements AlgorithmInitStep {
 	
 	/**
 	 * 
@@ -42,11 +42,11 @@ public class FlatReportExtractDataInitStep implements IAlgorithmInitStep {
 	
     
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)
+	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)
 	 */
-	public void init(IReportContext reportContext) {
-		List<IDataColumn> dataCols = 
-				(List<IDataColumn>)reportContext.get(ContextKeys.DATA_COLUMNS);
+	public void init(ReportContext reportContext) {
+		List<DataColumn> dataCols = 
+				(List<DataColumn>)reportContext.get(ContextKeys.DATA_COLUMNS);
 		calculatorsDistributionInDataColumnsArray = extractDistributionOfCalculatorsAcrossColumns(dataCols); 
 		reportContext.set(	ContextKeys.DISTRIBUTION_OF_CALCULATORS, 
 							calculatorsDistributionInDataColumnsArray);
@@ -57,12 +57,12 @@ public class FlatReportExtractDataInitStep implements IAlgorithmInitStep {
 	 * @param dataCols
 	 * @return
 	 */
-	private int[] extractDistributionOfCalculatorsAcrossColumns(List<IDataColumn> dataCols){
+	private int[] extractDistributionOfCalculatorsAcrossColumns(List<DataColumn> dataCols){
 		int[] result = new int[dataCols.size()];
     	
     	int columnWithCalculatorsCount = 0;
     	for(int i=0; i<dataCols.size(); i++){
-    		ICalculator calculator = dataCols.get(i).getCalculator();
+    		Calculator calculator = dataCols.get(i).getCalculator();
     		if(calculator != null){
     			result[i] = columnWithCalculatorsCount; 
     			columnWithCalculatorsCount++;

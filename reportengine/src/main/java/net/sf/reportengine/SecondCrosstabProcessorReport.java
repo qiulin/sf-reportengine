@@ -3,9 +3,9 @@
  */
 package net.sf.reportengine;
 
-import net.sf.reportengine.core.algorithm.IReportContext;
-import net.sf.reportengine.core.algorithm.IAlgorithm;
-import net.sf.reportengine.core.algorithm.OneIterationAlgorithm;
+import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.Algorithm;
+import net.sf.reportengine.core.algorithm.OneLoopAlgorithm;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
@@ -23,22 +23,21 @@ import net.sf.reportengine.util.CtMetadata;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-class SecondCrosstabProcessorReport extends AbstractOneStepReport {
+class SecondCrosstabProcessorReport extends AbstractAlgoColumnBasedReport {
 	
 	private CtMetadata ctMetadata = null; 
 	
 	public SecondCrosstabProcessorReport(CtMetadata metadata){
-		super(new OneIterationAlgorithm()); 
+		super(new OneLoopAlgorithm()); 
 		this.ctMetadata = metadata; 
 	}
 	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.AbstractReport#configAlgorithmSteps()
 	 */
-	@Override
-	protected void configAlgorithmSteps() {
-		IAlgorithm algorithm = getAlgorithm();
-    	IReportContext context = algorithm.getContext();
+	@Override protected void config() {
+		Algorithm algorithm = getAlgorithm();
+    	ReportContext context = algorithm.getContext();
     	
     	//setting the input/output
     	algorithm.setIn(getIn());

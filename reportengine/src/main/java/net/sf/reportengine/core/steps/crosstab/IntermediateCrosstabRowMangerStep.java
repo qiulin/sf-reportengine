@@ -4,9 +4,9 @@
 package net.sf.reportengine.core.steps.crosstab;
 
 import net.sf.reportengine.core.ReportContent;
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.RowProps;
@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 
 /**
  * This is the manager of the intermediate crosstab row. 
- * The intermediate crosstab row holds ICrosstabData (and some other useful info) until
+ * The intermediate crosstab row holds CrosstabData (and some other useful info) until
  * the grouping level is changed. At this moment the intermediate manager 
  * is resetting the intermediate row. 
  * 
@@ -42,7 +42,7 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 	/**
 	 * 
 	 */
-	public void init(IReportContext context){
+	public void init(ReportContext context){
 		super.init(context);
 		context.set(ContextKeys.INTERMEDIATE_ROW, intermediateRow);
 	}
@@ -61,7 +61,7 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 		if(groupingLevel >= 0){
 			//if grouping level changed
 			
-			ICalculator[][] calculatorMatrix = getCalculatorMatrix(); 
+			Calculator[][] calculatorMatrix = getCalculatorMatrix(); 
 			
 			if(groupingLevel < originalGroupColsLength + originalDataColsLength){
 				//this is a change in the original group so
@@ -119,7 +119,7 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 	
 	private void updateIntermediateTotals(	int levelFrom, 
 											int levelTo, 
-											ICalculator[][] calculatorMatrix){
+											Calculator[][] calculatorMatrix){
 		int calculatorMatrixRow = -1;
 		Object calculatorResult = null; 
 		int tmpLevelFrom = getOriginalCrosstabGroupingColsLength()+ getOriginalCrosstabDataColsLength(); 

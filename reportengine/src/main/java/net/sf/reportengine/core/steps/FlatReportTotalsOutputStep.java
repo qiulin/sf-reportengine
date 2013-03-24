@@ -7,13 +7,13 @@ package net.sf.reportengine.core.steps;
 import java.util.List;
 
 import net.sf.reportengine.config.HorizontalAlign;
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.ReportContent;
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.RowProps;
@@ -51,12 +51,12 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     /**
      * local copy of the group columns
      */
-    private List<IGroupColumn> groupCols; 
+    private List<GroupColumn> groupCols; 
     
     /**
      * local copy of the data columns
      */
-    private List<IDataColumn> dataCols;
+    private List<DataColumn> dataCols;
     
     /**
      * 
@@ -73,7 +73,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     /**
      * init method 
      */
-    public void init(IReportContext reportContext){
+    public void init(ReportContext reportContext){
     	super.init(reportContext);
     	
     	groupCols = getGroupingColumns();
@@ -108,7 +108,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
      * exit displays the last totals in the calculator matrix buffer and the grand total
      */
     public void exit() {
-        ICalculator[][] calculators = getCalculatorMatrix();
+        Calculator[][] calculators = getCalculatorMatrix();
         
         if(groupCols != null){
         	//calculators.length-2 because for levelCalculators.lenght-1 is a separate call
@@ -136,7 +136,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
      */
     private void outputTotalRowsFromTo(int rowStart, int rowEnd){
     	logger.trace("output totals from "+rowStart+" to "+rowEnd);
-    	ICalculator[][] calculators = getCalculatorMatrix();
+    	Calculator[][] calculators = getCalculatorMatrix();
         for(int row = rowStart; row <= rowEnd ; row++){
         	//based on the row we can compute the aggregation level so that we can determine the 
         	// column to use from the previous data row
@@ -155,7 +155,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
      * @param calcForCurrentGroupingLevel
      */
     private void outputTotalsRow(	int groupLevel, 
-    								ICalculator[] calcForCurrentGroupingLevel){
+    								Calculator[] calcForCurrentGroupingLevel){
     	if(distribOfCalculatorsInDataColsArray.length != dataCols.size()){
     		//TODO: improve
     		throw new IllegalArgumentException("dataRows and distributionOfCalculators arrays should have the same length"); 
@@ -192,7 +192,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     	
         //then iterate over data columns to display the totals for those having calculators
     	for (int i = 0; i < dataCols.size(); i++) {
-			IDataColumn column = dataCols.get(i);
+			DataColumn column = dataCols.get(i);
 			if(column.getCalculator() != null){
 				int calculatorIndex = distribOfCalculatorsInDataColsArray[i];
 				Object calculatorResult = calcForCurrentGroupingLevel[calculatorIndex].getResult();
