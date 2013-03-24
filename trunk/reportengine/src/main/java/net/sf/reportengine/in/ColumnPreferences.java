@@ -48,7 +48,7 @@ public class ColumnPreferences {
 	/**
 	 * @param header the header to set
 	 */
-	public ColumnPreferences header(String header) {
+	public ColumnPreferences setHeader(String header) {
 		this.header = header;
 		return this; 
 	}
@@ -63,7 +63,7 @@ public class ColumnPreferences {
 	/**
 	 * @param isGroup the isGroup to set
 	 */
-	public ColumnPreferences group(boolean isGroup) {
+	public ColumnPreferences setGroup(boolean isGroup) {
 		this.isGroup = isGroup;
 		return this; 
 	}
@@ -76,7 +76,7 @@ public class ColumnPreferences {
 	/**
 	 * @param horizAlign the horizAlign to set
 	 */
-	public ColumnPreferences align(HorizontalAlign horizAlign) {
+	public ColumnPreferences setHAlign(HorizontalAlign horizAlign) {
 		this.horizAlign = horizAlign;
 		return this; 
 	}
@@ -89,7 +89,7 @@ public class ColumnPreferences {
 	/**
 	 * @param formatter the formatter to set
 	 */
-	public ColumnPreferences formatter(Format formatter) {
+	public ColumnPreferences setFormatter(Format formatter) {
 		this.formatter = formatter;
 		return this; 
 	}
@@ -102,7 +102,7 @@ public class ColumnPreferences {
 	/**
 	 * @param calculator the calculator to set
 	 */
-	public ColumnPreferences calculator(Calculator calculator) {
+	public ColumnPreferences setCalculator(Calculator calculator) {
 		this.calculator = calculator;
 		return this; 
 	} 

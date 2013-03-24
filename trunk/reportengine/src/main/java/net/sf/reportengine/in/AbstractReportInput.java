@@ -4,6 +4,8 @@
  */
 package net.sf.reportengine.in;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 
@@ -80,7 +82,7 @@ public abstract class AbstractReportInput implements ReportInput {
      * Don't hesitate to overwrite this method and return a non-empty array if your input
      * has metadata 
      */
-    public ColumnMetadata[] getColumnMetadata(){
+    public List<ColumnMetadata> getColumnMetadata(){
     	throw new IllegalStateException("A call to getColumnMetadata() method cannot be made if your input doesn't contain meta data"); 
     }
 }

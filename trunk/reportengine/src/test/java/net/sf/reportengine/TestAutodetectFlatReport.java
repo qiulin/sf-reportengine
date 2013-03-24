@@ -47,8 +47,8 @@ public class TestAutodetectFlatReport extends TestCase {
 		
 		flatReport.setIn(AutodetectConfigurationScenario.INPUT); 
 		flatReport.setOut(new HtmlOutput("./target/testAutodetectWithUserPrefs.html")); 
-		flatReport.forColumn("col1").header("First column forced by prefs to right align")
-									.align(HorizontalAlign.RIGHT); 
+		flatReport.forColumn("col1").setHeader("First column forced by prefs to right align")
+									.setHAlign(HorizontalAlign.RIGHT); 
 		flatReport.execute(); 
 	}
 	
@@ -77,7 +77,7 @@ public class TestAutodetectFlatReport extends TestCase {
 		flatReport.setIn(input); 
 		flatReport.setOut(new HtmlOutput("./target/AutodetectFromSqlWithUserPrefs.html")); 
 		
-		flatReport.forColumn("COUNTRY").align(HorizontalAlign.RIGHT).header("Changed header"); 
+		flatReport.forColumn("COUNTRY").setHAlign(HorizontalAlign.RIGHT).setHeader("Changed header"); 
 		
 		flatReport.execute();
 	}

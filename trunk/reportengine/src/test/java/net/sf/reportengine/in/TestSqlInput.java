@@ -112,8 +112,8 @@ public class TestSqlInput extends TestCase {
     	dataProvider.open(); 
     	
     	assertNotNull(dataProvider.getColumnMetadata()); 
-    	assertEquals(7, dataProvider.getColumnMetadata().length);
-    	assertEquals("ID", dataProvider.getColumnMetadata()[0].getColumnLabel());
+    	assertEquals(7, dataProvider.getColumnMetadata().size());
+    	assertEquals("ID", dataProvider.getColumnMetadata().get(0).getColumnLabel());
     }
    
 }

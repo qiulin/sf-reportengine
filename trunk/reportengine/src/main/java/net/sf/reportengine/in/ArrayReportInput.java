@@ -3,6 +3,9 @@
  */
 package net.sf.reportengine.in;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sf.reportengine.config.HorizontalAlign;
 
 
@@ -27,7 +30,7 @@ public class ArrayReportInput extends AbstractReportInput {
 	/**
 	 * 
 	 */
-	private ColumnMetadata[] columnMetadata; 
+	private List<ColumnMetadata> columnMetadata; 
 	
 	/**
 	 * 
@@ -68,25 +71,23 @@ public class ArrayReportInput extends AbstractReportInput {
 	}
 	
 	
-	private ColumnMetadata[] readMetadata(){
-		ColumnMetadata[] metadata = null; 
+	private List<ColumnMetadata> readMetadata(){
+		List<ColumnMetadata> result = new ArrayList<ColumnMetadata>(); 
 		if(data != null && data.length > 0 && data[0] != null && data[0].length >0){
-			metadata = new ColumnMetadata[data[0].length];
-			for (int i = 0; i < metadata.length; i++) {
-				metadata[i] = new ColumnMetadata();
-				metadata[i].setColumnId(""+i);
-				metadata[i].setColumnLabel(""+i);
-				metadata[i].setHorizontalAlign(HorizontalAlign.CENTER);//TODO: infer horizontal align from object's class
+			int arrayLength = data[0].length; 
+			for (int i = 0; i < arrayLength; i++) {
+				ColumnMetadata metadata = new ColumnMetadata();
+				metadata.setColumnId(""+i);
+				metadata.setColumnLabel(""+i);
+				metadata.setHorizontalAlign(HorizontalAlign.CENTER);//TODO: infer horizontal align from object's class
 			}
-		}else{
-			metadata = new ColumnMetadata[0];
 		}
 		
-		return metadata;
+		return result;
 	}
 	
 	
-	@Override public ColumnMetadata[] getColumnMetadata() {
+	@Override public List<ColumnMetadata> getColumnMetadata() {
 		return columnMetadata; 
 	}
 }

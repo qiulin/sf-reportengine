@@ -4,6 +4,8 @@
  */
 package net.sf.reportengine.in;
 
+import java.util.List;
+
 
 
 /**
@@ -55,5 +57,5 @@ public interface ReportInput {
      *  
      * @return the column meta data if this input supports metadata otherwise an empty array
      */
-    public ColumnMetadata[] getColumnMetadata(); 
+    public List<ColumnMetadata> getColumnMetadata(); 
 }
