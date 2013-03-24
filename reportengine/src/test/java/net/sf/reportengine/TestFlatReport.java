@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.HorizontalAlign;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.ExcelOutput;
@@ -92,7 +92,7 @@ public class TestFlatReport extends ReportengineTC {
 		flatReport.setIn(in);
 		flatReport.setOut(output);
 		
-		flatReport.setReportTitle("OHLC TEST");
+		flatReport.setTitle("OHLC TEST");
 		flatReport.setDataColumns(OhlcComputationScenario.DATA_COLUMNS);
 		flatReport.setGroupColumns(OhlcComputationScenario.GROUPING_COLUMNS); 
 		flatReport.setShowTotals(true);
@@ -109,7 +109,7 @@ public class TestFlatReport extends ReportengineTC {
     	flatReport.setGroupColumns(Scenario2x3x1.GROUP_COLUMNS);
         flatReport.setDataColumns(Scenario2x3x1.DATA_COLUMNS);
         
-        flatReport.setReportTitle("Test flat report 2x3x1d");    
+        flatReport.setTitle("Test flat report 2x3x1d");    
         flatReport.setIn(input); 
         
         OutputDispatcher output = new OutputDispatcher();
@@ -130,7 +130,7 @@ public class TestFlatReport extends ReportengineTC {
     	flatReport.setGroupColumns(NoGroupsScenario.GROUPING_COLUMNS);
         flatReport.setDataColumns(NoGroupsScenario.DATA_COLUMNS);
         
-        flatReport.setReportTitle("Test report having no grops but still showing the grand total");    
+        flatReport.setTitle("Test report having no grops but still showing the grand total");    
         flatReport.setIn(NoGroupsScenario.INPUT); 
         
         OutputDispatcher output = new OutputDispatcher();
@@ -148,9 +148,9 @@ public class TestFlatReport extends ReportengineTC {
 		InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("Utf8Input.txt");
 		assertNotNull(inputStream);
 		
-		flatReport.setReportTitle("Τη γλώσσα μου έδωσαν ελληνική");
+		flatReport.setTitle("Τη γλώσσα μου έδωσαν ελληνική");
 		
-		IReportInput reportInput = new TextInput(inputStream, ",", "UTF-8"); 
+		ReportInput reportInput = new TextInput(inputStream, ",", "UTF-8"); 
 		flatReport.setIn(reportInput); 
 		
 		flatReport.addDataColumn(new DefaultDataColumn(0)); 
@@ -167,9 +167,9 @@ public class TestFlatReport extends ReportengineTC {
 		InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("Utf8Input.txt");
 		assertNotNull(inputStream);
 		
-		flatReport.setReportTitle("Τη γλώσσα μου έδωσαν ελληνική");
+		flatReport.setTitle("Τη γλώσσα μου έδωσαν ελληνική");
 		
-		IReportInput reportInput = new TextInput(inputStream, ",", "UTF-8"); 
+		ReportInput reportInput = new TextInput(inputStream, ",", "UTF-8"); 
 		flatReport.setIn(reportInput); 
 		
 		flatReport.addDataColumn(new DefaultDataColumn(0)); 
@@ -193,7 +193,7 @@ public class TestFlatReport extends ReportengineTC {
 		flatReport.setIn(in);
 		flatReport.setOut(new HtmlOutput("./target/testHugeReport.html"));
 		
-		flatReport.setReportTitle("OHLC TEST");
+		flatReport.setTitle("OHLC TEST");
 		flatReport.setGroupColumns(OhlcComputationScenario.GROUPING_COLUMNS);
 		flatReport.setDataColumns(OhlcComputationScenario.DATA_COLUMNS);
 		flatReport.setShowTotals(true);
@@ -206,7 +206,7 @@ public class TestFlatReport extends ReportengineTC {
 	public void testFlatReportWithFormattedValues(){
 		flatReport.setIn(ScenarioFormatedValues.INPUT);
 		flatReport.setOut(new HtmlOutput("./target/testFormattedValues.html"));
-		flatReport.setReportTitle("Formatted Values");
+		flatReport.setTitle("Formatted Values");
 		flatReport.setShowTotals(true); 
 		flatReport.setShowGrandTotal(true); 
 		
@@ -217,24 +217,7 @@ public class TestFlatReport extends ReportengineTC {
 		//TODO: assert here
 	}
 	
-	public void testAutodetectColumnsFromMetadata(){
-		AutodetectConfigurationScenario.initScenario(); 
-		
-		flatReport.setIn(AutodetectConfigurationScenario.INPUT); 
-		flatReport.setOut(new HtmlOutput("./target/testBasicAutodetect.html")); 
-		flatReport.execute(); 
-	}
 	
-	
-	public void testAutodetectColumnsFromMetadataAndPreferences(){
-		AutodetectConfigurationScenario.initScenario(); 
-		
-		flatReport.setIn(AutodetectConfigurationScenario.INPUT); 
-		flatReport.setOut(new HtmlOutput("./target/testAutodetectWithUserPrefs.html")); 
-		flatReport.forColumn("col1").header("First column forced by prefs to right align")
-									.align(HorizontalAlign.RIGHT); 
-		flatReport.execute(); 
-	}
 	
 //	public void testMemoryLeaks(){
 //		

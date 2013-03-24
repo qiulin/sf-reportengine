@@ -27,7 +27,7 @@ public class TestDefaultDataColumn extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.config.DefaultDataColumn#DefaultDataColumn(java.lang.String, int, net.sf.reportengine.core.calc.ICalculator, java.text.Format)}.
+	 * Test method for {@link net.sf.reportengine.config.DefaultDataColumn#DefaultDataColumn(java.lang.String, int, net.sf.reportengine.core.calc.Calculator, java.text.Format)}.
 	 */
 	public void testDefaultDataColumnStringIntICalculatorFormat() {
 		DefaultDataColumn classUnderTest = new DefaultDataColumn(); 

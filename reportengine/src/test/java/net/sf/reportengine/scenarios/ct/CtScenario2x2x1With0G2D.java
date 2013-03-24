@@ -9,12 +9,12 @@ import java.util.List;
 import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.ICrosstabHeaderRow;
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.ArrayReportInput;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.util.IDistinctValuesHolder;
 import net.sf.reportengine.util.MockDistinctValuesHolder;
 
@@ -43,17 +43,17 @@ public class CtScenario2x2x1With0G2D {
 
     }; 
 	
-	public final static IReportInput INPUT = new ArrayReportInput(RAW_INPUT);
+	public final static ReportInput INPUT = new ArrayReportInput(RAW_INPUT);
 	
-	public static final List<IGroupColumn> GROUPING_COLUMNS = null; 
+	public static final List<GroupColumn> GROUPING_COLUMNS = null; 
 	
-	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList(
-			new IDataColumn[]{
+	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(
+			new DataColumn[]{
 					new DefaultDataColumn("Region", 0), 
 					new DefaultDataColumn("Country", 1)
 			});
 	
-	public static final List<ICrosstabHeaderRow> HEADER_ROWS = Arrays.asList(new ICrosstabHeaderRow[]{
+	public static final List<CrosstabHeaderRow> HEADER_ROWS = Arrays.asList(new CrosstabHeaderRow[]{
 			new DefaultCrosstabHeaderRow(2, null), //Sex 
 			new DefaultCrosstabHeaderRow(3, null)   //Age
 		}); 

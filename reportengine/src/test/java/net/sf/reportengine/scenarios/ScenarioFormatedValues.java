@@ -13,10 +13,10 @@ import java.util.List;
 
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.ArrayReportInput;
 
 /**
@@ -32,7 +32,7 @@ public class ScenarioFormatedValues {
 	} 
 	
 	
-	public static final IReportInput INPUT = new ArrayReportInput(new Object[][]{
+	public static final ReportInput INPUT = new ArrayReportInput(new Object[][]{
 			new Object[]{Integer.valueOf(0), "1000", 	Integer.valueOf(100), calendar.getTime()}, 
 			new Object[]{Integer.valueOf(1), "20000", 	Integer.valueOf(200), calendar.getTime()},
 			new Object[]{Integer.valueOf(2), "3000", 	Integer.valueOf(300), calendar.getTime()},
@@ -43,14 +43,14 @@ public class ScenarioFormatedValues {
 			new Object[]{Integer.valueOf(7), "80000000",Integer.valueOf(800), calendar.getTime()},
 	});
 	
-	public static final List<IGroupColumn> GROUP_COLUMNS = Arrays.asList(
-			new IGroupColumn[]{
+	public static final List<GroupColumn> GROUP_COLUMNS = Arrays.asList(
+			new GroupColumn[]{
 				new DefaultGroupColumn("Formatted group value", 0, 0, NumberFormat.getCurrencyInstance())
 			}
 	); 
 	
-	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList( 
-	new IDataColumn[]{
+	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList( 
+	new DataColumn[]{
 		new DefaultDataColumn("Formatted String", 1, null, null){
 			@Override
 			public String getFormattedValue(Object value){

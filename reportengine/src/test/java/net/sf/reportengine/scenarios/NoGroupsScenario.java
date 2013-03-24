@@ -7,10 +7,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.ArrayReportInput;
 
 /**
@@ -32,12 +32,12 @@ public final class NoGroupsScenario {
 		new String[]{"0","a","4","b","6","c"}
 	};
 	
-	public final static IReportInput INPUT = new ArrayReportInput(RAW_INPUT);
+	public final static ReportInput INPUT = new ArrayReportInput(RAW_INPUT);
 	
-	public static final List<IGroupColumn> GROUPING_COLUMNS = null; 
+	public static final List<GroupColumn> GROUPING_COLUMNS = null; 
 			
-	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList( 
-			new IDataColumn[]{
+	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList( 
+			new DataColumn[]{
 		new DefaultDataColumn("Zero or one", 0, null), 
 		new DefaultDataColumn("2 multiples", 2, Calculators.SUM), 
 		new DefaultDataColumn("3 multiples", 4, Calculators.AVG), 

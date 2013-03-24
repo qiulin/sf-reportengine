@@ -10,12 +10,12 @@ import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.config.ICrosstabHeaderRow;
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.util.IDistinctValuesHolder;
 import net.sf.reportengine.util.MockDistinctValuesHolder;
@@ -46,7 +46,7 @@ public class CtScenario2x2x1With1G1D {
 		new String[]{"West",	"F",	"20",	"France", 	"30"}
     }; 
 	
-	public final static IReportInput INPUT = new ArrayReportInput(RAW_INPUT);
+	public final static ReportInput INPUT = new ArrayReportInput(RAW_INPUT);
 	
 	public final static int[] AGG_LEVEL = new int[]{-1,
 													3,
@@ -63,14 +63,14 @@ public class CtScenario2x2x1With1G1D {
 													3, 
 													2};  
 	
-	public static final List<IGroupColumn> GROUPING_COLUMNS = Arrays.asList(
-			new IGroupColumn[]{
+	public static final List<GroupColumn> GROUPING_COLUMNS = Arrays.asList(
+			new GroupColumn[]{
 					new DefaultGroupColumn("Region", 0, 0)					
 	});
 	
-	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList(new IDataColumn[]{new DefaultDataColumn("Country", 3)});
+	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(new DataColumn[]{new DefaultDataColumn("Country", 3)});
 	
-	public static final List<ICrosstabHeaderRow> HEADER_ROWS = Arrays.asList(new ICrosstabHeaderRow[]{
+	public static final List<CrosstabHeaderRow> HEADER_ROWS = Arrays.asList(new CrosstabHeaderRow[]{
 		new DefaultCrosstabHeaderRow(1, null), //Sex 
 		new DefaultCrosstabHeaderRow(2, null)   //Age
 	}); 

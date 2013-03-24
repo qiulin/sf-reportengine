@@ -6,7 +6,7 @@ package net.sf.reportengine.scenarios;
 import static org.mockito.Mockito.when;
 import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.in.ColumnMetadata;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.in.ReportInput;
 
 import org.mockito.Mockito;
 
@@ -18,7 +18,7 @@ public class AutodetectConfigurationScenario {
 	
 	public static ColumnMetadata[] COLUMN_METADATA = new ColumnMetadata[]{new ColumnMetadata(), new ColumnMetadata()};
 	
-	public static IReportInput INPUT = Mockito.mock(IReportInput.class); 
+	public static ReportInput INPUT = Mockito.mock(ReportInput.class); 
 	
 	public static void initScenario(){
 		COLUMN_METADATA[0].setColumnId("col1"); 
@@ -29,6 +29,7 @@ public class AutodetectConfigurationScenario {
 		COLUMN_METADATA[1].setColumnLabel("col2label"); 
 		COLUMN_METADATA[1].setHorizontalAlign(HorizontalAlign.LEFT);
 		
+		when(INPUT.supportsMetadata()).thenReturn(true); 
 		when(INPUT.getColumnMetadata()).thenReturn(COLUMN_METADATA);
 		when(INPUT.hasMoreRows()).thenReturn(true, true, true, false); 
 		when(INPUT.nextRow()).thenReturn(

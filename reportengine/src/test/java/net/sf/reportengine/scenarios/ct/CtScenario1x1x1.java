@@ -9,14 +9,14 @@ import java.util.List;
 import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.ICrosstabData;
-import net.sf.reportengine.config.ICrosstabHeaderRow;
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.CrosstabData;
+import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.util.CrossTabCoefficients;
@@ -46,26 +46,26 @@ public class CtScenario1x1x1 {
 	};
 	
 	
-	public static final List<IGroupColumn> GROUP_COLUMNS = null; 
-//		new IGroupColumn[]{
+	public static final List<GroupColumn> GROUP_COLUMNS = null; 
+//		new GroupColumn[]{
 //		new DefaultGroupColumn("Continent", 0, 0)
 //	};
 	
-	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList( 
-			new IDataColumn[]{
+	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList( 
+			new DataColumn[]{
 					new DefaultDataColumn("Continent", 0)
 	});
 	
-	public static final List<ICrosstabHeaderRow> ROW_HEADERS = Arrays.asList( 
-			new ICrosstabHeaderRow[]{
+	public static final List<CrosstabHeaderRow> ROW_HEADERS = Arrays.asList( 
+			new CrosstabHeaderRow[]{
 		new DefaultCrosstabHeaderRow(1)//Region - second column
 	});
 	
-	public static final ICrosstabData CROSSTAB_DATA_WITH_TOTALS = new DefaultCrosstabData(2, Calculators.SUM);
-	public static final ICrosstabData CROSSTAB_DATA_NO_TOTALS = new DefaultCrosstabData(2);
+	public static final CrosstabData CROSSTAB_DATA_WITH_TOTALS = new DefaultCrosstabData(2, Calculators.SUM);
+	public static final CrosstabData CROSSTAB_DATA_NO_TOTALS = new DefaultCrosstabData(2);
 	
 	
-	public final static IReportInput INPUT = new ArrayReportInput(RAW_INPUT);
+	public final static ReportInput INPUT = new ArrayReportInput(RAW_INPUT);
     
 	
 	public final static int[] AGG_LEVEL = new int[]{

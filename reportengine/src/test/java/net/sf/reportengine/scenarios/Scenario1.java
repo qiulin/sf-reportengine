@@ -10,13 +10,13 @@ import java.util.List;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.HorizontalAlign;
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.calc.Calculators;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.MockCalculator;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.out.CellProps;
 
@@ -56,15 +56,15 @@ public class Scenario1 {
 	};
 	
 	
-	public static final List<IGroupColumn> GROUPING_COLUMNS = Arrays.asList(
-		new IGroupColumn[]{
+	public static final List<GroupColumn> GROUPING_COLUMNS = Arrays.asList(
+		new GroupColumn[]{
 				new DefaultGroupColumn("col 0", 0, 0, null, HorizontalAlign.CENTER, true), 
 				new DefaultGroupColumn("col 1", 1, 1, null, HorizontalAlign.CENTER, true), 
 				new DefaultGroupColumn("col 2", 2, 2, null, HorizontalAlign.CENTER, true)
 		});
 	
-	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList(
-			new IDataColumn[]{
+	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(
+			new DataColumn[]{
 		new DefaultDataColumn("col 3", 3), 
 		new DefaultDataColumn("col 4", 4, Calculators.COUNT), 
 		new DefaultDataColumn("col 5", 5, Calculators.SUM)
@@ -88,52 +88,52 @@ public class Scenario1 {
 		ROW_6_AGG_LEVEL
 	};
 	
-	public final static ICalculator[] TEST_CALCULATOR_PROTOTYPES = new ICalculator[]{Calculators.COUNT, Calculators.SUM};
+	public final static Calculator[] TEST_CALCULATOR_PROTOTYPES = new Calculator[]{Calculators.COUNT, Calculators.SUM};
 	
     public final static int[] TEST_COLUMNS_TO_COMPUTE_TOTALS_ON = new int[]{4,5};
     
-    public final static ICalculator[][] ROW_1_CALCULATORS_RESULTS = new ICalculator[][]{
-    	new ICalculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(6))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(6))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(6))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(6))}
+    public final static Calculator[][] ROW_1_CALCULATORS_RESULTS = new Calculator[][]{
+    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(6))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(6))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(6))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(6))}
     															};
     
-    public final static ICalculator[][] ROW_2_CALCULATORS_RESULTS = new ICalculator[][]{
-    	new ICalculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(9))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(9))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(9))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(9))}
+    public final static Calculator[][] ROW_2_CALCULATORS_RESULTS = new Calculator[][]{
+    	new Calculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(9))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(9))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(9))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(9))}
 															};
     
-    public final static ICalculator[][] ROW_3_CALCULATORS_RESULTS = new ICalculator[][]{
-    	new ICalculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(2))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(3)),new MockCalculator(new BigDecimal(11))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(3)),new MockCalculator(new BigDecimal(11))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(3)),new MockCalculator(new BigDecimal(11))}
+    public final static Calculator[][] ROW_3_CALCULATORS_RESULTS = new Calculator[][]{
+    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(2))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(3)),new MockCalculator(new BigDecimal(11))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(3)),new MockCalculator(new BigDecimal(11))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(3)),new MockCalculator(new BigDecimal(11))}
 															};
-    public final static ICalculator[][] ROW_4_CALCULATORS_RESULTS = new ICalculator[][]{
-    	new ICalculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(4)),new MockCalculator(new BigDecimal(12))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(4)),new MockCalculator(new BigDecimal(12))}
+    public final static Calculator[][] ROW_4_CALCULATORS_RESULTS = new Calculator[][]{
+    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(4)),new MockCalculator(new BigDecimal(12))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(4)),new MockCalculator(new BigDecimal(12))}
 	};
     
-    public final static ICalculator[][] ROW_5_CALCULATORS_RESULTS = new ICalculator[][]{
-    	new ICalculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(2))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(2))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(5)),new MockCalculator(new BigDecimal(13))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(5)),new MockCalculator(new BigDecimal(13))}
+    public final static Calculator[][] ROW_5_CALCULATORS_RESULTS = new Calculator[][]{
+    	new Calculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(2))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(2))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(5)),new MockCalculator(new BigDecimal(13))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(5)),new MockCalculator(new BigDecimal(13))}
 	};
     
-    public final static ICalculator[][] ROW_6_CALCULATORS_RESULTS = new ICalculator[][]{
-    	new ICalculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(6)),new MockCalculator(new BigDecimal(14))}
+    public final static Calculator[][] ROW_6_CALCULATORS_RESULTS = new Calculator[][]{
+    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(6)),new MockCalculator(new BigDecimal(14))}
 	};
 	
-    public final static IReportInput INPUT = new ArrayReportInput(RAW_DATA);
+    public final static ReportInput INPUT = new ArrayReportInput(RAW_DATA);
     
 	public final static CellProps[][] OUTPUT_TOTALS = new CellProps[][]{
 			//displayed on row 3

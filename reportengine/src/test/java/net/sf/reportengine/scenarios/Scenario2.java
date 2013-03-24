@@ -9,10 +9,10 @@ import java.util.List;
 
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.MockCalculator;
 
 /**
@@ -49,14 +49,14 @@ public class Scenario2 {
 	
 	public static final Object[][] COMPUTED_INPUT = RAW_INPUT;
 	
-	public static final List<IGroupColumn> GROUPING_COLUMNS = Arrays.asList(new IGroupColumn[]{
+	public static final List<GroupColumn> GROUPING_COLUMNS = Arrays.asList(new GroupColumn[]{
 		new DefaultGroupColumn("Zero or One", 0, 0), 
 		new DefaultGroupColumn("2 multiples", 2, 1), 
 		new DefaultGroupColumn("3 Multiples", 4, 2), 
 	});
 	
-	public static final List<IDataColumn> DATA_COLUMNS = Arrays.asList( 
-			new IDataColumn[]{
+	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList( 
+			new DataColumn[]{
 		new DefaultDataColumn("Column A", 1), 
 		new DefaultDataColumn("Column A", 3), 
 		new DefaultDataColumn("Column A", 5, Calculators.COUNT), 
@@ -77,11 +77,11 @@ public class Scenario2 {
 		-1
 	};
 	
-	public final static ICalculator[][] CALCULATORS_RESULTS = new ICalculator[][]{
-    	new ICalculator[]{new MockCalculator(new BigDecimal(3))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(6))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(8))},
-    	new ICalculator[]{new MockCalculator(new BigDecimal(10))}
+	public final static Calculator[][] CALCULATORS_RESULTS = new Calculator[][]{
+    	new Calculator[]{new MockCalculator(new BigDecimal(3))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(6))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(8))},
+    	new Calculator[]{new MockCalculator(new BigDecimal(10))}
 	};
 	
 }
