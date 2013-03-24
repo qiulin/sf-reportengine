@@ -3,7 +3,7 @@
  */
 package net.sf.reportengine.core.algorithm.steps;
 
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 
 /**
  * <p>
@@ -12,7 +12,7 @@ import net.sf.reportengine.core.algorithm.IReportContext;
  * @author dragos balan(dragos.balan@gmail.com)
  * @since 0.2
  */
-public interface IAlgorithmInitStep {
+public interface AlgorithmInitStep {
     
     /**
      * this method is called only once for a report 
@@ -22,7 +22,7 @@ public interface IAlgorithmInitStep {
      *  
      * @param reportContext     the context of the report
      */
-    public void init(IReportContext reportContext);
+    public void init(ReportContext reportContext);
     
     
 

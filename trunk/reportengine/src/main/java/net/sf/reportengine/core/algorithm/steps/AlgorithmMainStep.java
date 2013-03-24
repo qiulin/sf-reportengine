@@ -4,8 +4,8 @@
 package net.sf.reportengine.core.algorithm.steps;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmExitStep;
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 
 /**
  * <p>
@@ -16,7 +16,7 @@ import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
  * </p>
  * @author dragos balan (dragos.balan@gmail.com)
  */
-public interface IAlgorithmMainStep extends IAlgorithmInitStep, IAlgorithmExitStep{
+public interface AlgorithmMainStep extends AlgorithmInitStep, AlgorithmExitStep{
     
     
     /**

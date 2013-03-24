@@ -6,54 +6,54 @@ package net.sf.reportengine.core.algorithm;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmExitStep;
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmMainStep;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.IReportOutput;
 
 /**
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public abstract class AbstractAlgorithm implements IAlgorithm {
+public abstract class AbstractAlgorithm implements Algorithm {
 	
 	/**
      * A list containing all the steps <code>net.sf.reportengine.algorithm.IAlgoritmStep</code>
      */
-    private List<IAlgorithmMainStep> mainSteps;
+    private List<AlgorithmMainStep> mainSteps;
     
     /**
      * A list containing <code>net.sf.reportengine.algorithm.IAlgorithmInitStep</cide>s 
      * to be performed only once (at the begining of the algorithm)
      */
-    private List<IAlgorithmInitStep> initSteps;
+    private List<AlgorithmInitStep> initSteps;
     
     /**
      * A list containing <code>net.sf.reportengine.algorithm.IAlgorithmExitStep</code>s 
      * to be performed only once (at the begining of the algorithm)
      */
-    private List<IAlgorithmExitStep> exitSteps;
+    private List<AlgorithmExitStep> exitSteps;
     
     /**
      * the context of the report (holding important values)
      */
-    private IReportContext algorithmContext;
+    private ReportContext algorithmContext;
     
     /**
      * Initializes all steps lists and the algorithm context
      */
     public AbstractAlgorithm(){
-        this.initSteps = new LinkedList<IAlgorithmInitStep>();
-        this.mainSteps = new LinkedList<IAlgorithmMainStep>();
-        this.exitSteps = new LinkedList<IAlgorithmExitStep>();
-        this.algorithmContext = new DefaultReportContext();        
+        this.initSteps = new LinkedList<AlgorithmInitStep>();
+        this.mainSteps = new LinkedList<AlgorithmMainStep>();
+        this.exitSteps = new LinkedList<AlgorithmExitStep>();
+        this.algorithmContext = new DefaultReportContext();
     }
     
     /**
      * implementation for IReportEngine.setIn
      */
-    public void setIn(IReportInput input){
+    public void setIn(ReportInput input){
         this.algorithmContext.setInput(input);
     }
     
@@ -68,7 +68,7 @@ public abstract class AbstractAlgorithm implements IAlgorithm {
      * adds a new step to the algorithm
      * @param newStep   the new step to be added to the report algorithm
      */
-    public void addMainStep(IAlgorithmMainStep newStep){
+    public void addMainStep(AlgorithmMainStep newStep){
         mainSteps.add(newStep);        
     }
     
@@ -76,7 +76,7 @@ public abstract class AbstractAlgorithm implements IAlgorithm {
      * adds a new init step to the algorithm
      * @param initStep  the step to be added
      */
-    public void addInitStep(IAlgorithmInitStep initStep){
+    public void addInitStep(AlgorithmInitStep initStep){
         initSteps.add(initStep);
     }
     
@@ -84,7 +84,7 @@ public abstract class AbstractAlgorithm implements IAlgorithm {
      * adds a new exit step to the algorithm
      * @param exitStep  the step to be added
      */
-    public void addExitStep(IAlgorithmExitStep exitStep){
+    public void addExitStep(AlgorithmExitStep exitStep){
         exitSteps.add(exitStep);
     }
 
@@ -92,7 +92,7 @@ public abstract class AbstractAlgorithm implements IAlgorithm {
      * getter for the context of the algorithm
      * @return
      */
-    public IReportContext getContext(){
+    public ReportContext getContext(){
     	return algorithmContext;
     }
     
@@ -113,19 +113,19 @@ public abstract class AbstractAlgorithm implements IAlgorithm {
     	algorithmContext.getOutput().close();
     }
     
-    public List<IAlgorithmInitStep> getInitSteps(){
+    public List<AlgorithmInitStep> getInitSteps(){
     	return initSteps;
     }
     
-    public List<IAlgorithmExitStep> getExitSteps(){
+    public List<AlgorithmExitStep> getExitSteps(){
     	return exitSteps;
     }
     
-    public List<IAlgorithmMainStep> getMainSteps(){
+    public List<AlgorithmMainStep> getMainSteps(){
     	return mainSteps;
     }
     
-    protected IReportInput getInput(){
+    protected ReportInput getInput(){
     	return algorithmContext.getInput();
     }
 }

@@ -6,11 +6,11 @@ package net.sf.reportengine.core;
 
 import java.util.List;
 
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.steps.AbstractAlgorithmStep;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.util.ContextKeys;
@@ -60,8 +60,8 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
      * returns the calculator within context
      * @return
      */
-    public ICalculator[][] getCalculatorMatrix(){
-    	return (ICalculator[][])getContext().get(ContextKeys.CALCULATORS);
+    public Calculator[][] getCalculatorMatrix(){
+    	return (Calculator[][])getContext().get(ContextKeys.CALCULATORS);
     }
     
     
@@ -116,16 +116,16 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     	return (Boolean)getContext().get(ContextKeys.SHOW_TOTALS);
     }
     
-    public List<IGroupColumn> getGroupingColumns(){
-    	return (List<IGroupColumn>)getContext().get(ContextKeys.GROUP_COLUMNS);
+    public List<GroupColumn> getGroupingColumns(){
+    	return (List<GroupColumn>)getContext().get(ContextKeys.GROUP_COLUMNS);
     }
     
     public int getGroupingColumnsLength(){
     	return getGroupingColumns() != null ? getGroupingColumns().size() : 0; 
     }
     
-    public List<IDataColumn> getDataColumns(){
-    	return (List<IDataColumn>)getContext().get(ContextKeys.DATA_COLUMNS);
+    public List<DataColumn> getDataColumns(){
+    	return (List<DataColumn>)getContext().get(ContextKeys.DATA_COLUMNS);
     }
     
     public Object[] getPreviousRowOfGroupingValues(){

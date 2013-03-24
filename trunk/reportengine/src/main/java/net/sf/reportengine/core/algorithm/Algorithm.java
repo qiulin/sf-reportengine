@@ -4,10 +4,10 @@
  */
 package net.sf.reportengine.core.algorithm;
 
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmExitStep;
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmMainStep;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.IReportOutput;
 
 /**
@@ -16,31 +16,31 @@ import net.sf.reportengine.out.IReportOutput;
  * </p> 
  * @author dragos balan (dragos dot balan at gmail dot com)
  */
-public interface IAlgorithm {
+public interface Algorithm {
     
     /**
      * sets the input of the report.
      * @param input	
      */     
-    public void setIn(IReportInput input);
+    public void setIn(ReportInput input);
     
     /**
      * add an init step to the algorithm
      * @param initStep
      */
-    public void addInitStep(IAlgorithmInitStep initStep);
+    public void addInitStep(AlgorithmInitStep initStep);
     
     /**
      * adds a main step to the algorithm
      * @param step  the main step to be added
      */
-    public void addMainStep(IAlgorithmMainStep step);
+    public void addMainStep(AlgorithmMainStep step);
     
     /**
      * 
      * @param exitStep
      */
-    public void addExitStep(IAlgorithmExitStep exitStep);
+    public void addExitStep(AlgorithmExitStep exitStep);
     
     /**
      * executes the report and displays it
@@ -57,5 +57,5 @@ public interface IAlgorithm {
      * getter for the context
      * @return
      */
-    public IReportContext getContext();
+    public ReportContext getContext();
 }

@@ -6,9 +6,9 @@ package net.sf.reportengine.core.algorithm;
 
 import java.util.List;
 
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmExitStep;
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmMainStep;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
 
 import org.apache.log4j.Logger;
 
@@ -21,12 +21,12 @@ import org.apache.log4j.Logger;
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2 
  */
-public class OneIterationAlgorithm extends AbstractAlgorithm {
+public class OneLoopAlgorithm extends AbstractAlgorithm {
     
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(OneIterationAlgorithm.class);
+	private static final Logger logger = Logger.getLogger(OneLoopAlgorithm.class);
 	
     
     
@@ -34,7 +34,7 @@ public class OneIterationAlgorithm extends AbstractAlgorithm {
      * constructor
      * @param context   the report context
      */
-    public OneIterationAlgorithm(){
+    public OneLoopAlgorithm(){
         super();
     }    
     
@@ -73,10 +73,10 @@ public class OneIterationAlgorithm extends AbstractAlgorithm {
      * execution of init method for each init step
      */
     protected void executeInitSteps() {
-    	IReportContext context = getContext();
-    	List<IAlgorithmInitStep> initSteps = getInitSteps();
+    	ReportContext context = getContext();
+    	List<AlgorithmInitStep> initSteps = getInitSteps();
     	
-        for(IAlgorithmInitStep initStep: initSteps){
+        for(AlgorithmInitStep initStep: initSteps){
             initStep.init(context);
         } 
     } 
@@ -86,11 +86,11 @@ public class OneIterationAlgorithm extends AbstractAlgorithm {
      * 3. calls the exit method for each main step
      */
     protected void executeMainSteps() {
-    	IReportContext context = getContext();
-    	List<IAlgorithmMainStep> mainSteps = getMainSteps();
+    	ReportContext context = getContext();
+    	List<AlgorithmMainStep> mainSteps = getMainSteps();
     	
     	//call init for each step
-        for(IAlgorithmMainStep mainStep: mainSteps){
+        for(AlgorithmMainStep mainStep: mainSteps){
             mainStep.init(context);
         } 
         
@@ -101,13 +101,13 @@ public class OneIterationAlgorithm extends AbstractAlgorithm {
             Object[] currentRow = context.getInput().nextRow();
                 
             //then we pass the dataRow through all the report steps
-            for(IAlgorithmMainStep algoStep: mainSteps){
+            for(AlgorithmMainStep algoStep: mainSteps){
             	algoStep.execute(new NewRowEvent(currentRow));
             }
         }
         
         //call exit
-        for(IAlgorithmMainStep mainStep: mainSteps){
+        for(AlgorithmMainStep mainStep: mainSteps){
            mainStep.exit();
         }
     }
@@ -116,8 +116,8 @@ public class OneIterationAlgorithm extends AbstractAlgorithm {
      * calls the exit method
      */
     protected void executeExitSteps(){
-    	List<IAlgorithmExitStep> exitSteps = getExitSteps();
-    	for(IAlgorithmExitStep exitStep: exitSteps){
+    	List<AlgorithmExitStep> exitSteps = getExitSteps();
+    	for(AlgorithmExitStep exitStep: exitSteps){
     	   exitStep.exit();
     	}    
     } 

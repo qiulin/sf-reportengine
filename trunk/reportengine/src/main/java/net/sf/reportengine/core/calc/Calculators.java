@@ -15,37 +15,37 @@ public class Calculators {
     /**
      * 
      */
-    public static final ICalculator SUM = new SumCalculator();
+    public static final Calculator SUM = new SumCalculator();
     
     /**
      * 
      */
-    public static final ICalculator COUNT = new CountCalculator();
+    public static final Calculator COUNT = new CountCalculator();
     
     /**
      * 
      */
-    public static final ICalculator AVG = new AvgCalculator();
+    public static final Calculator AVG = new AvgCalculator();
     
     /**
      * 
      */
-    public static final ICalculator MIN = new MinCalculator();
+    public static final Calculator MIN = new MinCalculator();
     
     /**
      * 
      */
-    public static final ICalculator MAX = new MaxCalculator();
+    public static final Calculator MAX = new MaxCalculator();
     
     /**
      * 
      */
-    public static final ICalculator FIRST = new FirstCalculator();
+    public static final Calculator FIRST = new FirstCalculator();
     
     /**
      * 
      */
-    public static final ICalculator LAST = new LastCalculator();
+    public static final Calculator LAST = new LastCalculator();
     
     
     private Calculators(){

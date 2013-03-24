@@ -9,7 +9,7 @@ package net.sf.reportengine.core.algorithm.steps;
  * </p>
  * @author dragos balan (dragos.balan@gmail.com)
  */
-public interface IAlgorithmExitStep {
+public interface AlgorithmExitStep {
     
     /**
      * called when finishing the algorithm execution
