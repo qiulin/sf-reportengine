@@ -7,15 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.reportengine.config.HorizontalAlign;
-import net.sf.reportengine.config.ICrosstabData;
-import net.sf.reportengine.config.ICrosstabHeaderRow;
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.core.algorithm.IAlgorithm;
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.config.CrosstabData;
+import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.core.algorithm.Algorithm;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.OneIterationAlgorithm;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.algorithm.OneLoopAlgorithm;
+import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
@@ -38,7 +38,7 @@ import org.apache.log4j.Logger;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-class IntermediateCrosstabReport extends AbstractOneStepReport {
+class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
 	
 	/**
 	 * the logger
@@ -48,12 +48,12 @@ class IntermediateCrosstabReport extends AbstractOneStepReport {
 	/**
 	 * 
 	 */
-	private ICrosstabData crosstabData; //TODO: try to remove the crosstab data from here
+	private CrosstabData crosstabData; //TODO: try to remove the crosstab data from here
 	
 	/**
 	 * 
 	 */
-	private List<? extends ICrosstabHeaderRow> crosstabHeaderRowsAsList; //TODO: remove the header rows and crosstabData from here ( they belong only to Crosstabreport)
+	private List<? extends CrosstabHeaderRow> crosstabHeaderRowsAsList; //TODO: remove the header rows and crosstabData from here ( they belong only to Crosstabreport)
 	
 	/**
 	 * the initial group columns count
@@ -71,7 +71,7 @@ class IntermediateCrosstabReport extends AbstractOneStepReport {
 	 * @param originalDataColsCount
 	 */
 	public IntermediateCrosstabReport(int originalGroupColsCount, int originalDataColsCount){
-		super(new OneIterationAlgorithm()); 
+		super(new OneLoopAlgorithm()); 
 		if(logger.isDebugEnabled())
 			logger.debug(	"constructing intermediate report algorithm origGrpCols="+
 							originalGroupColsCount+", origDataColsCnt="+originalDataColsCount);
@@ -82,21 +82,20 @@ class IntermediateCrosstabReport extends AbstractOneStepReport {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.AbstractReport#configAlgorithmSteps()
 	 */
-	@Override
-	protected void configAlgorithmSteps() {
-		IAlgorithm algorithm = getAlgorithm();
-    	IReportContext context = algorithm.getContext();
+	@Override protected void config() {
+		Algorithm algorithm = getAlgorithm();
+    	ReportContext context = algorithm.getContext();
     	
     	if(logger.isDebugEnabled()){
     		logger.debug("dataColsIsNull ? "+(getDataColumns()==null));
     	}
     	//all initial group + data + header columns will be used as group column in this intermediate report
-		List<IGroupColumn> intermediateGroupCols = 
+		List<GroupColumn> intermediateGroupCols = 
 			transformGroupingCrosstabConfigInFlatReportConfig(	getGroupColumns(),
 																getDataColumns(), 
 																getCrosstabHeaderRows());
 		//only the initial crosstab-data will be used as data column in this intermediate report
-		List<IDataColumn> intermediateDataCols = new ArrayList<IDataColumn>(1);
+		List<DataColumn> intermediateDataCols = new ArrayList<DataColumn>(1);
 		intermediateDataCols.add(new IntermDataColumnFromCrosstabData(crosstabData)); 
 		
 		//TODO: come back here. We need to take the last in the groupingLevel order not in the current order
@@ -151,7 +150,7 @@ class IntermediateCrosstabReport extends AbstractOneStepReport {
     	}
 	}
 
-	public List<? extends ICrosstabHeaderRow> getCrosstabHeaderRows() {
+	public List<? extends CrosstabHeaderRow> getCrosstabHeaderRows() {
 		return crosstabHeaderRowsAsList;
 	}
 	
@@ -160,7 +159,7 @@ class IntermediateCrosstabReport extends AbstractOneStepReport {
 	 * @param crosstabHeaderRows
 	 * @deprecated
 	 */
-//	public void setCrosstabHeaderRows(ICrosstabHeaderRow[] crosstabHeaderRows) {
+//	public void setCrosstabHeaderRows(CrosstabHeaderRow[] crosstabHeaderRows) {
 //		this.crosstabHeaderRowsAsList = Arrays.asList(crosstabHeaderRows);
 //	}
 	
@@ -168,15 +167,15 @@ class IntermediateCrosstabReport extends AbstractOneStepReport {
 	 * 
 	 * @param crosstabHeaderRows
 	 */
-	public void setCrosstabHeaderRows(List<? extends ICrosstabHeaderRow> crosstabHeaderRows){
+	public void setCrosstabHeaderRows(List<? extends CrosstabHeaderRow> crosstabHeaderRows){
 		this.crosstabHeaderRowsAsList = crosstabHeaderRows; 
 	}
 	
-	public ICrosstabData getCrosstabData() {
+	public CrosstabData getCrosstabData() {
 		return crosstabData;
 	}
 
-	public void setCrosstabData(ICrosstabData crosstabData) {
+	public void setCrosstabData(CrosstabData crosstabData) {
 		this.crosstabData = crosstabData;
 	}
 	
@@ -188,12 +187,12 @@ class IntermediateCrosstabReport extends AbstractOneStepReport {
 	 * @return
 	 * @deprecated
 	 */
-//	protected IGroupColumn[] transformGroupingCrosstabConfigInFlatReportConfig(	
-//			IGroupColumn[] originalCtGroupingCols, 
-//			List<IDataColumn> originalCtDataCols, 
-//			ICrosstabHeaderRow[] originalCtHeaderRows){
+//	protected GroupColumn[] transformGroupingCrosstabConfigInFlatReportConfig(	
+//			GroupColumn[] originalCtGroupingCols, 
+//			List<DataColumn> originalCtDataCols, 
+//			CrosstabHeaderRow[] originalCtHeaderRows){
 //		
-//		List<IGroupColumn> groupColsAsList = originalCtGroupingCols != null ? Arrays.asList(originalCtGroupingCols): new ArrayList<IGroupColumn>();
+//		List<GroupColumn> groupColsAsList = originalCtGroupingCols != null ? Arrays.asList(originalCtGroupingCols): new ArrayList<GroupColumn>();
 //		
 //		return transformGroupingCrosstabConfigInFlatReportConfig(
 //													groupColsAsList, 
@@ -213,9 +212,9 @@ class IntermediateCrosstabReport extends AbstractOneStepReport {
 	 * @param originalCtHeaderRows
 	 * @return
 	 */
-	protected List<IGroupColumn> transformGroupingCrosstabConfigInFlatReportConfig(	List<? extends IGroupColumn> originalCtGroupingCols, 
-																					List<? extends IDataColumn> originalCtDataCols, 
-																					List<? extends ICrosstabHeaderRow> originalCtHeaderRows){
+	protected List<GroupColumn> transformGroupingCrosstabConfigInFlatReportConfig(	List<? extends GroupColumn> originalCtGroupingCols, 
+																					List<? extends DataColumn> originalCtDataCols, 
+																					List<? extends CrosstabHeaderRow> originalCtHeaderRows){
 		
 		int originalGroupColsLength = originalCtGroupingCols != null ? originalCtGroupingCols.size(): 0;
 		int originalDataColsLength = originalCtDataCols != null ? originalCtDataCols.size() : 0 ; 
@@ -228,7 +227,7 @@ class IntermediateCrosstabReport extends AbstractOneStepReport {
 		}
 		
 		int intermedGroupColsLength = originalGroupColsLength + originalDataColsLength + originalCtHeaderRows.size() -1;
-		List<IGroupColumn> result = new ArrayList<IGroupColumn>(intermedGroupColsLength);
+		List<GroupColumn> result = new ArrayList<GroupColumn>(intermedGroupColsLength);
 		
 		//from 0 to original groupCols.length we copy the original group columns
 		if(originalGroupColsLength > 0){
@@ -257,11 +256,11 @@ class IntermediateCrosstabReport extends AbstractOneStepReport {
 		return result; 
 	}
 	
-	protected static class IntermDataColumnFromCrosstabData implements IDataColumn{
+	protected static class IntermDataColumnFromCrosstabData implements DataColumn{
 		
-		private ICrosstabData crosstabData;
+		private CrosstabData crosstabData;
 		
-		public IntermDataColumnFromCrosstabData(ICrosstabData crosstabData){
+		public IntermDataColumnFromCrosstabData(CrosstabData crosstabData){
 			this.crosstabData = crosstabData; 
 		}
 		
@@ -277,7 +276,7 @@ class IntermediateCrosstabReport extends AbstractOneStepReport {
 			return crosstabData.getValue(newRowEvent);
 		}
 
-		public ICalculator getCalculator() {
+		public Calculator getCalculator() {
 			return crosstabData.getCalculator();
 		}
 
@@ -286,12 +285,12 @@ class IntermediateCrosstabReport extends AbstractOneStepReport {
 		}
 	}
 	
-	protected static class IntermGroupColFromCtDataCol implements IGroupColumn{
+	protected static class IntermGroupColFromCtDataCol implements GroupColumn{
 		
-		private IDataColumn dataColumn; 
+		private DataColumn dataColumn; 
 		private int groupingLevel; 
 		
-		public IntermGroupColFromCtDataCol(IDataColumn dataColumn, int groupLevel){
+		public IntermGroupColFromCtDataCol(DataColumn dataColumn, int groupLevel){
 			this.dataColumn = dataColumn; 
 			this.groupingLevel = groupLevel; 
 		}
@@ -322,19 +321,19 @@ class IntermediateCrosstabReport extends AbstractOneStepReport {
 		
 	}
 	
-	protected static class IntermGroupColFromHeaderRow implements IGroupColumn {
+	protected static class IntermGroupColFromHeaderRow implements GroupColumn {
 
-		private ICrosstabHeaderRow headerRow; 
+		private CrosstabHeaderRow headerRow; 
 	
 		private int groupingLevel = -1; 
 	
-		public IntermGroupColFromHeaderRow(ICrosstabHeaderRow headerRow, int groupingLevel){
+		public IntermGroupColFromHeaderRow(CrosstabHeaderRow headerRow, int groupingLevel){
 			this.headerRow = headerRow; 
 			this.groupingLevel = groupingLevel;
 		}
 	
 		/* (non-Javadoc)
-		 * @see net.sf.reportengine.config.IGroupColumn#getHeader()
+		 * @see net.sf.reportengine.config.GroupColumn#getHeader()
 		 */
 		public String getHeader() {
 			return "not used";
@@ -342,21 +341,21 @@ class IntermediateCrosstabReport extends AbstractOneStepReport {
 	
 	
 		/* (non-Javadoc)
-		 * @see net.sf.reportengine.config.IGroupColumn#getGroupingLevel()
+		 * @see net.sf.reportengine.config.GroupColumn#getGroupingLevel()
 		 */
 		public int getGroupingLevel() {
 			return groupingLevel;
 		}
 	
 		/* (non-Javadoc)
-		 * @see net.sf.reportengine.config.IGroupColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
+		 * @see net.sf.reportengine.config.GroupColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
 		 */
 		public Object getValue(NewRowEvent newRowEvent) {
 			return headerRow.getValue(newRowEvent);
 		}
 	
 		/* (non-Javadoc)
-		 * @see net.sf.reportengine.config.IGroupColumn#getFormattedValue(java.lang.Object)
+		 * @see net.sf.reportengine.config.GroupColumn#getFormattedValue(java.lang.Object)
 		 */
 		public String getFormattedValue(Object object) {
 			String result = "";

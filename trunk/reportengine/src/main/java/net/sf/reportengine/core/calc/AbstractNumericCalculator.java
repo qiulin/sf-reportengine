@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 
 /**
- * abstract implementation for ICalculator.
+ * abstract implementation for Calculator.
  * You can use this as basis for your own implementations
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
@@ -38,7 +38,7 @@ public abstract class AbstractNumericCalculator extends AbstractCalculator {
     
     
     /* (non-Javadoc)
-     * @see net.sf.reportengine.core.calc.ICalculator#getResult()
+     * @see net.sf.reportengine.core.calc.Calculator#getResult()
      */
     public Object getResult(){
         return value;

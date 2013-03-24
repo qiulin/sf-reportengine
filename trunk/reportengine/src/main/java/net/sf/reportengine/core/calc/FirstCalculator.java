@@ -26,7 +26,7 @@ public class FirstCalculator extends AbstractCalculator {
 	private Object value;
 	
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.calc.ICalculator#compute(java.lang.Object)
+	 * @see net.sf.reportengine.core.calc.Calculator#compute(java.lang.Object)
 	 */
 	public void compute(Object newValue) {
 		//remember only the first value
@@ -36,14 +36,14 @@ public class FirstCalculator extends AbstractCalculator {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.calc.ICalculator#getResult()
+	 * @see net.sf.reportengine.core.calc.Calculator#getResult()
 	 */
 	public Object getResult() {
 		return value;
 	}
 
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.calc.ICalculator#init()
+	 * @see net.sf.reportengine.core.calc.Calculator#init()
 	 */
 	public void init() {
 		value = INIT_VALUE;
@@ -52,7 +52,7 @@ public class FirstCalculator extends AbstractCalculator {
 	/**
      * creates a new instance
      */
-	public ICalculator newInstance() {
+	public Calculator newInstance() {
 		return new FirstCalculator();
 	}
 }
