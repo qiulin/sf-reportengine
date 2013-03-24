@@ -11,7 +11,7 @@ import java.text.Format;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public abstract class AbstractCrosstabHeaderRow implements ICrosstabHeaderRow {
+public abstract class AbstractCrosstabHeaderRow implements CrosstabHeaderRow {
 	
 	/**
 	 * the formatter of the value

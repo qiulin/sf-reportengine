@@ -63,7 +63,7 @@ class AvgCalculator extends SumCalculator {
     /**
      * creates a new instance
      */
-	@Override public ICalculator newInstance() {
+	@Override public Calculator newInstance() {
 		return new AvgCalculator();
 	}
 }

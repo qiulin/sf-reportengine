@@ -4,23 +4,27 @@
  */
 package net.sf.reportengine;
 
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.core.algorithm.IAlgorithm;
-import net.sf.reportengine.core.algorithm.IReportContext;
-import net.sf.reportengine.core.algorithm.OneIterationAlgorithm;
-import net.sf.reportengine.core.steps.AutodetectColumnsInitStep;
+import java.util.List;
+
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.core.ConfigValidationException;
+import net.sf.reportengine.core.algorithm.Algorithm;
+import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.OneLoopAlgorithm;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
-import net.sf.reportengine.core.steps.FlatReportValidationInitStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.ReportUtils;
+
+import org.apache.log4j.Logger;
 
 /**
  * <p>
@@ -44,7 +48,7 @@ import net.sf.reportengine.util.ContextKeys;
  * FlatReport flatReport = new FlatReport();	
  * 
  * //input configuration
- * IReportInput input = new TextInput(new FileInputStream("input.txt"));
+ * ReportInput input = new TextInput(new FileInputStream("input.txt"));
  * flatReport.setIn(input);
  *
  * //output configuration
@@ -62,32 +66,35 @@ import net.sf.reportengine.util.ContextKeys;
  * </pre>
  * </p>
  * 
- * @see IReportInput
+ * @see ReportInput
  * @see IReportOutput
- * @see IDataColumn
- * @see IGroupColumn
+ * @see DataColumn
+ * @see GroupColumn
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class FlatReport extends AbstractOneStepReport {
+public class FlatReport extends AbstractAlgoColumnBasedReport {
     
-    
+	/**
+	 * the one and only logger
+	 */
+	private static final Logger LOGGER = Logger.getLogger(FlatReport.class);
     
     /**
      * default constructor
      */
     public FlatReport(){
-    	super(new OneIterationAlgorithm()); 
+    	super(new OneLoopAlgorithm()); 
     }
     
     
     /**
      * algorithm configuration 
      */
-    @Override protected void configAlgorithmSteps(){
-    	IAlgorithm algorithm = getAlgorithm();
-    	IReportContext context = algorithm.getContext();
+    @Override protected void config(){
+    	Algorithm algorithm = getAlgorithm();
+    	ReportContext context = algorithm.getContext();
     	
     	//preparing the context of the report algorithm 
     	algorithm.setIn(getIn());
@@ -97,14 +104,11 @@ public class FlatReport extends AbstractOneStepReport {
     	context.set(ContextKeys.GROUP_COLUMNS, getGroupColumns());
     	context.set(ContextKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
     	context.set(ContextKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
-    	context.set(ContextKeys.USER_COLUMN_PREFERENCES, getUserColumnPrefs()); 
     	
     	//adding steps to the algorithm :
     	//we start with the init steps
-    	algorithm.addInitStep(new AutodetectColumnsInitStep()); 
-    	algorithm.addInitStep(new FlatReportValidationInitStep()); 
     	algorithm.addInitStep(new FlatReportExtractDataInitStep());
-    	algorithm.addInitStep(new ColumnHeaderOutputInitStep(getReportTitle()));
+    	algorithm.addInitStep(new ColumnHeaderOutputInitStep(getTitle()));
         
     	//then we add the main steps
     	//algorithm.addMainStep(new ComputeColumnValuesStep());
@@ -123,4 +127,22 @@ public class FlatReport extends AbstractOneStepReport {
         	algorithm.addMainStep(new PreviousRowManagerStep());
         }
     }
+
+
+	@Override protected void validate() {
+		
+		//validate non null input and output
+		super.validate(); 
+        
+        List<DataColumn> dataColumns = getDataColumns(); 
+        if(dataColumns == null || dataColumns.size() == 0){
+        	throw new ConfigValidationException("The report needs at least one data column to work properly"); 
+        }
+        
+        //if totals are needed then check if any Calculators have been added to ALL DataColumns
+		if(	(getShowTotals() || getShowGrandTotal()) 
+			&& !ReportUtils.atLeastOneDataColumHasCalculators(dataColumns)){
+			throw new ConfigValidationException("Please configure a Calculator to at least one DataColumn in order to display totals");
+		}
+	}
 }

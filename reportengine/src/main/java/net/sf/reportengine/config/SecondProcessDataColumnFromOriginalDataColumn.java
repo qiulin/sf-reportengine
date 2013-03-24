@@ -4,7 +4,7 @@
 package net.sf.reportengine.config;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalDataColsList;
 
 /**
@@ -15,12 +15,12 @@ import net.sf.reportengine.core.steps.crosstab.IntermOriginalDataColsList;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public class SecondProcessDataColumnFromOriginalDataColumn implements IDataColumn {
+public class SecondProcessDataColumnFromOriginalDataColumn implements DataColumn {
 	
 	/**
 	 * 
 	 */
-	private IDataColumn originalDataColumn;
+	private DataColumn originalDataColumn;
 	
 	/**
 	 * 
@@ -33,7 +33,7 @@ public class SecondProcessDataColumnFromOriginalDataColumn implements IDataColum
 	 * @param origDataColumn
 	 * @param indexInDataColsArray
 	 */
-	public SecondProcessDataColumnFromOriginalDataColumn(	IDataColumn origDataColumn, 
+	public SecondProcessDataColumnFromOriginalDataColumn(	DataColumn origDataColumn, 
 															int indexInDataColsArray){
 		this.originalDataColumn = origDataColumn; 
 		this.indexInOriginalDataColsArray = indexInDataColsArray; 
@@ -57,7 +57,7 @@ public class SecondProcessDataColumnFromOriginalDataColumn implements IDataColum
 		return intermGroupValues.getDataValues().get(indexInOriginalDataColsArray); 
 	}
 
-	public ICalculator getCalculator() {
+	public Calculator getCalculator() {
 		return originalDataColumn.getCalculator();
 	}
 

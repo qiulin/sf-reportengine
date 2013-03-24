@@ -52,7 +52,7 @@ class MaxCalculator extends AbstractNumericCalculator {
     /**
      * creates a new instance
      */
-	public ICalculator newInstance() {
+	public Calculator newInstance() {
 		return new MaxCalculator();
 	}
     

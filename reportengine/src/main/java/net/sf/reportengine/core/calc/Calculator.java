@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public interface ICalculator extends Serializable, Cloneable {
+public interface Calculator extends Serializable, Cloneable {
     
     /**
      * initializer of the totals 
@@ -41,5 +41,5 @@ public interface ICalculator extends Serializable, Cloneable {
      * (this is a variant of the Prototype pattern )
      * @return	a clone of this calculator
      */
-    public ICalculator clone(); 
+    public Calculator clone(); 
 }

@@ -4,15 +4,8 @@
  */
 package net.sf.reportengine;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.in.ColumnPreferences;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.core.ConfigValidationException;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.IReportOutput;
 
 
@@ -32,9 +25,9 @@ import net.sf.reportengine.out.IReportOutput;
  * 
  * When extending this class you should only override 
  * <ul>
- * 	<li>{@link #validateConfig()} - basic input/output functionality already provided so you may consider using super.validateConfig()</li>
- * 	<li>{@link #configAlgorithmSteps()}</li>
- * 	<li>{@link #executeAlgorithm()}</li>
+ * 	<li>{@link #validate()} - basic input/output functionality already provided so you may consider using super.validateConfig()</li>
+ * 	<li>{@link #config()}</li>
+ * 	<li>{@link #execute()}</li>
  * <ul>
  * </p>
  *  
@@ -43,8 +36,7 @@ import net.sf.reportengine.out.IReportOutput;
  * @see FlatReport
  * @see CrossTabReport
  */
-public abstract class AbstractReport {
-    
+abstract class AbstractReport {
 	
     /**
      * the title of the report
@@ -54,13 +46,12 @@ public abstract class AbstractReport {
     /**
      * the input of the report
      */
-    private IReportInput input;
+    private ReportInput input;
     
     /**
      * the output of the report
      */
     private IReportOutput output;
-    
     
     /**
      * whether the report will display totals or not 
@@ -77,34 +68,31 @@ public abstract class AbstractReport {
      */
     private boolean showDataRows = true;
    
-    /**
-     * the data columns
-     */
-    private List<IDataColumn> dataColsAsList; 
-    
-    /**
-     * grouping columns
-     */
-    private List<IGroupColumn> groupColsAsList; 
-    
-    /**
-     * the user column preferences
-     */
-    private Map<String, ColumnPreferences> userColumnPrefs; 
     
     /**
      * this is a constructor for 
      * a single algorithm 
      */
     public AbstractReport(){
-    	dataColsAsList = new ArrayList<IDataColumn>();
-    	groupColsAsList = new ArrayList<IGroupColumn>();
-    	userColumnPrefs = new HashMap<String, ColumnPreferences>(); 
     }
    
     /**
-     * call this method to execute the report after you've configured
-     * your report (with input, output, title, columns etc.)
+     * use this method to configure your report
+     */
+    protected abstract void config();
+    
+    
+    /**
+     * use this method to validate your report
+     */
+    protected void validate(){
+    	if(input == null) throw new ConfigValidationException("The report has no input");
+        if(output == null) throw new ConfigValidationException("The report has no output");
+    }
+    
+    /**
+     * call this method to execute the report after you've validated and configured it. 
+     * Most probably you'll need to call {@link #config()} and {@link #validate()} inside
      */
     public abstract void execute();
     
@@ -112,7 +100,7 @@ public abstract class AbstractReport {
      * getter for the report title
      * @return  reportTitle 
      */
-    public String getReportTitle() {
+    public String getTitle() {
         return reportTitle;
     }
     
@@ -120,7 +108,7 @@ public abstract class AbstractReport {
      * report title setter
      * @param reportTitle   the title of the report
      */
-    public void setReportTitle(String reportTitle) {
+    public void setTitle(String reportTitle) {
         this.reportTitle = reportTitle;
     }
     
@@ -128,7 +116,7 @@ public abstract class AbstractReport {
      * setter method for report input
      * @param in
      */
-    public void setIn(IReportInput in){
+    public void setIn(ReportInput in){
     	this.input = in;
     }
     
@@ -143,7 +131,7 @@ public abstract class AbstractReport {
 	/**
 	 * @return the input
 	 */
-	public IReportInput getIn() {
+	public ReportInput getIn() {
 		return input;
 	}
 
@@ -152,60 +140,6 @@ public abstract class AbstractReport {
 	 */
 	public IReportOutput getOut() {
 		return output;
-	}
-	
-	
-	/**
-	 * getter for data colums of this report
-	 * @return an ordered list of data columns
-	 */
-	public List<IDataColumn> getDataColumns() {
-		return dataColsAsList; 
-	}
-
-	/**
-	 * setter for the list of data columns 
-	 * @param dataColsList
-	 */
-	public void setDataColumns(List<IDataColumn> dataColsList){
-		this.dataColsAsList = dataColsList; 
-	}
-	
-	/**
-	 * adds a data column to the existing list
-	 * @param newColumn
-	 */
-	public void addDataColumn(IDataColumn newColumn){
-		this.dataColsAsList.add(newColumn); 
-	}
-	
-	/**
-	 * getter for the list of group columns
-	 * @return an ordered list of group columns
-	 */
-	public List<IGroupColumn> getGroupColumns() {
-		return groupColsAsList; 
-	}
-	
-	/**
-	 * sets the given columns lists. 
-	 * Please note that you cannot use {@link #setGroupColumns(List)} after {@link #addGroupColumn(IGroupColumn)}
-	 * because it will override the existing columns. 
-	 * 
-	 * @param groupColsList the new list of group columns
-	 */
-	public void setGroupColumns(List<IGroupColumn> groupColsList){
-		this.groupColsAsList = groupColsList;
-	}
-	
-	/**
-	 * adds a new group column to the list of the existing columns. 
-	 * Please note that your column is added at the end of the existing list
-	 * 
-	 * @param newGroupCol the new group column
-	 */
-	public void addGroupColumn(IGroupColumn newGroupCol){
-		this.groupColsAsList.add(newGroupCol); 
 	}
 	
 	 /**
@@ -256,30 +190,5 @@ public abstract class AbstractReport {
      */
     public void setShowGrandTotal(boolean flag){
     	this.showGrandTotal = flag;
-    }
-    
-    
-    
-    
-    /**
-     * creates the column preferences object (if it's the case) and retrieves it
-     * for later use
-     * 
-     * @param columnId
-     * @return
-     */
-    public ColumnPreferences forColumn(String columnId){
-    	if(!userColumnPrefs.containsKey(columnId)){
-    		userColumnPrefs.put(columnId, new ColumnPreferences()); 
-    	}    	
-    	return userColumnPrefs.get(columnId); 
-    }
-    
-    /**
-     * retrieves the map of user column preferences
-     * @return
-     */
-    protected Map<String, ColumnPreferences> getUserColumnPrefs(){
-    	return userColumnPrefs; 
     }
 }

@@ -42,7 +42,7 @@ public class CountCalculator extends AbstractNumericCalculator {
     /**
      * creates a new instance of this object
      */
-	public ICalculator newInstance() {
+	public Calculator newInstance() {
 		return new CountCalculator();
 	}
     
