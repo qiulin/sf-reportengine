@@ -2,8 +2,8 @@ package net.sf.reportengine.core.steps.crosstab;
 
 import java.util.List;
 
-import net.sf.reportengine.config.ICrosstabHeaderRow;
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.DistinctValuesHolder;
@@ -50,14 +50,14 @@ public class CrosstabDistinctValuesDetectorStep extends AbstractCrosstabStep {
 	
 	
 	/**
-     * default implementation for IAlgorithmInitStep.init() method
+     * default implementation for AlgorithmInitStep.init() method
      * which only sets the algorithm context  
      * 
      */
 	@Override
-    public void init(IReportContext algoContext){
+    public void init(ReportContext algoContext){
         super.init(algoContext);
-        List<ICrosstabHeaderRow> headerRows = getCrosstabHeaderRows();
+        List<CrosstabHeaderRow> headerRows = getCrosstabHeaderRows();
         distinctValuesHolder = new DistinctValuesHolder(headerRows);
         
         algoContext.set(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER, distinctValuesHolder);
@@ -66,14 +66,14 @@ public class CrosstabDistinctValuesDetectorStep extends AbstractCrosstabStep {
 	
 	@Override
 	public void execute(NewRowEvent newRowEvent) {
-		List<ICrosstabHeaderRow> headerRows = getCrosstabHeaderRows();
+		List<CrosstabHeaderRow> headerRows = getCrosstabHeaderRows();
 		
 		//first we take care of the distict values that might occur 
 		int indexAfterInsertion = -1; 
 		int[] currDataValueRelativePositionToHeaderValues = new int[headerRows.size()]; 
 		
 		for (int i = 0; i < headerRows.size(); i++) {
-			ICrosstabHeaderRow headerRow = headerRows.get(i);
+			CrosstabHeaderRow headerRow = headerRows.get(i);
 			
 			//add value even if it's not a different value we call this method 
 			//for getting teh idex of the value in the distinct values array

@@ -5,8 +5,8 @@ package net.sf.reportengine.core.steps.crosstab;
 
 import java.util.List;
 
-import net.sf.reportengine.config.ICrosstabData;
-import net.sf.reportengine.config.ICrosstabHeaderRow;
+import net.sf.reportengine.config.CrosstabData;
+import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.DistinctValuesHolder;
@@ -27,8 +27,8 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 	 * 
 	 * @return
 	 */
-//	public IGroupColumn[] getOriginalCrosstabGroupingColumns(){
-//		return (IGroupColumn[])getContext().get(CrossTabReport.CONTEXT_KEY_CROSSTAB_GROUP_COLS);
+//	public GroupColumn[] getOriginalCrosstabGroupingColumns(){
+//		return (GroupColumn[])getContext().get(CrossTabReport.CONTEXT_KEY_CROSSTAB_GROUP_COLS);
 //	}
 	
 	public Integer getOriginalCrosstabGroupingColsLength(){
@@ -39,16 +39,16 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 		return (Integer)getContext().get(ContextKeys.ORIGINAL_CT_DATA_COLS_COUNT); 
 	}
 		
-	public List<ICrosstabHeaderRow> getCrosstabHeaderRows(){
-		return (List<ICrosstabHeaderRow>)getContext().get(ContextKeys.CROSSTAB_HEADER_ROWS); 
+	public List<CrosstabHeaderRow> getCrosstabHeaderRows(){
+		return (List<CrosstabHeaderRow>)getContext().get(ContextKeys.CROSSTAB_HEADER_ROWS); 
 	}
 	 
 	 public int getCrosstabHeaderRowsLength(){
 		 return getCrosstabHeaderRows().size();
 	 }
 		
-	 public ICrosstabData getCrosstabData(){
-		 return (ICrosstabData)getContext().get(ContextKeys.CROSSTAB_DATA); 
+	 public CrosstabData getCrosstabData(){
+		 return (CrosstabData)getContext().get(ContextKeys.CROSSTAB_DATA); 
 	 }
 	 
 //	 public int[] getDataRelativePositionToHeader(){

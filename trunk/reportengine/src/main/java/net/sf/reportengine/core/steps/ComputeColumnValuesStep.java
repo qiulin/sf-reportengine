@@ -2,10 +2,10 @@ package net.sf.reportengine.core.steps;
 
 import java.util.List;
 
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.util.ContextKeys;
@@ -13,8 +13,8 @@ import net.sf.reportengine.util.ContextKeys;
 /**
  * This step is responsible for the following tasks :
  * 
- * 1. caches the cell values (by keeping an array of the values retrieved by IDataColumn.getValue())
- * 2. caches the formatted cell values (also by using an array populated by IDataColumn.formatValue())
+ * 1. caches the cell values (by keeping an array of the values retrieved by DataColumn.getValue())
+ * 2. caches the formatted cell values (also by using an array populated by DataColumn.formatValue())
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
@@ -24,8 +24,8 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 	
 	private int finalReportGroupCount = -1;
 	private int finalReportColumnCount = -1; 
-	private List<IGroupColumn> groupCols = null;
-	private List<IDataColumn> dataColumns = null; 
+	private List<GroupColumn> groupCols = null;
+	private List<DataColumn> dataColumns = null; 
 			
 	/**
 	 * empty constructor
@@ -35,7 +35,7 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 	/**
 	 * this step's init method
 	 */
-	public void init(IReportContext context){
+	public void init(ReportContext context){
 		super.init(context);
 		
 		groupCols = getGroupingColumns();
@@ -62,7 +62,7 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 		Object valueForCurrentColumn = null; 
 		
 		//handle the grouping columns first
-		IGroupColumn currentGrpCol = null; 
+		GroupColumn currentGrpCol = null; 
 		for(int i=0; i<finalReportGroupCount; i++){
 			currentGrpCol = groupCols.get(i);
 			valueForCurrentColumn = currentGrpCol.getValue(newRowEvent);

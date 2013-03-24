@@ -3,19 +3,18 @@
  */
 package net.sf.reportengine.core.steps;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
-import net.sf.reportengine.core.algorithm.IReportContext;
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.in.ColumnMetadata;
 import net.sf.reportengine.in.ColumnPreferences;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.ReportUtils;
 
 import org.apache.log4j.Logger;
 
@@ -25,7 +24,7 @@ import org.apache.log4j.Logger;
  * @author dragos balan
  * @since 0.8
  */
-public class AutodetectColumnsInitStep implements IAlgorithmInitStep {
+public class AutodetectColumnsInitStep implements AlgorithmInitStep {
 	
 	/**
 	 * the one and only logger
@@ -33,74 +32,30 @@ public class AutodetectColumnsInitStep implements IAlgorithmInitStep {
 	private static final Logger LOGGER = Logger.getLogger(AutodetectColumnsInitStep.class);
 	
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IReportContext)
+	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)
 	 */
-	public void init(IReportContext reportContext) {
-		ColumnMetadata[] colMetadata = reportContext.getInput().getColumnMetadata(); 
-		if(colMetadata != null && colMetadata.length > 0){
-			if(LOGGER.isInfoEnabled())LOGGER.info("Autodetecting the columns ..."); 
-			reportContext.getInput().open(); 
-			Map<String, ColumnPreferences> userPreferences = (Map<String, ColumnPreferences>)reportContext.get(ContextKeys.USER_COLUMN_PREFERENCES); 
+	public void init(ReportContext reportContext) {
+		ReportInput input = reportContext.getInput(); 
+		if(input.supportsMetadata()){
+			if(LOGGER.isInfoEnabled())LOGGER.info("Autodetecting the columns based on user preferences and input metadata"); 
+			Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)reportContext.get(ContextKeys.USER_COLUMN_PREFERENCES);
+			ColumnMetadata[] colMetadata = input.getColumnMetadata(); 
 			
-			//prepare the data/group column results
-			List<IDataColumn> resultDataColumn = new ArrayList<IDataColumn>(); 
-			List<IGroupColumn> resultGroupColumn = new ArrayList<IGroupColumn>(); 
-			
-			//walk through column metadata and check if there's any user preferences 
-			for (int colIndex = 0; colIndex < colMetadata.length; colIndex++) {
-				ColumnMetadata columnMetadata = colMetadata[colIndex];
-				
-				if(userPreferences.containsKey(columnMetadata.getColumnId())){
-					ColumnPreferences prefs = userPreferences.get(columnMetadata.getColumnId());
-					if(prefs.isGroup()){
-						resultGroupColumn.add(createGroupColumn(colIndex, 
-																resultGroupColumn.size(), 
-																prefs, 
-																columnMetadata)); 
-					}else{
-						resultDataColumn.add(createDataColumn(	colIndex, 
-																prefs, 
-																columnMetadata)); 
-					}
-				}else{
-					resultDataColumn.add(createDataColumn(colIndex, columnMetadata)); 
-				}
-			}//end for COLUMN_METADATA
+			//construct data columns
+			List<DataColumn> dataColumns = ReportUtils.dataColsFromMetadataAndUserPrefs(colMetadata, colPrefs); 
+			List<GroupColumn> groupColumns = null; 
+			if(dataColumns !=  null && dataColumns.size() < colMetadata.length){
+				//there are group columns. let's detect them
+				groupColumns = ReportUtils.groupColsFromMetadataAndUserPrefs(colMetadata, colPrefs);
+			}//else{
+				//no group column. All configured columns are data columns
+			//}
 			
 			//set the result in context
-			reportContext.set(ContextKeys.DATA_COLUMNS, resultDataColumn);
-			reportContext.set(ContextKeys.GROUP_COLUMNS, resultGroupColumn); 
-		}else{
-			if(LOGGER.isInfoEnabled())LOGGER.info("The input doesn't support metadata. No autodetection of columns could be done."); 
-		}
+			reportContext.set(ContextKeys.DATA_COLUMNS, dataColumns);
+			reportContext.set(ContextKeys.GROUP_COLUMNS, groupColumns); 
+    	}else{
+    		LOGGER.error("non supporting metadata input used inside config of "+this.getClass());
+    	}
 	}
-	
-	private IDataColumn createDataColumn(int columnIndex, ColumnPreferences prefs, ColumnMetadata metadata){
-		DefaultDataColumn result = new DefaultDataColumn(); 
-		result.setHeader(prefs.getHeader() != null ? prefs.getHeader() : metadata.getColumnLabel()); 
-		result.setHorizAlign(prefs.getHorizAlign() != null ? prefs.getHorizAlign() : metadata.getHorizontalAlign()); 
-		result.setInputColumnIndex(columnIndex);
-		return result; 
-	}
-	
-	private IDataColumn createDataColumn(int columnIndex, ColumnMetadata metadata){
-		DefaultDataColumn result = new DefaultDataColumn(); 
-		result.setHeader(metadata.getColumnLabel()); 
-		result.setHorizAlign(metadata.getHorizontalAlign()); 
-		result.setInputColumnIndex(columnIndex); 
-		return result; 
-	}
-	
-	private IGroupColumn createGroupColumn(	int columnIndex, 
-											int groupingLevel, 
-											ColumnPreferences prefs, 
-											ColumnMetadata metadata){
-		DefaultGroupColumn result = new DefaultGroupColumn(); 
-		result.setHeader(prefs.getHeader() != null ? prefs.getHeader() : metadata.getColumnLabel());
-		result.setHorizAlign(prefs.getHorizAlign() != null ? prefs.getHorizAlign() : metadata.getHorizontalAlign()); 
-		result.setInputColumnIndex(columnIndex);
-		result.setGroupingLevel(groupingLevel); 
-		
-		return result; 
-	}	
 }

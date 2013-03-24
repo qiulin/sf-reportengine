@@ -6,14 +6,14 @@ package net.sf.reportengine.core.steps.crosstab;
 import java.util.List;
 
 import net.sf.reportengine.config.HorizontalAlign;
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.SecondProcessDataColumn;
 import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
 import net.sf.reportengine.core.ReportContent;
-import net.sf.reportengine.core.algorithm.IReportContext;
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
+import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.RowProps;
@@ -28,7 +28,7 @@ import org.apache.log4j.Logger;
  * @author dragos balan
  * @since 0.4
  */
-public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
+public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 	
 	/**
 	 * the one and only logger
@@ -36,13 +36,13 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 	private static final Logger logger = Logger.getLogger(CrosstabHeaderOutputInitStep.class);
 	
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)
+	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)
 	 */
-	public void init(IReportContext reportContext) {
+	public void init(ReportContext reportContext) {
 		IReportOutput reportOutput = (IReportOutput)reportContext.getOutput();
-		List<IDataColumn> dataColumns = (List<IDataColumn>)reportContext.get(ContextKeys.DATA_COLUMNS);
-		List<IGroupColumn> groupColumns = (List<IGroupColumn>)reportContext.get(ContextKeys.GROUP_COLUMNS); 
-		//ICrosstabHeaderRow[] headerRows = (ICrosstabHeaderRow[])reportContext.get(ContextKeys.CROSSTAB_HEADER_ROWS); 
+		List<DataColumn> dataColumns = (List<DataColumn>)reportContext.get(ContextKeys.DATA_COLUMNS);
+		List<GroupColumn> groupColumns = (List<GroupColumn>)reportContext.get(ContextKeys.GROUP_COLUMNS); 
+		//CrosstabHeaderRow[] headerRows = (CrosstabHeaderRow[])reportContext.get(ContextKeys.CROSSTAB_HEADER_ROWS); 
 		CtMetadata ctMetadata = (CtMetadata)reportContext.get(ContextKeys.CROSSTAB_METADATA);
 		
 		//display header rows
@@ -58,8 +58,8 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 	 */
 	private void outputHeaderRows(	IReportOutput reportOutput, 
 									CtMetadata ctMetadata, 
-									List<IDataColumn> dataCols, 
-									List<IGroupColumn> groupCols){
+									List<DataColumn> dataCols, 
+									List<GroupColumn> groupCols){
 		//loop through all header rows
 		for (int currHeaderRow = 0; currHeaderRow < ctMetadata.getHeaderRowsCount(); currHeaderRow++) {
 			reportOutput.startRow(new RowProps(ReportContent.COLUMN_HEADER)); 
@@ -74,7 +74,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 			//2. now loop through data columns
 			int currentColumn = 0; 
 			while(currentColumn < dataCols.size()){
-				IDataColumn currentDataColumn = dataCols.get(currentColumn);
+				DataColumn currentDataColumn = dataCols.get(currentColumn);
 				
 				//if this column is a column created during 
 				if(currentDataColumn instanceof SecondProcessDataColumn){
@@ -114,7 +114,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 	 * @param reportOutput
 	 * @param isLastHeaderRow
 	 */
-	private void displayHeaderForGroupingCols(	List<IGroupColumn> groupCols,
+	private void displayHeaderForGroupingCols(	List<GroupColumn> groupCols,
 												IReportOutput reportOutput, 
 												boolean isLastHeaderRow) {
 		//if last header row write the normal column headers
@@ -146,7 +146,7 @@ public class CrosstabHeaderOutputInitStep implements IAlgorithmInitStep {
 	 * @param reportOutput
 	 * @param isLastHeaderRow
 	 */
-	private void displayHeaderForOriginalDataColumn(	IDataColumn currentDataColumn, 
+	private void displayHeaderForOriginalDataColumn(	DataColumn currentDataColumn, 
 														IReportOutput reportOutput,
 														boolean isLastHeaderRow) {
 		//only on the last header row we display the header values for the original data columns

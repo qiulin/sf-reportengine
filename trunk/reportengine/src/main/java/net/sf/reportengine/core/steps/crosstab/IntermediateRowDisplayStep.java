@@ -4,7 +4,7 @@
 package net.sf.reportengine.core.steps.crosstab;
 
 import net.sf.reportengine.core.ReportContent;
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
@@ -25,7 +25,7 @@ public class IntermediateRowDisplayStep extends AbstractCrosstabStep {
 	}
 	
 	
-	public void init(IReportContext context){
+	public void init(ReportContext context){
 		super.init(context);
 		
 	}

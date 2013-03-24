@@ -7,11 +7,11 @@ package net.sf.reportengine.core.steps;
 import java.util.List;
 
 import net.sf.reportengine.config.HorizontalAlign;
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ReportContent;
-import net.sf.reportengine.core.algorithm.IReportContext;
-import net.sf.reportengine.core.algorithm.steps.IAlgorithmInitStep;
+import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.RowProps;
@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
+public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
     
 	/**
 	 * the one and only logger
@@ -56,10 +56,10 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
     /**
      * 
      */
-    public void init(IReportContext reportContext){
+    public void init(ReportContext reportContext){
     	logger.trace("initializing the column header step: output title and column headers");
-    	List<IDataColumn> dataCols = (List<IDataColumn>)reportContext.get(ContextKeys.DATA_COLUMNS);
-    	List<IGroupColumn> groupCols = (List<IGroupColumn>)reportContext.get(ContextKeys.GROUP_COLUMNS); 
+    	List<DataColumn> dataCols = (List<DataColumn>)reportContext.get(ContextKeys.DATA_COLUMNS);
+    	List<GroupColumn> groupCols = (List<GroupColumn>)reportContext.get(ContextKeys.GROUP_COLUMNS); 
     	
     	int outputColumnsCnt = dataCols.size() + (groupCols != null ? groupCols.size() : 0); 
     	
@@ -80,7 +80,7 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
         output.startRow(new RowProps(ReportContent.COLUMN_HEADER));
         CellProps cellProps = null;
         if(groupCols != null){
-	        for (IGroupColumn groupColumn : groupCols) {
+	        for (GroupColumn groupColumn : groupCols) {
 				cellProps = new CellProps.Builder(groupColumn.getHeader())
 										.colspan(1)
 										.contentType(ReportContent.COLUMN_HEADER)
@@ -89,7 +89,7 @@ public class ColumnHeaderOutputInitStep implements IAlgorithmInitStep{
 				output.output(cellProps);
 			}
         }
-        for (IDataColumn dataColumn: dataCols) {
+        for (DataColumn dataColumn: dataCols) {
             cellProps = new CellProps.Builder(dataColumn.getHeader())
             						.colspan(1)
             						.contentType(ReportContent.COLUMN_HEADER)
