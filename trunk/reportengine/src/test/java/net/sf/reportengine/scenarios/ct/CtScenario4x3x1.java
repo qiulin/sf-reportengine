@@ -10,13 +10,13 @@ import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.config.ICrosstabData;
-import net.sf.reportengine.config.ICrosstabHeaderRow;
-import net.sf.reportengine.config.IDataColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.CrosstabData;
+import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.util.IDistinctValuesHolder;
 import net.sf.reportengine.util.MockDistinctValuesHolder;
@@ -58,29 +58,29 @@ public class CtScenario4x3x1 {
 		new Object[]{"Earth", "Asia", "S", "India",	"West",		"M",	"20",	13}, 
     }; 
 	
-	public final static List<IGroupColumn> GROUP_COLUMNS = Arrays.asList( 
-			new IGroupColumn[]{
+	public final static List<GroupColumn> GROUP_COLUMNS = Arrays.asList( 
+			new GroupColumn[]{
 					new DefaultGroupColumn("Planet",  0, 0), 
 					new DefaultGroupColumn("Continent", 1, 1), 
 					new DefaultGroupColumn("Region", 2, 2),
 	});
 	
-	public final static List<IDataColumn> DATA_COLUMNS = Arrays.asList( 
-			new IDataColumn[]{
+	public final static List<DataColumn> DATA_COLUMNS = Arrays.asList( 
+			new DataColumn[]{
 					new DefaultDataColumn("Country", 3)
 	});
 	
-	public final static List<ICrosstabHeaderRow> HEADER_ROWS = Arrays.asList(
-			new ICrosstabHeaderRow[]{
+	public final static List<CrosstabHeaderRow> HEADER_ROWS = Arrays.asList(
+			new CrosstabHeaderRow[]{
 		new DefaultCrosstabHeaderRow(4), 	//Region inside country
 		new DefaultCrosstabHeaderRow(5),	//Sex
 		new DefaultCrosstabHeaderRow(6)		//Age
 	}); 
 	
-	public final static ICrosstabData CROSSTAB_DATA = 
+	public final static CrosstabData CROSSTAB_DATA = 
 		new DefaultCrosstabData(7, Calculators.SUM);
 	
-	public final static IReportInput INPUT = new ArrayReportInput(RAW_INPUT);
+	public final static ReportInput INPUT = new ArrayReportInput(RAW_INPUT);
 	
 	//untested
 	public final static int[] AGG_LEVEL = new int[]{

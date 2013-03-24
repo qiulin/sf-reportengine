@@ -7,7 +7,7 @@ import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedDataList;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedTotalsList;
@@ -41,7 +41,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	}
 	
 	public void testTransfomCrosstabColsInIntermediateColsScenario2x2x1(){
-		List<IGroupColumn> result = new IntermediateCrosstabReport(1,1)
+		List<GroupColumn> result = new IntermediateCrosstabReport(1,1)
 			.transformGroupingCrosstabConfigInFlatReportConfig(	CtScenario2x2x1With1G1D.GROUPING_COLUMNS, 
 																CtScenario2x2x1With1G1D.DATA_COLUMNS, 
 																CtScenario2x2x1With1G1D.HEADER_ROWS);
@@ -56,7 +56,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	}
 	
 	public void testTransfomCrosstabColsInIntermediateColsScenario1x3x1(){
-		List<IGroupColumn> result = new IntermediateCrosstabReport(0,1).transformGroupingCrosstabConfigInFlatReportConfig(
+		List<GroupColumn> result = new IntermediateCrosstabReport(0,1).transformGroupingCrosstabConfigInFlatReportConfig(
 				CtScenario1x3x1.GROUP_COLUMNS, 
 				CtScenario1x3x1.DATA_COLUMNS, 
 				CtScenario1x3x1.HEADER_ROWS);
@@ -72,7 +72,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	}
 	
 	public void testTransfomCrosstabColsInIntermediateColsScenario4x3x1(){
-		List<IGroupColumn> result = new IntermediateCrosstabReport(3,1).transformGroupingCrosstabConfigInFlatReportConfig(
+		List<GroupColumn> result = new IntermediateCrosstabReport(3,1).transformGroupingCrosstabConfigInFlatReportConfig(
 				CtScenario4x3x1.GROUP_COLUMNS, 
 				CtScenario4x3x1.DATA_COLUMNS, 
 				CtScenario4x3x1.HEADER_ROWS);
@@ -101,7 +101,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	
 	
 	public void testTransfomCrosstabColsInIntermediateColsScenario1x1x1(){
-		List<IGroupColumn> result = new IntermediateCrosstabReport(0,1).transformGroupingCrosstabConfigInFlatReportConfig(
+		List<GroupColumn> result = new IntermediateCrosstabReport(0,1).transformGroupingCrosstabConfigInFlatReportConfig(
 				CtScenario1x1x1.GROUP_COLUMNS, 
 				CtScenario1x1x1.DATA_COLUMNS, 
 				CtScenario1x1x1.ROW_HEADERS);

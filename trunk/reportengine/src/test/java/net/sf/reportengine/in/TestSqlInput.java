@@ -98,7 +98,7 @@ public class TestSqlInput extends TestCase {
     		fail("an error should have been thrown by the statement above"); 
     	}catch(Throwable e){
     		assertTrue(e.getCause() instanceof java.sql.SQLException);
-    		assertEquals("Statement does not generate a result set", e.getCause().getMessage()); 
+    		assertEquals("statement does not generate a result set", e.getCause().getMessage()); 
     	}
     }
    
