@@ -6,7 +6,7 @@ package net.sf.reportengine.config;
 import java.text.Format;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.Calculator;
 
 /**
  * <p>This is the basic implementation for a data column.</p> 
@@ -91,7 +91,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 * @param inputColumnIndex
 	 * @param calculatorsFactory
 	 */
-	public DefaultDataColumn(String header, int inputColumnIndex, ICalculator calculator){
+	public DefaultDataColumn(String header, int inputColumnIndex, Calculator calculator){
 		this(header, inputColumnIndex, calculator, null);
 	}
 	
@@ -104,7 +104,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 */
 	public DefaultDataColumn(	String header,
 								int inputColumnIndex, 
-								ICalculator calculator, 
+								Calculator calculator, 
 								Format formatter){
 		this(header, inputColumnIndex, calculator, formatter, HorizontalAlign.CENTER);
 	}
@@ -121,7 +121,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 */
 	public DefaultDataColumn(	String header,
 								int inputColumnIndex, 
-								ICalculator calculator, 
+								Calculator calculator, 
 								Format formatter, 
 								HorizontalAlign horizAlign){
 		
@@ -131,7 +131,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	
 	
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.config.IDataColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
+	 * @see net.sf.reportengine.config.DataColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
 	public Object getValue(NewRowEvent newRowEvent) {
 		return newRowEvent.getInputDataRow()[inputColumnIndex];

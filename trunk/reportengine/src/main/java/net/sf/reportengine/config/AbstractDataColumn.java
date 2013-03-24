@@ -2,16 +2,16 @@ package net.sf.reportengine.config;
 
 import java.text.Format;
 
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.Calculator;
 
 /**
- * Abstract implementation for IDataColumn. 
+ * Abstract implementation for DataColumn. 
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3 
- * @see IDataColumn, DefaultDataColumn
+ * @see DataColumn, DefaultDataColumn
  */
-public abstract class AbstractDataColumn implements IDataColumn {
+public abstract class AbstractDataColumn implements DataColumn {
 	
 	/**
 	 *  the column header
@@ -26,7 +26,7 @@ public abstract class AbstractDataColumn implements IDataColumn {
 	/**
 	 * the calculator of this column
 	 */
-	private ICalculator calculator; 
+	private Calculator calculator; 
 	
 	/**
 	 * the horizontal alignment
@@ -46,7 +46,7 @@ public abstract class AbstractDataColumn implements IDataColumn {
 	 * @param header
 	 * @param calculator
 	 */
-	public AbstractDataColumn(String header, ICalculator calculator){
+	public AbstractDataColumn(String header, Calculator calculator){
 		this(header, calculator, null); 
 	}
 	
@@ -57,7 +57,7 @@ public abstract class AbstractDataColumn implements IDataColumn {
 	 * @param formatter
 	 */
 	public AbstractDataColumn(	String header, 
-								ICalculator calculator, 
+								Calculator calculator, 
 								Format formatter){
 		this(header, calculator, formatter, HorizontalAlign.CENTER);
 	}
@@ -70,7 +70,7 @@ public abstract class AbstractDataColumn implements IDataColumn {
 	 * @param horizAlign
 	 */
 	public AbstractDataColumn(	String header, 
-								ICalculator calculator, 
+								Calculator calculator, 
 								Format formatter, 
 								HorizontalAlign horizAlign){
 		setHeader(header); 
@@ -113,7 +113,7 @@ public abstract class AbstractDataColumn implements IDataColumn {
 	/**
 	 * getter for this column's calculator (if any)
 	 */
-	public ICalculator getCalculator() {
+	public Calculator getCalculator() {
 		return calculator;
 	}
 	
@@ -121,7 +121,7 @@ public abstract class AbstractDataColumn implements IDataColumn {
 	 * 
 	 * @param calculator
 	 */
-	public void setCalculator(ICalculator calculator) {
+	public void setCalculator(Calculator calculator) {
 		this.calculator = calculator;
 	}
 	

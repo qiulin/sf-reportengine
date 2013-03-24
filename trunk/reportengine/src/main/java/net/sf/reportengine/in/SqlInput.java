@@ -138,7 +138,7 @@ public class SqlInput extends AbstractReportInput {
     private void initDBConnection() throws ReportInputException {
         try{
             Class.forName(dbDriverClass);
-            dbConnection = DriverManager.getConnection(dbConnString,dbUser,dbPassword);
+            dbConnection = DriverManager.getConnection(dbConnString, dbUser, dbPassword);
             dbConnection.setAutoCommit(false);
         }catch(ClassNotFoundException exc){
             throw new ReportInputException("The driver class ("+dbDriverClass+") cold not be intantiated !", exc);
@@ -151,8 +151,8 @@ public class SqlInput extends AbstractReportInput {
      * opens the Input in order to start reading from it
      */
     public void open() throws ReportInputException {
-        super.open();
-        readMetaData();
+    	super.open();
+    	readMetaData();
     }
     
     /**
@@ -353,10 +353,16 @@ public class SqlInput extends AbstractReportInput {
             //stmt.close();
             
         } catch (SQLException e) {
+        	closeDbConnection(); 
            throw new ReportInputException("When reading Input data an SQL Error occured - see the cause !", e);
-        } finally{
-        	//closeDbConnection();
-        }
+        } 
+    }
+    
+    /**
+     * returns true which is a signal that sql inputs in general contain metadata
+     */
+    @Override public boolean supportsMetadata(){
+    	return true; 
     }
     
     
@@ -364,7 +370,7 @@ public class SqlInput extends AbstractReportInput {
      * this default implementation returns an empty array because this abstract input 
      * doesn't support column metadata
      */
-    public ColumnMetadata[] getColumnMetadata(){
+    @Override public ColumnMetadata[] getColumnMetadata(){
     	return columnMetadata; 
     }
     

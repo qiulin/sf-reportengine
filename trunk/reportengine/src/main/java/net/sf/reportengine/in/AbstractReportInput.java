@@ -8,13 +8,13 @@ import org.apache.log4j.Logger;
 
 
 /**
- * Minimal implementation for some IReportInput methods.  
+ * Minimal implementation for some ReportInput methods.  
  * Use this class as starter for any other ReportInput implementation. 
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public abstract class AbstractReportInput implements IReportInput {
+public abstract class AbstractReportInput implements ReportInput {
 	
 	/**
 	 * the logger
@@ -66,11 +66,21 @@ public abstract class AbstractReportInput implements IReportInput {
     }
     
     /**
+     * This is the default implementation which returns false. 
+     * By returning false we signal the non-existence of meta data in this report. 
+     * Make sure you overwrite this method if your input contains meta data
+     */
+    public boolean supportsMetadata(){
+    	return false;
+    }
+    
+    
+    /**
      * this default implementation returns an empty array.
      * Don't hesitate to overwrite this method and return a non-empty array if your input
      * has metadata 
      */
     public ColumnMetadata[] getColumnMetadata(){
-    	return new ColumnMetadata[]{}; 
+    	throw new IllegalStateException("A call to getColumnMetadata() method cannot be made if your input doesn't contain meta data"); 
     }
 }

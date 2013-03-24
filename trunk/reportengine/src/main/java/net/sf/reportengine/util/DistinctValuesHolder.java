@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import net.sf.reportengine.config.ICrosstabHeaderRow;
+import net.sf.reportengine.config.CrosstabHeaderRow;
 
 /**
  * holder class for all distinct values found while parsing the header rows  
@@ -39,7 +39,7 @@ public class DistinctValuesHolder implements IDistinctValuesHolder{
 	 * @param headerRows
 	 * @deprecated
 	 */
-	public DistinctValuesHolder(ICrosstabHeaderRow[] headerRows){
+	public DistinctValuesHolder(CrosstabHeaderRow[] headerRows){
 		this(Arrays.asList(headerRows)); 
 	}
 	
@@ -47,7 +47,7 @@ public class DistinctValuesHolder implements IDistinctValuesHolder{
 	 * 
 	 * @param headerRows
 	 */
-	public DistinctValuesHolder(List<ICrosstabHeaderRow> headerRows){
+	public DistinctValuesHolder(List<CrosstabHeaderRow> headerRows){
 		distinctValuesMap = new HashMap<Integer, DistinctValuesRow>(headerRows.size()); 
 		for (int i = 0; i < headerRows.size(); i++) {
 			distinctValuesMap.put(i, new DistinctValuesRow());

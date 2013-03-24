@@ -15,7 +15,7 @@ public class CtMetadata {
 	
 	/**
 	 * this is the number of data columns 
-	 * ( without taking into account the total columns even if the total column is also a IDataColumn)
+	 * ( without taking into account the total columns even if the total column is also a DataColumn)
 	 */
 	private int dataColumnsCount = -1; 
 	

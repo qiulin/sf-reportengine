@@ -12,7 +12,7 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public interface IGroupColumn {
+public interface GroupColumn {
 	
 	/**
 	 * this appears in the final report as the title/header of the column
