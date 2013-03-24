@@ -6,13 +6,13 @@ package net.sf.reportengine.util;
 
 import java.util.List;
 
-import net.sf.reportengine.config.IDataColumn;
+import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.CalculatorException;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.Calculator;
 
 /**
- * this is a wrapper around a matrix of ICalculator which builds itself based on the 
+ * this is a wrapper around a matrix of Calculator which builds itself based on the 
  * prototype calculators passed as arguments in the constructor. The building process
  * is based entirely on cloning
  * 
@@ -27,17 +27,17 @@ public class CalculatorMatrix {
      * matrix of calculators 
      * Each row represents a level 
      */
-    private ICalculator[][] calculators;
+    private Calculator[][] calculators;
     
     /**
      * the calculator prototypes
      */
-    private ICalculator[] calculatorPrototypes;  
+    private Calculator[] calculatorPrototypes;  
     
     /**
      * 
      */
-    private IDataColumn[] dataColumnsHavingCalculators; 
+    private DataColumn[] dataColumnsHavingCalculators; 
     
     /**
      * 
@@ -52,7 +52,7 @@ public class CalculatorMatrix {
      * @param levelCount    defines how many levels (rows) we will have 
      * @param calculatorFactories   a prototype row of calculators
      */
-    public CalculatorMatrix(int rowCount, List<IDataColumn> dataColumns){
+    public CalculatorMatrix(int rowCount, List<DataColumn> dataColumns){
     	extractCalculatorsData(dataColumns);
     	this.calculators = createMultipleRows(rowCount, calculatorPrototypes);
     }
@@ -68,18 +68,18 @@ public class CalculatorMatrix {
      *  
      * @param columns	data columns
      */
-    protected void extractCalculatorsData(List<IDataColumn> columns){
+    protected void extractCalculatorsData(List<DataColumn> columns){
     	
     	//prepare the temporary values 
-    	ICalculator[] tempCalcPrototypes = new ICalculator[columns.size()];
-    	IDataColumn[] tempDataCols = new IDataColumn[columns.size()];
+    	Calculator[] tempCalcPrototypes = new Calculator[columns.size()];
+    	DataColumn[] tempDataCols = new DataColumn[columns.size()];
     	int[] tempColIndex = new int[columns.size()];
     	
     	//prepare also final value for calculatorsDistributionInDataColumnsArray
     	
     	int columnWithCalculatorsCount = 0;
     	for(int i=0; i<columns.size(); i++){
-    		ICalculator calcPrototype = columns.get(i).getCalculator();
+    		Calculator calcPrototype = columns.get(i).getCalculator();
     		if(calcPrototype != null){
     			tempCalcPrototypes[columnWithCalculatorsCount] = calcPrototype;
     			tempDataCols[columnWithCalculatorsCount] = columns.get(i);
@@ -89,8 +89,8 @@ public class CalculatorMatrix {
     	}
     	
     	//prepare the results    	
-    	calculatorPrototypes = new ICalculator[columnWithCalculatorsCount];
-    	dataColumnsHavingCalculators = new IDataColumn[columnWithCalculatorsCount];
+    	calculatorPrototypes = new Calculator[columnWithCalculatorsCount];
+    	dataColumnsHavingCalculators = new DataColumn[columnWithCalculatorsCount];
     	indexOfColumnsHavingCalculators = new int[columnWithCalculatorsCount];
     	
     	//copy the temporary values to final destination
@@ -107,12 +107,12 @@ public class CalculatorMatrix {
      * @param calcFactories
      * @return
      */
-    private ICalculator[][] createMultipleRows(int rowCount, ICalculator[] calcPrototypes ){
-        ICalculator[][] result = new ICalculator[rowCount][calcPrototypes.length];
+    private Calculator[][] createMultipleRows(int rowCount, Calculator[] calcPrototypes ){
+        Calculator[][] result = new Calculator[rowCount][calcPrototypes.length];
     	for(int i=0; i< rowCount; i++){
-    		result[i] = new ICalculator[calcPrototypes.length];
+    		result[i] = new Calculator[calcPrototypes.length];
     		for (int j = 0; j < calcPrototypes.length; j++) {
-    			result[i][j] = (ICalculator)calcPrototypes[j].clone();
+    			result[i][j] = (Calculator)calcPrototypes[j].clone();
     		}
     	}
         return result;
@@ -177,7 +177,7 @@ public class CalculatorMatrix {
      * @param row
      * @return
      */
-    public ICalculator[] getRow(int row){
+    public Calculator[] getRow(int row){
         return calculators[row];
     }
     
@@ -186,7 +186,7 @@ public class CalculatorMatrix {
      * gets the ICalculators matrix used by this helper class
      * @return
      */
-    public ICalculator[][] getCalculators(){
+    public Calculator[][] getCalculators(){
         return calculators;
     }
     
@@ -196,7 +196,7 @@ public class CalculatorMatrix {
      * @param level
      */
     public void initRow(int row){
-        ICalculator[] calcs = getRow(row);
+        Calculator[] calcs = getRow(row);
         for (int i = 0; i < calcs.length; i++) {
             calcs[i].init();
         }
@@ -229,7 +229,7 @@ public class CalculatorMatrix {
     public Object[][] exportResults(){
     	Object[][] results = new Object[calculators.length][];
     	for(int i=0; i<calculators.length; i++){
-    		ICalculator[] row = calculators[i];
+    		Calculator[] row = calculators[i];
     		results[i] = new Object[row.length];
     		for(int j=0; j<row.length; j++){
     			results[i][j] = row[j].getResult();
@@ -241,21 +241,21 @@ public class CalculatorMatrix {
 
 
 
-	public ICalculator[] getCalculatorPrototypes() {
+	public Calculator[] getCalculatorPrototypes() {
 		return calculatorPrototypes;
 	}
 
 
 
 
-	public void setCalculatorPrototypes(ICalculator[] calcPrototypes) {
+	public void setCalculatorPrototypes(Calculator[] calcPrototypes) {
 		this.calculatorPrototypes = calcPrototypes;
 	}
 
 
 
 
-	public IDataColumn[] getDataColumnsHavingCalculators() {
+	public DataColumn[] getDataColumnsHavingCalculators() {
 		return dataColumnsHavingCalculators;
 	}
 
@@ -263,7 +263,7 @@ public class CalculatorMatrix {
 
 
 	public void setDataColumnsHavingCalculators(
-			IDataColumn[] dataColumnsHavingCalculators) {
+			DataColumn[] dataColumnsHavingCalculators) {
 		this.dataColumnsHavingCalculators = dataColumnsHavingCalculators;
 	}
 

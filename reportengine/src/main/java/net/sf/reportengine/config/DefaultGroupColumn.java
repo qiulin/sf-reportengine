@@ -109,7 +109,7 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 	
 
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.config.IGroupColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
+	 * @see net.sf.reportengine.config.GroupColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
 	public Object getValue(NewRowEvent newRowEvent) {
 		return newRowEvent.getInputDataRow()[inputColumnIndex];

@@ -8,7 +8,7 @@ import java.text.Format;
 import java.util.Arrays;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedTotalsList;
 
 /**
@@ -31,7 +31,7 @@ public class SecondProcessTotalColumn extends AbstractDataColumn {
 	 * @param formatter
 	 */
 	public SecondProcessTotalColumn(int[] positionRelativeToHeader, 
-									ICalculator calc,
+									Calculator calc,
 									Format formatter, 
 									String debugHeader) {
 		super(debugHeader +" "+Arrays.toString(positionRelativeToHeader), calc, formatter);
@@ -39,7 +39,7 @@ public class SecondProcessTotalColumn extends AbstractDataColumn {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.config.IDataColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
+	 * @see net.sf.reportengine.config.DataColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
 	public Object getValue(NewRowEvent newRowEvent) {
 		//according to the contract the forth object in each row array is an 

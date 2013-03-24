@@ -3,7 +3,7 @@ package net.sf.reportengine.in;
 import java.text.Format;
 
 import net.sf.reportengine.config.HorizontalAlign;
-import net.sf.reportengine.core.calc.ICalculator;
+import net.sf.reportengine.core.calc.Calculator;
 
 /**
  * column preferences
@@ -36,7 +36,7 @@ public class ColumnPreferences {
 	/**
 	 * the calculator
 	 */
-	private ICalculator calculator = null; 
+	private Calculator calculator = null; 
 	
 	
 	/**
@@ -96,13 +96,13 @@ public class ColumnPreferences {
 	/**
 	 * @return the calculator
 	 */
-	public ICalculator getCalculator() {
+	public Calculator getCalculator() {
 		return calculator;
 	}
 	/**
 	 * @param calculator the calculator to set
 	 */
-	public ColumnPreferences calculator(ICalculator calculator) {
+	public ColumnPreferences calculator(Calculator calculator) {
 		this.calculator = calculator;
 		return this; 
 	} 

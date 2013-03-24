@@ -11,7 +11,7 @@ import java.text.Format;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public abstract class AbstractGroupColumn implements IGroupColumn {
+public abstract class AbstractGroupColumn implements GroupColumn {
 	
 	private int groupingLevel; 
 	private String header; 
@@ -39,7 +39,7 @@ public abstract class AbstractGroupColumn implements IGroupColumn {
 	}
 	
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.config.IGroupColumn#getGroupingLevel()
+	 * @see net.sf.reportengine.config.GroupColumn#getGroupingLevel()
 	 */
 	public int getGroupingLevel() {
 		return groupingLevel;

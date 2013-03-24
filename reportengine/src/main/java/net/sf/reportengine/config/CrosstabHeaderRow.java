@@ -10,7 +10,7 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
  * @author dragos balan (dragos dot balan at gmail dot com)
  *
  */
-public interface ICrosstabHeaderRow {
+public interface CrosstabHeaderRow {
 	
 	
 	
