@@ -44,13 +44,13 @@ public final class ReportUtils {
      * @param userPrefs
      * @return
      */
-    public static List<DataColumn> dataColsFromMetadataAndUserPrefs(	ColumnMetadata[] colMetadata,
+    public static List<DataColumn> dataColsFromMetadataAndUserPrefs(	List<ColumnMetadata> colMetadataList,
     																	Map<String, ColumnPreferences> userPrefs){
     	List<DataColumn> resultDataColumns = new ArrayList<DataColumn>(); 
     	
     	//walk through column metadata and check if there's any user preferences 
-		for (int colIndex = 0; colIndex < colMetadata.length; colIndex++) {
-			ColumnMetadata columnMetadata = colMetadata[colIndex];
+		for (int colIndex = 0; colIndex < colMetadataList.size(); colIndex++) {
+			ColumnMetadata columnMetadata = colMetadataList.get(colIndex);
 			
 			if(userPrefs.containsKey(columnMetadata.getColumnId())){
 				ColumnPreferences prefs = userPrefs.get(columnMetadata.getColumnId());
@@ -74,13 +74,13 @@ public final class ReportUtils {
      * @param userPrefs
      * @return
      */
-    public static List<GroupColumn> groupColsFromMetadataAndUserPrefs(ColumnMetadata[] colMetadata, 
+    public static List<GroupColumn> groupColsFromMetadataAndUserPrefs(List<ColumnMetadata> colMetadataList, 
     																Map<String, ColumnPreferences> userPrefs){
     	List<GroupColumn> result = new ArrayList<GroupColumn>(); 
     	
     	//walk through column metadata and check if there's any user preferences 
-		for (int colIndex = 0; colIndex < colMetadata.length; colIndex++) {
-			ColumnMetadata columnMetadata = colMetadata[colIndex];
+		for (int colIndex = 0; colIndex < colMetadataList.size(); colIndex++) {
+			ColumnMetadata columnMetadata = colMetadataList.get(colIndex);
 			
 			if(userPrefs.containsKey(columnMetadata.getColumnId())){
 				ColumnPreferences prefs = userPrefs.get(columnMetadata.getColumnId());

@@ -4,13 +4,28 @@
  */
 package net.sf.reportengine.in;
 
+import static java.sql.Types.BIGINT;
+import static java.sql.Types.DECIMAL;
+import static java.sql.Types.DOUBLE;
+import static java.sql.Types.FLOAT;
+import static java.sql.Types.INTEGER;
+import static java.sql.Types.LONGNVARCHAR;
+import static java.sql.Types.NCHAR;
+import static java.sql.Types.NUMERIC;
+import static java.sql.Types.NVARCHAR;
+import static java.sql.Types.REAL;
+import static java.sql.Types.SMALLINT;
+import static java.sql.Types.TINYINT;
+import static java.sql.Types.VARCHAR;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import static java.sql.Types.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sf.reportengine.config.HorizontalAlign;
 
@@ -91,7 +106,7 @@ public class SqlInput extends AbstractReportInput {
     /**
      * the columns metadata
      */
-    private ColumnMetadata[] columnMetadata; 
+    private List<ColumnMetadata> columnMetadata; 
     
     /**
      * Empty constructor for query data provider. Just using this simple constructor it's not enough <br/>
@@ -99,9 +114,7 @@ public class SqlInput extends AbstractReportInput {
      * You have to add some more properties like dbUser, dbPassword, sqlStatement or you can 
      * provide your own connection and use the <source>QueryDataProvider(Connection conn)</source>
      */
-    public SqlInput(){
-        
-    }
+    public SqlInput(){}
     
     /**
      * Use this constructor if you have a connection pooling system and you want to provide your own connection.
@@ -332,13 +345,14 @@ public class SqlInput extends AbstractReportInput {
             metaData = resultSet.getMetaData();
             columnsCount = metaData.getColumnCount();
 
-            columnMetadata = new ColumnMetadata[columnsCount];
+            columnMetadata = new ArrayList<ColumnMetadata>(columnsCount);
             //looping through columns to get their type
             for(int i=0; i < columnsCount; i++){
-            	columnMetadata[i] = new ColumnMetadata(); 
-            	columnMetadata[i].setColumnLabel(metaData.getColumnLabel(i+1));
-            	columnMetadata[i].setHorizontalAlign(getAlignmentFromColumnType(metaData.getColumnType(i+1)));
-            	columnMetadata[i].setColumnId(metaData.getColumnName(i+1)); 
+            	ColumnMetadata temp = new ColumnMetadata(); 
+            	temp.setColumnLabel(metaData.getColumnLabel(i+1));
+            	temp.setHorizontalAlign(getAlignmentFromColumnType(metaData.getColumnType(i+1)));
+            	temp.setColumnId(metaData.getColumnName(i+1)); 
+            	columnMetadata.add(temp); 
             }
                                     
             hasMoreRows = resultSet.first();
@@ -370,7 +384,7 @@ public class SqlInput extends AbstractReportInput {
      * this default implementation returns an empty array because this abstract input 
      * doesn't support column metadata
      */
-    @Override public ColumnMetadata[] getColumnMetadata(){
+    @Override public List<ColumnMetadata> getColumnMetadata(){
     	return columnMetadata; 
     }
     

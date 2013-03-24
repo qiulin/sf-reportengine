@@ -42,11 +42,11 @@ public class TestReportUtils extends TestCase {
 		//prepare first test: AS MANY USER PREFS AS METADATA COLS
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
-		column1Prefs.group(false).header("Header Data Col 1").align(HorizontalAlign.LEFT); 
+		column1Prefs.setGroup(false).setHeader("Header Data Col 1").setHAlign(HorizontalAlign.LEFT); 
 		userPrefs.put("col1", column1Prefs); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
-		column2Prefs.group(false).header("Header Data Col 2").align(HorizontalAlign.RIGHT); 
+		column2Prefs.setGroup(false).setHeader("Header Data Col 2").setHAlign(HorizontalAlign.RIGHT); 
 		userPrefs.put("col2", column2Prefs);
 		
 		//the method to test
@@ -63,11 +63,11 @@ public class TestReportUtils extends TestCase {
 		//prepare second test: MORE USER PREFERENCES THAN METADATA
 		userPrefs = new HashMap<String, ColumnPreferences>(); 
 		column1Prefs = new ColumnPreferences(); 
-		column1Prefs.group(false).header("Header Data Col 1").align(HorizontalAlign.LEFT); 
+		column1Prefs.setGroup(false).setHeader("Header Data Col 1").setHAlign(HorizontalAlign.LEFT); 
 		userPrefs.put("col1", column1Prefs); 
 		
 		column2Prefs = new ColumnPreferences(); 
-		column2Prefs.group(false).header("Header Data Col 2").align(HorizontalAlign.RIGHT); 
+		column2Prefs.setGroup(false).setHeader("Header Data Col 2").setHAlign(HorizontalAlign.RIGHT); 
 		userPrefs.put("col3", column2Prefs);//NOT TAKEN INTO ACCCOUNT BECAUSE THERE is no metadata with id col3
 		
 		//test the result
@@ -82,7 +82,7 @@ public class TestReportUtils extends TestCase {
 		
 		//prepare the third test: less preferences than metadata
 		column1Prefs = new ColumnPreferences(); 
-		column1Prefs.group(false).header("Second Column Prefs").align(HorizontalAlign.LEFT); 
+		column1Prefs.setGroup(false).setHeader("Second Column Prefs").setHAlign(HorizontalAlign.LEFT); 
 		
 		userPrefs = new HashMap<String, ColumnPreferences>(); 
 		userPrefs.put("col2", column1Prefs); 
@@ -103,11 +103,11 @@ public class TestReportUtils extends TestCase {
 		//prepare first test: AS MANY USER PREFS AS METADATA COLS
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
-		column1Prefs.group(false).header("Header Data Col 1").align(HorizontalAlign.LEFT); 
+		column1Prefs.setGroup(false).setHeader("Header Data Col 1").setHAlign(HorizontalAlign.LEFT); 
 		userPrefs.put("col1", column1Prefs); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
-		column2Prefs.group(false).header("Header Data Col 2").align(HorizontalAlign.RIGHT); 
+		column2Prefs.setGroup(false).setHeader("Header Data Col 2").setHAlign(HorizontalAlign.RIGHT); 
 		userPrefs.put("col2", column2Prefs);
 		
 		//the method to test
@@ -122,11 +122,11 @@ public class TestReportUtils extends TestCase {
 		//prepare second test: MORE USER PREFERENCES THAN METADATA
 		userPrefs = new HashMap<String, ColumnPreferences>(); 
 		column1Prefs = new ColumnPreferences(); 
-		column1Prefs.group(false).header("Header Data Col 1").align(HorizontalAlign.LEFT); 
+		column1Prefs.setGroup(false).setHeader("Header Data Col 1").setHAlign(HorizontalAlign.LEFT); 
 		userPrefs.put("col1", column1Prefs); 
 		
 		column2Prefs = new ColumnPreferences(); 
-		column2Prefs.group(false).header("Header Data Col 2").align(HorizontalAlign.RIGHT); 
+		column2Prefs.setGroup(false).setHeader("Header Data Col 2").setHAlign(HorizontalAlign.RIGHT); 
 		userPrefs.put("col3", column2Prefs);//NOT TAKEN INTO ACCCOUNT BECAUSE THERE is no metadata with id col3
 		
 		//test the result
@@ -140,7 +140,7 @@ public class TestReportUtils extends TestCase {
 		
 		//prepare the third test: less preferences than metadata
 		column1Prefs = new ColumnPreferences(); 
-		column1Prefs.group(false).header("Second Column Prefs").align(HorizontalAlign.LEFT); 
+		column1Prefs.setGroup(false).setHeader("Second Column Prefs").setHAlign(HorizontalAlign.LEFT); 
 		
 		userPrefs = new HashMap<String, ColumnPreferences>(); 
 		userPrefs.put("col2", column1Prefs); 

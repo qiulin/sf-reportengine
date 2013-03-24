@@ -4,6 +4,10 @@
 package net.sf.reportengine.scenarios;
 
 import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
+
 import net.sf.reportengine.config.HorizontalAlign;
 import net.sf.reportengine.in.ColumnMetadata;
 import net.sf.reportengine.in.ReportInput;
@@ -16,18 +20,18 @@ import org.mockito.Mockito;
  */
 public class AutodetectConfigurationScenario {
 	
-	public static ColumnMetadata[] COLUMN_METADATA = new ColumnMetadata[]{new ColumnMetadata(), new ColumnMetadata()};
+	public static List<ColumnMetadata> COLUMN_METADATA = Arrays.asList(new ColumnMetadata(), new ColumnMetadata());
 	
 	public static ReportInput INPUT = Mockito.mock(ReportInput.class); 
 	
 	public static void initScenario(){
-		COLUMN_METADATA[0].setColumnId("col1"); 
-		COLUMN_METADATA[0].setColumnLabel("col1label"); 
-		COLUMN_METADATA[0].setHorizontalAlign(HorizontalAlign.CENTER);
+		COLUMN_METADATA.get(0).setColumnId("col1"); 
+		COLUMN_METADATA.get(0).setColumnLabel("col1label"); 
+		COLUMN_METADATA.get(0).setHorizontalAlign(HorizontalAlign.CENTER);
 		
-		COLUMN_METADATA[1].setColumnId("col2"); 
-		COLUMN_METADATA[1].setColumnLabel("col2label"); 
-		COLUMN_METADATA[1].setHorizontalAlign(HorizontalAlign.LEFT);
+		COLUMN_METADATA.get(1).setColumnId("col2"); 
+		COLUMN_METADATA.get(1).setColumnLabel("col2label"); 
+		COLUMN_METADATA.get(1).setHorizontalAlign(HorizontalAlign.LEFT);
 		
 		when(INPUT.supportsMetadata()).thenReturn(true); 
 		when(INPUT.getColumnMetadata()).thenReturn(COLUMN_METADATA);

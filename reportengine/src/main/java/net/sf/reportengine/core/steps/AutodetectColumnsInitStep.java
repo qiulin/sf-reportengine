@@ -39,12 +39,12 @@ public class AutodetectColumnsInitStep implements AlgorithmInitStep {
 		if(input.supportsMetadata()){
 			if(LOGGER.isInfoEnabled())LOGGER.info("Autodetecting the columns based on user preferences and input metadata"); 
 			Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)reportContext.get(ContextKeys.USER_COLUMN_PREFERENCES);
-			ColumnMetadata[] colMetadata = input.getColumnMetadata(); 
+			List<ColumnMetadata> colMetadata = input.getColumnMetadata(); 
 			
 			//construct data columns
 			List<DataColumn> dataColumns = ReportUtils.dataColsFromMetadataAndUserPrefs(colMetadata, colPrefs); 
 			List<GroupColumn> groupColumns = null; 
-			if(dataColumns !=  null && dataColumns.size() < colMetadata.length){
+			if(dataColumns !=  null && dataColumns.size() < colMetadata.size()){
 				//there are group columns. let's detect them
 				groupColumns = ReportUtils.groupColsFromMetadataAndUserPrefs(colMetadata, colPrefs);
 			}//else{
