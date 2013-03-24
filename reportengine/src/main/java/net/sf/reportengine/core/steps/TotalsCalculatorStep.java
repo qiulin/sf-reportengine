@@ -5,7 +5,7 @@
 package net.sf.reportengine.core.steps;
 
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.util.CalculatorMatrix;
 import net.sf.reportengine.util.ContextKeys;
@@ -48,10 +48,10 @@ public class TotalsCalculatorStep extends AbstractReportStep{
     /**
      * init
      */
-    public void init(IReportContext reportContext){
+    public void init(ReportContext reportContext){
         super.init(reportContext);
         
-        //ICalculator[] prototypesCalc = extractCalculators(getDataColumns());
+        //Calculator[] prototypesCalc = extractCalculators(getDataColumns());
         
         groupColsCnt = getGroupingColumns() != null ? getGroupingColumns().size() : 0;
         

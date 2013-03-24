@@ -6,9 +6,9 @@ package net.sf.reportengine.core.steps;
 import java.util.Arrays;
 import java.util.List;
 
-import net.sf.reportengine.config.IGroupColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.IReportContext;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.util.ContextKeys;
 
@@ -38,7 +38,7 @@ public class PreviousRowManagerStep extends AbstractReportStep {
     /**
      * 
      */
-	public void init(IReportContext reportContext){
+	public void init(ReportContext reportContext){
 		super.init(reportContext);
 		
 		
@@ -72,7 +72,7 @@ public class PreviousRowManagerStep extends AbstractReportStep {
 	 * @param groupingCols
 	 * @param newRowEvent
 	 */
-	private void copyGroupingValuesToLastRowOfGroupingColumnValues(List<IGroupColumn> groupingCols, NewRowEvent newRowEvent){
+	private void copyGroupingValuesToLastRowOfGroupingColumnValues(List<GroupColumn> groupingCols, NewRowEvent newRowEvent){
     	for (int i = 0; i < groupingCols.size(); i++) {
     		previousRowOfGroupingColumnValues[i] = groupingCols.get(i).getValue(newRowEvent);
     	}    	
