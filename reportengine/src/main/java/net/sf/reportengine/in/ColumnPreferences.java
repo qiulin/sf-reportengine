@@ -2,7 +2,7 @@ package net.sf.reportengine.in;
 
 import java.text.Format;
 
-import net.sf.reportengine.config.HorizontalAlign;
+import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.calc.Calculator;
 
 /**
@@ -26,7 +26,7 @@ public class ColumnPreferences {
 	/**
 	 * horizontal alignment
 	 */
-	private HorizontalAlign horizAlign = null;
+	private HorizAlign horizAlign = null;
 	
 	/**
 	 * the formatter of the column
@@ -70,13 +70,13 @@ public class ColumnPreferences {
 	/**
 	 * @return the horizAlign
 	 */
-	public HorizontalAlign getHorizAlign() {
+	public HorizAlign getHorizAlign() {
 		return horizAlign;
 	}
 	/**
 	 * @param horizAlign the horizAlign to set
 	 */
-	public ColumnPreferences setHAlign(HorizontalAlign horizAlign) {
+	public ColumnPreferences setHAlign(HorizAlign horizAlign) {
 		this.horizAlign = horizAlign;
 		return this; 
 	}

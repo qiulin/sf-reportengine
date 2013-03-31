@@ -6,7 +6,7 @@ package net.sf.reportengine.in;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.reportengine.config.HorizontalAlign;
+import net.sf.reportengine.config.HorizAlign;
 
 
 /**
@@ -79,7 +79,7 @@ public class ArrayReportInput extends AbstractReportInput {
 				ColumnMetadata metadata = new ColumnMetadata();
 				metadata.setColumnId(""+i);
 				metadata.setColumnLabel(""+i);
-				metadata.setHorizontalAlign(HorizontalAlign.CENTER);//TODO: infer horizontal align from object's class
+				metadata.setHorizontalAlign(HorizAlign.CENTER);//TODO: infer horizontal align from object's class
 			}
 		}
 		

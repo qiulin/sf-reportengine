@@ -38,6 +38,6 @@ public interface CrosstabData {
 	 * 
 	 * @return
 	 */
-	public HorizontalAlign getHorizAlign(); 
+	public HorizAlign getHorizAlign(); 
 	
 }

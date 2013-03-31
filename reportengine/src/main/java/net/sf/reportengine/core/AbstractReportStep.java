@@ -138,9 +138,9 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     	if(GRAND_TOTAL_GROUPING_LEVEL == groupingLevel){
     		result = FlatReportTotalsOutputStep.GRAND_TOTAL_STRING;
     	}else{
-    		Object[] prevDataRow = getPreviousRowOfGroupingValues(); 
-        	if(prevDataRow != null){
-        		String prevValueForGropingLevel = prevDataRow[groupingLevel].toString();
+    		Object[] prevGroupValuesRow = getPreviousRowOfGroupingValues(); 
+        	if(prevGroupValuesRow != null){
+        		String prevValueForGropingLevel = prevGroupValuesRow[groupingLevel].toString();
         		result = FlatReportTotalsOutputStep.TOTAL_STRING + " " + prevValueForGropingLevel;
         	}else{
         		throw new IllegalArgumentException("Cannot determine the previous grouping values. Previous group values array is null"); 

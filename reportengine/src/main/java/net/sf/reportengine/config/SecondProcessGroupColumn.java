@@ -50,7 +50,7 @@ public class SecondProcessGroupColumn implements GroupColumn {
 	}
 
 
-	public HorizontalAlign getHorizAlign() {
+	public HorizAlign getHorizAlign() {
 		return originalGroupColumn.getHorizAlign(); 
 	}
 	

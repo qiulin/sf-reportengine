@@ -9,7 +9,7 @@ package net.sf.reportengine.config;
  * @author dragos balan
  * @since 0.6
  */
-public enum HorizontalAlign {
+public enum HorizAlign {
 	LEFT, 
 	CENTER, 
 	RIGHT; 

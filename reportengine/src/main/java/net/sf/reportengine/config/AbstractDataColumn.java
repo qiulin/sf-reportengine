@@ -31,7 +31,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	/**
 	 * the horizontal alignment
 	 */
-	private HorizontalAlign horizAlign; 
+	private HorizAlign horizAlign; 
 	
 	/**
 	 * 
@@ -59,7 +59,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	public AbstractDataColumn(	String header, 
 								Calculator calculator, 
 								Format formatter){
-		this(header, calculator, formatter, HorizontalAlign.CENTER);
+		this(header, calculator, formatter, HorizAlign.CENTER);
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	public AbstractDataColumn(	String header, 
 								Calculator calculator, 
 								Format formatter, 
-								HorizontalAlign horizAlign){
+								HorizAlign horizAlign){
 		setHeader(header); 
 		setFormatter(formatter); 
 		setCalculator(calculator); 
@@ -148,14 +148,14 @@ public abstract class AbstractDataColumn implements DataColumn {
 	/**
 	 * @return the horizAlign
 	 */
-	public HorizontalAlign getHorizAlign() {
+	public HorizAlign getHorizAlign() {
 		return horizAlign;
 	}
 
 	/**
 	 * @param horizAlign the horizAlign to set
 	 */
-	public void setHorizAlign(HorizontalAlign horizAlign) {
+	public void setHorizAlign(HorizAlign horizAlign) {
 		this.horizAlign = horizAlign;
 	}
 }

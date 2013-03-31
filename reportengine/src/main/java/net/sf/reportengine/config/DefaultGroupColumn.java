@@ -68,7 +68,7 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 								int inputColumnIndex, 
 								int groupingLevel, 
 								Format formatter){
-		this(header, inputColumnIndex, groupingLevel, formatter, HorizontalAlign.CENTER); 
+		this(header, inputColumnIndex, groupingLevel, formatter, HorizAlign.CENTER); 
 	}
 	
 	
@@ -84,7 +84,7 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 								int inputColumnIndex, 
 								int groupingLevel, 
 								Format formatter, 
-								HorizontalAlign horizAlign){
+								HorizAlign horizAlign){
 		this(header, inputColumnIndex, groupingLevel, formatter, horizAlign, false); 
 	}
 	
@@ -101,7 +101,7 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 								int inputColumnIndex, 
 								int groupingLevel, 
 								Format formatter, 
-								HorizontalAlign horizAlign, 
+								HorizAlign horizAlign, 
 								boolean showDuplicates){
 		super(header, groupingLevel, formatter, horizAlign, showDuplicates);
 		setInputColumnIndex(inputColumnIndex);
@@ -122,5 +122,16 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 	public void setInputColumnIndex(int inputColumnIndex) {
 		this.inputColumnIndex = inputColumnIndex;
 	}
-
+	
+	public String toString(){
+		StringBuilder result = new StringBuilder("DefaultGroupColumn[");
+		result.append("inputIdx=").append(inputColumnIndex);
+		result.append(", groupLevel=").append(getGroupingLevel());
+		result.append(", header=").append(getHeader());
+		result.append(", hAlign=").append(getHorizAlign());
+		result.append(", formatter=").append(getFormatter());
+		result.append("]");
+		return result.toString(); 
+	}
+	
 }

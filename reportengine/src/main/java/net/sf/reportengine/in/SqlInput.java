@@ -27,7 +27,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.reportengine.config.HorizontalAlign;
+import net.sf.reportengine.config.HorizAlign;
 
 import org.apache.log4j.Logger;
 /**
@@ -393,17 +393,17 @@ public class SqlInput extends AbstractReportInput {
      * @param colType
      * @return
      */
-    private HorizontalAlign getAlignmentFromColumnType(int colType){
-    	HorizontalAlign result = null; 
+    private HorizAlign getAlignmentFromColumnType(int colType){
+    	HorizAlign result = null; 
     	if(	colType == INTEGER || colType == BIGINT || colType == DECIMAL || colType == DOUBLE 
     		|| colType == NUMERIC || colType == FLOAT ||  colType == REAL
     		|| colType == SMALLINT || colType == TINYINT){
-    		result = HorizontalAlign.RIGHT; 
+    		result = HorizAlign.RIGHT; 
     	}else{
     		if(colType == LONGNVARCHAR || colType == NCHAR || colType == NVARCHAR || colType == VARCHAR){
-    			result = HorizontalAlign.LEFT; 
+    			result = HorizAlign.LEFT; 
     		}else{
-    			result = HorizontalAlign.CENTER; 
+    			result = HorizAlign.CENTER; 
     		}
     	}
     	

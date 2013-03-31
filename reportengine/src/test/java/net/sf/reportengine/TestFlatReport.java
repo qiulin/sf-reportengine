@@ -3,7 +3,7 @@ package net.sf.reportengine;
 import java.io.InputStream;
 
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.HorizontalAlign;
+import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.CellPropsArrayOutput;

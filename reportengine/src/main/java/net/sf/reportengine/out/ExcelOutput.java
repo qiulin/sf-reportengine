@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 
-import net.sf.reportengine.config.HorizontalAlign;
+import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.ReportContent;
 
 import org.apache.log4j.Logger;
@@ -217,9 +217,9 @@ public class ExcelOutput extends AbstractByteOutput {
         this.sheetName = name;
     }
     
-    private short translateHorizAlign(HorizontalAlign horizAlign){
-        return HorizontalAlign.CENTER.equals(horizAlign)? HSSFCellStyle.ALIGN_CENTER :
-        					HorizontalAlign.LEFT.equals(horizAlign) ?  HSSFCellStyle.ALIGN_LEFT : HSSFCellStyle.ALIGN_RIGHT;
+    private short translateHorizAlign(HorizAlign horizAlign){
+        return HorizAlign.CENTER.equals(horizAlign)? HSSFCellStyle.ALIGN_CENTER :
+        					HorizAlign.LEFT.equals(horizAlign) ?  HSSFCellStyle.ALIGN_LEFT : HSSFCellStyle.ALIGN_RIGHT;
     }
     
     public int getCurrentCol(){

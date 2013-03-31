@@ -6,7 +6,7 @@ package net.sf.reportengine.core.steps;
 
 import java.util.List;
 
-import net.sf.reportengine.config.HorizontalAlign;
+import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
@@ -168,7 +168,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     		//prepare and output the Total column
     		String totalString = getTotalStringForGroupingLevel(groupLevel);
     		output.output(new CellProps.Builder(totalString)
-    							.horizAlign(HorizontalAlign.LEFT)
+    							.horizAlign(HorizAlign.LEFT)
     							.build());
     		
     		if(groupCols.size() > 1){

@@ -3,7 +3,7 @@
  */
 package net.sf.reportengine.in;
 
-import net.sf.reportengine.config.HorizontalAlign;
+import net.sf.reportengine.config.HorizAlign;
 
 /**
  * 
@@ -25,7 +25,7 @@ public final class ColumnMetadata {
 	/**
 	 * the horizontal alignment
 	 */
-	private HorizontalAlign horizontalAlign; 
+	private HorizAlign horizontalAlign; 
 	
 	
 	/**
@@ -71,7 +71,7 @@ public final class ColumnMetadata {
 	/**
 	 * @return the horizontalAlign
 	 */
-	public HorizontalAlign getHorizontalAlign() {
+	public HorizAlign getHorizontalAlign() {
 		return horizontalAlign;
 	}
 
@@ -79,7 +79,7 @@ public final class ColumnMetadata {
 	/**
 	 * @param horizontalAlign the horizontalAlign to set
 	 */
-	public void setHorizontalAlign(HorizontalAlign horizontalAlign) {
+	public void setHorizontalAlign(HorizAlign horizontalAlign) {
 		this.horizontalAlign = horizontalAlign;
 	}
 	
