@@ -7,7 +7,7 @@ import net.sf.reportengine.CrossTabReport;
 import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.IReportOutput;
@@ -23,7 +23,7 @@ public class FirstPivotTableReport {
 	public static void main(String[] args) {
 		CrossTabReport classUnderTest = new CrossTabReport(); 
 		
-		IReportInput input = new TextInput("./inputData/expenses.csv", ",");
+		ReportInput input = new TextInput("./inputData/expenses.csv", ",");
 		classUnderTest.setIn(input); 
 		
 		IReportOutput output = new HtmlOutput("./output/xpensesPivot.html"); 

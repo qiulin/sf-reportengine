@@ -25,7 +25,7 @@ public class MultipleOutputsSample {
 	public static void main(String[] args) {
 		
 		FlatReport flatReport = new FlatReport();
-		flatReport.setReportTitle("Report having multiple output");
+		flatReport.setTitle("Report having multiple output");
 	
 		//the input
 		flatReport.setIn(new TextInput("./inputData/expenses.csv",","));

@@ -27,7 +27,7 @@ public class NoDataRowsFlatReport {
 		FlatReport flatReport = new FlatReport();
 		
 		//report configuration
-		flatReport.setReportTitle("Mothly Expenses report");
+		flatReport.setTitle("Mothly Expenses report");
 		flatReport.setShowTotals(true);
 		flatReport.setShowDataRows(false);
 		

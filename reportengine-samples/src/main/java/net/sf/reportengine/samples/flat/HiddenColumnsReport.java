@@ -23,7 +23,7 @@ public class HiddenColumnsReport {
 	public static void main(String[] args) {
 		
 		FlatReport flatReport = new FlatReport();
-		flatReport.setReportTitle("This report shows only 2 out of 4 columns");
+		flatReport.setTitle("This report shows only 2 out of 4 columns");
 	
 		//the input
 		flatReport.setIn(new TextInput("./inputData/names.txt","\t"));

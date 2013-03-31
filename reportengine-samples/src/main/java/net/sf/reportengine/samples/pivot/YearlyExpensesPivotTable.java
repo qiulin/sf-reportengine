@@ -9,7 +9,7 @@ import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
-import net.sf.reportengine.in.IReportInput;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.IReportOutput;
@@ -24,7 +24,7 @@ public class YearlyExpensesPivotTable {
 	public static void main(String[] args) {
 		CrossTabReport report = new CrossTabReport(); 
 		
-		IReportInput input = new TextInput("./inputData/yearlyExpenses.txt", "\t");
+		ReportInput input = new TextInput("./inputData/yearlyExpenses.txt", "\t");
 		report.setIn(input); 
 		
 		IReportOutput output = new HtmlOutput("./output/yearlyPivot.html"); 

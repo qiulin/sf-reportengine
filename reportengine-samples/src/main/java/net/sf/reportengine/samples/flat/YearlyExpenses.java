@@ -22,7 +22,7 @@ public class YearlyExpenses {
 	public static void main(String[] args) {
 		
 		FlatReport flatReport = new FlatReport();
-		flatReport.setReportTitle("Yearly expenses report");
+		flatReport.setTitle("Yearly expenses report");
 		flatReport.setShowTotals(true); 
 		
 		//the input
