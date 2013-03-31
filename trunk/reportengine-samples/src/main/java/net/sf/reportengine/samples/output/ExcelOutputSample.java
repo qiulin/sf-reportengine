@@ -22,7 +22,7 @@ public class ExcelOutputSample {
 	public static void main(String[] args) {
 		
 		FlatReport flatReport = new FlatReport();
-		flatReport.setReportTitle("Excel output Report");
+		flatReport.setTitle("Excel output Report");
 	
 		//the input
 		flatReport.setIn(new TextInput("./inputData/expenses.csv",","));

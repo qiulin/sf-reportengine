@@ -25,7 +25,7 @@ public class FirstGroupReport {
 		FlatReport flatReport = new FlatReport();
 		flatReport.setShowTotals(true);
 		flatReport.setShowGrandTotal(false); 
-		flatReport.setReportTitle("Mothly Expenses report");
+		flatReport.setTitle("Mothly Expenses report");
 		
 		//define the input
 		TextInput reportInput = new TextInput("./inputData/expenses.csv",",");

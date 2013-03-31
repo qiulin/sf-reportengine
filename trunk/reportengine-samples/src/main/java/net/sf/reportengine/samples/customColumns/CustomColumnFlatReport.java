@@ -19,7 +19,7 @@ public class CustomColumnFlatReport {
 	 */
 	public static void main(String[] args) {
 		FlatReport flatReport = new FlatReport();
-		flatReport.setReportTitle("My custom columns report");
+		flatReport.setTitle("My custom columns report");
 	
 		//the input
 		TextInput reportInput = new TextInput("./inputData/names.txt","\t");

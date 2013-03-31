@@ -26,7 +26,7 @@ public class InputFromUrl {
 	public static void main(String[] args) {
 		try {
 			FlatReport flatReport = new FlatReport();
-			flatReport.setReportTitle("My first expenses report");
+			flatReport.setTitle("My first expenses report");
 		
 			//the input
 			URL fileUrl = new URL("http://svn.code.sf.net/p/reportengine/code/samples/inputData/expenses.csv");

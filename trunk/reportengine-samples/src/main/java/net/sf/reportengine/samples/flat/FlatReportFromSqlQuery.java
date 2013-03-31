@@ -5,7 +5,7 @@ package net.sf.reportengine.samples.flat;
 
 import net.sf.reportengine.FlatReport;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.in.DbQueryInput;
+import net.sf.reportengine.in.SqlInput;
 import net.sf.reportengine.out.HtmlOutput;
 
 /**
@@ -19,10 +19,10 @@ public class FlatReportFromSqlQuery {
 	public static void main(String[] args) {
 		
 		FlatReport report = new FlatReport(); 
-		report.setReportTitle("Report obtained from SQL query"); 
+		report.setTitle("Report obtained from SQL query"); 
 		
 		//input configuration
-		DbQueryInput reportInput = new DbQueryInput(); 
+		SqlInput reportInput = new SqlInput(); 
 		reportInput.setDbConnString("jdbc:oracle:thin:@172.21.45.35:1521:icisdev");
 		reportInput.setDbDriverClass("oracle.jdbc.driver.OracleDriver"); 
 		reportInput.setDbUser("AIS_DEV");

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sf.reportengine</groupId>
   <artifactId>samples</artifactId>
-  <version>0.7.1</version>
+  <version>0.8.0</version>
   <name>ReportengineSamples</name>
   <description>Sample reports created with reportengine</description>
   
@@ -59,7 +59,7 @@
   	<dependency>
   		<groupId>net.sf.reportengine</groupId>
   		<artifactId>reportengine</artifactId>
-  		<version>0.7.1</version>
+  		<version>0.8.0-SNAPSHOT</version>
   	</dependency>
   	
   	<dependency>
@@ -68,12 +68,13 @@
   		<version>2.5.6</version>
   	</dependency>
   	
-  	<!-- only for the sql examples -->  
+  	<!-- only for the sql examples  
   	<dependency>
 		<groupId>com.oracle</groupId>
 		<artifactId>ojdbc14</artifactId>
 		<version>10.2.0.4.0</version>
 	</dependency>
+	--> 
 	
 	<dependency>
 		<groupId>log4j</groupId>

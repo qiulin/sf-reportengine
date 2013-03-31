@@ -21,7 +21,7 @@ public class FirstReport {
 
 	public static void main(String[] args) {
 		FlatReport flatReport = new FlatReport();
-		flatReport.setReportTitle("My first expenses report");
+		flatReport.setTitle("My first expenses report");
 	
 		//the input
 		TextInput reportInput = new TextInput("./inputData/expenses.csv",",");
