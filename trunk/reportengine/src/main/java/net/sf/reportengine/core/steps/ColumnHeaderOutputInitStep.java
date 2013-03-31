@@ -6,7 +6,7 @@ package net.sf.reportengine.core.steps;
 
 import java.util.List;
 
-import net.sf.reportengine.config.HorizontalAlign;
+import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ReportContent;
@@ -70,7 +70,7 @@ public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
             CellProps titleCellProps = new CellProps.Builder(reportTitle)
             									.colspan(outputColumnsCnt)
             									.contentType(ReportContent.REPORT_TITLE)
-            									.horizAlign(HorizontalAlign.CENTER)
+            									.horizAlign(HorizAlign.CENTER)
             									.build();
             output.output(titleCellProps);
             output.endRow();
@@ -84,7 +84,7 @@ public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
 				cellProps = new CellProps.Builder(groupColumn.getHeader())
 										.colspan(1)
 										.contentType(ReportContent.COLUMN_HEADER)
-										.horizAlign(HorizontalAlign.CENTER)
+										.horizAlign(HorizAlign.CENTER)
 										.build();
 				output.output(cellProps);
 			}
@@ -93,7 +93,7 @@ public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
             cellProps = new CellProps.Builder(dataColumn.getHeader())
             						.colspan(1)
             						.contentType(ReportContent.COLUMN_HEADER)
-            						.horizAlign(HorizontalAlign.CENTER)
+            						.horizAlign(HorizAlign.CENTER)
             						.build();
             output.output(cellProps);
         }

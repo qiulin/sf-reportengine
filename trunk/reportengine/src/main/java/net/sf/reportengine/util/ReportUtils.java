@@ -15,8 +15,8 @@ import net.sf.reportengine.in.ColumnMetadata;
 import net.sf.reportengine.in.ColumnPreferences;
 
 /**
- * @author dragos balan
- *
+ * @author dragos balan (dragos dot balan at gmail dot com)
+ * @since 0.8
  */
 public final class ReportUtils {
 	
@@ -111,6 +111,9 @@ public final class ReportUtils {
 		result.setHeader(prefs.getHeader() != null ? prefs.getHeader() : metadata.getColumnLabel()); 
 		result.setHorizAlign(prefs.getHorizAlign() != null ? prefs.getHorizAlign() : metadata.getHorizontalAlign()); 
 		result.setInputColumnIndex(columnIndex);
+		result.setCalculator(prefs.getCalculator()); 
+		result.setFormatter(prefs.getFormatter()); 
+		
 		return result; 
 	}
 	

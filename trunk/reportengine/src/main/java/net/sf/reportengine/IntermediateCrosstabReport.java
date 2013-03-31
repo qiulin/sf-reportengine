@@ -6,7 +6,7 @@ package net.sf.reportengine;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.reportengine.config.HorizontalAlign;
+import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.config.DataColumn;
@@ -280,7 +280,7 @@ class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
 			return crosstabData.getCalculator();
 		}
 
-		public HorizontalAlign getHorizAlign() {
+		public HorizAlign getHorizAlign() {
 			return crosstabData.getHorizAlign(); 
 		}
 	}
@@ -311,7 +311,7 @@ class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
 			return dataColumn.getValue(newRowEvent);
 		}
 
-		public HorizontalAlign getHorizAlign() {
+		public HorizAlign getHorizAlign() {
 			return dataColumn.getHorizAlign(); 
 		}
 		
@@ -366,8 +366,8 @@ class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
 			return result; 
 		}
 
-		public HorizontalAlign getHorizAlign() {
-			return HorizontalAlign.CENTER; //TODO: check if this is used
+		public HorizAlign getHorizAlign() {
+			return HorizAlign.CENTER; //TODO: check if this is used
 		}
 		
 		public boolean showDuplicates(){

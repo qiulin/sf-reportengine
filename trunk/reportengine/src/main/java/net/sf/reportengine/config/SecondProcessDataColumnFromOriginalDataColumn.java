@@ -61,7 +61,7 @@ public class SecondProcessDataColumnFromOriginalDataColumn implements DataColumn
 		return originalDataColumn.getCalculator();
 	}
 
-	public HorizontalAlign getHorizAlign() {
+	public HorizAlign getHorizAlign() {
 		return originalDataColumn.getHorizAlign(); 
 	}
 }

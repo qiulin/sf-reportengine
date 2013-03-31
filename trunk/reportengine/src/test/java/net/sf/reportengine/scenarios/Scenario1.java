@@ -9,7 +9,7 @@ import java.util.List;
 
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.config.HorizontalAlign;
+import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ReportContent;
@@ -58,9 +58,9 @@ public class Scenario1 {
 	
 	public static final List<GroupColumn> GROUPING_COLUMNS = Arrays.asList(
 		new GroupColumn[]{
-				new DefaultGroupColumn("col 0", 0, 0, null, HorizontalAlign.CENTER, true), 
-				new DefaultGroupColumn("col 1", 1, 1, null, HorizontalAlign.CENTER, true), 
-				new DefaultGroupColumn("col 2", 2, 2, null, HorizontalAlign.CENTER, true)
+				new DefaultGroupColumn("col 0", 0, 0, null, HorizAlign.CENTER, true), 
+				new DefaultGroupColumn("col 1", 1, 1, null, HorizAlign.CENTER, true), 
+				new DefaultGroupColumn("col 2", 2, 2, null, HorizAlign.CENTER, true)
 		});
 	
 	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(

@@ -28,7 +28,7 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	/**
 	 * 
 	 */
-	private HorizontalAlign horizAlign; 
+	private HorizAlign horizAlign; 
 	
 	/**
 	 * 
@@ -37,7 +37,7 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	 */
 	public AbstractCrosstabData(Calculator calc, 
 								Format formatter, 
-								HorizontalAlign horizAlign){
+								HorizAlign horizAlign){
 		setCalculator(calc);
 		setFormatter(formatter);
 		setHorizAlign(horizAlign); 
@@ -77,14 +77,14 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	/**
 	 * @return the horizAlign
 	 */
-	public HorizontalAlign getHorizAlign() {
+	public HorizAlign getHorizAlign() {
 		return horizAlign;
 	}
 
 	/**
 	 * @param horizAlign the horizAlign to set
 	 */
-	public void setHorizAlign(HorizontalAlign horizAlign) {
+	public void setHorizAlign(HorizAlign horizAlign) {
 		this.horizAlign = horizAlign;
 	}
 

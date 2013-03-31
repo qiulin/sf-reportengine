@@ -46,7 +46,7 @@ public interface GroupColumn {
 	/**
 	 * returns the horizontal alignment for this column
 	 */
-	public HorizontalAlign getHorizAlign(); 
+	public HorizAlign getHorizAlign(); 
 	
 	/**
 	 * whether or not this group column should display duplicate group values. 

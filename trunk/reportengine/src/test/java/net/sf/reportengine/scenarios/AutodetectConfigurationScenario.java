@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 
-import net.sf.reportengine.config.HorizontalAlign;
+import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.in.ColumnMetadata;
 import net.sf.reportengine.in.ReportInput;
 
@@ -27,11 +27,11 @@ public class AutodetectConfigurationScenario {
 	public static void initScenario(){
 		COLUMN_METADATA.get(0).setColumnId("col1"); 
 		COLUMN_METADATA.get(0).setColumnLabel("col1label"); 
-		COLUMN_METADATA.get(0).setHorizontalAlign(HorizontalAlign.CENTER);
+		COLUMN_METADATA.get(0).setHorizontalAlign(HorizAlign.CENTER);
 		
 		COLUMN_METADATA.get(1).setColumnId("col2"); 
 		COLUMN_METADATA.get(1).setColumnLabel("col2label"); 
-		COLUMN_METADATA.get(1).setHorizontalAlign(HorizontalAlign.LEFT);
+		COLUMN_METADATA.get(1).setHorizontalAlign(HorizAlign.LEFT);
 		
 		when(INPUT.supportsMetadata()).thenReturn(true); 
 		when(INPUT.getColumnMetadata()).thenReturn(COLUMN_METADATA);

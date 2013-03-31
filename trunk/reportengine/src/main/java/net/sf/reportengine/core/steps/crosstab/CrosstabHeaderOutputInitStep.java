@@ -5,7 +5,7 @@ package net.sf.reportengine.core.steps.crosstab;
 
 import java.util.List;
 
-import net.sf.reportengine.config.HorizontalAlign;
+import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.SecondProcessDataColumn;
@@ -126,7 +126,7 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 					reportOutput.output(new CellProps.Builder(groupCols.get(i).getHeader())
 												.colspan(1)
 												.contentType(ReportContent.COLUMN_HEADER)
-												.horizAlign(HorizontalAlign.CENTER)
+												.horizAlign(HorizAlign.CENTER)
 												.build()); 
 				}
 			}else{
@@ -155,7 +155,7 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 			reportOutput.output(new CellProps.Builder(originalDataColumn.getHeader())
 											.colspan(1)
 											.contentType(ReportContent.COLUMN_HEADER)
-											.horizAlign(HorizontalAlign.CENTER)
+											.horizAlign(HorizAlign.CENTER)
 											.build()); 
 		}else{
 			//first header rows will contain empty cells
@@ -190,7 +190,7 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 				if(currHeaderRow == position.length){
 					reportOutput.output(new CellProps.Builder("Total")
 												.contentType(ReportContent.COLUMN_HEADER)
-												.horizAlign(HorizontalAlign.CENTER)
+												.horizAlign(HorizAlign.CENTER)
 												.build());
 				}else{
 					reportOutput.output(CellProps.EMPTY_CELL);
@@ -201,7 +201,7 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 			if(currHeaderRow == 0){
 				reportOutput.output(new CellProps.Builder("Grand Total")
 											.contentType(ReportContent.COLUMN_HEADER)
-											.horizAlign(HorizontalAlign.LEFT)
+											.horizAlign(HorizAlign.LEFT)
 											.build());
 			}else{
 				reportOutput.output(CellProps.EMPTY_CELL);

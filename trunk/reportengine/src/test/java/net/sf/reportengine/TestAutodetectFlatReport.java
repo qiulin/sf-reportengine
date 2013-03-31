@@ -3,14 +3,17 @@
  */
 package net.sf.reportengine;
 
+import java.text.NumberFormat;
+
 import junit.framework.TestCase;
-import net.sf.reportengine.config.HorizontalAlign;
+import net.sf.reportengine.config.HorizAlign;
+import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.SqlInput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.scenarios.AutodetectConfigurationScenario;
 
 /**
- * @author dragos balan
+ * @author dragos balan (dragos dot balan at gmail dot com)
  *
  */
 public class TestAutodetectFlatReport extends TestCase {
@@ -48,7 +51,7 @@ public class TestAutodetectFlatReport extends TestCase {
 		flatReport.setIn(AutodetectConfigurationScenario.INPUT); 
 		flatReport.setOut(new HtmlOutput("./target/testAutodetectWithUserPrefs.html")); 
 		flatReport.forColumn("col1").setHeader("First column forced by prefs to right align")
-									.setHAlign(HorizontalAlign.RIGHT); 
+									.setHAlign(HorizAlign.RIGHT); 
 		flatReport.execute(); 
 	}
 	
@@ -73,11 +76,14 @@ public class TestAutodetectFlatReport extends TestCase {
 		input.setDbPassword("");
 		input.setDbDriverClass("org.hsqldb.jdbcDriver");
 		input.setDbConnString("jdbc:hsqldb:file:E:/projects/java/reportengine-trunk/reportengine/src/test/resources/databases/testdb");
-		input.setSqlStatement("select id, country, region, city, sex, religion, value from testreport t order by id");
+		input.setSqlStatement("select country, region, city, sex, religion, value from testreport t order by country, region, city");
 		flatReport.setIn(input); 
 		flatReport.setOut(new HtmlOutput("./target/AutodetectFromSqlWithUserPrefs.html")); 
 		
-		flatReport.forColumn("COUNTRY").setHAlign(HorizontalAlign.RIGHT).setHeader("Changed header"); 
+		flatReport.forColumn("COUNTRY").setHAlign(HorizAlign.RIGHT).setHeader("Changed header").setGroup(true); 
+		flatReport.forColumn("VALUE").setCalculator(Calculators.SUM).setFormatter(NumberFormat.getCurrencyInstance()); 
+		flatReport.forColumn("REGION").setGroup(true); 
+		flatReport.forColumn("CITY").setGroup(true); 
 		
 		flatReport.execute();
 	}

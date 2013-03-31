@@ -87,37 +87,24 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
 		//first time we cannot make any comparison so the return level is zero
 		if(getPreviousRowOfGroupingValues() == null){
 			//handle last row for grouping columns 
-			//lastRowOfGroupingColumnValues = new Object[groupingCols.length];
-			//copyGroupingValuesToLastRowOfGroupingColumnValues(groupingCols, newRowEvent);
 			
 			aggregationLevel = -1;
-			logger.trace("evaluating first data row. ");			
+			logger.debug("evaluating first data row. ");			
 		}else{
 			aggregationLevel = checkLevelChangedInGroupingColumns(groupingCols, getPreviousRowOfGroupingValues(), newRowEvent); 
 			
 			if(logger.isDebugEnabled()){
 				logger.trace("For newRow="+newRowEvent+" the grouping level found is "+aggregationLevel);
 			}
-			
-//			if(aggregationLevel > -1){
-//				copyGroupingValuesToLastRowOfGroupingColumnValues(groupingCols, newRowEvent);
-//			}
 		}
 		
 		//set the result in context
 		getContext().set(ContextKeys.NEW_GROUPING_LEVEL, aggregationLevel);
 		
-//		if(logger.isTraceEnabled()){
-//    		logger.trace("after copying the lastRow is "+Arrays.toString(lastRowOfGroupingColumnValues));
-//    	}
+		if(logger.isDebugEnabled()){
+    		logger.debug("detected grouping level= "+aggregationLevel);
+    	}
 	}
-    
-    
-//    private void copyGroupingValuesToLastRowOfGroupingColumnValues(GroupColumn[] groupingCols, NewRowEvent newRowEvent){
-//    	for (int i = 0; i < groupingCols.length; i++) {
-//    		lastRowOfGroupingColumnValues[i] = groupingCols[i].getValue(newRowEvent);
-//    	}    	
-//    }
     
     
     private int checkLevelChangedInGroupingColumns(List<GroupColumn> groupingColumns, Object[] lastRowOfGroupingValues, NewRowEvent newRowEvent){

@@ -4,7 +4,7 @@
  */
 package net.sf.reportengine.out;
 
-import net.sf.reportengine.config.HorizontalAlign;
+import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.ReportContent;
 
 /**
@@ -39,7 +39,7 @@ public final class CellProps {
 	/**
      * horizontal alignment
      */
-	private final HorizontalAlign horizAlign;
+	private final HorizAlign horizAlign;
 
 	
 	/**
@@ -82,7 +82,7 @@ public final class CellProps {
 	 * the horizontal align
 	 * @return
 	 */
-	public HorizontalAlign getHorizontalAlign() {
+	public HorizAlign getHorizontalAlign() {
 		return horizAlign;
 	}
 	
@@ -138,7 +138,7 @@ public final class CellProps {
 		private final Object value;
 		private int colspan = 1;
 		private ReportContent content = ReportContent.DATA;
-		private HorizontalAlign horizAlign = HorizontalAlign.CENTER;
+		private HorizAlign horizAlign = HorizAlign.CENTER;
 		
 		public Builder(Object value){
 			this.value = value; 
@@ -154,7 +154,7 @@ public final class CellProps {
 			return this; 
 		}
 		
-		public Builder horizAlign(HorizontalAlign align){
+		public Builder horizAlign(HorizAlign align){
 			this.horizAlign = align; 
 			return this; 
 		}

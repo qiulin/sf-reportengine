@@ -16,7 +16,7 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 	private int groupingLevel; 
 	private String header; 
 	private Format formatter; 
-	private HorizontalAlign horizAlign; 
+	private HorizAlign horizAlign; 
 	private boolean showDuplicates; 
 	
 	/**
@@ -29,7 +29,7 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 	public AbstractGroupColumn(	String header, 
 								int groupingLevel, 
 								Format formatter, 
-								HorizontalAlign horizAlign, 
+								HorizAlign horizAlign, 
 								boolean showDuplicates){
 		setHeader(header);
 		setGroupingLevel(groupingLevel);
@@ -82,14 +82,14 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 	/**
 	 * @return the horizAlign
 	 */
-	public HorizontalAlign getHorizAlign() {
+	public HorizAlign getHorizAlign() {
 		return horizAlign;
 	}
 
 	/**
 	 * @param horizAlign the horizAlign to set
 	 */
-	public void setHorizAlign(HorizontalAlign horizAlign) {
+	public void setHorizAlign(HorizAlign horizAlign) {
 		this.horizAlign = horizAlign;
 	}
 	

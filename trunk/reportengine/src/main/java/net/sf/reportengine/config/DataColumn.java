@@ -53,6 +53,6 @@ public interface DataColumn {
 	/**
 	 * returns the horizontal alignment to be used for this column
 	 */
-	public HorizontalAlign getHorizAlign();
+	public HorizAlign getHorizAlign();
 	
 }

@@ -7,6 +7,7 @@ import java.text.Format;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 
 /**
  * <p>This is the basic implementation for a data column.</p> 
@@ -106,7 +107,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 								int inputColumnIndex, 
 								Calculator calculator, 
 								Format formatter){
-		this(header, inputColumnIndex, calculator, formatter, HorizontalAlign.CENTER);
+		this(header, inputColumnIndex, calculator, formatter, HorizAlign.CENTER);
 	}
 	
 	
@@ -123,7 +124,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 								int inputColumnIndex, 
 								Calculator calculator, 
 								Format formatter, 
-								HorizontalAlign horizAlign){
+								HorizAlign horizAlign){
 		
 		super(header, calculator, formatter, horizAlign);
 		setInputColumnIndex(inputColumnIndex);
@@ -151,5 +152,17 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 */
 	public void setInputColumnIndex(int inputColumnIndex) {
 		this.inputColumnIndex = inputColumnIndex;
+	}
+	
+	
+	public String toString(){
+		StringBuilder result = new StringBuilder("DefaultDataColumn[");
+		result.append("inputIdx=").append(inputColumnIndex);
+		result.append(", header=").append(getHeader());
+		result.append(", hAlign=").append(getHorizAlign());
+		result.append(", formatter=").append(getFormatter());
+		result.append(", calculator=").append(getCalculator());
+		result.append("]");
+		return result.toString(); 
 	}
 }

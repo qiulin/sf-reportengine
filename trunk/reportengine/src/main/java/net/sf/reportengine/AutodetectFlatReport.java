@@ -8,16 +8,16 @@ import java.util.Map;
 
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.Algorithm;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.OneLoopAlgorithm;
-import net.sf.reportengine.core.steps.AutodetectColumnsInitStep;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
-import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
-import net.sf.reportengine.core.steps.PreviousRowManagerStep;
-import net.sf.reportengine.core.steps.TotalsCalculatorStep;
+import net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep;
+import net.sf.reportengine.core.steps.autodetect.AutodetectFlatReportTotalsOutputStep;
+import net.sf.reportengine.core.steps.autodetect.AutodetectPreviousRowManagerStep;
+import net.sf.reportengine.core.steps.autodetect.AutodetectTotalsCalculatorStep;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.util.ContextKeys;
 
@@ -76,7 +76,7 @@ public class AutodetectFlatReport extends AbstractAlgoColumnBasedReport {
     	
     	//adding steps to the algorithm :
     	//we start with the init steps
-    	algorithm.addInitStep(new AutodetectColumnsInitStep()); 
+    	algorithm.addInitStep(new AutodetectConfigInitStep()); 
     	algorithm.addInitStep(new FlatReportExtractDataInitStep());
     	algorithm.addInitStep(new ColumnHeaderOutputInitStep(getTitle()));
         
@@ -84,18 +84,16 @@ public class AutodetectFlatReport extends AbstractAlgoColumnBasedReport {
     	//algorithm.addMainStep(new ComputeColumnValuesStep());
     	algorithm.addMainStep(new GroupingLevelDetectorStep());
     	
-        if(getShowTotals() || getShowGrandTotal()){
-        	algorithm.addMainStep(new FlatReportTotalsOutputStep());
-        	algorithm.addMainStep(new TotalsCalculatorStep());
-        }
+        
+        algorithm.addMainStep(new AutodetectFlatReportTotalsOutputStep());
+        algorithm.addMainStep(new AutodetectTotalsCalculatorStep());
+        
         
         if(getShowDataRows()){
         	algorithm.addMainStep(new DataRowsOutputStep());
         }
         
-        if(getGroupColumns() != null && getGroupColumns().size() > 0){
-        	algorithm.addMainStep(new PreviousRowManagerStep());
-        }
+        algorithm.addMainStep(new AutodetectPreviousRowManagerStep());
     }
 	
 	/**

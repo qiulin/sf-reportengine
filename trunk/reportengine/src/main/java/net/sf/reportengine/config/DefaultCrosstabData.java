@@ -55,7 +55,7 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	public DefaultCrosstabData(	int inputColumIndex, 
 								Calculator calc, 
 								Format formatter){
-		this(inputColumIndex, calc, formatter, HorizontalAlign.CENTER);
+		this(inputColumIndex, calc, formatter, HorizAlign.CENTER);
 	}
 	
 	/**
@@ -68,7 +68,7 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	public DefaultCrosstabData(	int inputColumIndex, 
 								Calculator calc, 
 								Format formatter, 
-								HorizontalAlign horizAlign){
+								HorizAlign horizAlign){
 		super(calc, formatter, horizAlign);
 		setInputColumnIndex(inputColumIndex);
 	}
