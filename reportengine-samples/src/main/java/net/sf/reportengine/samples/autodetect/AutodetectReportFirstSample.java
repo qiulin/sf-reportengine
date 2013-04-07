@@ -17,7 +17,7 @@ public class AutodetectReportFirstSample {
 		
 		SqlInput input = new SqlInput(); 
 		input.setDbDriverClass("org.hsqldb.jdbcDriver");
-		input.setDbConnString("jdbc:hsqldb:file:E:/projects/java/reportengine-trunk/reportengine/src/test/resources/databases/testdb");
+		input.setDbConnString("jdbc:hsqldb:file:./inputData/databases/testdb");
 		input.setDbUser("SA");
 		input.setDbPassword("");
 		input.setSqlStatement("select country, region, city, sex, religion, value from testreport t order by country, region, city");
