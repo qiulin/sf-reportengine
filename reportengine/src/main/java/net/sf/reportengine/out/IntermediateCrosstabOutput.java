@@ -12,7 +12,8 @@ import java.io.ObjectOutputStream;
 import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.core.steps.crosstab.IntermediateReportRow;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author dragos
@@ -21,9 +22,10 @@ import org.apache.log4j.Logger;
 public class IntermediateCrosstabOutput implements IReportOutput {
 	
 	/**
-	 * the logger
+	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(IntermediateCrosstabOutput.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(IntermediateCrosstabOutput.class);
 	
 	/**
 	 * the output stream where all inermediaterows will be serialized
@@ -41,9 +43,7 @@ public class IntermediateCrosstabOutput implements IReportOutput {
 	public void open() {
 		try {
 			result = File.createTempFile("crosstab", ".temp");
-			if(logger.isInfoEnabled()){
-				logger.info("creating temporary file on "+result.getAbsolutePath());
-			}
+			LOGGER.info("creating temporary file on {}", result.getAbsolutePath());
 			objectOutputStream = new ObjectOutputStream(new FileOutputStream(result));
 		} catch (FileNotFoundException e) {
 			throw new ReportEngineRuntimeException(e);
@@ -77,9 +77,7 @@ public class IntermediateCrosstabOutput implements IReportOutput {
 			IntermediateReportRow intermediateRow = (IntermediateReportRow)value; 
 			//serialize
 			try {
-				if(logger.isDebugEnabled()){
-					logger.debug("writting object to intermediate object stream "+intermediateRow);
-				}
+				LOGGER.debug("writting object to intermediate object stream {}", intermediateRow);
 				objectOutputStream.writeObject(intermediateRow);
 			} catch (IOException e) {
 				throw new ReportEngineRuntimeException(e);
@@ -97,10 +95,7 @@ public class IntermediateCrosstabOutput implements IReportOutput {
 		try {
 			objectOutputStream.flush();
 			objectOutputStream.close(); 
-			
-			if(logger.isInfoEnabled()){
-				logger.info("IntermediateCrosstabReport closed"); 
-			}
+			LOGGER.info("IntermediateCrosstabReport closed"); 
 		} catch (IOException e) {
 			throw new ReportEngineRuntimeException(e); 
 		} 

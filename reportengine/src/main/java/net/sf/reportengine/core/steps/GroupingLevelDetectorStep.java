@@ -9,11 +9,12 @@ import java.util.List;
 
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.util.ContextKeys;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -55,8 +56,7 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(GroupingLevelDetectorStep.class);
-	
+	private static final Logger LOGGER = LoggerFactory.getLogger(GroupingLevelDetectorStep.class);
     
     /**
      * the aggregation level
@@ -92,9 +92,7 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
 		}else{
 			aggregationLevel = checkLevelChangedInGroupingColumns(groupingCols, getPreviousRowOfGroupingValues(), newRowEvent); 
 			
-			if(logger.isTraceEnabled()){
-				logger.trace("For newRow="+newRowEvent+" the grouping level found is "+aggregationLevel);
-			}
+			LOGGER.trace("For newRow={} the grouping level found is {}", newRowEvent, aggregationLevel);
 		}
 		
 		//set the result in context
@@ -112,11 +110,9 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
 		while (!aggregationLevelFound && i < groupingColumns.size()){
 			currentGroupColumn = groupingColumns.get(i); 
 			Object valueToBeCompared = currentGroupColumn.getValue(newRowEvent);
-			if(logger.isTraceEnabled()){
-				logger.trace(	"checking column "+currentGroupColumn.getClass()+ 
-								" having grouping order "+currentGroupColumn.getGroupingLevel()+
-								" and value "+valueToBeCompared + " against "+lastRowOfGroupingValues[i]);
-			}
+			LOGGER.trace("checking column {} "+currentGroupColumn.getClass()); 
+			LOGGER.trace(" 		having grouping order {}", currentGroupColumn.getGroupingLevel()); 
+			LOGGER.trace(" 		and value {} against {}", valueToBeCompared,lastRowOfGroupingValues[i]);
 			if (!lastRowOfGroupingValues[i].equals(valueToBeCompared)) {
 				//condition to exit from for loop
 				aggregationLevelFound = true;
@@ -126,5 +122,4 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
 		}// end while
 		return aggregationLevelFound ? i:-1; 
     }
-    
 }

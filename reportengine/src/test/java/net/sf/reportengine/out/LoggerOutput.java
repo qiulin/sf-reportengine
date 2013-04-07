@@ -3,7 +3,8 @@
  */
 package net.sf.reportengine.out;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Debug implementation for IReportOutput where all outputed values go to the log file at each end of line
@@ -15,7 +16,8 @@ public class LoggerOutput implements IReportOutput {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(LoggerOutput.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(LoggerOutput.class);
 	
 	private StringBuilder dataToLog = new StringBuilder();
 	
@@ -27,7 +29,7 @@ public class LoggerOutput implements IReportOutput {
 	}
 	
 	public void endRow(){
-		logger.debug(dataToLog);
+		LOGGER.debug("{}",dataToLog);
 	}
 	
 	public void output(CellProps cellProps) {

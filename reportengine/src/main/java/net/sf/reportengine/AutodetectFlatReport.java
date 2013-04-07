@@ -21,7 +21,8 @@ import net.sf.reportengine.core.steps.autodetect.AutodetectTotalsCalculatorStep;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.util.ContextKeys;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author dragos balan (dragos dot balan at gmail dot com)
@@ -33,7 +34,7 @@ public class AutodetectFlatReport extends AbstractAlgoColumnBasedReport {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = Logger.getLogger(AutodetectFlatReport.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AutodetectFlatReport.class);
 	
 	/**
      * the user column preferences
@@ -63,6 +64,7 @@ public class AutodetectFlatReport extends AbstractAlgoColumnBasedReport {
      * algorithm configuration 
      */
     @Override protected void config(){
+    	LOGGER.trace("configuring the autodetect flat report"); 
     	Algorithm algorithm = getAlgorithm();
     	ReportContext context = algorithm.getContext();
     	

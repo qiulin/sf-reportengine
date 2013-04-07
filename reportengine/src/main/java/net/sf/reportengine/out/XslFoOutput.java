@@ -5,14 +5,10 @@
 package net.sf.reportengine.out;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -32,7 +28,8 @@ import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 /**
@@ -51,7 +48,8 @@ public class XslFoOutput extends AbstractByteOutput {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = Logger.getLogger(XslFoOutput.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(XslFoOutput.class);
 	
 	/**
 	 * 

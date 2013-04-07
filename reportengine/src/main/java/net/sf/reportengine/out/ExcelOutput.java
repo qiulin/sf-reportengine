@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.ReportContent;
 
-import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -22,6 +21,8 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -35,9 +36,10 @@ import org.apache.poi.hssf.util.Region;
 public class ExcelOutput extends AbstractByteOutput {
     
 	/**
-	 * the one and only LOGGER
+	 * the one and only logger
 	 */
-	private static final Logger LOGGER = Logger.getLogger(ExcelOutput.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ExcelOutput.class);
 	
     /**
      * the xls workbook
@@ -109,7 +111,7 @@ public class ExcelOutput extends AbstractByteOutput {
     public void open() {
     	super.open(); 
     	
-    	if(LOGGER.isTraceEnabled())LOGGER.trace("opening excel output");
+    	LOGGER.trace("opening excel output...");
     	
         workBook = new HSSFWorkbook();
         sheet = workBook.createSheet(sheetName);
@@ -200,7 +202,7 @@ public class ExcelOutput extends AbstractByteOutput {
      * ends the report
      */
     public void close() {
-    	if(LOGGER.isTraceEnabled())LOGGER.trace("closing excel output");
+    	LOGGER.trace("closing excel output...");
         try {
         	workBook.write(getOutputStream());
             super.close();//flushes the output stream and closes the output

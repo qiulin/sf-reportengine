@@ -4,15 +4,16 @@
 package net.sf.reportengine.core.steps.crosstab;
 
 import net.sf.reportengine.core.ReportContent;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.ContextKeys;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is the manager of the intermediate crosstab row. 
@@ -26,9 +27,10 @@ import org.apache.log4j.Logger;
 public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 	
 	/**
-	 * the logger
+	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(IntermediateCrosstabRowMangerStep.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(IntermediateCrosstabRowMangerStep.class);
 	
 	/**
 	 * this is an intermediate line containing values ( plus values meta-data like position of the value relative to headerrows values). 
@@ -147,14 +149,14 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 		Integer originalDataValuesLength = getOriginalCrosstabDataColsLength(); 
 		Object[] previousGroupValues = getPreviousRowOfGroupingValues(); 
 		
-		logger.debug("first: adding "+originalGroupingValuesLength+" grouping values to intermediate row "); 
+		LOGGER.debug("first: adding {} grouping values to intermediate row ", originalGroupingValuesLength); 
 		//although we have more values in the previous grouping values we display only the original ones
 		//because they are further needed in the second iteration
 		for (int i=0; i<originalGroupingValuesLength; i++) {
 			//only for debug output.output(new CellProps(previousGroupValues[i]));
 			intermediateRow.addOrigGroupValue(previousGroupValues[i]);
 		}
-		logger.debug("second: adding "+originalDataValuesLength+" data values to intermediate row");
+		LOGGER.debug("second: adding {} data values to intermediate row", originalDataValuesLength);
 		for(int i=0; i<originalDataValuesLength; i++){
 			Object prevValue = previousGroupValues[originalGroupingValuesLength+i];
 			intermediateRow.addOrigDataColValue(prevValue);

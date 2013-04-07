@@ -16,7 +16,8 @@ import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.ReportUtils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * constructs column configuration based on column metadata and user preferences
@@ -29,8 +30,8 @@ public class AutodetectConfigInitStep implements AlgorithmInitStep {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = Logger.getLogger(AutodetectConfigInitStep.class);
-	
+	private static final Logger LOGGER = LoggerFactory.getLogger(AutodetectConfigInitStep.class);
+
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)
 	 */
@@ -43,7 +44,7 @@ public class AutodetectConfigInitStep implements AlgorithmInitStep {
 			
 			//construct data columns
 			List<DataColumn> dataColumns = ReportUtils.dataColsFromMetadataAndUserPrefs(colMetadata, colPrefs); 
-			if(LOGGER.isDebugEnabled())LOGGER.debug("data columns detected : "+dataColumns); 
+			LOGGER.debug("data columns detected : {}",dataColumns); 
 			
 			List<GroupColumn> groupColumns = null; 
 			if(dataColumns !=  null && dataColumns.size() < colMetadata.size()){
@@ -52,7 +53,7 @@ public class AutodetectConfigInitStep implements AlgorithmInitStep {
 			}//else{
 				//no group column. All configured columns are data columns
 			//}
-			if(LOGGER.isDebugEnabled())LOGGER.debug("group columns detected : "+groupColumns); 
+			LOGGER.debug("group columns detected : {}",groupColumns); 
 			
 			//set the result in context
 			reportContext.set(ContextKeys.DATA_COLUMNS, dataColumns);
@@ -62,7 +63,7 @@ public class AutodetectConfigInitStep implements AlgorithmInitStep {
 			reportContext.set(ContextKeys.SHOW_TOTALS, reportHasCalculators); 
 			reportContext.set(ContextKeys.SHOW_GRAND_TOTAL, reportHasCalculators); 
     	}else{
-    		LOGGER.error("non supporting metadata input used inside config of "+this.getClass());
+    		LOGGER.error("non supporting metadata input used inside config of {}",this.getClass());
     	}
 	}
 }

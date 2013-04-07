@@ -20,15 +20,16 @@ import net.sf.reportengine.config.SecondProcessTotalColumn;
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculators;
-import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.IntermediateCrosstabReportInput;
+import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
 import net.sf.reportengine.util.IDistinctValuesHolder;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -93,7 +94,7 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = Logger.getLogger(CrossTabReport.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CrossTabReport.class);
 	
 	/**
 	 * the intermediate report in charge of : 
@@ -132,7 +133,7 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	 * validates the configuration 
 	 */
 	@Override protected void validate(){
-		if(LOGGER.isInfoEnabled())LOGGER.info("validating crosstab configuration ..."); 
+		LOGGER.trace("validating crosstab configuration ..."); 
 		//input/output verification
 		super.validate(); 
         
@@ -170,6 +171,7 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	 * @see #configSecondReport()
 	 */
 	protected void config() {
+		LOGGER.trace("configuring crosstab report ..."); 
 		List<GroupColumn> groupCols = getGroupColumns(); 
 		List<DataColumn> dataColsList = getDataColumns(); 
 		

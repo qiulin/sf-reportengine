@@ -8,7 +8,8 @@ import java.io.Writer;
 
 import net.sf.reportengine.util.ReportIoUtils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * txt output report data as separated data. 
@@ -26,9 +27,10 @@ public class TextOutput extends AbstractCharacterOutput{
 	public static final String DEFAULT_DATA_SEPARATOR = ",";
 	
 	/**
-	 * the one and only LOGGER
+	 * the one and only logger
 	 */
-	private static final Logger LOGGER = Logger.getLogger(TextOutput.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(TextOutput.class);
 	
 	/**
 	 * buffer for the current line to be output
@@ -81,7 +83,7 @@ public class TextOutput extends AbstractCharacterOutput{
 			rowDataBuffer.append(ReportIoUtils.LINE_SEPARATOR);
 			getOutputWriter().write(rowDataBuffer.toString());
 		} catch (IOException e) {
-			LOGGER.error(e);
+			LOGGER.error("error writting the row ", e);
 			throw new ReportOutputException(e);
 		}
 	}

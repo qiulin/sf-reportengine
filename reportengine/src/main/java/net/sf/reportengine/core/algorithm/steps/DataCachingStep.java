@@ -6,10 +6,11 @@ package net.sf.reportengine.core.algorithm.steps;
 import java.io.IOException;
 import java.io.Writer;
 
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.algorithm.ReportContext;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -21,11 +22,12 @@ import org.apache.log4j.Logger;
  */
 public class DataCachingStep implements AlgorithmMainStep {
     
-    /**
-     * the logger
-     */
-    private static final Logger logger = Logger.getLogger(DataCachingStep.class);
-    
+	/**
+	 * the one and only logger
+	 */
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(DataCachingStep.class);
+	
     /**
      * the cache writer
      */
@@ -64,7 +66,7 @@ public class DataCachingStep implements AlgorithmMainStep {
             //write the last one
             cache.write(dataRow[dataRow.length-1].toString()+System.getProperty("line.separator"));
         } catch (IOException e) {
-            logger.error(e);
+        	LOGGER.error("exception when writing into cache", e);
             throw new RuntimeException(e);
         }
     }
@@ -78,7 +80,7 @@ public class DataCachingStep implements AlgorithmMainStep {
         try{
             cache.close();
         }catch(IOException ioExc){
-            logger.error(ioExc);
+            LOGGER.error("exception when closing the cache", ioExc);
             throw new RuntimeException(ioExc);
         }
     }

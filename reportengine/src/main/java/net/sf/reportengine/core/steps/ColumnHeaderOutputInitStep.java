@@ -6,9 +6,9 @@ package net.sf.reportengine.core.steps;
 
 import java.util.List;
 
-import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
@@ -17,7 +17,8 @@ import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.ContextKeys;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * basic output for report title and report column header 
@@ -30,8 +31,8 @@ public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(ColumnHeaderOutputInitStep.class);
-	
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ColumnHeaderOutputInitStep.class);
 	/**
 	 * the title of the report
 	 */
@@ -57,7 +58,7 @@ public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
      * 
      */
     public void init(ReportContext reportContext){
-    	logger.trace("initializing the column header step: output title and column headers");
+    	LOGGER.trace("initializing the column header step: output title and column headers");
     	List<DataColumn> dataCols = (List<DataColumn>)reportContext.get(ContextKeys.DATA_COLUMNS);
     	List<GroupColumn> groupCols = (List<GroupColumn>)reportContext.get(ContextKeys.GROUP_COLUMNS); 
     	

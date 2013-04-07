@@ -6,15 +6,15 @@ package net.sf.reportengine;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.algorithm.Algorithm;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.OneLoopAlgorithm;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
@@ -25,7 +25,8 @@ import net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorSte
 import net.sf.reportengine.core.steps.crosstab.IntermediateCrosstabRowMangerStep;
 import net.sf.reportengine.util.ContextKeys;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is for internal use only.
@@ -41,9 +42,9 @@ import org.apache.log4j.Logger;
 class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
 	
 	/**
-	 * the logger
+	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(IntermediateCrosstabReport.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(IntermediateCrosstabReport.class);
 	
 	/**
 	 * 
@@ -72,9 +73,8 @@ class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
 	 */
 	public IntermediateCrosstabReport(int originalGroupColsCount, int originalDataColsCount){
 		super(new OneLoopAlgorithm()); 
-		if(logger.isDebugEnabled())
-			logger.debug(	"constructing intermediate report algorithm origGrpCols="+
-							originalGroupColsCount+", origDataColsCnt="+originalDataColsCount);
+		LOGGER.debug(	"constructing intermediate report algorithm origGrpCols={}, origDataColsCnt{}",
+						originalGroupColsCount, originalDataColsCount);
 		this.originalDataColsCount = originalDataColsCount; 
 		this.originalGroupColsCount = originalGroupColsCount;
 	}
@@ -83,12 +83,11 @@ class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
 	 * @see net.sf.reportengine.AbstractReport#configAlgorithmSteps()
 	 */
 	@Override protected void config() {
+		LOGGER.trace("configuring the intermediate crosstab report"); 
 		Algorithm algorithm = getAlgorithm();
     	ReportContext context = algorithm.getContext();
     	
-    	if(logger.isDebugEnabled()){
-    		logger.debug("dataColsIsNull ? "+(getDataColumns()==null));
-    	}
+    	LOGGER.debug("dataColsIsNull = {}", getDataColumns()==null);
     	//all initial group + data + header columns will be used as group column in this intermediate report
 		List<GroupColumn> intermediateGroupCols = 
 			transformGroupingCrosstabConfigInFlatReportConfig(	getGroupColumns(),
@@ -102,12 +101,10 @@ class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
 		/*new FlatDataColumnFromHeaderRow(crosstabHeaderRows[crosstabHeaderRows.length-1]), */ 
 		//new IntermDataColumnFromCrosstabData(crosstabData)};
 				
-		if(logger.isDebugEnabled()){
-			logger.debug("configuring intermediate report algorithm: ");
-			logger.debug("intermediateGroupCols "+intermediateGroupCols);
-			logger.debug("intermediateDataCols="+intermediateDataCols); 
-		}
-		
+		LOGGER.debug("configuring intermediate report algorithm: ");
+		LOGGER.debug("intermediateGroupCols = {}", intermediateGroupCols);
+		LOGGER.debug("intermediateDataCols= {}", intermediateDataCols); 
+				
 		//setting the input/output
 		algorithm.setIn(getIn());
 		algorithm.setOut(getOut());
@@ -219,12 +216,10 @@ class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
 		int originalGroupColsLength = originalCtGroupingCols != null ? originalCtGroupingCols.size(): 0;
 		int originalDataColsLength = originalCtDataCols != null ? originalCtDataCols.size() : 0 ; 
 		
-		if(logger.isDebugEnabled()){
-			logger.debug("transforming grouping crosstab config into flat intermediary report: ");
-			logger.debug("origCtGroupingCols="+originalCtGroupingCols);
-			logger.debug("originalCtDataRows="+originalCtDataCols);
-			logger.debug(" originalCtHeaderRows="+originalCtHeaderRows);
-		}
+		LOGGER.debug("transforming grouping crosstab config into flat intermediary report: ");
+		LOGGER.debug("origCtGroupingCols={}", originalCtGroupingCols);
+		LOGGER.debug("originalCtDataRows={}", originalCtDataCols);
+		LOGGER.debug("originalCtHeaderRows={}",originalCtHeaderRows);
 		
 		int intermedGroupColsLength = originalGroupColsLength + originalDataColsLength + originalCtHeaderRows.size() -1;
 		List<GroupColumn> result = new ArrayList<GroupColumn>(intermedGroupColsLength);
