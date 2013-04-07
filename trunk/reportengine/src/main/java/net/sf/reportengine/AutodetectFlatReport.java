@@ -100,16 +100,26 @@ public class AutodetectFlatReport extends AbstractAlgoColumnBasedReport {
 	
 	/**
      * creates the column preferences object (if it's the case) and retrieves it
-     * for later use
+     * for later use. 
+     * 
+     * Please note that the internal storage of columnId is case insensitive 
      * 
      * @param columnId
      * @return
      */
     public ColumnPreferences forColumn(String columnId){
-    	if(!userColumnPrefs.containsKey(columnId)){
-    		userColumnPrefs.put(columnId, new ColumnPreferences()); 
-    	}    	
-    	return userColumnPrefs.get(columnId); 
+    	ColumnPreferences result = null; 
+    	if(columnId != null){
+    		String colIdUpperCase = columnId.toUpperCase(); 
+    		if(!userColumnPrefs.containsKey(colIdUpperCase)){
+    			userColumnPrefs.put(colIdUpperCase, new ColumnPreferences()); 
+    		}
+    		result = userColumnPrefs.get(colIdUpperCase); 
+    	}else{
+    		LOGGER.error("null passed as argument to AutodetectFlatReport.forColumn method"); 
+    	}
+    	
+    	return result; 
     }
     
     /**
