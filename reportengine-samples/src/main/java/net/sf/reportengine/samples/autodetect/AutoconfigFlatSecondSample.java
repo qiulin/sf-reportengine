@@ -21,7 +21,9 @@ public class AutoconfigFlatSecondSample {
 		input.setDbConnString("jdbc:hsqldb:file:./inputData/databases/testdb");
 		input.setDbUser("SA");
 		input.setDbPassword("");
-		input.setSqlStatement("select country, region, city, sex, religion, value from testreport t order by country, region, city");
+		input.setSqlStatement(	"select country, region, city, sex, religion, value "+
+								"from testreport "+
+								"order by country, region, city");
 		
 		AutoconfigFlatReport report = new AutoconfigFlatReport(); 
 		report.setIn(input); 
