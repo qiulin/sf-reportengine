@@ -22,21 +22,27 @@ public class FlatReportFromSqlQuery {
 		report.setTitle("Report obtained from SQL query"); 
 		
 		//input configuration
-		SqlInput reportInput = new SqlInput(); 
-		reportInput.setDbConnString("jdbc:oracle:thin:@172.21.45.35:1521:icisdev");
-		reportInput.setDbDriverClass("oracle.jdbc.driver.OracleDriver"); 
-		reportInput.setDbUser("AIS_DEV");
-		reportInput.setDbPassword("AIS_DEV"); 
-		reportInput.setSqlStatement("select atl_id, atl_declaration_id, atl_declaration_type , atl_quantity from at_logs order by atl_id");
-		report.setIn(reportInput);
+		SqlInput input = new SqlInput(); 
+		input.setDbDriverClass("org.hsqldb.jdbcDriver");
+		input.setDbConnString("jdbc:hsqldb:file:E:/projects/java/reportengine-trunk/reportengine/src/test/resources/databases/testdb");
+		input.setDbUser("SA");
+		input.setDbPassword("");
+		input.setSqlStatement("select country, region, city, sex, religion, value from testreport t order by country, region, city");
 		
-		report.addDataColumn(new DefaultDataColumn("atl_id", 0));
-		report.addDataColumn(new DefaultDataColumn("atl_declaration_id", 1)); 
-		report.addDataColumn(new DefaultDataColumn("atl_declaration_type", 2));
-		report.addDataColumn(new DefaultDataColumn("atl_quantity", 3));
-				
+		//setting the input
+		report.setIn(input);
+		
+		//the configuration below doesn't make too much sense as it skips some columns
+		//but it's just for demo purposes
+		report.addDataColumn(new DefaultDataColumn("country", 0));
+		report.addDataColumn(new DefaultDataColumn("city", 2)); 
+		report.addDataColumn(new DefaultDataColumn("sex", 3));
+		report.addDataColumn(new DefaultDataColumn("value", 5));
+		
+		//setting the output
 		report.setOut(new HtmlOutput("./output/ReportFromDbQuery.html"));
 		
+		//the one and only execute
 		report.execute();
 	}
 }
