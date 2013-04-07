@@ -89,21 +89,16 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
 			//handle last row for grouping columns 
 			
 			aggregationLevel = -1;
-			logger.debug("evaluating first data row. ");			
 		}else{
 			aggregationLevel = checkLevelChangedInGroupingColumns(groupingCols, getPreviousRowOfGroupingValues(), newRowEvent); 
 			
-			if(logger.isDebugEnabled()){
+			if(logger.isTraceEnabled()){
 				logger.trace("For newRow="+newRowEvent+" the grouping level found is "+aggregationLevel);
 			}
 		}
 		
 		//set the result in context
 		getContext().set(ContextKeys.NEW_GROUPING_LEVEL, aggregationLevel);
-		
-		if(logger.isDebugEnabled()){
-    		logger.debug("detected grouping level= "+aggregationLevel);
-    	}
 	}
     
     
