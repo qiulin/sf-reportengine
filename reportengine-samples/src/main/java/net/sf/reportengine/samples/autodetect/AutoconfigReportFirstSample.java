@@ -3,15 +3,15 @@
  */
 package net.sf.reportengine.samples.autodetect;
 
-import net.sf.reportengine.AutodetectFlatReport;
+import net.sf.reportengine.AutoconfigFlatReport;
 import net.sf.reportengine.in.SqlInput;
 import net.sf.reportengine.out.ExcelOutput;
 
 /**
- * @author dragos balan
+ * simple auto configured report
  *
  */
-public class AutodetectReportFirstSample {
+public class AutoconfigReportFirstSample {
 	
 	public static void main(String... args){
 		
@@ -22,7 +22,7 @@ public class AutodetectReportFirstSample {
 		input.setDbPassword("");
 		input.setSqlStatement("select country, region, city, sex, religion, value from testreport t order by country, region, city");
 		
-		AutodetectFlatReport report = new AutodetectFlatReport(); 
+		AutoconfigFlatReport report = new AutoconfigFlatReport(); 
 		report.setIn(input); 
 		report.setOut(new ExcelOutput("./output/FirstAutodetect.xls")); 
 		report.execute(); 
