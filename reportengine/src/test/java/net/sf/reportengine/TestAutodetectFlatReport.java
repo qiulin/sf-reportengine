@@ -61,7 +61,7 @@ public class TestAutodetectFlatReport extends TestCase {
 		input.setDbUser("SA");
 		input.setDbPassword("");
 		input.setDbDriverClass("org.hsqldb.jdbcDriver");
-		input.setDbConnString("jdbc:hsqldb:file:E:/projects/java/reportengine-trunk/reportengine/src/test/resources/databases/testdb");
+		input.setDbConnString("jdbc:hsqldb:file:./src/test/resources/databases/testdb");
 		input.setSqlStatement("select id, country, region, city, sex, religion, value from testreport t order by id");
 		flatReport.setIn(input); 
 		flatReport.setOut(new HtmlOutput("./target/AutodetectFromSql.html")); 
@@ -75,7 +75,7 @@ public class TestAutodetectFlatReport extends TestCase {
 		input.setDbUser("SA");
 		input.setDbPassword("");
 		input.setDbDriverClass("org.hsqldb.jdbcDriver");
-		input.setDbConnString("jdbc:hsqldb:file:E:/projects/java/reportengine-trunk/reportengine/src/test/resources/databases/testdb");
+		input.setDbConnString("jdbc:hsqldb:file:./src/test/resources/databases/testdb");
 		input.setSqlStatement("select country, region, city, sex, religion, value from testreport t order by country, region, city");
 		flatReport.setIn(input); 
 		flatReport.setOut(new HtmlOutput("./target/AutodetectFromSqlWithUserPrefs.html")); 
