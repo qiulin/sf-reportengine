@@ -28,9 +28,9 @@
   </parent>
     
    <scm>
-	<connection>scm:svn:https://svn.code.sf.net/p/reportengine/code/trunk</connection>
-    	<developerConnection>scm:svn:https://svn.code.sf.net/p/reportengine/code/trunk</developerConnection>
-    	<url>https://svn.code.sf.net/p/reportengine/code/trunk</url>
+	<connection>scm:svn:https://svn.code.sf.net/p/reportengine/code/trunk/reportengine</connection>
+    	<developerConnection>scm:svn:https://svn.code.sf.net/p/reportengine/code/trunk/reportengine</developerConnection>
+    	<url>https://svn.code.sf.net/p/reportengine/code/trunk/reportengine</url>
    </scm>
   
   
