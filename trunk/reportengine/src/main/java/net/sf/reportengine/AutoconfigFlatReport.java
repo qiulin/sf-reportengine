@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * @since 0.8
  * @see FlatReport
  */
-public class AutoconfigFlatReport extends AbstractAlgoColumnBasedReport {
+public class AutoconfigFlatReport extends AbstractReport {
 	
 	/**
 	 * the one and only logger
@@ -41,11 +41,14 @@ public class AutoconfigFlatReport extends AbstractAlgoColumnBasedReport {
      */
     private Map<String, ColumnPreferences> userColumnPrefs = new HashMap<String, ColumnPreferences>(); 
     
+    
+    private Algorithm algorithm = new OneLoopAlgorithm(); 
+    
     /**
      * default constructor
      */
     public AutoconfigFlatReport(){
-    	super(new OneLoopAlgorithm()); 
+    	
     }
     
     /**
@@ -65,7 +68,6 @@ public class AutoconfigFlatReport extends AbstractAlgoColumnBasedReport {
      */
     @Override protected void config(){
     	LOGGER.trace("configuring the autodetect flat report"); 
-    	Algorithm algorithm = getAlgorithm();
     	ReportContext context = algorithm.getContext();
     	
     	//preparing the context of the report algorithm 
@@ -129,4 +131,13 @@ public class AutoconfigFlatReport extends AbstractAlgoColumnBasedReport {
     protected Map<String, ColumnPreferences> getUserColumnPrefs(){
     	return userColumnPrefs; 
     }
+    
+    /**
+     * the main execute method of this report
+     */
+	@Override public void execute() {
+		validate(); 
+		config(); 
+		algorithm.executeAlgorithm(); 
+	}
 }

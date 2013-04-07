@@ -33,7 +33,6 @@ abstract class AbstractAlgoColumnBasedReport extends AbstractColumnBasedReport {
      * What this method does: <br>
      * <ul>
      *  <li>validates the configuration - validateConfig() method call</li>
-     *  <li>configures the algorithms - configAlgorithms() method call</li>
      *  <li>opens the output - output.open()</li>
      *  <li>runs each algorithm execute() method</li>
      *  <li>closes the output - output.close()</li>
