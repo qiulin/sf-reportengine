@@ -29,7 +29,8 @@ import java.util.List;
 
 import net.sf.reportengine.config.HorizAlign;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * <p>
  * Report Input implementation for database queries <br/>
@@ -44,10 +45,11 @@ import org.apache.log4j.Logger;
 public class SqlInput extends AbstractReportInput {
 	
 	/**
-	 * the one and only LOGGER
+	 * the one and only logger
 	 */
-	private static final Logger LOGGER = Logger.getLogger(SqlInput.class);
-    
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(SqlInput.class);
+	
     /**
      * the sql query
      */
@@ -330,7 +332,7 @@ public class SqlInput extends AbstractReportInput {
      */
     private void readMetaData() throws ReportInputException{
         try {
-        	if(LOGGER.isDebugEnabled())LOGGER.debug("reading metadata"); 
+        	LOGGER.debug("reading input metadata..."); 
             if(dbConnection == null){
                 initDBConnection();
             }

@@ -10,8 +10,8 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.Algorithm;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.OneLoopAlgorithm;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
@@ -24,7 +24,8 @@ import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.ReportUtils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -79,7 +80,7 @@ public class FlatReport extends AbstractAlgoColumnBasedReport {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = Logger.getLogger(FlatReport.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FlatReport.class);
     
     /**
      * default constructor
@@ -93,6 +94,7 @@ public class FlatReport extends AbstractAlgoColumnBasedReport {
      * algorithm configuration 
      */
     @Override protected void config(){
+    	LOGGER.trace("configuring flat report"); 
     	Algorithm algorithm = getAlgorithm();
     	ReportContext context = algorithm.getContext();
     	
@@ -130,7 +132,7 @@ public class FlatReport extends AbstractAlgoColumnBasedReport {
 
 
 	@Override protected void validate() {
-		
+		LOGGER.trace("validating flat report"); 
 		//validate non null input and output
 		super.validate(); 
         

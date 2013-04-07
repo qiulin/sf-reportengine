@@ -6,19 +6,20 @@ package net.sf.reportengine.core.steps;
 
 import java.util.List;
 
-import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.ReportContent;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.RowProps;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -41,8 +42,8 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(FlatReportTotalsOutputStep.class);
-	
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(FlatReportTotalsOutputStep.class);
 	
 	public static final String TOTAL_STRING = "Total";
 	public static final String GRAND_TOTAL_STRING = "Grand Total";
@@ -80,9 +81,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     	dataCols = getDataColumns(); 
     	distribOfCalculatorsInDataColsArray = getCalculatorDistributionInColumnDataArray(); 
     	
-    	if(logger.isTraceEnabled()){
-    		logger.trace("The FlatReportTotalsOutputStep has been initialized. The distribution array is null "+(distribOfCalculatorsInDataColsArray == null));
-    	}
+    	LOGGER.trace("The FlatReportTotalsOutputStep has been initialized. The distribution array is null {}", (distribOfCalculatorsInDataColsArray == null));
     }
     
     /**
@@ -100,7 +99,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
         	//output totals from level 0 to current grouping level
         	outputTotalRowsFromTo(0, totalRowEnd);            
         }else{
-        	logger.trace("not displaying totals because current level is "+aggLevel);
+        	LOGGER.trace("not displaying totals because current level is {}", aggLevel);
         }
      }
 
@@ -135,7 +134,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
      * @param rowEnd  		the last row to output
      */
     private void outputTotalRowsFromTo(int rowStart, int rowEnd){
-    	logger.trace("output totals from "+rowStart+" to "+rowEnd);
+    	LOGGER.trace("output totals from {} to ", rowStart, rowEnd);
     	Calculator[][] calculators = getCalculatorMatrix();
         for(int row = rowStart; row <= rowEnd ; row++){
         	//based on the row we can compute the aggregation level so that we can determine the 

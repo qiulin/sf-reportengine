@@ -10,7 +10,8 @@ import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -26,8 +27,7 @@ public class OneLoopAlgorithm extends AbstractAlgorithm {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(OneLoopAlgorithm.class);
-	
+	private static final Logger LOGGER = LoggerFactory.getLogger(OneLoopAlgorithm.class);	
     
     
     /**
@@ -43,9 +43,7 @@ public class OneLoopAlgorithm extends AbstractAlgorithm {
      * implementation for net.sf.reportengine.core.IReportEngine.execute();
      */
     public void executeAlgorithm() {
-    	if(logger.isDebugEnabled()){
-    		logger.debug(" executing one way iteration ");
-    	}
+    	LOGGER.trace("algorithm executing one iteration ");
         
     	if(getContext().getInput() == null){
     		throw new RuntimeException("Null input exception");

@@ -8,11 +8,12 @@ import java.util.List;
 
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.util.ContextKeys;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -25,10 +26,10 @@ import org.apache.log4j.Logger;
 public class PreviousRowManagerStep extends AbstractReportStep {
 	
 	/**
-	 * the one and only LOGGER
+	 * the one and only logger
 	 */
-	private static final Logger LOGGER = Logger.getLogger(PreviousRowManagerStep.class);
-	
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(PreviousRowManagerStep.class);
 	/**
 	 * reference to the last row (this is very helpful since this class makes 
 	 * comparisons between the current row and the last row
@@ -61,9 +62,7 @@ public class PreviousRowManagerStep extends AbstractReportStep {
 			}
 		}
 		
-		if(LOGGER.isTraceEnabled()){
-    		LOGGER.trace("previousRowOfGroupingValues "+Arrays.toString(previousRowOfGroupingColumnValues));
-    	}
+    	LOGGER.trace("previousRowOfGroupingValues {}", Arrays.toString(previousRowOfGroupingColumnValues));
 	}
 	
 	/**

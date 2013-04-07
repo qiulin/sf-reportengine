@@ -6,19 +6,21 @@ package net.sf.reportengine.util;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * class containing methods usefull for working with matrixes
  *  
- * @author dragosh
+ * @author dragos balan
  */
 public class MatrixUtils {
     
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(MatrixUtils.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(MatrixUtils.class);
 	
     /**
      * empty implementation 
@@ -34,7 +36,7 @@ public class MatrixUtils {
     
     public static void logMatrix(String comment, Object[][] m){
         if(comment != null){
-            logger.debug(comment);
+            LOGGER.debug(comment);
         }
         StringBuffer buffer = new StringBuffer();
         for (int i = 0; i < m.length; i++) {
@@ -42,7 +44,7 @@ public class MatrixUtils {
             for (int j = 0; j < m[i].length; j++) {
                 buffer.append(m[i][j] + "\t");
             }
-            logger.debug(buffer);
+            LOGGER.debug("{}",buffer);
             buffer.delete(0, buffer.length());
         }
     }
@@ -61,7 +63,7 @@ public class MatrixUtils {
 			    buffer.append(" " + row[i]);
 			}
 			buffer.append(" " + row[row.length - 1]);
-			logger.debug(buffer);
+			LOGGER.debug("{}",buffer);
 			buffer.delete(0, buffer.length());
 		}
 	}
@@ -86,7 +88,9 @@ public class MatrixUtils {
 				for(int j=0; j<matrix1[i].length && result; j++){
 					if(!matrix1[i][j].equals(matrix2[i][j])){
 						result = false;
-						logger.debug("row="+i+",col="+j+" the object "+matrix1[i][j]+" is not equal to "+matrix2[i][j]+" stopping iteration in matrix");
+						LOGGER.debug("row="+i+",col="+j);
+						LOGGER.debug(" 	the object {} is not equal to {}", matrix1[i][j], matrix2[i][j]);
+						LOGGER.debug(" 	stopping iteration in matrix");
 					}
 				}
 			}

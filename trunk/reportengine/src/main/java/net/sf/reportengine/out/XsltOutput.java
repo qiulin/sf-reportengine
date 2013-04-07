@@ -21,7 +21,8 @@ import javax.xml.transform.stream.StreamSource;
 
 import net.sf.reportengine.util.ReportIoUtils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -38,8 +39,8 @@ public class XsltOutput extends AbstractCharacterOutput {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = Logger.getLogger(XsltOutput.class);
-	
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(XsltOutput.class);	
 	/**
 	 * class path of the default transformer
 	 */
@@ -110,13 +111,12 @@ public class XsltOutput extends AbstractCharacterOutput {
     	super.open(); //prepare the xslt writer
     	try{
 	    	if(xsltReader == null){
-	    		if(LOGGER.isDebugEnabled())LOGGER.debug("No xslt reader found ... creating default xslt reader from classpath"); 
+	    		LOGGER.debug("No xslt reader found ... creating default xslt reader from classpath"); 
 	    		setXsltReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(DEFAULT_XSLT_PATH)));
 	    	}
 	    	if(tempXmlFilePath == null){
 	    		File tempXmlFile = File.createTempFile("report", ".tmp");
-	    		if(LOGGER.isInfoEnabled())
-	    			LOGGER.info("creating temporary xml file "+tempXmlFile.getAbsolutePath());
+	    		LOGGER.info("creating temporary xml file "+tempXmlFile.getAbsolutePath());
 	    		setTempXmlFilePath(tempXmlFile.getAbsolutePath());
 	    	}
 	    	staxReportOutput.setFilePath(getTempXmlFilePath());
@@ -145,7 +145,7 @@ public class XsltOutput extends AbstractCharacterOutput {
      * 
      */
     protected void transform(){
-    	if(LOGGER.isDebugEnabled())LOGGER.debug("applying xslt tranformation to the temporary xml file");
+    	LOGGER.debug("applying xslt tranformation to the temporary xml file");
     	try{
     		//get the temporary xml file created and transform it
     		Source xmlSource = constructXmlSourceFromTempFile(); 

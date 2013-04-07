@@ -15,7 +15,8 @@ import net.sf.reportengine.core.steps.crosstab.IntermOriginalDataColsList;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalGroupValuesList;
 import net.sf.reportengine.core.steps.crosstab.IntermediateReportRow;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>Intermediate input. (only for internal use)</p> 
@@ -30,10 +31,10 @@ import org.apache.log4j.Logger;
 public class IntermediateCrosstabReportInput extends AbstractReportInput {
 	
 	/**
-	 * the logger
+	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(IntermediateCrosstabReportInput.class);
-	
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(IntermediateCrosstabReportInput.class);
 	/**
 	 * input containing serialized intermediate objects
 	 */
@@ -62,7 +63,7 @@ public class IntermediateCrosstabReportInput extends AbstractReportInput {
 		super.open(); 
 		if(intermCtLinesInputStream == null) throw new IllegalStateException("Intermediate input stream is null"); 
 		nextRawLine = readNextRow(); 
-		logger.debug("Intermediate report input opened successfuly"); 
+		LOGGER.debug("Intermediate report input opened successfuly"); 
 	}
 
 	@Override
@@ -82,7 +83,7 @@ public class IntermediateCrosstabReportInput extends AbstractReportInput {
 	 * @see net.sf.reportengine.in.AbstractReportInput#nextRow()
 	 */
 	public Object[] nextRow()  {
-		logger.debug("requesting next intermediate row"); 
+		LOGGER.trace("requesting next intermediate row"); 
 		Object[] result = null; 
 		if(hasMoreRows()){
 			result = transformIntermediateCrosstabLine(nextRawLine); 
@@ -94,7 +95,7 @@ public class IntermediateCrosstabReportInput extends AbstractReportInput {
 				nextRawLine = null; 
 			}
 		}
-		logger.debug("returning nextRow: "+Arrays.toString(result)); 
+		LOGGER.debug("nextRow detected {} ",Arrays.toString(result)); 
 		return result; 
 	}
 
@@ -131,7 +132,7 @@ public class IntermediateCrosstabReportInput extends AbstractReportInput {
 	 * @return
 	 */
 	private Object[] transformIntermediateCrosstabLine(IntermediateReportRow intermRow){
-		if(logger.isDebugEnabled())logger.debug("transforming line: "+intermRow);
+		LOGGER.debug("transforming line: {}", intermRow);
 		Object[] result = null; 
 		
 		if(intermRow != null){

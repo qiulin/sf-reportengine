@@ -5,8 +5,6 @@ package net.sf.reportengine.out;
 
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
-
 /**
  * This output class keeps an in-memory array of objects which can be later returned 
  * by calling {@link #getCellMatrix()}. 

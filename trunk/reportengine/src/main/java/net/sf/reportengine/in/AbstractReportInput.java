@@ -6,7 +6,8 @@ package net.sf.reportengine.in;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -19,9 +20,10 @@ import org.apache.log4j.Logger;
 public abstract class AbstractReportInput implements ReportInput {
 	
 	/**
-	 * the logger
+	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(AbstractReportInput.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(AbstractReportInput.class);
 	
     /**
      * default header for columns
@@ -40,10 +42,7 @@ public abstract class AbstractReportInput implements ReportInput {
     	if(isOpen){
             throw new IllegalStateException("You cannot open twice the same input. Close it and then reopen it !");
         }
-    	
-    	if(logger.isDebugEnabled()){
-    		logger.debug("opening the report input");
-    	}
+    	LOGGER.debug("opening the input...");
         isOpen = true;
     }
 
@@ -55,9 +54,7 @@ public abstract class AbstractReportInput implements ReportInput {
             throw new IllegalStateException("You cannot close an input which is not open !");
         }
         isOpen = false;
-        if(logger.isDebugEnabled()){
-    		logger.debug("stream report input closed succesfully");
-    	}
+    	LOGGER.debug("stream report input closed succesfully");
     }
     
     /**

@@ -5,9 +5,9 @@ package net.sf.reportengine.core.steps.crosstab;
 
 import java.util.List;
 
-import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.SecondProcessDataColumn;
 import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
@@ -20,7 +20,8 @@ import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * displays the column headers for the crosstab report
@@ -33,7 +34,8 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(CrosstabHeaderOutputInitStep.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(CrosstabHeaderOutputInitStep.class);
 	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)
@@ -136,7 +138,7 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 				}
 			}
 		}else{
-			if(logger.isDebugEnabled())logger.debug("no group columns headers found"); 
+			LOGGER.debug("no group columns headers found"); 
 		}		
 	}
 

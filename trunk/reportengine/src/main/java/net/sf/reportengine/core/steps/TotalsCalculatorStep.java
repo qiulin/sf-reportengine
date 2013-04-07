@@ -5,12 +5,13 @@
 package net.sf.reportengine.core.steps;
 
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.util.CalculatorMatrix;
 import net.sf.reportengine.util.ContextKeys;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * this step is responsible for :
@@ -25,7 +26,7 @@ public class TotalsCalculatorStep extends AbstractReportStep{
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger logger = Logger.getLogger(TotalsCalculatorStep.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TotalsCalculatorStep.class);
 	
 	/**
      * the calculators matrix
@@ -56,7 +57,7 @@ public class TotalsCalculatorStep extends AbstractReportStep{
         groupColsCnt = getGroupingColumns() != null ? getGroupingColumns().size() : 0;
         
         if(groupColsCnt == 0){
-        	logger.warn("Dangerous setting: TotalsCalculatorStep was set in a report not having group columns");
+        	LOGGER.warn("Dangerous setting: TotalsCalculatorStep was set in a report not having group columns");
         }
         
         //groupColsCnt +1 (for Grand Total)
@@ -74,7 +75,8 @@ public class TotalsCalculatorStep extends AbstractReportStep{
 		if(aggLevel >= 0){
 			//if the current row is not a simple data row but contains a change in the grouping level 
 			int rowsToBeReinitialized = groupColsCnt - aggLevel ;
-			logger.trace("reinitializing totals for "+rowsToBeReinitialized+" rows in the totals table (aggLevel = "+aggLevel+")");
+			LOGGER.trace(	"reinitializing totals for {} rows in the totals table (aggLevel = {}",
+							rowsToBeReinitialized, aggLevel);
 			calculatorMatrix.initFirstXRows(rowsToBeReinitialized);
 		}    		
 		//add values to all calculators

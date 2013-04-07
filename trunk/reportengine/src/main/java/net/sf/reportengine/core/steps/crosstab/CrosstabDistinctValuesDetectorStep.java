@@ -3,12 +3,10 @@ package net.sf.reportengine.core.steps.crosstab;
 import java.util.List;
 
 import net.sf.reportengine.config.CrosstabHeaderRow;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.DistinctValuesHolder;
-
-import org.apache.log4j.Logger;
 
 
 /**
@@ -36,12 +34,6 @@ import org.apache.log4j.Logger;
  * @since 0.4
  */
 public class CrosstabDistinctValuesDetectorStep extends AbstractCrosstabStep {
-	
-	
-	/**
-	 * the one and only logger
-	 */
-	private static final Logger logger = Logger.getLogger(CrosstabDistinctValuesDetectorStep.class);
 	
 	/**
 	 * the distinct values holder

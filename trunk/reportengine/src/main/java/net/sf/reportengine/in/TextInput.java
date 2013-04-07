@@ -16,7 +16,8 @@ import java.util.StringTokenizer;
 
 import net.sf.reportengine.util.ReportIoUtils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -37,10 +38,10 @@ public class TextInput extends AbstractReportInput{
 	protected static final String NO_WRITER_SET_ERROR_MESSAGE = "The input cannot be opened. Please set a writer or a filePath to your input.";
 
 	/**
-	 * the LOGGER
+	 * the one and only logger
 	 */
-	private static final Logger LOGGER = Logger.getLogger(TextInput.class);
-    
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(TextInput.class);
     /**
      * the default separator
      */
@@ -196,14 +197,14 @@ public class TextInput extends AbstractReportInput{
         		reader.readLine();
         		skipped++;
         	};
-        	if(LOGGER.isDebugEnabled()) LOGGER.debug("skipped first "+skipped+" lines");
+        	LOGGER.debug("skipped first {} lines", skipped);
         	//read and keep the first real-row
         	nextRawDataRow = reader.readLine();
         	
             if(nextRawDataRow != null){
                 columnsCount = new StringTokenizer(nextRawDataRow, separator).countTokens();
             }else{
-            	LOGGER.warn("After skipping "+skipped+" lines the input doesn't have any more rows"); 
+            	LOGGER.warn("After skipping {} lines the input doesn't have any more rows ", skipped); 
             }
         }catch(IOException ioExc){
             throw new ReportInputException("IO Error occurred when opening the TextInput", ioExc);
