@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.reportengine.AutodetectFlatReport;
+import net.sf.reportengine.AutoconfigFlatReport;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
@@ -37,7 +37,7 @@ public class TestReportUtils extends TestCase {
 
 	public void testConstructDataColumnsFromMetadataAndUserPrefs() {
 		AutodetectConfigurationScenario.initScenario(); 
-		AutodetectFlatReport classUnderTest = new AutodetectFlatReport(); 
+		AutoconfigFlatReport classUnderTest = new AutoconfigFlatReport(); 
 		
 		//prepare first test: AS MANY USER PREFS AS METADATA COLS
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 

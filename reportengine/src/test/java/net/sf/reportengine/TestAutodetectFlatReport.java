@@ -33,7 +33,7 @@ public class TestAutodetectFlatReport extends TestCase {
 	}
 
 	public void testAutodetectColumnsFromMetadata(){
-		AutodetectFlatReport flatReport = new AutodetectFlatReport(); 
+		AutoconfigFlatReport flatReport = new AutoconfigFlatReport(); 
 		
 		AutodetectConfigurationScenario.initScenario(); 
 		
@@ -44,7 +44,7 @@ public class TestAutodetectFlatReport extends TestCase {
 	
 	
 	public void testAutodetectColumnsFromMetadataAndPreferences(){
-		AutodetectFlatReport flatReport = new AutodetectFlatReport(); 
+		AutoconfigFlatReport flatReport = new AutoconfigFlatReport(); 
 		
 		AutodetectConfigurationScenario.initScenario(); 
 		
@@ -56,7 +56,7 @@ public class TestAutodetectFlatReport extends TestCase {
 	}
 	
 	public void testAutodetectFromDatabase(){
-		AutodetectFlatReport flatReport = new AutodetectFlatReport(); 
+		AutoconfigFlatReport flatReport = new AutoconfigFlatReport(); 
 		SqlInput input = new SqlInput(); 
 		input.setDbUser("SA");
 		input.setDbPassword("");
@@ -70,7 +70,7 @@ public class TestAutodetectFlatReport extends TestCase {
 	}
 	
 	public void testAutodetectFromDatabaseWithUserPrefs(){
-		AutodetectFlatReport flatReport = new AutodetectFlatReport(); 
+		AutoconfigFlatReport flatReport = new AutoconfigFlatReport(); 
 		SqlInput input = new SqlInput(); 
 		input.setDbUser("SA");
 		input.setDbPassword("");

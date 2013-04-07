@@ -29,12 +29,12 @@ import org.slf4j.LoggerFactory;
  * @since 0.8
  * @see FlatReport
  */
-public class AutodetectFlatReport extends AbstractAlgoColumnBasedReport {
+public class AutoconfigFlatReport extends AbstractAlgoColumnBasedReport {
 	
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(AutodetectFlatReport.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AutoconfigFlatReport.class);
 	
 	/**
      * the user column preferences
@@ -44,7 +44,7 @@ public class AutodetectFlatReport extends AbstractAlgoColumnBasedReport {
     /**
      * default constructor
      */
-    public AutodetectFlatReport(){
+    public AutoconfigFlatReport(){
     	super(new OneLoopAlgorithm()); 
     }
     
@@ -116,7 +116,7 @@ public class AutodetectFlatReport extends AbstractAlgoColumnBasedReport {
     		}
     		result = userColumnPrefs.get(colIdUpperCase); 
     	}else{
-    		LOGGER.error("null passed as argument to AutodetectFlatReport.forColumn method"); 
+    		LOGGER.error("null passed as argument to AutoconfigFlatReport.forColumn method"); 
     	}
     	
     	return result; 
