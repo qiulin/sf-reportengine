@@ -61,8 +61,8 @@ public class PreviousRowManagerStep extends AbstractReportStep {
 			}
 		}
 		
-		if(LOGGER.isDebugEnabled()){
-    		LOGGER.debug("previousRowOfGroupingValues "+Arrays.toString(previousRowOfGroupingColumnValues));
+		if(LOGGER.isTraceEnabled()){
+    		LOGGER.trace("previousRowOfGroupingValues "+Arrays.toString(previousRowOfGroupingColumnValues));
     	}
 	}
 	
