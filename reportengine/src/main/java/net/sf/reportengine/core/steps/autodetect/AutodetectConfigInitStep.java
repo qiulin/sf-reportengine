@@ -37,33 +37,29 @@ public class AutodetectConfigInitStep implements AlgorithmInitStep {
 	 */
 	public void init(ReportContext reportContext) {
 		ReportInput input = reportContext.getInput(); 
-		if(input.supportsMetadata()){//TODO: remove this when all input classes will suport metadata
-			if(LOGGER.isInfoEnabled())LOGGER.info("Autodetecting the columns based on user preferences and input metadata"); 
-			Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)reportContext.get(ContextKeys.USER_COLUMN_PREFERENCES);
-			List<ColumnMetadata> colMetadata = input.getColumnMetadata(); 
-			
-			//construct data columns
-			List<DataColumn> dataColumns = ReportUtils.dataColsFromMetadataAndUserPrefs(colMetadata, colPrefs); 
-			LOGGER.debug("data columns detected : {}",dataColumns); 
-			
-			List<GroupColumn> groupColumns = null; 
-			if(dataColumns !=  null && dataColumns.size() < colMetadata.size()){
-				//there are group columns. let's detect them
-				groupColumns = ReportUtils.groupColsFromMetadataAndUserPrefs(colMetadata, colPrefs);
-			}//else{
-				//no group column. All configured columns are data columns
-			//}
-			LOGGER.debug("group columns detected : {}",groupColumns); 
-			
-			//set the result in context
-			reportContext.set(ContextKeys.DATA_COLUMNS, dataColumns);
-			reportContext.set(ContextKeys.GROUP_COLUMNS, groupColumns); 
-			
-			boolean reportHasCalculators = ReportUtils.atLeastOneDataColumHasCalculators(dataColumns);
-			reportContext.set(ContextKeys.SHOW_TOTALS, reportHasCalculators); 
-			reportContext.set(ContextKeys.SHOW_GRAND_TOTAL, reportHasCalculators); 
-    	}else{
-    		LOGGER.error("non supporting metadata input used inside config of {}",this.getClass());
-    	}
+		if(LOGGER.isInfoEnabled())LOGGER.info("Autodetecting the columns based on user preferences and input metadata"); 
+		Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)reportContext.get(ContextKeys.USER_COLUMN_PREFERENCES);
+		List<ColumnMetadata> colMetadata = input.getColumnMetadata(); 
+		
+		//construct data columns
+		List<DataColumn> dataColumns = ReportUtils.dataColsFromMetadataAndUserPrefs(colMetadata, colPrefs); 
+		LOGGER.debug("data columns detected : {}",dataColumns); 
+		
+		List<GroupColumn> groupColumns = null; 
+		if(dataColumns !=  null && dataColumns.size() < colMetadata.size()){
+			//there are group columns. let's detect them
+			groupColumns = ReportUtils.groupColsFromMetadataAndUserPrefs(colMetadata, colPrefs);
+		}//else{
+			//no group column. All configured columns are data columns
+		//}
+		LOGGER.debug("group columns detected : {}",groupColumns); 
+		
+		//set the result in context
+		reportContext.set(ContextKeys.DATA_COLUMNS, dataColumns);
+		reportContext.set(ContextKeys.GROUP_COLUMNS, groupColumns); 
+		
+		boolean reportHasCalculators = ReportUtils.atLeastOneDataColumHasCalculators(dataColumns);
+		reportContext.set(ContextKeys.SHOW_TOTALS, reportHasCalculators); 
+		reportContext.set(ContextKeys.SHOW_GRAND_TOTAL, reportHasCalculators); 
 	}
 }

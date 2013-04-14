@@ -83,7 +83,7 @@ public class TestTextReportInput extends ReportengineTC {
     public void testHasMoreRows() {
         int rowsCount = 0;
         try{
-            classUnderTest = new TextInput(getInputStreamFromClasspath(TEST_FILE));
+            classUnderTest = new TextInput(ReportIoUtils.createReaderFromClassPath(TEST_FILE));
             classUnderTest.open();
             while(classUnderTest.hasMoreRows()){
                 classUnderTest.nextRow();
@@ -110,7 +110,7 @@ public class TestTextReportInput extends ReportengineTC {
         try {
             classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath((TEST_FILE)));
             classUnderTest.open();
-            result = classUnderTest.getColumnsCount();
+            result = classUnderTest.getColumnMetadata().size();
         } catch (Throwable e) {
             e.printStackTrace();
             fail(e.getMessage()); 
@@ -124,7 +124,7 @@ public class TestTextReportInput extends ReportengineTC {
      * Test method for 'net.sf.reportengine.in.FileDataProvider.getColumnsCount()'
      */
     public void testGetColumnsCount2() {
-        int result= -1;
+        
         try {
             classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath(TEST_FILE));
             classUnderTest.open();
@@ -136,7 +136,7 @@ public class TestTextReportInput extends ReportengineTC {
             classUnderTest.nextRow();
             classUnderTest.nextRow();
             
-            result  = classUnderTest.getColumnsCount();
+            assertEquals(classUnderTest.getColumnMetadata().size(), 6);
             
         } catch (Throwable e) {
             e.printStackTrace();
@@ -144,9 +144,10 @@ public class TestTextReportInput extends ReportengineTC {
         }finally{
         	classUnderTest.close(); 
         }
-        
-        assertEquals(result, 6);
     }
+    
+   
+    
     
     public void testFirstRow(){
         try {
@@ -222,7 +223,7 @@ public class TestTextReportInput extends ReportengineTC {
     public void testNextRowOnEmptyFile(){
         Object[] nextRow = null;
         try {
-            classUnderTest = new TextInput(getInputStreamFromClasspath("empty.txt"));
+            classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath("empty.txt"));
             classUnderTest.open();
             nextRow = classUnderTest.nextRow();
         } catch (ReportInputException e) {
@@ -243,7 +244,7 @@ public class TestTextReportInput extends ReportengineTC {
         Object[] nextRow = null;
         boolean hasMoreRows = true;
         try {
-            classUnderTest = new TextInput(getInputStreamFromClasspath("empty.txt"));
+            classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath("empty.txt"));
             classUnderTest.open();
             //classUnderTest.first();
             
@@ -264,7 +265,7 @@ public class TestTextReportInput extends ReportengineTC {
     
     public void testUtf8Characters(){
     	int linesCount = 0;
-    	classUnderTest = new TextInput(getInputStreamFromClasspath("Utf8Input.txt"), ",", "UTF-8");
+    	classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath("Utf8Input.txt"), ",", "UTF-8");
     	classUnderTest.open(); 
     	Object[] row = null; 
     	while(classUnderTest.hasMoreRows()){
@@ -291,37 +292,23 @@ public class TestTextReportInput extends ReportengineTC {
     
     public void testSkipFirstLines(){
     	int rowsCount = 0;
-    	InputStream inputStream = getInputStreamFromClasspath("2x3x1WithColumnHeaders.txt");
+    	InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("2x3x1WithColumnHeaders.txt");
     	classUnderTest = new TextInput(inputStream); 
-    	classUnderTest.setLinesToBeSkipped(1);
+    	classUnderTest.setFirstLineHeader(true);
     	classUnderTest.open(); 
     	
     	assertTrue(classUnderTest.hasMoreRows()); 
     	
     	while(classUnderTest.hasMoreRows()){
-             classUnderTest.nextRow();
+             Object[] row = classUnderTest.nextRow();
+             assertNotNull(row); 
+             assertEquals(6, row.length); 
+             
              rowsCount++;
         }
     	assertEquals(25, rowsCount);
-    	
-    	classUnderTest.close(); 
-    }
-    
-    
-    public void testSkipFirst2Lines(){
-    	int rowsCount = 0;
-    	InputStream inputStream = getInputStreamFromClasspath("2x3x1With2ColumnHeaders.txt");
-    	classUnderTest = new TextInput(inputStream); 
-    	classUnderTest.setLinesToBeSkipped(2);
-    	classUnderTest.open(); 
-    	
-    	assertTrue(classUnderTest.hasMoreRows()); 
-    	
-    	while(classUnderTest.hasMoreRows()){
-             classUnderTest.nextRow();
-             rowsCount++;
-        }
-    	assertEquals(25, rowsCount);
+    	assertNotNull(classUnderTest.getColumnMetadata()); 
+    	assertEquals(6, classUnderTest.getColumnMetadata().size()); 
     	
     	classUnderTest.close(); 
     }

@@ -47,8 +47,7 @@ public class SqlInput extends AbstractReportInput {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(SqlInput.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SqlInput.class);
 	
     /**
      * the sql query
@@ -91,11 +90,6 @@ public class SqlInput extends AbstractReportInput {
     private ResultSet resultSet;
     
     /**
-     * result set meta data
-     */
-    private ResultSetMetaData metaData;
-    
-    /**
      * next row with data
      */
     private Object[] nextRow ;
@@ -105,10 +99,7 @@ public class SqlInput extends AbstractReportInput {
      */
     private boolean hasMoreRows = false;
     
-    /**
-     * the columns metadata
-     */
-    private List<ColumnMetadata> columnMetadata; 
+   
     
     /**
      * Empty constructor for query data provider. Just using this simple constructor it's not enough <br/>
@@ -135,10 +126,10 @@ public class SqlInput extends AbstractReportInput {
      * @param dbUser            the database user
      * @param dbPassword        database password
      */
-    public SqlInput(  String dbConnString, 
-                          String driverClass, 
-                          String dbUser, 
-                          String dbPassword){
+    public SqlInput(	String dbConnString, 
+                      	String driverClass, 
+                        String dbUser, 
+                        String dbPassword){
         this.dbConnString = dbConnString;
         this.dbDriverClass = driverClass;
         this.dbUser = dbUser;
@@ -344,29 +335,17 @@ public class SqlInput extends AbstractReportInput {
             //execute the statement : the return should be true 
             //if it's a select query or false if it's an update
             resultSet = stmt.executeQuery();
-            metaData = resultSet.getMetaData();
-            columnsCount = metaData.getColumnCount();
-
-            columnMetadata = new ArrayList<ColumnMetadata>(columnsCount);
-            //looping through columns to get their type
-            for(int i=0; i < columnsCount; i++){
-            	ColumnMetadata temp = new ColumnMetadata(); 
-            	temp.setColumnLabel(metaData.getColumnLabel(i+1));
-            	temp.setHorizontalAlign(getAlignmentFromColumnType(metaData.getColumnType(i+1)));
-            	temp.setColumnId(metaData.getColumnName(i+1)); 
-            	columnMetadata.add(temp); 
-            }
+            
+            columnsCount = resultSet.getMetaData().getColumnCount(); 
+            setColumnMetadata(extractMetadata(resultSet.getMetaData())); 
                                     
             hasMoreRows = resultSet.first();
-            //hasMoreRows = resultSet.next();
             
             if(hasMoreRows){
                 nextRow = new Object[columnsCount];
             }else{
                 nextRow = null;
             }
-            
-            //stmt.close();
             
         } catch (SQLException e) {
         	closeDbConnection(); 
@@ -375,20 +354,22 @@ public class SqlInput extends AbstractReportInput {
     }
     
     /**
-     * returns true which is a signal that sql inputs in general contain metadata
+     * 
+     * @param rsMetadata
+     * @return
+     * @throws SQLException
      */
-    @Override public boolean supportsMetadata(){
-    	return true; 
+    private List<ColumnMetadata> extractMetadata(ResultSetMetaData rsMetadata) throws SQLException{
+    	List<ColumnMetadata> columnMetadata = new ArrayList<ColumnMetadata>(rsMetadata.getColumnCount());
+        //looping through columns to get their type
+        for(int i=0; i < columnsCount; i++){
+        	columnMetadata.add(new ColumnMetadata(	rsMetadata.getColumnName(i+1), 
+													rsMetadata.getColumnLabel(i+1), 
+													getAlignmentFromColumnType(rsMetadata.getColumnType(i+1)))); 
+        }
+        return columnMetadata; 
     }
     
-    
-    /**
-     * this default implementation returns an empty array because this abstract input 
-     * doesn't support column metadata
-     */
-    @Override public List<ColumnMetadata> getColumnMetadata(){
-    	return columnMetadata; 
-    }
     
     /**
      * 

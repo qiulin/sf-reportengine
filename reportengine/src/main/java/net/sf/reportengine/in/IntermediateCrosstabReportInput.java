@@ -33,8 +33,8 @@ public class IntermediateCrosstabReportInput extends AbstractReportInput {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(IntermediateCrosstabReportInput.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(IntermediateCrosstabReportInput.class);
+	
 	/**
 	 * input containing serialized intermediate objects
 	 */
@@ -44,7 +44,6 @@ public class IntermediateCrosstabReportInput extends AbstractReportInput {
 	 * the next unprocessed line
 	 */
 	private IntermediateReportRow nextRawLine; 
-	
 	
 	/**
 	 * 
@@ -95,7 +94,7 @@ public class IntermediateCrosstabReportInput extends AbstractReportInput {
 				nextRawLine = null; 
 			}
 		}
-		LOGGER.debug("nextRow detected {} ",Arrays.toString(result)); 
+		LOGGER.debug("nextRow detected {} ", Arrays.toString(result)); 
 		return result; 
 	}
 

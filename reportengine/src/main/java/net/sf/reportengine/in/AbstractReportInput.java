@@ -4,6 +4,7 @@
  */
 package net.sf.reportengine.in;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -22,8 +23,7 @@ public abstract class AbstractReportInput implements ReportInput {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(AbstractReportInput.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractReportInput.class);
 	
     /**
      * default header for columns
@@ -34,7 +34,13 @@ public abstract class AbstractReportInput implements ReportInput {
      * open flag
      */
     private boolean isOpen = false;
-
+    
+    
+    /**
+     * the columns metadata
+     */
+    private List<ColumnMetadata> columnMetadata = new ArrayList<ColumnMetadata>(); 
+    
     /**
      * marks the input as open. 
      */
@@ -64,22 +70,12 @@ public abstract class AbstractReportInput implements ReportInput {
     	return isOpen; 
     }
     
-    /**
-     * This is the default implementation which returns false. 
-     * By returning false we signal the non-existence of meta data in this report. 
-     * Make sure you overwrite this method if your input contains meta data
-     */
-    public boolean supportsMetadata(){
-    	return false;
+    
+    public List<ColumnMetadata> getColumnMetadata(){
+    	return columnMetadata; 
     }
     
-    
-    /**
-     * this default implementation returns an empty array.
-     * Don't hesitate to overwrite this method and return a non-empty array if your input
-     * has metadata 
-     */
-    public List<ColumnMetadata> getColumnMetadata(){
-    	throw new IllegalStateException("A call to getColumnMetadata() method cannot be made if your input doesn't contain meta data"); 
+    protected void setColumnMetadata(List<ColumnMetadata> metadata){
+    	this.columnMetadata = metadata; 
     }
 }

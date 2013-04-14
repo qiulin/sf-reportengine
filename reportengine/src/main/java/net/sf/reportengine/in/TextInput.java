@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import net.sf.reportengine.util.ReportIoUtils;
@@ -40,8 +41,8 @@ public class TextInput extends AbstractReportInput{
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(TextInput.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TextInput.class);
+	
     /**
      * the default separator
      */
@@ -57,18 +58,11 @@ public class TextInput extends AbstractReportInput{
      */
 	private String separator = DEFAULT_SEPARATOR;
     
-	/**
-     * the columns count
-     */
-    private int columnsCount = Integer.MIN_VALUE;
-    
     /**
-     * this field represents the number of lines that should be skipped 
-     * from the beginning of the stream
+     * whether or not the first line should be interpreted as header
      */
-    private int linesToBeSkipped = 0; 
+    private boolean firstLineIsHeader = false; 
     
-
 	/**
      * the raw data (unparsed and un-split in columns)
      */
@@ -113,26 +107,34 @@ public class TextInput extends AbstractReportInput{
      * @throws FileNotFoundException 
      */
 	public TextInput(String filePath, String separator, String encoding){
-		setInputReader(ReportIoUtils.createReaderFromPath(filePath, encoding));
-		setSeparator(separator);
+		this(filePath, separator, encoding, false); 
 	}
 	
 	
 	/**
-	 * creates a report input for the given InputStream using the specified encoding and data-separator
+     * Creates an input for the given fileName using the provided separator.
+     * When reading the specified encoding is used.
+     * 
+     * @param filePath		the path of the file containing data
+     * @param separator     the separator used to identify data/column
+     * @param encoding 		the encoding used when reading the file
+     * @param firstLineIsHeader specifies whether the first line contains the column headers or not
+     * 
+     */
+	public TextInput(String filePath, String separator, String encoding, boolean firstLineIsHeader){
+		setInputReader(ReportIoUtils.createReaderFromPath(filePath, encoding));
+		setSeparator(separator);
+		setFirstLineHeader(firstLineIsHeader); 
+	}
+	
+	/**
+	 * creates a report input for the given input stream using the utf-8 encoding 
+	 * and comma as data-separator
 	 * 
-	 * @param is			the input stream
-	 * @param separator		data separator
-	 * @param encoding		the encoding 
-	 * @throws UnsupportedEncodingException
+	 * @param is	the input stream
 	 */
-	public TextInput(InputStream is, String separator, String encoding){
-		try{
-			setInputReader(new InputStreamReader(is, encoding));
-			setSeparator(separator); 
-		}catch(UnsupportedEncodingException uee){
-			throw new ReportInputException(uee); 
-		}
+	public TextInput(InputStream is){
+		this(is, DEFAULT_SEPARATOR);
 	}
 	
 	/**
@@ -148,14 +150,35 @@ public class TextInput extends AbstractReportInput{
 	}
 	
 	/**
-	 * creates a report input for the given input stream using the utf-8 encoding 
-	 * and comma as data-separator
+	 * creates a report input for the given InputStream using the specified encoding and data-separator
 	 * 
-	 * @param is	the input stream
+	 * @param is			the input stream
+	 * @param separator		data separator
+	 * @param encoding		the encoding 
 	 * @throws UnsupportedEncodingException
 	 */
-	public TextInput(InputStream is){
-		this(is, DEFAULT_SEPARATOR);
+	public TextInput(InputStream is, String separator, String encoding){
+		this(is, separator, encoding, false); 
+	}
+	
+	
+	/**
+	 * creates a report input for the given InputStream using the specified encoding and data-separator
+	 * 
+	 * @param is			the input stream
+	 * @param separator		data separator
+	 * @param encoding		the encoding 
+	 * @param encoding 		this flag specifies whether or not the first line contains the column headers
+	 * @throws UnsupportedEncodingException
+	 */
+	public TextInput(InputStream is, String separator, String encoding, boolean firstLineIsHeader){
+		try{
+			setInputReader(new InputStreamReader(is, encoding));
+			setSeparator(separator);
+			setFirstLineHeader(firstLineIsHeader); 
+		}catch(UnsupportedEncodingException uee){
+			throw new ReportInputException(uee); 
+		}
 	}
 	
 	/**
@@ -167,6 +190,7 @@ public class TextInput extends AbstractReportInput{
 		this(inReader, DEFAULT_SEPARATOR);
 	}
 	
+	
 	/**
 	 * creates a report-input based on the provided reader and using separator to distinguish between
 	 * data/columns
@@ -174,9 +198,22 @@ public class TextInput extends AbstractReportInput{
 	 * @param inReader		the reader
 	 * @param separator		the separator used to identify data/columns
 	 */
-	public TextInput(Reader inReader, String separator){
+	public TextInput(Reader reader, String separator){
+		this(reader, separator, false); 
+	}
+	
+	/**
+	 * creates a report-input based on the provided reader and using separator to distinguish between
+	 * data/columns
+	 * 
+	 * @param inReader		the reader
+	 * @param separator		the separator used to identify data/columns
+	 * @param firstLineIsHeaderFlag	this flag specifies if the first line contains the column headers
+	 */
+	public TextInput(Reader inReader, String separator, boolean firstLineIsHeaderFlag){
 		setInputReader(inReader); 
 		setSeparator(separator);
+		setFirstLineHeader(firstLineIsHeaderFlag);
 	}
 	
 	/**
@@ -189,22 +226,33 @@ public class TextInput extends AbstractReportInput{
         try{
         	if(reader == null) throw new ReportInputException(NO_WRITER_SET_ERROR_MESSAGE); 
         	
+        	LOGGER.debug("first line is header ", firstLineIsHeader);
+        	if(isFirstLineHeader()){
+        		String rawHeader = reader.readLine();
+        		if(rawHeader != null){
+        			String[] headerArr = transformRawDataRowIntoArray(rawHeader, separator);
+        			setColumnMetadata(extractMetadataFromHeaders(headerArr)); 
+        		}else{
+        			LOGGER.warn("Couldn't find the header while opening the input"); 
+        		}
+        	}
+        	
         	//we need to read at least one row even if the 
         	// linesToBeSkipped is zero because after open() 
         	//we have to be able to respond to hasMoreRows() 
-        	int skipped = 0;
-        	while(skipped < linesToBeSkipped){
-        		reader.readLine();
-        		skipped++;
-        	};
-        	LOGGER.debug("skipped first {} lines", skipped);
+        	
         	//read and keep the first real-row
         	nextRawDataRow = reader.readLine();
         	
-            if(nextRawDataRow != null){
-                columnsCount = new StringTokenizer(nextRawDataRow, separator).countTokens();
+            if(nextRawDataRow != null && !isFirstLineHeader()){
+            	//if the metadata was not previously read then we construct an almost empty 
+            	//metadata array
+                int columnsCount = new StringTokenizer(nextRawDataRow, separator).countTokens();
+                setColumnMetadata(createEmptyMetadata(columnsCount));
             }else{
-            	LOGGER.warn("After skipping {} lines the input doesn't have any more rows ", skipped); 
+            	if(nextRawDataRow == null){
+            		LOGGER.warn("While opening the input we found no rows"); 
+            	}
             }
         }catch(IOException ioExc){
             throw new ReportInputException("IO Error occurred when opening the TextInput", ioExc);
@@ -219,23 +267,15 @@ public class TextInput extends AbstractReportInput{
         super.close();
         try{
             if(reader != null){
-                reader.close();
+            	reader.close();
                 reader = null;
             }
         }catch(IOException exc){
-            throw new ReportInputException(" An IO Error occured when closing the input reader !", exc);
+            throw new ReportInputException("An IO Error occured when closing the input reader !", exc);
         }
     }
 	
 	
-	/**
-	 * returns the column count
-	 */
-	public int getColumnsCount()  {
-	    return columnsCount;
-	}
-	
-   
    /**
     * returns the next row of data if any row available otherwise returns null<br>
     * You should combine this method with #hasMoreRows()
@@ -248,32 +288,58 @@ public class TextInput extends AbstractReportInput{
     * } 
     * </pre> 
     */
-    public Object[] nextRow() throws ReportInputException {
+    public Object[] nextRow(){
     	Object[] result = null;
         try {
             //if read not performed  && read next row of data
             if(hasMoreRows()){
-            	ArrayList<Object> tempDataRow = new ArrayList<Object>();
-                StringTokenizer strTokenizer = new StringTokenizer(nextRawDataRow, separator);
-                
-                while(strTokenizer.hasMoreTokens()){
-                    tempDataRow.add(strTokenizer.nextToken());
-                };
-       
-                assert tempDataRow.size() == columnsCount : 
-                       " Normally each row should have the same length !";
-                
+            	result = transformRawDataRowIntoArray(nextRawDataRow, separator);
                 
                 //now we read the next raw row
                 nextRawDataRow = reader.readLine();
-                result = tempDataRow.toArray(new Object[tempDataRow.size()]);
             }
         } catch (IOException e) {
-            throw new ReportInputException("An IO Error occured !",e);
+            throw new ReportInputException("IO Error occured while reading data !",e);
         }
+        
         return result; 
     }
     
+    /**
+     * transforms a raw data row into an array of objects
+     * 
+     * @param rawLine
+     * @param separator
+     * @return
+     */
+    private String[] transformRawDataRowIntoArray(String rawLine, String separator){
+    	ArrayList<String> tempDataRow = new ArrayList<String>();
+        StringTokenizer strTokenizer = new StringTokenizer(rawLine, separator);
+        
+        while(strTokenizer.hasMoreTokens()){
+            tempDataRow.add(strTokenizer.nextToken());
+        };
+        
+        return tempDataRow.toArray(new String[tempDataRow.size()]);
+    }
+    
+    
+    private List<ColumnMetadata> extractMetadataFromHeaders(String[] headerArr){
+    	List<ColumnMetadata> result = new ArrayList<ColumnMetadata>(headerArr.length); 
+		for (String header : headerArr) {
+			result.add(new ColumnMetadata(header, header)); 
+		}
+		return result;
+    }
+    
+    private List<ColumnMetadata> createEmptyMetadata(int columnCount){
+    	List<ColumnMetadata> result = new ArrayList<ColumnMetadata>(columnCount); 
+		for (int i=0; i<columnCount; i++) {
+			ColumnMetadata colMetadata = new ColumnMetadata(""+i); 
+			result.add(colMetadata); 
+		}
+		return result;
+    }
     
     /**
      * returns true if there are more rows to read otherwise false
@@ -313,25 +379,19 @@ public class TextInput extends AbstractReportInput{
     public Reader getInputReader(){
     	return reader; 
     }
-    
-    /**
-     * retrieves the number of lines to be skipped at the begining of the stream
-     * @return
-     */
-    public int getLinesToBeSkipped() {
-		return linesToBeSkipped;
-	}
 
-    /**
-     * tells this input to skip the first specified lines. 
-     * This is useful when your input already has some column headers
-     * 
-     * @param linesToBeSkipped
-     */
-	public void setLinesToBeSkipped(int skipFirstLines) {
-		this.linesToBeSkipped = skipFirstLines;
+	/**
+	 * 
+	 * @param flag
+	 */
+	public void setFirstLineHeader(boolean flag){
+		this.firstLineIsHeader = flag; 
 	}
-
+	
+	public boolean isFirstLineHeader(){
+		return firstLineIsHeader; 
+	}
+	
 	/**
 	 * @param filePath the filePath to set
 	 */

@@ -27,10 +27,7 @@ public class ArrayReportInput extends AbstractReportInput {
 	 */
 	private int currentRow = 0;
 	
-	/**
-	 * 
-	 */
-	private List<ColumnMetadata> columnMetadata; 
+	
 	
 	/**
 	 * 
@@ -45,7 +42,7 @@ public class ArrayReportInput extends AbstractReportInput {
      */
     public void open() throws ReportInputException{
     	super.open(); 
-    	columnMetadata = readMetadata();
+    	setColumnMetadata(readMetadata());
     	currentRow = 0;
     }
 
@@ -66,9 +63,7 @@ public class ArrayReportInput extends AbstractReportInput {
 		return data[currentRow++];
 	}
 	
-	@Override public boolean supportsMetadata(){
-		return true; 
-	}
+	
 	
 	
 	private List<ColumnMetadata> readMetadata(){
@@ -76,18 +71,11 @@ public class ArrayReportInput extends AbstractReportInput {
 		if(data != null && data.length > 0 && data[0] != null && data[0].length >0){
 			int arrayLength = data[0].length; 
 			for (int i = 0; i < arrayLength; i++) {
-				ColumnMetadata metadata = new ColumnMetadata();
-				metadata.setColumnId(""+i);
-				metadata.setColumnLabel(""+i);
-				metadata.setHorizontalAlign(HorizAlign.CENTER);//TODO: infer horizontal align from object's class
+				String columnId = ""+i;
+				ColumnMetadata metadata = new ColumnMetadata(columnId, columnId);
 			}
 		}
 		
 		return result;
-	}
-	
-	
-	@Override public List<ColumnMetadata> getColumnMetadata() {
-		return columnMetadata; 
 	}
 }

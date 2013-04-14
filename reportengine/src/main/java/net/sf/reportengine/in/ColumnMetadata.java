@@ -15,42 +15,53 @@ public final class ColumnMetadata {
 	/**
 	 * the label of the column ( also known as column header)
 	 */
-	private String columnLabel; 
+	private final String columnLabel; 
 	
 	/**
 	 * the column identifier
 	 */
-	private String columnId; 
+	private final String columnId; 
 	
 	/**
 	 * the horizontal alignment
 	 */
-	private HorizAlign horizontalAlign; 
-	
+	private final HorizAlign horizontalAlign; 
 	
 	/**
-	 * the constructor
+	 * 
+	 * @param columnId
 	 */
-	public ColumnMetadata(){
-		
+	public ColumnMetadata(String columnId){
+		this(columnId, null); 
 	}
-
-
+	
+	/**
+	 * 
+	 * @param columnId
+	 * @param columnLabel
+	 */
+	public ColumnMetadata(String columnId, String columnLabel){
+		this(columnId, columnLabel, null); 
+	}
+	
+	/**
+	 * 
+	 * @param columnId
+	 * @param columnLabel
+	 * @param horizAlign
+	 */
+	public ColumnMetadata(String columnId, String columnLabel, HorizAlign horizAlign){
+		this.columnId = columnId; 
+		this.columnLabel = columnLabel; 
+		this.horizontalAlign = horizAlign; 
+	}
+	
 	/**
 	 * @return the columnLabel
 	 */
 	public String getColumnLabel() {
 		return columnLabel;
 	}
-
-
-	/**
-	 * @param columnLabel the columnLabel to set
-	 */
-	public void setColumnLabel(String columnLabel) {
-		this.columnLabel = columnLabel;
-	}
-
 
 	/**
 	 * @return the columnId
@@ -59,28 +70,10 @@ public final class ColumnMetadata {
 		return columnId;
 	}
 
-
-	/**
-	 * @param columnId the columnId to set
-	 */
-	public void setColumnId(String columnId) {
-		this.columnId = columnId;
-	}
-
-
 	/**
 	 * @return the horizontalAlign
 	 */
 	public HorizAlign getHorizontalAlign() {
 		return horizontalAlign;
 	}
-
-
-	/**
-	 * @param horizontalAlign the horizontalAlign to set
-	 */
-	public void setHorizontalAlign(HorizAlign horizontalAlign) {
-		this.horizontalAlign = horizontalAlign;
-	}
-	
 }
