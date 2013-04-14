@@ -7,7 +7,9 @@ import java.text.Format;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.Calculator;
-import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>This is the basic implementation for a data column.</p> 
@@ -49,6 +51,12 @@ import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
  * @since 0.4
  */
 public class DefaultDataColumn extends AbstractDataColumn {
+	
+	/**
+	 * the one and only logger
+	 */
+	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultDataColumn.class);
+	
 	
 	/**
 	 * zero based index of the input column
@@ -135,6 +143,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 * @see net.sf.reportengine.config.DataColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
 	public Object getValue(NewRowEvent newRowEvent) {
+		//LOGGER.debug("retrieving value {} from rowEvent {}", inputColumnIndex, newRowEvent); 
 		return newRowEvent.getInputDataRow()[inputColumnIndex];
 	}
 

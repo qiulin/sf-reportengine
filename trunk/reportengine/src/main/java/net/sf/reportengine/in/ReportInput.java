@@ -42,14 +42,6 @@ public interface ReportInput {
      */
     public boolean hasMoreRows();
     
-    /**
-     * the purpose of this method is to inform the caller if 
-     * this input contains any meta data. If this method return false
-     * then no call to {@link #getColumnMetadata()} will be made
-     * 
-     * @return true if this report contains any metadata
-     */
-    public boolean supportsMetadata(); 
     
     /**
      * <p>getter for columns metadata (column label/header, horizontal alignment, etc.)</p>

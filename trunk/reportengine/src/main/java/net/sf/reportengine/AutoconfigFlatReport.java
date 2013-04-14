@@ -41,15 +41,15 @@ public class AutoconfigFlatReport extends AbstractReport {
      */
     private Map<String, ColumnPreferences> userColumnPrefs = new HashMap<String, ColumnPreferences>(); 
     
-    
+    /**
+     * the algorithm that holds all report steps
+     */
     private Algorithm algorithm = new OneLoopAlgorithm(); 
     
     /**
      * default constructor
      */
-    public AutoconfigFlatReport(){
-    	
-    }
+    public AutoconfigFlatReport(){}
     
     /**
      * validates the report
@@ -57,9 +57,6 @@ public class AutoconfigFlatReport extends AbstractReport {
     @Override protected void validate(){
     	super.validate(); 
     	
-    	if(!getIn().supportsMetadata()){
-    		throw new ConfigValidationException(""+this.getClass()+" cannot work with non metadata input");
-    	}
     	//TODO: add more validations here
     }
     
