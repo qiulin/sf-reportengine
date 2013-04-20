@@ -9,7 +9,9 @@ import net.sf.reportengine.core.ReportContent;
 
 /**
  * immutable cell properties class. 
- * This is constructed internally to send data to the output.
+ * This is constructed internally to send data to the output. 
+ * The only use of this class is inside the FreemarkerOutput and all outputs using FreemarkerOutput
+ * inside
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
@@ -40,6 +42,11 @@ public final class CellProps {
      * horizontal alignment
      */
 	private final HorizAlign horizAlign;
+	
+	/**
+	 * row number
+	 */
+	private final int rowNbr; 
 
 	
 	/**
@@ -52,6 +59,7 @@ public final class CellProps {
 		this.colspan = propsBuilder.colspan; 
 		this.content = propsBuilder.content; 
 		this.horizAlign = propsBuilder.horizAlign; 
+		this.rowNbr = propsBuilder.rowNumber; 
 	}
 	
 	/**
@@ -87,6 +95,14 @@ public final class CellProps {
 	}
 	
 	/**
+	 * 
+	 * @return
+	 */
+	public int getRowNumber(){
+		return rowNbr; 
+	}
+	
+	/**
 	 * equals
 	 */
 	@Override public boolean equals(Object another) {
@@ -95,9 +111,11 @@ public final class CellProps {
 			CellProps anotherAsCP = (CellProps) another;
 			result = value.equals(anotherAsCP.getValue()) 
 					 && (colspan == anotherAsCP.getColspan())
-					 && (content.equals(anotherAsCP.getContentType()));
+					 && (content.equals(anotherAsCP.getContentType()))
 					 // TODO include the horizontal alignment in the equals
-					 //&& (horizAlign.equals(anotherAsCP.getHorizontalAlign())); 
+					 //&& (horizAlign.equals(anotherAsCP.getHorizontalAlign()))
+					 //&& (rowNbr == anotherAsCP.getRowNumber())
+					 ; 
 		}
 		return result;
 	}
@@ -111,6 +129,7 @@ public final class CellProps {
 		result = 97 * result + colspan;
 		result = 97 * result + content.hashCode();
 		result = 97 * result + horizAlign.hashCode(); 
+		result = 97 * result + rowNbr; 
 		return result;
 	}
 	
@@ -123,6 +142,7 @@ public final class CellProps {
 		result.append(",cspan=").append(colspan);
 		result.append(",type=").append(content);
 		result.append(", hAlign=").append(horizAlign);
+		result.append(", rowNbr=").append(rowNbr);
 		result.append("]");
 		return result.toString();
 	}
@@ -139,6 +159,7 @@ public final class CellProps {
 		private int colspan = 1;
 		private ReportContent content = ReportContent.DATA;
 		private HorizAlign horizAlign = HorizAlign.CENTER;
+		private int rowNumber = 0; 
 		
 		public Builder(Object value){
 			this.value = value; 
@@ -156,6 +177,11 @@ public final class CellProps {
 		
 		public Builder horizAlign(HorizAlign align){
 			this.horizAlign = align; 
+			return this; 
+		}
+		
+		public Builder rowNumber(int rowNbr){
+			this.rowNumber = rowNbr; 
 			return this; 
 		}
 		

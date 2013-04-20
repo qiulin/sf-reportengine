@@ -30,11 +30,6 @@ public abstract class AbstractOutput implements IReportOutput {
     private String nullsReplacement ;
     
     /**
-     * row count
-     */
-    private int rowCount = 0;
-    
-    /**
      * isOpen flag 
      */
     private boolean isOpen = false; 
@@ -73,7 +68,6 @@ public abstract class AbstractOutput implements IReportOutput {
     public void startRow(RowProps rowProperties){
     	if(!isOpen) throw new ReportOutputException(OUTPUT_NOT_OPEN); 
     	this.currentRowProps = rowProperties; 
-        rowCount++;
     }
     
     
@@ -108,13 +102,6 @@ public abstract class AbstractOutput implements IReportOutput {
     }
 
 	/**
-	 * @return the rowCount
-	 */
-	public int getRowCount() {
-		return rowCount;
-	}
-
-	/**
 	 * use it to find if the output was open
 	 * 
 	 * @return	true if the report was open or false otherwise
@@ -142,5 +129,12 @@ public abstract class AbstractOutput implements IReportOutput {
 	 */
 	protected RowProps getCurrentRowProps() {
 		return currentRowProps;
+	}
+	
+	/**
+	 * throws an exception if the report output is not open
+	 */
+	protected void checkOutputIsOpen(){
+		if(!isOpen) throw new ReportOutputException(OUTPUT_NOT_OPEN); 
 	}
 }

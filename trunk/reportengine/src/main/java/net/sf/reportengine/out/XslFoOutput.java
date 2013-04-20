@@ -48,8 +48,7 @@ public class XslFoOutput extends AbstractByteOutput {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(XslFoOutput.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(XslFoOutput.class);
 	
 	/**
 	 * 
@@ -175,8 +174,7 @@ public class XslFoOutput extends AbstractByteOutput {
 	    	}
 	    	if(tempXmlFilePath== null){
 	    		File tempXmlFile = File.createTempFile("report", ".tmp");
-	    		if(LOGGER.isInfoEnabled())
-	    			LOGGER.info("creating temporary xml file "+tempXmlFile.getAbsolutePath());
+	    		LOGGER.info("creating temporary xml file {} ", tempXmlFile.getAbsolutePath());
 	    		setTempXmlFilePath(tempXmlFile.getAbsolutePath());
 	    	}
 	    	staxReportOutput.setFilePath(getTempXmlFilePath());
@@ -201,6 +199,9 @@ public class XslFoOutput extends AbstractByteOutput {
     	super.close(); 
     }	
     
+    /**
+     * 
+     */
     public void transform(){
     	try {
     		DefaultConfigurationBuilder configBuilder = new DefaultConfigurationBuilder();
@@ -233,9 +234,6 @@ public class XslFoOutput extends AbstractByteOutput {
 			throw new ReportOutputException(e);
 		}
     }
-    
-    
-    
     
 	/**
 	 * @return the mimeType

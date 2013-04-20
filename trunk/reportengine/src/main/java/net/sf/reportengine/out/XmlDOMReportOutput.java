@@ -93,7 +93,7 @@ public class XmlDOMReportOutput extends AbstractXmlOutput {
     public void startRow(RowProps rowProperties) {
         super.startRow(rowProperties);
         rowElement = document.createElement(TAG_ROW);
-        rowElement.setAttribute(ATTR_ROW_NUMBER,""+getRowCount());
+        rowElement.setAttribute(ATTR_ROW_NUMBER,""+rowProperties.getRowNumber());
     }
     
     /**

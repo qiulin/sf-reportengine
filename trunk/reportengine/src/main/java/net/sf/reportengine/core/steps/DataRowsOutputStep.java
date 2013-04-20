@@ -10,8 +10,8 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.ReportContent;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.RowProps;
@@ -26,8 +26,7 @@ public class DataRowsOutputStep extends AbstractReportStep {
     
 	private int finalReportGroupCount = -1;
 	private List<GroupColumn> groupCols = null;
-	private List<DataColumn> dataColumns = null; 
-			
+	private List<DataColumn> dataColumns = null; 	
 	
 	
 	/**
@@ -48,12 +47,12 @@ public class DataRowsOutputStep extends AbstractReportStep {
     public void execute(NewRowEvent newRowEvent) {
     	IReportOutput output = getOutput();
     	Object[] previousRowGrpValues = getPreviousRowOfGroupingValues();
-		
+		Integer dataRowCount = getDataRowCount();
 		Object valueForCurrentColumn = null; 
 		CellProps.Builder cellPropsBuilder = null; 
 		
 		//start the row
-		output.startRow(new RowProps(ReportContent.DATA));
+		output.startRow(new RowProps(ReportContent.DATA, dataRowCount));
 		
 		//handle the grouping columns first
 		GroupColumn currentGrpCol = null; 
@@ -69,6 +68,7 @@ public class DataRowsOutputStep extends AbstractReportStep {
 				cellPropsBuilder = new CellProps.Builder(IReportOutput.WHITESPACE);
 			}
 			cellPropsBuilder.horizAlign(currentGrpCol.getHorizAlign());
+			cellPropsBuilder.rowNumber(dataRowCount); 
 			output.output(cellPropsBuilder.build()); 
 		}
 		
@@ -82,5 +82,7 @@ public class DataRowsOutputStep extends AbstractReportStep {
     	
 		//end row
 		output.endRow();
+		
+		incrementDataRowNbr();
     }
 }

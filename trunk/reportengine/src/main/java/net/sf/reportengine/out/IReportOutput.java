@@ -7,13 +7,11 @@ package net.sf.reportengine.out;
 
 
 /**
- * <p>
- *  definition for the report output 
- * </p>
+ * The report output. 
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.1
- *  
+ * @see {@link AbstractByteOutput} {@link AbstractCharacterOutput}
  */
 public interface IReportOutput {
 	

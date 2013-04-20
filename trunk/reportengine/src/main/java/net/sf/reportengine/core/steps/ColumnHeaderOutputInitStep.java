@@ -31,8 +31,7 @@ public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ColumnHeaderOutputInitStep.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ColumnHeaderOutputInitStep.class);
 	/**
 	 * the title of the report
 	 */
@@ -67,18 +66,20 @@ public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
     	//output the title
     	IReportOutput output = (IReportOutput)reportContext.getOutput();
         if(reportTitle != null){
-        	output.startRow(new RowProps(ReportContent.REPORT_TITLE));
+        	output.startRow(new RowProps(ReportContent.REPORT_TITLE, 0));
             CellProps titleCellProps = new CellProps.Builder(reportTitle)
             									.colspan(outputColumnsCnt)
             									.contentType(ReportContent.REPORT_TITLE)
             									.horizAlign(HorizAlign.CENTER)
+            									.rowNumber(0)
             									.build();
             output.output(titleCellProps);
             output.endRow();
         }
         
         //output the report column headers
-        output.startRow(new RowProps(ReportContent.COLUMN_HEADER));
+        final int rowNumber = 0;
+        output.startRow(new RowProps(ReportContent.COLUMN_HEADER, rowNumber));
         CellProps cellProps = null;
         if(groupCols != null){
 	        for (GroupColumn groupColumn : groupCols) {
@@ -86,6 +87,7 @@ public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
 										.colspan(1)
 										.contentType(ReportContent.COLUMN_HEADER)
 										.horizAlign(HorizAlign.CENTER)
+										.rowNumber(rowNumber)
 										.build();
 				output.output(cellProps);
 			}
@@ -95,6 +97,7 @@ public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
             						.colspan(1)
             						.contentType(ReportContent.COLUMN_HEADER)
             						.horizAlign(HorizAlign.CENTER)
+            						.rowNumber(rowNumber)
             						.build();
             output.output(cellProps);
         }

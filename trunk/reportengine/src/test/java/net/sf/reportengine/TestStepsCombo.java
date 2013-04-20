@@ -13,6 +13,7 @@ import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
+import net.sf.reportengine.core.steps.InitReportDataInitStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.out.CellProps;
@@ -69,6 +70,7 @@ public class TestStepsCombo extends TestCase {
 	public void testCombo(){
 		
 		//construct the steps
+		InitReportDataInitStep initReportDataInitStep = new InitReportDataInitStep(); 
 		FlatReportExtractDataInitStep extractDataInitStep = new FlatReportExtractDataInitStep(); 
 		ColumnHeaderOutputInitStep columnHeaderInitStep = new ColumnHeaderOutputInitStep();
 		ComputeColumnValuesStep computeColumnStep = new ComputeColumnValuesStep();
@@ -80,6 +82,7 @@ public class TestStepsCombo extends TestCase {
 		
 		
 		//init steps
+		initReportDataInitStep.init(TEST_REPORT_CONTEXT); 
 		extractDataInitStep.init(TEST_REPORT_CONTEXT);
 		columnHeaderInitStep.init(TEST_REPORT_CONTEXT);
 		computeColumnStep.init(TEST_REPORT_CONTEXT);

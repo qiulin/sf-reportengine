@@ -42,8 +42,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(FlatReportTotalsOutputStep.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FlatReportTotalsOutputStep.class);
 	
 	public static final String TOTAL_STRING = "Total";
 	public static final String GRAND_TOTAL_STRING = "Grand Total";
@@ -141,9 +140,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
         	// column to use from the previous data row
         	int aggLevel = computeAggLevelForCalcRowNumber(row);
         	
-        	outputTotalsRow(aggLevel,
-        					calculators[row]
-        					);
+        	outputTotalsRow(aggLevel, calculators[row]);
         	        	
         }
     }
@@ -161,13 +158,15 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     	}
     	
     	IReportOutput output = getOutput();
-    	output.startRow(new RowProps(ReportContent.DATA));
+    	Integer dataRowNumber = getDataRowCount(); 
+    	output.startRow(new RowProps(ReportContent.DATA, dataRowNumber));
     	
     	if(groupCols != null && groupCols.size() > 0){
     		//prepare and output the Total column
     		String totalString = getTotalStringForGroupingLevel(groupLevel);
     		output.output(new CellProps.Builder(totalString)
     							.horizAlign(HorizAlign.LEFT)
+    							.rowNumber(dataRowNumber)
     							.build());
     		
     		if(groupCols.size() > 1){
@@ -182,7 +181,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     			
     			//this is to display an empty cell for every remaining group column
     			for(int i=1; i<groupCols.size(); i++){
-    				output.output(CellProps.EMPTY_CELL); 
+    				output.output(new CellProps.Builder(IReportOutput.WHITESPACE).rowNumber(dataRowNumber).build()); 
     			}
     		}
         }
@@ -201,13 +200,15 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
 				
 				output.output(new CellProps.Builder(formattedResult)
 									.horizAlign(dataCols.get(i).getHorizAlign())
+									.rowNumber(dataRowNumber)
 									.build());
 			}else{
 				//if the column doesn't have a calculator asociated 
 				//then display an empty value (whitespace) with colspan 1
-				output.output(CellProps.EMPTY_CELL);
+				output.output(new CellProps.Builder(IReportOutput.WHITESPACE).rowNumber(dataRowNumber).build());
 			}
 		}
     	output.endRow();
+    	incrementDataRowNbr(); 
     }
 }

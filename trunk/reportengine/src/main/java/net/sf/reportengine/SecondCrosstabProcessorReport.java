@@ -11,6 +11,7 @@ import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
+import net.sf.reportengine.core.steps.InitReportDataInitStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.core.steps.crosstab.CrosstabHeaderOutputInitStep;
@@ -51,6 +52,7 @@ class SecondCrosstabProcessorReport extends AbstractAlgoColumnBasedReport {
     	context.set(ContextKeys.CROSSTAB_METADATA, ctMetadata); 
     	
     	//adding steps to the algorithm
+    	algorithm.addInitStep(new InitReportDataInitStep()); 
     	algorithm.addInitStep(new FlatReportExtractDataInitStep());
     	algorithm.addInitStep(new CrosstabHeaderOutputInitStep());
     	

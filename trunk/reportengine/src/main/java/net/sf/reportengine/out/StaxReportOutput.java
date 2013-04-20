@@ -114,11 +114,11 @@ public class StaxReportOutput extends AbstractXmlOutput {
         		break; 
         	case COLUMN_HEADER: 
         		xmlWriter.writeStartElement(TAG_TABLE_HEADER);
-            	xmlWriter.writeAttribute(ATTR_ROW_NUMBER,""+getRowCount());
+            	xmlWriter.writeAttribute(ATTR_ROW_NUMBER,""+rowProperties.getRowNumber());
         		break; 
         	default: 
         		xmlWriter.writeStartElement(TAG_ROW);
-            	xmlWriter.writeAttribute(ATTR_ROW_NUMBER,""+getRowCount());
+            	xmlWriter.writeAttribute(ATTR_ROW_NUMBER,""+rowProperties.getRowNumber());
         	}
         }catch(XMLStreamException streamExc){
         	throw new RuntimeException(streamExc);

@@ -3,9 +3,12 @@
  */
 package net.sf.reportengine.util;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -74,6 +77,31 @@ public final class ReportIoUtils {
 	
 	/**
 	 * 
+	 * @param file
+	 * @return
+	 */
+	public static Reader createReaderFromFile(File file){
+		return createReaderFromFile(file, UTF8_ENCODING); 
+	}
+	
+	/**
+	 * 
+	 * @param file
+	 * @param encoding
+	 * @return
+	 */
+	public static Reader createReaderFromFile(File file, String encoding){
+		try {
+			return new InputStreamReader(new FileInputStream(file), encoding);
+		} catch (UnsupportedEncodingException e) {
+			throw new ReportInputException(e); 
+		} catch (FileNotFoundException e) {
+			throw new ReportInputException(e); 
+		} 
+	}
+	
+	/**
+	 * 
 	 * @param filePath
 	 * @return
 	 */
@@ -130,5 +158,23 @@ public final class ReportIoUtils {
 	 */
 	public static InputStream createInputStreamFromClassPath(String classPath){
 		return ClassLoader.getSystemResourceAsStream(classPath); 
+	}
+	
+	public static FileOutputStream createOutputStreamFromPath(String filePath){
+		try {
+			return new FileOutputStream(filePath);
+		} catch (FileNotFoundException e) {
+			throw new ReportOutputException(e); 
+		}
+	}
+	
+	
+	public static FileWriter createTmpFileWriter(String prefix, String extension){
+		try {
+			File tempFile = File.createTempFile(prefix, "."+extension);
+			return new FileWriter(tempFile); 
+		} catch (IOException e) {
+			throw new ReportEngineRuntimeException(e); 
+		}
 	}
 }
