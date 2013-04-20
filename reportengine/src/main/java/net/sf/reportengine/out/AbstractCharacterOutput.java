@@ -54,14 +54,23 @@ public abstract class AbstractCharacterOutput extends AbstractOutput {
 	 * @param filePath
 	 */
 	public AbstractCharacterOutput(String filePath) {
-		setFilePath(filePath); 
+		this(ReportIoUtils.createWriterFromPath(filePath)); 
 	}
-
+	
+	/**
+	 * 
+	 * @param filePath
+	 * @param encoding
+	 */
+	public AbstractCharacterOutput(String filePath, String encoding){
+		this(ReportIoUtils.createWriterFromPath(filePath, encoding));
+	}
+	
 	/**
 	 * @param writer
 	 */
 	public AbstractCharacterOutput(Writer writer) {
-		setOutputWriter(writer); 
+		this.outputWriter = writer;
 	}
 	
 	

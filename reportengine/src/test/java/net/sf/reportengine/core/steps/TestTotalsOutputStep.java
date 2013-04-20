@@ -49,6 +49,7 @@ public class TestTotalsOutputStep extends ReportAlgorithmStepTC {
 		reportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
         reportContext.set(ContextKeys.SHOW_GRAND_TOTAL, Scenario1.SHOW_GRAND_TOTAL);
         reportContext.set(ContextKeys.DISTRIBUTION_OF_CALCULATORS, Scenario1.DISTRIBUTION_OF_CALCULATOR_IN_DATA_ROW_ARRAY); 
+        reportContext.set(ContextKeys.DATA_ROW_COUNT, 0); 
         
 		getTestContext().setInput(Scenario1.INPUT);
 		classUnderTest.init(reportContext);

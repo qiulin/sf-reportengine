@@ -149,7 +149,7 @@ public class HtmlOutput extends AbstractCharacterOutput {
             	buffer.append("<tr class=\"reportTableHeader\"/>");
             }else{
             	buffer.append("<tr class=\"");
-                if(getRowCount() %2 ==0){
+                if(rowProperties.getRowNumber() %2 ==0){
                     buffer.append("even");
                 }else{
                     buffer.append("odd");

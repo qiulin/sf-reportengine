@@ -38,8 +38,7 @@ public class ExcelOutput extends AbstractByteOutput {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ExcelOutput.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ExcelOutput.class);
 	
     /**
      * the xls workbook
@@ -147,7 +146,7 @@ public class ExcelOutput extends AbstractByteOutput {
      */
     public void startRow(RowProps rowProperties) {
         super.startRow(rowProperties);
-        currentRow = sheet.createRow((short) getRowCount()-1);
+        currentRow = sheet.createRow((short) rowProperties.getRowNumber());
         currentCol = 0;
     }
     
@@ -157,7 +156,7 @@ public class ExcelOutput extends AbstractByteOutput {
      */
     public void output(CellProps cellProps) {
         int colspan = cellProps.getColspan();
-        int rowCount = getRowCount(); 
+        int rowCount = cellProps.getRowNumber(); 
         
         HSSFCell cell = currentRow.createCell((short) getCurrentCol());
         HSSFCellStyle cellStyle = null;

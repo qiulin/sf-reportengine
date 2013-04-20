@@ -17,6 +17,7 @@ import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
+import net.sf.reportengine.core.steps.InitReportDataInitStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.in.ReportInput;
@@ -109,11 +110,11 @@ public class FlatReport extends AbstractAlgoColumnBasedReport {
     	
     	//adding steps to the algorithm :
     	//we start with the init steps
+    	algorithm.addInitStep(new InitReportDataInitStep()); 
     	algorithm.addInitStep(new FlatReportExtractDataInitStep());
     	algorithm.addInitStep(new ColumnHeaderOutputInitStep(getTitle()));
         
     	//then we add the main steps
-    	//algorithm.addMainStep(new ComputeColumnValuesStep());
     	algorithm.addMainStep(new GroupingLevelDetectorStep());
     	
         if(getShowTotals() || getShowGrandTotal()){

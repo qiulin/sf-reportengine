@@ -192,4 +192,20 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     	}
 		return result;
     }
+    
+    /**
+     * returns the data row count from the report context
+     * @return
+     */
+    public Integer getDataRowCount(){
+    	return (Integer)getContext().get(ContextKeys.DATA_ROW_COUNT); 
+    }
+    
+    /**
+     * 
+     */
+    protected void incrementDataRowNbr(){
+    	Integer oldValue = getDataRowCount(); 
+    	getContext().set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(oldValue.intValue()+1));
+    }
 }

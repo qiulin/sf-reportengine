@@ -92,4 +92,9 @@ public enum ContextKeys {
 	 * context key for intermediate row
 	 */
 	INTERMEDIATE_ROW, // = "net.sf.reportengine.int.intermediateRow";
+	
+	/**
+	 * context key for data rows number
+	 */
+	DATA_ROW_COUNT
 }

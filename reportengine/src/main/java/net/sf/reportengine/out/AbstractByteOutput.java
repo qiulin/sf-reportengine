@@ -9,6 +9,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import net.sf.reportengine.util.ReportIoUtils;
+
 /**
  * <p>
  * abstract parent class for all your byte based output.
@@ -46,21 +48,21 @@ public abstract class AbstractByteOutput extends AbstractOutput {
 	 * 
 	 */
 	public AbstractByteOutput() {
-		setOutputStream(new ByteArrayOutputStream()); 
+		this(new ByteArrayOutputStream()); 
 	}
 
 	/**
 	 * @param filePath
 	 */
 	public AbstractByteOutput(String filePath) {
-		setFilePath(filePath); 
+		this(ReportIoUtils.createOutputStreamFromPath(filePath));
 	}
 
 	/**
 	 * @param out
 	 */
 	public AbstractByteOutput(OutputStream out) {
-		setOutputStream(out); 
+		this.outputStream = out; 
 	}
 	
     /**

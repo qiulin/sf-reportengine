@@ -19,6 +19,7 @@ import net.sf.reportengine.core.steps.MockCalculator;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.out.CellProps;
+import net.sf.reportengine.out.CellPropsArrayOutput;
 
 /**
  * @author dragos balan
@@ -440,4 +441,6 @@ public class Scenario1 {
 				new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[3][1].getResult()).build()
 		}
 	};
+	
+	public static CellPropsArrayOutput OUTPUT = new CellPropsArrayOutput();
 }

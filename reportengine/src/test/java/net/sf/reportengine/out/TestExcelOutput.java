@@ -38,8 +38,8 @@ public class TestExcelOutput extends ReportengineTC {
 	public void testOutputEmptyConstructor() {
 		classUnderTest = new ExcelOutput();
 		classUnderTest.open();
-		classUnderTest.startRow(new RowProps(ReportContent.DATA));
-		classUnderTest.output(new CellProps.Builder("value here").build());
+		classUnderTest.startRow(new RowProps(ReportContent.DATA, 0));
+		classUnderTest.output(new CellProps.Builder("value here").rowNumber(0).build());
 		classUnderTest.endRow();
 		classUnderTest.close();
 		
@@ -60,27 +60,29 @@ public class TestExcelOutput extends ReportengineTC {
 		classUnderTest = new ExcelOutput(createTestOutputFile("testExcel.xls"));
 		classUnderTest.open();
 		
-		classUnderTest.startRow(new RowProps(ReportContent.REPORT_TITLE));
+		classUnderTest.startRow(new RowProps(ReportContent.REPORT_TITLE, 0));
 		classUnderTest.output(new CellProps.Builder("this is the title")
 										.contentType(ReportContent.REPORT_TITLE)
 										.build());
 		classUnderTest.endRow();
 		
-		classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER));
+		classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER, 0));
 		classUnderTest.output(new CellProps.Builder("column header")
 										.contentType(ReportContent.COLUMN_HEADER)
 										.build());
 		classUnderTest.endRow();
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA));
+		classUnderTest.startRow(new RowProps(ReportContent.DATA, 0));
 		classUnderTest.output(new CellProps.Builder("1st row with data")
 											.contentType(ReportContent.DATA)
+											.rowNumber(0)
 											.build());
 		classUnderTest.endRow();
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA));
+		classUnderTest.startRow(new RowProps(ReportContent.DATA, 1));
 		classUnderTest.output(new CellProps.Builder("2nd row with data")
 											.contentType(ReportContent.DATA)
+											.rowNumber(1)
 											.build());
 		classUnderTest.endRow();
 		
@@ -90,10 +92,10 @@ public class TestExcelOutput extends ReportengineTC {
 	public void testOutputUtf8(){
 		classUnderTest = new ExcelOutput(createTestOutputFile("testExcelUtf8.xls"));
 		classUnderTest.open();
-		classUnderTest.startRow(new RowProps(ReportContent.DATA));
+		classUnderTest.startRow(new RowProps(ReportContent.DATA, 0));
 		classUnderTest.output(new CellProps.Builder("А Б В Г Д Е Ё Ж З И Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ъ Ы Ь Э Ю Я").build());
 		classUnderTest.endRow();
-		classUnderTest.startRow(new RowProps()); 
+		classUnderTest.startRow(new RowProps(ReportContent.DATA, 1)); 
 		classUnderTest.output(new CellProps.Builder("ά έ ή ί ό ύ ώ").build()); 
 		classUnderTest.endRow(); 
 		classUnderTest.close();

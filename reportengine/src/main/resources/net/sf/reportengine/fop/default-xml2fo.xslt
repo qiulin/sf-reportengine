@@ -48,10 +48,7 @@
 				 			border-bottom-style="solid"
 				 			border-left-style="solid"
 				 			border-right-style="solid">
-				 			<!-- border-top-color="#000000"
-				 			border-bottom-color="#000000"
-				 			border-left-color="#000000"
-				 			border-right-color="#000000" -->
+				 			
 					<fo:table-header border-bottom-style="solid">
 						<xsl:for-each select="table-header">
 							<fo:table-row>
