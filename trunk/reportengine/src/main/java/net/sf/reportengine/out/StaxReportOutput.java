@@ -43,7 +43,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	/**
 	 * 
 	 */
-	public static final String ENGINE_VERSION = "0.7";
+	public static final String ENGINE_VERSION = "0.9";
 	
 	/**
 	 * 
@@ -75,7 +75,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	 * 
 	 */
 	public void open(){
-		super.open();
+		markAsOpen();
 		try{
 			XMLOutputFactory factory = XMLOutputFactory.newInstance();
 			xmlWriter = factory.createXMLStreamWriter(getOutputWriter());
@@ -103,15 +103,24 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	}
 	
 	/**
+	 * 
+	 */
+	public void outputTitle(TitleProps titleProps){
+		try {
+			xmlWriter.writeStartElement(TAG_TITLE);
+			xmlWriter.writeCharacters(purifyData(titleProps.getTitle()));
+			xmlWriter.writeEndElement();
+		} catch (XMLStreamException e) {
+			throw new ReportOutputException(e); 
+		} 
+	}
+	
+	/**
      * new line
      */
     public void startRow(RowProps rowProperties) {
-        super.startRow(rowProperties);
         try{
         	switch(rowProperties.getContent()){
-        	case REPORT_TITLE: 
-        		xmlWriter.writeStartElement(TAG_TITLE);
-        		break; 
         	case COLUMN_HEADER: 
         		xmlWriter.writeStartElement(TAG_TABLE_HEADER);
             	xmlWriter.writeAttribute(ATTR_ROW_NUMBER,""+rowProperties.getRowNumber());
@@ -121,7 +130,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
             	xmlWriter.writeAttribute(ATTR_ROW_NUMBER,""+rowProperties.getRowNumber());
         	}
         }catch(XMLStreamException streamExc){
-        	throw new RuntimeException(streamExc);
+        	throw new ReportOutputException(streamExc);
         }
     }
     
@@ -129,7 +138,6 @@ public class StaxReportOutput extends AbstractXmlOutput {
      * end a report line
      */
     public void endRow(){
-        super.endRow();
         try{
         	xmlWriter.writeEndElement();
         }catch(XMLStreamException streamExc){
@@ -142,18 +150,12 @@ public class StaxReportOutput extends AbstractXmlOutput {
      */
     public void output(CellProps cellProps) {
     	try{
-	        switch (cellProps.getContentType()) {
-	            case REPORT_TITLE :
-	            	xmlWriter.writeCharacters(purifyData(cellProps.getValue()));
-	                break;
-	            default:
-	            	xmlWriter.writeStartElement(TAG_CELL);
-	            	xmlWriter.writeAttribute(ATTR_COLSPAN, ""+cellProps.getColspan());
-	            	xmlWriter.writeAttribute(ATTR_CONTENT_TYPE,""+cellProps.getContentType());
-	            	xmlWriter.writeAttribute(ATTR_HORIZ_ALIGN, cellProps.getHorizontalAlign().toString()); 
-	            	xmlWriter.writeCharacters(purifyData(cellProps.getValue()));
-	            	xmlWriter.writeEndElement();
-	        }
+        	xmlWriter.writeStartElement(TAG_CELL);
+        	xmlWriter.writeAttribute(ATTR_COLSPAN, ""+cellProps.getColspan());
+        	xmlWriter.writeAttribute(ATTR_CONTENT_TYPE,""+cellProps.getContentType());
+        	xmlWriter.writeAttribute(ATTR_HORIZ_ALIGN, cellProps.getHorizontalAlign().toString()); 
+        	xmlWriter.writeCharacters(purifyData(cellProps.getValue()));
+        	xmlWriter.writeEndElement();
         }catch(XMLStreamException streamException){
         	throw new RuntimeException(streamException);
         }

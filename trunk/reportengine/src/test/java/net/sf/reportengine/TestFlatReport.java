@@ -3,59 +3,52 @@ package net.sf.reportengine;
 import java.io.InputStream;
 
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.ExcelOutput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.OutputDispatcher;
+import net.sf.reportengine.out.PdfOutput;
+import net.sf.reportengine.out.PngOutput;
 import net.sf.reportengine.out.StaxReportOutput;
 import net.sf.reportengine.out.XslFoOutput;
 import net.sf.reportengine.out.XsltOutput;
-import net.sf.reportengine.scenarios.AutodetectConfigurationScenario;
 import net.sf.reportengine.scenarios.NoGroupsScenario;
 import net.sf.reportengine.scenarios.OhlcComputationScenario;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.Scenario2x3x1;
 import net.sf.reportengine.scenarios.ScenarioFormatedValues;
-import net.sf.reportengine.test.ReportengineTC;
 import net.sf.reportengine.util.MatrixUtils;
 import net.sf.reportengine.util.ReportIoUtils;
 
-public class TestFlatReport extends ReportengineTC {
-	
-	private FlatReport flatReport = null ;
-	
-	
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		flatReport = new FlatReport();	
-	}
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
 
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
+public class TestFlatReport {
 	
+	@Test
 	public void testExecuteScenario1(){
+		FlatReport flatReport = new FlatReport();	
+		CellPropsArrayOutput testOut = new CellPropsArrayOutput();
+		
+		flatReport.setIn(Scenario1.INPUT);
+		flatReport.setOut(testOut);
+		//flatReport.setOut(new HtmlReportOutput(new FileOutputStream("scenario1.html")));
+		flatReport.setDataColumns(Scenario1.DATA_COLUMNS);
+		flatReport.setGroupColumns(Scenario1.GROUPING_COLUMNS);
+		flatReport.setShowTotals(true);
+		flatReport.setShowDataRows(true);
+		flatReport.setShowGrandTotal(true);
+		flatReport.execute();
 			
-			CellPropsArrayOutput testOut = new CellPropsArrayOutput();
-			
-			flatReport.setIn(Scenario1.INPUT);
-			flatReport.setOut(testOut);
-			//flatReport.setOut(new HtmlReportOutput(new FileOutputStream("scenario1.html")));
-			flatReport.setDataColumns(Scenario1.DATA_COLUMNS);
-			flatReport.setGroupColumns(Scenario1.GROUPING_COLUMNS);
-			flatReport.setShowTotals(true);
-			flatReport.setShowDataRows(true);
-			flatReport.setShowGrandTotal(true);
-			flatReport.execute();
-			
-			assertTrue(MatrixUtils.compareMatrices(testOut.getCellMatrix(), Scenario1.EXPECTED_OUTPUT));
+			Assert.assertTrue(MatrixUtils.compareMatrices(testOut.getCellMatrix(), Scenario1.EXPECTED_OUTPUT));
 	}
 	
+	@Test
 	public void testExecuteScenario1WithAddColumn(){
+		FlatReport flatReport = new FlatReport();	
 		CellPropsArrayOutput testOut = new CellPropsArrayOutput();
 		
 		flatReport.setIn(Scenario1.INPUT);
@@ -76,12 +69,14 @@ public class TestFlatReport extends ReportengineTC {
 		flatReport.execute();
 		
 		//MatrixUtils.logMatrix(testOut.getCellMatrix()); 
-		assertTrue(MatrixUtils.compareMatrices(testOut.getCellMatrix(), Scenario1.EXPECTED_OUTPUT));
+		Assert.assertTrue(MatrixUtils.compareMatrices(testOut.getCellMatrix(), Scenario1.EXPECTED_OUTPUT));
 	}
 	
+	@Test
 	public void testExecuteScenarioOhlc(){
+		FlatReport flatReport = new FlatReport();	
 		InputStream testStream = ReportIoUtils.createInputStreamFromClassPath("EURUSD_2007-2009_FirstHours.txt");
-		assertNotNull(testStream);
+		Assert.assertNotNull(testStream);
 		
 		TextInput in = new TextInput(testStream,"\t");
 		
@@ -102,7 +97,9 @@ public class TestFlatReport extends ReportengineTC {
 		//TODO: create assert
 	}
 	
+	@Test
 	public void testExecute2x3x1(){
+		FlatReport flatReport = new FlatReport();	
     	InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("2x3x1.txt");
     	TextInput input = new TextInput(inputStream);
     	
@@ -117,7 +114,8 @@ public class TestFlatReport extends ReportengineTC {
         output.registerOutput(new StaxReportOutput("target/testExecute2x3x1.xml"));
         output.registerOutput(new XsltOutput(	"target/testXsltOutput2x3x1.html", 
         										ReportIoUtils.createReaderFromClassPath("net/sf/reportengine/xslt/defaultTemplate.xslt")));
-        output.registerOutput(new XslFoOutput("target/testExecute2x3x1.pdf"));
+        output.registerOutput(new PdfOutput("target/testExecute2x3x1.pdf"));
+        output.registerOutput(new PngOutput("target/testExecute2x3x1.png"));
         flatReport.setOut(output);
         
         flatReport.setShowTotals(true);
@@ -126,7 +124,9 @@ public class TestFlatReport extends ReportengineTC {
         //TODO: assert here
     }
 	
+	@Test
 	public void testExecuteNoGroupingColumnsReport() throws Exception{
+		FlatReport flatReport = new FlatReport();	
     	flatReport.setGroupColumns(NoGroupsScenario.GROUPING_COLUMNS);
         flatReport.setDataColumns(NoGroupsScenario.DATA_COLUMNS);
         
@@ -135,6 +135,9 @@ public class TestFlatReport extends ReportengineTC {
         
         OutputDispatcher output = new OutputDispatcher();
         output.registerOutput(new HtmlOutput("target/testFlatReportNoGroupings.html"));
+        output.registerOutput(new PdfOutput("target/testFlatReportNoGroupings.pdf")); 
+        output.registerOutput(new PngOutput("target/testFlatReportNoGroupings.png")); 
+        
         flatReport.setOut(output);
         flatReport.setShowTotals(true); 
         flatReport.setShowGrandTotal(true); 
@@ -144,9 +147,11 @@ public class TestFlatReport extends ReportengineTC {
         //TODO: assert here
 	}
 	
+	@Test
 	public void testFlatReportUtf8Output(){
+		FlatReport flatReport = new FlatReport();	
 		InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("Utf8Input.txt");
-		assertNotNull(inputStream);
+		Assert.assertNotNull(inputStream);
 		
 		flatReport.setTitle("Τη γλώσσα μου έδωσαν ελληνική");
 		
@@ -158,14 +163,16 @@ public class TestFlatReport extends ReportengineTC {
 		flatReport.addDataColumn(new DefaultDataColumn(2));
 		flatReport.addDataColumn(new DefaultDataColumn(3));
 		
-		flatReport.setOut(new HtmlOutput(createTestWriter("testFlatReportUtf8Output.html")));
+		flatReport.setOut(new HtmlOutput(ReportIoUtils.createWriterFromPath("./target/testFlatReportUtf8Output.html")));
 		
 		flatReport.execute(); 
 	}
 	
+	@Test
 	public void testFlatReportUtf8PdfOutput(){
+		FlatReport flatReport = new FlatReport();	
 		InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("Utf8Input.txt");
-		assertNotNull(inputStream);
+		Assert.assertNotNull(inputStream);
 		
 		flatReport.setTitle("Τη γλώσσα μου έδωσαν ελληνική");
 		
@@ -184,9 +191,11 @@ public class TestFlatReport extends ReportengineTC {
 		//TODO: assert here
 	}
 	
+	@Test
 	public void testHugeReportHtmlOut(){
+		FlatReport flatReport = new FlatReport();	
 		InputStream testStream = ReportIoUtils.createInputStreamFromClassPath("2010-1MIN-DATA.tsv");
-		assertNotNull(testStream);
+		Assert.assertNotNull(testStream);
 		
 		TextInput in = new TextInput(testStream, "\t");
 		
@@ -203,7 +212,9 @@ public class TestFlatReport extends ReportengineTC {
 		//TODO: assert here
 	}
 	
+	@Test
 	public void testFlatReportWithFormattedValues(){
+		FlatReport flatReport = new FlatReport();	
 		flatReport.setIn(ScenarioFormatedValues.INPUT);
 		flatReport.setOut(new HtmlOutput("./target/testFormattedValues.html"));
 		flatReport.setTitle("Formatted Values");
@@ -218,21 +229,21 @@ public class TestFlatReport extends ReportengineTC {
 	}
 	
 	
-	
-//	public void testMemoryLeaks(){
-//		
-//		flatReport.setIn(ScenarioFormatedValues.INPUT);
-//		flatReport.setOut(new HtmlOutput("./target/testMemoryLeaks.html"));
-//		flatReport.setReportTitle("Formatted Values");
-//		flatReport.setShowTotals(true); 
-//		flatReport.setShowGrandTotal(true); 
-//		
-//		flatReport.setGroupColumns(ScenarioFormatedValues.GROUP_COLUMNS);
-//		flatReport.setDataColumns(ScenarioFormatedValues.DATA_COLUMNS);
-//		
-//		for(int i=0;i<1000;i++){
-//			flatReport.execute();
-//		}
-//	}
+	@Ignore
+	public void testMemoryLeaks(){
+		FlatReport flatReport = new FlatReport();	
+		flatReport.setIn(ScenarioFormatedValues.INPUT);
+		flatReport.setOut(new HtmlOutput("./target/testMemoryLeaks.html"));
+		flatReport.setTitle("Formatted Values");
+		flatReport.setShowTotals(true); 
+		flatReport.setShowGrandTotal(true); 
+		
+		flatReport.setGroupColumns(ScenarioFormatedValues.GROUP_COLUMNS);
+		flatReport.setDataColumns(ScenarioFormatedValues.DATA_COLUMNS);
+		
+		for(int i=0;i<1000;i++){
+			flatReport.execute();
+		}
+	}
 	
 }

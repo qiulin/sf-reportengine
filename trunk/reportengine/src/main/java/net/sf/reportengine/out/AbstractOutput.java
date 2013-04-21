@@ -9,11 +9,11 @@ package net.sf.reportengine.out;
  * marking the opening/closing reports, null values replacement, counting rows. 
  * 
  * For better functionality it is recommended to extend one of the two children  
- * {@link AbstractByteOutput} or {@link AbstractCharacterOutput}
+ * {@link AbstractByteBasedOutput} or {@link AbstractCharBasedOutput}
  * 
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
- * @see {@link AbstractByteOutput}, {@link AbstractCharacterOutput}
+ * @see {@link AbstractByteBasedOutput}, {@link AbstractCharBasedOutput}
  * @since 0.2
  */
 public abstract class AbstractOutput implements IReportOutput {
@@ -34,47 +34,12 @@ public abstract class AbstractOutput implements IReportOutput {
      */
     private boolean isOpen = false; 
     
-    /**
-     * the properties of the current row
-     */
-    private RowProps currentRowProps; 
     
     /**
      * constructor
      */
     public AbstractOutput(){}
     
-    
-    /**
-     * marks this output as open
-     */
-    public void open(){
-    	isOpen = true; 
-    }
-    
-    
-    /**
-     * empty implementation
-     */
-    public void close(){
-		this.currentRowProps = null; 
-    	isOpen = false;
-    }
-    
-    
-    /**
-     *  makes the necessary checks to start the row
-     */ 
-    public void startRow(RowProps rowProperties){
-    	if(!isOpen) throw new ReportOutputException(OUTPUT_NOT_OPEN); 
-    	this.currentRowProps = rowProperties; 
-    }
-    
-    
-    /**
-     * empty implementation
-     */
-    public void endRow(){}
     
     /**
      * checks null & other impossible to print values
@@ -125,16 +90,9 @@ public abstract class AbstractOutput implements IReportOutput {
 	}
 	
 	/**
-	 * @return the currentRowProps
-	 */
-	protected RowProps getCurrentRowProps() {
-		return currentRowProps;
-	}
-	
-	/**
 	 * throws an exception if the report output is not open
 	 */
-	protected void checkOutputIsOpen(){
+	protected void ensureOutputIsOpen(){
 		if(!isOpen) throw new ReportOutputException(OUTPUT_NOT_OPEN); 
 	}
 }

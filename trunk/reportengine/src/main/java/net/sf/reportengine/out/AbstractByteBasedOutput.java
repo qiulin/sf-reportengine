@@ -35,9 +35,9 @@ import net.sf.reportengine.util.ReportIoUtils;
  * 
  * @author dragos balan (dragos dot balan @ gmail dot com)
  * @since 0.7
- * @see {@link AbstractCharacterOutput} {@link ExcelOutput} {@link XslFoOutput}
+ * @see {@link AbstractCharBasedOutput} {@link ExcelOutput} {@link XslFoOutput}
  */
-public abstract class AbstractByteOutput extends AbstractOutput {
+public abstract class AbstractByteBasedOutput extends AbstractOutput {
 	
 	/**
 	 * the output stream behind this report output
@@ -47,21 +47,21 @@ public abstract class AbstractByteOutput extends AbstractOutput {
 	/**
 	 * 
 	 */
-	public AbstractByteOutput() {
+	public AbstractByteBasedOutput() {
 		this(new ByteArrayOutputStream()); 
 	}
 
 	/**
 	 * @param filePath
 	 */
-	public AbstractByteOutput(String filePath) {
+	public AbstractByteBasedOutput(String filePath) {
 		this(ReportIoUtils.createOutputStreamFromPath(filePath));
 	}
 
 	/**
 	 * @param out
 	 */
-	public AbstractByteOutput(OutputStream out) {
+	public AbstractByteBasedOutput(OutputStream out) {
 		this.outputStream = out; 
 	}
 	
@@ -75,7 +75,7 @@ public abstract class AbstractByteOutput extends AbstractOutput {
 		} catch (IOException e) {
 			throw new ReportOutputException(e);
 		}
-    	super.close();
+    	markAsClosed();
     }
 
 	

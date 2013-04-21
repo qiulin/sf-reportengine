@@ -71,6 +71,10 @@ public class FoOutput implements IReportOutput{
 		freemarkerOutput.open(); 
 	}
 	
+	public void outputTitle(TitleProps titleProps){
+		freemarkerOutput.outputTitle(titleProps); 
+	}
+	
 	public void close(){
 		freemarkerOutput.close(); 
 	}

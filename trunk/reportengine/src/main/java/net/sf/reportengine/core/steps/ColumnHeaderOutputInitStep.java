@@ -15,6 +15,7 @@ import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IReportOutput;
 import net.sf.reportengine.out.RowProps;
+import net.sf.reportengine.out.TitleProps;
 import net.sf.reportengine.util.ContextKeys;
 
 import org.slf4j.Logger;
@@ -66,15 +67,7 @@ public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
     	//output the title
     	IReportOutput output = (IReportOutput)reportContext.getOutput();
         if(reportTitle != null){
-        	output.startRow(new RowProps(ReportContent.REPORT_TITLE, 0));
-            CellProps titleCellProps = new CellProps.Builder(reportTitle)
-            									.colspan(outputColumnsCnt)
-            									.contentType(ReportContent.REPORT_TITLE)
-            									.horizAlign(HorizAlign.CENTER)
-            									.rowNumber(0)
-            									.build();
-            output.output(titleCellProps);
-            output.endRow();
+        	output.outputTitle(new TitleProps(reportTitle, outputColumnsCnt));
         }
         
         //output the report column headers

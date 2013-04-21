@@ -15,13 +15,20 @@ import java.util.ArrayList;
  */
 public class CellPropsArrayOutput implements IReportOutput {
 	
+	private TitleProps titleProps = null; 
 	private ArrayList<CellProps[]> cellMatrix;
 	private ArrayList<CellProps> currentRowOfCells;
-	
 	
 	public CellPropsArrayOutput(){
 		this.cellMatrix = new ArrayList<CellProps[]>();
 	}
+	
+	public void open() {}
+	
+	public void outputTitle(TitleProps titleProperties){
+		this.titleProps = titleProperties; 
+	}
+	
 	
 	public void output(CellProps cellProps) {
 		currentRowOfCells.add(cellProps);
@@ -43,8 +50,6 @@ public class CellPropsArrayOutput implements IReportOutput {
 		}
 		return result;
 	}
-
-	public void open() {}
 
 	public void close() {}
 }

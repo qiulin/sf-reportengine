@@ -29,6 +29,12 @@ public class OutputDispatcher implements IReportOutput{
         }
     }
     
+    public void outputTitle(TitleProps titleProps){
+    	for(IReportOutput output: outputtersList){
+            output.outputTitle(titleProps);
+        }
+    }
+    
     public void close(){
     	for(IReportOutput output: outputtersList){
             output.close();

@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public class TextOutput extends AbstractCharacterOutput{
+public class TextOutput extends AbstractCharBasedOutput{
 	
 	/**
 	 * default data/columns separator
@@ -67,11 +67,25 @@ public class TextOutput extends AbstractCharacterOutput{
 		setSeparator(separator); 
 	}
 	
+	public void open(){
+		markAsOpen(); 
+	}
+	
+	public void outputTitle(TitleProps titleProps){
+		try{
+			getOutputWriter().write(titleProps.getTitle()); 
+			getOutputWriter().write(ReportIoUtils.LINE_SEPARATOR); 
+		} catch (IOException e) {
+			throw new ReportOutputException(e);
+		}
+	}
+	
+	
 	/**
      * start row
      */ 
     public void startRow(RowProps rowProperties){
-        super.startRow(rowProperties);
+    	ensureOutputIsOpen(); 
         rowDataBuffer = new StringBuilder();
 	}
 	

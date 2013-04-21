@@ -150,6 +150,10 @@ public abstract class AbstractFopOutput implements IReportOutput{
 		}
 	}
 	
+	public void outputTitle(TitleProps titleProps){
+		foOutput.outputTitle(titleProps); 
+	}
+	
 	public void startRow(RowProps rowProps){
 		foOutput.startRow(rowProps); 
 	}

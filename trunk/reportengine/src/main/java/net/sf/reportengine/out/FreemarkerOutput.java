@@ -33,7 +33,7 @@ import freemarker.template.TemplateException;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.7
  */
-public class FreemarkerOutput extends AbstractCharacterOutput {
+public class FreemarkerOutput extends AbstractCharBasedOutput {
 	
 	/**
 	 * freemarker configuration class
@@ -45,6 +45,9 @@ public class FreemarkerOutput extends AbstractCharacterOutput {
 	 */
 	private Template startReportTemplate = null; 
 	private Template endReportTemplate = null; 
+	
+	
+	private Template titleTemplate = null; 
 	
 	/**
 	 * row templates
@@ -63,7 +66,7 @@ public class FreemarkerOutput extends AbstractCharacterOutput {
 	private Map<String, ReportProps> rootDataForReportTemplate = null;
 	private Map<String, RowProps> rootDataForRowTemplate = null;
 	private Map<String, CellProps> rootDataForCellTemplate = null; 
-	
+	private Map<String, TitleProps> rootDataForTitleTemplate = null; 
 	
 	/**
 	 * the default templates class path
@@ -74,7 +77,7 @@ public class FreemarkerOutput extends AbstractCharacterOutput {
 	public final static String START_ROW_TEMPLATE = "startRow.ftl";
 	public final static String END_ROW_TEMPLATE = "endRow.ftl";
 	public final static String CELL_TEMPLATE = "cell.ftl";
-	
+	public final static String TITLE_TEMPLATE = "title.ftl"; 
 	
 	/**
 	 * Output into memory (using a StringWriter). 
@@ -145,6 +148,7 @@ public class FreemarkerOutput extends AbstractCharacterOutput {
 		rootDataForReportTemplate = new HashMap<String, ReportProps>();
 		rootDataForCellTemplate = new HashMap<String, CellProps>(); 
 		rootDataForRowTemplate = new HashMap<String, RowProps>();
+		rootDataForTitleTemplate = new HashMap<String, TitleProps>(); 
 	}
 	
 	/**
@@ -156,7 +160,7 @@ public class FreemarkerOutput extends AbstractCharacterOutput {
 	 * </ol>
 	 */
 	public void open() {
-		super.open(); 
+		markAsOpen(); 
 		try {
 			if(freemarkerConfig == null){
 				freemarkerConfig = initFreemarkerDefaultConfig(); 
@@ -190,13 +194,28 @@ public class FreemarkerOutput extends AbstractCharacterOutput {
 		startRowTemplate = freemarkerConfig.getTemplate(START_ROW_TEMPLATE);
 		endRowTemplate = freemarkerConfig.getTemplate(END_ROW_TEMPLATE); 
 		cellTemplate = freemarkerConfig.getTemplate(CELL_TEMPLATE);
+		titleTemplate = freemarkerConfig.getTemplate(TITLE_TEMPLATE); 
 	}
+	
+	/**
+	 * 
+	 */
+	public void outputTitle(TitleProps titleProps){
+		try {
+			rootDataForTitleTemplate.put("titleProps", titleProps); 
+			titleTemplate.process(rootDataForTitleTemplate, getOutputWriter());
+		} catch (TemplateException e) {
+			throw new ReportOutputException(e); 
+		} catch (IOException e) {
+			throw new ReportOutputException(e); 
+		}
+	}
+	
 	
 	/**
 	 * calls the start row template
 	 */
 	public void startRow(RowProps rowProperties) {
-		super.startRow(rowProperties); 
 		try {
 			rootDataForRowTemplate.put("rowProps", rowProperties); 
 			startRowTemplate.process(rootDataForRowTemplate, getOutputWriter());

@@ -21,6 +21,11 @@ public class LoggerOutput implements IReportOutput {
 	
 	private StringBuilder dataToLog = new StringBuilder();
 	
+	
+	public void outputTitle(TitleProps titleProps){
+		LOGGER.debug(titleProps.getTitle()); 
+	}
+	
 	/**
      * empty implementation 
      */ 

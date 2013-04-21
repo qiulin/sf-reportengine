@@ -25,7 +25,7 @@ import net.sf.reportengine.util.ReportIoUtils;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class HtmlOutput extends AbstractCharacterOutput {
+public class HtmlOutput extends AbstractCharBasedOutput {
     /**
      * css style
      */
@@ -101,7 +101,7 @@ public class HtmlOutput extends AbstractCharacterOutput {
     */
     public void open() {
         try {
-            super.open();
+            markAsOpen(); 
             if(isStandalonePage){
             	Writer writer = getOutputWriter(); 
             	writer.write(HTML_HEAD_START);
@@ -124,6 +124,22 @@ public class HtmlOutput extends AbstractCharacterOutput {
     }
     
     /**
+     * 
+     */
+    public void outputTitle(TitleProps titleProps){
+    	try{
+	    	StringBuilder buffer = new StringBuilder("<tr><td align=\"center\" colspan=\"");
+	    	buffer.append(titleProps.getColspan()); 
+	    	buffer.append("\" >");
+	    	buffer.append(titleProps.getTitle());
+	    	buffer.append("</td></tr>");
+	    	getOutputWriter().write(buffer.toString());
+    	} catch (IOException ioExc) {
+        	throw new ReportOutputException(ioExc);
+        }
+    }
+    
+    /**
      * closes the output
      */
     public void close() {
@@ -134,7 +150,7 @@ public class HtmlOutput extends AbstractCharacterOutput {
             }
             super.close();//this closes the writer
         } catch (IOException ioExc) {
-        	throw new RuntimeException(ioExc);
+        	throw new ReportOutputException(ioExc);
         }
     }
     
@@ -142,8 +158,8 @@ public class HtmlOutput extends AbstractCharacterOutput {
      * start report row
      */
     public void startRow(RowProps rowProperties) {
+    	ensureOutputIsOpen();
         try {
-            super.startRow(rowProperties);
             StringBuilder buffer = new StringBuilder();
             if(ReportContent.COLUMN_HEADER.equals(rowProperties.getContent())){
             	buffer.append("<tr class=\"reportTableHeader\"/>");
@@ -167,7 +183,6 @@ public class HtmlOutput extends AbstractCharacterOutput {
     */
     public void endRow(){
         try{
-            super.endRow();
             getOutputWriter().write("</tr>"); 
             getOutputWriter().write(ReportIoUtils.LINE_SEPARATOR);
         }catch (IOException ioExc) {
