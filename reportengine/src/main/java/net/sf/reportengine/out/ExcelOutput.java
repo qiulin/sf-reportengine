@@ -21,6 +21,8 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2
  */
-public class ExcelOutput extends AbstractByteOutput {
+public class ExcelOutput extends AbstractByteBasedOutput {
     
 	/**
 	 * the one and only logger
@@ -81,6 +83,16 @@ public class ExcelOutput extends AbstractByteOutput {
     private int currentCol = 0;
     
     /**
+     * 
+     */
+    private int titleRowSpan = 0; 
+    
+    /**
+     * 
+     */
+    private int headerRowSpan = 0;
+    
+    /**
      * outputs in memory (if no other outputStream is set)
      */
     public ExcelOutput(){
@@ -108,7 +120,7 @@ public class ExcelOutput extends AbstractByteOutput {
      * starts the report
      */
     public void open() {
-    	super.open(); 
+    	markAsOpen(); 
     	
     	LOGGER.trace("opening excel output...");
     	
@@ -141,12 +153,38 @@ public class ExcelOutput extends AbstractByteOutput {
         DEFAULT_HEADER_CELL_STYLE.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
     }
     
+    /*
+     * (non-Javadoc)
+     * @see net.sf.reportengine.out.IReportOutput#outputTitle(net.sf.reportengine.out.TitleProps)
+     */
+    public void outputTitle(TitleProps titleProps){
+    	currentRow = sheet.createRow(0); 
+    	Cell cell = currentRow.createCell(0);
+    	cell.setCellValue(titleProps.getTitle());
+    	cell.setCellType(Cell.CELL_TYPE_STRING); 
+    	
+    	sheet.addMergedRegion(
+                new Region(0, 
+                           (short)0, 
+                           0,
+                           (short)(titleProps.getColspan()-1)));
+    	titleRowSpan++; 
+    }
+    
+    
     /**
      * ends the current line and creates a new one
      */
     public void startRow(RowProps rowProperties) {
-        super.startRow(rowProperties);
-        currentRow = sheet.createRow((short) rowProperties.getRowNumber());
+        short currentRowNumber = 0; 
+        if(rowProperties.getContent().equals(ReportContent.COLUMN_HEADER)){
+        	headerRowSpan++;
+        	currentRowNumber = (short)(rowProperties.getRowNumber() + titleRowSpan);  
+        }else{
+        	//data rows
+        	currentRowNumber = (short)(rowProperties.getRowNumber() + titleRowSpan + headerRowSpan);  
+        }
+        currentRow = sheet.createRow(currentRowNumber);
         currentCol = 0;
     }
     
@@ -196,7 +234,11 @@ public class ExcelOutput extends AbstractByteOutput {
         }
         currentCol += colspan;
     }
-
+    
+    public void endRow(){
+    	
+    }
+    
     /**
      * ends the report
      */

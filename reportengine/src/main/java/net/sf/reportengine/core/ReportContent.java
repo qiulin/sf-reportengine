@@ -11,7 +11,7 @@ package net.sf.reportengine.core;
  */
 public enum ReportContent {
 	
-	REPORT_TITLE,
+	/*REPORT_TITLE,*/
 	DATA,
 	COLUMN_HEADER,
 	ROW_HEADER

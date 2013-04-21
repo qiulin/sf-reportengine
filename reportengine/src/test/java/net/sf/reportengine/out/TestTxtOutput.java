@@ -8,24 +8,20 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * @author dragos balan
  *
  */
-public class TestTxtOutput extends TestCase {
+public class TestTxtOutput {
 
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
 
 	/**
 	 * Test method for {@link net.sf.reportengine.out.TextOutput#output(net.sf.reportengine.out.CellProps)}.
 	 */
+	@Test
 	public void testOpenWhenNoWriterSet() {
 		TextOutput classUnderTest = new TextOutput(); 
 		classUnderTest.open();
@@ -35,29 +31,27 @@ public class TestTxtOutput extends TestCase {
 		classUnderTest.close(); 
 		
 		Writer result = classUnderTest.getOutputWriter(); 
-		assertNotNull(result); 
-		assertTrue(result instanceof StringWriter);
+		Assert.assertNotNull(result); 
+		Assert.assertTrue(result instanceof StringWriter);
 		StringBuffer resultBuffer = ((StringWriter)result).getBuffer();  
-		assertNotNull(resultBuffer); 
-		assertTrue(resultBuffer.indexOf("value x") >= 0);
+		Assert.assertNotNull(resultBuffer); 
+		Assert.assertTrue(resultBuffer.indexOf("value x") >= 0);
 	}
 	
 	/**
 	 * 
 	 */
+	@Test(expected = ReportOutputException.class)
 	public void testStartRowWithoutOpen(){
-		try{
-			TextOutput classUnderTest = new TextOutput(); 
-			classUnderTest.startRow(new RowProps()); 
-			fail("an exception should have been thrown"); 
-		}catch(ReportOutputException roe){
-			assertEquals(TextOutput.OUTPUT_NOT_OPEN, roe.getMessage()); 
-		}
+		TextOutput classUnderTest = new TextOutput(); 
+		classUnderTest.startRow(new RowProps()); 
+		Assert.fail("an exception should have been thrown"); 
 	}
 	
 	/**
 	 * 
 	 */
+	@Test
 	public void testOutputWhenFilenameSet(){
 		TextOutput classUnderTest = new TextOutput(); 
 		classUnderTest.setFilePath("target/streamOutputHavingFilenameSet.txt");
@@ -71,6 +65,7 @@ public class TestTxtOutput extends TestCase {
 		classUnderTest.close(); 
 	}
 	
+	@Test
 	public void testOutputWhenWriterSet(){
 		TextOutput classUnderTest = new TextOutput(); 
 		try {
@@ -83,10 +78,11 @@ public class TestTxtOutput extends TestCase {
 			classUnderTest.endRow(); 
 			classUnderTest.close(); 
 		} catch (IOException e) {
-			fail(e.getMessage()); 
+			Assert.fail(e.getMessage()); 
 		}
 	}
 	
+	@Test
 	public void testManyOutputsForDifferentFilenames(){
 		TextOutput classUnderTest = new TextOutput(); 
 		classUnderTest.setFilePath("target/reusedStreamOutput1.txt");
@@ -107,6 +103,7 @@ public class TestTxtOutput extends TestCase {
 		classUnderTest.close();
 	}
 	
+	@Test
 	public void testManyOutputsForDifferentWriters(){
 		StringWriter writer1 = new StringWriter(); 
 		TextOutput classUnderTest = new TextOutput(); 
@@ -120,9 +117,9 @@ public class TestTxtOutput extends TestCase {
 		classUnderTest.close();
 		
 		StringBuffer result = writer1.getBuffer(); 
-		assertNotNull(result);
-		assertTrue(result.indexOf("cell 0 0") >= 0);
-		assertTrue(result.indexOf("cell 0 2") > 0);
+		Assert.assertNotNull(result);
+		Assert.assertTrue(result.indexOf("cell 0 0") >= 0);
+		Assert.assertTrue(result.indexOf("cell 0 2") > 0);
 		
 		
 		StringWriter writer2 = new StringWriter(); 
@@ -135,9 +132,9 @@ public class TestTxtOutput extends TestCase {
 		classUnderTest.close();
 		
 		result = writer2.getBuffer(); 
-		assertNotNull(result);
-		assertTrue(result.indexOf("cell 0 0") >= 0);
-		assertTrue(result.indexOf("cell 0 2") > 0);
+		Assert.assertNotNull(result);
+		Assert.assertTrue(result.indexOf("cell 0 0") >= 0);
+		Assert.assertTrue(result.indexOf("cell 0 2") > 0);
 	}
 	
 }

@@ -43,7 +43,7 @@ import org.xml.sax.SAXException;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public class XslFoOutput extends AbstractByteOutput {
+public class XslFoOutput extends AbstractByteBasedOutput {
 	
 	/**
 	 * the one and only logger
@@ -162,7 +162,7 @@ public class XslFoOutput extends AbstractByteOutput {
      */
     public void open(){
     	try {
-	    	super.open(); 
+	    	markAsOpen(); 
 	    	if(mimeType == null){
 	    		setMimeType(MimeConstants.MIME_PDF);
 	    	}
@@ -182,6 +182,11 @@ public class XslFoOutput extends AbstractByteOutput {
     	} catch (IOException e) {
     		throw new ReportOutputException(e); 
     	}
+    }
+    
+    
+    public void outputTitle(TitleProps titleProps){
+    	staxReportOutput.outputTitle(titleProps); 
     }
     
     /**

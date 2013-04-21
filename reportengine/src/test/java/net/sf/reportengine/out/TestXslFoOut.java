@@ -36,9 +36,7 @@ public class TestXslFoOut extends ReportengineTC {
             XslFoOutput classUnderTest= new XslFoOutput(createTestOutputFile("testXslFoOut.pdf"));
             classUnderTest.open();
             
-            classUnderTest.startRow(new RowProps(ReportContent.REPORT_TITLE)); 
-            classUnderTest.output(new CellProps.Builder("report title").contentType(ReportContent.REPORT_TITLE).build());
-            classUnderTest.endRow();
+            classUnderTest.outputTitle(new TitleProps("report title", 3));
             
             classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER)); 
             classUnderTest.output(new CellProps.Builder("column1 ").contentType(ReportContent.COLUMN_HEADER).build());
@@ -75,9 +73,8 @@ public class TestXslFoOut extends ReportengineTC {
             XslFoOutput classUnderTest= new XslFoOutput("./target/testUtf8Out.pdf");
             classUnderTest.open();
             
-            classUnderTest.startRow(new RowProps(ReportContent.REPORT_TITLE)); 
-            classUnderTest.output(new CellProps.Builder("Τὴ γλῶσσα μοῦ ἔδωσαν ἑλληνικὴ").contentType(ReportContent.REPORT_TITLE).build());
-            classUnderTest.endRow(); 
+             
+            classUnderTest.outputTitle(new TitleProps("Τὴ γλῶσσα μοῦ ἔδωσαν ἑλληνικὴ", 1));
             
             classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER)); 
             classUnderTest.output(new CellProps.Builder("column1 ").contentType(ReportContent.COLUMN_HEADER).build());
@@ -104,9 +101,7 @@ public class TestXslFoOut extends ReportengineTC {
             XslFoOutput classUnderTest= new XslFoOutput("target/testXslFoOut.png", MimeConstants.MIME_PNG);
             classUnderTest.open();
             
-            classUnderTest.startRow(new RowProps(ReportContent.REPORT_TITLE)); 
-            classUnderTest.output(new CellProps.Builder("report title").contentType(ReportContent.REPORT_TITLE).build());
-            classUnderTest.endRow();
+            classUnderTest.outputTitle(new TitleProps("report title", 1));
             classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER)); 
             classUnderTest.output(new CellProps.Builder("column1 ").contentType(ReportContent.COLUMN_HEADER).build());
             classUnderTest.endRow();
@@ -135,9 +130,8 @@ public class TestXslFoOut extends ReportengineTC {
             
             classUnderTest.open();
             
-            classUnderTest.startRow(new RowProps(ReportContent.REPORT_TITLE)); 
-            classUnderTest.output(new CellProps.Builder("report title").contentType(ReportContent.REPORT_TITLE).build());
-            classUnderTest.endRow(); 
+            classUnderTest.outputTitle(new TitleProps("report title", 3));
+            
             classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER)); 
             classUnderTest.output(new CellProps.Builder("column1 ").contentType(ReportContent.COLUMN_HEADER).build());
             classUnderTest.endRow();

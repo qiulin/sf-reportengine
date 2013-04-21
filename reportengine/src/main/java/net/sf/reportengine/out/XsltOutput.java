@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public class XsltOutput extends AbstractCharacterOutput {
+public class XsltOutput extends AbstractCharBasedOutput {
 	
 	/**
 	 * the one and only logger
@@ -108,7 +108,7 @@ public class XsltOutput extends AbstractCharacterOutput {
      * opens the writers
      */
     public void open(){
-    	super.open(); //prepare the xslt writer
+    	markAsOpen();
     	try{
 	    	if(xsltReader == null){
 	    		LOGGER.debug("No xslt reader found ... creating default xslt reader from classpath"); 
@@ -125,6 +125,10 @@ public class XsltOutput extends AbstractCharacterOutput {
     	}catch(IOException ioEx){
     		throw new ReportOutputException(ioEx); 
     	}
+    }
+    
+    public void outputTitle(TitleProps titleProps){
+    	staxReportOutput.outputTitle(titleProps); 
     }
     
     /**

@@ -34,9 +34,9 @@ import net.sf.reportengine.util.ReportIoUtils;
  * 
  * @author dragos balan (dragos dot balan @ gmail dot com)
  * @since 0.7
- * @see {@link AbstractByteOutput} {@link TextOutput} {@link HtmlOutput} {@link StaxReportOutput}
+ * @see {@link AbstractByteBasedOutput} {@link TextOutput} {@link HtmlOutput} {@link StaxReportOutput}
  */
-public abstract class AbstractCharacterOutput extends AbstractOutput {
+public abstract class AbstractCharBasedOutput extends AbstractOutput {
 	
 	/**
 	 * the writer behind this class
@@ -46,14 +46,14 @@ public abstract class AbstractCharacterOutput extends AbstractOutput {
 	/**
 	 * 
 	 */
-	public AbstractCharacterOutput() {
+	public AbstractCharBasedOutput() {
 		this(new StringWriter());
 	}
 
 	/**
 	 * @param filePath
 	 */
-	public AbstractCharacterOutput(String filePath) {
+	public AbstractCharBasedOutput(String filePath) {
 		this(ReportIoUtils.createWriterFromPath(filePath)); 
 	}
 	
@@ -62,14 +62,14 @@ public abstract class AbstractCharacterOutput extends AbstractOutput {
 	 * @param filePath
 	 * @param encoding
 	 */
-	public AbstractCharacterOutput(String filePath, String encoding){
+	public AbstractCharBasedOutput(String filePath, String encoding){
 		this(ReportIoUtils.createWriterFromPath(filePath, encoding));
 	}
 	
 	/**
 	 * @param writer
 	 */
-	public AbstractCharacterOutput(Writer writer) {
+	public AbstractCharBasedOutput(Writer writer) {
 		this.outputWriter = writer;
 	}
 	
@@ -84,7 +84,7 @@ public abstract class AbstractCharacterOutput extends AbstractOutput {
 		} catch (IOException e) {
 			throw new ReportOutputException(e);
 		}
-    	super.close();
+    	markAsClosed(); 
     }
 
 	/**

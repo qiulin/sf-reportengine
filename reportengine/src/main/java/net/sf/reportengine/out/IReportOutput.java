@@ -11,7 +11,7 @@ package net.sf.reportengine.out;
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.1
- * @see {@link AbstractByteOutput} {@link AbstractCharacterOutput}
+ * @see {@link AbstractByteBasedOutput} {@link AbstractCharBasedOutput}
  */
 public interface IReportOutput {
 	
@@ -27,17 +27,21 @@ public interface IReportOutput {
 	public void open();
 	
 	/**
+	 * outputs the title of the report (if any)
+	 * 
+	 * @param titleProperties
+	 */
+	public void outputTitle(TitleProps titleProperties);
+	
+	
+	/**
 	 * starts a new row in the report
 	 * 
 	 * @param rowProperties the properties of the row
 	 */
 	public void startRow(RowProps rowProperties);
     
-    /**
-     * ends of a row in the report 
-     */
-    public void endRow();
-
+	
 	/**
 	 * outputs the specified value taking into account the 
      * cell properties imposed by the algorithm 
@@ -46,6 +50,12 @@ public interface IReportOutput {
 	 */
 	public void output(CellProps cellProps);
 	
+	
+    /**
+     * ends of a row in the report 
+     */
+    public void endRow();
+
 	
 	/**
 	 * closes the output (frees any resources used during the output)

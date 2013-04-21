@@ -40,9 +40,7 @@ public class TestPdfOutput {
 		
 		classUnderTest.open();
 		
-		classUnderTest.startRow(new RowProps(ReportContent.REPORT_TITLE, 0));
-		classUnderTest.output(new CellProps.Builder("report title").colspan(3).build());
-		classUnderTest.endRow(); 
+		classUnderTest.outputTitle(new TitleProps("report title", 3));
 		
 		classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER, 0)); 
 		classUnderTest.output(new CellProps.Builder("header1").build()); 

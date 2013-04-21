@@ -3,7 +3,6 @@
  */
 package net.sf.reportengine.out;
 
-import java.io.FileOutputStream;
 import java.io.StringWriter;
 
 import net.sf.reportengine.core.ReportContent;
@@ -36,9 +35,7 @@ public class TestXsltOut extends ReportengineTC {
         try{
             XsltOutput xsltOutTest= new XsltOutput("target/testXSLTOut.html");
             xsltOutTest.open();
-            xsltOutTest.startRow(new RowProps(ReportContent.REPORT_TITLE));
-            xsltOutTest.output(new CellProps.Builder("report title").build());
-            xsltOutTest.endRow();
+            xsltOutTest.outputTitle(new TitleProps("report title", 1));
             
             xsltOutTest.startRow(new RowProps(ReportContent.COLUMN_HEADER));
             xsltOutTest.output(new CellProps.Builder("col header").build());
@@ -65,9 +62,7 @@ public class TestXsltOut extends ReportengineTC {
             xsltOutTest.setOutputWriter(writer); 
             
             xsltOutTest.open();
-            xsltOutTest.startRow(new RowProps(ReportContent.REPORT_TITLE));
-            xsltOutTest.output(new CellProps.Builder("Βιβλία").build());
-            xsltOutTest.endRow();
+            xsltOutTest.outputTitle(new TitleProps("Βιβλία", 1));
             
             xsltOutTest.startRow(new RowProps(ReportContent.COLUMN_HEADER));
             xsltOutTest.output(new CellProps.Builder("col header").build());
@@ -99,9 +94,7 @@ public class TestXsltOut extends ReportengineTC {
             xsltOutTest.setFilePath("target/testXsltUtf8.html"); 
             
             xsltOutTest.open();
-            xsltOutTest.startRow(new RowProps(ReportContent.REPORT_TITLE));
-            xsltOutTest.output(new CellProps.Builder("Report title").build());
-            xsltOutTest.endRow();
+            xsltOutTest.outputTitle(new TitleProps("report title", 1));
             
             xsltOutTest.startRow(new RowProps(ReportContent.COLUMN_HEADER));
             xsltOutTest.output(new CellProps.Builder("Βιβλία").build());
