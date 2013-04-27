@@ -3,11 +3,10 @@
  */
 package net.sf.reportengine.core.steps.crosstab;
 
-import net.sf.reportengine.core.ReportContent;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
 
 /**
@@ -58,13 +57,13 @@ public class IntermediateRowDisplayStep extends AbstractCrosstabStep {
 	}
 	
 	private void displayIntermediateDebugInfo(IntermediateReportRow intermediateRow){
-		IReportOutput output = getOutput(); 
+		ReportOutput output = getOutput(); 
 		
-		output.startRow(new RowProps(ReportContent.DATA));
-		output.output(new CellProps.Builder("Intermediate row:").build());
+		output.startDataRow(new RowProps());
+		output.outputDataCell(new CellProps.Builder("Intermediate row:").build());
 		for (IntermediateDataInfo element : intermediateRow.getIntermComputedDataList().getDataList()) {
-			output.output(new CellProps.Builder(element.toString()).build());
+			output.outputDataCell(new CellProps.Builder(element.toString()).build());
 		}		
-		output.endRow(); 
+		output.endDataRow(); 
 	}
 }

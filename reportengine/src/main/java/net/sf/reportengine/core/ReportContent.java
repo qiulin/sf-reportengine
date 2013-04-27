@@ -13,7 +13,6 @@ public enum ReportContent {
 	
 	/*REPORT_TITLE,*/
 	DATA,
-	COLUMN_HEADER,
 	ROW_HEADER
 	
 }
