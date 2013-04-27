@@ -17,7 +17,7 @@ import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.HtmlOutput;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
@@ -114,7 +114,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	}
 	
 	public void testExecuteScenario2x2x1xT() {
-			IReportOutput visualOutput = new HtmlOutput("target/intermediateReport2x2x1xT.html");  
+			ReportOutput visualOutput = new HtmlOutput("target/intermediateReport2x2x1xT.html");  
 			CellPropsArrayOutput memoryOutput = new CellPropsArrayOutput(); 
 			IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput(); 
 			
@@ -139,13 +139,13 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 			assertNotNull(metadata);
 			
-			assertNotNull(memoryOutput.getCellMatrix());
+			assertNotNull(memoryOutput.getDataCellMatrix());
 			//assertEquals(5, memoryOutput.getCellMatrix().length);
 			
 			int rowToTest = 0; 
-			assertNotNull(memoryOutput.getCellMatrix()[rowToTest]);
-			assertEquals(1, memoryOutput.getCellMatrix()[rowToTest].length);
-			CellProps cell = memoryOutput.getCellMatrix()[rowToTest][0];
+			assertNotNull(memoryOutput.getDataCellMatrix()[rowToTest]);
+			assertEquals(1, memoryOutput.getDataCellMatrix()[rowToTest].length);
+			CellProps cell = memoryOutput.getDataCellMatrix()[rowToTest][0];
 			assertNotNull(cell);
 			assertTrue(cell.getValue() instanceof IntermediateReportRow); 
 			IntermediateReportRow intermRow = (IntermediateReportRow)cell.getValue();

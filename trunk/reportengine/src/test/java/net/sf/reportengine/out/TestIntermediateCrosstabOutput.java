@@ -7,33 +7,17 @@ import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
 import net.sf.reportengine.core.steps.crosstab.IntermediateReportRow;
 import net.sf.reportengine.core.steps.crosstab.IntermediateTotalInfo;
-import junit.framework.TestCase;
+
+import org.junit.Test;
 
 /**
  * @author dragos
  *
  */
-public class TestIntermediateCrosstabOutput extends TestCase {
+public class TestIntermediateCrosstabOutput {
 	
 	
-	
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-
-	/**
-	 * Test method for {@link net.sf.reportengine.out.IntermediateCrosstabOutput#output(net.sf.reportengine.out.CellProps)}.
-	 */
+	@Test
 	public void testOutput() {
 		IntermediateReportRow mockRow = new IntermediateReportRow(); 
 		mockRow.addIntermComputedData(new IntermediateDataInfo("test", 0,0,0)); 
@@ -41,9 +25,12 @@ public class TestIntermediateCrosstabOutput extends TestCase {
 		
 		IntermediateCrosstabOutput classUnderTest = new IntermediateCrosstabOutput(); 
 		classUnderTest.open(); 
-		classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
-		classUnderTest.output(new CellProps.Builder(mockRow).build()); 
-		classUnderTest.endRow(); 
+		classUnderTest.startReport(new ReportProps()); 
+		classUnderTest.startDataRow(new RowProps(0)); 
+		classUnderTest.outputDataCell(new CellProps.Builder(mockRow).build()); 
+		classUnderTest.endDataRow(); 
+		
+		classUnderTest.endReport(); 
 		classUnderTest.close(); 
 	}
 }

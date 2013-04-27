@@ -15,17 +15,6 @@ import net.sf.reportengine.util.MatrixUtils;
  */
 public class TestColumnHeaderOutputInitStep extends ReportAlgorithmStepTC {
 	
-	private ColumnHeaderOutputInitStep classUnderTest = null;
-	
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		classUnderTest = new ColumnHeaderOutputInitStep(); 
-	}
-
 	/**
 	 * Test method for {@link net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)}.
 	 */
@@ -34,9 +23,11 @@ public class TestColumnHeaderOutputInitStep extends ReportAlgorithmStepTC {
 		testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
 		testReportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
 		
+		ColumnHeaderOutputInitStep classUnderTest = new ColumnHeaderOutputInitStep(); 
 		classUnderTest.init(testReportContext);
 		
-		assertTrue(MatrixUtils.compareMatrices(new CellProps[][]{Scenario1.EXPECTED_REPORT_COLUMNS_HEADER}, getTestOutput().getCellMatrix()));
+		assertTrue(MatrixUtils.compareMatrices(Scenario1.EXPECTED_REPORT_COLUMNS_HEADER, 
+												getTestOutput().getHeaderCellMatrix()));
 	}
 
 }

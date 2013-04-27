@@ -17,53 +17,42 @@ import org.junit.Test;
  */
 public class TestPdfOutput {
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-	}
+	
 
 	/**
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-	}
-
-	/**
-	 * Test method for {@link net.sf.reportengine.out.PdfOutput#output(net.sf.reportengine.out.CellProps)}.
+	 * Test method for {@link net.sf.reportengine.out.PdfOutput#outputDataCell(net.sf.reportengine.out.CellProps)}.
 	 */
 	@Test
 	public void testOutput() throws Exception {
 		PdfOutput classUnderTest = new PdfOutput(new FileOutputStream("./target/pdfFromFoOutput.pdf"));
 		
 		classUnderTest.open();
-		
+		classUnderTest.startReport(new ReportProps()); 
 		classUnderTest.outputTitle(new TitleProps("report title", 3));
 		
-		classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER, 0)); 
-		classUnderTest.output(new CellProps.Builder("header1").build()); 
-		classUnderTest.output(new CellProps.Builder("header2").build());
-		classUnderTest.output(new CellProps.Builder("header3").build());
-		classUnderTest.endRow(); 
+		classUnderTest.startHeaderRow(new RowProps(0)); 
+		classUnderTest.outputHeaderCell(new CellProps.Builder("header1").build()); 
+		classUnderTest.outputHeaderCell(new CellProps.Builder("header2").build());
+		classUnderTest.outputHeaderCell(new CellProps.Builder("header3").build());
+		classUnderTest.endHeaderRow(); 
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA, 0)); 
-		classUnderTest.output(new CellProps.Builder("first cell").build()); 
-		classUnderTest.output(new CellProps.Builder("second cell").build());
-		classUnderTest.output(new CellProps.Builder("third cell").build());
-		classUnderTest.endRow(); 
+		classUnderTest.startDataRow(new RowProps(0)); 
+		classUnderTest.outputDataCell(new CellProps.Builder("first cell").build()); 
+		classUnderTest.outputDataCell(new CellProps.Builder("second cell").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("third cell").build());
+		classUnderTest.endDataRow(); 
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA, 1)); 
-		classUnderTest.output(new CellProps.Builder("this cell has a colspan of 3").colspan(3).build());
-		classUnderTest.endRow(); 
+		classUnderTest.startDataRow(new RowProps(1)); 
+		classUnderTest.outputDataCell(new CellProps.Builder("this cell has a colspan of 3").colspan(3).build());
+		classUnderTest.endDataRow(); 
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA, 2)); 
-		classUnderTest.output(new CellProps.Builder("row 3 value 1").build()); 
-		classUnderTest.output(new CellProps.Builder("row 3 value 2").build());
-		classUnderTest.output(new CellProps.Builder("row 3 value 3").build());
-		classUnderTest.endRow(); 
+		classUnderTest.startDataRow(new RowProps(2)); 
+		classUnderTest.outputDataCell(new CellProps.Builder("row 3 value 1").build()); 
+		classUnderTest.outputDataCell(new CellProps.Builder("row 3 value 2").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("row 3 value 3").build());
+		classUnderTest.endDataRow(); 
 		
+		classUnderTest.endReport(); 
 		classUnderTest.close(); 
 	}
 
