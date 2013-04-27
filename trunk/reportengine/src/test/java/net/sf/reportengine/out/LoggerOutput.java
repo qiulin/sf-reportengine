@@ -7,41 +7,59 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Debug implementation for IReportOutput where all outputed values go to the log file at each end of line
+ * Debug implementation for ReportOutput where all outputed values go to the log file at each end of line
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  */
-public class LoggerOutput implements IReportOutput {
+public class LoggerOutput implements ReportOutput {
 	
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(LoggerOutput.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(LoggerOutput.class);
 	
 	private StringBuilder dataToLog = new StringBuilder();
 	
+	public void open() {}
+	
+	public void startReport(ReportProps props){
+		LOGGER.debug("start report"); 
+	}
+	
+	public void startHeaderRow(RowProps props){
+		startDataRow(props); 
+	}
+	
+	public void outputHeaderCell(CellProps cellProps){
+		outputDataCell(cellProps); 
+	}
+	
+	public void endHeaderRow(){
+		endDataRow(); 
+	}
 	
 	public void outputTitle(TitleProps titleProps){
-		LOGGER.debug(titleProps.getTitle()); 
+		LOGGER.debug("Report Title: {}", titleProps.getTitle()); 
 	}
 	
 	/**
      * empty implementation 
      */ 
-    public void startRow(RowProps rowProperties){
+    public void startDataRow(RowProps rowProperties){
         dataToLog.delete(0, dataToLog.length());
 	}
 	
-	public void endRow(){
+	public void endDataRow(){
 		LOGGER.debug("{}",dataToLog);
 	}
 	
-	public void output(CellProps cellProps) {
+	public void outputDataCell(CellProps cellProps) {
 		dataToLog.append(" "+cellProps);
 	}
 
-	public void open() {}
+	public void endReport(){
+		LOGGER.debug("end report"); 
+	}
 
 	public void close() {}
 

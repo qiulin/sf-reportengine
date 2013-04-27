@@ -3,44 +3,33 @@
  */
 package net.sf.reportengine.out;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 
-import net.sf.reportengine.core.ReportContent;
-import net.sf.reportengine.test.ReportengineTC;
+import net.sf.reportengine.util.ReportIoUtils;
+
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * @author dragos
  *
  */
-public class TestExcelOutput extends ReportengineTC {
+public class TestExcelOutput {
 	
-	private ExcelOutput classUnderTest ;
 	
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-	
-	/**
-	 * Test method for {@link net.sf.reportengine.out.ExcelOutput#output(net.sf.reportengine.out.CellProps)}.
-	 */
+	@Test
 	public void testOutputEmptyConstructor() {
-		classUnderTest = new ExcelOutput();
+		ExcelOutput classUnderTest = new ExcelOutput();
 		classUnderTest.open();
-		classUnderTest.startRow(new RowProps(ReportContent.DATA, 0));
-		classUnderTest.output(new CellProps.Builder("value here").rowNumber(0).build());
-		classUnderTest.endRow();
+		classUnderTest.startReport(new ReportProps()); 
+		classUnderTest.startDataRow(new RowProps(0));
+		classUnderTest.outputDataCell(new CellProps.Builder("value here").rowNumber(0).build());
+		classUnderTest.endDataRow();
+		classUnderTest.endReport(); 
 		classUnderTest.close();
 		
 		OutputStream os = classUnderTest.getOutputStream();
@@ -53,134 +42,200 @@ public class TestExcelOutput extends ReportengineTC {
 		assertTrue(result.indexOf("value here") > 0);
 	}
 	
-	/**
-	 * Test method for {@link net.sf.reportengine.out.ExcelOutput#output(net.sf.reportengine.out.CellProps)}.
-	 */
+	@Test
 	public void testOutputOneCell() {
-		classUnderTest = new ExcelOutput("./target/OneCell.xls");
+		ExcelOutput classUnderTest = new ExcelOutput("./target/OneCell.xls");
 		classUnderTest.open();
-		classUnderTest.startRow(new RowProps(ReportContent.DATA, 0));
-		classUnderTest.output(new CellProps.Builder("value here").rowNumber(0).build());
-		classUnderTest.endRow();
+		classUnderTest.startReport(new ReportProps()); 
+		classUnderTest.startDataRow(new RowProps(0));
+		classUnderTest.outputDataCell(new CellProps.Builder("value here").rowNumber(0).build());
+		classUnderTest.endDataRow();
+		classUnderTest.endReport(); 
 		classUnderTest.close();
 	}
 	
 	
-	/**
-	 * Test method for {@link net.sf.reportengine.out.ExcelOutput#output(net.sf.reportengine.out.CellProps)}.
-	 */
+	@Test
 	public void testOutputTitleAndOneCell() {
-		classUnderTest = new ExcelOutput("./target/TitleAndOneCell.xls");
+		ExcelOutput classUnderTest = new ExcelOutput("./target/TitleAndOneCell.xls");
 		classUnderTest.open();
+		classUnderTest.startReport(new ReportProps());
 		classUnderTest.outputTitle(new TitleProps("this is the title", 1)); 
-		classUnderTest.startRow(new RowProps(ReportContent.DATA, 0));
-		classUnderTest.output(new CellProps.Builder("value here").rowNumber(0).build());
-		classUnderTest.endRow();
+		classUnderTest.startDataRow(new RowProps(0));
+		classUnderTest.outputDataCell(new CellProps.Builder("value here").rowNumber(0).build());
+		classUnderTest.endDataRow();
+		classUnderTest.endReport(); 
 		classUnderTest.close();
 	}
 	
-	/**
-	 * Test method for {@link net.sf.reportengine.out.ExcelOutput#output(net.sf.reportengine.out.CellProps)}.
-	 */
+	@Test
 	public void testOutputTitleAndMultipleColHeadRows() {
-		classUnderTest = new ExcelOutput("./target/TitleAndMultipleColHeadRows.xls");
+		ExcelOutput classUnderTest = new ExcelOutput("./target/TitleAndMultipleColHeadRows.xls");
 		classUnderTest.open();
+		classUnderTest.startReport(new ReportProps());
 		classUnderTest.outputTitle(new TitleProps("this is the title", 1)); 
 		
-		classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER, 0));
-		classUnderTest.output(new CellProps.Builder("colum header row 1").contentType(ReportContent.COLUMN_HEADER).rowNumber(0).build());
-		classUnderTest.endRow();
+		classUnderTest.startHeaderRow(new RowProps(0));
+		classUnderTest.outputHeaderCell(new CellProps.Builder("colum header row 1").rowNumber(0).build());
+		classUnderTest.endHeaderRow();
 		
-		classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER, 1));
-		classUnderTest.output(new CellProps.Builder("colum header row 2").contentType(ReportContent.COLUMN_HEADER).rowNumber(1).build());
-		classUnderTest.endRow();
+		classUnderTest.startHeaderRow(new RowProps(1));
+		classUnderTest.outputHeaderCell(new CellProps.Builder("colum header row 2").rowNumber(1).build());
+		classUnderTest.endHeaderRow();
 		
-		classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER, 2));
-		classUnderTest.output(new CellProps.Builder("colum header row 3").contentType(ReportContent.COLUMN_HEADER).rowNumber(1).build());
-		classUnderTest.endRow();
+		classUnderTest.startHeaderRow(new RowProps(2));
+		classUnderTest.outputHeaderCell(new CellProps.Builder("colum header row 3").rowNumber(1).build());
+		classUnderTest.endHeaderRow();
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA, 0));
-		classUnderTest.output(new CellProps.Builder("value here").rowNumber(0).build());
-		classUnderTest.endRow();
+		classUnderTest.startDataRow(new RowProps(0));
+		classUnderTest.outputDataCell(new CellProps.Builder("value here").rowNumber(0).build());
+		classUnderTest.endDataRow();
 		
+		classUnderTest.endReport();
 		classUnderTest.close();
 	}
 	
-	/**
-	 * Test method for {@link net.sf.reportengine.out.ExcelOutput#output(net.sf.reportengine.out.CellProps)}.
-	 */
+	@Test
 	public void testOutputManyRowsNoTitle() {
-		classUnderTest = new ExcelOutput("./target/ManyRowsWithColHeadAndNoTitle.xls");
+		ExcelOutput classUnderTest = new ExcelOutput("./target/ManyRowsWithColHeadAndNoTitle.xls");
 		classUnderTest.open();
 		
-		classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER, 0));
-		classUnderTest.output(new CellProps.Builder("column header")
-										.contentType(ReportContent.COLUMN_HEADER)
+		classUnderTest.startReport(new ReportProps());
+		classUnderTest.startHeaderRow(new RowProps(0));
+		classUnderTest.outputHeaderCell(new CellProps.Builder("column header")
 										.rowNumber(0)
 										.build());
-		classUnderTest.endRow();
+		classUnderTest.endHeaderRow();
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA, 0));
-		classUnderTest.output(new CellProps.Builder("1st row with data")
-											.contentType(ReportContent.DATA)
+		classUnderTest.startDataRow(new RowProps(0));
+		classUnderTest.outputDataCell(new CellProps.Builder("1st row with data")
 											.rowNumber(0)
 											.build());
-		classUnderTest.endRow();
+		classUnderTest.endDataRow();
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA, 1));
-		classUnderTest.output(new CellProps.Builder("2nd row with data")
-											.contentType(ReportContent.DATA)
+		classUnderTest.startDataRow(new RowProps(1));
+		classUnderTest.outputDataCell(new CellProps.Builder("2nd row with data")
 											.rowNumber(1)
 											.build());
-		classUnderTest.endRow();		
+		classUnderTest.endDataRow();		
+		classUnderTest.endReport();
 		classUnderTest.close();
 	}
 	
 	
-	/**
-	 * Test method for {@link net.sf.reportengine.out.ExcelOutput#output(net.sf.reportengine.out.CellProps)}.
-	 */
+	@Test
 	public void testOutputManyRowsWithTitle() {
-		classUnderTest = new ExcelOutput("./target/ManyRowsWithColHeadAndTitle.xls");
+		ExcelOutput classUnderTest = new ExcelOutput("./target/ManyRowsWithColHeadAndTitle.xls");
 		classUnderTest.open();
+		classUnderTest.startReport(new ReportProps());
 		
 		classUnderTest.outputTitle(new TitleProps("this is a long title", 1)); 
 		
 		
-		classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER, 0));
-		classUnderTest.output(new CellProps.Builder("column header")
-										.contentType(ReportContent.COLUMN_HEADER)
+		classUnderTest.startHeaderRow(new RowProps(0));
+		classUnderTest.outputHeaderCell(new CellProps.Builder("column header")
 										.rowNumber(0)
 										.build());
-		classUnderTest.endRow();
+		classUnderTest.endHeaderRow();
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA, 0));
-		classUnderTest.output(new CellProps.Builder("1st row with data")
-											.contentType(ReportContent.DATA)
+		classUnderTest.startDataRow(new RowProps(0));
+		classUnderTest.outputDataCell(new CellProps.Builder("1st row with data")
 											.rowNumber(0)
 											.build());
-		classUnderTest.endRow();
+		classUnderTest.endDataRow();
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA, 1));
-		classUnderTest.output(new CellProps.Builder("2nd row with data")
-											.contentType(ReportContent.DATA)
+		classUnderTest.startDataRow(new RowProps(1));
+		classUnderTest.outputDataCell(new CellProps.Builder("2nd row with data")
 											.rowNumber(1)
 											.build());
-		classUnderTest.endRow();
+		classUnderTest.endDataRow();
 		
+		classUnderTest.endReport();
+		classUnderTest.close();
+	}
+	
+	@Test
+	public void testOutputUtf8(){
+		ExcelOutput classUnderTest = new ExcelOutput(ReportIoUtils.createOutputStreamFromPath("./target/Utf8.xls"));
+		classUnderTest.open();
+		classUnderTest.startReport(new ReportProps());
+		
+		classUnderTest.outputTitle(new TitleProps("постига", 1)); 
+		
+		classUnderTest.startHeaderRow(new RowProps(0));
+		classUnderTest.outputHeaderCell(new CellProps.Builder("А Б В Г Д Е Ё Ж З И Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ъ Ы Ь Э Ю Я").build());
+		classUnderTest.endHeaderRow();
+		
+		classUnderTest.startDataRow(new RowProps(0)); 
+		classUnderTest.outputDataCell(new CellProps.Builder("ά έ ή ί ό ύ ώ").build()); 
+		classUnderTest.endDataRow(); 
+		
+		classUnderTest.endReport();
 		classUnderTest.close();
 	}
 	
 	
-	public void testOutputUtf8(){
-		classUnderTest = new ExcelOutput(createTestOutputFile("Utf8.xls"));
+	@Test
+	public void testTitleAndMultipleColHeadersAndMultipleRows() {
+		ExcelOutput classUnderTest = new ExcelOutput("./target/TitleAndMultipleColHeadersAndMultipleRows.xls");
+		
 		classUnderTest.open();
-		classUnderTest.startRow(new RowProps(ReportContent.DATA, 0));
-		classUnderTest.output(new CellProps.Builder("А Б В Г Д Е Ё Ж З И Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ъ Ы Ь Э Ю Я").build());
-		classUnderTest.endRow();
-		classUnderTest.startRow(new RowProps(ReportContent.DATA, 1)); 
-		classUnderTest.output(new CellProps.Builder("ά έ ή ί ό ύ ώ").build()); 
-		classUnderTest.endRow(); 
+		classUnderTest.startReport(new ReportProps());
+		classUnderTest.outputTitle(new TitleProps("title span over 3 columns", 3)); 
+		
+		classUnderTest.startHeaderRow(new RowProps(0));
+		
+		classUnderTest.outputHeaderCell(new CellProps.Builder("header 1")
+														.rowNumber(0)
+														.build());
+		classUnderTest.outputHeaderCell(new CellProps.Builder("header 2")
+														.rowNumber(0)
+														.build());
+		classUnderTest.outputHeaderCell(new CellProps.Builder("header 3")
+														.rowNumber(0)
+														.build());
+		classUnderTest.endHeaderRow();
+		
+		classUnderTest.startHeaderRow(new RowProps(1));
+		classUnderTest.outputHeaderCell(new CellProps.Builder("col header span 3")
+														.rowNumber(1)
+														.colspan(3)
+														.build());
+		classUnderTest.endHeaderRow();
+		
+		classUnderTest.startHeaderRow(new RowProps(2));
+		classUnderTest.outputHeaderCell(new CellProps.Builder("col header span 2")
+														.colspan(2)
+														.rowNumber(2)
+														.build());
+		classUnderTest.outputHeaderCell(new CellProps.Builder("span 1")
+														.colspan(1)
+														.rowNumber(2)
+														.build());
+		classUnderTest.endHeaderRow();
+		
+		classUnderTest.startDataRow(new RowProps(0));
+		classUnderTest.outputDataCell(new CellProps.Builder("value 1").rowNumber(0).build());
+		classUnderTest.outputDataCell(new CellProps.Builder("value 2").rowNumber(0).build());
+		classUnderTest.outputDataCell(new CellProps.Builder("value 3").rowNumber(0).build());
+		classUnderTest.endDataRow();
+		
+		classUnderTest.startDataRow(new RowProps(1));
+		classUnderTest.outputDataCell(new CellProps.Builder("value 4").rowNumber(1).build());
+		classUnderTest.outputDataCell(new CellProps.Builder("value 5").rowNumber(1).build());
+		classUnderTest.outputDataCell(new CellProps.Builder("value 6").rowNumber(1).build());
+		classUnderTest.endDataRow();
+		
+		classUnderTest.startDataRow(new RowProps(2));
+		classUnderTest.outputDataCell(new CellProps.Builder("value 7").rowNumber(2).colspan(3).build());
+		classUnderTest.endDataRow();
+		
+		classUnderTest.startDataRow(new RowProps(3));
+		classUnderTest.outputDataCell(new CellProps.Builder("value 8 span 2").rowNumber(3).colspan(2).build());
+		classUnderTest.outputDataCell(new CellProps.Builder("span 1").rowNumber(3).build());
+		classUnderTest.endDataRow();
+		
+		classUnderTest.endReport();
 		classUnderTest.close();
 	}
 

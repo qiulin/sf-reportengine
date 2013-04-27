@@ -19,15 +19,19 @@ public class TestTxtOutput {
 
 
 	/**
-	 * Test method for {@link net.sf.reportengine.out.TextOutput#output(net.sf.reportengine.out.CellProps)}.
+	 * Test method for {@link net.sf.reportengine.out.TextOutput#outputDataCell(net.sf.reportengine.out.CellProps)}.
 	 */
 	@Test
 	public void testOpenWhenNoWriterSet() {
 		TextOutput classUnderTest = new TextOutput(); 
 		classUnderTest.open();
-		classUnderTest.startRow(new RowProps()); 
-		classUnderTest.output(new CellProps.Builder("value x").build()); 
-		classUnderTest.endRow(); 
+		
+		classUnderTest.startReport(new ReportProps()); 
+		classUnderTest.startDataRow(new RowProps()); 
+		classUnderTest.outputDataCell(new CellProps.Builder("value x").build()); 
+		classUnderTest.endDataRow(); 
+		
+		classUnderTest.endReport(); 
 		classUnderTest.close(); 
 		
 		Writer result = classUnderTest.getOutputWriter(); 
@@ -44,7 +48,7 @@ public class TestTxtOutput {
 	@Test(expected = ReportOutputException.class)
 	public void testStartRowWithoutOpen(){
 		TextOutput classUnderTest = new TextOutput(); 
-		classUnderTest.startRow(new RowProps()); 
+		classUnderTest.startDataRow(new RowProps()); 
 		Assert.fail("an exception should have been thrown"); 
 	}
 	
@@ -57,29 +61,29 @@ public class TestTxtOutput {
 		classUnderTest.setFilePath("target/streamOutputHavingFilenameSet.txt");
 		
 		classUnderTest.open(); 
-		classUnderTest.startRow(new RowProps());
-		classUnderTest.output(new CellProps.Builder("cell 0 0").build());
-		classUnderTest.output(new CellProps.Builder("cell 0 1").build());
-		classUnderTest.output(new CellProps.Builder("cell 0 2").build());
-		classUnderTest.endRow(); 
+		classUnderTest.startReport(new ReportProps());
+		classUnderTest.startDataRow(new RowProps());
+		classUnderTest.outputDataCell(new CellProps.Builder("cell 0 0").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("cell 0 1").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("cell 0 2").build());
+		classUnderTest.endDataRow(); 
+		classUnderTest.endReport(); 
 		classUnderTest.close(); 
 	}
 	
 	@Test
-	public void testOutputWhenWriterSet(){
+	public void testOutputWhenWriterSet() throws Exception{
 		TextOutput classUnderTest = new TextOutput(); 
-		try {
-			classUnderTest.setOutputWriter(new FileWriter("target/streamOutputHavingWriterSet.txt"));
-			classUnderTest.open(); 
-			classUnderTest.startRow(new RowProps());
-			classUnderTest.output(new CellProps.Builder("cell 0 0").build());
-			classUnderTest.output(new CellProps.Builder("cell 0 1").build());
-			classUnderTest.output(new CellProps.Builder("cell 0 2").build());
-			classUnderTest.endRow(); 
-			classUnderTest.close(); 
-		} catch (IOException e) {
-			Assert.fail(e.getMessage()); 
-		}
+		classUnderTest.setOutputWriter(new FileWriter("target/streamOutputHavingWriterSet.txt"));
+		classUnderTest.open(); 
+		classUnderTest.startReport(new ReportProps());
+		classUnderTest.startDataRow(new RowProps());
+		classUnderTest.outputDataCell(new CellProps.Builder("cell 0 0").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("cell 0 1").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("cell 0 2").build());
+		classUnderTest.endDataRow(); 
+		classUnderTest.endReport(); 
+		classUnderTest.close(); 
 	}
 	
 	@Test
@@ -88,18 +92,23 @@ public class TestTxtOutput {
 		classUnderTest.setFilePath("target/reusedStreamOutput1.txt");
 		
 		classUnderTest.open(); 
-		classUnderTest.startRow(new RowProps());
-		classUnderTest.output(new CellProps.Builder("cell 0 0").build());
-		classUnderTest.output(new CellProps.Builder("cell 0 2").build());
-		classUnderTest.endRow(); 
+		classUnderTest.startReport(new ReportProps()); 
+		
+		classUnderTest.startDataRow(new RowProps());
+		classUnderTest.outputDataCell(new CellProps.Builder("cell 0 0").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("cell 0 2").build());
+		classUnderTest.endDataRow(); 
+		classUnderTest.endReport(); 
 		classUnderTest.close();
 		
 		classUnderTest.setFilePath("target/reusedStreamOutput2.txt");
 		classUnderTest.open(); 
-		classUnderTest.startRow(new RowProps());
-		classUnderTest.output(new CellProps.Builder("cell 0 0").build());
-		classUnderTest.output(new CellProps.Builder("cell 0 2").build());
-		classUnderTest.endRow(); 
+		classUnderTest.startReport(new ReportProps());
+		classUnderTest.startDataRow(new RowProps());
+		classUnderTest.outputDataCell(new CellProps.Builder("cell 0 0").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("cell 0 2").build());
+		classUnderTest.endDataRow(); 
+		classUnderTest.endReport(); 
 		classUnderTest.close();
 	}
 	
@@ -110,10 +119,12 @@ public class TestTxtOutput {
 		classUnderTest.setOutputWriter(writer1);
 		
 		classUnderTest.open(); 
-		classUnderTest.startRow(new RowProps());
-		classUnderTest.output(new CellProps.Builder("cell 0 0").build());
-		classUnderTest.output(new CellProps.Builder("cell 0 2").build());
-		classUnderTest.endRow(); 
+		classUnderTest.startReport(new ReportProps());
+		classUnderTest.startDataRow(new RowProps());
+		classUnderTest.outputDataCell(new CellProps.Builder("cell 0 0").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("cell 0 2").build());
+		classUnderTest.endDataRow(); 
+		classUnderTest.endReport(); 
 		classUnderTest.close();
 		
 		StringBuffer result = writer1.getBuffer(); 
@@ -125,10 +136,12 @@ public class TestTxtOutput {
 		StringWriter writer2 = new StringWriter(); 
 		classUnderTest.setOutputWriter(writer2);
 		classUnderTest.open(); 
-		classUnderTest.startRow(new RowProps());
-		classUnderTest.output(new CellProps.Builder("cell 0 0").build());
-		classUnderTest.output(new CellProps.Builder("cell 0 2").build());
-		classUnderTest.endRow(); 
+		classUnderTest.startReport(new ReportProps());
+		classUnderTest.startDataRow(new RowProps());
+		classUnderTest.outputDataCell(new CellProps.Builder("cell 0 0").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("cell 0 2").build());
+		classUnderTest.endDataRow(); 
+		classUnderTest.endReport();
 		classUnderTest.close();
 		
 		result = writer2.getBuffer(); 

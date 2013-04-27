@@ -283,18 +283,18 @@ public class Scenario1 {
 		}
 	};
 	
-	public final static CellProps[] EXPECTED_REPORT_COLUMNS_HEADER = new CellProps[]{
-		new CellProps.Builder("col 0").contentType(ReportContent.COLUMN_HEADER).build(),
-		new CellProps.Builder("col 1").contentType(ReportContent.COLUMN_HEADER).build(),	
-		new CellProps.Builder("col 2").contentType(ReportContent.COLUMN_HEADER).build(),
-		new CellProps.Builder("col 3").contentType(ReportContent.COLUMN_HEADER).build(),
-		new CellProps.Builder("col 4").contentType(ReportContent.COLUMN_HEADER).build(),
-		new CellProps.Builder("col 5").contentType(ReportContent.COLUMN_HEADER).build()
-	}; 
+	public final static CellProps[][] EXPECTED_REPORT_COLUMNS_HEADER = new CellProps[][]{
+		new CellProps[]{
+			new CellProps.Builder("col 0").build(),
+			new CellProps.Builder("col 1").build(),	
+			new CellProps.Builder("col 2").build(),
+			new CellProps.Builder("col 3").build(),
+			new CellProps.Builder("col 4").build(),
+			new CellProps.Builder("col 5").build()
+		}}; 
 	
 	public final static CellProps[][] EXPECTED_OUTPUT = new CellProps[][]{
-		// the report header
-		EXPECTED_REPORT_COLUMNS_HEADER, 
+	
 		//displayed on row 1
 		new CellProps[]{
 				new CellProps.Builder(ROW_OF_DATA_1[0]).build(), 
