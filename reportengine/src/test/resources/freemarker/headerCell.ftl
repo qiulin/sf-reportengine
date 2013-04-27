@@ -1,0 +1,1 @@
+	[HeaderCell cspan="${cellProps.colspan}" value="${cellProps.value}"]	

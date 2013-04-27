@@ -71,6 +71,14 @@ public class TextOutput extends AbstractCharBasedOutput{
 		markAsOpen(); 
 	}
 	
+	public void startReport(ReportProps reportProps){
+		
+	}
+	
+	
+	/**
+	 * 
+	 */
 	public void outputTitle(TitleProps titleProps){
 		try{
 			getOutputWriter().write(titleProps.getTitle()); 
@@ -81,10 +89,22 @@ public class TextOutput extends AbstractCharBasedOutput{
 	}
 	
 	
+	public void startHeaderRow(RowProps rowProps){
+		startDataRow(rowProps);
+	}
+	
+	public void outputHeaderCell(CellProps cellProps){
+		outputDataCell(cellProps); 
+	}
+	
+	public void endHeaderRow(){
+		endDataRow(); 
+	}
+	
 	/**
      * start row
      */ 
-    public void startRow(RowProps rowProperties){
+    public void startDataRow(RowProps rowProperties){
     	ensureOutputIsOpen(); 
         rowDataBuffer = new StringBuilder();
 	}
@@ -92,7 +112,7 @@ public class TextOutput extends AbstractCharBasedOutput{
     /**
      * end row
      */
-	public void endRow(){
+	public void endDataRow(){
 		try {
 			rowDataBuffer.append(ReportIoUtils.LINE_SEPARATOR);
 			getOutputWriter().write(rowDataBuffer.toString());
@@ -105,10 +125,17 @@ public class TextOutput extends AbstractCharBasedOutput{
 	/**
 	 * output
 	 */
-	public void output(CellProps cellProps) {
+	public void outputDataCell(CellProps cellProps) {
 		rowDataBuffer.append(cellProps.getValue()).append(separator);
 	}
 
+	/**
+	 * 
+	 */
+	public void endReport(){
+		
+	}
+	
 	/**
 	 * @return the separator
 	 */

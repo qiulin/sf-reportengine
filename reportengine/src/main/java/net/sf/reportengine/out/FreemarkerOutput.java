@@ -50,15 +50,28 @@ public class FreemarkerOutput extends AbstractCharBasedOutput {
 	private Template titleTemplate = null; 
 	
 	/**
-	 * row templates
+	 * data row templates
 	 */
-	private Template startRowTemplate = null;
-	private Template endRowTemplate = null; 
+	private Template startDataRowTemplate = null;
+	private Template endDataRowTemplate = null; 
 	
 	/**
-	 * cell template
+	 * data cell template
 	 */
-	private Template cellTemplate = null; 
+	private Template dataCellTemplate = null; 
+	
+	
+	/**
+	 * data row templates
+	 */
+	private Template startHeaderRowTemplate = null;
+	private Template endHeaderRowTemplate = null; 
+	
+	/**
+	 * data cell template
+	 */
+	private Template headerCellTemplate = null;
+	
 	
 	/**
 	 * root data for templates
@@ -74,9 +87,15 @@ public class FreemarkerOutput extends AbstractCharBasedOutput {
 	public final static String DEFAULT_HTML_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/freemarker/html"; 
 	public final static String START_REPORT_TEMPLATE = "startReport.ftl";
 	public final static String END_REPORT_TEMPLATE = "endReport.ftl";
-	public final static String START_ROW_TEMPLATE = "startRow.ftl";
-	public final static String END_ROW_TEMPLATE = "endRow.ftl";
-	public final static String CELL_TEMPLATE = "cell.ftl";
+	
+	public final static String START_DATA_ROW_TEMPLATE = "startDataRow.ftl";
+	public final static String END_DATA_ROW_TEMPLATE = "endDataRow.ftl";
+	public final static String DATA_CELL_TEMPLATE = "dataCell.ftl";
+	
+	public final static String START_HEADER_ROW_TEMPLATE = "startHeaderRow.ftl";
+	public final static String END_HEADER_ROW_TEMPLATE = "endHeaderRow.ftl";
+	public final static String HEADER_CELL_TEMPLATE = "headerCell.ftl";
+	
 	public final static String TITLE_TEMPLATE = "title.ftl"; 
 	
 	/**
@@ -165,25 +184,17 @@ public class FreemarkerOutput extends AbstractCharBasedOutput {
 			if(freemarkerConfig == null){
 				freemarkerConfig = initFreemarkerDefaultConfig(); 
 			}
-			
 			//init root hash maps
 			initRootFreemarkerData(); 
 			
 			//get the templates from configuration
 			initRootTemplateData();
 			
-			//process the start report template
-			ReportProps reportProps = new ReportProps(); 
-			rootDataForReportTemplate.put("reportProps", reportProps);
-			startReportTemplate.process(rootDataForReportTemplate, getOutputWriter()); 
-			
 		} catch (IOException e) {
-			throw new ReportOutputException(e); 
-		} catch (TemplateException e) {
 			throw new ReportOutputException(e); 
 		} 
 	}
-
+	
 	/**
 	 * initializes the root data for all freemarker templates
 	 * @throws IOException
@@ -191,10 +202,31 @@ public class FreemarkerOutput extends AbstractCharBasedOutput {
 	protected void initRootTemplateData() throws IOException {
 		startReportTemplate = freemarkerConfig.getTemplate(START_REPORT_TEMPLATE); 
 		endReportTemplate = freemarkerConfig.getTemplate(END_REPORT_TEMPLATE); 
-		startRowTemplate = freemarkerConfig.getTemplate(START_ROW_TEMPLATE);
-		endRowTemplate = freemarkerConfig.getTemplate(END_ROW_TEMPLATE); 
-		cellTemplate = freemarkerConfig.getTemplate(CELL_TEMPLATE);
+		
 		titleTemplate = freemarkerConfig.getTemplate(TITLE_TEMPLATE); 
+		
+		startDataRowTemplate = freemarkerConfig.getTemplate(START_DATA_ROW_TEMPLATE);
+		endDataRowTemplate = freemarkerConfig.getTemplate(END_DATA_ROW_TEMPLATE); 
+		dataCellTemplate = freemarkerConfig.getTemplate(DATA_CELL_TEMPLATE);
+		
+		startHeaderRowTemplate = freemarkerConfig.getTemplate(START_HEADER_ROW_TEMPLATE);
+		endHeaderRowTemplate = freemarkerConfig.getTemplate(END_HEADER_ROW_TEMPLATE); 
+		headerCellTemplate = freemarkerConfig.getTemplate(HEADER_CELL_TEMPLATE); 
+	}
+	
+	
+	/**
+	 *  calls the startReport.ftl template
+	 */
+	public void startReport(ReportProps reportProps){
+		try {
+			rootDataForReportTemplate.put("reportProps", reportProps);
+			startReportTemplate.process(rootDataForReportTemplate, getOutputWriter());
+		} catch (TemplateException e) {
+			throw new ReportOutputException(e); 
+		} catch (IOException e) {
+			throw new ReportOutputException(e); 
+		} 
 	}
 	
 	/**
@@ -211,14 +243,54 @@ public class FreemarkerOutput extends AbstractCharBasedOutput {
 		}
 	}
 	
+	/**
+	 * 
+	 */
+	public void startHeaderRow(RowProps headerRowProps){
+		try {
+			rootDataForRowTemplate.put("rowProps", headerRowProps); 
+			startHeaderRowTemplate.process(rootDataForRowTemplate, getOutputWriter());
+		} catch (TemplateException e) {
+			throw new ReportOutputException(e); 
+		} catch (IOException e) {
+			throw new ReportOutputException(e); 
+		}	
+	}
 	
 	/**
-	 * calls the start row template
+	 * 
 	 */
-	public void startRow(RowProps rowProperties) {
+	public void outputHeaderCell(CellProps headerCellProps){
+		try {
+			rootDataForCellTemplate.put("cellProps", headerCellProps); 
+			headerCellTemplate.process(rootDataForCellTemplate, getOutputWriter());
+		} catch (TemplateException e) {
+			throw new ReportOutputException(e); 
+		} catch (IOException e) {
+			throw new ReportOutputException(e); 
+		} 
+	}
+	
+	/**
+	 * 
+	 */
+	public void endHeaderRow(){
+		try {
+			endHeaderRowTemplate.process(rootDataForRowTemplate, getOutputWriter());
+		} catch (TemplateException e) {
+			throw new ReportOutputException(e); 
+		} catch (IOException e) {
+			throw new ReportOutputException(e); 
+		} 
+	}
+	
+	/**
+	 * calls the startDataRow.ftl template
+	 */
+	public void startDataRow(RowProps rowProperties) {
 		try {
 			rootDataForRowTemplate.put("rowProps", rowProperties); 
-			startRowTemplate.process(rootDataForRowTemplate, getOutputWriter());
+			startDataRowTemplate.process(rootDataForRowTemplate, getOutputWriter());
 		} catch (TemplateException e) {
 			throw new ReportOutputException(e); 
 		} catch (IOException e) {
@@ -227,26 +299,12 @@ public class FreemarkerOutput extends AbstractCharBasedOutput {
 	}
 	
 	/**
-	 * calls the end row template 
+	 * calls the dataCell.ftl template
 	 */
-	public void endRow() {
-		try {
-			endRowTemplate.process(rootDataForRowTemplate, getOutputWriter());
-		} catch (TemplateException e) {
-			throw new ReportOutputException(e); 
-		} catch (IOException e) {
-			throw new ReportOutputException(e); 
-		} 
-	}
-	
-	
-	/**
-	 * calls the cell.ftl template
-	 */
-	public void output(CellProps cellProps) {
+	public void outputDataCell(CellProps cellProps) {
 		try {
 			rootDataForCellTemplate.put("cellProps", cellProps); 
-			cellTemplate.process(rootDataForCellTemplate, getOutputWriter());
+			dataCellTemplate.process(rootDataForCellTemplate, getOutputWriter());
 		} catch (TemplateException e) {
 			throw new ReportOutputException(e); 
 		} catch (IOException e) {
@@ -255,19 +313,31 @@ public class FreemarkerOutput extends AbstractCharBasedOutput {
 	}
 	
 	/**
-	 * calls the end report template and closes the writer
+	 * calls the end row template 
 	 */
-	public void close() {
+	public void endDataRow() {
+		try {
+			endDataRowTemplate.process(rootDataForRowTemplate, getOutputWriter());
+		} catch (TemplateException e) {
+			throw new ReportOutputException(e); 
+		} catch (IOException e) {
+			throw new ReportOutputException(e); 
+		} 
+	}
+	
+	/**
+	 * calls the endReport.ftl template
+	 */
+	public void endReport(){
 		try {
 			endReportTemplate.process(rootDataForReportTemplate, getOutputWriter());
-			super.close(); //flush and close the writer
 		} catch (IOException e) {
 			throw new ReportOutputException(e); 
 		} catch (TemplateException e) {
 			throw new ReportOutputException(e); 
-		} 
+		}
 	}
-
+	
 	/**
 	 * @return the freemarkerConfig
 	 */

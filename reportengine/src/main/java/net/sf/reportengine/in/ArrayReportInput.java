@@ -54,17 +54,15 @@ public class ArrayReportInput extends AbstractReportInput {
     }
 	
 	
-	@Override public boolean hasMoreRows() {
+	public boolean hasMoreRows() {
 		return currentRow < data.length ;
 	}
 
 	
-	@Override public Object[] nextRow(){
+	public Object[] nextRow(){
 		return data[currentRow++];
 	}
-	
-	
-	
+		
 	
 	private List<ColumnMetadata> readMetadata(){
 		List<ColumnMetadata> result = new ArrayList<ColumnMetadata>(); 

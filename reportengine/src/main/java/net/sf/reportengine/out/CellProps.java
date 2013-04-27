@@ -21,17 +21,12 @@ public final class CellProps {
 	/**
 	 * empty cell having a colspan of 1 
 	 */
-	public static final CellProps EMPTY_CELL = new CellProps.Builder(IReportOutput.WHITESPACE).build(); 
+	public static final CellProps EMPTY_CELL = new CellProps.Builder(ReportOutput.WHITESPACE).build(); 
 
 	/**
      * the column span
      */
 	private final int colspan;
-
-	/**
-     * the report content
-     */
-	private final ReportContent content;
 
 	/**
      * the value to be displayed in the cell
@@ -57,7 +52,6 @@ public final class CellProps {
 	private CellProps(Builder propsBuilder){
 		this.value = propsBuilder.value; 
 		this.colspan = propsBuilder.colspan; 
-		this.content = propsBuilder.content; 
 		this.horizAlign = propsBuilder.horizAlign; 
 		this.rowNbr = propsBuilder.rowNumber; 
 	}
@@ -68,14 +62,6 @@ public final class CellProps {
 	 */
 	public int getColspan() {
 		return colspan;
-	}
-	
-	/**
-	 * the content type
-	 * @return
-	 */
-	public ReportContent getContentType() {
-		return content;
 	}
 	
 	/**
@@ -111,7 +97,6 @@ public final class CellProps {
 			CellProps anotherAsCP = (CellProps) another;
 			result = value.equals(anotherAsCP.getValue()) 
 					 && (colspan == anotherAsCP.getColspan())
-					 && (content.equals(anotherAsCP.getContentType()))
 					 // TODO include the horizontal alignment in the equals
 					 //&& (horizAlign.equals(anotherAsCP.getHorizontalAlign()))
 					 //&& (rowNbr == anotherAsCP.getRowNumber())
@@ -127,7 +112,6 @@ public final class CellProps {
 		int result = 3;
 		result = 97 * result + value.hashCode();
 		result = 97 * result + colspan;
-		result = 97 * result + content.hashCode();
 		result = 97 * result + horizAlign.hashCode(); 
 		result = 97 * result + rowNbr; 
 		return result;
@@ -140,7 +124,6 @@ public final class CellProps {
 		StringBuilder result = new StringBuilder("CP[");
 		result.append(value);
 		result.append(",cspan=").append(colspan);
-		result.append(",type=").append(content);
 		result.append(", hAlign=").append(horizAlign);
 		result.append(", rowNbr=").append(rowNbr);
 		result.append("]");
@@ -157,7 +140,6 @@ public final class CellProps {
 		
 		private final Object value;
 		private int colspan = 1;
-		private ReportContent content = ReportContent.DATA;
 		private HorizAlign horizAlign = HorizAlign.CENTER;
 		private int rowNumber = 0; 
 		
@@ -169,11 +151,6 @@ public final class CellProps {
 			this.colspan = colspan; 
 			return this; 
 		}		
-		
-		public Builder contentType(ReportContent type){
-			this.content = type; 
-			return this; 
-		}
 		
 		public Builder horizAlign(HorizAlign align){
 			this.horizAlign = align; 
