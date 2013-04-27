@@ -127,8 +127,28 @@ public class XsltOutput extends AbstractCharBasedOutput {
     	}
     }
     
+    public void startReport(ReportProps reportProps){
+    	staxReportOutput.startReport(reportProps);
+    }
+    
+    public void endReport(){
+    	staxReportOutput.endReport(); 
+    }
+    
     public void outputTitle(TitleProps titleProps){
     	staxReportOutput.outputTitle(titleProps); 
+    }
+    
+    public void startHeaderRow(RowProps rowProps){
+    	staxReportOutput.startHeaderRow(rowProps); 
+    }
+    
+    public void outputHeaderCell(CellProps cellProps){
+    	staxReportOutput.outputHeaderCell(cellProps); 
+    }
+    
+    public void endHeaderRow(){
+    	staxReportOutput.endHeaderRow(); 
     }
     
     /**
@@ -169,22 +189,22 @@ public class XsltOutput extends AbstractCharBasedOutput {
     /**
      * 
      */
-    public void startRow(RowProps rowProperties){
-    	staxReportOutput.startRow(rowProperties);
+    public void startDataRow(RowProps rowProperties){
+    	staxReportOutput.startDataRow(rowProperties);
     }
     
     /**
      * 
      */
-    public void endRow(){
-    	staxReportOutput.endRow();
+    public void endDataRow(){
+    	staxReportOutput.endDataRow();
     }
     
     /**
      * 
      */
-    public void output(CellProps cellProps){
-    	staxReportOutput.output(cellProps);
+    public void outputDataCell(CellProps cellProps){
+    	staxReportOutput.outputDataCell(cellProps);
     }
     
     /**

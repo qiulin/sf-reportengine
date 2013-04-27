@@ -8,7 +8,7 @@ import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 
 /**
  * <p>
@@ -51,7 +51,7 @@ public interface Algorithm {
      * sets the output of the report
      * @param out
      */
-    public void setOut(IReportOutput out);
+    public void setOut(ReportOutput out);
     
     /**
      * getter for the context

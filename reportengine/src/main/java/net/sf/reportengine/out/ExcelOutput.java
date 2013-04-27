@@ -9,8 +9,8 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 
 import net.sf.reportengine.config.HorizAlign;
-import net.sf.reportengine.core.ReportContent;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -22,7 +22,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,12 +74,12 @@ public class ExcelOutput extends AbstractByteBasedOutput {
     /**
      * the heder style
      */
-    private HSSFCellStyle DEFAULT_HEADER_CELL_STYLE ;
+//    private HSSFCellStyle DEFAULT_HEADER_CELL_STYLE ;
     
     /**
      * column
      */
-    private int currentCol = 0;
+    private short currentCol = 0;
     
     /**
      * 
@@ -91,6 +90,11 @@ public class ExcelOutput extends AbstractByteBasedOutput {
      * 
      */
     private int headerRowSpan = 0;
+    
+    /**
+     * 
+     */
+    private HSSFFont columnHeaderFont;
     
     /**
      * outputs in memory (if no other outputStream is set)
@@ -132,36 +136,48 @@ public class ExcelOutput extends AbstractByteBasedOutput {
         
         //settings for odd row style
         DEFAULT_ODD_ROW_CELL_STYLE = workBook.createCellStyle();
-        DEFAULT_ODD_ROW_CELL_STYLE.setAlignment(HSSFCellStyle.ALIGN_CENTER);
         DEFAULT_ODD_ROW_CELL_STYLE.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
         DEFAULT_ODD_ROW_CELL_STYLE.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
         
         //settings for even row style
         DEFAULT_EVEN_ROW_CELL_STYLE = workBook.createCellStyle();
-        DEFAULT_EVEN_ROW_CELL_STYLE.setAlignment(HSSFCellStyle.ALIGN_CENTER);
         DEFAULT_EVEN_ROW_CELL_STYLE.setFillForegroundColor(HSSFColor.WHITE.index);
         DEFAULT_EVEN_ROW_CELL_STYLE.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
         
         //settings for header style 
-        HSSFFont columnHeaderFont = workBook.createFont();
+        columnHeaderFont = workBook.createFont();
         columnHeaderFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
         columnHeaderFont.setColor(HSSFColor.WHITE.index); 
-        DEFAULT_HEADER_CELL_STYLE = workBook.createCellStyle();
-        DEFAULT_HEADER_CELL_STYLE.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-        DEFAULT_HEADER_CELL_STYLE.setFont(columnHeaderFont);
-        DEFAULT_HEADER_CELL_STYLE.setFillForegroundColor(HSSFColor.BLACK.index);
-        DEFAULT_HEADER_CELL_STYLE.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+//        DEFAULT_HEADER_CELL_STYLE = workBook.createCellStyle();
+//        DEFAULT_HEADER_CELL_STYLE.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+//        DEFAULT_HEADER_CELL_STYLE.setFont(columnHeaderFont);
+//        DEFAULT_HEADER_CELL_STYLE.setFillForegroundColor(HSSFColor.BLACK.index);
+//        DEFAULT_HEADER_CELL_STYLE.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
     }
+    
+    /**
+	 * empty implementation
+	 */
+	public void startReport(ReportProps reportProps){
+		LOGGER.trace("startReport"); 
+	}
+	
     
     /*
      * (non-Javadoc)
-     * @see net.sf.reportengine.out.IReportOutput#outputTitle(net.sf.reportengine.out.TitleProps)
+     * @see net.sf.reportengine.out.ReportOutput#outputTitle(net.sf.reportengine.out.TitleProps)
      */
     public void outputTitle(TitleProps titleProps){
     	currentRow = sheet.createRow(0); 
+    	
+		 HSSFCellStyle cellStyle = workBook.createCellStyle();
+		 cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		 cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+    	
     	Cell cell = currentRow.createCell(0);
     	cell.setCellValue(titleProps.getTitle());
     	cell.setCellType(Cell.CELL_TYPE_STRING); 
+    	cell.setCellStyle(cellStyle); 
     	
     	sheet.addMergedRegion(
                 new Region(0, 
@@ -171,19 +187,53 @@ public class ExcelOutput extends AbstractByteBasedOutput {
     	titleRowSpan++; 
     }
     
+    public void startHeaderRow(RowProps rowProperties){
+         currentRow = sheet.createRow((short)(rowProperties.getRowNumber() + titleRowSpan));
+         currentCol = 0;
+         
+    }
+    
+    public void outputHeaderCell(CellProps cellProps){
+    	int rowCount = cellProps.getRowNumber() + titleRowSpan; 
+        
+    	LOGGER.debug("on row {} output header cell {}", rowCount, cellProps);
+    	
+        HSSFCell cell = currentRow.createCell(currentCol);
+        HSSFCellStyle cellStyle = workBook.createCellStyle();
+        cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        cellStyle.setFont(columnHeaderFont);
+        cellStyle.setFillForegroundColor(HSSFColor.BLACK.index);
+        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        
+        cellStyle.setAlignment(translateHorizAlign(cellProps.getHorizontalAlign()));
+        cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        cell.setCellStyle(cellStyle);
+        
+        String valueToWrite = cellProps.getValue() != null ? cellProps.getValue().toString() : WHITESPACE;
+            cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+            cell.setCellValue(new HSSFRichTextString(valueToWrite));
+        
+        int colspan = cellProps.getColspan();
+        if (colspan != 1) {
+            sheet.addMergedRegion(
+                    new Region(rowCount, 
+                               (short)currentCol, 
+                               rowCount,
+                               (short) (currentCol + colspan - 1)));
+            LOGGER.debug("add new reqion for colspan on header row {} until column {} ", rowCount, currentCol + colspan - 1);
+        }
+        currentCol += colspan;
+    }
+    
+    public void endHeaderRow(){
+    	headerRowSpan++;
+    }
     
     /**
      * ends the current line and creates a new one
      */
-    public void startRow(RowProps rowProperties) {
-        short currentRowNumber = 0; 
-        if(rowProperties.getContent().equals(ReportContent.COLUMN_HEADER)){
-        	headerRowSpan++;
-        	currentRowNumber = (short)(rowProperties.getRowNumber() + titleRowSpan);  
-        }else{
-        	//data rows
-        	currentRowNumber = (short)(rowProperties.getRowNumber() + titleRowSpan + headerRowSpan);  
-        }
+    public void startDataRow(RowProps rowProperties) {
+        short currentRowNumber = (short)(rowProperties.getRowNumber() + titleRowSpan + headerRowSpan);  
         currentRow = sheet.createRow(currentRowNumber);
         currentCol = 0;
     }
@@ -192,52 +242,54 @@ public class ExcelOutput extends AbstractByteBasedOutput {
     /**
      * output the specified value 
      */
-    public void output(CellProps cellProps) {
-        int colspan = cellProps.getColspan();
-        int rowCount = cellProps.getRowNumber(); 
+    public void outputDataCell(CellProps cellProps) {
+        int rowCount = cellProps.getRowNumber() + titleRowSpan + headerRowSpan ; 
         
-        HSSFCell cell = currentRow.createCell((short) getCurrentCol());
+        LOGGER.debug("on row {} output data cell {}", rowCount, cellProps);
+        
+        HSSFCell cell = currentRow.createCell(currentCol);
         HSSFCellStyle cellStyle = null;
         
-        //setting the style depending on the content type
-        if(cellProps.getContentType().equals(ReportContent.COLUMN_HEADER)){
-        	cellStyle = DEFAULT_HEADER_CELL_STYLE;
+        if(rowCount % 2 == 0 ){
+        	//settings for even row style
+            cellStyle = DEFAULT_EVEN_ROW_CELL_STYLE;
         }else{
-            if(rowCount % 2 == 0 ){
-                cellStyle = DEFAULT_EVEN_ROW_CELL_STYLE;
-            }else{
-                cellStyle = DEFAULT_ODD_ROW_CELL_STYLE;
-            }
-         }
-        
+            //settings for odd row style
+        	cellStyle = DEFAULT_ODD_ROW_CELL_STYLE; 
+        }
             
         cellStyle.setAlignment(translateHorizAlign(cellProps.getHorizontalAlign()));
         cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
         
         cell.setCellStyle(cellStyle);
         
-        String valueToWrite = cellProps.getValue() != null ? cellProps.getValue().toString() : " ";
-        try {
-            BigDecimal cellValue = new BigDecimal(valueToWrite);
-            cell.setCellValue(cellValue.doubleValue());
+        String valueToWrite = cellProps.getValue() != null ? cellProps.getValue().toString() : WHITESPACE;
+        
+        if(StringUtils.isNumeric(valueToWrite)){
             cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
-        } catch (NumberFormatException ex) {
+            cell.setCellValue(valueToWrite);
+        }else{
             cell.setCellValue(new HSSFRichTextString(valueToWrite));
         }
         
+        int colspan = cellProps.getColspan(); 
         if (colspan != 1) {
             sheet.addMergedRegion(
-                    new Region(rowCount-1, 
+                    new Region(rowCount, 
                                (short)currentCol, 
-                               rowCount-1,
+                               rowCount,
                                (short) (currentCol + colspan - 1)));
+            LOGGER.debug("add new reqion for colspan on row {}", rowCount);
         }
         currentCol += colspan;
     }
     
-    public void endRow(){
-    	
-    }
+    public void endDataRow(){}
+    
+    /**
+	 * empty implementation
+	 */
+	public void endReport(){}
     
     /**
      * ends the report
@@ -265,7 +317,5 @@ public class ExcelOutput extends AbstractByteBasedOutput {
         					HorizAlign.LEFT.equals(horizAlign) ?  HSSFCellStyle.ALIGN_LEFT : HSSFCellStyle.ALIGN_RIGHT;
     }
     
-    public int getCurrentCol(){
-        return currentCol;
-    }
+   
 }

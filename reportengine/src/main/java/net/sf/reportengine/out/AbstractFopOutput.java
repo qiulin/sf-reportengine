@@ -34,7 +34,7 @@ import org.xml.sax.SAXException;
  * @author dragos balan
  *
  */
-public abstract class AbstractFopOutput implements IReportOutput{
+public abstract class AbstractFopOutput implements ReportOutput{
 	
 	/**
 	 * 
@@ -150,23 +150,43 @@ public abstract class AbstractFopOutput implements IReportOutput{
 		}
 	}
 	
+	public void startReport(ReportProps reportProps){
+		foOutput.startReport(reportProps); 
+	}
+	
 	public void outputTitle(TitleProps titleProps){
 		foOutput.outputTitle(titleProps); 
 	}
 	
-	public void startRow(RowProps rowProps){
-		foOutput.startRow(rowProps); 
+	public void startHeaderRow(RowProps rowProps){
+		foOutput.startHeaderRow(rowProps); 
+	}
+	
+	public void outputHeaderCell(CellProps cellProps){
+		foOutput.outputHeaderCell(cellProps); 
+	}
+	
+	public void endHeaderRow(){
+		foOutput.endHeaderRow(); 
+	}
+	
+	public void startDataRow(RowProps rowProps){
+		foOutput.startDataRow(rowProps); 
 	}
 	
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.IReportOutput#output(net.sf.reportengine.out.CellProps)
+	 * @see net.sf.reportengine.out.ReportOutput#output(net.sf.reportengine.out.CellProps)
 	 */
-	public void output(CellProps cellProps) {
-		foOutput.output(cellProps); 
+	public void outputDataCell(CellProps cellProps) {
+		foOutput.outputDataCell(cellProps); 
 	}
 	
-	public void endRow(){
-		foOutput.endRow(); 
+	public void endDataRow(){
+		foOutput.endDataRow(); 
+	}
+	
+	public void endReport(){
+		foOutput.endReport(); 
 	}
 	
 	public void close(){

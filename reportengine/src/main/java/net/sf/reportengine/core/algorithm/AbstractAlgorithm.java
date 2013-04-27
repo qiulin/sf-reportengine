@@ -10,7 +10,7 @@ import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 
 /**
  * @author dragos balan (dragos dot balan at gmail dot com)
@@ -60,7 +60,7 @@ public abstract class AbstractAlgorithm implements Algorithm {
     /**
      * 
      */
-    public void setOut(IReportOutput out){
+    public void setOut(ReportOutput out){
         this.algorithmContext.setOutput(out);
     }
 	

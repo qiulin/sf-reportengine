@@ -7,7 +7,7 @@ package net.sf.reportengine.core.algorithm;
 import java.util.EnumMap;
 
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 
 /**
@@ -38,7 +38,7 @@ public class DefaultReportContext implements ReportContext{
     /**
      * the output
      */
-    private IReportOutput output;
+    private ReportOutput output;
     
     
     /**
@@ -72,11 +72,11 @@ public class DefaultReportContext implements ReportContext{
         return input;
     }
     
-    public void setOutput(IReportOutput out){
+    public void setOutput(ReportOutput out){
         this.output = out;
     }
     
-    public IReportOutput getOutput(){
+    public ReportOutput getOutput(){
         return output;
     }
 }

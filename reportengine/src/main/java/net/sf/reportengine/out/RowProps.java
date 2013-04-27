@@ -18,11 +18,6 @@ import net.sf.reportengine.core.ReportContent;
  */
 public class RowProps {
     
-	/**
-	 * 
-	 */
-    private final ReportContent reportContent;
-    
     /**
      * row number
      */
@@ -32,15 +27,7 @@ public class RowProps {
      * 
      */
     public RowProps(){
-    	this(ReportContent.DATA, 0);
-    }
-    
-    /**
-     * 
-     * @param content
-     */
-    public RowProps(ReportContent content){
-    	this(content, 0); 
+    	this(0);
     }
     
     /**
@@ -48,18 +35,11 @@ public class RowProps {
      * @param content
      * @param rowNumber
      */
-    public RowProps(ReportContent content, int rowNumber){
-    	this.reportContent = content; 
+    public RowProps(int rowNumber){
     	this.rowNumber = rowNumber; 
     }
     
-    /**
-     * getter for the content type stored in this row properties
-     * @return
-     */
-    public ReportContent getContent() {
-        return reportContent;
-    }
+    
     
     /**
      * retrieves the row number stored in this row properties
