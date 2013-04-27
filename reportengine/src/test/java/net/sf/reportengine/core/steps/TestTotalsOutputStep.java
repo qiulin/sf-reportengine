@@ -100,9 +100,9 @@ public class TestTotalsOutputStep extends ReportAlgorithmStepTC {
 		setPreviousGroupValues(Scenario1.PREVIOUS_GROUP_VALUES[5]);
 		
 		setCalculatorMatrix(Scenario1.ROW_6_CALCULATORS_RESULTS);
-		classUnderTest.exit();
+		classUnderTest.exit(reportContext);
 		
-		CellProps[][] resultCellMatrix = getTestOutput().getCellMatrix();
+		CellProps[][] resultCellMatrix = getTestOutput().getDataCellMatrix();
 		//MatrixUtils.logMatrix(resultCellMatrix); 
 		assertTrue(MatrixUtils.compareMatrices(Scenario1.OUTPUT_TOTALS, resultCellMatrix));
 	}

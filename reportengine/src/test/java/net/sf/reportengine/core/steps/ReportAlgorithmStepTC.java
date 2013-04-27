@@ -7,7 +7,7 @@ import net.sf.reportengine.core.algorithm.DefaultReportContext;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.out.CellPropsArrayOutput;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.LoggerOutput;
 import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.test.ReportengineTC;
@@ -68,7 +68,7 @@ public class ReportAlgorithmStepTC extends ReportengineTC {
 		return cumulativeReportOutput;
 	}
 	
-	protected void registerOutput(IReportOutput output){
+	protected void registerOutput(ReportOutput output){
 		TEST_OUTPUT_DISPATCHER.registerOutput(output);
 	}
 	

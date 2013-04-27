@@ -48,9 +48,7 @@ public class TestOneIterationAlgorithm extends TestCase {
 			context.set(ContextKeys.NEW_GROUPING_LEVEL, executionCounts+1);
 		}
 		
-		public void exit(){
-			
-		}
+		public void exit(ReportContext context){}
 	};
 	
 	private OneLoopAlgorithm classUnderTest = null;

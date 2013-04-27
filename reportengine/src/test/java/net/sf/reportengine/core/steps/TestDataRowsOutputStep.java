@@ -85,7 +85,7 @@ public class TestDataRowsOutputStep {
 		Assert.assertNotNull(reportContext.get(ContextKeys.DATA_ROW_COUNT));
 		Assert.assertEquals(6, reportContext.get(ContextKeys.DATA_ROW_COUNT));
 		
-		CellProps[][] resultCellMatrix = Scenario1.OUTPUT.getCellMatrix();
+		CellProps[][] resultCellMatrix = Scenario1.OUTPUT.getDataCellMatrix();
 		Assert.assertTrue(MatrixUtils.compareMatrices(Scenario1.OUTPUT_DATA, resultCellMatrix));
 	}
 
