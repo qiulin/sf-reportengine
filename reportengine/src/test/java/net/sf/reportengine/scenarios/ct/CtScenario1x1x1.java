@@ -84,14 +84,14 @@ public class CtScenario1x1x1 {
 	};
 	
 	
-	public final static CellProps[][] OUTPUT_DATA = new CellProps[][]{
-	    new CellProps[]{
-	            new CellProps.Builder("East").contentType(ReportContent.COLUMN_HEADER).build(), 
-	            new CellProps.Builder("North").contentType(ReportContent.COLUMN_HEADER).build(), 
-	            new CellProps.Builder("South").contentType(ReportContent.COLUMN_HEADER).build(), 
-	            new CellProps.Builder("West").contentType(ReportContent.COLUMN_HEADER).build()},
-	    
-	};
+//	public final static CellProps[][] OUTPUT_DATA = new CellProps[][]{
+//	    new CellProps[]{
+//	            new CellProps.Builder("East").contentType(ReportContent.COLUMN_HEADER).build(), 
+//	            new CellProps.Builder("North").contentType(ReportContent.COLUMN_HEADER).build(), 
+//	            new CellProps.Builder("South").contentType(ReportContent.COLUMN_HEADER).build(), 
+//	            new CellProps.Builder("West").contentType(ReportContent.COLUMN_HEADER).build()},
+//	    
+//	};
 	
 	public static final CrossTabCoefficients COEFFICIENTS = new CrossTabCoefficients(DISTINCT_VALUES, HAS_HEADER_TOTALS);
 }

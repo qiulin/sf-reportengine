@@ -43,7 +43,7 @@ public class TestFlatReport {
 		flatReport.setShowGrandTotal(true);
 		flatReport.execute();
 			
-			Assert.assertTrue(MatrixUtils.compareMatrices(testOut.getCellMatrix(), Scenario1.EXPECTED_OUTPUT));
+			Assert.assertTrue(MatrixUtils.compareMatrices(testOut.getDataCellMatrix(), Scenario1.EXPECTED_OUTPUT));
 	}
 	
 	@Test
@@ -69,7 +69,7 @@ public class TestFlatReport {
 		flatReport.execute();
 		
 		//MatrixUtils.logMatrix(testOut.getCellMatrix()); 
-		Assert.assertTrue(MatrixUtils.compareMatrices(testOut.getCellMatrix(), Scenario1.EXPECTED_OUTPUT));
+		Assert.assertTrue(MatrixUtils.compareMatrices(testOut.getDataCellMatrix(), Scenario1.EXPECTED_OUTPUT));
 	}
 	
 	@Test

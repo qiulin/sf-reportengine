@@ -3,17 +3,14 @@
  */
 package net.sf.reportengine.out;
 
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.util.ReportIoUtils;
 
+import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Assert; 
 
 
 /**
@@ -23,7 +20,7 @@ import org.junit.Assert;
 public class TestHtmlOutput  {
 
 	/**
-	 * Test method for {@link net.sf.reportengine.out.HtmlOutput#output(net.sf.reportengine.out.CellProps)}.
+	 * Test method for {@link net.sf.reportengine.out.HtmlOutput#outputDataCell(net.sf.reportengine.out.CellProps)}.
 	 */
 	@Test
 	public void testOutputWithDefaultCss() {
@@ -31,42 +28,44 @@ public class TestHtmlOutput  {
 		
 		classUnderTest.open();
 		
+		classUnderTest.startReport(new ReportProps()); 
 		classUnderTest.outputTitle(new TitleProps("report title", 3));
-		classUnderTest.endRow(); 
 		
-		classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER, 0)); 
-		classUnderTest.output(new CellProps.Builder("header11").build()); 
-		classUnderTest.output(new CellProps.Builder("header12").build());
-		classUnderTest.output(new CellProps.Builder("header13").build());
-		classUnderTest.endRow(); 
 		
-		classUnderTest.startRow(new RowProps(ReportContent.COLUMN_HEADER, 1)); 
-		classUnderTest.output(new CellProps.Builder("header21").build()); 
-		classUnderTest.output(new CellProps.Builder("header22").build());
-		classUnderTest.output(new CellProps.Builder("header23").build());
-		classUnderTest.endRow(); 
+		classUnderTest.startHeaderRow(new RowProps(0)); 
+		classUnderTest.outputHeaderCell(new CellProps.Builder("header11").build()); 
+		classUnderTest.outputHeaderCell(new CellProps.Builder("header12").build());
+		classUnderTest.outputHeaderCell(new CellProps.Builder("header13").build());
+		classUnderTest.endHeaderRow(); 
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA, 0)); 
-		classUnderTest.output(new CellProps.Builder("first cell").build()); 
-		classUnderTest.output(new CellProps.Builder("second cell").build());
-		classUnderTest.output(new CellProps.Builder("third cell").build());
-		classUnderTest.endRow(); 
+		classUnderTest.startHeaderRow(new RowProps(1)); 
+		classUnderTest.outputHeaderCell(new CellProps.Builder("header21").build()); 
+		classUnderTest.outputHeaderCell(new CellProps.Builder("header22").build());
+		classUnderTest.outputHeaderCell(new CellProps.Builder("header23").build());
+		classUnderTest.endHeaderRow(); 
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA, 1)); 
-		classUnderTest.output(new CellProps.Builder("this cell has a colspan of 3").colspan(3).build());
-		classUnderTest.endRow(); 
+		classUnderTest.startDataRow(new RowProps(0)); 
+		classUnderTest.outputDataCell(new CellProps.Builder("first cell").build()); 
+		classUnderTest.outputDataCell(new CellProps.Builder("second cell").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("third cell").build());
+		classUnderTest.endDataRow(); 
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA, 2)); 
-		classUnderTest.output(new CellProps.Builder("row 3 value 1").build()); 
-		classUnderTest.output(new CellProps.Builder("row 3 value 2").build());
-		classUnderTest.output(new CellProps.Builder("row 3 value 3").build());
-		classUnderTest.endRow(); 
+		classUnderTest.startDataRow(new RowProps(1)); 
+		classUnderTest.outputDataCell(new CellProps.Builder("this cell has a colspan of 3").colspan(3).build());
+		classUnderTest.endDataRow(); 
 		
+		classUnderTest.startDataRow(new RowProps(2)); 
+		classUnderTest.outputDataCell(new CellProps.Builder("row 3 value 1").build()); 
+		classUnderTest.outputDataCell(new CellProps.Builder("row 3 value 2").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("row 3 value 3").build());
+		classUnderTest.endDataRow(); 
+		
+		classUnderTest.endReport();
 		classUnderTest.close(); 
 	}
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.out.HtmlOutput#output(net.sf.reportengine.out.CellProps)}.
+	 * Test method for {@link net.sf.reportengine.out.HtmlOutput#outputDataCell(net.sf.reportengine.out.CellProps)}.
 	 */
 	@Test
 	public void testOutputWithExternalCss() throws Exception {
@@ -75,29 +74,31 @@ public class TestHtmlOutput  {
 		classUnderTest.setCssPath("testReport.css");
 		
 		classUnderTest.open();
+		classUnderTest.startReport(new ReportProps());
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
-		classUnderTest.output(new CellProps.Builder("first cell").build()); 
-		classUnderTest.output(new CellProps.Builder("second cell").build());
-		classUnderTest.output(new CellProps.Builder("third cell").build());
-		classUnderTest.endRow(); 
+		classUnderTest.startDataRow(new RowProps(0)); 
+		classUnderTest.outputDataCell(new CellProps.Builder("first cell").build()); 
+		classUnderTest.outputDataCell(new CellProps.Builder("second cell").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("third cell").build());
+		classUnderTest.endDataRow(); 
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
-		classUnderTest.output(new CellProps.Builder("this cell has a colspan of 3").colspan(3).build());
-		classUnderTest.endRow(); 
+		classUnderTest.startDataRow(new RowProps(1)); 
+		classUnderTest.outputDataCell(new CellProps.Builder("this cell has a colspan of 3").colspan(3).build());
+		classUnderTest.endDataRow(); 
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
-		classUnderTest.output(new CellProps.Builder("row 3 value 1").build()); 
-		classUnderTest.output(new CellProps.Builder("row 3 value 2").build());
-		classUnderTest.output(new CellProps.Builder("row 3 value 3").build());
-		classUnderTest.endRow(); 
+		classUnderTest.startDataRow(new RowProps(2)); 
+		classUnderTest.outputDataCell(new CellProps.Builder("row 3 value 1").build()); 
+		classUnderTest.outputDataCell(new CellProps.Builder("row 3 value 2").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("row 3 value 3").build());
+		classUnderTest.endDataRow(); 
 		
+		classUnderTest.endReport(); 
 		classUnderTest.close(); 
 	}
 	
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.out.HtmlOutput#output(net.sf.reportengine.out.CellProps)}.
+	 * Test method for {@link net.sf.reportengine.out.HtmlOutput#outputDataCell(net.sf.reportengine.out.CellProps)}.
 	 */
 	@Test
 	public void testOutputUtf8() {
@@ -106,36 +107,42 @@ public class TestHtmlOutput  {
 		HtmlOutput classUnderTest = new HtmlOutput();
 		classUnderTest.setOutputWriter(writer); 
 		classUnderTest.open();
+		classUnderTest.startReport(new ReportProps());
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
-		classUnderTest.output(new CellProps.Builder("от Субсахарска").build()); 
-		classUnderTest.output(new CellProps.Builder("Африка").build());
-		classUnderTest.output(new CellProps.Builder("постига").build());
-		classUnderTest.endRow(); 
+		classUnderTest.startDataRow(new RowProps(0)); 
+		classUnderTest.outputDataCell(new CellProps.Builder("от Субсахарска").build()); 
+		classUnderTest.outputDataCell(new CellProps.Builder("Африка").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("постига").build());
+		classUnderTest.endDataRow(); 
 		
-		classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
-		classUnderTest.output(new CellProps.Builder("устойчиви резултати").colspan(3).build());
-		classUnderTest.endRow(); 
+		classUnderTest.startDataRow(new RowProps(1)); 
+		classUnderTest.outputDataCell(new CellProps.Builder("устойчиви резултати").colspan(3).build());
+		classUnderTest.endDataRow(); 
 		
+		classUnderTest.endReport(); 
 		classUnderTest.close(); 
 	}
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.out.HtmlOutput#output(net.sf.reportengine.out.CellProps)}.
+	 * Test method for {@link net.sf.reportengine.out.HtmlOutput#outputDataCell(net.sf.reportengine.out.CellProps)}.
 	 */
 	@Test
 	public void testMultipleUseWithDifferentWriters() {
 		StringWriter firstWriter = new StringWriter(); 
 		HtmlOutput classUnderTest = new HtmlOutput(firstWriter);
 		classUnderTest.open();
-		classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
-		classUnderTest.output(new CellProps.Builder("от Субсахарска").build()); 
-		classUnderTest.output(new CellProps.Builder("Африка").build());
-		classUnderTest.output(new CellProps.Builder("постига").build());
-		classUnderTest.endRow(); 
-		classUnderTest.startRow(new RowProps(ReportContent.DATA)); 
-		classUnderTest.output(new CellProps.Builder("устойчиви резултати").colspan(3).build());
-		classUnderTest.endRow(); 
+		classUnderTest.startReport(new ReportProps());
+		
+		classUnderTest.startDataRow(new RowProps(0)); 
+		classUnderTest.outputDataCell(new CellProps.Builder("от Субсахарска").build()); 
+		classUnderTest.outputDataCell(new CellProps.Builder("Африка").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("постига").build());
+		classUnderTest.endDataRow(); 
+		classUnderTest.startDataRow(new RowProps(1)); 
+		classUnderTest.outputDataCell(new CellProps.Builder("устойчиви резултати").colspan(3).build());
+		classUnderTest.endDataRow(); 
+		
+		classUnderTest.endReport(); 
 		classUnderTest.close(); 
 		
 		StringBuffer result = firstWriter.getBuffer(); 
@@ -149,9 +156,9 @@ public class TestHtmlOutput  {
 		StringWriter newWriter = new StringWriter(); 
 		classUnderTest.setOutputWriter(newWriter); 
 		classUnderTest.open(); 
-		classUnderTest.startRow(new RowProps(ReportContent.DATA));
-		classUnderTest.output(new CellProps.Builder("test value").build());
-		classUnderTest.endRow(); 
+		classUnderTest.startDataRow(new RowProps(2));
+		classUnderTest.outputDataCell(new CellProps.Builder("test value").build());
+		classUnderTest.endDataRow(); 
 		classUnderTest.close(); 
 		
 		result = newWriter.getBuffer(); 
