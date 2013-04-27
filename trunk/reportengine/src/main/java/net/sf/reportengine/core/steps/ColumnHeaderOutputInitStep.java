@@ -9,11 +9,10 @@ import java.util.List;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
-import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.out.TitleProps;
 import net.sf.reportengine.util.ContextKeys;
@@ -33,6 +32,7 @@ public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
 	 * the one and only logger
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(ColumnHeaderOutputInitStep.class);
+	
 	/**
 	 * the title of the report
 	 */
@@ -65,36 +65,34 @@ public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
     	int outputColumnsCnt = dataCols.size() + (groupCols != null ? groupCols.size() : 0); 
     	
     	//output the title
-    	IReportOutput output = (IReportOutput)reportContext.getOutput();
+    	ReportOutput output = (ReportOutput)reportContext.getOutput();
         if(reportTitle != null){
         	output.outputTitle(new TitleProps(reportTitle, outputColumnsCnt));
         }
         
         //output the report column headers
         final int rowNumber = 0;
-        output.startRow(new RowProps(ReportContent.COLUMN_HEADER, rowNumber));
+        output.startHeaderRow(new RowProps(rowNumber));
         CellProps cellProps = null;
         if(groupCols != null){
 	        for (GroupColumn groupColumn : groupCols) {
 				cellProps = new CellProps.Builder(groupColumn.getHeader())
 										.colspan(1)
-										.contentType(ReportContent.COLUMN_HEADER)
 										.horizAlign(HorizAlign.CENTER)
 										.rowNumber(rowNumber)
 										.build();
-				output.output(cellProps);
+				output.outputHeaderCell(cellProps);
 			}
         }
         for (DataColumn dataColumn: dataCols) {
             cellProps = new CellProps.Builder(dataColumn.getHeader())
             						.colspan(1)
-            						.contentType(ReportContent.COLUMN_HEADER)
             						.horizAlign(HorizAlign.CENTER)
             						.rowNumber(rowNumber)
             						.build();
-            output.output(cellProps);
+            output.outputHeaderCell(cellProps);
         }
         
-        output.endRow();
+        output.endHeaderRow();
     }
 }

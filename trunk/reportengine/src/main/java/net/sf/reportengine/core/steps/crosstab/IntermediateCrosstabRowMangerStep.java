@@ -8,7 +8,7 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.ContextKeys;
 
@@ -100,7 +100,7 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 	/**
 	 * 
 	 */
-	public void exit(){
+	public void exit(ReportContext context){
 		if(getShowTotals() || getShowGrandTotal()){
 			int originalGroupingColsLength = getOriginalCrosstabGroupingColsLength();  
 			int originalDataColsLength = getOriginalCrosstabDataColsLength(); 
@@ -115,7 +115,7 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 		//the cleanup
 		intermediateRow = null;
 		//flushObjectOutputStream(); 
-		super.exit();
+		super.exit(context);
 	}
 	
 	
@@ -142,7 +142,7 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 	
 	
 	private void addOriginalGroupAndDataColumnsInfoToIntermRow(IntermediateReportRow intermediateRow){
-		//only for debug IReportOutput output = getOutput(); 
+		//only for debug ReportOutput output = getOutput(); 
 		//only for debug output.startRow();
 		//only for debug output.output(new CellProps("Intermediate row:"));
 		Integer originalGroupingValuesLength = getOriginalCrosstabGroupingColsLength();
@@ -188,12 +188,12 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 //	}
 	
 	private void writeIntermediateRow(IntermediateReportRow intermediateRow){
-		IReportOutput output = getOutput(); 
-		output.startRow(new RowProps(ReportContent.DATA)); 
-		output.output(new CellProps.Builder(intermediateRow)
+		ReportOutput output = getOutput(); 
+		output.startDataRow(new RowProps()); 
+		output.outputDataCell(new CellProps.Builder(intermediateRow)
 							.colspan(4) /*this is not taken into account except when debug*/
 							.build()); 
-		output.endRow(); 
+		output.endDataRow(); 
 	}
 	
 //	private void flushObjectOutputStream(){

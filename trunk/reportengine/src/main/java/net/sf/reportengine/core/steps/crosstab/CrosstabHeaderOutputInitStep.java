@@ -15,7 +15,7 @@ import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
@@ -40,7 +40,7 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)
 	 */
 	public void init(ReportContext reportContext) {
-		IReportOutput reportOutput = (IReportOutput)reportContext.getOutput();
+		ReportOutput reportOutput = (ReportOutput)reportContext.getOutput();
 		List<DataColumn> dataColumns = (List<DataColumn>)reportContext.get(ContextKeys.DATA_COLUMNS);
 		List<GroupColumn> groupColumns = (List<GroupColumn>)reportContext.get(ContextKeys.GROUP_COLUMNS); 
 		//CrosstabHeaderRow[] headerRows = (CrosstabHeaderRow[])reportContext.get(ContextKeys.CROSSTAB_HEADER_ROWS); 
@@ -57,13 +57,13 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 	 * @param dataCols
 	 * @param groupCols
 	 */
-	private void outputHeaderRows(	IReportOutput reportOutput, 
+	private void outputHeaderRows(	ReportOutput reportOutput, 
 									CtMetadata ctMetadata, 
 									List<DataColumn> dataCols, 
 									List<GroupColumn> groupCols){
 		//loop through all header rows
 		for (int currHeaderRow = 0; currHeaderRow < ctMetadata.getHeaderRowsCount(); currHeaderRow++) {
-			reportOutput.startRow(new RowProps(ReportContent.COLUMN_HEADER, currHeaderRow)); 
+			reportOutput.startHeaderRow(new RowProps(currHeaderRow)); 
 			
 			boolean isLastHeaderRow = currHeaderRow == ctMetadata.getHeaderRowsCount()-1; 
 			
@@ -107,7 +107,7 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 					}
 				}
 			}//end while 
-			reportOutput.endRow(); 
+			reportOutput.endHeaderRow(); 
 		}
 	}
 
@@ -118,7 +118,7 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 	 * @param isLastHeaderRow
 	 */
 	private void displayHeaderForGroupingCols(	List<GroupColumn> groupCols,
-												IReportOutput reportOutput, 
+												ReportOutput reportOutput, 
 												boolean isLastHeaderRow,
 												int rowNumber) {
 		//if last header row write the normal column headers
@@ -127,9 +127,8 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 				//for group columns only the last header row will contain something 
 				// the first will be empty	
 				for (int i = 0; i < groupCols.size(); i++) {
-					reportOutput.output(new CellProps.Builder(groupCols.get(i).getHeader())
+					reportOutput.outputHeaderCell(new CellProps.Builder(groupCols.get(i).getHeader())
 												.colspan(1)
-												.contentType(ReportContent.COLUMN_HEADER)
 												.horizAlign(HorizAlign.CENTER)
 												.rowNumber(rowNumber)
 												.build()); 
@@ -137,7 +136,7 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 			}else{
 				//first header rows will contain only spaces (for group headers):
 				for (int i = 0; i < groupCols.size(); i++) {
-					reportOutput.output(new CellProps.Builder(IReportOutput.WHITESPACE).rowNumber(rowNumber).build()); 
+					reportOutput.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(rowNumber).build()); 
 				}
 			}
 		}else{
@@ -152,21 +151,20 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 	 * @param isLastHeaderRow
 	 */
 	private void displayHeaderForOriginalDataColumn(	DataColumn currentDataColumn, 
-														IReportOutput reportOutput,
+														ReportOutput reportOutput,
 														boolean isLastHeaderRow, 
 														int rowNumber) {
 		//only on the last header row we display the header values for the original data columns
 		if(isLastHeaderRow){
 			SecondProcessDataColumnFromOriginalDataColumn originalDataColumn = (SecondProcessDataColumnFromOriginalDataColumn)currentDataColumn; 
-			reportOutput.output(new CellProps.Builder(originalDataColumn.getHeader())
+			reportOutput.outputHeaderCell(new CellProps.Builder(originalDataColumn.getHeader())
 											.colspan(1)
-											.contentType(ReportContent.COLUMN_HEADER)
 											.horizAlign(HorizAlign.CENTER)
 											.rowNumber(rowNumber)
 											.build()); 
 		}else{
 			//first header rows will contain empty cells
-			reportOutput.output(new CellProps.Builder(IReportOutput.WHITESPACE).rowNumber(rowNumber).build());
+			reportOutput.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(rowNumber).build());
 		}
 	}
 
@@ -179,7 +177,7 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 	 * @param currHeaderRow
 	 */
 	private void displayHeaderForTotalColumn(	SecondProcessTotalColumn secondProcessTotalCol,
-												IReportOutput reportOutput, 
+												ReportOutput reportOutput, 
 												CtMetadata ctMetadata, 
 												int currHeaderRow) {
 		int[] position = secondProcessTotalCol.getPosition();
@@ -187,34 +185,31 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 		if(position != null){
 			if(currHeaderRow < position.length){
 				Object value = ctMetadata.getDistincValueFor(currHeaderRow, position[currHeaderRow]);
-				reportOutput.output(new CellProps.Builder(value)
+				reportOutput.outputHeaderCell(new CellProps.Builder(value)
 											.colspan(1)
-											.contentType(ReportContent.COLUMN_HEADER)
 											.horizAlign(secondProcessTotalCol.getHorizAlign())
 											.rowNumber(currHeaderRow)
 											.build());
 			}else{
 				//if there's no position for this header row then this is a hard-coded "TOTAL" 
 				if(currHeaderRow == position.length){
-					reportOutput.output(new CellProps.Builder("Total")
-												.contentType(ReportContent.COLUMN_HEADER)
+					reportOutput.outputHeaderCell(new CellProps.Builder("Total")
 												.horizAlign(HorizAlign.CENTER)
 												.rowNumber(currHeaderRow)
 												.build());
 				}else{
-					reportOutput.output(new CellProps.Builder(IReportOutput.WHITESPACE).rowNumber(currHeaderRow).build());
+					reportOutput.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(currHeaderRow).build());
 				}
 			}
 		}else{
 			//the only data column that has null positions is the grand total column
 			if(currHeaderRow == 0){
-				reportOutput.output(new CellProps.Builder("Grand Total")
-											.contentType(ReportContent.COLUMN_HEADER)
+				reportOutput.outputHeaderCell(new CellProps.Builder("Grand Total")
 											.horizAlign(HorizAlign.LEFT)
 											.rowNumber(currHeaderRow)
 											.build());
 			}else{
-				reportOutput.output(CellProps.EMPTY_CELL);
+				reportOutput.outputDataCell(CellProps.EMPTY_CELL);
 			}
 		}
 	}
@@ -231,7 +226,7 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 	 * @return	the colspan
 	 */
 	private int displayDataColumnHeader(SecondProcessDataColumn secondProcDataColumn,
-										IReportOutput reportOutput,
+										ReportOutput reportOutput,
 										CtMetadata ctMetadata, 
 										int currHeaderRow, 
 										boolean isLastHeaderRow ) {
@@ -242,9 +237,8 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 		}
 		
 		Object value = ctMetadata.getDistincValueFor(currHeaderRow, secondProcDataColumn.getPosition()[currHeaderRow]);
-		reportOutput.output(new CellProps.Builder(value)
+		reportOutput.outputHeaderCell(new CellProps.Builder(value)
 									.colspan(colspan)
-									.contentType(ReportContent.COLUMN_HEADER)
 									.horizAlign(secondProcDataColumn.getHorizAlign())
 									.rowNumber(currHeaderRow)
 									.build());
