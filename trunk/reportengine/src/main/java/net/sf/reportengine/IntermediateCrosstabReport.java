@@ -17,9 +17,11 @@ import net.sf.reportengine.core.algorithm.OneLoopAlgorithm;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
+import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
+import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep;
 import net.sf.reportengine.core.steps.crosstab.IntermediateCrosstabRowMangerStep;
@@ -124,6 +126,8 @@ class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
 		
 		//init steps 
 		algorithm.addInitStep(new FlatReportExtractDataInitStep());
+		
+		algorithm.addInitStep(new StartReportInitStep()); 
     	//only for debug
     	//algorithm.addInitStep(new ColumnHeaderOutputInitStep("Intermediate report"));
         
@@ -145,6 +149,8 @@ class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
     	if( intermediateGroupCols.size() > 0){
     		algorithm.addMainStep(new PreviousRowManagerStep());
     	}
+    	
+    	algorithm.addExitStep(new EndReportExitStep()); 
 	}
 
 	public List<? extends CrosstabHeaderRow> getCrosstabHeaderRows() {

@@ -17,13 +17,13 @@ public abstract class AbstractXmlOutput extends AbstractCharBasedOutput {
 	
     public final static String TAG_TITLE = "title";
     
-    public final static String TAG_ROW = "row";
+    public final static String TAG_DATA_ROW = "data-row";
     
-    public final static String TAG_CELL = "cell";
+    public final static String TAG_DATA_CELL = "data-cell";
     
     public final static String TAG_TABLE_HEADER = "table-header";
     
-    public final static String TAG_ROW_HEADER = "row-header";
+    public final static String TAG_HEADER_ROW = "header-row";
     
     public final static String ATTR_ENGINE_VERSION = "engineVersion";
     
@@ -31,8 +31,6 @@ public abstract class AbstractXmlOutput extends AbstractCharBasedOutput {
 	
     public final static String ATTR_COLUMN_NUMBER = "colNumber";
     
-	public final static String ATTR_CONTENT_TYPE = "contentType";
-	
 	public final static String ATTR_ROW_NUMBER = "rowNumber";
 	
 	public final static String ATTR_HORIZ_ALIGN = "horizAlign";

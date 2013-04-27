@@ -11,9 +11,11 @@ import net.sf.reportengine.core.algorithm.OneLoopAlgorithm;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
+import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
+import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectFlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectPreviousRowManagerStep;
@@ -80,6 +82,7 @@ public class AutoconfigFlatReport extends AbstractReport {
     	algorithm.addInitStep(new InitReportDataInitStep()); 
     	algorithm.addInitStep(new AutodetectConfigInitStep()); 
     	algorithm.addInitStep(new FlatReportExtractDataInitStep());
+    	algorithm.addInitStep(new StartReportInitStep()); 
     	algorithm.addInitStep(new ColumnHeaderOutputInitStep(getTitle()));
         
     	//then we add the main steps
@@ -95,6 +98,8 @@ public class AutoconfigFlatReport extends AbstractReport {
         }
         
         algorithm.addMainStep(new AutodetectPreviousRowManagerStep());
+        
+        algorithm.addExitStep(new EndReportExitStep()); 
     }
 	
 	/**

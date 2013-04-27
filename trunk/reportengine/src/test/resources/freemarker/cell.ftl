@@ -1,1 +1,0 @@
-	[Cell cspan="${cellProps.colspan}" value=${cellProps.value}]	

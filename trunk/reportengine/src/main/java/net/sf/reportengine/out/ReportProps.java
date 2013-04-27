@@ -6,9 +6,9 @@ package net.sf.reportengine.out;
 
 
 /**
- * FOR FUTURE USE !
+ * 
  * @author dragos balan (dragos.balan@gmail.com)
- *
+ * @since 0.9
  */
 public class ReportProps {
 

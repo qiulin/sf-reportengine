@@ -14,14 +14,16 @@ import net.sf.reportengine.core.algorithm.OneLoopAlgorithm;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
+import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
+import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.ReportUtils;
 
@@ -54,7 +56,7 @@ import org.slf4j.LoggerFactory;
  * flatReport.setIn(input);
  *
  * //output configuration
- * IReportOutput output = new ExcelOutput(new FileOutputStream("output.xls")); 
+ * ReportOutput output = new ExcelOutput(new FileOutputStream("output.xls")); 
  * flatReport.setOut(output);
  *
  * //columns configuration
@@ -69,7 +71,7 @@ import org.slf4j.LoggerFactory;
  * </p>
  * 
  * @see ReportInput
- * @see IReportOutput
+ * @see ReportOutput
  * @see DataColumn
  * @see GroupColumn
  * 
@@ -112,6 +114,7 @@ public class FlatReport extends AbstractAlgoColumnBasedReport {
     	//we start with the init steps
     	algorithm.addInitStep(new InitReportDataInitStep()); 
     	algorithm.addInitStep(new FlatReportExtractDataInitStep());
+    	algorithm.addInitStep(new StartReportInitStep()); 
     	algorithm.addInitStep(new ColumnHeaderOutputInitStep(getTitle()));
         
     	//then we add the main steps
@@ -129,6 +132,8 @@ public class FlatReport extends AbstractAlgoColumnBasedReport {
         if(getGroupColumns() != null && getGroupColumns().size() > 0){
         	algorithm.addMainStep(new PreviousRowManagerStep());
         }
+        
+        algorithm.addExitStep(new EndReportExitStep()); 
     }
 
 

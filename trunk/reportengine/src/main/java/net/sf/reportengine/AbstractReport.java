@@ -6,7 +6,7 @@ package net.sf.reportengine;
 
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 
 
 /**
@@ -51,7 +51,7 @@ abstract class AbstractReport {
     /**
      * the output of the report
      */
-    private IReportOutput output;
+    private ReportOutput output;
     
     /**
      * whether the report will display totals or not 
@@ -124,7 +124,7 @@ abstract class AbstractReport {
      * setter method fo report output
      * @param out
      */
-    public void setOut(IReportOutput out){
+    public void setOut(ReportOutput out){
     	this.output = out;
     }
 
@@ -138,7 +138,7 @@ abstract class AbstractReport {
 	/**
 	 * @return the output
 	 */
-	public IReportOutput getOut() {
+	public ReportOutput getOut() {
 		return output;
 	}
 	
