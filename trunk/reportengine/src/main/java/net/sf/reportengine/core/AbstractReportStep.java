@@ -9,10 +9,11 @@ import java.util.List;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.steps.AbstractAlgorithmStep;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 
 /**
@@ -42,11 +43,6 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
      * empty implementation
      */
     public abstract void execute(NewRowEvent rowEvent);
-    
-    /**
-     * empty implementation 
-     */
-    public void exit(){}
     
     /**
      * returns the aggregation level (especially used in the derived classes)
@@ -95,8 +91,8 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
      * getter for output dispatcher
      * @return
      */
-    public IReportOutput getOutput(){
-    	return (IReportOutput)getContext().getOutput();
+    public ReportOutput getOutput(){
+    	return (ReportOutput)getContext().getOutput();
     }
     
     public Object[] getComputedCellValues(){

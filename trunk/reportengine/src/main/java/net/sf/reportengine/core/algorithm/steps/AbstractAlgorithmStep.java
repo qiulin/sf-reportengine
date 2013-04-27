@@ -33,7 +33,7 @@ public abstract class AbstractAlgorithmStep implements AlgorithmMainStep {
      * just an empty implementation for exit 
      * @see net.sf.reportengine.core.algorithm.AlgorithmMainStep#exit()
      */
-    public void exit() {}
+    public void exit(ReportContext context) {}
     
     
     /**

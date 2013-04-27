@@ -76,7 +76,7 @@ public class DataCachingStep implements AlgorithmMainStep {
     /**
      * closes the cache writer
      */
-    public void exit() {
+    public void exit(ReportContext context) {
         try{
             cache.close();
         }catch(IOException ioExc){
