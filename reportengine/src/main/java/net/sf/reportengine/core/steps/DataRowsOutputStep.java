@@ -13,7 +13,7 @@ import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
 
 /**
@@ -45,14 +45,14 @@ public class DataRowsOutputStep extends AbstractReportStep {
      * execute. Constructs a cell for each value and sends it to output
      */
     public void execute(NewRowEvent newRowEvent) {
-    	IReportOutput output = getOutput();
+    	ReportOutput output = getOutput();
     	Object[] previousRowGrpValues = getPreviousRowOfGroupingValues();
 		Integer dataRowCount = getDataRowCount();
 		Object valueForCurrentColumn = null; 
 		CellProps.Builder cellPropsBuilder = null; 
 		
 		//start the row
-		output.startRow(new RowProps(ReportContent.DATA, dataRowCount));
+		output.startDataRow(new RowProps(dataRowCount));
 		
 		//handle the grouping columns first
 		GroupColumn currentGrpCol = null; 
@@ -65,11 +65,11 @@ public class DataRowsOutputStep extends AbstractReportStep {
 				|| !valueForCurrentColumn.equals(previousRowGrpValues[i])){
 				cellPropsBuilder = new CellProps.Builder(currentGrpCol.getFormattedValue(valueForCurrentColumn));
 			}else{
-				cellPropsBuilder = new CellProps.Builder(IReportOutput.WHITESPACE);
+				cellPropsBuilder = new CellProps.Builder(ReportOutput.WHITESPACE);
 			}
 			cellPropsBuilder.horizAlign(currentGrpCol.getHorizAlign());
 			cellPropsBuilder.rowNumber(dataRowCount); 
-			output.output(cellPropsBuilder.build()); 
+			output.outputDataCell(cellPropsBuilder.build()); 
 		}
 		
 		//then handle the data columns
@@ -77,11 +77,11 @@ public class DataRowsOutputStep extends AbstractReportStep {
 			valueForCurrentColumn = dataColumn.getValue(newRowEvent);
 			cellPropsBuilder = new CellProps.Builder(dataColumn.getFormattedValue(valueForCurrentColumn));
 			cellPropsBuilder.horizAlign(dataColumn.getHorizAlign());
-			output.output(cellPropsBuilder.build()); 
+			output.outputDataCell(cellPropsBuilder.build()); 
 		}
     	
 		//end row
-		output.endRow();
+		output.endDataRow();
 		
 		incrementDataRowNbr();
     }

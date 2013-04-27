@@ -15,7 +15,7 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
 
 import org.slf4j.Logger;
@@ -105,7 +105,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     /**
      * exit displays the last totals in the calculator matrix buffer and the grand total
      */
-    public void exit() {
+    public void exit(ReportContext context) {
         Calculator[][] calculators = getCalculatorMatrix();
         
         if(groupCols != null){
@@ -122,7 +122,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
         					);	
         }
         
-        super.exit();
+        super.exit(context);
     }
     
     /**
@@ -157,14 +157,14 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     		throw new IllegalArgumentException("dataRows and distributionOfCalculators arrays should have the same length"); 
     	}
     	
-    	IReportOutput output = getOutput();
+    	ReportOutput output = getOutput();
     	Integer dataRowNumber = getDataRowCount(); 
-    	output.startRow(new RowProps(ReportContent.DATA, dataRowNumber));
+    	output.startDataRow(new RowProps(dataRowNumber));
     	
     	if(groupCols != null && groupCols.size() > 0){
     		//prepare and output the Total column
     		String totalString = getTotalStringForGroupingLevel(groupLevel);
-    		output.output(new CellProps.Builder(totalString)
+    		output.outputDataCell(new CellProps.Builder(totalString)
     							.horizAlign(HorizAlign.LEFT)
     							.rowNumber(dataRowNumber)
     							.build());
@@ -175,13 +175,13 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     			//filled with the word "Total xxxx"
     			
     			//if you want a single cell spanning multiple rows decomment this
-    			//output.output(new CellProps.Builder(IReportOutput.WHITESPACE)
+    			//output.output(new CellProps.Builder(ReportOutput.WHITESPACE)
     			//							.colspan(groupCols.size()-1) 
     			//							.build());
     			
     			//this is to display an empty cell for every remaining group column
     			for(int i=1; i<groupCols.size(); i++){
-    				output.output(new CellProps.Builder(IReportOutput.WHITESPACE).rowNumber(dataRowNumber).build()); 
+    				output.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(dataRowNumber).build()); 
     			}
     		}
         }
@@ -198,17 +198,17 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
 				//format the computed value 
 				formattedResult = dataCols.get(i).getFormattedValue(calculatorResult); 
 				
-				output.output(new CellProps.Builder(formattedResult)
+				output.outputDataCell(new CellProps.Builder(formattedResult)
 									.horizAlign(dataCols.get(i).getHorizAlign())
 									.rowNumber(dataRowNumber)
 									.build());
 			}else{
 				//if the column doesn't have a calculator asociated 
 				//then display an empty value (whitespace) with colspan 1
-				output.output(new CellProps.Builder(IReportOutput.WHITESPACE).rowNumber(dataRowNumber).build());
+				output.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(dataRowNumber).build());
 			}
 		}
-    	output.endRow();
+    	output.endDataRow();
     	incrementDataRowNbr(); 
     }
 }

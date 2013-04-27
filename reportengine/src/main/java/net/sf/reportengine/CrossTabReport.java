@@ -22,7 +22,7 @@ import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.IntermediateCrosstabReportInput;
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
@@ -60,7 +60,7 @@ import org.slf4j.LoggerFactory;
  *  ReportInput in = new TextInput(new FileInputStream("expenses.csv"));
  *  report.setIn(input); 
  *			
- *  IReportOutput output = new HtmlOutput(new FileOutputStream("xpenses.html")); 
+ *  ReportOutput output = new HtmlOutput(new FileOutputStream("xpenses.html")); 
  *  report.setOut(output);
  *			
  *  //set up data column
@@ -80,7 +80,7 @@ import org.slf4j.LoggerFactory;
  * </p>
  * 
  * @see ReportInput
- * @see IReportOutput
+ * @see ReportOutput
  * @see CrosstabHeaderRow
  * @see DataColumn
  * @see GroupColumn

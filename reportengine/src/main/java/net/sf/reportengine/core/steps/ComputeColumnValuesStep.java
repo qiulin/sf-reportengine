@@ -7,7 +7,7 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 
 /**
@@ -73,7 +73,7 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 				|| !valueForCurrentColumn.equals(previousRowGrpValues[i])){
 				formattedResults[i] = currentGrpCol.getFormattedValue(valueForCurrentColumn);
 			}else{
-				formattedResults[i] = IReportOutput.WHITESPACE;
+				formattedResults[i] = ReportOutput.WHITESPACE;
 			}
 		}
 		

@@ -11,9 +11,9 @@
 </head>
 <body>
 <table>
-	<xsl:for-each select="table-header">
+	<xsl:for-each select="header-row">
 			<tr>
-				<xsl:for-each select="cell">
+				<xsl:for-each select="data-cell">
 					<xsl:variable name="colspan" select="@colspan" />
 					<xsl:variable name="horizAlign" select="horizAlign" />
 					<td colspan="{$colspan}" 
@@ -32,7 +32,7 @@
 					
 					
 	<tbody>
-		<xsl:for-each select="row">
+		<xsl:for-each select="data-row">
 				<tr>
 					<xsl:choose>
 						<xsl:when test="@rowNumber mod 2 = 0">
@@ -43,7 +43,7 @@
 						</xsl:otherwise>
 					</xsl:choose>
 								
-					<xsl:for-each select="cell">
+					<xsl:for-each select="data-cell">
 						<xsl:variable name="colspan" select="@colspan" />
 						<td colspan="{$colspan}"
 		 					style="	font-family='ArialUnicodeMS' 
