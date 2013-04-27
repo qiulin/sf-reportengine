@@ -11,7 +11,7 @@ import net.sf.reportengine.util.ReportIoUtils;
 
 
 /**
- * Simple implementation of the IReportOutput having 
+ * Simple implementation of the ReportOutput having 
  * as result a html page.
  * The available options are :
  * 	1. Construct a html having inside default css (no control whatsoever)
@@ -100,8 +100,11 @@ public class HtmlOutput extends AbstractCharBasedOutput {
     * opens the output
     */
     public void open() {
-        try {
-            markAsOpen(); 
+          markAsOpen(); 
+    }
+    
+    public void startReport(ReportProps reportProps){
+    	try {
             if(isStandalonePage){
             	Writer writer = getOutputWriter(); 
             	writer.write(HTML_HEAD_START);
@@ -119,8 +122,36 @@ public class HtmlOutput extends AbstractCharBasedOutput {
             }
             getOutputWriter().write("<table cellpading=\"0\" cellspacing=\"0\" class=\"reportTable\">");
         } catch (IOException ioExc) {
-        	throw new RuntimeException(ioExc);
+        	throw new ReportOutputException(ioExc);
         }
+    }
+    
+    public void endReport(){
+    	try {
+            getOutputWriter().write("</table>");
+            if(isStandalonePage){
+            	getOutputWriter().write(HTML_END);
+            }
+        } catch (IOException ioExc) {
+        	throw new ReportOutputException(ioExc);
+        }
+    }
+    
+    public void startHeaderRow(RowProps rowProps){
+    	ensureOutputIsOpen();
+        try {
+            getOutputWriter().write("<tr class=\"reportTableHeader\">");            
+        } catch (IOException ioExc) {
+        	throw new ReportOutputException(ioExc);
+        }
+    }
+    
+    public void outputHeaderCell(CellProps cellProps){
+    	outputDataCell(cellProps);
+    }
+    
+    public void endHeaderRow(){
+    	endDataRow(); 
     }
     
     /**
@@ -140,38 +171,19 @@ public class HtmlOutput extends AbstractCharBasedOutput {
     }
     
     /**
-     * closes the output
-     */
-    public void close() {
-        try {
-            getOutputWriter().write("</table>");
-            if(isStandalonePage){
-            	getOutputWriter().write(HTML_END);
-            }
-            super.close();//this closes the writer
-        } catch (IOException ioExc) {
-        	throw new ReportOutputException(ioExc);
-        }
-    }
-    
-    /**
      * start report row
      */
-    public void startRow(RowProps rowProperties) {
+    public void startDataRow(RowProps rowProperties) {
     	ensureOutputIsOpen();
         try {
             StringBuilder buffer = new StringBuilder();
-            if(ReportContent.COLUMN_HEADER.equals(rowProperties.getContent())){
-            	buffer.append("<tr class=\"reportTableHeader\"/>");
+        	buffer.append("<tr class=\"");
+            if(rowProperties.getRowNumber() %2 ==0){
+                buffer.append("even");
             }else{
-            	buffer.append("<tr class=\"");
-                if(rowProperties.getRowNumber() %2 ==0){
-                    buffer.append("even");
-                }else{
-                    buffer.append("odd");
-                }
-                buffer.append("\" >");
+                buffer.append("odd");
             }
+            buffer.append("\" >");
             getOutputWriter().write(buffer.toString());            
         } catch (IOException ioExc) {
         	throw new ReportOutputException(ioExc);
@@ -181,7 +193,7 @@ public class HtmlOutput extends AbstractCharBasedOutput {
    /**
     * end row
     */
-    public void endRow(){
+    public void endDataRow(){
         try{
             getOutputWriter().write("</tr>"); 
             getOutputWriter().write(ReportIoUtils.LINE_SEPARATOR);
@@ -193,7 +205,7 @@ public class HtmlOutput extends AbstractCharBasedOutput {
     /**
      * output cell contents
      */
-    public void output(CellProps cellProps) {
+    public void outputDataCell(CellProps cellProps) {
         String toWrite = purifyData(cellProps.getValue());
         try {
             StringBuilder strContent = new StringBuilder("<td align =\"");
@@ -216,7 +228,7 @@ public class HtmlOutput extends AbstractCharBasedOutput {
     protected String purifyData(Object val) {
     	String result = null;
     	if(val != null){
-    		if(IReportOutput.WHITESPACE.equals(val)){
+    		if(ReportOutput.WHITESPACE.equals(val)){
     			result = "&nbsp;";
     		}else{
     			result = val.toString();

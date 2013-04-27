@@ -184,10 +184,35 @@ public class XslFoOutput extends AbstractByteBasedOutput {
     	}
     }
     
+    /**
+	 * empty implementation
+	 */
+	public void startReport(ReportProps reportProps){
+		staxReportOutput.startReport(reportProps); 
+	}
     
     public void outputTitle(TitleProps titleProps){
     	staxReportOutput.outputTitle(titleProps); 
     }
+    
+    public void startHeaderRow(RowProps rowProps){
+    	staxReportOutput.startHeaderRow(rowProps); 
+    }
+    
+    public void outputHeaderCell(CellProps cellProps){
+    	staxReportOutput.outputHeaderCell(cellProps); 
+    }
+    
+    public void endHeaderRow(){
+    	staxReportOutput.endHeaderRow(); 
+    }
+    
+    /**
+	 * empty implementation
+	 */
+	public void endReport(){
+		staxReportOutput.endReport(); 
+	}
     
     /**
      * 
@@ -201,7 +226,7 @@ public class XslFoOutput extends AbstractByteBasedOutput {
     	}catch(IOException ioExc){
     		throw new ReportOutputException(ioExc); 
     	}
-    	super.close(); 
+    	super.close(); //TODO: this should be moved to finally
     }	
     
     /**
@@ -273,22 +298,22 @@ public class XslFoOutput extends AbstractByteBasedOutput {
 	/**
      * 
      */
-    public void startRow(RowProps rowProperties){
-    	staxReportOutput.startRow(rowProperties);
+    public void startDataRow(RowProps rowProperties){
+    	staxReportOutput.startDataRow(rowProperties);
     }
     
     /**
      * 
      */
-    public void endRow(){
-    	staxReportOutput.endRow();
+    public void endDataRow(){
+    	staxReportOutput.endDataRow();
     }
     
     /**
      * 
      */
-    public void output(CellProps cellProps){
-    	staxReportOutput.output(cellProps);
+    public void outputDataCell(CellProps cellProps){
+    	staxReportOutput.outputDataCell(cellProps);
     }
 
 	/**

@@ -24,9 +24,9 @@ import net.sf.reportengine.util.ReportIoUtils;
  *  This class has basic functionality for handling the opening/closing of the writer.
  *  Your subclasses should implement the methods :
  *  <ol> 
- *  	<li>{@link IReportOutput#output(CellProps)}</li>
- *  	<li>{@link IReportOutput#startRow(RowProps)} - for row counting use super.startRow()</li>
- *  	<li>{@link IReportOutput#endRow()}</li>
+ *  	<li>{@link ReportOutput#outputDataCell(CellProps)}</li>
+ *  	<li>{@link ReportOutput#startDataRow(RowProps)} - for row counting use super.startRow()</li>
+ *  	<li>{@link ReportOutput#endDataRow()}</li>
  *  </ol>
  *  inside these methods you can always use the {@link #getOutputWriter()} method for accessing
  *  the writer

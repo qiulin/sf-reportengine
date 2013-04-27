@@ -5,7 +5,7 @@ package net.sf.reportengine.out;
 
 
 /**
- * An abstract implementation for IReportOutput containing basic functionality for 
+ * An abstract implementation for ReportOutput containing basic functionality for 
  * marking the opening/closing reports, null values replacement, counting rows. 
  * 
  * For better functionality it is recommended to extend one of the two children  
@@ -16,7 +16,7 @@ package net.sf.reportengine.out;
  * @see {@link AbstractByteBasedOutput}, {@link AbstractCharBasedOutput}
  * @since 0.2
  */
-public abstract class AbstractOutput implements IReportOutput {
+public abstract class AbstractOutput implements ReportOutput {
     
 	/**
 	 * error message displayed when open() was not used

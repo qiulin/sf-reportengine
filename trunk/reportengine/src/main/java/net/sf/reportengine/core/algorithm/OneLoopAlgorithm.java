@@ -106,7 +106,7 @@ public class OneLoopAlgorithm extends AbstractAlgorithm {
         
         //call exit
         for(AlgorithmMainStep mainStep: mainSteps){
-           mainStep.exit();
+           mainStep.exit(context);
         }
     }
     
@@ -116,7 +116,7 @@ public class OneLoopAlgorithm extends AbstractAlgorithm {
     protected void executeExitSteps(){
     	List<AlgorithmExitStep> exitSteps = getExitSteps();
     	for(AlgorithmExitStep exitStep: exitSteps){
-    	   exitStep.exit();
+    	   exitStep.exit(getContext());
     	}    
     } 
 }

@@ -79,27 +79,25 @@ public class StaxReportOutput extends AbstractXmlOutput {
 		try{
 			XMLOutputFactory factory = XMLOutputFactory.newInstance();
 			xmlWriter = factory.createXMLStreamWriter(getOutputWriter());
+			
+		}catch(XMLStreamException streamException){
+			throw new RuntimeException(streamException);
+		}
+	}
+	
+	
+	
+	/**
+	 * empty implementation
+	 */
+	public void startReport(ReportProps reportProps){
+		try{
 			xmlWriter.writeStartDocument();
 			xmlWriter.writeStartElement(TAG_REPORT);
 			xmlWriter.writeAttribute(ATTR_ENGINE_VERSION, ENGINE_VERSION);
 		}catch(XMLStreamException streamException){
 			throw new RuntimeException(streamException);
 		}
-	}
-	
-	/**
-	 * 
-	 */
-	public void close(){
-		try{
-			xmlWriter.writeEndElement();
-			xmlWriter.writeEndDocument();
-			xmlWriter.flush();
-			xmlWriter.close();
-		}catch(XMLStreamException streamExc){
-			throw new RuntimeException(streamExc);
-		}
-		super.close();
 	}
 	
 	/**
@@ -116,19 +114,38 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	}
 	
 	/**
+	 * 
+	 */
+	public void startHeaderRow(RowProps rowProps){
+		try{
+        	xmlWriter.writeStartElement(TAG_HEADER_ROW);
+            xmlWriter.writeAttribute(ATTR_ROW_NUMBER,""+rowProps.getRowNumber());
+        }catch(XMLStreamException streamExc){
+        	throw new ReportOutputException(streamExc);
+        }
+	}
+	
+	/**
+	 * 
+	 */
+	public void outputHeaderCell(CellProps cellProps){
+		outputDataCell(cellProps); 
+	}
+	
+	/**
+	 * 
+	 */
+	public void endHeaderRow(){
+		endDataRow(); 
+	}
+	
+	/**
      * new line
      */
-    public void startRow(RowProps rowProperties) {
+    public void startDataRow(RowProps rowProperties) {
         try{
-        	switch(rowProperties.getContent()){
-        	case COLUMN_HEADER: 
-        		xmlWriter.writeStartElement(TAG_TABLE_HEADER);
-            	xmlWriter.writeAttribute(ATTR_ROW_NUMBER,""+rowProperties.getRowNumber());
-        		break; 
-        	default: 
-        		xmlWriter.writeStartElement(TAG_ROW);
-            	xmlWriter.writeAttribute(ATTR_ROW_NUMBER,""+rowProperties.getRowNumber());
-        	}
+        	xmlWriter.writeStartElement(TAG_DATA_ROW);
+            xmlWriter.writeAttribute(ATTR_ROW_NUMBER,""+rowProperties.getRowNumber());
         }catch(XMLStreamException streamExc){
         	throw new ReportOutputException(streamExc);
         }
@@ -137,7 +154,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
     /**
      * end a report line
      */
-    public void endRow(){
+    public void endDataRow(){
         try{
         	xmlWriter.writeEndElement();
         }catch(XMLStreamException streamExc){
@@ -148,11 +165,10 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	/**
      * output
      */
-    public void output(CellProps cellProps) {
+    public void outputDataCell(CellProps cellProps) {
     	try{
-        	xmlWriter.writeStartElement(TAG_CELL);
+        	xmlWriter.writeStartElement(TAG_DATA_CELL);
         	xmlWriter.writeAttribute(ATTR_COLSPAN, ""+cellProps.getColspan());
-        	xmlWriter.writeAttribute(ATTR_CONTENT_TYPE,""+cellProps.getContentType());
         	xmlWriter.writeAttribute(ATTR_HORIZ_ALIGN, cellProps.getHorizontalAlign().toString()); 
         	xmlWriter.writeCharacters(purifyData(cellProps.getValue()));
         	xmlWriter.writeEndElement();
@@ -160,4 +176,29 @@ public class StaxReportOutput extends AbstractXmlOutput {
         	throw new RuntimeException(streamException);
         }
     }
+    
+    /**
+	 * empty implementation
+	 */
+	public void endReport(){
+		try{
+			xmlWriter.writeEndElement();
+			xmlWriter.writeEndDocument();
+		}catch(XMLStreamException streamExc){
+			throw new RuntimeException(streamExc);
+		}
+	}
+    
+    /**
+	 * 
+	 */
+	public void close(){
+		try{
+			xmlWriter.flush();
+			xmlWriter.close();
+		}catch(XMLStreamException streamExc){
+			throw new RuntimeException(streamExc);
+		}
+		super.close();
+	}
 }

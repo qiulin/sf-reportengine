@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos
  *
  */
-public class IntermediateCrosstabOutput implements IReportOutput {
+public class IntermediateCrosstabOutput implements ReportOutput {
 	
 	/**
 	 * the one and only logger
@@ -52,20 +52,40 @@ public class IntermediateCrosstabOutput implements IReportOutput {
 		}
 	}
 	
+	public void startReport(ReportProps props){
+		
+	}
+	
+	public void endReport(){
+		
+	}
+	
+	public void startHeaderRow(RowProps props){
+		
+	}
+	
+	public void outputHeaderCell(CellProps props){
+		
+	}
+	
+	public void endHeaderRow(){
+		
+	}
+	
 	/**
 	 * 
 	 */
 	public void outputTitle(TitleProps titleProps){}
 	
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.IReportOutput#startRow()
+	 * @see net.sf.reportengine.out.ReportOutput#startRow()
 	 */
-	public void startRow(RowProps rowProperties) {}
+	public void startDataRow(RowProps rowProperties) {}
 	
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.IReportOutput#endRow()
+	 * @see net.sf.reportengine.out.ReportOutput#endRow()
 	 */
-	public void endRow() {
+	public void endDataRow() {
 		try {
 			objectOutputStream.reset();
 		} catch (IOException e) {
@@ -74,9 +94,9 @@ public class IntermediateCrosstabOutput implements IReportOutput {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.IReportOutput#output(net.sf.reportengine.out.CellProps)
+	 * @see net.sf.reportengine.out.ReportOutput#output(net.sf.reportengine.out.CellProps)
 	 */
-	public void output(CellProps cellProps) {
+	public void outputDataCell(CellProps cellProps) {
 		Object value = cellProps.getValue();
 		if(value instanceof IntermediateReportRow){
 			IntermediateReportRow intermediateRow = (IntermediateReportRow)value; 

@@ -25,9 +25,9 @@ import net.sf.reportengine.util.ReportIoUtils;
  *  This class has basic functionality for handling the opening/closing of the outputStream.
  *  Your subclasses should implement the methods :
  *  <ol> 
- *  	<li>{@link IReportOutput#output(CellProps)}</li>
- *  	<li>{@link IReportOutput#startRow(RowProps)} - for row counting please use super.startRow()</li>
- *  	<li>{@link IReportOutput#endRow()}</li>
+ *  	<li>{@link ReportOutput#outputDataCell(CellProps)}</li>
+ *  	<li>{@link ReportOutput#startDataRow(RowProps)} - for row counting please use super.startRow()</li>
+ *  	<li>{@link ReportOutput#endDataRow()}</li>
  *  </ol>
  *  inside these methods you can always use the {@link #getOutputStream()} method for accessing
  *  the outputStream
@@ -64,6 +64,8 @@ public abstract class AbstractByteBasedOutput extends AbstractOutput {
 	public AbstractByteBasedOutput(OutputStream out) {
 		this.outputStream = out; 
 	}
+	
+	
 	
     /**
      * flushes and closes the writer

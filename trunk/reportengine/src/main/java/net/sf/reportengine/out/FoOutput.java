@@ -14,7 +14,7 @@ import freemarker.template.DefaultObjectWrapper;
  * @author dragos balan
  * @since 0.8
  */
-public class FoOutput implements IReportOutput{
+public class FoOutput implements ReportOutput{
 	
 	/**
 	 * 
@@ -43,20 +43,34 @@ public class FoOutput implements IReportOutput{
 	
 	/**
 	 * 
+	 * @param writer
+	 * @param freemarkerConfig
 	 */
 	public FoOutput(Writer writer, Configuration freemarkerConfig){
 		freemarkerOutput = new FreemarkerOutput(writer, freemarkerConfig); 
 	}
 	
+	/**
+	 * 
+	 * @param filePath
+	 */
 	public FoOutput(String filePath){
 		freemarkerOutput = new FreemarkerOutput(filePath, getDefaultFreemarkerConfig()); 
 	}
 	
-	
+	/**
+	 * 
+	 * @param filePath
+	 * @param freemarkerConfig
+	 */
 	public FoOutput(String filePath, Configuration freemarkerConfig){
 		freemarkerOutput = new FreemarkerOutput(filePath, freemarkerConfig); 
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	private Configuration getDefaultFreemarkerConfig(){
 		Configuration freemarkerConfig = new Configuration(); 
 		freemarkerConfig.setObjectWrapper(new DefaultObjectWrapper()); 
@@ -66,31 +80,55 @@ public class FoOutput implements IReportOutput{
 		return freemarkerConfig; 
 	}
 	
-	
+	/**
+	 * 
+	 */
 	public void open(){
 		freemarkerOutput.open(); 
+	}
+	
+	public void startReport(ReportProps reportProps){
+		freemarkerOutput.startReport(reportProps); 
 	}
 	
 	public void outputTitle(TitleProps titleProps){
 		freemarkerOutput.outputTitle(titleProps); 
 	}
 	
-	public void close(){
-		freemarkerOutput.close(); 
+	public void startHeaderRow(RowProps rowProps){
+		freemarkerOutput.startHeaderRow(rowProps); 
 	}
 	
-	public void startRow(RowProps rowProps){
-		freemarkerOutput.startRow(rowProps); 
+	public void outputHeaderCell(CellProps cellProps){
+		freemarkerOutput.outputHeaderCell(cellProps); 
 	}
 	
-	public void endRow(){
-		freemarkerOutput.endRow(); 
+	public void endHeaderRow(){
+		freemarkerOutput.endHeaderRow(); 
+	}
+	
+	public void startDataRow(RowProps rowProps){
+		freemarkerOutput.startDataRow(rowProps); 
 	}
 	
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.IReportOutput#output(net.sf.reportengine.out.CellProps)
+	 * @see net.sf.reportengine.out.ReportOutput#output(net.sf.reportengine.out.CellProps)
 	 */
-	public void output(CellProps cellProps) {
-		freemarkerOutput.output(cellProps); 
+	public void outputDataCell(CellProps cellProps) {
+		freemarkerOutput.outputDataCell(cellProps); 
+	}
+	
+	public void endDataRow(){
+		freemarkerOutput.endDataRow(); 
+	}
+	
+	
+	
+	public void endReport(){
+		freemarkerOutput.endReport(); 
+	}
+	
+	public void close(){
+		freemarkerOutput.close(); 
 	}
 }

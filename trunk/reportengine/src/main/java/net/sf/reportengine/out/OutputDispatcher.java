@@ -15,47 +15,78 @@ import java.util.List;
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.3
  */
-public class OutputDispatcher implements IReportOutput{
+public class OutputDispatcher implements ReportOutput{
     
-    private List<IReportOutput> outputtersList;
+    private List<ReportOutput> outputtersList;
     
     public OutputDispatcher(){
-        outputtersList = new ArrayList<IReportOutput>(3);
+        outputtersList = new ArrayList<ReportOutput>(3);
     }
 
     public void open(){
-        for(IReportOutput output: outputtersList){
+        for(ReportOutput output: outputtersList){
             output.open();
         }
     }
     
     public void outputTitle(TitleProps titleProps){
-    	for(IReportOutput output: outputtersList){
+    	for(ReportOutput output: outputtersList){
             output.outputTitle(titleProps);
         }
     }
     
+    public void startReport(ReportProps reportProps){
+    	for(ReportOutput output: outputtersList){
+            output.startReport(reportProps);
+        }
+    }
+    
+    public void endReport(){
+    	for(ReportOutput output: outputtersList){
+            output.endReport();
+        }
+    }
+    
+    
+    public void startHeaderRow(RowProps rowProperties){
+    	for(ReportOutput output: outputtersList){
+            output.startHeaderRow(rowProperties);
+        }
+    }
+    
+    public void endHeaderRow(){
+    	for(ReportOutput output: outputtersList){
+            output.endHeaderRow();
+        }
+    }
+    
+    public void outputHeaderCell(CellProps cellProps){
+    	for(ReportOutput output: outputtersList){
+            output.outputHeaderCell(cellProps);
+        }
+    }
+    
     public void close(){
-    	for(IReportOutput output: outputtersList){
+    	for(ReportOutput output: outputtersList){
             output.close();
         }
     }
     
-    public void startRow(RowProps rowProperties){
-    	for(IReportOutput output: outputtersList){
-            output.startRow(rowProperties);
+    public void startDataRow(RowProps rowProperties){
+    	for(ReportOutput output: outputtersList){
+            output.startDataRow(rowProperties);
         }
     }
     
-    public void endRow(){
-    	for(IReportOutput output: outputtersList){
-            output.endRow();
+    public void endDataRow(){
+    	for(ReportOutput output: outputtersList){
+            output.endDataRow();
         }
     }
     
-    public void output(CellProps cellProps){
-    	for(IReportOutput output: outputtersList){
-            output.output(cellProps);
+    public void outputDataCell(CellProps cellProps){
+    	for(ReportOutput output: outputtersList){
+            output.outputDataCell(cellProps);
         }
     }
     
@@ -63,7 +94,7 @@ public class OutputDispatcher implements IReportOutput{
 //        ListIterator outputIter = outputtersList.listIterator();
 //        CellProps emptyValuedCellProps = null;
 //        while(outputIter.hasNext()){
-//            IReportOutput output = (IReportOutput)outputIter.next();
+//            ReportOutput output = (ReportOutput)outputIter.next();
 //            emptyValuedCellProps = new CellProps(output.getWhiteSpace(), colspan, contentType);
 //            output.output(emptyValuedCellProps);
 //        }
@@ -73,7 +104,7 @@ public class OutputDispatcher implements IReportOutput{
 //    	emptyCell(colspan, ReportConstants.CONTENT_DATA);
 //    }
     
-    public void registerOutput(IReportOutput out){
+    public void registerOutput(ReportOutput out){
         this.outputtersList.add(out);
     }
     

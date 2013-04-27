@@ -5,7 +5,7 @@
 package net.sf.reportengine.core.algorithm;
 
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 
 
@@ -48,11 +48,11 @@ public interface ReportContext {
      * setter for output
      * @param output
      */
-    public void setOutput(IReportOutput output);
+    public void setOutput(ReportOutput output);
     
     /**
      * getter for output
      * @return  the output
      */
-    public IReportOutput getOutput();
+    public ReportOutput getOutput();
 }
