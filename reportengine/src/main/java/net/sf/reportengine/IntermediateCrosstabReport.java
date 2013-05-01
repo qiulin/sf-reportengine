@@ -284,6 +284,14 @@ class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
 		public HorizAlign getHorizAlign() {
 			return crosstabData.getHorizAlign(); 
 		}
+
+		public int getOrderLevel() {
+			return -1; 
+		}
+
+		public int getOrderType() {
+			return -1; 
+		}
 	}
 	
 	protected static class IntermGroupColFromCtDataCol implements GroupColumn{

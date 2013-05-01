@@ -42,7 +42,7 @@ public class OneLoopAlgorithm extends AbstractAlgorithm {
     /**
      * implementation for net.sf.reportengine.core.IReportEngine.execute();
      */
-    public void executeAlgorithm() {
+    public void execute() {
     	LOGGER.trace("algorithm executing one iteration ");
         
     	if(getContext().getInput() == null){

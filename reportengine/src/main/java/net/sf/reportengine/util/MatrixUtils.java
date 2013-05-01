@@ -14,16 +14,15 @@ import org.slf4j.LoggerFactory;
  *  
  * @author dragos balan
  */
-public class MatrixUtils {
+public final class MatrixUtils {
     
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(MatrixUtils.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MatrixUtils.class);
 	
     /**
-     * empty implementation 
+     * prevent inheritance
      *
      */
     private MatrixUtils(){
@@ -110,12 +109,12 @@ public class MatrixUtils {
     public static boolean compareMatricesAsStrings(Object[][] matrix1, Object[][] matrix2){
         boolean result = true;
         if(matrix1.length != matrix2.length){
-            throw new IllegalArgumentException("the two matrixes doesn't have the same number of lines");
+            throw new IllegalArgumentException("the two matrixes don't have the same number of lines");
         }
         
         for(int i=0; i<matrix1.length && result; i++){
             if(matrix1[i].length != matrix2[i].length){
-                throw new IllegalArgumentException("the two matrixes doesn't have the same number of columns on line "+i);
+                throw new IllegalArgumentException("the two matrixes don't have the same number of columns on line "+i);
             }else{
                 for(int j=0; j<matrix1[i].length && result; j++){
                     if(matrix1[i][j] != null && matrix2[i][j] != null){
@@ -141,50 +140,5 @@ public class MatrixUtils {
             }
         }
         return result;
-    }
-    
-    /**
-     * multiplies and inserts the values specified in the 
-     * additionalArray inside the resulting matrix<br>
-     * <b>Just a simple example :</b><br>
-     * calling this method with the following source : 
-     *  <code>South   Italy   Rome    Catholics   Males   100 200 300</code> 
-     *  and the additionalArray : <code>Count, Avg, Max</code>
-     *  the result will be as follows:<br>
-     *  <code>
-     *      South   Italy   Rome    Catholics   Males   Count   100 <br>
-     *      South   Italy   Rome    Catholics   Males   Avg     200 <br>
-     *      South   Italy   Rome    Catholics   Males   Max     300
-     *  </code>     
-     *
-     * @param source            the source
-     * @param additionalArray
-     * @return                  a matrix of objects
-     */
-    public static Object[][] multiplyLines(Object[] source, String[] additionalArray) {
-        //          y x Count Max Avg (indicator names)
-        // Sud Arges Pitesti | Ortdox Masc | 100 300 200
-        //
-        // will become :
-        // Sud Arges Pitesti Ortodox Masc Count 100
-        // Sud Arges Pitesti Ortodox Masc Max 300
-        // Sud Arges Pitesti Ortodox Masc Avg 200
-
-        Object[][] toReturn = new Object[additionalArray.length][];
-        for (int i = 0; i < additionalArray.length; i++) {
-            toReturn[i] = new Object[source.length
-                    - additionalArray.length + 2];
-            //primele valori pana la offset se vor copia
-            int countValuesToCopy = source.length - additionalArray.length;
-            System.arraycopy(source, 0,
-                            toReturn[i], 0,
-                            countValuesToCopy);
-            // urmatorele valori dupa offset se vor genera
-            toReturn[i][countValuesToCopy] = additionalArray[i];
-            toReturn[i][countValuesToCopy + 1] = source[countValuesToCopy
-                    + i];
-
-        }
-        return toReturn;
     }
 }
