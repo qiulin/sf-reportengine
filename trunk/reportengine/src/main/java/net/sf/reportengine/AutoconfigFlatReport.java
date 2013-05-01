@@ -140,6 +140,6 @@ public class AutoconfigFlatReport extends AbstractReport {
 	@Override public void execute() {
 		validate(); 
 		config(); 
-		algorithm.executeAlgorithm(); 
+		algorithm.execute(); 
 	}
 }

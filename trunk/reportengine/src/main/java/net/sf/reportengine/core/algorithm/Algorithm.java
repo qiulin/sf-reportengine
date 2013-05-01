@@ -45,7 +45,7 @@ public interface Algorithm {
     /**
      * executes the report and displays it
      */
-    public void executeAlgorithm();
+    public void execute();
     
     /**
      * sets the output of the report

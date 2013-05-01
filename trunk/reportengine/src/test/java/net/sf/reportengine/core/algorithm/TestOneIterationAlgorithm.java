@@ -74,10 +74,10 @@ public class TestOneIterationAlgorithm extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.core.algorithm.OneLoopAlgorithm#executeAlgorithm()}.
+	 * Test method for {@link net.sf.reportengine.core.algorithm.OneLoopAlgorithm#execute()}.
 	 */
 	public void testExecuteAlgorithm() {
-		classUnderTest.executeAlgorithm();
+		classUnderTest.execute();
 		assertTrue((Boolean)classUnderTest.getContext().get(ContextKeys.SHOW_GRAND_TOTAL));
 		assertTrue((Boolean)classUnderTest.getContext().get(ContextKeys.SHOW_TOTALS));
 		assertEquals(2, classUnderTest.getContext().get(ContextKeys.NEW_GROUPING_LEVEL));

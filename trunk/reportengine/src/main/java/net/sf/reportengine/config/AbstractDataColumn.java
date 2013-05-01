@@ -35,6 +35,11 @@ public abstract class AbstractDataColumn implements DataColumn {
 	
 	/**
 	 * 
+	 */
+	private int orderLevel = -1; 
+	
+	/**
+	 * 
 	 * @param header
 	 */
 	public AbstractDataColumn(String header){
@@ -157,5 +162,21 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 */
 	public void setHorizAlign(HorizAlign horizAlign) {
 		this.horizAlign = horizAlign;
+	}
+	
+	/**
+	 * The order level is the 
+	 * @return
+	 */
+	public int getOrderLevel(){
+		return orderLevel;
+	}
+	
+	/**
+	 * Asc or Desc
+	 * @return
+	 */
+	public int getOrderType(){
+		return -1; 
 	}
 }

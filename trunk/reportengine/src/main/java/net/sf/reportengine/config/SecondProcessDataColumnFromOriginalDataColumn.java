@@ -64,4 +64,13 @@ public class SecondProcessDataColumnFromOriginalDataColumn implements DataColumn
 	public HorizAlign getHorizAlign() {
 		return originalDataColumn.getHorizAlign(); 
 	}
+
+	public int getOrderLevel() {
+		return originalDataColumn.getOrderLevel(); 
+	}
+
+	public int getOrderType() {
+		return originalDataColumn.getOrderType();
+	}
+	
 }

@@ -41,7 +41,7 @@ abstract class AbstractAlgoColumnBasedReport extends AbstractColumnBasedReport {
     @Override public void execute(){
     	validate(); 
         config();
-        algorithm.executeAlgorithm(); 
+        algorithm.execute(); 
     }
     
 	

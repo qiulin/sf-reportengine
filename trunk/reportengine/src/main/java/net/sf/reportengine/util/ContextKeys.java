@@ -96,5 +96,20 @@ public enum ContextKeys {
 	/**
 	 * context key for data rows number
 	 */
-	DATA_ROW_COUNT
+	DATA_ROW_COUNT,
+	
+	/**
+	 * 
+	 */
+	SORTABLE_DATA_COLS_INDEXES, 
+	
+	/**
+	 * 
+	 */
+	ARRANGED_FOR_SORT_ROW,
+	
+	/**
+	 * 
+	 */
+	IN_MEM_SORTED_RESULT
 }

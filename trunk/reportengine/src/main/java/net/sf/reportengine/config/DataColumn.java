@@ -55,4 +55,16 @@ public interface DataColumn {
 	 */
 	public HorizAlign getHorizAlign();
 	
+	/**
+	 * The order level is the 
+	 * @return
+	 */
+	public int getOrderLevel(); 
+	
+	/**
+	 * Asc or Desc
+	 * @return
+	 */
+	public int getOrderType(); 
+	
 }
