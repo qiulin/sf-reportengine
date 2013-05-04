@@ -4,6 +4,7 @@
 package net.sf.reportengine.in;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import net.sf.reportengine.config.HorizAlign;

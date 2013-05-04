@@ -3,19 +3,18 @@
  */
 package net.sf.reportengine.in;
 
-import java.io.File;
-import java.util.Comparator;
+import java.io.InputStream;
 import java.util.List;
 import java.util.PriorityQueue;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.steps.NewRowEventWrapper;
+import net.sf.reportengine.core.steps.NewRowComparator;
 
 /**
  * @author dragos
  *
  */
-public class ExternalSortedFilesInput implements ReportInput {
+public class MultipleExternalSortedFilesInput implements ReportInput {
 	
 	/**
 	 * 
@@ -24,20 +23,18 @@ public class ExternalSortedFilesInput implements ReportInput {
 	
 	/**
 	 * 
-	 */
-	private Comparator<NewRowEvent> newRowComparator; 
-	
-	/**
-	 * 
 	 * @param externalSortedFiles
 	 */
-	public ExternalSortedFilesInput(List<File> externalSortedFiles, 
-									Comparator<NewRowEvent> newRowComparator){
-		this.externalFilesQueue = new PriorityQueue<RowsDataFileBuffer>();
-		for (File file : externalSortedFiles) {
-			this.externalFilesQueue.add(new RowsDataFileBuffer(file)); 
+	public MultipleExternalSortedFilesInput(List<InputStream> externalSortedStreams, 
+									NewRowComparator newRowComparator){
+		
+		externalFilesQueue = new PriorityQueue<RowsDataFileBuffer>(
+									externalSortedStreams.size(), 
+									new RowsDataFileBufferComparator(newRowComparator));
+		
+		for (InputStream is : externalSortedStreams) {
+			this.externalFilesQueue.add(new RowsDataFileBuffer(is)); 
 		}
-		this.newRowComparator = newRowComparator; 
 	}
 	
 	/* (non-Javadoc)
@@ -52,7 +49,7 @@ public class ExternalSortedFilesInput implements ReportInput {
 	 * @see net.sf.reportengine.in.ReportInput#close()
 	 */
 	public void close() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -63,7 +60,7 @@ public class ExternalSortedFilesInput implements ReportInput {
 		Object[] result = null; 
 		if(hasMoreRows()){
 			RowsDataFileBuffer rowsDataFileBuff = externalFilesQueue.poll();
-			NewRowEvent newRowEvent = rowsDataFileBuff.pop();
+			NewRowEvent newRowEvent = rowsDataFileBuff.poll();
 			
 			if(rowsDataFileBuff.isEmpty()){
 				rowsDataFileBuff.close(); 
@@ -81,7 +78,7 @@ public class ExternalSortedFilesInput implements ReportInput {
 	 * @see net.sf.reportengine.in.ReportInput#hasMoreRows()
 	 */
 	public boolean hasMoreRows() {
-		return externalFilesQueue.size() > 0; 
+		return !externalFilesQueue.isEmpty(); 
 	}
 
 	/* (non-Javadoc)
@@ -91,5 +88,4 @@ public class ExternalSortedFilesInput implements ReportInput {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
