@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.event.ListSelectionEvent;
-
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.ReportContext;

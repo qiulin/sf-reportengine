@@ -111,5 +111,7 @@ public enum ContextKeys {
 	/**
 	 * 
 	 */
-	IN_MEM_SORTED_RESULT
+	IN_MEM_SORTED_RESULT,
+	
+	SORTED_FILES
 }

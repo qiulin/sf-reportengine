@@ -177,4 +177,12 @@ public final class ReportIoUtils {
 			throw new ReportEngineRuntimeException(e); 
 		}
 	}
+	
+	public static FileInputStream createInputStreamFromFile(File file){
+		try {
+			return new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			throw new ReportEngineRuntimeException(e); 
+		} 
+	}
 }
