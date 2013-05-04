@@ -30,6 +30,11 @@ class RowsDataFileBuffer {
 	
 	/**
 	 * 
+	 */
+	private boolean lastObjectReadWasMarkedAsLast = false; 
+	
+	/**
+	 * 
 	 * @param inputFile
 	 */
 	public RowsDataFileBuffer(File inputFile){
@@ -49,13 +54,25 @@ class RowsDataFileBuffer {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isEmpty() {
-		return buffer == null || buffer.isLast();
+		return buffer == null;
 	}
 	
+	/**
+	 * 
+	 */
 	private void loadNext() {
 		try {
-			buffer = (NewRowEventWrapper)objectInputStream.readObject();
+			if(!lastObjectReadWasMarkedAsLast){
+				buffer = (NewRowEventWrapper)objectInputStream.readObject();
+				lastObjectReadWasMarkedAsLast = buffer.isLast(); 
+			}else{
+				buffer = null; 
+			}
 		} catch (ClassNotFoundException e) {
 			throw new ReportInputException(e); 
 		} catch (IOException e){
@@ -63,6 +80,9 @@ class RowsDataFileBuffer {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public void close() {
 		try{
 			objectInputStream.close();
@@ -72,13 +92,23 @@ class RowsDataFileBuffer {
 		}
 	}
 	
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public NewRowEvent peek() {
-		if(isEmpty()) return null;
-		return buffer.getNewRowEvent();
+		NewRowEvent result = null; 
+		if(buffer !=  null){
+			result = buffer.getNewRowEvent();
+		}
+		return result; 
 	}
 	
-	public NewRowEvent pop() {
+	/**
+	 * 
+	 * @return
+	 */
+	public NewRowEvent poll() {
 	  NewRowEvent result = peek();
 	  loadNext();
 	  return result;
