@@ -4,6 +4,7 @@
  */
 package net.sf.reportengine.core.algorithm;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -12,10 +13,14 @@ import java.util.Arrays;
  * @version $Revision$
  * $log$
  */
-public class NewRowEvent  {
+public class NewRowEvent  implements Serializable{
     
-    private Object[] inputData;
-    //private Object[] computedData;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1450602765872099843L;
+	
+	private Object[] inputData;
     
     public NewRowEvent(Object[] inputDataRow){
         this.inputData = inputDataRow; 

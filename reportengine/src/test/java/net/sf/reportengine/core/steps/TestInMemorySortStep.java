@@ -3,11 +3,9 @@
  */
 package net.sf.reportengine.core.steps;
 
-import static org.junit.Assert.*;
-
-import java.util.Arrays;
-import java.util.List;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import net.sf.reportengine.core.algorithm.DefaultReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.ReportContext;
