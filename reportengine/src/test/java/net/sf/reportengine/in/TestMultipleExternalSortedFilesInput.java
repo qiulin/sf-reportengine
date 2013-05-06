@@ -46,29 +46,29 @@ public class TestMultipleExternalSortedFilesInput {
 		MultipleExternalSortedFilesInput classUnderTest = 
 				new MultipleExternalSortedFilesInput(testFiles, testComparator);
 		
-		Object[] newRow = classUnderTest.nextRow(); 
+		List<Object> newRow = classUnderTest.nextRow(); 
 		assertNotNull(newRow); 
-		assertArrayEquals(Scenario1.ROW_OF_DATA_4, newRow); 
+		assertTrue(Scenario1.ROW_OF_DATA_4.equals(newRow)); 
 		
 		newRow = classUnderTest.nextRow(); 
 		assertNotNull(newRow);
-		assertArrayEquals(Scenario1.ROW_OF_DATA_5, newRow); 
+		assertTrue(Scenario1.ROW_OF_DATA_5.equals(newRow));  
 		
 		newRow = classUnderTest.nextRow(); 
 		assertNotNull(newRow);
-		assertArrayEquals(Scenario1.ROW_OF_DATA_3, newRow); 
+		assertTrue(Scenario1.ROW_OF_DATA_3.equals(newRow)); 
 		
 		newRow = classUnderTest.nextRow(); 
 		assertNotNull(newRow);
-		assertArrayEquals(Scenario1.ROW_OF_DATA_2, newRow); 
+		assertTrue(Scenario1.ROW_OF_DATA_2.equals(newRow)); 
 		
 		newRow = classUnderTest.nextRow(); 
 		assertNotNull(newRow);
-		assertArrayEquals(Scenario1.ROW_OF_DATA_1, newRow); 
+		assertTrue(Scenario1.ROW_OF_DATA_1.equals(newRow)); 
 		
 		newRow = classUnderTest.nextRow(); 
 		assertNotNull(newRow);
-		assertArrayEquals(Scenario1.ROW_OF_DATA_6, newRow); 
+		assertTrue(Scenario1.ROW_OF_DATA_6.equals(newRow));  
 		
 		newRow = classUnderTest.nextRow(); 
 		assertTrue(newRow == null);

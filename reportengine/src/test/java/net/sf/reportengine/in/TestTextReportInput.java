@@ -7,6 +7,7 @@ package net.sf.reportengine.in;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.List;
 
 import net.sf.reportengine.test.ReportengineTC;
 import net.sf.reportengine.util.ReportIoUtils;
@@ -61,11 +62,11 @@ public class TestTextReportInput extends ReportengineTC {
             classUnderTest.setSeparator(",");
             
             int index = 0;
-            Object[] data;
+            List<Object> data;
             classUnderTest.open();
             while (classUnderTest.hasMoreRows()) {
                 data = classUnderTest.nextRow();
-                boolean arraysAreEqual = Arrays.equals(data, EXPECTED_RESULT[index++]);
+                boolean arraysAreEqual = Arrays.equals(EXPECTED_RESULT[index++], data.toArray(new Object[]{}));
                 assertTrue(arraysAreEqual);
             }
 
@@ -156,17 +157,17 @@ public class TestTextReportInput extends ReportengineTC {
             
             classUnderTest.open();
             //classUnderTest.first();
-            Object[] firstRow = classUnderTest.nextRow();
-            assertTrue(Arrays.equals(firstRow, EXPECTED_RESULT[0]));
+            List<Object> firstRow = classUnderTest.nextRow();
+            assertTrue(firstRow.equals(Arrays.asList(EXPECTED_RESULT[0])));
             
             assertTrue(classUnderTest.hasMoreRows());
-            Object[] secondRow = classUnderTest.nextRow();
-            assertTrue(Arrays.equals(secondRow, EXPECTED_RESULT[1]));
+            List<Object> secondRow = classUnderTest.nextRow();
+            assertTrue(secondRow.equals(Arrays.asList(EXPECTED_RESULT[1])));
             
             
             assertTrue(classUnderTest.hasMoreRows());
-            Object[] thirdRow = classUnderTest.nextRow();
-            assertTrue(Arrays.equals(thirdRow, EXPECTED_RESULT[2]));            
+            List<Object> thirdRow = classUnderTest.nextRow();
+            assertTrue(thirdRow.equals(Arrays.asList(EXPECTED_RESULT[2])));            
             
         } catch (ReportInputException e) {
             e.printStackTrace();
@@ -221,7 +222,7 @@ public class TestTextReportInput extends ReportengineTC {
      * testing nextRows method for an empty file 
      */
     public void testNextRowOnEmptyFile(){
-        Object[] nextRow = null;
+        List<Object> nextRow = null;
         try {
             classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath("empty.txt"));
             classUnderTest.open();
@@ -241,7 +242,7 @@ public class TestTextReportInput extends ReportengineTC {
      * testing first method for an empty file 
      */
     public void testFirstOnEmptyFile(){
-        Object[] nextRow = null;
+        List<Object> nextRow = null;
         boolean hasMoreRows = true;
         try {
             classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath("empty.txt"));
@@ -267,21 +268,21 @@ public class TestTextReportInput extends ReportengineTC {
     	int linesCount = 0;
     	classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath("Utf8Input.txt"), ",", "UTF-8");
     	classUnderTest.open(); 
-    	Object[] row = null; 
+    	List<Object> row = null; 
     	while(classUnderTest.hasMoreRows()){
     		row  = classUnderTest.nextRow();
     		assertNotNull(row);
-    		assertEquals(4, row.length);
+    		assertEquals(4, row.size());
     		linesCount++;
     		
     		if(linesCount == 1){
-    			assertEquals("Действията", row[0]);
+    			assertEquals("Действията", row.get(0));
     		}else{
     			if(linesCount == 2){
-    				assertEquals("и канализация са от", row[1]); 
+    				assertEquals("и канализация са от", row.get(1)); 
     			}else{
     				if(linesCount == 6){
-    					assertEquals("устойчиви резултати.", row[3]);
+    					assertEquals("устойчиви резултати.", row.get(3));
     				}
     			}
     		}
@@ -300,9 +301,9 @@ public class TestTextReportInput extends ReportengineTC {
     	assertTrue(classUnderTest.hasMoreRows()); 
     	
     	while(classUnderTest.hasMoreRows()){
-             Object[] row = classUnderTest.nextRow();
+             List<Object> row = classUnderTest.nextRow();
              assertNotNull(row); 
-             assertEquals(6, row.length); 
+             assertEquals(6, row.size()); 
              
              rowsCount++;
         }

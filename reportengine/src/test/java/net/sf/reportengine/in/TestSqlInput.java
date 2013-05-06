@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -58,8 +59,6 @@ public class TestSqlInput extends TestCase {
     
     protected void setUp() throws Exception {
         super.setUp();
-        
-       
     }
 
     
@@ -72,8 +71,8 @@ public class TestSqlInput extends TestCase {
         try {
             dataProvider.open();
             while(dataProvider.hasMoreRows()){
-                Object[] nextRow = dataProvider.nextRow();
-                assertTrue(Arrays.equals(nextRow, EXPECTED_DATA[currentRow]));
+                List<Object> nextRow = dataProvider.nextRow();
+                assertTrue(nextRow.equals(Arrays.asList(EXPECTED_DATA[currentRow])));
                 currentRow++;
             }           
             dataProvider.close();            

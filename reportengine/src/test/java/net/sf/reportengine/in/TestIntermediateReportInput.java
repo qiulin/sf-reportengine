@@ -4,11 +4,12 @@
 package net.sf.reportengine.in;
 
 import java.io.InputStream;
+import java.util.List;
 
 import net.sf.reportengine.core.steps.crosstab.IntermComputedDataList;
+import net.sf.reportengine.core.steps.crosstab.IntermComputedTotalsList;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalDataColsList;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalGroupValuesList;
-import net.sf.reportengine.core.steps.crosstab.IntermComputedTotalsList;
 import net.sf.reportengine.test.ReportengineTC;
 import net.sf.reportengine.util.ReportIoUtils;
 
@@ -40,32 +41,32 @@ public class TestIntermediateReportInput extends ReportengineTC {
 		
 		//first line
 		assertTrue(classUnderTest.hasMoreRows());
-		Object[] row = classUnderTest.nextRow(); 
+		List<Object> row = classUnderTest.nextRow(); 
 		assertNotNull(row);
-		assertEquals(4, row.length); 
-		assertTrue(row[0] instanceof IntermOriginalGroupValuesList);
-		assertTrue(row[1] instanceof IntermOriginalDataColsList);
-		assertTrue(row[2] instanceof IntermComputedDataList);
-		assertTrue(row[3] instanceof IntermComputedTotalsList);
+		assertEquals(4, row.size()); 
+		assertTrue(row.get(0) instanceof IntermOriginalGroupValuesList);
+		assertTrue(row.get(1) instanceof IntermOriginalDataColsList);
+		assertTrue(row.get(2) instanceof IntermComputedDataList);
+		assertTrue(row.get(3) instanceof IntermComputedTotalsList);
 		
 		//second line 
 		assertTrue(classUnderTest.hasMoreRows());
 		row = classUnderTest.nextRow(); 
 		assertNotNull(row);
-		assertEquals(4, row.length); 
-		assertTrue(row[0] instanceof IntermOriginalGroupValuesList);
-		assertTrue(row[1] instanceof IntermOriginalDataColsList);
-		assertTrue(row[2] instanceof IntermComputedDataList);
-		assertTrue(row[3] instanceof IntermComputedTotalsList);
+		assertEquals(4, row.size()); 
+		assertTrue(row.get(0) instanceof IntermOriginalGroupValuesList);
+		assertTrue(row.get(1) instanceof IntermOriginalDataColsList);
+		assertTrue(row.get(2) instanceof IntermComputedDataList);
+		assertTrue(row.get(3) instanceof IntermComputedTotalsList);
 		
 		//third line 
 		assertTrue(classUnderTest.hasMoreRows());
 		row = classUnderTest.nextRow(); 
-		assertEquals(4, row.length); 
-		assertTrue(row[0] instanceof IntermOriginalGroupValuesList);
-		assertTrue(row[1] instanceof IntermOriginalDataColsList);
-		assertTrue(row[2] instanceof IntermComputedDataList);
-		assertTrue(row[3] instanceof IntermComputedTotalsList);
+		assertEquals(4, row.size()); 
+		assertTrue(row.get(0) instanceof IntermOriginalGroupValuesList);
+		assertTrue(row.get(1) instanceof IntermOriginalDataColsList);
+		assertTrue(row.get(2) instanceof IntermComputedDataList);
+		assertTrue(row.get(3) instanceof IntermComputedTotalsList);
 		
 		//fourth
 		assertTrue(classUnderTest.hasMoreRows());
@@ -75,21 +76,21 @@ public class TestIntermediateReportInput extends ReportengineTC {
 		
 		row = classUnderTest.nextRow(); 
 		assertNotNull(row);
-		assertEquals(4, row.length); 
-		assertTrue(row[0] instanceof IntermOriginalGroupValuesList);
-		assertTrue(row[1] instanceof IntermOriginalDataColsList);
-		assertTrue(row[2] instanceof IntermComputedDataList);
-		assertTrue(row[3] instanceof IntermComputedTotalsList);
+		assertEquals(4, row.size()); 
+		assertTrue(row.get(0) instanceof IntermOriginalGroupValuesList);
+		assertTrue(row.get(1) instanceof IntermOriginalDataColsList);
+		assertTrue(row.get(2) instanceof IntermComputedDataList);
+		assertTrue(row.get(3) instanceof IntermComputedTotalsList);
 		
 		//fifth line 
 		assertTrue(classUnderTest.hasMoreRows());
 		row = classUnderTest.nextRow(); 
 		assertNotNull(row);
-		assertEquals(4, row.length); 
-		assertTrue(row[0] instanceof IntermOriginalGroupValuesList);
-		assertTrue(row[1] instanceof IntermOriginalDataColsList);
-		assertTrue(row[2] instanceof IntermComputedDataList);
-		assertTrue(row[3] instanceof IntermComputedTotalsList);
+		assertEquals(4, row.size()); 
+		assertTrue(row.get(0) instanceof IntermOriginalGroupValuesList);
+		assertTrue(row.get(1) instanceof IntermOriginalDataColsList);
+		assertTrue(row.get(2) instanceof IntermComputedDataList);
+		assertTrue(row.get(3) instanceof IntermComputedTotalsList);
 		
 		//sixth (no more data in the input)
 		assertFalse(classUnderTest.hasMoreRows());
@@ -118,26 +119,30 @@ public class TestIntermediateReportInput extends ReportengineTC {
 		
 		//first line
 		assertTrue(classUnderTest.hasMoreRows());
-		Object[] row = classUnderTest.nextRow(); 
+		List<Object> row = classUnderTest.nextRow(); 
 		assertNotNull(row);
-		assertEquals(4, row.length); 
-		assertTrue(row[0] instanceof IntermOriginalGroupValuesList);
-		assertTrue(row[1] instanceof IntermOriginalDataColsList);
-		assertTrue(row[2] instanceof IntermComputedDataList);
-		assertTrue(row[3] instanceof IntermComputedTotalsList);
-		IntermComputedTotalsList intermCtTotalsList = (IntermComputedTotalsList)row[3];
+		assertEquals(4, row.size()); 
+		
+		assertTrue(row.get(0) instanceof IntermOriginalGroupValuesList);
+		assertTrue(row.get(1) instanceof IntermOriginalDataColsList);
+		assertTrue(row.get(2) instanceof IntermComputedDataList);
+		assertTrue(row.get(3) instanceof IntermComputedTotalsList);
+		
+		IntermComputedTotalsList intermCtTotalsList = (IntermComputedTotalsList)row.get(3);
 		assertNotNull(intermCtTotalsList.getTotalsDataList()); 
 		assertEquals(0, intermCtTotalsList.getTotalsDataList().size());
 		
 		while(classUnderTest.hasMoreRows()){
 			row = classUnderTest.nextRow(); 
 			assertNotNull(row);
-			assertEquals(4, row.length); 
-			assertTrue(row[0] instanceof IntermOriginalGroupValuesList);
-			assertTrue(row[1] instanceof IntermOriginalDataColsList);
-			assertTrue(row[2] instanceof IntermComputedDataList);
-			assertTrue(row[3] instanceof IntermComputedTotalsList);
-			intermCtTotalsList = (IntermComputedTotalsList)row[3];
+			assertEquals(4, row.size()); 
+			
+			assertTrue(row.get(0) instanceof IntermOriginalGroupValuesList);
+			assertTrue(row.get(1) instanceof IntermOriginalDataColsList);
+			assertTrue(row.get(2) instanceof IntermComputedDataList);
+			assertTrue(row.get(3) instanceof IntermComputedTotalsList);
+			
+			intermCtTotalsList = (IntermComputedTotalsList)row.get(3);
 			assertNotNull(intermCtTotalsList.getTotalsDataList()); 
 			assertEquals(0, intermCtTotalsList.getTotalsDataList().size());
 		}

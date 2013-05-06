@@ -59,35 +59,35 @@ public class TestTotalsOutputStep extends ReportAlgorithmStepTC {
     	//simulate the level detector
     	setAggLevel(Scenario1.ROW_1_AGG_LEVEL);
     	setCalculatorMatrix(null);
-    	setComputedInputValues(Scenario1.ROW_OF_DATA_1);
+    	//setComputedInputValues(Scenario1.ROW_OF_DATA_1.toArray(new Object[]{}));
     	classUnderTest.execute(dataRowEvent);
     	setPreviousGroupValues(Scenario1.PREVIOUS_GROUP_VALUES[0]);
 		
     	dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_2);
 		setAggLevel(Scenario1.ROW_2_AGG_LEVEL);
 		setCalculatorMatrix(Scenario1.ROW_1_CALCULATORS_RESULTS);
-		setComputedInputValues(Scenario1.ROW_OF_DATA_2);
+		//setComputedInputValues(Scenario1.ROW_OF_DATA_2.toArray(new Object[]{}));
 		classUnderTest.execute(dataRowEvent);
 		setPreviousGroupValues(Scenario1.PREVIOUS_GROUP_VALUES[1]);
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_3);
 		setAggLevel(Scenario1.ROW_3_AGG_LEVEL);
 		setCalculatorMatrix(Scenario1.ROW_2_CALCULATORS_RESULTS);
-		setComputedInputValues(Scenario1.ROW_OF_DATA_3);
+		//setComputedInputValues(Scenario1.ROW_OF_DATA_3.toArray(new Object[]{}));
 		classUnderTest.execute(dataRowEvent);
 		setPreviousGroupValues(Scenario1.PREVIOUS_GROUP_VALUES[2]);
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_4);
 		setAggLevel(Scenario1.ROW_4_AGG_LEVEL);
 		setCalculatorMatrix(Scenario1.ROW_3_CALCULATORS_RESULTS);
-		setComputedInputValues(Scenario1.ROW_OF_DATA_4);
+		//setComputedInputValues(Scenario1.ROW_OF_DATA_4.toArray(new Object[]{}));
 		classUnderTest.execute(dataRowEvent);
 		setPreviousGroupValues(Scenario1.PREVIOUS_GROUP_VALUES[3]);
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_5);
 		setAggLevel(Scenario1.ROW_5_AGG_LEVEL);
 		setCalculatorMatrix(Scenario1.ROW_4_CALCULATORS_RESULTS);
-		setComputedInputValues(Scenario1.ROW_OF_DATA_5);
+		//setComputedInputValues(Scenario1.ROW_OF_DATA_5.toArray(new Object[]{}));
 		classUnderTest.execute(dataRowEvent);
 		setPreviousGroupValues(Scenario1.PREVIOUS_GROUP_VALUES[4]);
 		
@@ -95,7 +95,7 @@ public class TestTotalsOutputStep extends ReportAlgorithmStepTC {
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_6);
 		setAggLevel(Scenario1.ROW_6_AGG_LEVEL);
 		setCalculatorMatrix(Scenario1.ROW_5_CALCULATORS_RESULTS);
-		setComputedInputValues(Scenario1.ROW_OF_DATA_6);
+		//setComputedInputValues(Scenario1.ROW_OF_DATA_6.toArray(new Object[]{}));
 		classUnderTest.execute(dataRowEvent);
 		setPreviousGroupValues(Scenario1.PREVIOUS_GROUP_VALUES[5]);
 		

@@ -61,8 +61,8 @@ public class CalculatedColumnsScenario {
 		new DefaultGroupColumn("Zero or One", 0, 0), 
 		new AbstractGroupColumn("Computed 0+2", 1, null, HorizAlign.CENTER, false) {
 			public Integer getValue(NewRowEvent newRowEvent) {
-				Object[] data = newRowEvent.getInputDataRow();
-				return Integer.valueOf((String)data[0])+Integer.valueOf((String)data[2]);
+				List<Object> data = newRowEvent.getInputDataRow();
+				return Integer.valueOf((String)data.get(0))+Integer.valueOf((String)data.get(2));
 			}	
 		}, 
 		new DefaultGroupColumn("2 multiples", 2, 2), 
@@ -76,8 +76,8 @@ public class CalculatedColumnsScenario {
 		new DefaultDataColumn("Column C", 5, Calculators.COUNT),
 		new AbstractDataColumn("0+3", null, null, HorizAlign.CENTER) {
 			public String getValue(NewRowEvent newRowEvent) {
-				Object[] data = newRowEvent.getInputDataRow();
-				return ""+data[0]+data[3];
+				List<Object> data = newRowEvent.getInputDataRow();
+				return ""+data.get(0)+data.get(3);
 			}
 		}
 	});

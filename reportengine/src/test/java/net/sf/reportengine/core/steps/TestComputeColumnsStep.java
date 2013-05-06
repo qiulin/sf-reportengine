@@ -51,7 +51,7 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 		
 		assertNotNull(results);
 		assertEquals(6, results.length);
-		assertTrue(Arrays.equals(results, Scenario1.ROW_OF_DATA_1));
+		assertTrue(Arrays.equals(results, Scenario1.RAW_DATA[0]));
 		
 		//row 2
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_2);
@@ -61,7 +61,7 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 		
 		assertNotNull(results);
 		assertEquals(6, results.length);
-		assertTrue(Arrays.equals(results, Scenario1.ROW_OF_DATA_2));
+		assertTrue(Arrays.equals(results, Scenario1.RAW_DATA[1]));
 	}
 	
 	public void testExecuteComputedColumns(){

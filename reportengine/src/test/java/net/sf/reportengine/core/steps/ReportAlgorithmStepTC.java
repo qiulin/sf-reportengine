@@ -56,9 +56,9 @@ public class ReportAlgorithmStepTC extends ReportengineTC {
 		TEST_REPORT_CONTEXT.set(ContextKeys.CALCULATORS, calculators);
 	}
 	
-	protected void setComputedInputValues(Object[] computedValues){
-		TEST_REPORT_CONTEXT.set(ContextKeys.COMPUTED_CELL_VALUES, computedValues);
-	}
+//	protected void setComputedInputValues(Object[] computedValues){
+//		TEST_REPORT_CONTEXT.set(ContextKeys.COMPUTED_CELL_VALUES, computedValues);
+//	}
 	
 	protected void setPreviousGroupValues(Object[] prevValues){
 		TEST_REPORT_CONTEXT.set(ContextKeys.LAST_GROUPING_VALUES, prevValues);
