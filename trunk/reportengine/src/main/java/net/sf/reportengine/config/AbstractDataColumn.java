@@ -13,6 +13,8 @@ import net.sf.reportengine.core.calc.Calculator;
  */
 public abstract class AbstractDataColumn implements DataColumn {
 	
+	public static final int NO_ORDER = -1; 
+	
 	/**
 	 *  the column header
 	 */
@@ -67,6 +69,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 		this(header, calculator, formatter, HorizAlign.CENTER);
 	}
 	
+	
 	/**
 	 * 
 	 * @param header
@@ -78,10 +81,28 @@ public abstract class AbstractDataColumn implements DataColumn {
 								Calculator calculator, 
 								Format formatter, 
 								HorizAlign horizAlign){
+		this(header, calculator, formatter, horizAlign, NO_ORDER); 
+	}
+	
+	
+	/**
+	 * 
+	 * @param header
+	 * @param calculator
+	 * @param formatter
+	 * @param horizAlign
+	 * @param orderLevel
+	 */
+	public AbstractDataColumn(	String header, 
+								Calculator calculator, 
+								Format formatter, 
+								HorizAlign horizAlign, 
+								int orderLevel){
 		setHeader(header); 
 		setFormatter(formatter); 
 		setCalculator(calculator); 
 		setHorizAlign(horizAlign); 
+		setOrderLevel(orderLevel); 
 	}
 	
 	/**
@@ -173,10 +194,20 @@ public abstract class AbstractDataColumn implements DataColumn {
 	}
 	
 	/**
+	 * 
+	 * @param orderLevel
+	 */
+	public void setOrderLevel(int orderLevel){
+		this.orderLevel = orderLevel; 
+	}
+	
+	/**
 	 * Asc or Desc
 	 * @return
 	 */
 	public int getOrderType(){
 		return -1; 
 	}
+	
+	
 }

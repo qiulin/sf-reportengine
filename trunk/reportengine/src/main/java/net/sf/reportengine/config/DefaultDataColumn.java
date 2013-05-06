@@ -8,9 +8,6 @@ import java.text.Format;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.Calculator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * <p>This is the basic implementation for a data column.</p> 
  * <p>
@@ -51,11 +48,6 @@ import org.slf4j.LoggerFactory;
  * @since 0.4
  */
 public class DefaultDataColumn extends AbstractDataColumn {
-	
-	/**
-	 * the one and only logger
-	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultDataColumn.class);
 	
 	
 	/**
@@ -119,7 +111,6 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	}
 	
 	
-	
 	/**
 	 * 
 	 * @param header
@@ -133,8 +124,25 @@ public class DefaultDataColumn extends AbstractDataColumn {
 								Calculator calculator, 
 								Format formatter, 
 								HorizAlign horizAlign){
+		this(header, inputColumnIndex, calculator, formatter, horizAlign, NO_ORDER); 
+	}
+	
+	/**
+	 * 
+	 * @param header
+	 * @param inputColumnIndex
+	 * @param calculator
+	 * @param formatter
+	 * @param horizAlign	horizontal alignment 
+	 */
+	public DefaultDataColumn(	String header,
+								int inputColumnIndex, 
+								Calculator calculator, 
+								Format formatter, 
+								HorizAlign horizAlign, 
+								int orderLevel){
 		
-		super(header, calculator, formatter, horizAlign);
+		super(header, calculator, formatter, horizAlign, orderLevel);
 		setInputColumnIndex(inputColumnIndex);
 	}
 	
