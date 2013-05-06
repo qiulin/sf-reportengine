@@ -143,8 +143,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 * @see net.sf.reportengine.config.DataColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
 	public Object getValue(NewRowEvent newRowEvent) {
-		//LOGGER.debug("retrieving value {} from rowEvent {}", inputColumnIndex, newRowEvent); 
-		return newRowEvent.getInputDataRow()[inputColumnIndex];
+		return newRowEvent.getInputDataRow().get(inputColumnIndex);
 	}
 
 	/**

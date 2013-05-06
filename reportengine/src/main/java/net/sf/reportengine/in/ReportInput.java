@@ -34,7 +34,7 @@ public interface ReportInput {
      * the framework will throw an IllegaArgumentException
      * @return an array of data objects
      */
-    public Object[] nextRow();
+    public List<Object> nextRow();
     
     /**
      * returns true if there are rows left to read otherwise false

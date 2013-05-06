@@ -133,7 +133,7 @@ class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
         
     	//main steps
     	algorithm.addMainStep(new CrosstabDistinctValuesDetectorStep());
-    	algorithm.addMainStep(new ComputeColumnValuesStep());
+    	//algorithm.addMainStep(new ComputeColumnValuesStep());
     	algorithm.addMainStep(new GroupingLevelDetectorStep());
     	
     	//only for debug if( getShowTotals() || getShowGrandTotal()) algorithm.addMainStep(new FlatReportTotalsOutputStep());

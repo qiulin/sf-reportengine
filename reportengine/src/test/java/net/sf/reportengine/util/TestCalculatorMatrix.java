@@ -25,9 +25,7 @@ public class TestCalculatorMatrix extends TestCase {
 	 */
 	private CalculatorMatrix classUnderTest; 
 	
-	//private static int[] TEST_COLUMNNS_TO_COMPUTE = new int[]{1,2};
-	private static Integer[] TEST_VALUES = new Integer[]{1,2,3,4,5,6,7};
-	//private static Calculator[] TEST_PROTOTYPE = new Calculator[]{Calculators.COUNT, Calculators.SUM};
+	private static List<Object> TEST_VALUES = Arrays.asList(new Object[]{1,2,3,4,5,6,7});
 	
 	private static List<DataColumn> TEST_DATA_COLUMNS = Arrays.asList(
 			new DataColumn[]{

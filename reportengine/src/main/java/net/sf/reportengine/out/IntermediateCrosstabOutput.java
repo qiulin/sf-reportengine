@@ -42,7 +42,9 @@ public class IntermediateCrosstabOutput implements ReportOutput {
 	 */
 	public void open() {
 		try {
-			result = File.createTempFile("crosstab", ".temp");
+			result = File.createTempFile("crosstab", ".tmp");
+			//result.deleteOnExit(); 
+			
 			LOGGER.info("creating temporary file on {}", result.getAbsolutePath());
 			objectOutputStream = new ObjectOutputStream(new FileOutputStream(result));
 		} catch (FileNotFoundException e) {

@@ -74,8 +74,7 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	}
 	
 	public Object getValue(NewRowEvent newRowEvent) {
-		Object[] newRow = newRowEvent.getInputDataRow(); 
-		return newRow[inputColumnIndex];
+		return newRowEvent.getInputDataRow().get(inputColumnIndex);
 	}
 
 	public int getInputColumnIndex() {

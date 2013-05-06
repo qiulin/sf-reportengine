@@ -81,7 +81,7 @@ public class ExternalSortPreparationStep extends AbstractReportStep{
 	public void execute(NewRowEvent newRow){
 		try{
 			if(tempValuesHolderList.size() >= maxRowsInMemory){ 
-				LOGGER.debug("in memory list of rows has reached the maximum allowed {} items ", tempValuesHolderList.size());
+				LOGGER.info("in memory list of rows has reached the maximum allowed {} items ", tempValuesHolderList.size());
 				//first sorting in-memory list
 				Collections.sort(tempValuesHolderList, COMPARATOR);
 				//then save the sorted list into file
@@ -124,7 +124,7 @@ public class ExternalSortPreparationStep extends AbstractReportStep{
 		File tempFile = File.createTempFile("temp", ".tmp");
 		tempFile.deleteOnExit();
 		
-		LOGGER.debug("saving the sorted rows list into {}", tempFile.getName());
+		LOGGER.info("saving the sorted rows list into {}", tempFile.getName());
 		ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(tempFile));
 		
 		try {
@@ -138,7 +138,7 @@ public class ExternalSortPreparationStep extends AbstractReportStep{
 			outputStream.close();
 		}
 		
-		LOGGER.debug("{} items saved in file {}", rowsList.size(), tempFile.getAbsolutePath());
+		LOGGER.info("{} items saved in file {}", rowsList.size(), tempFile.getAbsolutePath());
 		return tempFile; 
 	}
 }

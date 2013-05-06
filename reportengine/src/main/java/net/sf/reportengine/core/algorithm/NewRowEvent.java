@@ -6,6 +6,7 @@ package net.sf.reportengine.core.algorithm;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 
@@ -20,18 +21,52 @@ public class NewRowEvent  implements Serializable{
 	 */
 	private static final long serialVersionUID = -1450602765872099843L;
 	
-	private Object[] inputData;
+	/**
+	 * 
+	 */
+	private List<Object> inputData;
     
-    public NewRowEvent(Object[] inputDataRow){
+	/**
+	 * 
+	 * @param inputDataRow
+	 * @deprecated 
+	 */
+	public NewRowEvent(Object[] inputDataRow){
+		this(Arrays.asList(inputDataRow)); 
+	}
+	
+	/**
+	 * 
+	 * @param inputDataRow
+	 */
+    public NewRowEvent(List<Object> inputDataRow){
         this.inputData = inputDataRow; 
     }
     
-    public Object[] getInputDataRow(){
+    /**
+     * 
+     * @return
+     */
+    public List<Object> getInputDataRow(){
         return inputData;
     }
     
+    /**
+     * 
+     */
     public String toString(){
-        return "NewRowEvent:"+Arrays.toString(inputData);
+        return new StringBuilder("NewRowEvent:").append(inputData).toString();
     }
     
+    /**
+     * 
+     */
+    public boolean equals(Object another){
+    	boolean result = false; 
+    	if(another instanceof NewRowEvent){
+    		NewRowEvent anotherAsNRE = (NewRowEvent)another; 
+    		result = inputData.equals(anotherAsNRE.getInputDataRow());
+    	}
+    	return result; 
+    }
 }

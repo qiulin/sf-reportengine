@@ -106,7 +106,7 @@ public enum ContextKeys {
 	/**
 	 * 
 	 */
-	ARRANGED_FOR_SORT_ROW,
+	//ARRANGED_FOR_SORT_ROW,
 	
 	/**
 	 * 

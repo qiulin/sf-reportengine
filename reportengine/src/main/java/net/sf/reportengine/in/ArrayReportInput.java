@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import net.sf.reportengine.config.HorizAlign;
-
 
 /**
  * Report Input implementation based on a 2 dimensional in memory array
@@ -27,8 +25,6 @@ public class ArrayReportInput extends AbstractReportInput {
 	 * the current row
 	 */
 	private int currentRow = 0;
-	
-	
 	
 	/**
 	 * 
@@ -60,8 +56,8 @@ public class ArrayReportInput extends AbstractReportInput {
 	}
 
 	
-	public Object[] nextRow(){
-		return data[currentRow++];
+	public List<Object> nextRow(){
+		return Arrays.asList(data[currentRow++]);
 	}
 		
 	

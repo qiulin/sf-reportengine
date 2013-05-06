@@ -18,6 +18,7 @@ import net.sf.reportengine.util.ContextKeys;
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
+ * @deprecated 
  */
 public class ComputeColumnValuesStep extends AbstractReportStep{
 	
@@ -44,8 +45,8 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 		finalReportGroupCount = groupCols != null ? groupCols.size() : 0;
 		finalReportColumnCount = finalReportGroupCount + dataColumns.size(); 
 		
-		context.set(ContextKeys.COMPUTED_CELL_VALUES, new Object[finalReportColumnCount]);
-		context.set(ContextKeys.FORMATTED_CELL_VALUES, new String[finalReportColumnCount]);	
+		context.set(ContextKeys.COMPUTED_CELL_VALUES, new Object[finalReportColumnCount]);//TODO: change Object[] to List
+		context.set(ContextKeys.FORMATTED_CELL_VALUES, new String[finalReportColumnCount]);//TODO: change Object[] to List	
 	}
 	
 	/**

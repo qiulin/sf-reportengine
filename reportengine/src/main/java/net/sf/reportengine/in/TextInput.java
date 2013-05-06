@@ -230,7 +230,7 @@ public class TextInput extends AbstractReportInput{
         	if(isFirstLineHeader()){
         		String rawHeader = reader.readLine();
         		if(rawHeader != null){
-        			String[] headerArr = transformRawDataRowIntoArray(rawHeader, separator);
+        			List<String> headerArr = transformRawDataIntoList(rawHeader, separator);
         			setColumnMetadata(extractMetadataFromHeaders(headerArr)); 
         		}else{
         			LOGGER.warn("Couldn't find the header while opening the input"); 
@@ -288,12 +288,12 @@ public class TextInput extends AbstractReportInput{
     * } 
     * </pre> 
     */
-    public Object[] nextRow(){
-    	Object[] result = null;
+    public List<Object> nextRow(){
+    	List<Object> result = null;
         try {
             //if read not performed  && read next row of data
             if(hasMoreRows()){
-            	result = transformRawDataRowIntoArray(nextRawDataRow, separator);
+            	result = transformRawDataRowIntoList(nextRawDataRow, separator);
                 
                 //now we read the next raw row
                 nextRawDataRow = reader.readLine();
@@ -306,27 +306,47 @@ public class TextInput extends AbstractReportInput{
     }
     
     /**
-     * transforms a raw data row into an array of objects
+     * transforms a raw data row into a list of objects
      * 
      * @param rawLine
      * @param separator
      * @return
      */
-    private String[] transformRawDataRowIntoArray(String rawLine, String separator){
-    	ArrayList<String> tempDataRow = new ArrayList<String>();
-        StringTokenizer strTokenizer = new StringTokenizer(rawLine, separator);
+    private List<Object> transformRawDataRowIntoList(String rawLine, String separator){
+    	List<Object> result = new ArrayList<Object>();
+        StringTokenizer strTokenizer = new StringTokenizer(rawLine, separator);//TODO: replace string tokenizer with String.split()
         
         while(strTokenizer.hasMoreTokens()){
-            tempDataRow.add(strTokenizer.nextToken());
+            result.add(strTokenizer.nextToken());
         };
         
-        return tempDataRow.toArray(new String[tempDataRow.size()]);
+        //return tempDataRow.toArray(new String[tempDataRow.size()]);
+        return result; 
     }
     
     
-    private List<ColumnMetadata> extractMetadataFromHeaders(String[] headerArr){
-    	List<ColumnMetadata> result = new ArrayList<ColumnMetadata>(headerArr.length); 
-		for (String header : headerArr) {
+    /**
+     * transforms a raw data row into a list of objects
+     * 
+     * @param rawLine
+     * @param separator
+     * @return
+     */
+    private List<String> transformRawDataIntoList(String rawLine, String separator){
+    	List<String> result = new ArrayList<String>();
+        StringTokenizer strTokenizer = new StringTokenizer(rawLine, separator);//TODO: replace string tokenizer with String.split()
+        
+        while(strTokenizer.hasMoreTokens()){
+            result.add(strTokenizer.nextToken());
+        };
+        
+        //return tempDataRow.toArray(new String[tempDataRow.size()]);
+        return result; 
+    }
+    
+    private List<ColumnMetadata> extractMetadataFromHeaders(List<String> headersList){
+    	List<ColumnMetadata> result = new ArrayList<ColumnMetadata>(headersList.size()); 
+		for (String header : headersList) {
 			result.add(new ColumnMetadata(header, header)); 
 		}
 		return result;
