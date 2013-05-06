@@ -1,10 +1,9 @@
 package net.sf.reportengine.core.steps;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,26 +49,22 @@ public class TestExternalSortStep {
 		NewRowEventWrapper newRowEventWrapper = (NewRowEventWrapper)input.readObject() ;
 		assertNotNull(newRowEventWrapper);
 		assertFalse(newRowEventWrapper.isLast()); 
-		assertArrayEquals(	Scenario1.ROW_OF_DATA_4, 
-							newRowEventWrapper.getNewRowEvent().getInputDataRow());
+		assertTrue(Scenario1.ROW_OF_DATA_4.equals(newRowEventWrapper.getNewRowEvent().getInputDataRow()));
 		
 		newRowEventWrapper = (NewRowEventWrapper)input.readObject() ;
 		assertNotNull(newRowEventWrapper);
 		assertFalse(newRowEventWrapper.isLast()); 
-		assertArrayEquals(	Scenario1.ROW_OF_DATA_3, 
-							newRowEventWrapper.getNewRowEvent().getInputDataRow());
+		assertTrue(Scenario1.ROW_OF_DATA_3.equals(newRowEventWrapper.getNewRowEvent().getInputDataRow()));
 		
 		newRowEventWrapper = (NewRowEventWrapper)input.readObject() ;
 		assertNotNull(newRowEventWrapper);
 		assertFalse(newRowEventWrapper.isLast()); 
-		assertArrayEquals(	Scenario1.ROW_OF_DATA_2, 
-							newRowEventWrapper.getNewRowEvent().getInputDataRow());
+		assertTrue(Scenario1.ROW_OF_DATA_2.equals(newRowEventWrapper.getNewRowEvent().getInputDataRow()));
 		
 		newRowEventWrapper = (NewRowEventWrapper)input.readObject();
 		assertNotNull(newRowEventWrapper);
 		assertTrue(newRowEventWrapper.isLast()); 
-		assertArrayEquals(	Scenario1.ROW_OF_DATA_1, 
-							newRowEventWrapper.getNewRowEvent().getInputDataRow());
+		assertTrue(Scenario1.ROW_OF_DATA_1.equals(newRowEventWrapper.getNewRowEvent().getInputDataRow()));
 		
 		
 		//second file 
@@ -77,14 +72,12 @@ public class TestExternalSortStep {
 		newRowEventWrapper = (NewRowEventWrapper)input.readObject() ;
 		assertNotNull(newRowEventWrapper);
 		assertFalse(newRowEventWrapper.isLast()); 
-		assertArrayEquals(	Scenario1.ROW_OF_DATA_5, 
-							newRowEventWrapper.getNewRowEvent().getInputDataRow());
+		assertTrue(Scenario1.ROW_OF_DATA_5.equals(newRowEventWrapper.getNewRowEvent().getInputDataRow()));
 		
 		newRowEventWrapper = (NewRowEventWrapper)input.readObject() ;
 		assertNotNull(newRowEventWrapper);
 		assertTrue(newRowEventWrapper.isLast()); 
-		assertArrayEquals(	Scenario1.ROW_OF_DATA_6, 
-							newRowEventWrapper.getNewRowEvent().getInputDataRow());
+		assertTrue(Scenario1.ROW_OF_DATA_6.equals(newRowEventWrapper.getNewRowEvent().getInputDataRow()));
 		
 	}
 }

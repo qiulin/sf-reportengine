@@ -1,5 +1,9 @@
 package net.sf.reportengine;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,29 +21,25 @@ import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.HtmlOutput;
-import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.out.OutputDispatcher;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With0G2D;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
 import net.sf.reportengine.scenarios.ct.CtScenario4x3x1;
-import net.sf.reportengine.test.ReportengineTC;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.DistinctValuesHolder;
 import net.sf.reportengine.util.ReportIoUtils;
 
-public class TestIntermediateCrosstabReport extends ReportengineTC {
+import org.junit.Ignore;
+import org.junit.Test;
 
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
+public class TestIntermediateCrosstabReport {
 
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
 	
+	@Test
 	public void testTransfomCrosstabColsInIntermediateColsScenario2x2x1(){
 		List<GroupColumn> result = new IntermediateCrosstabReport(1,1)
 			.transformGroupingCrosstabConfigInFlatReportConfig(	CtScenario2x2x1With1G1D.GROUPING_COLUMNS, 
@@ -55,6 +55,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		assertEquals(2, result.get(2).getGroupingLevel()); 
 	}
 	
+	@Test
 	public void testTransfomCrosstabColsInIntermediateColsScenario1x3x1(){
 		List<GroupColumn> result = new IntermediateCrosstabReport(0,1).transformGroupingCrosstabConfigInFlatReportConfig(
 				CtScenario1x3x1.GROUP_COLUMNS, 
@@ -71,6 +72,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		assertEquals(2, result.get(2).getGroupingLevel()); 
 	}
 	
+	@Test
 	public void testTransfomCrosstabColsInIntermediateColsScenario4x3x1(){
 		List<GroupColumn> result = new IntermediateCrosstabReport(3,1).transformGroupingCrosstabConfigInFlatReportConfig(
 				CtScenario4x3x1.GROUP_COLUMNS, 
@@ -99,7 +101,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		assertEquals(5, result.get(5).getGroupingLevel()); 
 	}
 	
-	
+	@Test
 	public void testTransfomCrosstabColsInIntermediateColsScenario1x1x1(){
 		List<GroupColumn> result = new IntermediateCrosstabReport(0,1).transformGroupingCrosstabConfigInFlatReportConfig(
 				CtScenario1x1x1.GROUP_COLUMNS, 
@@ -113,6 +115,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		assertEquals(0, result.get(0).getGroupingLevel());
 	}
 	
+	@Test
 	public void testExecuteScenario2x2x1xT() {
 			ReportOutput visualOutput = new HtmlOutput("target/intermediateReport2x2x1xT.html");  
 			CellPropsArrayOutput memoryOutput = new CellPropsArrayOutput(); 
@@ -171,7 +174,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		//TODO: check the output here
 	}
 	
-	
+	@Test
 	public void testExecuteScenario1x3x1xT() {
 		
 			//HtmlOutput testOutput = new HtmlOutput("target/intermediateReport1x3x1xT.html"); 
@@ -196,6 +199,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		//TODO: check the output here
 	}
 	
+	@Test
 	public void testExecuteScenario1x1x1xT() {
 		
 			//HtmlOutput testOutput = new HtmlOutput("target/intermediateReport1x1x1xT.html");
@@ -221,6 +225,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		//TODO: check the output here
 	}
 	
+	@Test
 	public void testExecuteScenario1x3x1xNoTotals() {
 		
 			//HtmlOutput testOutput = new HtmlOutput("target/intermediateReport1x3x1.html");
@@ -245,6 +250,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		//TODO: check the output here
 	}
 	
+	@Test
 	public void testExecuteScenario4x3x1xT() {
 		
 			//HtmlOutput testOutput = new HtmlOutput("target/intermediateReport4x3x1xT.html");
@@ -269,6 +275,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		//TODO: check the output here
 	}
 	
+	@Test
 	public void testExecuteScenario4x3x1() {
 		
 			IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput();
@@ -293,6 +300,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		//TODO: check the output here
 	}
 	
+	@Test
 	public void testExecuteScenario2x2x1With0G2D() {
 		
 		OutputDispatcher output = new OutputDispatcher(); 
@@ -320,6 +328,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 	//TODO: check the output here
 	}
 	
+	@Test
 	public void testExecuteScenario2x2x1xTWith0G2D() {
 		
 		OutputDispatcher output = new OutputDispatcher(); 
@@ -347,7 +356,7 @@ public class TestIntermediateCrosstabReport extends ReportengineTC {
 		//TODO: check the output here
 	}
 	
-	
+	@Test
 	public void testExecuteScenario3x2x1() {
 		
 		IntermediateCrosstabOutput realLifeOutput = new IntermediateCrosstabOutput();

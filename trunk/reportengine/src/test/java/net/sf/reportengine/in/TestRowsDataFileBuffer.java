@@ -3,7 +3,6 @@
  */
 package net.sf.reportengine.in;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -12,6 +11,7 @@ import java.io.ObjectInputStream;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.NewRowEventWrapper;
+import net.sf.reportengine.core.steps.TestExternalSortStep;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.util.ReportIoUtils;
 
@@ -19,6 +19,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
+ * 
+ * This test uses the output from {@link TestExternalSortStep}
  * @author dragos
  *
  */
@@ -75,19 +77,19 @@ public class TestRowsDataFileBuffer {
 		
 		NewRowEvent newRow = classUnderTest.peek();
 		assertNotNull(newRow); 
-		assertArrayEquals(new String[]{"1", "1", "1", "1", "1" , "1"}, newRow.getInputDataRow());
+		assertTrue(Scenario1.ROW_OF_DATA_4.equals(newRow.getInputDataRow()));
 		
 		classUnderTest.poll(); 
 		newRow = classUnderTest.peek(); 
-		assertArrayEquals(new String[]{"1", "2", "2", "2", "2", "2"}, newRow.getInputDataRow());
+		assertTrue(Scenario1.ROW_OF_DATA_3.equals(newRow.getInputDataRow()));
 		
 		classUnderTest.poll(); 
 		newRow = classUnderTest.peek(); 
-		assertArrayEquals(new String[]{"1", "2", "3", "3", "3", "3"}, newRow.getInputDataRow());
+		assertTrue(Scenario1.ROW_OF_DATA_2.equals(newRow.getInputDataRow()));
 		
 		classUnderTest.poll(); 
 		newRow = classUnderTest.peek(); 
-		assertArrayEquals(new String[]{"1", "2", "3", "4", "5", "6"}, newRow.getInputDataRow());
+		assertTrue(Scenario1.ROW_OF_DATA_1.equals(newRow.getInputDataRow()));
 	}
 
 	/**
@@ -117,10 +119,10 @@ public class TestRowsDataFileBuffer {
 	public void testPoll2() {
 		RowsDataFileBuffer classUnderTest = new RowsDataFileBuffer(ReportIoUtils.createInputStreamFromClassPath("ExternalSortedAndSerializedFile1.tmp")); 
 		
-		assertArrayEquals(Scenario1.ROW_OF_DATA_4, classUnderTest.poll().getInputDataRow());
-		assertArrayEquals(Scenario1.ROW_OF_DATA_3, classUnderTest.poll().getInputDataRow());
-		assertArrayEquals(Scenario1.ROW_OF_DATA_2, classUnderTest.poll().getInputDataRow());
-		assertArrayEquals(Scenario1.ROW_OF_DATA_1, classUnderTest.poll().getInputDataRow());
+		assertTrue(Scenario1.ROW_OF_DATA_4.equals(classUnderTest.poll().getInputDataRow()));
+		assertTrue(Scenario1.ROW_OF_DATA_3.equals(classUnderTest.poll().getInputDataRow()));
+		assertTrue(Scenario1.ROW_OF_DATA_2.equals(classUnderTest.poll().getInputDataRow()));
+		assertTrue(Scenario1.ROW_OF_DATA_1.equals(classUnderTest.poll().getInputDataRow()));
 		
 		classUnderTest.close(); 
 	}

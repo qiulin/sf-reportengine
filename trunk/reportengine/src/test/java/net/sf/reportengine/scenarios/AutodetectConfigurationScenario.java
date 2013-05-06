@@ -30,8 +30,8 @@ public class AutodetectConfigurationScenario {
 		when(INPUT.getColumnMetadata()).thenReturn(COLUMN_METADATA);
 		when(INPUT.hasMoreRows()).thenReturn(true, true, true, false); 
 		when(INPUT.nextRow()).thenReturn(
-				new Object[]{"value 11", "value 12"}, 
-				new Object[]{"value 21", "value 22"}, 
-				new Object[]{"value 31", "value 32"}); 
+				Arrays.asList(new Object[]{"value 11", "value 12"}), 
+				Arrays.asList(new Object[]{"value 21", "value 22"}), 
+				Arrays.asList(new Object[]{"value 31", "value 32"})); 
 	}
 }

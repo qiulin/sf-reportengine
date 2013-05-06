@@ -31,20 +31,20 @@ public class Scenario1 {
 	public static boolean SHOW_GRAND_TOTAL = true;
 	public static final int[] AGG_COLUMNS_INDEX = new int []{0,1,2};
 	
-	public static final String[] ROW_OF_DATA_1 = new String[]{"1","2","3",    "4",  "5","6"};
-	public static final String[] ROW_OF_DATA_2 = new String[]{"1","2","3",    "3",  "3","3"};
-	public static final String[] ROW_OF_DATA_3 = new String[]{"1","2","2",    "2",  "2","2"};
-	public static final String[] ROW_OF_DATA_4 = new String[]{"1","1","1",    "1",  "1","1"};
-	public static final String[] ROW_OF_DATA_5 = new String[]{"1","1","1",    "1",  "1","1"};
-	public static final String[] ROW_OF_DATA_6 = new String[]{"7","1","1",    "1",  "7","1"};
+	public static final List<Object> ROW_OF_DATA_1 = Arrays.asList(new Object[]{"1","2","3",    "4",  "5","6"});
+	public static final List<Object> ROW_OF_DATA_2 = Arrays.asList(new Object[]{"1","2","3",    "3",  "3","3"});
+	public static final List<Object> ROW_OF_DATA_3 = Arrays.asList(new Object[]{"1","2","2",    "2",  "2","2"});
+	public static final List<Object> ROW_OF_DATA_4 = Arrays.asList(new Object[]{"1","1","1",    "1",  "1","1"});
+	public static final List<Object> ROW_OF_DATA_5 = Arrays.asList(new Object[]{"1","1","1",    "1",  "1","1"});
+	public static final List<Object> ROW_OF_DATA_6 = Arrays.asList(new Object[]{"7","1","1",    "1",  "7","1"});
 	
 	public static final Object[][] RAW_DATA = new Object[][]{
-		ROW_OF_DATA_1,
-		ROW_OF_DATA_2, 
-		ROW_OF_DATA_3,
-		ROW_OF_DATA_4, 
-		ROW_OF_DATA_5, 
-		ROW_OF_DATA_6
+		ROW_OF_DATA_1.toArray(new String[]{}),
+		ROW_OF_DATA_2.toArray(new String[]{}),
+		ROW_OF_DATA_3.toArray(new String[]{}),
+		ROW_OF_DATA_4.toArray(new String[]{}),
+		ROW_OF_DATA_5.toArray(new String[]{}),
+		ROW_OF_DATA_6.toArray(new String[]{})
 	};
 	
 	public static final Object[][] PREVIOUS_GROUP_VALUES = new Object[][]{
@@ -229,57 +229,57 @@ public class Scenario1 {
 	public final static CellProps[][] OUTPUT_DATA = new CellProps[][]{
 		//displayed on row 1
 		new CellProps[]{
-				new CellProps.Builder(ROW_OF_DATA_1[0]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_1[1]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_1[2]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_1[3]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_1[4]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_1[5]).build() 
+				new CellProps.Builder(ROW_OF_DATA_1.get(0)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1.get(1)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1.get(2)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1.get(3)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1.get(4)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1.get(5)).build() 
 		},
 		//displayed on row 2
 		new CellProps[]{
-				new CellProps.Builder(ROW_OF_DATA_2[0]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_2[1]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_2[2]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_2[3]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_2[4]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_2[5]).build() 
+				new CellProps.Builder(ROW_OF_DATA_2.get(0)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2.get(1)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2.get(2)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2.get(3)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2.get(4)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2.get(5)).build() 
 		},
 		//displayed on row 3
 		new CellProps[]{
-				new CellProps.Builder(ROW_OF_DATA_3[0]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_3[1]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_3[2]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_3[3]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_3[4]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_3[5]).build() 
+				new CellProps.Builder(ROW_OF_DATA_3.get(0)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3.get(1)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3.get(2)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3.get(3)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3.get(4)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3.get(5)).build() 
 		},
 		//displayed on row 4
 		new CellProps[]{
-				new CellProps.Builder(ROW_OF_DATA_4[0]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_4[1]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_4[2]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_4[3]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_4[4]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_4[5]).build() 
+				new CellProps.Builder(ROW_OF_DATA_4.get(0)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4.get(1)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4.get(2)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4.get(3)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4.get(4)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4.get(5)).build() 
 		},
 		//displayed on row 5
 		new CellProps[]{
-				new CellProps.Builder(ROW_OF_DATA_5[0]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_5[1]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_5[2]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_5[3]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_5[4]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_5[5]).build() 
+				new CellProps.Builder(ROW_OF_DATA_5.get(0)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5.get(1)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5.get(2)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5.get(3)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5.get(4)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5.get(5)).build() 
 		},
 		//displayed on row 6
 		new CellProps[]{
-				new CellProps.Builder(ROW_OF_DATA_6[0]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_6[1]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_6[2]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_6[3]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_6[4]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_6[5]).build() 
+				new CellProps.Builder(ROW_OF_DATA_6.get(0)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6.get(1)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6.get(2)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6.get(3)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6.get(4)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6.get(5)).build() 
 		}
 	};
 	
@@ -297,21 +297,21 @@ public class Scenario1 {
 	
 		//displayed on row 1
 		new CellProps[]{
-				new CellProps.Builder(ROW_OF_DATA_1[0]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_1[1]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_1[2]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_1[3]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_1[4]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_1[5]).build() 
+				new CellProps.Builder(ROW_OF_DATA_1.get(0)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1.get(1)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1.get(2)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1.get(3)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1.get(4)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_1.get(5)).build() 
 		},
 		//displayed on row 2
 		new CellProps[]{
-				new CellProps.Builder(ROW_OF_DATA_2[0]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_2[1]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_2[2]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_2[3]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_2[4]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_2[5]).build() 
+				new CellProps.Builder(ROW_OF_DATA_2.get(0)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2.get(1)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2.get(2)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2.get(3)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2.get(4)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_2.get(5)).build() 
 		},
 		
 		//totals displayed on row 3
@@ -326,12 +326,12 @@ public class Scenario1 {
 		
 		//displayed on row 3
 		new CellProps[]{
-				new CellProps.Builder(ROW_OF_DATA_3[0]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_3[1]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_3[2]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_3[3]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_3[4]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_3[5]).build() 
+				new CellProps.Builder(ROW_OF_DATA_3.get(0)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3.get(1)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3.get(2)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3.get(3)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3.get(4)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_3.get(5)).build() 
 		},
 		
 		//totals displayed on row 4
@@ -354,21 +354,21 @@ public class Scenario1 {
 		
 		//displayed on row 4
 		new CellProps[]{
-				new CellProps.Builder(ROW_OF_DATA_4[0]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_4[1]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_4[2]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_4[3]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_4[4]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_4[5]).build() 
+				new CellProps.Builder(ROW_OF_DATA_4.get(0)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4.get(1)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4.get(2)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4.get(3)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4.get(4)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_4.get(5)).build() 
 		},
 		//displayed on row 5
 		new CellProps[]{
-				new CellProps.Builder(ROW_OF_DATA_5[0]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_5[1]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_5[2]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_5[3]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_5[4]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_5[5]).build() 
+				new CellProps.Builder(ROW_OF_DATA_5.get(0)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5.get(1)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5.get(2)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5.get(3)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5.get(4)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_5.get(5)).build() 
 		},
 		
 		//totals displayed on row 6
@@ -399,12 +399,12 @@ public class Scenario1 {
 		
 		//displayed on row 6
 		new CellProps[]{
-				new CellProps.Builder(ROW_OF_DATA_6[0]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_6[1]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_6[2]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_6[3]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_6[4]).build(), 
-				new CellProps.Builder(ROW_OF_DATA_6[5]).build() 
+				new CellProps.Builder(ROW_OF_DATA_6.get(0)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6.get(1)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6.get(2)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6.get(3)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6.get(4)).build(), 
+				new CellProps.Builder(ROW_OF_DATA_6.get(5)).build() 
 		},
 		
 		//totals displayed on exit

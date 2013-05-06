@@ -43,18 +43,15 @@ public class TestMemoryReportInput extends TestCase {
 	public void testHasMoreRows() {
 		classUnderTest.open();
 		assertTrue(classUnderTest.hasMoreRows());
-		Object[] row = classUnderTest.nextRow();
-		assertTrue(Arrays.equals(row, DATA[0]));
+		
+		assertTrue(Arrays.asList(DATA[0]).equals(classUnderTest.nextRow()));
 		
 		assertTrue(classUnderTest.hasMoreRows());
-		row = classUnderTest.nextRow();
-		assertTrue(Arrays.equals(row, DATA[1]));
+		assertTrue(Arrays.asList(DATA[1]).equals(classUnderTest.nextRow()));
 		
 		assertTrue(classUnderTest.hasMoreRows());
-		row = classUnderTest.nextRow();
-		assertTrue(Arrays.equals(row, DATA[2]));
+		assertTrue(Arrays.asList(DATA[2]).equals(classUnderTest.nextRow()));
 		
 		assertFalse(classUnderTest.hasMoreRows());
 	}
-	
 }
