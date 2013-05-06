@@ -92,7 +92,7 @@ public class SqlInput extends AbstractReportInput {
     /**
      * next row with data
      */
-    private Object[] nextRow ;
+    private List<Object> nextRow ;
     
     /**
      * hasMoreRows flag 
@@ -141,31 +141,34 @@ public class SqlInput extends AbstractReportInput {
      *
      * @throws ReportInputException
      */
-    private void initDBConnection() throws ReportInputException {
-        try{
-            Class.forName(dbDriverClass);
-            dbConnection = DriverManager.getConnection(dbConnString, dbUser, dbPassword);
-            dbConnection.setAutoCommit(false);
-        }catch(ClassNotFoundException exc){
-            throw new ReportInputException("The driver class ("+dbDriverClass+") cold not be intantiated !", exc);
-        }catch(SQLException exc){
-            throw new ReportInputException("SQL Connection error ! ", exc);
-        }
+    private void initDBConnection() throws SQLException, ClassNotFoundException {
+        Class.forName(dbDriverClass);
+        dbConnection = DriverManager.getConnection(dbConnString, dbUser, dbPassword);
+        dbConnection.setAutoCommit(false);
     }
     
     /**
      * opens the Input in order to start reading from it
      */
-    public void open() throws ReportInputException {
+    public void open() {
     	super.open();
-    	readMetaData();
+    	try {
+			readMetaData();
+			hasMoreRows = resultSet.first();	            
+		} catch (SQLException e) {
+			closeDbConnection();
+			throw new ReportInputException(e); 
+		} catch(ClassNotFoundException e){
+			closeDbConnection();
+			throw new ReportInputException("the driver class could not be found in classpath", e); 
+		}
     }
     
     /**
      * Closes the input meaning : "the reading session it's done !"
      */
     public void close() throws ReportInputException {
-        super.close();
+    	super.close();
         closeDbConnection();
     }
     
@@ -195,13 +198,15 @@ public class SqlInput extends AbstractReportInput {
     /**
      * returns the next row
      */
-    public Object[] nextRow() throws ReportInputException {
+    public List<Object> nextRow() throws ReportInputException {
         try {
             //a hidden verification if it's open
             if (hasMoreRows()) {
                 //nextRow = new Object[columnsCount];
+            	nextRow = new ArrayList<Object>(columnsCount); 
                 for (int i = 0; i < columnsCount; i++) {
-                    nextRow[i] = resultSet.getObject(i + 1);
+                    //nextRow[i] = resultSet.getObject(i + 1);
+                	nextRow.add(resultSet.getObject(i + 1));
                 }
             }else{
                 nextRow = null;
@@ -321,36 +326,22 @@ public class SqlInput extends AbstractReportInput {
      * 
      * @throws ReportInputException
      */
-    private void readMetaData() throws ReportInputException{
-        try {
-        	LOGGER.debug("reading input metadata..."); 
-            if(dbConnection == null){
-                initDBConnection();
-            }
-            
-            PreparedStatement stmt = dbConnection.prepareStatement(sqlStatement,   
-                                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                                    ResultSet.CONCUR_READ_ONLY);
-            
-            //execute the statement : the return should be true 
-            //if it's a select query or false if it's an update
-            resultSet = stmt.executeQuery();
-            
-            columnsCount = resultSet.getMetaData().getColumnCount(); 
-            setColumnMetadata(extractMetadata(resultSet.getMetaData())); 
-                                    
-            hasMoreRows = resultSet.first();
-            
-            if(hasMoreRows){
-                nextRow = new Object[columnsCount];
-            }else{
-                nextRow = null;
-            }
-            
-        } catch (SQLException e) {
-        	closeDbConnection(); 
-           throw new ReportInputException("When reading Input data an SQL Error occured - see the cause !", e);
-        } 
+    private void readMetaData() throws SQLException, ClassNotFoundException{
+    	LOGGER.debug("reading input metadata..."); 
+        if(dbConnection == null){
+            initDBConnection();
+        }
+        
+        PreparedStatement stmt = dbConnection.prepareStatement(sqlStatement,   
+                                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                ResultSet.CONCUR_READ_ONLY);
+        
+        //execute the statement : the return should be true 
+        //if it's a select query or false if it's an update
+        resultSet = stmt.executeQuery();
+        
+        columnsCount = resultSet.getMetaData().getColumnCount(); 
+        setColumnMetadata(extractMetadata(resultSet.getMetaData())); 
     }
     
     /**

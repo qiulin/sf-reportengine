@@ -96,7 +96,7 @@ public class OneLoopAlgorithm extends AbstractAlgorithm {
         while(context.getInput().hasMoreRows()){
         	
             //get the current data row 
-            Object[] currentRow = context.getInput().nextRow();
+            List<Object> currentRow = context.getInput().nextRow();
                 
             //then we pass the dataRow through all the report steps
             for(AlgorithmMainStep algoStep: mainSteps){

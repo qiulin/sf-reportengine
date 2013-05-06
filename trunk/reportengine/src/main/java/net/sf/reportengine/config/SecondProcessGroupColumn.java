@@ -3,6 +3,8 @@
  */
 package net.sf.reportengine.config;
 
+import java.util.List;
+
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalGroupValuesList;
 
@@ -27,8 +29,8 @@ public class SecondProcessGroupColumn implements GroupColumn {
 	public Object getValue(NewRowEvent newRowEvent) {
 		//according to the contract the first object in each row array is an 
 		//instance of IntermOrigGroupValuesList
-		Object[] newRow = newRowEvent.getInputDataRow(); 
-		IntermOriginalGroupValuesList intermGroupValues = (IntermOriginalGroupValuesList)newRow[0]; 
+		List<Object> newRow = newRowEvent.getInputDataRow(); 
+		IntermOriginalGroupValuesList intermGroupValues = (IntermOriginalGroupValuesList)newRow.get(0); 
 		
 		//we get the group value according to the group level
 		return intermGroupValues.getGroupValues().get(getGroupingLevel()); 

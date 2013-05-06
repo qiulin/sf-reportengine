@@ -6,6 +6,7 @@ package net.sf.reportengine.config;
 import java.math.BigDecimal;
 import java.text.Format;
 import java.util.Arrays;
+import java.util.List;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.Calculator;
@@ -39,8 +40,8 @@ public class SecondProcessDataColumn extends AbstractDataColumn{
 	public Object getValue(NewRowEvent newRowEvent) {
 		//according to the contract the third object in each row array is an 
 		//instance of IntermCtDataList
-		Object[] newRow = newRowEvent.getInputDataRow(); 
-		IntermComputedDataList intermDataList = (IntermComputedDataList)newRow[2]; 
+		List<Object> newRow = newRowEvent.getInputDataRow(); 
+		IntermComputedDataList intermDataList = (IntermComputedDataList)newRow.get(2); 
 		
 		Object result = intermDataList.getValueFor(positionRelativeToHeader); 
 		if(result == null){

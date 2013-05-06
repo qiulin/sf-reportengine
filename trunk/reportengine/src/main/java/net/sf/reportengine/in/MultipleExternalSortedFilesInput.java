@@ -56,8 +56,8 @@ public class MultipleExternalSortedFilesInput implements ReportInput {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.in.ReportInput#nextRow()
 	 */
-	public Object[] nextRow() {
-		Object[] result = null; 
+	public List<Object> nextRow() {
+		List<Object> result = null; 
 		if(hasMoreRows()){
 			RowsDataFileBuffer rowsDataFileBuff = externalFilesQueue.poll();
 			NewRowEvent newRowEvent = rowsDataFileBuff.poll();

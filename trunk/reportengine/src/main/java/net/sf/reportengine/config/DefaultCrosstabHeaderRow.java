@@ -43,7 +43,7 @@ public class DefaultCrosstabHeaderRow extends AbstractCrosstabHeaderRow {
 	}
 	
 	public Object getValue(NewRowEvent newRowEvent){
-		return newRowEvent.getInputDataRow()[inputColumnIndex];
+		return newRowEvent.getInputDataRow().get(inputColumnIndex);
 	}
 	
 }

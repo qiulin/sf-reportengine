@@ -6,7 +6,9 @@ package net.sf.reportengine.in;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedDataList;
@@ -81,12 +83,12 @@ public class IntermediateCrosstabReportInput extends AbstractReportInput {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.in.AbstractReportInput#nextRow()
 	 */
-	public Object[] nextRow()  {
+	public List<Object> nextRow()  {
 		LOGGER.trace("requesting next intermediate row"); 
-		Object[] result = null; 
+		List<Object> result = null; 
 		if(hasMoreRows()){
-			result = transformIntermediateCrosstabLine(nextRawLine); 
-			
+			Object[] temp = transformIntermediateCrosstabLine(nextRawLine); //TODO: try to return directly a list
+			result = Arrays.asList(temp); 
 			//prepare the next line
 			if(!nextRawLine.isLast()){
 				nextRawLine = readNextRow(); 
@@ -94,7 +96,7 @@ public class IntermediateCrosstabReportInput extends AbstractReportInput {
 				nextRawLine = null; 
 			}
 		}
-		LOGGER.debug("nextRow detected {} ", Arrays.toString(result)); 
+		LOGGER.debug("nextRow detected {} ", result); 
 		return result; 
 	}
 
@@ -135,25 +137,29 @@ public class IntermediateCrosstabReportInput extends AbstractReportInput {
 		Object[] result = null; 
 		
 		if(intermRow != null){
-			result = new Object[4];
+			result = new Object[4];//TODO: see if you can put a better type of list here (immutable or unmodifiable or fized size)
 			IntermOriginalGroupValuesList intermGroupValues = intermRow.getIntermGroupValuesList(); 
 			if(intermGroupValues != null){
 				result[0] = intermGroupValues; 
+				//result.set(0, intermGroupValues); 
 			}
 			
 			IntermOriginalDataColsList intermOrigDataColValues = intermRow.getIntermOriginalDataValuesList(); 
 			if(intermOrigDataColValues != null){
 				result[1] = intermOrigDataColValues; 
+				//result.set(1, intermOrigDataColValues);
 			}
 			
 			IntermComputedDataList intermDataList = intermRow.getIntermComputedDataList(); 
 			if(intermDataList != null){
 				result[2] = intermDataList; 
+				//result.set(2, intermDataList); 
 			}
 			
 			IntermComputedTotalsList intermTotals = intermRow.getIntermComputedTotalsList(); 
 			if(intermTotals !=  null){
 				result[3] = intermTotals; 
+				//result.set(3, intermTotals); 
 			}
 		}
 		return result; 

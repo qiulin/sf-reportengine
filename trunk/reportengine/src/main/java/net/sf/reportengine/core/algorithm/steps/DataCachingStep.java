@@ -5,6 +5,7 @@ package net.sf.reportengine.core.algorithm.steps;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.ReportContext;
@@ -58,13 +59,12 @@ public class DataCachingStep implements AlgorithmMainStep {
      */
     public void execute(NewRowEvent newRowEvent) {
         try {
-            Object[] dataRow = newRowEvent.getInputDataRow();
-            for(int i = 0; i < dataRow.length -1 ; i++){
-                //logger.debug("writing "+dataRow[i]+" to cache");
-                cache.write(dataRow[i].toString() + separator);
+            List<Object> dataRow = newRowEvent.getInputDataRow();
+            for(int i = 0; i < dataRow.size()-1 ; i++){
+                cache.write(dataRow.get(i).toString() + separator);
             }
             //write the last one
-            cache.write(dataRow[dataRow.length-1].toString()+System.getProperty("line.separator"));
+            cache.write(dataRow.get(dataRow.size()-1).toString()+System.getProperty("line.separator"));
         } catch (IOException e) {
         	LOGGER.error("exception when writing into cache", e);
             throw new RuntimeException(e);
