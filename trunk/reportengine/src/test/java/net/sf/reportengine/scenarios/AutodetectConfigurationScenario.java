@@ -20,8 +20,9 @@ import org.mockito.Mockito;
  */
 public class AutodetectConfigurationScenario {
 	
-	public static List<ColumnMetadata> COLUMN_METADATA = Arrays.asList(	new ColumnMetadata("col1", "col1label", HorizAlign.CENTER), 
-																		new ColumnMetadata("col2", "col2label", HorizAlign.LEFT));
+	public static List<ColumnMetadata> COLUMN_METADATA = 
+			Arrays.asList(	new ColumnMetadata("col1", "col1label", HorizAlign.CENTER), 
+							new ColumnMetadata("col2", "col2label", HorizAlign.LEFT));
 	
 	public static ReportInput INPUT = Mockito.mock(ReportInput.class); 
 	

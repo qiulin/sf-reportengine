@@ -9,22 +9,28 @@ import java.util.List;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
+import net.sf.reportengine.core.algorithm.AlgoInput;
 import net.sf.reportengine.core.algorithm.Algorithm;
-import net.sf.reportengine.core.algorithm.OneLoopAlgorithm;
+import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
+import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
+import net.sf.reportengine.core.steps.ExternalSortPreparationStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
+import net.sf.reportengine.core.steps.OpenReportIOInitStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.InputKeys;
 import net.sf.reportengine.util.ReportUtils;
 
 import org.slf4j.Logger;
@@ -78,64 +84,69 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class FlatReport extends AbstractAlgoColumnBasedReport {
+public class FlatReport extends AbstractColumnBasedReport {
     
 	/**
 	 * the one and only logger
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(FlatReport.class);
     
+	
+	private MultiStepAlgo reportAlgo = new LoopThroughReportInputAlgo(); 
+	
+	private Algorithm sortingAlgo = new LoopThroughReportInputAlgo(); 
+	
     /**
      * default constructor
      */
     public FlatReport(){
-    	super(new OneLoopAlgorithm()); 
+    	super(); 
     }
     
     
     /**
-     * algorithm configuration 
+     * reportAlgo configuration 
      */
     @Override protected void config(){
     	LOGGER.trace("configuring flat report"); 
-    	Algorithm algorithm = getAlgorithm();
-    	ReportContext context = algorithm.getContext();
     	
-    	//preparing the context of the report algorithm 
-    	algorithm.setIn(getIn());
-    	algorithm.setOut(getOut());
+    	//preparing the context of the report reportAlgo 
+    	reportAlgo.addIn(new AlgoInput(getIn(), InputKeys.REPORT_INPUT));
+    	reportAlgo.addIn(new AlgoInput(getOut(), InputKeys.REPORT_OUTPUT));
+    	reportAlgo.addIn(new AlgoInput(getDataColumns(), InputKeys.DATA_COLS)); 
+    	reportAlgo.addIn(new AlgoInput(getGroupColumns(), InputKeys.GROUP_COLS)); 
+    	reportAlgo.addIn(new AlgoInput(Boolean.valueOf(getShowTotals()), InputKeys.SHOW_TOTALS)); 
+    	reportAlgo.addIn(new AlgoInput(Boolean.valueOf(getShowGrandTotal()), InputKeys.SHOW_GRAND_TOTAL)); 
     	
-    	context.set(ContextKeys.DATA_COLUMNS, getDataColumns());
-    	context.set(ContextKeys.GROUP_COLUMNS, getGroupColumns());
-    	context.set(ContextKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
-    	context.set(ContextKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
-    	
-    	//adding steps to the algorithm :
+    	//adding steps to the reportAlgo :
     	//we start with the init steps
-    	algorithm.addInitStep(new InitReportDataInitStep()); 
-    	algorithm.addInitStep(new FlatReportExtractDataInitStep());
-    	algorithm.addInitStep(new StartReportInitStep()); 
-    	algorithm.addInitStep(new ColumnHeaderOutputInitStep(getTitle()));
+    	reportAlgo.addInitStep(new OpenReportIOInitStep()); 
+    	reportAlgo.addInitStep(new InitReportDataInitStep()); 
+    	reportAlgo.addInitStep(new FlatReportExtractDataInitStep());
+    	reportAlgo.addInitStep(new StartReportInitStep()); 
+    	reportAlgo.addInitStep(new ColumnHeaderOutputInitStep(getTitle()));
         
     	//then we add the main steps
-    	algorithm.addMainStep(new GroupingLevelDetectorStep());
+    	reportAlgo.addMainStep(new GroupingLevelDetectorStep());
     	
         if(getShowTotals() || getShowGrandTotal()){
-        	algorithm.addMainStep(new FlatReportTotalsOutputStep());
-        	algorithm.addMainStep(new TotalsCalculatorStep());
+        	reportAlgo.addMainStep(new FlatReportTotalsOutputStep());
+        	reportAlgo.addMainStep(new TotalsCalculatorStep());
         }
         
         if(getShowDataRows()){
-        	algorithm.addMainStep(new DataRowsOutputStep());
+        	reportAlgo.addMainStep(new DataRowsOutputStep());
         }
         
         if(getGroupColumns() != null && getGroupColumns().size() > 0){
-        	algorithm.addMainStep(new PreviousRowManagerStep());
+        	reportAlgo.addMainStep(new PreviousRowManagerStep());
         }
         
-        algorithm.addExitStep(new EndReportExitStep()); 
+        reportAlgo.addExitStep(new EndReportExitStep()); 
+        reportAlgo.addExitStep(new CloseReportIOExitStep()); 
     }
-
+    
+    
 
 	@Override protected void validate() {
 		LOGGER.trace("validating flat report"); 
@@ -153,4 +164,21 @@ public class FlatReport extends AbstractAlgoColumnBasedReport {
 			throw new ConfigValidationException("Please configure a Calculator to at least one DataColumn in order to display totals");
 		}
 	}
+
+
+	/**
+     * Call this method for execution of the report<br> 
+     * What this method does: <br>
+     * <ul>
+     *  <li>validates the configuration - validateConfig() method call</li>
+     *  <li>opens the output - output.open()</li>
+     *  <li>runs each reportAlgo execute() method</li>
+     *  <li>closes the output - output.close()</li>
+     * </ul>
+     */
+    @Override public void execute(){
+    	validate(); 
+        config();
+        reportAlgo.execute(); 
+    }
 }

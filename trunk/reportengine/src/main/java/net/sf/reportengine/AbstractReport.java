@@ -68,6 +68,12 @@ abstract class AbstractReport {
      */
     private boolean showDataRows = true;
    
+    /**
+     * Whether or not data from the input is already sorted. 
+     * By default this flag is set to false because 
+     * the sorting will slow the report creation. 
+     */
+    private boolean dataAlreadySorted = false; 
     
     /**
      * this is a constructor for 
@@ -191,4 +197,18 @@ abstract class AbstractReport {
     public void setShowGrandTotal(boolean flag){
     	this.showGrandTotal = flag;
     }
+
+	/**
+	 * @return the dataAlreadySorted
+	 */
+	public boolean isDataAlreadySorted() {
+		return dataAlreadySorted;
+	}
+
+	/**
+	 * @param dataAlreadySorted the dataAlreadySorted to set
+	 */
+	public void setDataAlreadySorted(boolean alreadySorted) {
+		this.dataAlreadySorted = alreadySorted;
+	}
 }

@@ -99,6 +99,7 @@ public class IntermediateCrosstabOutput implements ReportOutput {
 	 * @see net.sf.reportengine.out.ReportOutput#output(net.sf.reportengine.out.CellProps)
 	 */
 	public void outputDataCell(CellProps cellProps) {
+		//TODO: check if open
 		Object value = cellProps.getValue();
 		if(value instanceof IntermediateReportRow){
 			IntermediateReportRow intermediateRow = (IntermediateReportRow)value; 

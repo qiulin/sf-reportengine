@@ -6,12 +6,15 @@
 package net.sf.reportengine.core.steps;
 
 import java.util.List;
+import java.util.Map;
 
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
+import net.sf.reportengine.core.algorithm.AlgoInput;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.InputKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,8 +76,8 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
      * registers some new values into the context
      * @see net.sf.reportengine.core.algorithm.IAlgorithmInitStep#init(ReportContext)()
      */
-    public void init(ReportContext reportContext){
-        super.init(reportContext);
+    public void init(Map<InputKeys, Object> algoInput, ReportContext reportContext){
+        super.init(algoInput, reportContext);
     }
     
 	/**

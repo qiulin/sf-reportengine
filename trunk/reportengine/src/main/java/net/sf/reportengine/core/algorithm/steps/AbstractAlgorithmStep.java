@@ -4,7 +4,14 @@
  */
 package net.sf.reportengine.core.algorithm.steps;
 
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.reportengine.core.algorithm.AlgoInput;
+import net.sf.reportengine.core.algorithm.AlgoResult;
 import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.util.InputKeys;
 
 
 /**
@@ -21,19 +28,25 @@ public abstract class AbstractAlgorithmStep implements AlgorithmMainStep {
     private ReportContext algorithmContext;
     
     /**
+     * 
+     */
+    private Map<InputKeys, Object> algoInputAsMap; 
+    
+    /**
      * default implementation for AlgorithmInitStep.init() method
      * which only sets the algorithm context  
      * 
      */
-    public void init(ReportContext algoContext){
-        this.algorithmContext = algoContext;        
+    public void init(Map<InputKeys, Object> algoInput, ReportContext algoContext){
+        this.algorithmContext = algoContext;    
+        this.algoInputAsMap = algoInput; 
     }
     
     /**
      * just an empty implementation for exit 
      * @see net.sf.reportengine.core.algorithm.AlgorithmMainStep#exit()
      */
-    public void exit(ReportContext context) {}
+    public void exit(Map<InputKeys,Object> algoInput, ReportContext context) {}
     
     
     /**
@@ -44,5 +57,14 @@ public abstract class AbstractAlgorithmStep implements AlgorithmMainStep {
     	return algorithmContext;
     }
     
+    
+    protected Map<InputKeys, Object> getInput(){
+    	return algoInputAsMap; 
+    }
+    
+    
+    public Map<String, Object> getResultsMap(){
+    	return null; 
+    }
 
 }

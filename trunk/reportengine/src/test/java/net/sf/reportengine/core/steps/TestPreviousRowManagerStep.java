@@ -3,14 +3,20 @@
  */
 package net.sf.reportengine.core.steps;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
+import net.sf.reportengine.core.algorithm.AlgoInput;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.scenarios.CalculatedColumnsScenario;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.Scenario2;
 import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.InputKeys;
 import net.sf.reportengine.util.MatrixUtils;
 
 
@@ -34,9 +40,12 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 	
 	public void testExecuteScenario1() {
 		ReportContext testReportContext = getTestContext();
+		Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class); 
 		
-		testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
-		classUnderTest.init(testReportContext);
+		//testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
+		mockAlgoInput.put(InputKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS);
+		
+		classUnderTest.init(mockAlgoInput, testReportContext);
 		
 		
 		//first we check that previous data row is null
@@ -60,9 +69,11 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 	
 	public void testExecuteScenario2() {
 		ReportContext testReportContext = getTestContext();
+		Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class); 
 		
-		testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario2.GROUPING_COLUMNS);
-		classUnderTest.init(testReportContext);
+		mockAlgoInput.put(InputKeys.GROUP_COLS, Scenario2.GROUPING_COLUMNS);
+		//testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario2.GROUPING_COLUMNS);
+		classUnderTest.init(mockAlgoInput, testReportContext);
 		
 		
 		//first we check that previous data row is null
@@ -87,9 +98,12 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 	
 	public void testExecuteCalculatedColumnsScenario() {
 		ReportContext testReportContext = getTestContext();
+		Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class); 
 		
-		testReportContext.set(ContextKeys.GROUP_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
-		classUnderTest.init(testReportContext);
+		mockAlgoInput.put(InputKeys.GROUP_COLS, CalculatedColumnsScenario.GROUP_COLUMNS);
+		
+		//testReportContext.set(ContextKeys.GROUP_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
+		classUnderTest.init(mockAlgoInput, testReportContext);
 		
 		
 		//first we check that previous data row is null

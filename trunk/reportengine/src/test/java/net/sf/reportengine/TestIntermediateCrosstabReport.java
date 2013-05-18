@@ -12,6 +12,7 @@ import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.core.algorithm.AlgoResult;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedDataList;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedTotalsList;
@@ -31,9 +32,9 @@ import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
 import net.sf.reportengine.scenarios.ct.CtScenario4x3x1;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.DistinctValuesHolder;
+import net.sf.reportengine.util.IDistinctValuesHolder;
 import net.sf.reportengine.util.ReportIoUtils;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestIntermediateCrosstabReport {
@@ -139,7 +140,11 @@ public class TestIntermediateCrosstabReport {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			
+			
+			//DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			IDistinctValuesHolder metadata = 
+					(IDistinctValuesHolder)classUnderTest.getAlgorithm().getResult("intermediateDistictValuesHolder"); 
 			assertNotNull(metadata);
 			
 			assertNotNull(memoryOutput.getDataCellMatrix());
@@ -193,8 +198,10 @@ public class TestIntermediateCrosstabReport {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
-		
+			//DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			IDistinctValuesHolder metadata = 
+					(IDistinctValuesHolder)classUnderTest.getAlgorithm().getResult("intermediateDistictValuesHolder"); 
+			assertNotNull(metadata);
 		
 		//TODO: check the output here
 	}
@@ -218,9 +225,12 @@ public class TestIntermediateCrosstabReport {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			//DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			//assertNotNull(metadata);
+			
+			IDistinctValuesHolder metadata = 
+					(IDistinctValuesHolder)classUnderTest.getAlgorithm().getResult("intermediateDistictValuesHolder"); 
 			assertNotNull(metadata);
-		
 		
 		//TODO: check the output here
 	}
@@ -243,7 +253,10 @@ public class TestIntermediateCrosstabReport {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+//			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+//			assertNotNull(metadata);
+			IDistinctValuesHolder metadata = 
+					(IDistinctValuesHolder)classUnderTest.getAlgorithm().getResult("intermediateDistictValuesHolder"); 
 			assertNotNull(metadata);
 		 
 		
@@ -269,7 +282,11 @@ public class TestIntermediateCrosstabReport {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+//			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+//			assertNotNull(metadata);
+			
+			IDistinctValuesHolder metadata = 
+					(IDistinctValuesHolder)classUnderTest.getAlgorithm().getResult("intermediateDistictValuesHolder"); 
 			assertNotNull(metadata);
 		 
 		//TODO: check the output here
@@ -294,9 +311,12 @@ public class TestIntermediateCrosstabReport {
 			
 			classUnderTest.execute();
 			
-			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
-			assertNotNull(metadata);
+//			DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+//			assertNotNull(metadata);
 		 
+			IDistinctValuesHolder metadata = 
+					(IDistinctValuesHolder)classUnderTest.getAlgorithm().getResult("intermediateDistictValuesHolder"); 
+			assertNotNull(metadata);
 		//TODO: check the output here
 	}
 	
@@ -322,9 +342,13 @@ public class TestIntermediateCrosstabReport {
 		
 		classUnderTest.execute();
 		
-		DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+//		DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+//		assertNotNull(metadata);
+		
+		IDistinctValuesHolder metadata = 
+				(IDistinctValuesHolder)classUnderTest.getAlgorithm().getResult("intermediateDistictValuesHolder"); 
 		assertNotNull(metadata);
-	 
+		
 	//TODO: check the output here
 	}
 	
@@ -350,9 +374,12 @@ public class TestIntermediateCrosstabReport {
 		
 		classUnderTest.execute();
 		
-		DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+//		DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+//		assertNotNull(metadata);
+		
+		IDistinctValuesHolder metadata = 
+				(IDistinctValuesHolder)classUnderTest.getAlgorithm().getResult("intermediateDistictValuesHolder"); 
 		assertNotNull(metadata);
-	 
 		//TODO: check the output here
 	}
 	
@@ -380,9 +407,12 @@ public class TestIntermediateCrosstabReport {
 		
 		classUnderTest.execute();
 		
-		DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+//		DistinctValuesHolder metadata = (DistinctValuesHolder)classUnderTest.getAlgorithm().getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+//		assertNotNull(metadata);
+		
+		IDistinctValuesHolder metadata = 
+				(IDistinctValuesHolder)classUnderTest.getAlgorithm().getResult("intermediateDistictValuesHolder"); 
 		assertNotNull(metadata);
-	 
 	//TODO: check the output here
 	}
 }

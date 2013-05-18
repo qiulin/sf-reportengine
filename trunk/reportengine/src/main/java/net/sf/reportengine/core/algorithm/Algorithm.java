@@ -4,11 +4,8 @@
  */
 package net.sf.reportengine.core.algorithm;
 
-import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
-import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
-import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
-import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.out.ReportOutput;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -22,25 +19,13 @@ public interface Algorithm {
      * sets the input of the report.
      * @param input	
      */     
-    public void setIn(ReportInput input);
-    
-    /**
-     * add an init step to the algorithm
-     * @param initStep
-     */
-    public void addInitStep(AlgorithmInitStep initStep);
-    
-    /**
-     * adds a main step to the algorithm
-     * @param step  the main step to be added
-     */
-    public void addMainStep(AlgorithmMainStep step);
+    public void setIn(List<AlgoInput> input);
     
     /**
      * 
-     * @param exitStep
+     * @param input
      */
-    public void addExitStep(AlgorithmExitStep exitStep);
+    public void addIn(AlgoInput input); 
     
     /**
      * executes the report and displays it
@@ -51,11 +36,14 @@ public interface Algorithm {
      * sets the output of the report
      * @param out
      */
-    public void setOut(ReportOutput out);
+    public Map<String, Object> getResultMap();
+    
     
     /**
-     * getter for the context
+     * 
+     * @param name
      * @return
      */
-    public ReportContext getContext();
+    public Object getResult(String name); 
+    
 }

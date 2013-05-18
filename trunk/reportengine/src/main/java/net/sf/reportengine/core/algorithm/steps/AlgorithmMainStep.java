@@ -3,9 +3,9 @@
  */
 package net.sf.reportengine.core.algorithm.steps;
 
+import java.util.Map;
+
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
-import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 
 /**
  * <p>
@@ -25,5 +25,7 @@ public interface AlgorithmMainStep extends AlgorithmInitStep, AlgorithmExitStep{
      */
     public void execute(NewRowEvent newRowEvent);
     
+    
+    public Map<String, Object> getResultsMap(); 
     
 }

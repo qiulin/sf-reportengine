@@ -4,13 +4,20 @@
  */
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.core.algorithm.ReportContext;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.reportengine.core.algorithm.AlgoInput;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.scenarios.CalculatedColumnsScenario;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.Scenario2;
 import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.InputKeys;
 
 /**
  * @author dragos balan (dragos.balan@gmail.com)
@@ -36,16 +43,20 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
 
     public void testExecuteScenario1() {
     	ReportContext reportContext = getTestContext();
+    	Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class); 
     	
     	classUnderTest = new TotalsCalculatorStep();
          
         //simulate the level detector
-    	reportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
-    	reportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
+    	//reportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
+    	//reportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
+    	mockAlgoInput.put(InputKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
+    	mockAlgoInput.put(InputKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
+    	
     	reportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.AGG_COLUMNS_INDEX);
         
     	
-        classUnderTest.init(reportContext);      
+        classUnderTest.init(mockAlgoInput, reportContext);      
     	   	
     	//simulate the level detector
     	setAggLevel(Scenario1.ROW_1_AGG_LEVEL);
@@ -104,16 +115,17 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     
     public void testExecuteScenario2(){
     	ReportContext reportContext = getTestContext();
+    	Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class); 
     	
     	classUnderTest = new TotalsCalculatorStep();
          
         //simulate the level detector
-    	reportContext.set(ContextKeys.DATA_COLUMNS, Scenario2.DATA_COLUMNS);
-    	reportContext.set(ContextKeys.GROUP_COLUMNS, Scenario2.GROUPING_COLUMNS);
-    	//reportContext.set(LevelDetectorStep.CONTEXT_KEY_AGG_COLUMNS_INDEX, Scenario2.AGG_COLUMNS_INDEX);
-    	//reportContext.set(LevelDetectorStep.CONTEXT_KEY_AGG_LEVEL_COUNT, Scenario2.AGG_COLUMNS_INDEX.length);
-         
-        classUnderTest.init(reportContext);      
+    	//reportContext.set(ContextKeys.DATA_COLUMNS, Scenario2.DATA_COLUMNS);
+    	//reportContext.set(ContextKeys.GROUP_COLUMNS, Scenario2.GROUPING_COLUMNS);
+    	mockAlgoInput.put(InputKeys.DATA_COLS, Scenario2.DATA_COLUMNS); 
+    	mockAlgoInput.put(InputKeys.GROUP_COLS, Scenario2.GROUPING_COLUMNS);
+    	
+        classUnderTest.init(mockAlgoInput, reportContext);      
     	 
         for(int i=0; i<CalculatedColumnsScenario.RAW_DATA.length; i++){
         	//simulate the level detector and all other preceeding steps
@@ -130,16 +142,17 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     
     public void testExecuteCalculatedColumnsScenario(){
     	ReportContext reportContext = getTestContext();
+    	Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class); 
     	
     	classUnderTest = new TotalsCalculatorStep();
          
         //simulate the level detector
-    	reportContext.set(ContextKeys.DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
-    	reportContext.set(ContextKeys.GROUP_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
-        //reportContext.set(LevelDetectorStep.CONTEXT_KEY_AGG_COLUMNS_INDEX, CalculatedColumnsScenario.AGG_COLUMNS_INDEX);
-        //reportContext.set(LevelDetectorStep.CONTEXT_KEY_AGG_LEVEL_COUNT, CalculatedColumnsScenario.AGG_COLUMNS_INDEX.length);
-         
-        classUnderTest.init(reportContext);      
+    	//reportContext.set(ContextKeys.DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
+    	//reportContext.set(ContextKeys.GROUP_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
+    	mockAlgoInput.put(InputKeys.DATA_COLS, CalculatedColumnsScenario.DATA_COLUMNS); 
+    	mockAlgoInput.put(InputKeys.GROUP_COLS, CalculatedColumnsScenario.GROUP_COLUMNS);
+    	
+        classUnderTest.init(mockAlgoInput, reportContext);      
     	 
         for(int i=0; i<CalculatedColumnsScenario.RAW_DATA.length; i++){
         	//simulate the level detector and all other preceeding steps

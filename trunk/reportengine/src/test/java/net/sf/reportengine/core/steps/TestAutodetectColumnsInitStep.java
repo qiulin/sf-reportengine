@@ -4,54 +4,53 @@
 package net.sf.reportengine.core.steps;
 
 
-import static net.sf.reportengine.util.ContextKeys.DATA_COLUMNS;
-import static net.sf.reportengine.util.ContextKeys.GROUP_COLUMNS;
-import static net.sf.reportengine.util.ContextKeys.USER_COLUMN_PREFERENCES;
-
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.algorithm.DefaultReportContext;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.scenarios.AutodetectConfigurationScenario;
+import net.sf.reportengine.util.InputKeys;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 
 /**
  * @author dragos balan
  *
  */
-public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
+public class TestAutodetectColumnsInitStep {
 	
 	private ReportContext reportContext; 
-	
+	private Map<InputKeys, Object> mockAlgoInput ;
 	
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		AutodetectConfigurationScenario.initScenario();
 		
 		reportContext = new DefaultReportContext(); 
-		reportContext.setInput(AutodetectConfigurationScenario.INPUT); 
+//		reportContext.setInput(AutodetectConfigurationScenario.INPUT); 
+		
+		mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class);
+		mockAlgoInput.put(InputKeys.REPORT_INPUT, AutodetectConfigurationScenario.INPUT); 
 	}
 
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-	
 	/**
 	 * Test method for {@link net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)}.
 	 */
+	@Test
 	public void testInit_AsManyPreferencesAsMetadataColumns() {
 		
 		//set up user preferences
@@ -64,25 +63,26 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		column2Prefs.setGroup(false).setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
 		userPrefs.put("col2", column2Prefs);
 		
-		reportContext.set(USER_COLUMN_PREFERENCES, userPrefs); 
+		mockAlgoInput.put(InputKeys.USER_COLUMN_PREFERENCES, userPrefs); 
 		
 		//the class/method under test
-		new AutodetectConfigInitStep().init(reportContext); 
+		new AutodetectConfigInitStep().init(mockAlgoInput, reportContext); 
 		
 		//test the result
-		List<DataColumn> dataCols = (List<DataColumn>)reportContext.get(DATA_COLUMNS);
-		assertNotNull(dataCols);
-		assertEquals(2, dataCols.size()); 
-		assertEquals("Header Data Col 1", dataCols.get(0).getHeader());
-		assertEquals("Header Data Col 2", dataCols.get(1).getHeader()); 
+		List<DataColumn> dataCols = (List<DataColumn>)mockAlgoInput.get(InputKeys.DATA_COLS);
+		Assert.assertNotNull(dataCols);
+		Assert.assertEquals(2, dataCols.size()); 
+		Assert.assertEquals("Header Data Col 1", dataCols.get(0).getHeader());
+		Assert.assertEquals("Header Data Col 2", dataCols.get(1).getHeader()); 
 		
-		assertNull(reportContext.get(GROUP_COLUMNS)); 
+		Assert.assertNull(mockAlgoInput.get(InputKeys.GROUP_COLS)); 
 	}
 	
 	
 	/**
 	 * Test method for {@link net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)}.
 	 */
+	@Test
 	public void testInit_MorePreferencesThanMetadata() {
 		
 		//set up user preferences
@@ -95,24 +95,25 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		column2Prefs.setGroup(false).setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
 		userPrefs.put("col3", column2Prefs);//NOT TAKEN INTO ACCCOUNT BECAUSE THERE is no metadata with id col3
 		
-		reportContext.set(USER_COLUMN_PREFERENCES, userPrefs); 
+		mockAlgoInput.put(InputKeys.USER_COLUMN_PREFERENCES, userPrefs); 
 		
 		//the class/method under test
-		new AutodetectConfigInitStep().init(reportContext); 
+		new AutodetectConfigInitStep().init(mockAlgoInput, reportContext); 
 		
 		//test the result
-		List<DataColumn> dataCols = (List<DataColumn>)reportContext.get(DATA_COLUMNS);
-		assertNotNull(dataCols);
-		assertEquals(2, dataCols.size()); 
-		assertEquals("Header Data Col 1", dataCols.get(0).getHeader());
-		assertEquals("col2label", dataCols.get(1).getHeader()); 
+		List<DataColumn> dataCols = (List<DataColumn>)mockAlgoInput.get(InputKeys.DATA_COLS);
+		Assert.assertNotNull(dataCols);
+		Assert.assertEquals(2, dataCols.size()); 
+		Assert.assertEquals("Header Data Col 1", dataCols.get(0).getHeader());
+		Assert.assertEquals("col2label", dataCols.get(1).getHeader()); 
 		
-		assertNull(reportContext.get(GROUP_COLUMNS));
+		Assert.assertNull(mockAlgoInput.get(InputKeys.GROUP_COLS));
 	}
 	
 	/**
 	 * Test method for {@link net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)}.
 	 */
+	@Test
 	public void testInit_LessPreferencesThanMetadata() {
 		AutodetectConfigInitStep classUnderTest = new AutodetectConfigInitStep();
 		
@@ -123,23 +124,24 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		userPrefs.put("col2", column1Prefs); 
 		
-		reportContext.set(USER_COLUMN_PREFERENCES, userPrefs); 
+		mockAlgoInput.put(InputKeys.USER_COLUMN_PREFERENCES, userPrefs); 
 		
-		classUnderTest.init(reportContext); 
+		classUnderTest.init(mockAlgoInput, reportContext); 
 		
 		//test the result
-		List<DataColumn> dataCols = (List<DataColumn>)reportContext.get(DATA_COLUMNS);
-		assertNotNull(dataCols);
-		assertEquals(2, dataCols.size()); 
-		assertEquals("col1label", dataCols.get(0).getHeader()); 
-		assertEquals("Second Column Prefs", dataCols.get(1).getHeader()); 
+		List<DataColumn> dataCols = (List<DataColumn>)mockAlgoInput.get(InputKeys.DATA_COLS);
+		Assert.assertNotNull(dataCols);
+		Assert.assertEquals(2, dataCols.size()); 
+		Assert.assertEquals("col1label", dataCols.get(0).getHeader()); 
+		Assert.assertEquals("Second Column Prefs", dataCols.get(1).getHeader()); 
 		
-		assertNull(reportContext.get(GROUP_COLUMNS)); 
+		Assert.assertNull(mockAlgoInput.get(InputKeys.GROUP_COLS)); 
 	}
 	
 	/**
 	 * Test method for {@link net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)}.
 	 */
+	@Test
 	public void testInit_AsManyPreferencesAsMetadataWithGroups() {
 		
 		//set up user preferences
@@ -152,26 +154,27 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		column2Prefs.setGroup(true).setHeader("Header Group Col 2").setHAlign(HorizAlign.RIGHT); 
 		userPrefs.put("col2", column2Prefs);
 		
-		reportContext.set(USER_COLUMN_PREFERENCES, userPrefs); 
+		mockAlgoInput.put(InputKeys.USER_COLUMN_PREFERENCES, userPrefs); 
 		
 		//the class/method under test
-		new AutodetectConfigInitStep().init(reportContext); 
+		new AutodetectConfigInitStep().init(mockAlgoInput, reportContext); 
 		
 		//test the result
-		List<DataColumn> dataCols = (List<DataColumn>)reportContext.get(DATA_COLUMNS);
-		assertNotNull(dataCols);
-		assertEquals(0, dataCols.size()); 
+		List<DataColumn> dataCols = (List<DataColumn>)mockAlgoInput.get(InputKeys.DATA_COLS);
+		Assert.assertNotNull(dataCols);
+		Assert.assertEquals(0, dataCols.size()); 
 		 
-		List<GroupColumn>groupCols = (List<GroupColumn>)reportContext.get(GROUP_COLUMNS); 
-		assertNotNull(groupCols);
-		assertEquals(2, groupCols.size());
-		assertEquals("Header Group Col 1", groupCols.get(0).getHeader());
-		assertEquals("Header Group Col 2", groupCols.get(1).getHeader());
+		List<GroupColumn>groupCols = (List<GroupColumn>)mockAlgoInput.get(InputKeys.GROUP_COLS); 
+		Assert.assertNotNull(groupCols);
+		Assert.assertEquals(2, groupCols.size());
+		Assert.assertEquals("Header Group Col 1", groupCols.get(0).getHeader());
+		Assert.assertEquals("Header Group Col 2", groupCols.get(1).getHeader());
 	}
 	
 	/**
 	 * Test method for {@link net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)}.
 	 */
+	@Test
 	public void testInit_LessPreferencesThanMetadataWithGroups() {
 		
 		//set up user preferences
@@ -181,20 +184,20 @@ public class TestAutodetectColumnsInitStep extends ReportAlgorithmStepTC {
 		column2Prefs.setGroup(true).setHeader("Header Group Col 2").setHAlign(HorizAlign.RIGHT); 
 		userPrefs.put("col2", column2Prefs);
 		
-		reportContext.set(USER_COLUMN_PREFERENCES, userPrefs); 
+		mockAlgoInput.put(InputKeys.USER_COLUMN_PREFERENCES, userPrefs);  
 		
 		//the class/method under test
-		new AutodetectConfigInitStep().init(reportContext); 
+		new AutodetectConfigInitStep().init(mockAlgoInput, reportContext); 
 		
 		//test the result
-		List<DataColumn> dataCols = (List<DataColumn>)reportContext.get(DATA_COLUMNS);
-		assertNotNull(dataCols);
-		assertEquals(1, dataCols.size()); 
-		assertEquals("col1label", dataCols.get(0).getHeader());
+		List<DataColumn> dataCols = (List<DataColumn>)mockAlgoInput.get(InputKeys.DATA_COLS);
+		Assert.assertNotNull(dataCols);
+		Assert.assertEquals(1, dataCols.size()); 
+		Assert.assertEquals("col1label", dataCols.get(0).getHeader());
 		
-		List<GroupColumn>groupCols = (List<GroupColumn>)reportContext.get(GROUP_COLUMNS); 
-		assertNotNull(groupCols);
-		assertEquals(1, groupCols.size());
-		assertEquals("Header Group Col 2", groupCols.get(0).getHeader());
+		List<GroupColumn>groupCols = (List<GroupColumn>)mockAlgoInput.get(InputKeys.GROUP_COLS); 
+		Assert.assertNotNull(groupCols);
+		Assert.assertEquals(1, groupCols.size());
+		Assert.assertEquals("Header Group Col 2", groupCols.get(0).getHeader());
 	}
 }

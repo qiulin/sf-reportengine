@@ -29,17 +29,17 @@ public class DefaultReportContext implements ReportContext{
      */
     private EnumMap<ContextKeys, Object> contextData;
     
-    /**
-     * the input of the report
-     */
-    private ReportInput input;
-    
-    
-    /**
-     * the output
-     */
-    private ReportOutput output;
-    
+//    /**
+//     * the input of the report
+//     */
+//    private ReportInput input;
+//    
+//    
+//    /**
+//     * the output
+//     */
+//    private ReportOutput output;
+//    
     
     /**
      * constructor of the class
@@ -64,19 +64,19 @@ public class DefaultReportContext implements ReportContext{
         contextData.put(key,value);
     }
     
-    public void setInput(ReportInput in){
-        this.input = in;
-    }
-    
-    public ReportInput getInput(){
-        return input;
-    }
-    
-    public void setOutput(ReportOutput out){
-        this.output = out;
-    }
-    
-    public ReportOutput getOutput(){
-        return output;
-    }
+//    public void setInput(ReportInput in){
+//        this.input = in;
+//    }
+//    
+//    public ReportInput getInput(){
+//        return input;
+//    }
+//    
+//    public void setOutput(ReportOutput out){
+//        this.output = out;
+//    }
+//    
+//    public ReportOutput getOutput(){
+//        return output;
+//    }
 }

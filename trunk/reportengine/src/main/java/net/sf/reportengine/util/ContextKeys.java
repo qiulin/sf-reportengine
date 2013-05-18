@@ -15,37 +15,39 @@ public enum ContextKeys {
 	/**
 	 * the key used to identify the configuration columns inside the report context
 	 */
-	DATA_COLUMNS, //= "net.sf.reportengine.dataColumns";
+//	DATA_COLUMNS, //= "net.sf.reportengine.dataColumns";
+	
 	
 	/**
 	 * the identifier of grouping columns inside the report context
 	 */
-	GROUP_COLUMNS, //= "net.sf.reportengine.groupingColumns";
+//	GROUP_COLUMNS, //= "net.sf.reportengine.groupingColumns";
+	
 	
 	/**
 	 * the identifier of the column preferences
 	 */
-	USER_COLUMN_PREFERENCES, 
+//	USER_COLUMN_PREFERENCES, 
 	
 	/**
 	 * 
 	 */
-	SHOW_TOTALS, // = "net.sf.reportengine.showTotals";
-	SHOW_GRAND_TOTAL, // = "net.sf.reportengine.showGrandTotal";
+//	SHOW_TOTALS, // = "net.sf.reportengine.showTotals";
+//	SHOW_GRAND_TOTAL, // = "net.sf.reportengine.showGrandTotal";
 	
 	/**
 	 * 
 	 */
-	CROSSTAB_HEADER_ROWS, // = "net.sf.reportengine.crosstab.headerRows"; 
-	CROSSTAB_DATA, // = "net.sf.reportengine.crosstab.data"; 
-	CROSSTAB_METADATA, // = "net.sf.reportengine.crosstab.metadata";
+//	CROSSTAB_HEADER_ROWS, // = "net.sf.reportengine.crosstab.headerRows"; 
+//	CROSSTAB_DATA, // = "net.sf.reportengine.crosstab.data"; 
+//	CROSSTAB_METADATA, // = "net.sf.reportengine.crosstab.metadata";
 	
 	
 	/**
 	 * 
 	 */
-	ORIGINAL_CT_GROUP_COLS_COUNT, // = "net.sf.reportengine.intermediate.origCtGroupColsCnt";
-	ORIGINAL_CT_DATA_COLS_COUNT, // = "net.sf.reportengine.intermediate.origCtDataColsCnt";
+	//ORIGINAL_CT_GROUP_COLS_COUNT, // = "net.sf.reportengine.intermediate.origCtGroupColsCnt";
+	//ORIGINAL_CT_DATA_COLS_COUNT, // = "net.sf.reportengine.intermediate.origCtDataColsCnt";
 
 	/**
 	 * context identifier (key) for aggregation level

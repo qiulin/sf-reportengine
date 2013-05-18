@@ -1,11 +1,18 @@
 package net.sf.reportengine.core.steps;
 
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.reportengine.core.algorithm.AlgoInput;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.scenarios.CalculatedColumnsScenario;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.Scenario2;
 import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.InputKeys;
 
 public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 	
@@ -20,9 +27,12 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 	
 	public void testExecuteScenario1() {
 		ReportContext testReportContext = getTestContext();
+		Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class);
 		
-		testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
-		classUnderTest.init(testReportContext);
+		//testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
+		mockAlgoInput.put(InputKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS);
+		
+		classUnderTest.init(mockAlgoInput, testReportContext);
 		
 		for(int i=0; i<Scenario1.RAW_DATA.length; i++){
 			NewRowEvent dataRowEvent = new NewRowEvent(Scenario1.RAW_DATA[i]);
@@ -36,9 +46,11 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 	
 	public void testExecuteScenario2() {
 		ReportContext testReportContext = getTestContext();
+		Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class);
 		
-		testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario2.GROUPING_COLUMNS);
-		classUnderTest.init(testReportContext);
+		//testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario2.GROUPING_COLUMNS);
+		mockAlgoInput.put(InputKeys.GROUP_COLS, Scenario2.GROUPING_COLUMNS);
+		classUnderTest.init(mockAlgoInput, testReportContext);
 		
 		for(int i=0; i<Scenario2.RAW_INPUT.length; i++){
 			NewRowEvent dataRowEvent = new NewRowEvent(Scenario2.RAW_INPUT[i]);
@@ -53,11 +65,15 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 	
 	public void testExecuteCalculatedColumnsScenario() {
 		ReportContext testReportContext = getTestContext();
+		Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class); 
 		
-		testReportContext.set(ContextKeys.DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
-		testReportContext.set(ContextKeys.GROUP_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
+		mockAlgoInput.put(InputKeys.GROUP_COLS, CalculatedColumnsScenario.GROUP_COLUMNS);
+		mockAlgoInput.put(InputKeys.DATA_COLS, CalculatedColumnsScenario.DATA_COLUMNS);
 		
-		classUnderTest.init(testReportContext);
+		//testReportContext.set(ContextKeys.DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
+		//testReportContext.set(ContextKeys.GROUP_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
+		
+		classUnderTest.init(mockAlgoInput, testReportContext);
 		
 		for(int i=0; i<Scenario2.RAW_INPUT.length; i++){
 			NewRowEvent dataRowEvent = new NewRowEvent(CalculatedColumnsScenario.RAW_DATA[i]);
@@ -68,7 +84,4 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 			testReportContext.set(ContextKeys.LAST_GROUPING_VALUES, CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i]);
 		}
 	}
-	
-	
-	
 }

@@ -32,27 +32,27 @@ public interface ReportContext {
     public Object get(ContextKeys key);
     
     
-    /**
-     * sets the input 
-     * @param input
-     */
-    public void setInput(ReportInput input);
-    
-    /**
-     * getter for input
-     * @return  the input 
-     */
-    public ReportInput getInput();
-    
-    /**
-     * setter for output
-     * @param output
-     */
-    public void setOutput(ReportOutput output);
-    
-    /**
-     * getter for output
-     * @return  the output
-     */
-    public ReportOutput getOutput();
+//    /**
+//     * sets the input 
+//     * @param input
+//     */
+//    public void setInput(ReportInput input);
+//    
+//    /**
+//     * getter for input
+//     * @return  the input 
+//     */
+//    public ReportInput getInput();
+//    
+//    /**
+//     * setter for output
+//     * @param output
+//     */
+//    public void setOutput(ReportOutput output);
+//    
+//    /**
+//     * getter for output
+//     * @return  the output
+//     */
+//    public ReportOutput getOutput();
 }

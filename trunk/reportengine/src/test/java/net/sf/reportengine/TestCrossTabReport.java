@@ -6,12 +6,12 @@ package net.sf.reportengine;
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import junit.framework.TestCase;
+import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.config.DataColumn;
-import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.ExcelOutput;
@@ -23,7 +23,6 @@ import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With0G2D;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
-import net.sf.reportengine.test.ReportengineTC;
 import net.sf.reportengine.util.CtMetadata;
 import net.sf.reportengine.util.ReportIoUtils;
 
@@ -31,7 +30,7 @@ import net.sf.reportengine.util.ReportIoUtils;
  * @author dragos balan
  *
  */
-public class TestCrossTabReport extends ReportengineTC {
+public class TestCrossTabReport extends TestCase {
 	
 	private CrossTabReport classUnderTest; 
 	

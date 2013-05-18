@@ -9,10 +9,10 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import net.sf.reportengine.test.ReportengineTC;
+import junit.framework.TestCase;
 import net.sf.reportengine.util.ReportIoUtils;
 
-public class TestTextReportInput extends ReportengineTC {
+public class TestTextReportInput extends TestCase {
     
     
     private String TEST_FILE = "2x3x1.txt";    
