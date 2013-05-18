@@ -63,7 +63,7 @@ public class NewRowComparator implements Comparator<NewRowEvent> {
 				dataColsHavingOrdering.add(dataColumn); 
 			}
 		}
-		//LOGGER.info("after construction the dataColumnsHavingOrdering is {}", dataColsHavingOrdering);  
+		LOGGER.info("after construction the dataColumnsHavingOrdering is {}", dataColsHavingOrdering);  
 	}
 	
 	/**

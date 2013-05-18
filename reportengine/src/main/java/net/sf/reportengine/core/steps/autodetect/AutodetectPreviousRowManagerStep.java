@@ -1,8 +1,13 @@
 package net.sf.reportengine.core.steps.autodetect;
 
+import java.util.List;
+import java.util.Map;
+
+import net.sf.reportengine.core.algorithm.AlgoInput;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
+import net.sf.reportengine.util.InputKeys;
 
 /**
  * this is just a PreviousRowManagerStep which verifies at runtime if the report has group columns 
@@ -22,8 +27,8 @@ public class AutodetectPreviousRowManagerStep extends PreviousRowManagerStep{
 	/**
 	 * 
 	 */
-	public void init(ReportContext context){
-		super.init(context); 
+	public void init(Map<InputKeys, Object> algoInput, ReportContext context){
+		super.init(algoInput, context); 
 		
 		reportHasGroups = getGroupingColumns() != null && getGroupingColumns().size() > 0;
 	}

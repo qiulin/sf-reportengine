@@ -11,21 +11,24 @@ import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
-import net.sf.reportengine.core.algorithm.Algorithm;
+import net.sf.reportengine.core.algorithm.AlgoInput;
+import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
+import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.OneLoopAlgorithm;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculator;
-import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
+import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
+import net.sf.reportengine.core.steps.OpenReportIOInitStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep;
 import net.sf.reportengine.core.steps.crosstab.IntermediateCrosstabRowMangerStep;
 import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.InputKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +44,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
+class IntermediateCrosstabReport extends AbstractMultiStepAlgoColumnBasedReport {
 	
 	/**
 	 * the one and only logger
@@ -74,7 +77,7 @@ class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
 	 * @param originalDataColsCount
 	 */
 	public IntermediateCrosstabReport(int originalGroupColsCount, int originalDataColsCount){
-		super(new OneLoopAlgorithm()); 
+		super(new LoopThroughReportInputAlgo()); 
 		LOGGER.debug(	"constructing intermediate report algorithm origGrpCols={}, origDataColsCnt{}",
 						originalGroupColsCount, originalDataColsCount);
 		this.originalDataColsCount = originalDataColsCount; 
@@ -86,8 +89,8 @@ class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
 	 */
 	@Override protected void config() {
 		LOGGER.trace("configuring the intermediate crosstab report"); 
-		Algorithm algorithm = getAlgorithm();
-    	ReportContext context = algorithm.getContext();
+		MultiStepAlgo algorithm = getAlgorithm();
+    	//ReportContext context = algorithm.getContext();
     	
     	LOGGER.debug("dataColsIsNull = {}", getDataColumns()==null);
     	//all initial group + data + header columns will be used as group column in this intermediate report
@@ -108,25 +111,34 @@ class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
 		LOGGER.debug("intermediateDataCols= {}", intermediateDataCols); 
 				
 		//setting the input/output
-		algorithm.setIn(getIn());
-		algorithm.setOut(getOut());
+		algorithm.addIn(new AlgoInput(getIn(), InputKeys.REPORT_INPUT));
+		algorithm.addIn(new AlgoInput(getOut(), InputKeys.REPORT_OUTPUT));
 		
 		//context keys specific to a flat report
-		context.set(ContextKeys.DATA_COLUMNS, intermediateDataCols);
-		context.set(ContextKeys.GROUP_COLUMNS, intermediateGroupCols); 
+		//context.set(ContextKeys.DATA_COLUMNS, intermediateDataCols);
+		//context.set(ContextKeys.GROUP_COLUMNS, intermediateGroupCols); 
+		algorithm.addIn(new AlgoInput(intermediateDataCols, InputKeys.DATA_COLS)); 
+		algorithm.addIn(new AlgoInput(intermediateGroupCols, InputKeys.GROUP_COLS)); 
 		
-		context.set(ContextKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
-    	context.set(ContextKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
+		algorithm.addIn(new AlgoInput(Boolean.valueOf(getShowTotals()), InputKeys.SHOW_TOTALS)); 
+		//context.set(ContextKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
+		
+		algorithm.addIn(new AlgoInput(Boolean.valueOf(getShowGrandTotal()), InputKeys.SHOW_GRAND_TOTAL));
+    	//context.set(ContextKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
     	
-    	context.set(ContextKeys.ORIGINAL_CT_DATA_COLS_COUNT, originalDataColsCount);
-    	context.set(ContextKeys.ORIGINAL_CT_GROUP_COLS_COUNT, originalGroupColsCount);
-    	
-		context.set(ContextKeys.CROSSTAB_HEADER_ROWS, getCrosstabHeaderRows()); 
-		context.set(ContextKeys.CROSSTAB_DATA, crosstabData); 
+    	//context.set(ContextKeys.ORIGINAL_CT_DATA_COLS_COUNT, originalDataColsCount);
+		algorithm.addIn(new AlgoInput(originalDataColsCount, InputKeys.ORIGINAL_CT_DATA_COLS_COUNT)); 
+		//context.set(ContextKeys.ORIGINAL_CT_GROUP_COLS_COUNT, originalGroupColsCount);
+    	algorithm.addIn(new AlgoInput(originalGroupColsCount, InputKeys.ORIGINAL_CT_GROUP_COLS_COUNT)); 
+		
+		//context.set(ContextKeys.CROSSTAB_HEADER_ROWS, getCrosstabHeaderRows()); 
+		algorithm.addIn(new AlgoInput(getCrosstabHeaderRows(), InputKeys.CROSSTAB_HEADER_ROWS)); 
+		//context.set(ContextKeys.CROSSTAB_DATA, crosstabData); 
+		algorithm.addIn(new AlgoInput(crosstabData, InputKeys.CROSSTAB_DATA)); 
 		
 		//init steps 
+		algorithm.addInitStep(new OpenReportIOInitStep()); 
 		algorithm.addInitStep(new FlatReportExtractDataInitStep());
-		
 		algorithm.addInitStep(new StartReportInitStep()); 
     	//only for debug
     	//algorithm.addInitStep(new ColumnHeaderOutputInitStep("Intermediate report"));
@@ -151,6 +163,7 @@ class IntermediateCrosstabReport extends AbstractAlgoColumnBasedReport {
     	}
     	
     	algorithm.addExitStep(new EndReportExitStep()); 
+    	algorithm.addExitStep(new CloseReportIOExitStep()); 
 	}
 
 	public List<? extends CrosstabHeaderRow> getCrosstabHeaderRows() {

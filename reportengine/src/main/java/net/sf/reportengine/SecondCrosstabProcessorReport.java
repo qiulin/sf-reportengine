@@ -3,9 +3,11 @@
  */
 package net.sf.reportengine;
 
+import net.sf.reportengine.core.algorithm.AlgoInput;
+import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
+import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.algorithm.ReportContext;
-import net.sf.reportengine.core.algorithm.Algorithm;
-import net.sf.reportengine.core.algorithm.OneLoopAlgorithm;
+import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
@@ -13,12 +15,16 @@ import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
+import net.sf.reportengine.core.steps.OpenReportIOInitStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.core.steps.crosstab.CrosstabHeaderOutputInitStep;
+import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
+import net.sf.reportengine.util.InputKeys;
 
 /**
  * This is for internal use only. 
@@ -26,12 +32,12 @@ import net.sf.reportengine.util.CtMetadata;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-class SecondCrosstabProcessorReport extends AbstractAlgoColumnBasedReport {
+class SecondCrosstabProcessorReport extends AbstractMultiStepAlgoColumnBasedReport {
 	
 	private CtMetadata ctMetadata = null; 
 	
 	public SecondCrosstabProcessorReport(CtMetadata metadata){
-		super(new OneLoopAlgorithm()); 
+		super(new LoopThroughReportInputAlgo()); 
 		this.ctMetadata = metadata; 
 	}
 	
@@ -39,21 +45,22 @@ class SecondCrosstabProcessorReport extends AbstractAlgoColumnBasedReport {
 	 * @see net.sf.reportengine.AbstractReport#configAlgorithmSteps()
 	 */
 	@Override protected void config() {
-		Algorithm algorithm = getAlgorithm();
-    	ReportContext context = algorithm.getContext();
+		MultiStepAlgo algorithm = getAlgorithm();
+    	//ReportContext context = algorithm.getContext();
     	
     	//setting the input/output
-    	algorithm.setIn(getIn());
-    	algorithm.setOut(getOut());
+    	algorithm.addIn(new AlgoInput(getIn(), InputKeys.REPORT_INPUT));
+		algorithm.addIn(new AlgoInput(getOut(), InputKeys.REPORT_OUTPUT));
     	
     	//context keys specific to a flat report
-		context.set(ContextKeys.DATA_COLUMNS, getDataColumns());
-		context.set(ContextKeys.GROUP_COLUMNS, getGroupColumns()); 
-		context.set(ContextKeys.SHOW_TOTALS, getShowTotals());
-    	context.set(ContextKeys.SHOW_GRAND_TOTAL, getShowGrandTotal());
-    	context.set(ContextKeys.CROSSTAB_METADATA, ctMetadata); 
+		algorithm.addIn(new AlgoInput(getDataColumns(), InputKeys.DATA_COLS));
+		algorithm.addIn(new AlgoInput(getGroupColumns(), InputKeys.GROUP_COLS)); 
+		algorithm.addIn(new AlgoInput(getShowTotals(), InputKeys.SHOW_TOTALS));
+		algorithm.addIn(new AlgoInput(getShowGrandTotal(), InputKeys.SHOW_GRAND_TOTAL));
+		algorithm.addIn(new AlgoInput(ctMetadata, InputKeys.CROSSTAB_METADATA)); 
     	
     	//adding steps to the algorithm
+		algorithm.addInitStep(new OpenReportIOInitStep()); 
     	algorithm.addInitStep(new InitReportDataInitStep()); 
     	algorithm.addInitStep(new FlatReportExtractDataInitStep());
     	algorithm.addInitStep(new StartReportInitStep()); 
@@ -76,5 +83,6 @@ class SecondCrosstabProcessorReport extends AbstractAlgoColumnBasedReport {
         }
         
         algorithm.addExitStep(new EndReportExitStep()); 
+        algorithm.addExitStep(new CloseReportIOExitStep()); 
 	}
 }

@@ -4,11 +4,15 @@
  */
 package net.sf.reportengine.core.algorithm;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
+import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.util.InputKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,19 +26,19 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2 
  */
-public class OneLoopAlgorithm extends AbstractAlgorithm {
+public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
     
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(OneLoopAlgorithm.class);	
+	private static final Logger LOGGER = LoggerFactory.getLogger(LoopThroughReportInputAlgo.class);	
     
     
     /**
      * constructor
      * @param context   the report context
      */
-    public OneLoopAlgorithm(){
+    public LoopThroughReportInputAlgo(){
         super();
     }    
     
@@ -45,14 +49,10 @@ public class OneLoopAlgorithm extends AbstractAlgorithm {
     public void execute() {
     	LOGGER.trace("algorithm executing one iteration ");
         
-    	if(getContext().getInput() == null){
-    		throw new RuntimeException("Null input exception");
-        }
-                     
         //opening input
-        openInput();
-        
-        openOutput();
+//        openInput();
+//        
+//        openOutput();
             
         //execution of the init steps
         executeInitSteps();
@@ -62,20 +62,21 @@ public class OneLoopAlgorithm extends AbstractAlgorithm {
         //calling the exit for all registered steps
         executeExitSteps();
         
-        closeOutput();
+//        closeOutput();
+//        
+//        closeInput();
         
-        closeInput();
+        setResultMap(extractResultsFromSteps()); 
     } 
     
     /**
      * execution of init method for each init step
      */
     protected void executeInitSteps() {
-    	ReportContext context = getContext();
     	List<AlgorithmInitStep> initSteps = getInitSteps();
     	
         for(AlgorithmInitStep initStep: initSteps){
-            initStep.init(context);
+            initStep.init(getInput(), getContext());
         } 
     } 
     
@@ -86,17 +87,18 @@ public class OneLoopAlgorithm extends AbstractAlgorithm {
     protected void executeMainSteps() {
     	ReportContext context = getContext();
     	List<AlgorithmMainStep> mainSteps = getMainSteps();
+    	ReportInput reportInput = (ReportInput)getInput().get(InputKeys.REPORT_INPUT);
     	
     	//call init for each step
         for(AlgorithmMainStep mainStep: mainSteps){
-            mainStep.init(context);
+            mainStep.init(getInput(), getContext());
         } 
         
         //iteration through input data (row by row)
-        while(context.getInput().hasMoreRows()){
+        while(reportInput.hasMoreRows()){
         	
             //get the current data row 
-            List<Object> currentRow = context.getInput().nextRow();
+            List<Object> currentRow = reportInput.nextRow();
                 
             //then we pass the dataRow through all the report steps
             for(AlgorithmMainStep algoStep: mainSteps){
@@ -106,7 +108,7 @@ public class OneLoopAlgorithm extends AbstractAlgorithm {
         
         //call exit
         for(AlgorithmMainStep mainStep: mainSteps){
-           mainStep.exit(context);
+           mainStep.exit(getInput(), context);
         }
     }
     
@@ -116,7 +118,21 @@ public class OneLoopAlgorithm extends AbstractAlgorithm {
     protected void executeExitSteps(){
     	List<AlgorithmExitStep> exitSteps = getExitSteps();
     	for(AlgorithmExitStep exitStep: exitSteps){
-    	   exitStep.exit(getContext());
+    	   exitStep.exit(getInput(), getContext());
     	}    
     } 
+    
+    /**
+     * 
+     * @return
+     */
+    private Map<String, Object> extractResultsFromSteps(){
+    	Map<String, Object> result = new HashMap<String, Object>(); 
+    	for (AlgorithmMainStep step : getMainSteps()) {
+			if(step.getResultsMap() != null){
+				result.putAll(step.getResultsMap()); 
+			}
+		}
+    	return result; 
+    }
 }

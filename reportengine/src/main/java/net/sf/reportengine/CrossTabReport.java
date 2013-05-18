@@ -18,6 +18,7 @@ import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessGroupColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
 import net.sf.reportengine.core.ConfigValidationException;
+import net.sf.reportengine.core.algorithm.AlgoResult;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.IntermediateCrosstabReportInput;
@@ -97,7 +98,7 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	private static final Logger LOGGER = LoggerFactory.getLogger(CrossTabReport.class);
 	
 	/**
-	 * the intermediate report in charge of : 
+	 * the intermediate report is in charge of : 
 	 * 	1. discovering the distinct values for the header 
 	 *  2. arranging the initial crosstab data into rows for the second report
 	 *  3. computing totals on the crosstab data.
@@ -199,9 +200,14 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 		try{
 			//transfer data from first report to the second 
 			//TODO: Move this in the transfer method and improve
-			ReportContext firstReportContext = firstReport.getAlgorithm().getContext(); 
+			
+			//ReportContext firstReportContext = firstReport.getAlgorithm().getContext(); 
+			//IDistinctValuesHolder distinctValuesHolder = 
+			//	(IDistinctValuesHolder)firstReportContext.get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+			
 			IDistinctValuesHolder distinctValuesHolder = 
-				(IDistinctValuesHolder)firstReportContext.get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+					(IDistinctValuesHolder)firstReport.getAlgorithm().getResult("intermediateDistictValuesHolder"); 
+			
 			CtMetadata crosstabMetadata = new CtMetadata(distinctValuesHolder);
 			crosstabMetadata.computeCoefficients(); 
 			

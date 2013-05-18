@@ -4,6 +4,7 @@
 package net.sf.reportengine.core.steps.crosstab;
 
 import java.util.List;
+import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
@@ -11,7 +12,6 @@ import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.SecondProcessDataColumn;
 import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
-import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.out.CellProps;
@@ -19,6 +19,7 @@ import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
+import net.sf.reportengine.util.InputKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,12 +40,12 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)
 	 */
-	public void init(ReportContext reportContext) {
-		ReportOutput reportOutput = (ReportOutput)reportContext.getOutput();
-		List<DataColumn> dataColumns = (List<DataColumn>)reportContext.get(ContextKeys.DATA_COLUMNS);
-		List<GroupColumn> groupColumns = (List<GroupColumn>)reportContext.get(ContextKeys.GROUP_COLUMNS); 
-		//CrosstabHeaderRow[] headerRows = (CrosstabHeaderRow[])reportContext.get(ContextKeys.CROSSTAB_HEADER_ROWS); 
-		CtMetadata ctMetadata = (CtMetadata)reportContext.get(ContextKeys.CROSSTAB_METADATA);
+	public void init(Map<InputKeys, Object> algoInput, ReportContext reportContext) {
+		ReportOutput reportOutput = (ReportOutput)algoInput.get(InputKeys.REPORT_OUTPUT);
+		List<DataColumn> dataColumns = (List<DataColumn>)algoInput.get(InputKeys.DATA_COLS);
+		List<GroupColumn> groupColumns = (List<GroupColumn>)algoInput.get(InputKeys.GROUP_COLS); 
+		
+		CtMetadata ctMetadata = (CtMetadata)algoInput.get(InputKeys.CROSSTAB_METADATA);
 		
 		//display header rows
 		outputHeaderRows(reportOutput, ctMetadata, dataColumns, groupColumns); 

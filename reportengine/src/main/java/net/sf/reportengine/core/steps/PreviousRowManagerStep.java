@@ -28,22 +28,14 @@ public class PreviousRowManagerStep extends AbstractReportStep {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(PreviousRowManagerStep.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PreviousRowManagerStep.class);
+	
 	/**
 	 * reference to the last row (this is very helpful since this class makes 
 	 * comparisons between the current row and the last row
 	 */
 	private Object[] previousRowOfGroupingColumnValues;
     
-    /**
-     * 
-     */
-	public void init(ReportContext reportContext){
-		super.init(reportContext);
-		
-		
-	}
 	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.AbstractReportStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)

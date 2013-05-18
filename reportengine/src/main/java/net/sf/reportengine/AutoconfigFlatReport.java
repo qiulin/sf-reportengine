@@ -6,15 +6,19 @@ package net.sf.reportengine;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.reportengine.core.algorithm.AlgoInput;
 import net.sf.reportengine.core.algorithm.Algorithm;
-import net.sf.reportengine.core.algorithm.OneLoopAlgorithm;
+import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
+import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
+import net.sf.reportengine.core.steps.OpenReportIOInitStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectFlatReportTotalsOutputStep;
@@ -22,6 +26,7 @@ import net.sf.reportengine.core.steps.autodetect.AutodetectPreviousRowManagerSte
 import net.sf.reportengine.core.steps.autodetect.AutodetectTotalsCalculatorStep;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.InputKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +51,7 @@ public class AutoconfigFlatReport extends AbstractReport {
     /**
      * the algorithm that holds all report steps
      */
-    private Algorithm algorithm = new OneLoopAlgorithm(); 
+    private MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(); 
     
     /**
      * default constructor
@@ -67,18 +72,24 @@ public class AutoconfigFlatReport extends AbstractReport {
      */
     @Override protected void config(){
     	LOGGER.trace("configuring the autodetect flat report"); 
-    	ReportContext context = algorithm.getContext();
+    	//ReportContext context = algorithm.getContext();
     	
     	//preparing the context of the report algorithm 
-    	algorithm.setIn(getIn());
-    	algorithm.setOut(getOut());
+    	algorithm.addIn(new AlgoInput(getIn(), InputKeys.REPORT_INPUT));
+		algorithm.addIn(new AlgoInput(getOut(), InputKeys.REPORT_OUTPUT));
     	
-    	context.set(ContextKeys.USER_COLUMN_PREFERENCES, userColumnPrefs);
-    	context.set(ContextKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
-    	context.set(ContextKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
+    	//context.set(ContextKeys.USER_COLUMN_PREFERENCES, userColumnPrefs);
+		algorithm.addIn(new AlgoInput(userColumnPrefs, InputKeys.USER_COLUMN_PREFERENCES)); 
+		
+    	//context.set(ContextKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
+		algorithm.addIn(new AlgoInput(getShowTotals(), InputKeys.SHOW_TOTALS)); 
+		
+    	//context.set(ContextKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
+		algorithm.addIn(new AlgoInput(getShowGrandTotal(), InputKeys.SHOW_GRAND_TOTAL)); 
     	
     	//adding steps to the algorithm :
     	//we start with the init steps
+		algorithm.addInitStep(new OpenReportIOInitStep()); 
     	algorithm.addInitStep(new InitReportDataInitStep()); 
     	algorithm.addInitStep(new AutodetectConfigInitStep()); 
     	algorithm.addInitStep(new FlatReportExtractDataInitStep());
@@ -88,7 +99,6 @@ public class AutoconfigFlatReport extends AbstractReport {
     	//then we add the main steps
     	algorithm.addMainStep(new GroupingLevelDetectorStep());
     	
-        
         algorithm.addMainStep(new AutodetectFlatReportTotalsOutputStep());
         algorithm.addMainStep(new AutodetectTotalsCalculatorStep());
         
@@ -100,6 +110,7 @@ public class AutoconfigFlatReport extends AbstractReport {
         algorithm.addMainStep(new AutodetectPreviousRowManagerStep());
         
         algorithm.addExitStep(new EndReportExitStep()); 
+        algorithm.addExitStep(new CloseReportIOExitStep()); 
     }
 	
 	/**

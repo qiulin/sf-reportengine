@@ -5,33 +5,22 @@ package net.sf.reportengine;
 
 import java.text.NumberFormat;
 
-import junit.framework.TestCase;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.SqlInput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.scenarios.AutodetectConfigurationScenario;
 
+import org.junit.Test;
+
 /**
  * @author dragos balan (dragos dot balan at gmail dot com)
  *
  */
-public class TestAutodetectFlatReport extends TestCase {
+public class TestAutodetectFlatReport {
 
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-
+	
+	@Test
 	public void testAutodetectColumnsFromMetadata(){
 		AutoconfigFlatReport flatReport = new AutoconfigFlatReport(); 
 		
@@ -42,7 +31,7 @@ public class TestAutodetectFlatReport extends TestCase {
 		flatReport.execute(); 
 	}
 	
-	
+	@Test
 	public void testAutodetectColumnsFromMetadataAndPreferences(){
 		AutoconfigFlatReport flatReport = new AutoconfigFlatReport(); 
 		
@@ -55,6 +44,7 @@ public class TestAutodetectFlatReport extends TestCase {
 		flatReport.execute(); 
 	}
 	
+	@Test
 	public void testAutodetectFromDatabase(){
 		AutoconfigFlatReport flatReport = new AutoconfigFlatReport(); 
 		SqlInput input = new SqlInput(); 
@@ -69,6 +59,7 @@ public class TestAutodetectFlatReport extends TestCase {
 		flatReport.execute();
 	}
 	
+	@Test
 	public void testAutodetectFromDatabaseWithUserPrefs(){
 		AutoconfigFlatReport flatReport = new AutoconfigFlatReport(); 
 		SqlInput input = new SqlInput(); 

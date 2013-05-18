@@ -3,7 +3,10 @@
  */
 package net.sf.reportengine.core.algorithm.steps;
 
+import java.util.Map;
+
 import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.util.InputKeys;
 
 /**
  * <p>
@@ -22,7 +25,7 @@ public interface AlgorithmInitStep {
      *  
      * @param reportContext     the context of the report
      */
-    public void init(ReportContext reportContext);
+    public void init(Map<InputKeys, Object> algoInput, ReportContext reportContext);
     
     
 

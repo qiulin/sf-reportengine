@@ -6,11 +6,11 @@ package net.sf.reportengine.in;
 import java.io.InputStream;
 import java.util.List;
 
+import junit.framework.TestCase;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedDataList;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedTotalsList;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalDataColsList;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalGroupValuesList;
-import net.sf.reportengine.test.ReportengineTC;
 import net.sf.reportengine.util.ReportIoUtils;
 
 /**
@@ -18,7 +18,7 @@ import net.sf.reportengine.util.ReportIoUtils;
  * @author dragos balan
  *
  */
-public class TestIntermediateReportInput extends ReportengineTC {
+public class TestIntermediateReportInput extends TestCase {
 	
 	private IntermediateCrosstabReportInput classUnderTest = null; 
 	

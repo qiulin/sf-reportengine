@@ -4,6 +4,7 @@
 package net.sf.reportengine;
 
 import net.sf.reportengine.core.algorithm.Algorithm;
+import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 
 /**
  * abstract parent class for reports relying on one single iteration over the provided data
@@ -12,18 +13,18 @@ import net.sf.reportengine.core.algorithm.Algorithm;
  * @since 0.4
  * @see FlatReport
  */
-abstract class AbstractAlgoColumnBasedReport extends AbstractColumnBasedReport {
+abstract class AbstractMultiStepAlgoColumnBasedReport extends AbstractColumnBasedReport {
 	
 	/**
      * the algorithm behind the report
      */
-    private Algorithm algorithm ;
+    private MultiStepAlgo algorithm ;
 	
     /**
      * 
      * @param algo
      */
-    public AbstractAlgoColumnBasedReport(Algorithm algo) {
+    public AbstractMultiStepAlgoColumnBasedReport(MultiStepAlgo algo) {
     	this.algorithm = algo; 
 	}
     
@@ -49,7 +50,7 @@ abstract class AbstractAlgoColumnBasedReport extends AbstractColumnBasedReport {
 	 * 
 	 * @return
 	 */
-	protected Algorithm getAlgorithm(){
+	protected MultiStepAlgo getAlgorithm(){
 		return algorithm; 
 	}	
 }

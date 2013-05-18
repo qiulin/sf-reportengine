@@ -5,18 +5,21 @@
 package net.sf.reportengine.core.steps;
 
 import java.util.List;
+import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.ReportContent;
+import net.sf.reportengine.core.algorithm.AlgoInput;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
+import net.sf.reportengine.util.InputKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,8 +76,8 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     /**
      * init method 
      */
-    public void init(ReportContext reportContext){
-    	super.init(reportContext);
+    public void init(Map<InputKeys, Object> algoInput, ReportContext reportContext){
+    	super.init(algoInput, reportContext);
     	
     	groupCols = getGroupingColumns();
     	dataCols = getDataColumns(); 
@@ -105,7 +108,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     /**
      * exit displays the last totals in the calculator matrix buffer and the grand total
      */
-    public void exit(ReportContext context) {
+    public void exit(Map<InputKeys,Object> algoInput, ReportContext context) {
         Calculator[][] calculators = getCalculatorMatrix();
         
         if(groupCols != null){
@@ -122,7 +125,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
         					);	
         }
         
-        super.exit(context);
+        super.exit(algoInput,context);
     }
     
     /**
