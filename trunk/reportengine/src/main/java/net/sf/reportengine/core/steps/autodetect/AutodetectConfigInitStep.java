@@ -8,13 +8,13 @@ import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.in.ColumnMetadata;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
 
 import org.slf4j.Logger;
@@ -34,11 +34,11 @@ public class AutodetectConfigInitStep implements AlgorithmInitStep {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AutodetectConfigInitStep.class);
 
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)
+	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(net.sf.reportengine.core.algorithm.AlgorithmContext)
 	 */
-	public void init(Map<InputKeys,Object> algoInput, ReportContext reportContext) {
-		ReportInput input = (ReportInput)algoInput.get(InputKeys.REPORT_INPUT); 
-		Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)algoInput.get(InputKeys.USER_COLUMN_PREFERENCES);
+	public void init(Map<IOKeys,Object> algoInput, AlgorithmContext reportContext) {
+		ReportInput input = (ReportInput)algoInput.get(IOKeys.REPORT_INPUT); 
+		Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)algoInput.get(IOKeys.USER_COLUMN_PREFERENCES);
 		
 		LOGGER.info("Autodetecting the columns based on user preferences and input metadata"); 
 		
@@ -61,14 +61,14 @@ public class AutodetectConfigInitStep implements AlgorithmInitStep {
 		//reportContext.set(ContextKeys.DATA_COLUMNS, dataColumns);
 		//reportContext.set(ContextKeys.GROUP_COLUMNS, groupColumns); 
 		
-		algoInput.put(InputKeys.DATA_COLS, dataColumns) ;
-		algoInput.put(InputKeys.GROUP_COLS, groupColumns); 
+		algoInput.put(IOKeys.DATA_COLS, dataColumns) ;
+		algoInput.put(IOKeys.GROUP_COLS, groupColumns); 
 		
 		boolean reportHasCalculators = ReportUtils.atLeastOneDataColumHasCalculators(dataColumns);
 		//reportContext.set(ContextKeys.DETECTED_SHOW_TOTALS, reportHasCalculators); 
 		//reportContext.set(ContextKeys.DETECTED_SHOW_GRAND_TOTAL, reportHasCalculators); 
 		
-		algoInput.put(InputKeys.SHOW_TOTALS, reportHasCalculators); 
-		algoInput.put(InputKeys.SHOW_GRAND_TOTAL, reportHasCalculators);
+		algoInput.put(IOKeys.SHOW_TOTALS, reportHasCalculators); 
+		algoInput.put(IOKeys.SHOW_GRAND_TOTAL, reportHasCalculators);
 	}
 }

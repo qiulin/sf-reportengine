@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
-import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 /**
  * extracts some useful data to be used by the next steps in the report. 
@@ -46,8 +46,8 @@ public class FlatReportExtractDataInitStep implements AlgorithmInitStep {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)
 	 */
-	public void init(Map<InputKeys, Object> algoInput, ReportContext reportContext) {
-		List<DataColumn> dataCols = (List<DataColumn>)algoInput.get(InputKeys.DATA_COLS);
+	public void init(Map<IOKeys, Object> algoInput, AlgorithmContext reportContext) {
+		List<DataColumn> dataCols = (List<DataColumn>)algoInput.get(IOKeys.DATA_COLS);
 		calculatorsDistributionInDataColumnsArray = 
 				extractDistributionOfCalculatorsAcrossColumns(dataCols); 
 		reportContext.set(	ContextKeys.DISTRIBUTION_OF_CALCULATORS, 

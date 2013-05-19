@@ -9,12 +9,12 @@ import java.util.List;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.steps.AbstractAlgorithmStep;
+import net.sf.reportengine.core.algorithm.steps.AbstractAlgoMainStep;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 /**
  * <p>
@@ -24,7 +24,7 @@ import net.sf.reportengine.util.InputKeys;
  * @author dragos balan
  * @since 0.2
  */
-public abstract class AbstractReportStep extends AbstractAlgorithmStep{
+public abstract class AbstractReportStep extends AbstractAlgoMainStep{
 	
 	/**
 	 * constant for grand total grouping level
@@ -92,12 +92,8 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
      * @return
      */
     public ReportOutput getOutput(){
-    	return (ReportOutput)getInput().get(InputKeys.REPORT_OUTPUT); 
+    	return (ReportOutput)getInput().get(IOKeys.REPORT_OUTPUT); 
     }
-    
-//    public Object[] getComputedCellValues(){
-//    	return (Object[])getContext().get(ContextKeys.COMPUTED_CELL_VALUES);
-//    }
     
 	public String[] getFormattedCellValues(){
     	return (String[])getContext().get(ContextKeys.FORMATTED_CELL_VALUES);
@@ -105,15 +101,15 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     
     
     public boolean getShowGrandTotal(){
-    	return (Boolean)getInput().get(InputKeys.SHOW_GRAND_TOTAL);
+    	return (Boolean)getInput().get(IOKeys.SHOW_GRAND_TOTAL);
     }
     
     public boolean getShowTotals(){
-    	return (Boolean)getInput().get(InputKeys.SHOW_TOTALS);
+    	return (Boolean)getInput().get(IOKeys.SHOW_TOTALS);
     }
     
     public List<GroupColumn> getGroupingColumns(){
-    	return (List<GroupColumn>)getInput().get(InputKeys.GROUP_COLS);
+    	return (List<GroupColumn>)getInput().get(IOKeys.GROUP_COLS);
     }
     
     public int getGroupingColumnsLength(){
@@ -121,7 +117,7 @@ public abstract class AbstractReportStep extends AbstractAlgorithmStep{
     }
     
     public List<DataColumn> getDataColumns(){
-    	return (List<DataColumn>)getInput().get(InputKeys.DATA_COLS);
+    	return (List<DataColumn>)getInput().get(IOKeys.DATA_COLS);
     }
     
     public Object[] getPreviousRowOfGroupingValues(){

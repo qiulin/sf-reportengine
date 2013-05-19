@@ -6,14 +6,14 @@ package net.sf.reportengine.core.steps;
 import java.util.EnumMap;
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.DefaultReportContext;
+import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.MatrixUtils;
 
 import org.junit.Assert;
@@ -33,24 +33,24 @@ public class TestTotalsOutputStep  {
 	@Test
 	public void testExecuteScenario1() {
 		FlatReportTotalsOutputStep classUnderTest = new FlatReportTotalsOutputStep();
-		ReportContext mockReportContext = new DefaultReportContext(); 
-		Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class);
+		AlgorithmContext mockReportContext = new DefaultAlgorithmContext(); 
+		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		CellPropsArrayOutput mockOutput = new CellPropsArrayOutput(); 
 		
 		//simulate the level detector
 		//reportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS); 
 		//reportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
         //reportContext.set(ContextKeys.SHOW_GRAND_TOTAL, Scenario1.SHOW_GRAND_TOTAL);
-		mockAlgoInput.put(InputKeys.REPORT_OUTPUT, mockOutput);
-        mockAlgoInput.put(InputKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
-        mockAlgoInput.put(InputKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
-        mockAlgoInput.put(InputKeys.SHOW_GRAND_TOTAL, Scenario1.SHOW_GRAND_TOTAL); 
+		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
+        mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
+        mockAlgoInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
+        mockAlgoInput.put(IOKeys.SHOW_GRAND_TOTAL, Scenario1.SHOW_GRAND_TOTAL); 
         
         
         mockReportContext.set(ContextKeys.DISTRIBUTION_OF_CALCULATORS, Scenario1.DISTRIBUTION_OF_CALCULATOR_IN_DATA_ROW_ARRAY); 
         mockReportContext.set(ContextKeys.DATA_ROW_COUNT, 0); 
         
-        mockAlgoInput.put(InputKeys.REPORT_INPUT, Scenario1.INPUT); 
+        mockAlgoInput.put(IOKeys.REPORT_INPUT, Scenario1.INPUT); 
 		classUnderTest.init(mockAlgoInput, mockReportContext);
 		
 		NewRowEvent dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_1);

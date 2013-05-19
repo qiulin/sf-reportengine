@@ -12,7 +12,7 @@ import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -33,16 +33,16 @@ public class TestOneIterationAlgorithm {
 	private CellPropsArrayOutput testOut = new CellPropsArrayOutput();
 	
 	private AlgorithmInitStep testInitStep = new AlgorithmInitStep(){
-		public void init(Map<InputKeys, Object> algoInput, ReportContext context){
+		public void init(Map<IOKeys, Object> algoInput, AlgorithmContext context){
 			context.set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(0));
 		}
 	};
 	
 	private AlgorithmMainStep testMainStep = new AlgorithmMainStep(){
-		private ReportContext context = null;
-		private Map<InputKeys, Object> algoInput = null; 
+		private AlgorithmContext context = null;
+		private Map<IOKeys, Object> algoInput = null; 
 		
-		public void init(Map<InputKeys, Object> algoInput, ReportContext context){
+		public void init(Map<IOKeys, Object> algoInput, AlgorithmContext context){
 			this.context = context;
 			//this.context.set("isInitCalledOnMainStep", true);
 			this.context.set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(1));
@@ -57,9 +57,9 @@ public class TestOneIterationAlgorithm {
 			context.set(ContextKeys.NEW_GROUPING_LEVEL, executionCounts+1);
 		}
 		
-		public void exit(Map<InputKeys,Object> algoInput, ReportContext context){}
+		public void exit(Map<IOKeys,Object> algoInput, AlgorithmContext context){}
 		
-		public Map<String, Object> getResultsMap(){
+		public Map<IOKeys, Object> getResultsMap(){
 			return null; 
 		}
 	};
@@ -74,8 +74,8 @@ public class TestOneIterationAlgorithm {
 	public void setUp() throws Exception {
 		classUnderTest = new LoopThroughReportInputAlgo();
 		
-		classUnderTest.addIn(new AlgoInput(testInput, InputKeys.REPORT_INPUT)); 
-		classUnderTest.addIn(new AlgoInput(testOut, InputKeys.REPORT_OUTPUT)); 
+		classUnderTest.addIn(IOKeys.REPORT_INPUT, testInput); 
+		classUnderTest.addIn(IOKeys.REPORT_OUTPUT, testOut); 
 		
 		classUnderTest.addInitStep(testInitStep);
 		classUnderTest.addMainStep(testMainStep);

@@ -12,7 +12,7 @@ import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,11 +49,6 @@ public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
     public void execute() {
     	LOGGER.trace("algorithm executing one iteration ");
         
-        //opening input
-//        openInput();
-//        
-//        openOutput();
-            
         //execution of the init steps
         executeInitSteps();
             
@@ -61,10 +56,6 @@ public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
         
         //calling the exit for all registered steps
         executeExitSteps();
-        
-//        closeOutput();
-//        
-//        closeInput();
         
         setResultMap(extractResultsFromSteps()); 
     } 
@@ -85,9 +76,9 @@ public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
      * 3. calls the exit method for each main step
      */
     protected void executeMainSteps() {
-    	ReportContext context = getContext();
+    	AlgorithmContext context = getContext();
     	List<AlgorithmMainStep> mainSteps = getMainSteps();
-    	ReportInput reportInput = (ReportInput)getInput().get(InputKeys.REPORT_INPUT);
+    	ReportInput reportInput = (ReportInput)getInput().get(IOKeys.REPORT_INPUT);
     	
     	//call init for each step
         for(AlgorithmMainStep mainStep: mainSteps){
@@ -126,8 +117,8 @@ public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
      * 
      * @return
      */
-    private Map<String, Object> extractResultsFromSteps(){
-    	Map<String, Object> result = new HashMap<String, Object>(); 
+    private Map<IOKeys, Object> extractResultsFromSteps(){
+    	Map<IOKeys, Object> result = new HashMap<IOKeys, Object>(); 
     	for (AlgorithmMainStep step : getMainSteps()) {
 			if(step.getResultsMap() != null){
 				result.putAll(step.getResultsMap()); 

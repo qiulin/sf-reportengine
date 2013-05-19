@@ -10,13 +10,13 @@ import java.util.Map;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
-import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.out.TitleProps;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,15 +58,15 @@ public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
     /**
      * 
      */
-    public void init(Map<InputKeys, Object> algoInput, ReportContext reportContext){
+    public void init(Map<IOKeys, Object> algoInput, AlgorithmContext reportContext){
     	LOGGER.trace("initializing the column header step: output title and column headers");
-    	List<DataColumn> dataCols = (List<DataColumn>)algoInput.get(InputKeys.DATA_COLS);
-    	List<GroupColumn> groupCols = (List<GroupColumn>)algoInput.get(InputKeys.GROUP_COLS); 
+    	List<DataColumn> dataCols = (List<DataColumn>)algoInput.get(IOKeys.DATA_COLS);
+    	List<GroupColumn> groupCols = (List<GroupColumn>)algoInput.get(IOKeys.GROUP_COLS); 
     	
     	int outputColumnsCnt = dataCols.size() + (groupCols != null ? groupCols.size() : 0); 
     	
     	//output the title
-    	ReportOutput output = (ReportOutput)algoInput.get(InputKeys.REPORT_OUTPUT);
+    	ReportOutput output = (ReportOutput)algoInput.get(IOKeys.REPORT_OUTPUT);
         if(reportTitle != null){
         	output.outputTitle(new TitleProps(reportTitle, outputColumnsCnt));
         }

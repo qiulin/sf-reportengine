@@ -11,11 +11,9 @@ import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
-import net.sf.reportengine.core.algorithm.AlgoInput;
 import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
@@ -27,8 +25,7 @@ import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep;
 import net.sf.reportengine.core.steps.crosstab.IntermediateCrosstabRowMangerStep;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,7 +87,7 @@ class IntermediateCrosstabReport extends AbstractMultiStepAlgoColumnBasedReport 
 	@Override protected void config() {
 		LOGGER.trace("configuring the intermediate crosstab report"); 
 		MultiStepAlgo algorithm = getAlgorithm();
-    	//ReportContext context = algorithm.getContext();
+    	//AlgorithmContext context = algorithm.getContext();
     	
     	LOGGER.debug("dataColsIsNull = {}", getDataColumns()==null);
     	//all initial group + data + header columns will be used as group column in this intermediate report
@@ -111,30 +108,18 @@ class IntermediateCrosstabReport extends AbstractMultiStepAlgoColumnBasedReport 
 		LOGGER.debug("intermediateDataCols= {}", intermediateDataCols); 
 				
 		//setting the input/output
-		algorithm.addIn(new AlgoInput(getIn(), InputKeys.REPORT_INPUT));
-		algorithm.addIn(new AlgoInput(getOut(), InputKeys.REPORT_OUTPUT));
+		algorithm.addIn(IOKeys.REPORT_INPUT, getIn());
+		algorithm.addIn(IOKeys.REPORT_OUTPUT, getOut());
 		
 		//context keys specific to a flat report
-		//context.set(ContextKeys.DATA_COLUMNS, intermediateDataCols);
-		//context.set(ContextKeys.GROUP_COLUMNS, intermediateGroupCols); 
-		algorithm.addIn(new AlgoInput(intermediateDataCols, InputKeys.DATA_COLS)); 
-		algorithm.addIn(new AlgoInput(intermediateGroupCols, InputKeys.GROUP_COLS)); 
-		
-		algorithm.addIn(new AlgoInput(Boolean.valueOf(getShowTotals()), InputKeys.SHOW_TOTALS)); 
-		//context.set(ContextKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
-		
-		algorithm.addIn(new AlgoInput(Boolean.valueOf(getShowGrandTotal()), InputKeys.SHOW_GRAND_TOTAL));
-    	//context.set(ContextKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
-    	
-    	//context.set(ContextKeys.ORIGINAL_CT_DATA_COLS_COUNT, originalDataColsCount);
-		algorithm.addIn(new AlgoInput(originalDataColsCount, InputKeys.ORIGINAL_CT_DATA_COLS_COUNT)); 
-		//context.set(ContextKeys.ORIGINAL_CT_GROUP_COLS_COUNT, originalGroupColsCount);
-    	algorithm.addIn(new AlgoInput(originalGroupColsCount, InputKeys.ORIGINAL_CT_GROUP_COLS_COUNT)); 
-		
-		//context.set(ContextKeys.CROSSTAB_HEADER_ROWS, getCrosstabHeaderRows()); 
-		algorithm.addIn(new AlgoInput(getCrosstabHeaderRows(), InputKeys.CROSSTAB_HEADER_ROWS)); 
-		//context.set(ContextKeys.CROSSTAB_DATA, crosstabData); 
-		algorithm.addIn(new AlgoInput(crosstabData, InputKeys.CROSSTAB_DATA)); 
+		algorithm.addIn(IOKeys.DATA_COLS, intermediateDataCols); 
+		algorithm.addIn(IOKeys.GROUP_COLS, intermediateGroupCols); 
+		algorithm.addIn(IOKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals())); 
+		algorithm.addIn(IOKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
+		algorithm.addIn(IOKeys.ORIGINAL_CT_DATA_COLS_COUNT, originalDataColsCount); 
+    	algorithm.addIn(IOKeys.ORIGINAL_CT_GROUP_COLS_COUNT, originalGroupColsCount); 
+		algorithm.addIn(IOKeys.CROSSTAB_HEADER_ROWS, getCrosstabHeaderRows()); 
+		algorithm.addIn(IOKeys.CROSSTAB_DATA, crosstabData); 
 		
 		//init steps 
 		algorithm.addInitStep(new OpenReportIOInitStep()); 

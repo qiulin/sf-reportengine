@@ -1,15 +1,14 @@
 package net.sf.reportengine.core.steps.crosstab;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.DistinctValuesHolder;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 
 /**
@@ -50,14 +49,16 @@ public class CrosstabDistinctValuesDetectorStep extends AbstractCrosstabStep {
      * 
      */
 	@Override
-    public void init(	Map<InputKeys, Object> algoInput, 
-    					ReportContext algoContext){
+    public void init(	Map<IOKeys, Object> algoInput, 
+    					AlgorithmContext algoContext){
 		
         super.init(algoInput, algoContext);
         List<CrosstabHeaderRow> headerRows = getCrosstabHeaderRows();
         distinctValuesHolder = new DistinctValuesHolder(headerRows);
         
         algoContext.set(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER, distinctValuesHolder);
+        
+        addResult(IOKeys.DISTINCT_VALUES_HOLDER, distinctValuesHolder); 
     }
 	
 	
@@ -86,11 +87,5 @@ public class CrosstabDistinctValuesDetectorStep extends AbstractCrosstabStep {
 		getContext().set(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO, 
 						new IntermediateDataInfo(getCrosstabData().getValue(newRowEvent), 
 												currDataValueRelativePositionToHeaderValues)); 
-	}
-	
-	@Override public Map<String, Object> getResultsMap(){
-		Map<String, Object> result = new HashMap<String, Object>(); 
-		result.put("intermediateDistictValuesHolder", distinctValuesHolder);
-		return result; 
 	}
 }
