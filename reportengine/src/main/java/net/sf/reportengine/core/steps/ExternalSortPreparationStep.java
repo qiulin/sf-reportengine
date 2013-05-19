@@ -75,6 +75,8 @@ public class ExternalSortPreparationStep extends AbstractReportStep{
 		super.init(algoInput, context); 
 		
 		COMPARATOR = new NewRowComparator(getGroupingColumns(), getDataColumns()); 
+		
+		addResult(IOKeys.SORTED_FILES, sortedFiles); 
 	}
 	
 	/**
@@ -111,6 +113,9 @@ public class ExternalSortPreparationStep extends AbstractReportStep{
 		}
 		
 		context.set(ContextKeys.SORTED_FILES, sortedFiles); 
+		
+		tempValuesHolderList.clear();
+		tempValuesHolderList = null; 
 		
 		super.exit(algoInput, context);
 	}

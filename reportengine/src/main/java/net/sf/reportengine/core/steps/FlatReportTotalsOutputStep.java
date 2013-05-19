@@ -91,7 +91,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
         int aggLevel = getGroupingLevel();
         
         //when non simple data row 
-        if( aggLevel >= 0){
+        if( aggLevel >= 0 && getShowTotals()){
         	int totalRowEnd = computeCalcRowNumberForAggLevel(aggLevel);
         	//TODO: this operation is the opposite of computeAggLevelForCalcRowNumber which is 
         	//called inside outputTotalRowsFromTo. One of them should be deleted.
@@ -109,7 +109,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     public void exit(Map<IOKeys,Object> algoInput, AlgorithmContext context) {
         Calculator[][] calculators = getCalculatorMatrix();
         
-        if(groupCols != null){
+        if(groupCols != null && getShowTotals()){
         	//calculators.length-2 because for levelCalculators.lenght-1 is a separate call
         	//(a call for Grand total see below)
         	outputTotalRowsFromTo(0, calculators.length-2);

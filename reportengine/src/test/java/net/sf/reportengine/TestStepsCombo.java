@@ -169,6 +169,6 @@ public class TestStepsCombo  {
 									cumulativeReportOutput.getHeaderCellMatrix()); 
 		
 		CellProps[][] result = cumulativeReportOutput.getDataCellMatrix();
-		MatrixUtils.compareMatrices(result, Scenario1.EXPECTED_OUTPUT);
+		MatrixUtils.compareMatrices(result, Scenario1.EXPECTED_OUTPUT_UNSORTED);
 	}
 }

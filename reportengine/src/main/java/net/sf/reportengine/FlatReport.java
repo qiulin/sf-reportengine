@@ -10,12 +10,15 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.Algorithm;
+import net.sf.reportengine.core.algorithm.AlgorithmContainer;
 import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
+import net.sf.reportengine.core.steps.DecideInputInitStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
+import net.sf.reportengine.core.steps.ExternalSortPreparationStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
@@ -87,16 +90,15 @@ public class FlatReport extends AbstractColumnBasedReport {
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(FlatReport.class);
     
-	
-	private MultiStepAlgo reportAlgo = new LoopThroughReportInputAlgo(); 
-	
-	private Algorithm sortingAlgo = new LoopThroughReportInputAlgo(); 
+	/**
+	 * 
+	 */
+	private AlgorithmContainer reportAlgoContainer = new AlgorithmContainer(); 
 	
     /**
      * default constructor
      */
     public FlatReport(){
-    	super(); 
     }
     
     
@@ -107,15 +109,37 @@ public class FlatReport extends AbstractColumnBasedReport {
     	LOGGER.trace("configuring flat report"); 
     	
     	//preparing the context of the report reportAlgo 
-    	reportAlgo.addIn(IOKeys.REPORT_INPUT, getIn());
-    	reportAlgo.addIn(IOKeys.REPORT_OUTPUT, getOut());
-    	reportAlgo.addIn(IOKeys.DATA_COLS, getDataColumns()); 
-    	reportAlgo.addIn(IOKeys.GROUP_COLS, getGroupColumns()); 
-    	reportAlgo.addIn(IOKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals())); 
-    	reportAlgo.addIn(IOKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal())); 
+    	reportAlgoContainer.addIn(IOKeys.REPORT_INPUT, getIn());
+    	reportAlgoContainer.addIn(IOKeys.REPORT_OUTPUT, getOut());
+    	reportAlgoContainer.addIn(IOKeys.DATA_COLS, getDataColumns()); 
+    	reportAlgoContainer.addIn(IOKeys.GROUP_COLS, getGroupColumns()); 
+    	reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, getShowTotals()); 
+    	reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
+    	reportAlgoContainer.addIn(IOKeys.HAS_GROUP_VALUES_ORDERED, hasGroupValuesSorted()); 
     	
-    	//adding steps to the reportAlgo :
-    	//we start with the init steps
+    	if(!hasGroupValuesSorted()){
+    		reportAlgoContainer.addAlgo(configSortingAlgo()); 
+    	}
+    	reportAlgoContainer.addAlgo(configReportAlgo()); 
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    private Algorithm configSortingAlgo(){
+    	MultiStepAlgo sortingAlgo = new LoopThroughReportInputAlgo(); 
+    	sortingAlgo.addMainStep(new ExternalSortPreparationStep()); 
+    	return sortingAlgo; 
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    private Algorithm configReportAlgo(){
+    	MultiStepAlgo reportAlgo = new LoopThroughReportInputAlgo(); 
+    	reportAlgo.addInitStep(new DecideInputInitStep()); 
     	reportAlgo.addInitStep(new OpenReportIOInitStep()); 
     	reportAlgo.addInitStep(new InitReportDataInitStep()); 
     	reportAlgo.addInitStep(new FlatReportExtractDataInitStep());
@@ -140,8 +164,9 @@ public class FlatReport extends AbstractColumnBasedReport {
         
         reportAlgo.addExitStep(new EndReportExitStep()); 
         reportAlgo.addExitStep(new CloseReportIOExitStep()); 
+        
+        return reportAlgo; 
     }
-    
     
 
 	@Override protected void validate() {
@@ -175,6 +200,6 @@ public class FlatReport extends AbstractColumnBasedReport {
     @Override public void execute(){
     	validate(); 
         config();
-        reportAlgo.execute(); 
+        reportAlgoContainer.execute(); 
     }
 }

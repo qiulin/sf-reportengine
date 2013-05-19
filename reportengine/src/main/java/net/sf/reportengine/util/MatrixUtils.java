@@ -87,9 +87,9 @@ public final class MatrixUtils {
 				for(int j=0; j<matrix1[i].length && result; j++){
 					if(!matrix1[i][j].equals(matrix2[i][j])){
 						result = false;
-						LOGGER.debug("row="+i+",col="+j);
-						LOGGER.debug(" 	the object {} is not equal to {}", matrix1[i][j], matrix2[i][j]);
-						LOGGER.debug(" 	stopping iteration in matrix");
+						LOGGER.info("row="+i+",col="+j);
+						LOGGER.info(" 	the object {} is not equal to {}", matrix1[i][j], matrix2[i][j]);
+						LOGGER.info(" 	stopping iteration in matrix");
 					}
 				}
 			}

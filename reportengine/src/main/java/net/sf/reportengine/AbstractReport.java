@@ -70,10 +70,10 @@ abstract class AbstractReport {
    
     /**
      * Whether or not data from the input is already sorted. 
-     * By default this flag is set to false because 
-     * the sorting will slow the report creation. 
+     * By default we'll assume this flag is set to true because 
+     * the sorting will slow the reporting process. 
      */
-    private boolean dataAlreadySorted = false; 
+    private boolean groupValuesSorted = true; 
     
     /**
      * this is a constructor for 
@@ -199,16 +199,16 @@ abstract class AbstractReport {
     }
 
 	/**
-	 * @return the dataAlreadySorted
+	 * @return the groupValuesSorted
 	 */
-	public boolean isDataAlreadySorted() {
-		return dataAlreadySorted;
+	public boolean hasGroupValuesSorted() {
+		return groupValuesSorted;
 	}
 
 	/**
-	 * @param dataAlreadySorted the dataAlreadySorted to set
+	 * @param groupValuesSorted the groupValuesSorted to set
 	 */
-	public void setDataAlreadySorted(boolean alreadySorted) {
-		this.dataAlreadySorted = alreadySorted;
+	public void setGroupValuesSorted(boolean alreadySorted) {
+		this.groupValuesSorted = alreadySorted;
 	}
 }
