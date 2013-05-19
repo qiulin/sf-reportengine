@@ -33,5 +33,9 @@ public enum IOKeys {
 	
 	CROSSTAB_METADATA, 
 	
-	DISTINCT_VALUES_HOLDER //TODO: this one or the crosstab metadata should dissapear
+	DISTINCT_VALUES_HOLDER, //TODO: this one or the crosstab metadata should dissapear
+	
+	SORTED_FILES, 
+	
+	HAS_GROUP_VALUES_ORDERED
 }

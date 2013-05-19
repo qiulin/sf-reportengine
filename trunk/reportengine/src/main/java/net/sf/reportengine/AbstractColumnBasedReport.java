@@ -27,7 +27,6 @@ abstract class AbstractColumnBasedReport extends AbstractReport{
      */
     private List<GroupColumn> groupColsAsList = new ArrayList<GroupColumn>(); 
     
-    
     /**
 	 * getter for data colums of this report
 	 * @return an ordered list of data columns

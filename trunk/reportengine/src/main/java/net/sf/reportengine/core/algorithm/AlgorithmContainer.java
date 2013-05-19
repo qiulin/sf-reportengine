@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan
  *
  */
-public class AlgorithmContainer {
+public class AlgorithmContainer implements Algorithm{
 	
 	/**
 	 * the one and only logger
@@ -33,7 +33,11 @@ public class AlgorithmContainer {
 		
 	}
 	
-	public void setInput(Map<IOKeys, Object> input){
+	public void addAlgo(Algorithm newAlgo){
+		algos.add(newAlgo); 
+	}
+	
+	public void setIn(Map<IOKeys, Object> input){
 		this.initialInput = input; 
 	}
 	
@@ -50,10 +54,24 @@ public class AlgorithmContainer {
 			
 			if(algoIterator.hasNext()){
 				//transform this algo's output in next algo's input
-				input = result;
+				input.putAll(result);
 			}
 		}
 		
 		LOGGER.info("algo container final result {}", result);
+	}
+
+	public void addIn(IOKeys key, Object value) {
+		initialInput.put(key, value); 
+	}
+
+	public Map<IOKeys, Object> getResultMap() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object getResult(IOKeys key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

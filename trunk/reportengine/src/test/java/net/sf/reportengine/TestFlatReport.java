@@ -11,6 +11,7 @@ import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.out.PdfOutput;
 import net.sf.reportengine.out.PngOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.StaxReportOutput;
 import net.sf.reportengine.out.XslFoOutput;
 import net.sf.reportengine.out.XsltOutput;
@@ -43,7 +44,7 @@ public class TestFlatReport {
 		flatReport.setShowGrandTotal(true);
 		flatReport.execute();
 			
-			Assert.assertTrue(MatrixUtils.compareMatrices(testOut.getDataCellMatrix(), Scenario1.EXPECTED_OUTPUT));
+			Assert.assertTrue(MatrixUtils.compareMatrices(testOut.getDataCellMatrix(), Scenario1.EXPECTED_OUTPUT_UNSORTED));
 	}
 	
 	@Test
@@ -69,7 +70,7 @@ public class TestFlatReport {
 		flatReport.execute();
 		
 		//MatrixUtils.logMatrix(testOut.getCellMatrix()); 
-		Assert.assertTrue(MatrixUtils.compareMatrices(testOut.getDataCellMatrix(), Scenario1.EXPECTED_OUTPUT));
+		Assert.assertTrue(MatrixUtils.compareMatrices(testOut.getDataCellMatrix(), Scenario1.EXPECTED_OUTPUT_UNSORTED));
 	}
 	
 	@Test
@@ -246,4 +247,25 @@ public class TestFlatReport {
 		}
 	}
 	
+	
+	@Test
+	public void testExecuteWithSorting(){
+		FlatReport flatReport = new FlatReport();	
+		flatReport.setGroupValuesSorted(false); 
+		
+		CellPropsArrayOutput mockOut = new CellPropsArrayOutput();
+		//ReportOutput htmlOut = new HtmlOutput("./target/ExternalySorted.html"); 
+		
+		flatReport.setIn(Scenario1.INPUT);
+		flatReport.setOut(mockOut);
+		flatReport.setDataColumns(Scenario1.DATA_COLUMNS);
+		flatReport.setGroupColumns(Scenario1.GROUPING_COLUMNS);
+		flatReport.setShowTotals(false);
+		flatReport.setShowDataRows(true);
+		flatReport.setShowGrandTotal(true);
+		flatReport.execute();
+			
+		Assert.assertTrue(MatrixUtils.compareMatrices(	mockOut.getDataCellMatrix(), 
+														Scenario1.EXPECTED_OUTPUT_SORTED));
+	}
 }
