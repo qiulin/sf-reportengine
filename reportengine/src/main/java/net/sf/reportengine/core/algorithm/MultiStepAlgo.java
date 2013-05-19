@@ -36,5 +36,5 @@ public interface MultiStepAlgo extends Algorithm {
      * getter for the context
      * @return
      */
-    //public ReportContext getContext();
+    //public AlgorithmContext getContext();
 }

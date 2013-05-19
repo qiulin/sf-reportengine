@@ -5,8 +5,8 @@ package net.sf.reportengine.core.algorithm.steps;
 
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.ReportContext;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.util.IOKeys;
 
 /**
  * <p>
@@ -19,5 +19,5 @@ public interface AlgorithmExitStep {
     /**
      * called when finishing the algorithm execution
      */
-    public void exit(Map<InputKeys,Object> algoInput, ReportContext context);
+    public void exit(Map<IOKeys,Object> algoInput, AlgorithmContext context);
 }

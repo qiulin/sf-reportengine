@@ -6,9 +6,9 @@ package net.sf.reportengine;
 import java.util.EnumMap;
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.DefaultReportContext;
+import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
@@ -26,7 +26,7 @@ import net.sf.reportengine.out.LoggerOutput;
 import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.MatrixUtils;
 
 import org.junit.Before;
@@ -38,10 +38,10 @@ import org.junit.Test;
  */
 public class TestStepsCombo  {
 	
-	private ReportContext TEST_REPORT_CONTEXT; 
+	private AlgorithmContext TEST_REPORT_CONTEXT; 
 	private OutputDispatcher TEST_OUTPUT_DISPATCHER; 
 	private CellPropsArrayOutput cumulativeReportOutput = null;
-	private Map<InputKeys, Object> mockAlgoInput = null; 
+	private Map<IOKeys, Object> mockAlgoInput = null; 
 	
 	
 	/* (non-Javadoc)
@@ -55,7 +55,7 @@ public class TestStepsCombo  {
 		TEST_OUTPUT_DISPATCHER.registerOutput(cumulativeReportOutput);
 		TEST_OUTPUT_DISPATCHER.registerOutput(new LoggerOutput());
 		
-		TEST_REPORT_CONTEXT = new DefaultReportContext();
+		TEST_REPORT_CONTEXT = new DefaultAlgorithmContext();
 		//TEST_REPORT_CONTEXT.setOutput(TEST_OUTPUT_DISPATCHER);
 		
 		//simulate the context
@@ -66,12 +66,12 @@ public class TestStepsCombo  {
 		
 		//TEST_REPORT_CONTEXT.setInput(Scenario1.INPUT);
 		
-		mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class);
-		mockAlgoInput.put(InputKeys.REPORT_INPUT, Scenario1.INPUT); 
-		mockAlgoInput.put(InputKeys.REPORT_OUTPUT, TEST_OUTPUT_DISPATCHER); 
-		mockAlgoInput.put(InputKeys.SHOW_GRAND_TOTAL, Scenario1.SHOW_GRAND_TOTAL); 
-		mockAlgoInput.put(InputKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
-		mockAlgoInput.put(InputKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
+		mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+		mockAlgoInput.put(IOKeys.REPORT_INPUT, Scenario1.INPUT); 
+		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, TEST_OUTPUT_DISPATCHER); 
+		mockAlgoInput.put(IOKeys.SHOW_GRAND_TOTAL, Scenario1.SHOW_GRAND_TOTAL); 
+		mockAlgoInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
+		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
 	}
 	
 	@Test

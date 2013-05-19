@@ -10,7 +10,7 @@ import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.DistinctValuesHolder;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 /**
  * @author Administrator
@@ -33,15 +33,15 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 //	}
 	
 	public Integer getOriginalCrosstabGroupingColsLength(){
-		return (Integer)getInput().get(InputKeys.ORIGINAL_CT_GROUP_COLS_COUNT); 
+		return (Integer)getInput().get(IOKeys.ORIGINAL_CT_GROUP_COLS_COUNT); 
 	}
 	
 	public int getOriginalCrosstabDataColsLength(){
-		return (Integer)getInput().get(InputKeys.ORIGINAL_CT_DATA_COLS_COUNT); 
+		return (Integer)getInput().get(IOKeys.ORIGINAL_CT_DATA_COLS_COUNT); 
 	}
 		
 	public List<CrosstabHeaderRow> getCrosstabHeaderRows(){
-		return (List<CrosstabHeaderRow>)getInput().get(InputKeys.CROSSTAB_HEADER_ROWS); 
+		return (List<CrosstabHeaderRow>)getInput().get(IOKeys.CROSSTAB_HEADER_ROWS); 
 	}
 	 
 	 public int getCrosstabHeaderRowsLength(){
@@ -50,7 +50,7 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 		
 	 public CrosstabData getCrosstabData(){
 		 //return (CrosstabData)getContext().get(ContextKeys.CROSSTAB_DATA); 
-		 return (CrosstabData)getInput().get(InputKeys.CROSSTAB_DATA); 
+		 return (CrosstabData)getInput().get(IOKeys.CROSSTAB_DATA); 
 	 }
 	 
 //	 public int[] getDataRelativePositionToHeader(){

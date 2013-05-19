@@ -3,20 +3,17 @@
  */
 package net.sf.reportengine.core.steps;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
-import net.sf.reportengine.core.algorithm.AlgoInput;
-import net.sf.reportengine.core.algorithm.DefaultReportContext;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.MatrixUtils;
 
 import org.junit.Test;
@@ -31,19 +28,19 @@ public class TestDataRowsOutputStep {
 	public void testExecuteScenario1() {
 		DataRowsOutputStep classUnderTest = new DataRowsOutputStep();
 		
-		ReportContext reportContext = new DefaultReportContext(); 
-		Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class);
+		AlgorithmContext reportContext = new DefaultAlgorithmContext(); 
+		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		
 		//reportContext.setInput(Scenario1.INPUT);
-		mockAlgoInput.put(InputKeys.REPORT_INPUT, Scenario1.INPUT); 
+		mockAlgoInput.put(IOKeys.REPORT_INPUT, Scenario1.INPUT); 
 		
 		//reportContext.setOutput(Scenario1.OUTPUT); 
-		mockAlgoInput.put(InputKeys.REPORT_OUTPUT, Scenario1.OUTPUT);
+		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, Scenario1.OUTPUT);
 		
 		//reportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
 		//reportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
-		mockAlgoInput.put(InputKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
-		mockAlgoInput.put(InputKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
+		mockAlgoInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
+		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
 		
 		reportContext.set(ContextKeys.DATA_ROW_COUNT, 0); 
 		classUnderTest.init(mockAlgoInput, reportContext); 

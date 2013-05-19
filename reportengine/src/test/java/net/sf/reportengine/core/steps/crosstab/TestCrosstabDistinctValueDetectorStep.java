@@ -7,13 +7,13 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
 import net.sf.reportengine.core.steps.ReportAlgorithmStepTC;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 /**
  * @author Administrator
@@ -35,12 +35,12 @@ public class TestCrosstabDistinctValueDetectorStep extends ReportAlgorithmStepTC
 	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
 	 */
 	public void testExecuteCtScenario1() {
-		ReportContext reportContext = getTestContext(); 
-		Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class);
+		AlgorithmContext reportContext = getTestContext(); 
+		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		
-		mockAlgoInput.put(	InputKeys.CROSSTAB_HEADER_ROWS, 
+		mockAlgoInput.put(	IOKeys.CROSSTAB_HEADER_ROWS, 
 							CtScenario2x2x1With1G1D.HEADER_ROWS);
-		mockAlgoInput.put(	InputKeys.CROSSTAB_DATA, 
+		mockAlgoInput.put(	IOKeys.CROSSTAB_DATA, 
 							CtScenario2x2x1With1G1D.CROSSTAB_DATA);
 		
 		classUnderTest.init(mockAlgoInput, reportContext);
@@ -60,11 +60,11 @@ public class TestCrosstabDistinctValueDetectorStep extends ReportAlgorithmStepTC
 	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
 	 */
 	public void testExecuteCtScenario1x3x1() {
-		ReportContext reportContext = getTestContext(); 
-		Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class);
+		AlgorithmContext reportContext = getTestContext(); 
+		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		
-		mockAlgoInput.put(InputKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS);
-		mockAlgoInput.put(InputKeys.CROSSTAB_DATA, CtScenario1x3x1.CROSSTAB_DATA);
+		mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS);
+		mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario1x3x1.CROSSTAB_DATA);
 		
 		classUnderTest.init(mockAlgoInput, reportContext);
 		assertNotNull(classUnderTest.getCrosstabHeaderRows());
@@ -84,11 +84,11 @@ public class TestCrosstabDistinctValueDetectorStep extends ReportAlgorithmStepTC
 	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.CrosstabDistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
 	 */
 	public void testExecuteCtScenario1x1x1() {
-		ReportContext reportContext = getTestContext(); 
-		Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class);
+		AlgorithmContext reportContext = getTestContext(); 
+		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		
-		mockAlgoInput.put(InputKeys.CROSSTAB_HEADER_ROWS, CtScenario1x1x1.ROW_HEADERS);
-		mockAlgoInput.put(InputKeys.CROSSTAB_DATA, CtScenario1x1x1.CROSSTAB_DATA_NO_TOTALS);
+		mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x1x1.ROW_HEADERS);
+		mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario1x1x1.CROSSTAB_DATA_NO_TOTALS);
 		
 		classUnderTest.init(mockAlgoInput, reportContext);
 		assertNotNull(classUnderTest.getCrosstabHeaderRows());

@@ -9,16 +9,13 @@ import java.util.List;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
-import net.sf.reportengine.core.algorithm.AlgoInput;
 import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
-import net.sf.reportengine.core.steps.ExternalSortPreparationStep;
 import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
@@ -29,8 +26,7 @@ import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
 
 import org.slf4j.Logger;
@@ -111,12 +107,12 @@ public class FlatReport extends AbstractColumnBasedReport {
     	LOGGER.trace("configuring flat report"); 
     	
     	//preparing the context of the report reportAlgo 
-    	reportAlgo.addIn(new AlgoInput(getIn(), InputKeys.REPORT_INPUT));
-    	reportAlgo.addIn(new AlgoInput(getOut(), InputKeys.REPORT_OUTPUT));
-    	reportAlgo.addIn(new AlgoInput(getDataColumns(), InputKeys.DATA_COLS)); 
-    	reportAlgo.addIn(new AlgoInput(getGroupColumns(), InputKeys.GROUP_COLS)); 
-    	reportAlgo.addIn(new AlgoInput(Boolean.valueOf(getShowTotals()), InputKeys.SHOW_TOTALS)); 
-    	reportAlgo.addIn(new AlgoInput(Boolean.valueOf(getShowGrandTotal()), InputKeys.SHOW_GRAND_TOTAL)); 
+    	reportAlgo.addIn(IOKeys.REPORT_INPUT, getIn());
+    	reportAlgo.addIn(IOKeys.REPORT_OUTPUT, getOut());
+    	reportAlgo.addIn(IOKeys.DATA_COLS, getDataColumns()); 
+    	reportAlgo.addIn(IOKeys.GROUP_COLS, getGroupColumns()); 
+    	reportAlgo.addIn(IOKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals())); 
+    	reportAlgo.addIn(IOKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal())); 
     	
     	//adding steps to the reportAlgo :
     	//we start with the init steps

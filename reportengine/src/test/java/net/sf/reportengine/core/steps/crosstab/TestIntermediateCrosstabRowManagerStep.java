@@ -7,12 +7,12 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.DefaultReportContext;
+import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 import org.junit.Test;
 
@@ -27,14 +27,14 @@ public class TestIntermediateCrosstabRowManagerStep {
 	 */
 	@Test
 	public void testExecute() {
-		ReportContext context = new DefaultReportContext();
-		Map<InputKeys, Object> mockInput = new EnumMap<InputKeys, Object>(InputKeys.class);
+		AlgorithmContext context = new DefaultAlgorithmContext();
+		Map<IOKeys, Object> mockInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		
-		mockInput.put(InputKeys.REPORT_OUTPUT, new CellPropsArrayOutput()); 
-		mockInput.put(InputKeys.SHOW_TOTALS, false); 
-		mockInput.put(InputKeys.SHOW_GRAND_TOTAL, false); 
-		mockInput.put(InputKeys.ORIGINAL_CT_DATA_COLS_COUNT, Integer.valueOf(2)); 
-		mockInput.put(InputKeys.ORIGINAL_CT_GROUP_COLS_COUNT, Integer.valueOf(1)); 
+		mockInput.put(IOKeys.REPORT_OUTPUT, new CellPropsArrayOutput()); 
+		mockInput.put(IOKeys.SHOW_TOTALS, false); 
+		mockInput.put(IOKeys.SHOW_GRAND_TOTAL, false); 
+		mockInput.put(IOKeys.ORIGINAL_CT_DATA_COLS_COUNT, Integer.valueOf(2)); 
+		mockInput.put(IOKeys.ORIGINAL_CT_GROUP_COLS_COUNT, Integer.valueOf(1)); 
 		
 		context.set(ContextKeys.NEW_GROUPING_LEVEL, Integer.valueOf(1)); 
 		context.set(ContextKeys.LAST_GROUPING_VALUES, new String[]{"1", "2", "3"}); 

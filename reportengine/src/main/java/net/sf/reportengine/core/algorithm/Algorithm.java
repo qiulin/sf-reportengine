@@ -4,8 +4,9 @@
  */
 package net.sf.reportengine.core.algorithm;
 
-import java.util.List;
 import java.util.Map;
+
+import net.sf.reportengine.util.IOKeys;
 
 /**
  * <p>
@@ -19,13 +20,13 @@ public interface Algorithm {
      * sets the input of the report.
      * @param input	
      */     
-    public void setIn(List<AlgoInput> input);
+    public void setIn(Map<IOKeys, Object> input);
     
     /**
      * 
      * @param input
      */
-    public void addIn(AlgoInput input); 
+    public void addIn(IOKeys key, Object value); 
     
     /**
      * executes the report and displays it
@@ -36,14 +37,13 @@ public interface Algorithm {
      * sets the output of the report
      * @param out
      */
-    public Map<String, Object> getResultMap();
-    
+    public Map<IOKeys, Object> getResultMap();
     
     /**
      * 
      * @param name
      * @return
      */
-    public Object getResult(String name); 
+    public Object getResult(IOKeys key); 
     
 }

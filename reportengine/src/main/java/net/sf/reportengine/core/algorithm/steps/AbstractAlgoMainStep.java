@@ -5,13 +5,10 @@
 package net.sf.reportengine.core.algorithm.steps;
 
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.AlgoInput;
-import net.sf.reportengine.core.algorithm.AlgoResult;
-import net.sf.reportengine.core.algorithm.ReportContext;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.util.IOKeys;
 
 
 /**
@@ -20,24 +17,29 @@ import net.sf.reportengine.util.InputKeys;
  * 
  * @author dragos balan(dragos.balan@gmail.com)
  */
-public abstract class AbstractAlgorithmStep implements AlgorithmMainStep {
+public abstract class AbstractAlgoMainStep implements AlgorithmMainStep {
     
     /**
      * this is a reference to the report context
      */
-    private ReportContext algorithmContext;
+    private AlgorithmContext algorithmContext;
     
     /**
      * 
      */
-    private Map<InputKeys, Object> algoInputAsMap; 
+    private Map<IOKeys, Object> algoInputAsMap; 
+    
+    /**
+     * lazy init map ( most of the steps don't have results)
+     */
+    private Map<IOKeys, Object> stepResults = null; 
     
     /**
      * default implementation for AlgorithmInitStep.init() method
      * which only sets the algorithm context  
      * 
      */
-    public void init(Map<InputKeys, Object> algoInput, ReportContext algoContext){
+    public void init(Map<IOKeys, Object> algoInput, AlgorithmContext algoContext){
         this.algorithmContext = algoContext;    
         this.algoInputAsMap = algoInput; 
     }
@@ -46,25 +48,31 @@ public abstract class AbstractAlgorithmStep implements AlgorithmMainStep {
      * just an empty implementation for exit 
      * @see net.sf.reportengine.core.algorithm.AlgorithmMainStep#exit()
      */
-    public void exit(Map<InputKeys,Object> algoInput, ReportContext context) {}
+    public void exit(Map<IOKeys,Object> algoInput, AlgorithmContext context) {}
     
     
     /**
      * getter for the context
      * @return
      */
-    protected ReportContext getContext(){
+    protected AlgorithmContext getContext(){
     	return algorithmContext;
     }
     
     
-    protected Map<InputKeys, Object> getInput(){
+    protected Map<IOKeys, Object> getInput(){
     	return algoInputAsMap; 
     }
     
     
-    public Map<String, Object> getResultsMap(){
-    	return null; 
+    public Map<IOKeys, Object> getResultsMap(){
+    	return stepResults; 
     }
-
+    
+    protected void addResult(IOKeys keys, Object value){
+    	if(stepResults == null){
+    		stepResults = new EnumMap<IOKeys, Object>(IOKeys.class); 
+    	}
+    	stepResults.put(keys, value); 
+    }
 }

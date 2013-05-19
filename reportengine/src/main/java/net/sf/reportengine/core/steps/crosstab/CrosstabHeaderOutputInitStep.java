@@ -12,14 +12,14 @@ import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.SecondProcessDataColumn;
 import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
-import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,12 +40,12 @@ public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)
 	 */
-	public void init(Map<InputKeys, Object> algoInput, ReportContext reportContext) {
-		ReportOutput reportOutput = (ReportOutput)algoInput.get(InputKeys.REPORT_OUTPUT);
-		List<DataColumn> dataColumns = (List<DataColumn>)algoInput.get(InputKeys.DATA_COLS);
-		List<GroupColumn> groupColumns = (List<GroupColumn>)algoInput.get(InputKeys.GROUP_COLS); 
+	public void init(Map<IOKeys, Object> algoInput, AlgorithmContext reportContext) {
+		ReportOutput reportOutput = (ReportOutput)algoInput.get(IOKeys.REPORT_OUTPUT);
+		List<DataColumn> dataColumns = (List<DataColumn>)algoInput.get(IOKeys.DATA_COLS);
+		List<GroupColumn> groupColumns = (List<GroupColumn>)algoInput.get(IOKeys.GROUP_COLS); 
 		
-		CtMetadata ctMetadata = (CtMetadata)algoInput.get(InputKeys.CROSSTAB_METADATA);
+		CtMetadata ctMetadata = (CtMetadata)algoInput.get(IOKeys.CROSSTAB_METADATA);
 		
 		//display header rows
 		outputHeaderRows(reportOutput, ctMetadata, dataColumns, groupColumns); 

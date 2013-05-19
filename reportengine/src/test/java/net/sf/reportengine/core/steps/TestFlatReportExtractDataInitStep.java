@@ -10,11 +10,11 @@ import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.core.algorithm.DefaultReportContext;
-import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -37,17 +37,17 @@ public class TestFlatReportExtractDataInitStep {
 	
 
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.FlatReportExtractDataInitStep#init(net.sf.reportengine.core.algorithm.ReportContext)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.FlatReportExtractDataInitStep#init(net.sf.reportengine.core.algorithm.AlgorithmContext)}.
 	 */
 	@Test
 	public void testInit() {
 		FlatReportExtractDataInitStep classUnderTest = new FlatReportExtractDataInitStep(); 
 		
-		ReportContext reportContext = new DefaultReportContext(); 
-		Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class); 
+		AlgorithmContext reportContext = new DefaultAlgorithmContext(); 
+		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
 		
 		//reportContext.set(ContextKeys.DATA_COLUMNS, TEST_DATA_COLUMNS); 
-		mockAlgoInput.put(InputKeys.DATA_COLS, TEST_DATA_COLUMNS);
+		mockAlgoInput.put(IOKeys.DATA_COLS, TEST_DATA_COLUMNS);
 		
 		classUnderTest.init(mockAlgoInput, reportContext); 
 		

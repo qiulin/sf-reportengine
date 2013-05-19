@@ -10,14 +10,12 @@ import java.util.Map;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.ReportContent;
-import net.sf.reportengine.core.algorithm.AlgoInput;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 /**
  * <p>
@@ -35,7 +33,7 @@ public class DataRowsOutputStep extends AbstractReportStep {
 	/**
 	 * this step's init method
 	 */
-	public void init(Map<InputKeys, Object> algoInput, ReportContext context){
+	public void init(Map<IOKeys, Object> algoInput, AlgorithmContext context){
 		super.init(algoInput, context);
 		
 		groupCols = getGroupingColumns();

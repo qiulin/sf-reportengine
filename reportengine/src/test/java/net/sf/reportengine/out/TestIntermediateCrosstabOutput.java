@@ -3,7 +3,6 @@
  */
 package net.sf.reportengine.out;
 
-import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
 import net.sf.reportengine.core.steps.crosstab.IntermediateReportRow;
 import net.sf.reportengine.core.steps.crosstab.IntermediateTotalInfo;

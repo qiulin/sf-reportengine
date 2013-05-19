@@ -4,58 +4,55 @@
 package net.sf.reportengine.core.algorithm;
 
 import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 /**
- * @author dragos
+ * @author dragos balan
  *
  */
 public abstract class AbstractAlgo implements Algorithm {
 	
-    private Map<InputKeys, Object> inputMap = new EnumMap<InputKeys, Object>(InputKeys.class); 
+	/**
+	 * the input parameters map
+	 */
+    private Map<IOKeys, Object> inputMap = new EnumMap<IOKeys, Object>(IOKeys.class); 
     
-    private Map<String, Object> resultMap = new HashMap<String, Object>(); 
+    /**
+     * the result (output) map
+     */
+    private Map<IOKeys, Object> resultMap = new EnumMap<IOKeys, Object>(IOKeys.class); 
     
     /**
      * implementation for IReportEngine.setIn
      */
-    public void setIn(List<AlgoInput> inputList){
-        for (AlgoInput algoInput : inputList) {
-			this.inputMap.put(algoInput.getName(), algoInput.getValue()); 
-		}
+    public void setIn(Map<IOKeys, Object> input){
+		this.inputMap = input;
+		
     }
     
-    public void addIn(AlgoInput input){
-    	this.inputMap.put(input.getName(), input.getValue()); 
+    public void addIn(IOKeys key, Object value){
+    	this.inputMap.put(key, value); 
     }
     
-    protected Map<InputKeys,Object> getInput(){
+    protected Map<IOKeys,Object> getInput(){
     	return inputMap; 
     }
     
-    public Map<String, Object> getResultMap(){
+    public Map<IOKeys, Object> getResultMap(){
     	return resultMap; 
     }
     
-    protected void setResultMap(Map<String, Object> result){
+    protected void setResultMap(Map<IOKeys, Object> result){
     	this.resultMap = result; 
     }
     
-    protected void addResult(AlgoResult result){
-    	resultMap.put(result.getName(), result.getValue()); 
+    protected void addResult(IOKeys key, Object value){
+    	resultMap.put(key, value); 
     }
     
-    protected void addResult(String name, Object value){
-    	resultMap.put(name, value); 
+    public Object getResult(IOKeys key){
+    	return resultMap.get(key); 
     }
-    
-    public Object getResult(String name){
-    	return resultMap.get(name); 
-    }
-    
-    
 }

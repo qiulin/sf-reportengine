@@ -6,11 +6,8 @@ package net.sf.reportengine;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.AlgoInput;
-import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
@@ -25,8 +22,7 @@ import net.sf.reportengine.core.steps.autodetect.AutodetectFlatReportTotalsOutpu
 import net.sf.reportengine.core.steps.autodetect.AutodetectPreviousRowManagerStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectTotalsCalculatorStep;
 import net.sf.reportengine.in.ColumnPreferences;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,20 +68,14 @@ public class AutoconfigFlatReport extends AbstractReport {
      */
     @Override protected void config(){
     	LOGGER.trace("configuring the autodetect flat report"); 
-    	//ReportContext context = algorithm.getContext();
+    	//AlgorithmContext context = algorithm.getContext();
     	
     	//preparing the context of the report algorithm 
-    	algorithm.addIn(new AlgoInput(getIn(), InputKeys.REPORT_INPUT));
-		algorithm.addIn(new AlgoInput(getOut(), InputKeys.REPORT_OUTPUT));
-    	
-    	//context.set(ContextKeys.USER_COLUMN_PREFERENCES, userColumnPrefs);
-		algorithm.addIn(new AlgoInput(userColumnPrefs, InputKeys.USER_COLUMN_PREFERENCES)); 
-		
-    	//context.set(ContextKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
-		algorithm.addIn(new AlgoInput(getShowTotals(), InputKeys.SHOW_TOTALS)); 
-		
-    	//context.set(ContextKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
-		algorithm.addIn(new AlgoInput(getShowGrandTotal(), InputKeys.SHOW_GRAND_TOTAL)); 
+    	algorithm.addIn(IOKeys.REPORT_INPUT, getIn());
+		algorithm.addIn(IOKeys.REPORT_OUTPUT, getOut());
+		algorithm.addIn(IOKeys.USER_COLUMN_PREFERENCES, userColumnPrefs); 
+		algorithm.addIn(IOKeys.SHOW_TOTALS, getShowTotals()); 
+		algorithm.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
     	
     	//adding steps to the algorithm :
     	//we start with the init steps

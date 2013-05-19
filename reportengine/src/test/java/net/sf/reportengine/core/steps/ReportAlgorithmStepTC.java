@@ -7,15 +7,15 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import net.sf.reportengine.core.algorithm.DefaultReportContext;
-import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.LoggerOutput;
 import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 /**
  * utility test case containing usefull constants and properties for all 
@@ -26,11 +26,11 @@ import net.sf.reportengine.util.InputKeys;
  */
 public class ReportAlgorithmStepTC extends TestCase {
 	
-	private ReportContext TEST_REPORT_CONTEXT; 
+	private AlgorithmContext TEST_REPORT_CONTEXT; 
 	private OutputDispatcher TEST_OUTPUT_DISPATCHER; 
 	
 	private CellPropsArrayOutput cumulativeReportOutput = null;
-	private Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class);
+	private Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 	
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -41,12 +41,12 @@ public class ReportAlgorithmStepTC extends TestCase {
 		TEST_OUTPUT_DISPATCHER.registerOutput(cumulativeReportOutput);
 		TEST_OUTPUT_DISPATCHER.registerOutput(new LoggerOutput());
 		
-		TEST_REPORT_CONTEXT = new DefaultReportContext();
-		mockAlgoInput.put(InputKeys.REPORT_OUTPUT, TEST_OUTPUT_DISPATCHER);
+		TEST_REPORT_CONTEXT = new DefaultAlgorithmContext();
+		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, TEST_OUTPUT_DISPATCHER);
 	}
 	
 	
-	protected ReportContext getTestContext(){
+	protected AlgorithmContext getTestContext(){
 		return TEST_REPORT_CONTEXT;
 	}
 	

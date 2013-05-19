@@ -4,16 +4,14 @@
  */
 package net.sf.reportengine.core.steps;
 
-import java.util.List;
 import java.util.Map;
 
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.AlgoInput;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.util.CalculatorMatrix;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +52,7 @@ public class TotalsCalculatorStep extends AbstractReportStep{
     /**
      * init
      */
-    public void init(Map<InputKeys, Object> algoInput, ReportContext reportContext){
+    public void init(Map<IOKeys, Object> algoInput, AlgorithmContext reportContext){
         super.init(algoInput, reportContext);
         
         //Calculator[] prototypesCalc = extractCalculators(getDataColumns());

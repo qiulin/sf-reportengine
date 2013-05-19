@@ -10,12 +10,12 @@ import net.sf.reportengine.util.ContextKeys;
 
 
 /**
- * report context interface
+ * The algorithm context helps algorithm steps to share and store information 
  *
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public interface ReportContext {
+public interface AlgorithmContext {
     
     /**
      * registers the pair (key, object) in the report context

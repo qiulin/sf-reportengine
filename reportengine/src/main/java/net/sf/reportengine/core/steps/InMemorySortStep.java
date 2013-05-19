@@ -9,11 +9,10 @@ import java.util.Map;
 import java.util.PriorityQueue;
 
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.AlgoInput;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +35,7 @@ public class InMemorySortStep extends AbstractReportStep {
 		
 	}
 	
-	@Override public void init(Map<InputKeys, Object> algoInput, ReportContext context){
+	@Override public void init(Map<IOKeys, Object> algoInput, AlgorithmContext context){
 		super.init(algoInput, context); 
 		
 		
@@ -56,7 +55,7 @@ public class InMemorySortStep extends AbstractReportStep {
 		inMemoryResult.offer(rowEvent); 
 	}
 	
-	public void exit(Map<InputKeys,Object> algoInput, ReportContext context){
+	public void exit(Map<IOKeys,Object> algoInput, AlgorithmContext context){
 		
 		List<NewRowEvent> arrayResult = new ArrayList<NewRowEvent>(inMemoryResult.size());
 		

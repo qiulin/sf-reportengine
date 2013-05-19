@@ -11,12 +11,12 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.DefaultReportContext;
+import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.ReportContext;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 import org.junit.Test;
 
@@ -33,13 +33,13 @@ public class TestInMemorySortStep {
 	public void testExecute() {
 		InMemorySortStep classUnderTest = new InMemorySortStep(); 
 		
-		ReportContext mockContext = new DefaultReportContext(); 
+		AlgorithmContext mockContext = new DefaultAlgorithmContext(); 
 		//mockContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
 		//mockContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS); 
 		
-		Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class); 
-		mockAlgoInput.put(InputKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
-		mockAlgoInput.put(InputKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
+		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
+		mockAlgoInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
+		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
 		
 		classUnderTest.init(mockAlgoInput, mockContext); 
 		

@@ -15,36 +15,35 @@ import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
  * @since 0.2
  */
 public abstract class AbstractMultiStepAlgo extends AbstractAlgo implements MultiStepAlgo {
-	
-	/**
-     * A list containing all the steps <code>net.sf.reportengine.algorithm.IAlgoritmStep</code>
-     */
-    private List<AlgorithmMainStep> mainSteps;
     
     /**
      * A list containing <code>net.sf.reportengine.algorithm.IAlgorithmInitStep</cide>s 
      * to be performed only once (at the begining of the algorithm)
      */
-    private List<AlgorithmInitStep> initSteps;
+    private List<AlgorithmInitStep> initSteps = new LinkedList<AlgorithmInitStep>();//TODO: why linked list;
+    
+    /**
+     * A list containing all the steps <code>net.sf.reportengine.algorithm.IAlgoritmStep</code>
+     */
+    private List<AlgorithmMainStep> mainSteps = new LinkedList<AlgorithmMainStep>();
     
     /**
      * A list containing <code>net.sf.reportengine.algorithm.IAlgorithmExitStep</code>s 
      * to be performed only once (at the begining of the algorithm)
      */
-    private List<AlgorithmExitStep> exitSteps;
+    private List<AlgorithmExitStep> exitSteps = new LinkedList<AlgorithmExitStep>();;
     
     /**
      * the context of the report (holding important values)
      */
-    private ReportContext algorithmContext = new DefaultReportContext();
+    private AlgorithmContext algorithmContext = new DefaultAlgorithmContext();
+    
     
     /**
-     * Initializes all steps lists and the algorithm context
+     * default empty 
      */
     public AbstractMultiStepAlgo(){
-        this.initSteps = new LinkedList<AlgorithmInitStep>();//TODO: why linked list
-        this.mainSteps = new LinkedList<AlgorithmMainStep>();
-        this.exitSteps = new LinkedList<AlgorithmExitStep>();
+    	
     }
     
     /**
@@ -71,23 +70,6 @@ public abstract class AbstractMultiStepAlgo extends AbstractAlgo implements Mult
         exitSteps.add(exitStep);
     }
 
-    
-//    protected void openInput(){
-//    	algorithmContext.getInput().open();
-//    }
-//    
-//    protected void closeInput(){
-//    	algorithmContext.getInput().close();
-//    }
-//    
-//    protected void openOutput(){
-//    	algorithmContext.getOutput().open();
-//    }
-//    
-//    protected void closeOutput(){
-//    	algorithmContext.getOutput().close();
-//    }
-    
     public List<AlgorithmInitStep> getInitSteps(){
     	return initSteps;
     }
@@ -100,11 +82,7 @@ public abstract class AbstractMultiStepAlgo extends AbstractAlgo implements Mult
     	return mainSteps;
     }
     
-//    protected ReportInput getInput(){
-//    	return algorithmContext.getInput();
-//    }
-    
-    public ReportContext getContext(){
+    public AlgorithmContext getContext(){
     	return algorithmContext; 
     }
 }

@@ -18,16 +18,14 @@ import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessGroupColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
 import net.sf.reportengine.core.ConfigValidationException;
-import net.sf.reportengine.core.algorithm.AlgoResult;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.IntermediateCrosstabReportInput;
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.CtMetadata;
 import net.sf.reportengine.util.IDistinctValuesHolder;
+import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -201,12 +199,12 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 			//transfer data from first report to the second 
 			//TODO: Move this in the transfer method and improve
 			
-			//ReportContext firstReportContext = firstReport.getAlgorithm().getContext(); 
+			//AlgorithmContext firstReportContext = firstReport.getAlgorithm().getContext(); 
 			//IDistinctValuesHolder distinctValuesHolder = 
 			//	(IDistinctValuesHolder)firstReportContext.get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
 			
 			IDistinctValuesHolder distinctValuesHolder = 
-					(IDistinctValuesHolder)firstReport.getAlgorithm().getResult("intermediateDistictValuesHolder"); 
+					(IDistinctValuesHolder)firstReport.getAlgorithm().getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
 			
 			CtMetadata crosstabMetadata = new CtMetadata(distinctValuesHolder);
 			crosstabMetadata.computeCoefficients(); 
@@ -221,6 +219,7 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 														getDataColumns(), 
 														getShowTotals(), 
 														getShowGrandTotal());
+			
 			List<GroupColumn> secondReportGroupCols = constructGroupColumnsForSecondProcess(getGroupColumns()); 
 			
 			secondReport.setGroupColumns(secondReportGroupCols); 

@@ -14,11 +14,10 @@ import java.util.Map;
 
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.ReportEngineRuntimeException;
-import net.sf.reportengine.core.algorithm.AlgoInput;
+import net.sf.reportengine.core.algorithm.AlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.ReportContext;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
+import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +71,7 @@ public class ExternalSortPreparationStep extends AbstractReportStep{
 	/**
 	 * 
 	 */
-	@Override public void init(Map<InputKeys, Object> algoInput, ReportContext context){
+	@Override public void init(Map<IOKeys, Object> algoInput, AlgorithmContext context){
 		super.init(algoInput, context); 
 		
 		COMPARATOR = new NewRowComparator(getGroupingColumns(), getDataColumns()); 
@@ -100,7 +99,7 @@ public class ExternalSortPreparationStep extends AbstractReportStep{
 	/**
 	 * 
 	 */
-	@Override public void exit(Map<InputKeys,Object> algoInput, ReportContext context){
+	@Override public void exit(Map<IOKeys,Object> algoInput, AlgorithmContext context){
 		try{
 			if(!tempValuesHolderList.isEmpty()){
 				//first sorting in-memory list

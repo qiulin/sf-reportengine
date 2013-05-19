@@ -8,18 +8,15 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.AlgoInput;
-import net.sf.reportengine.core.algorithm.DefaultReportContext;
+import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.InputKeys;
-import net.sf.reportengine.util.MatrixUtils;
+import net.sf.reportengine.util.IOKeys;
 
 import org.junit.Test;
 
@@ -30,13 +27,13 @@ public class TestExternalSortStep {
 	@Test
 	public void testExecute() throws Exception{
 		
-		DefaultReportContext mockContext = new DefaultReportContext(); 
-		Map<InputKeys, Object> mockAlgoInput = new EnumMap<InputKeys, Object>(InputKeys.class);
+		DefaultAlgorithmContext mockContext = new DefaultAlgorithmContext(); 
+		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		
 		//mockContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS); 
 		//mockContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS); 
-		mockAlgoInput.put(InputKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
-		mockAlgoInput.put(InputKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
+		mockAlgoInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
+		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
 		
 		ExternalSortPreparationStep classUnderTest = new ExternalSortPreparationStep(MAX_ROWS_IN_MEMORY); 
 		classUnderTest.init(mockAlgoInput, mockContext); 
