@@ -19,9 +19,8 @@ import net.sf.reportengine.util.IOKeys;
  */
 public class IntermedPreviousRowManagerStep extends PreviousRowManagerStep {
 	
-	@Override protected List<GroupColumn> extractGroupColsFromParameters(	Map<IOKeys, Object> algoInput, 
-																			AlgoContext algoContext){
-		return (List<GroupColumn>)algoContext.get(ContextKeys.INTERNAL_GROUP_COLS); 
+	@Override public List<GroupColumn> getGroupColumns(){
+		return (List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS); 
 	}
 	
 	/**

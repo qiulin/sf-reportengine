@@ -43,17 +43,13 @@ public class IntermedTotalsOutputStep extends FlatReportTotalsOutputStep {
      * {@link #getDataColumns()}
      * {@link #getDataColumnsLength()}
      * 
-     * @param algoInput
-     * @param algoContext
      * @return
      */
-    @Override protected List<DataColumn> extractDataColsFromParameters(	Map<IOKeys, Object> algoInput, 
-															AlgoContext algoContext){
-    	
+    @Override public List<DataColumn> getDataColumns(){
     	if(dataColIOKey != null){
-    		return (List<DataColumn>)algoInput.get(dataColIOKey); 
+    		return (List<DataColumn>)getAlgoInput().get(dataColIOKey); 
     	}else{
-    		return (List<DataColumn>)algoContext.get(dataColContextKey); 
+    		return (List<DataColumn>)getAlgoContext().get(dataColContextKey); 
     	}
 	}
     
@@ -65,16 +61,13 @@ public class IntermedTotalsOutputStep extends FlatReportTotalsOutputStep {
      * {@link #computeAggLevelForCalcRowNumber(int)}
      * {@link #computeCalcRowNumberForAggLevel(int)}
      * 
-     * @param algoInput
-     * @param algoContext
      * @return
      */
-    @Override protected List<GroupColumn> extractGroupColsFromParameters(	Map<IOKeys, Object> algoInput, 
-																			AlgoContext algoContext){
+    @Override public List<GroupColumn> getGroupColumns(){
     	if(groupColIOKey != null){
-    		return (List<GroupColumn>)algoInput.get(groupColIOKey); 
+    		return (List<GroupColumn>)getAlgoInput().get(groupColIOKey); 
     	}else{
-    		return (List<GroupColumn>)algoContext.get(groupColContextKey); 
+    		return (List<GroupColumn>)getAlgoContext().get(groupColContextKey); 
     	}
 	}
 }

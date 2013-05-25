@@ -24,19 +24,18 @@ public class ConfigAndOpenCrosstabIOInitStep extends AbstractCrosstabInitStep {
 	@Override
 	protected void executeInit() {
 		try{
-		File previousAlgoSerializedOutput = (File)getAlgoInput().get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
-		IntermediateCrosstabReportInput newReportInput = new IntermediateCrosstabReportInput(
-				new FileInputStream(previousAlgoSerializedOutput)); 
-		
-		getAlgoInput().put(IOKeys.REPORT_INPUT, newReportInput); //TODO: one shouldn't be able to modify 
-		//the input keys. This has to be removed 
-		
-		
-		newReportInput.open(); 
-		getReportOutput().open(); 
+			File previousAlgoSerializedOutput = (File)getAlgoInput().get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
+			IntermediateCrosstabReportInput newReportInput = new IntermediateCrosstabReportInput(
+					new FileInputStream(previousAlgoSerializedOutput)); 
+			
+			getAlgoInput().put(IOKeys.REPORT_INPUT, newReportInput); //TODO: one shouldn't be able to modify 
+			//the input keys. This has to be removed 
+			
+			
+			newReportInput.open(); 
+			getReportOutput().open(); 
 		}catch(FileNotFoundException fnfExc){
 			throw new ReportInputException(fnfExc); 
 		}
 	}
-
 }

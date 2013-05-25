@@ -14,11 +14,10 @@ import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
 /**
- * @author dragos
+ * @author dragos balan
  *
  */
 public class IntermedDataRowsOutputStep extends DataRowsOutputStep {
-	
 	
 	private IOKeys dataColIOKey; 
 	private ContextKeys dataColContextKey; 
@@ -48,20 +47,17 @@ public class IntermedDataRowsOutputStep extends DataRowsOutputStep {
      * @param algoContext
      * @return
      */
-    @Override protected List<DataColumn> extractDataColsFromParameters(	Map<IOKeys, Object> algoInput, 
-															AlgoContext algoContext){
-    	
+    @Override public List<DataColumn> getDataColumns(){
     	if(dataColIOKey != null){
-    		return (List<DataColumn>)algoInput.get(dataColIOKey); 
+    		return (List<DataColumn>)getAlgoInput().get(dataColIOKey); 
     	}else{
-    		return (List<DataColumn>)algoContext.get(dataColContextKey); 
+    		return (List<DataColumn>)getAlgoContext().get(dataColContextKey); 
     	}
 	}
     
     /**
      * ATTENTION : changing the implementation of this method will have effect on the 
      * following methods: 
-     * {@link #getGroupColumns()}
      * {@link #getGroupColumnsLength()}
      * {@link #computeAggLevelForCalcRowNumber(int)}
      * {@link #computeCalcRowNumberForAggLevel(int)}
@@ -70,12 +66,11 @@ public class IntermedDataRowsOutputStep extends DataRowsOutputStep {
      * @param algoContext
      * @return
      */
-    @Override protected List<GroupColumn> extractGroupColsFromParameters(	Map<IOKeys, Object> algoInput, 
-																			AlgoContext algoContext){
+    @Override public List<GroupColumn> getGroupColumns(){
     	if(groupColIOKey != null){
-    		return (List<GroupColumn>)algoInput.get(groupColIOKey); 
+    		return (List<GroupColumn>)getAlgoInput().get(groupColIOKey); 
     	}else{
-    		return (List<GroupColumn>)algoContext.get(groupColContextKey); 
+    		return (List<GroupColumn>)getAlgoContext().get(groupColContextKey); 
     	}
 	}
 }
