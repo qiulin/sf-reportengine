@@ -3,9 +3,12 @@
  */
 package net.sf.reportengine.core.steps.crosstab;
 
+import java.util.List;
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.out.CellProps;
@@ -26,13 +29,13 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot bala at gmail dot com)
  * @since 0.4
  */
-public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
+public class IntermedRowMangerStep extends AbstractCrosstabStep {
 	
 	/**
 	 * the one and only logger
 	 */
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(IntermediateCrosstabRowMangerStep.class);
+			.getLogger(IntermedRowMangerStep.class);
 	
 	/**
 	 * this is an intermediate line containing values ( plus values meta-data like position of the value relative to headerrows values). 
@@ -46,7 +49,7 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 	/**
 	 * 
 	 */
-	public void init(Map<IOKeys, Object> algoInput, AlgorithmContext context){
+	public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
 		super.init(algoInput, context);
 		context.set(ContextKeys.INTERMEDIATE_ROW, intermediateRow);
 	}
@@ -57,15 +60,14 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 	 */
 	@Override
 	public void execute(NewRowEvent rowEvent) {
-		IntermediateDataInfo currentCrosstabDataInfo = getIntermediateCrosstabDataInfo(); 
 		int groupingLevel = getGroupingLevel(); 
-		int originalGroupColsLength = getOriginalCrosstabGroupingColsLength();
-		int originalDataColsLength = getOriginalCrosstabDataColsLength(); 
 		
 		if(groupingLevel >= 0){
 			//if grouping level changed
 			
 			Calculator[][] calculatorMatrix = getCalculatorMatrix(); 
+			int originalGroupColsLength = getGroupColumnsLength();//getOriginalCrosstabGroupingColsLength();  
+			int originalDataColsLength = getDataColumnsLength(); //getOriginalCrosstabDataColsLength();
 			
 			if(groupingLevel < originalGroupColsLength + originalDataColsLength){
 				//this is a change in the original group so
@@ -74,7 +76,7 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 				if(getShowTotals() || getShowGrandTotal()){
 					//we don't need all totals. From the groupingColumns we take only the first one
 					updateIntermediateTotals(	originalGroupColsLength+originalDataColsLength-1, 
-												getGroupingColumnsLength() , 
+												getIntermGroupColsLength(), //getGroupColumnsLength() , 
 												calculatorMatrix);
 				}
 				//Second: we display the intermediate row
@@ -86,28 +88,27 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 			}else{
 				//if grouping level changed for the crosstabHeaderRows 
 				
-				if(getShowTotals()||getShowGrandTotal()){
+				if(getShowTotals() || getShowGrandTotal()){
 					updateIntermediateTotals(	groupingLevel, 				//from the current grouping level 
-												getGroupingColumnsLength(), //to the last intermediate grouping col
+												getIntermGroupColsLength(),//getGroupColumnsLength(), //to the last intermediate grouping col
 												calculatorMatrix);
 				}
 			}
 		}
-		
-		//and finally for each row we add new conctructed data 
-		intermediateRow.addIntermComputedData(currentCrosstabDataInfo);
+		//and finally for each row we add new constructed data 
+		intermediateRow.addIntermComputedData(getIntermediateCrosstabDataInfo());
 	}
 	
 	
 	/**
 	 * 
 	 */
-	public void exit(Map<IOKeys,Object> algoInput, AlgorithmContext context){
+	public void exit(Map<IOKeys,Object> algoInput, AlgoContext context){
 		if(getShowTotals() || getShowGrandTotal()){
-			int originalGroupingColsLength = getOriginalCrosstabGroupingColsLength();  
-			int originalDataColsLength = getOriginalCrosstabDataColsLength(); 
+			int originalGroupingColsLength = getGroupColumnsLength(); //getOriginalCrosstabGroupingColsLength();  
+			int originalDataColsLength = getDataColumnsLength(); //getOriginalCrosstabDataColsLength(); 
 			updateIntermediateTotals(	originalGroupingColsLength + originalDataColsLength-1, //from the last original grouping col
-										getGroupingColumnsLength() ,  //to the last intermediate grouping col (containing also the headers)
+										getIntermGroupColsLength(),//getGroupColumnsLength() ,  //to the last intermediate grouping col (containing also the headers)
 										getCalculatorMatrix());
 		}
 		
@@ -126,7 +127,9 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 											Calculator[][] calculatorMatrix){
 		int calculatorMatrixRow = -1;
 		Object calculatorResult = null; 
-		int tmpLevelFrom = getOriginalCrosstabGroupingColsLength()+ getOriginalCrosstabDataColsLength(); 
+		//int tmpLevelFrom = getOriginalCrosstabGroupingColsLength()+ getOriginalCrosstabDataColsLength();
+		int tmpLevelFrom = getGroupColumnsLength()+ getDataColumnsLength(); 
+		
 		for (int tempGrpLevel = levelFrom; tempGrpLevel < levelTo; tempGrpLevel++) {
 			calculatorMatrixRow = computeCalcRowNumberForAggLevel(tempGrpLevel); //getGroupingColumnsLength() - tempGrpLevel -1; 
 			Object[] totalStrings = getTotalStringForGroupingLevelAndPredecessors(tmpLevelFrom, tempGrpLevel);
@@ -147,8 +150,8 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 		//only for debug ReportOutput output = getOutput(); 
 		//only for debug output.startRow();
 		//only for debug output.output(new CellProps("Intermediate row:"));
-		Integer originalGroupingValuesLength = getOriginalCrosstabGroupingColsLength();
-		Integer originalDataValuesLength = getOriginalCrosstabDataColsLength(); 
+		Integer originalGroupingValuesLength = getGroupColumnsLength(); //getOriginalCrosstabGroupingColsLength();
+		Integer originalDataValuesLength = getDataColumnsLength(); //getOriginalCrosstabDataColsLength(); 
 		Object[] previousGroupValues = getPreviousRowOfGroupingValues(); 
 		
 		LOGGER.debug("first: adding {} grouping values to intermediate row ", originalGroupingValuesLength); 
@@ -176,21 +179,9 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 		*/
 	}
 	
-//	private void writeIntermediateRow(IntermediateReportRow intermediateRow){
-//		//serialize
-//		try {
-//			if(logger.isDebugEnabled()){
-//				logger.debug("writting object to intermediate object stream "+intermediateRow);
-//			}
-//			objectOutputStream.writeObject(intermediateRow);
-//			objectOutputStream.reset(); 
-//		} catch (IOException e) {
-//			throw new ReportEngineRuntimeException(e);
-//		}
-//	}
 	
 	private void writeIntermediateRow(IntermediateReportRow intermediateRow){
-		ReportOutput output = getOutput(); 
+		ReportOutput output = getReportOutput(); 
 		output.startDataRow(new RowProps()); 
 		output.outputDataCell(new CellProps.Builder(intermediateRow)
 							.colspan(4) /*this is not taken into account except when debug*/
@@ -198,12 +189,33 @@ public class IntermediateCrosstabRowMangerStep extends AbstractCrosstabStep {
 		output.endDataRow(); 
 	}
 	
-//	private void flushObjectOutputStream(){
-//		try {
-//			objectOutputStream.flush();
-//			objectOutputStream.close(); 
-//		} catch (IOException e) {
-//			throw new ReportEngineRuntimeException(e); 
-//		} 
-//	}
+	@Override protected ReportOutput extractRepOutputFromParameters(Map<IOKeys, Object> algoInput, AlgoContext algoContext){
+		return (ReportOutput)algoContext.get(ContextKeys.INTERMEDIATE_OUTPUT); 
+	}
+	
+	private int getIntermGroupColsLength(){
+		return ((List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS)).size(); 
+	}
+	
+	private int getIntermDataColsLength(){
+		return ((List<DataColumn>)getAlgoContext().get(ContextKeys.INTERNAL_DATA_COLS)).size(); 
+	}
+	
+	/**
+     * computes the row number (from the calculators matrix) where the totals are for the given level
+     * @param level		the aggregation level
+     * @return
+     */
+    @Override public int computeCalcRowNumberForAggLevel(int level){
+    	return getIntermGroupColsLength() - level -1;
+    }
+    
+    /**
+     * computes the aggregation level for the given row of the calculators matrix
+     * @param calcRowNumber
+     * @return
+     */
+    @Override public int computeAggLevelForCalcRowNumber(int calcRowNumber){
+    	return getIntermGroupColsLength() - calcRowNumber - 1;
+    }
 }

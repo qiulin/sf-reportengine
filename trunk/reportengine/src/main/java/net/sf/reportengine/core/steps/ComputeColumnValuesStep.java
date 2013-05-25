@@ -6,7 +6,7 @@ import java.util.Map;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.ContextKeys;
@@ -38,10 +38,10 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 	/**
 	 * this step's init method
 	 */
-	public void init(Map<IOKeys, Object> algoInput, AlgorithmContext context){
+	public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
 		super.init(algoInput, context);
 		
-		groupCols = getGroupingColumns();
+		groupCols = getGroupColumns();
 		dataColumns = getDataColumns();
 		
 		finalReportGroupCount = groupCols != null ? groupCols.size() : 0;
@@ -87,7 +87,7 @@ public class ComputeColumnValuesStep extends AbstractReportStep{
 			formattedResults[finalReportGroupCount+i] = dataColumns.get(i).getFormattedValue(valueForCurrentColumn);
 		}
 		
-		getContext().set(ContextKeys.COMPUTED_CELL_VALUES, nonFormattedResults);
-		getContext().set(ContextKeys.FORMATTED_CELL_VALUES, formattedResults);
+		getAlgoContext().set(ContextKeys.COMPUTED_CELL_VALUES, nonFormattedResults);
+		getAlgoContext().set(ContextKeys.FORMATTED_CELL_VALUES, formattedResults);
 	}
 }

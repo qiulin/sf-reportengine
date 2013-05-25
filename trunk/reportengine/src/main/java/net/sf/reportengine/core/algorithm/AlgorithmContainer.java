@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan
  *
  */
-public class AlgorithmContainer implements Algorithm{
+public class AlgorithmContainer implements Algorithm {
 	
 	/**
 	 * the one and only logger
@@ -29,6 +29,9 @@ public class AlgorithmContainer implements Algorithm{
 	
 	private Map<IOKeys, Object> initialInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
 	
+	/**
+	 * 
+	 */
 	public AlgorithmContainer(){
 		
 	}
@@ -41,6 +44,10 @@ public class AlgorithmContainer implements Algorithm{
 		this.initialInput = input; 
 	}
 	
+	/**
+	 * calls the execute method of each algorithm and passes the results from one to the other 
+	 * until the end of the algorithm list is reached
+	 */
 	public void execute(){
 		Map<IOKeys, Object> input = initialInput; 
 		Map<IOKeys, Object> result = null; 

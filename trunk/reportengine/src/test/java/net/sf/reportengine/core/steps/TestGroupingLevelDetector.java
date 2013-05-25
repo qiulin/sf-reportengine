@@ -3,7 +3,7 @@ package net.sf.reportengine.core.steps;
 import java.util.EnumMap;
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.scenarios.CalculatedColumnsScenario;
 import net.sf.reportengine.scenarios.Scenario1;
@@ -14,16 +14,16 @@ import net.sf.reportengine.util.IOKeys;
 public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 	
 	
-	private GroupingLevelDetectorStep classUnderTest;
+	private GroupLevelDetectorStep classUnderTest;
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		classUnderTest = new GroupingLevelDetectorStep(); 
+		classUnderTest = new GroupLevelDetectorStep(); 
 	}
 	
 	
 	public void testExecuteScenario1() {
-		AlgorithmContext testReportContext = getTestContext();
+		AlgoContext testReportContext = getTestContext();
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		
 		//testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
@@ -42,7 +42,7 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 	
 	
 	public void testExecuteScenario2() {
-		AlgorithmContext testReportContext = getTestContext();
+		AlgoContext testReportContext = getTestContext();
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		
 		//testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario2.GROUPING_COLUMNS);
@@ -61,7 +61,7 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 	
 	
 	public void testExecuteCalculatedColumnsScenario() {
-		AlgorithmContext testReportContext = getTestContext();
+		AlgoContext testReportContext = getTestContext();
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
 		
 		mockAlgoInput.put(IOKeys.GROUP_COLS, CalculatedColumnsScenario.GROUP_COLUMNS);

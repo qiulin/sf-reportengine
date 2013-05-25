@@ -13,18 +13,38 @@ import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.config.SecondProcessDataColumn;
-import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
-import net.sf.reportengine.config.SecondProcessGroupColumn;
-import net.sf.reportengine.config.SecondProcessTotalColumn;
 import net.sf.reportengine.core.ConfigValidationException;
-import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.core.algorithm.Algorithm;
+import net.sf.reportengine.core.algorithm.AlgorithmContainer;
+import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
+import net.sf.reportengine.core.algorithm.MultiStepAlgo;
+import net.sf.reportengine.core.steps.CloseReportIOExitStep;
+import net.sf.reportengine.core.steps.EndReportExitStep;
+import net.sf.reportengine.core.steps.InitReportDataInitStep;
+import net.sf.reportengine.core.steps.PreviousRowManagerStep;
+import net.sf.reportengine.core.steps.StartReportInitStep;
+import net.sf.reportengine.core.steps.crosstab.ConfigAndOpenCrosstabIOInitStep;
+import net.sf.reportengine.core.steps.crosstab.ConfigCrosstabColumnsInitStep;
+import net.sf.reportengine.core.steps.crosstab.CrosstabHeaderOutputInitStep;
+import net.sf.reportengine.core.steps.crosstab.DistinctValuesDetectorStep;
+import net.sf.reportengine.core.steps.crosstab.GenerateCrosstabMetadataInitStep;
+import net.sf.reportengine.core.steps.crosstab.IntermedRowMangerStep;
+import net.sf.reportengine.core.steps.intermed.ConfigAndOpenIntermedIOInitStep;
+import net.sf.reportengine.core.steps.intermed.ConfigIntermedColsInitStep;
+import net.sf.reportengine.core.steps.intermed.IntermedCloseReportIOExitStep;
+import net.sf.reportengine.core.steps.intermed.IntermedDataRowsOutputStep;
+import net.sf.reportengine.core.steps.intermed.IntermedEndReportExitStep;
+import net.sf.reportengine.core.steps.intermed.IntermedGroupLevelDetectorStep;
+import net.sf.reportengine.core.steps.intermed.IntermedPreviousRowManagerStep;
+import net.sf.reportengine.core.steps.intermed.IntermedReportExtractTotalsDataInitStep;
+import net.sf.reportengine.core.steps.intermed.IntermedStartReportInitStep;
+import net.sf.reportengine.core.steps.intermed.IntermedTotalsCalculatorStep;
+import net.sf.reportengine.core.steps.intermed.IntermedTotalsOutputStep;
 import net.sf.reportengine.in.IntermediateCrosstabReportInput;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.out.ReportOutput;
-import net.sf.reportengine.util.CtMetadata;
-import net.sf.reportengine.util.IDistinctValuesHolder;
+import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
@@ -96,12 +116,18 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	private static final Logger LOGGER = LoggerFactory.getLogger(CrossTabReport.class);
 	
 	/**
+	 *  the container for potential algorithms : 
+	 *  the sorting algorithm , the intermediate algorithm and the reporting algorithm
+	 */
+	private AlgorithmContainer reportAlgoContainer = new AlgorithmContainer();
+	
+	/**
 	 * the intermediate report is in charge of : 
 	 * 	1. discovering the distinct values for the header 
 	 *  2. arranging the initial crosstab data into rows for the second report
 	 *  3. computing totals on the crosstab data.
 	 */
-	private IntermediateCrosstabReport firstReport;
+	//private IntermediateCrosstabReport firstReport;
 	
 	/**
 	 * the second report is in charge of: 
@@ -114,7 +140,7 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	/**
 	 * the crosstab header rows
 	 */
-	private List<CrosstabHeaderRow> crosstabHeaderRowsAsList; 
+	private List<CrosstabHeaderRow> crosstabHeaderRowsAsList = new ArrayList<CrosstabHeaderRow>(); 
 	
 	/**
 	 * the crossta data
@@ -125,7 +151,6 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	 * constructs a new crosstab report
 	 */
 	public CrossTabReport(){
-		this.crosstabHeaderRowsAsList = new ArrayList<CrosstabHeaderRow>();
 	}
 	
 	/**
@@ -171,73 +196,164 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	 */
 	protected void config() {
 		LOGGER.trace("configuring crosstab report ..."); 
-		List<GroupColumn> groupCols = getGroupColumns(); 
-		List<DataColumn> dataColsList = getDataColumns(); 
 		
-		int groupColsLength = groupCols != null ? groupCols.size() : 0;
-		int dataColsLength = dataColsList != null ? dataColsList.size() : 0;
+		//IntermediateCrosstabOutput firstReportOutput = new IntermediateCrosstabOutput(); 		
+		//firstReport = new IntermediateCrosstabReport(groupColsLength, dataColsLength); 
+		//firstReport.setIn(getIn()); 
+		//firstReport.setOut(firstReportOutput); 
+		//firstReport.setGroupColumns(groupCols); 
+		//firstReport.setDataColumns(dataColsList); 
+		//firstReport.setCrosstabHeaderRows(getCrosstabHeaderRows()); 
+		//firstReport.setCrosstabData(getCrosstabData()); 
+		//firstReport.setShowDataRows(true); 
+		//firstReport.setShowTotals(getShowTotals());
+		//firstReport.setShowGrandTotal(getShowGrandTotal()); 
 		
-		IntermediateCrosstabOutput firstReportOutput = new IntermediateCrosstabOutput(); 		
-		firstReport = new IntermediateCrosstabReport(groupColsLength, dataColsLength); 
-		firstReport.setIn(getIn()); 
-		firstReport.setOut(firstReportOutput); 
-		firstReport.setGroupColumns(groupCols); 
-		firstReport.setDataColumns(dataColsList); 
-		firstReport.setCrosstabHeaderRows(getCrosstabHeaderRows()); 
-		firstReport.setCrosstabData(getCrosstabData()); 
-		firstReport.setShowDataRows(true); 
-		firstReport.setShowTotals(getShowTotals());
-		firstReport.setShowGrandTotal(getShowGrandTotal()); 
+		//new implementation start
+		//setting the input/output
+		reportAlgoContainer.addIn(IOKeys.REPORT_INPUT, getIn());
+		reportAlgoContainer.addIn(IOKeys.REPORT_OUTPUT, getOut());
+		
+		//context keys specific to a flat report
+		//reportAlgoContainer.addIn(IOKeys.DATA_COLS, intermediateDataCols); 
+		//reportAlgoContainer.addIn(IOKeys.GROUP_COLS, intermediateGroupCols); 
+		reportAlgoContainer.addIn(IOKeys.DATA_COLS, getDataColumns()); 
+		reportAlgoContainer.addIn(IOKeys.GROUP_COLS, getGroupColumns()); 
+		reportAlgoContainer.addIn(IOKeys.CROSSTAB_HEADER_ROWS, crosstabHeaderRowsAsList); 
+		reportAlgoContainer.addIn(IOKeys.CROSSTAB_DATA, crosstabData); 
+		
+		reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals())); 
+		reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
+		
+		//reportAlgoContainer.addIn(IOKeys.ORIGINAL_CT_DATA_COLS_COUNT, originalDataColsCount); 
+		//reportAlgoContainer.addIn(IOKeys.ORIGINAL_CT_GROUP_COLS_COUNT, originalGroupColsCount); 
+		
+		reportAlgoContainer.addAlgo(configFirstReport()); 
+		reportAlgoContainer.addAlgo(configSecondReport()); 
 	}
 			
+	/**
+	 * configures the first algorithm responsible for : 
+	 * 	1. discovering the distinct values for the header 
+	 *  2. arranging the initial crosstab data into rows for the second report
+	 *  3. computing totals on the crosstab data.
+	 *  
+	 * @return	the intermediate algorithm
+	 */
+	private Algorithm configFirstReport(){
+		
+		MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(); 
+		//initial steps 
+		algorithm.addInitStep(new ConfigIntermedColsInitStep()); 
+		algorithm.addInitStep(new ConfigAndOpenIntermedIOInitStep()); // instead of new OpenReportIOInitStep()
+		algorithm.addInitStep(new IntermedReportExtractTotalsDataInitStep(IOKeys.DATA_COLS));//TODO: only when totals
+		algorithm.addInitStep(new IntermedStartReportInitStep()); 
+    	//only for debug
+    	//algorithm.addInitStep(new ColumnHeaderOutputInitStep("Intermediate report"));
+        
+    	//main steps
+    	algorithm.addMainStep(new DistinctValuesDetectorStep());
+    	//algorithm.addMainStep(new ComputeColumnValuesStep());
+    	algorithm.addMainStep(new IntermedGroupLevelDetectorStep(ContextKeys.INTERNAL_GROUP_COLS));
+    	
+    	//only for debug 
+    	//if( getShowTotals() || getShowGrandTotal()){
+    	//algorithm.addMainStep(new FlatReportTotalsOutputStep());
+		//}
+    	algorithm.addMainStep(new IntermedRowMangerStep());
+    	
+    	if(getShowTotals() || getShowGrandTotal()){
+    		algorithm.addMainStep(new IntermedTotalsCalculatorStep());
+    	}
+    	
+    	//only for debug algorithm.addMainStep(new DataRowsOutputStep());
+    	
+    	//if( intermediateGroupCols.size() > 0){
+    		algorithm.addMainStep(new IntermedPreviousRowManagerStep());
+    	//}
+    	
+    	algorithm.addExitStep(new IntermedEndReportExitStep()); 
+    	algorithm.addExitStep(new IntermedCloseReportIOExitStep()); 
+		
+		return algorithm; 
+	}
+	
+	private Algorithm configSecondReport(){
+		MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(); 
+		
+		//adding steps to the algorithm
+		algorithm.addInitStep(new GenerateCrosstabMetadataInitStep()); 
+		algorithm.addInitStep(new ConfigCrosstabColumnsInitStep());
+		algorithm.addInitStep(new ConfigAndOpenCrosstabIOInitStep()); //new OpenReportIOInitStep()
+    	algorithm.addInitStep(new InitReportDataInitStep()); 
+    	
+    	//algorithm.addInitStep(new FlatReportExtractTotalsDataInitStep());
+    	algorithm.addInitStep(new IntermedReportExtractTotalsDataInitStep(ContextKeys.INTERNAL_DATA_COLS));
+    	
+    	algorithm.addInitStep(new StartReportInitStep()); 
+    	algorithm.addInitStep(new CrosstabHeaderOutputInitStep());
+    	
+    	//algorithm.addMainStep(new ComputeColumnValuesStep());
+    	algorithm.addMainStep(new IntermedGroupLevelDetectorStep(ContextKeys.INTERNAL_GROUP_COLS));
+    	
+    	if(getShowTotals() || getShowGrandTotal()){
+    		algorithm.addMainStep(new IntermedTotalsOutputStep(ContextKeys.INTERNAL_DATA_COLS, ContextKeys.INTERNAL_GROUP_COLS));
+    		algorithm.addMainStep(new IntermedTotalsCalculatorStep());//this uses the internal data
+    	}
+    	
+        algorithm.addMainStep(new IntermedDataRowsOutputStep(ContextKeys.INTERNAL_DATA_COLS, ContextKeys.INTERNAL_GROUP_COLS));
+        
+        if(getGroupColumns() != null && getGroupColumns().size() > 0){
+        	algorithm.addMainStep(new IntermedPreviousRowManagerStep());//uses internal data
+        }
+        
+        algorithm.addExitStep(new EndReportExitStep()); //uses original output
+        algorithm.addExitStep(new CloseReportIOExitStep()); 
+        
+        return algorithm; 
+	}
 	
 	/**
 	 * configuration of the second report based on the results of the first one
 	 */
-	private void configSecondReport() {
-		try{
-			//transfer data from first report to the second 
-			//TODO: Move this in the transfer method and improve
-			
-			//AlgorithmContext firstReportContext = firstReport.getAlgorithm().getContext(); 
-			//IDistinctValuesHolder distinctValuesHolder = 
-			//	(IDistinctValuesHolder)firstReportContext.get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
-			
-			IDistinctValuesHolder distinctValuesHolder = 
-					(IDistinctValuesHolder)firstReport.getAlgorithm().getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
-			
-			CtMetadata crosstabMetadata = new CtMetadata(distinctValuesHolder);
-			crosstabMetadata.computeCoefficients(); 
-			
-			secondReport = new SecondCrosstabProcessorReport(crosstabMetadata);  
-			InputStream secondReportInput = new FileInputStream(((IntermediateCrosstabOutput)firstReport.getOut()).getSerializedOutputFile()); 
-			secondReport.setIn(new IntermediateCrosstabReportInput(secondReportInput)); 
-			secondReport.setOut(getOut()); 
-			
-			List<DataColumn> secondReportDataCols = 
-					constructDataColumnsForSecondProcess(crosstabMetadata, 
-														getDataColumns(), 
-														getShowTotals(), 
-														getShowGrandTotal());
-			
-			List<GroupColumn> secondReportGroupCols = constructGroupColumnsForSecondProcess(getGroupColumns()); 
-			
-			secondReport.setGroupColumns(secondReportGroupCols); 
-			secondReport.setDataColumns(secondReportDataCols);
-			secondReport.setShowDataRows(true); 
-			secondReport.setShowTotals(getShowTotals());
-			secondReport.setShowGrandTotal(getShowGrandTotal()); 
-		}catch(FileNotFoundException fnfExc){
-			throw new ConfigValidationException(fnfExc); 
-		}
-	}
+//	private void configSecondReportDeleteme() {
+//		try{
+//			//transfer data from first report to the second 
+//			//TODO: Move this in the transfer method and improve
+//			
+//			//AlgoContext firstReportContext = firstReport.getAlgorithm().getContext(); 
+//			//IDistinctValuesHolder distinctValuesHolder = 
+//			//	(IDistinctValuesHolder)firstReportContext.get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
+//			
+//			IDistinctValuesHolder distinctValuesHolder = 
+//					(IDistinctValuesHolder)firstReport.getAlgorithm().getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
+//			
+//			CtMetadata crosstabMetadata = new CtMetadata(distinctValuesHolder);
+//			crosstabMetadata.computeCoefficients(); 
+//			
+//			secondReport = new SecondCrosstabProcessorReport(crosstabMetadata);  
+//			InputStream secondReportInput = new FileInputStream(((IntermediateCrosstabOutput)firstReport.getOut()).getSerializedOutputFile()); 
+//			secondReport.setIn(new IntermediateCrosstabReportInput(secondReportInput)); 
+//			secondReport.setOut(getOut()); 
+//			
+//			List<DataColumn> secondReportDataCols = 
+//					constructDataColumnsForSecondProcess(crosstabMetadata, 
+//														getDataColumns(), 
+//														getShowTotals(), 
+//														getShowGrandTotal());
+//			
+//			List<GroupColumn> secondReportGroupCols = constructGroupColumnsForSecondProcess(getGroupColumns()); 
+//			
+//			secondReport.setGroupColumns(secondReportGroupCols); 
+//			secondReport.setDataColumns(secondReportDataCols);
+//			secondReport.setShowDataRows(true); 
+//			secondReport.setShowTotals(getShowTotals());
+//			secondReport.setShowGrandTotal(getShowGrandTotal()); 
+//		}catch(FileNotFoundException fnfExc){
+//			throw new ConfigValidationException(fnfExc); 
+//		}
+//	}
 	
-	/**
-	 * transfer data between reports
-	 */
-	private void transferDataBetweenReports() {
-		
-	}
 	
 	/**
 	 * getter method for crosstabl header rows
@@ -279,108 +395,6 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 		this.crosstabData = crosstabData;
 	}
 	
-	/**
-	 * creates a list of group columns for the second report based on the original group columns
-	 * 
-	 * @param originalGroupCols
-	 * @return	a list of group columns necessary to the second processing
-	 */
-	protected List<GroupColumn> constructGroupColumnsForSecondProcess(List<GroupColumn> originalGroupCols){
-		List<GroupColumn> result = null; 
-		if(originalGroupCols != null && originalGroupCols.size() > 0){
-			result = new ArrayList<GroupColumn>(originalGroupCols.size());
-			for (GroupColumn originalGroupColumn : originalGroupCols) {
-				result.add(new SecondProcessGroupColumn(originalGroupColumn));
-			}
-		}
-		return result; 
-	}
-	
-	/**
-	 * creates a list of DataColumn objects from 
-	 * 
-	 * 1. original data columns 
-	 * 2. columns needed for displaying the values under the header values ( computed form crosstab-data) 
-	 * 3. (if needed ) columns needed to display the totals and grand total 
-	 * 
-	 * @param crosstabMetadata
-	 * @param originalDataColumns
-	 * @param hasTotals
-	 * @param hasGrandTotal
-	 * @return	a list data columns necessary to the second process
-	 */
-	protected List<DataColumn> constructDataColumnsForSecondProcess(	CtMetadata crosstabMetadata, 
-																		List<DataColumn> originalDataColumns, 
-																		boolean hasTotals, 
-																		boolean hasGrandTotal){
-		int dataColsCount = crosstabMetadata.getDataColumnCount(); 
-		int headerRowsCount = crosstabMetadata.getHeaderRowsCount(); 
-		
-		List<DataColumn> resultDataColsList = new ArrayList<DataColumn>();
-		
-		//first we add the original data columns (those declared by the user in his configuration)
-		for(int i=0; i < originalDataColumns.size(); i++){
-			resultDataColsList.add(new SecondProcessDataColumnFromOriginalDataColumn(originalDataColumns.get(i), i));
-		}
-
-		// then we construct the columns 
-		for(int column=0; column < dataColsCount; column++){
-		
-			//construct total columns 
-			if(hasTotals){
-				//we start bottom to top (from last header row -1 to first header row) 
-				for(int row=headerRowsCount-2; row >= 0; row--){
-					int colspan = crosstabMetadata.getColspanForLevel(row); 
-				
-					if(column != 0 && (column % colspan)==0){
-						int[] positionForCurrentTotal = new int[row+1]; //new int[headerRowsCount-1];
-					
-						for(int j=0; j < positionForCurrentTotal.length; j++){
-							positionForCurrentTotal[j] = ((column-1) / crosstabMetadata.getColspanForLevel(j)) % crosstabMetadata.getDistinctValuesCountForLevel(j);
-						}
-		
-						resultDataColsList.add(
-								new SecondProcessTotalColumn(	positionForCurrentTotal, 
-																Calculators.SUM, 
-																null, 
-																"Total column="+column+ ",colspan= "+colspan));
-					}
-				}//end for
-			}//end if has totals
-
-			//data columns coming from data columns
-			int[] positionForCurrentColumn = new int[headerRowsCount];
-			for(int j=0; j < headerRowsCount; j++){
-				positionForCurrentColumn[j] = (column / crosstabMetadata.getColspanForLevel(j)) % crosstabMetadata.getDistinctValuesCountForLevel(j);
-			}
-		
-			resultDataColsList.add(new SecondProcessDataColumn(positionForCurrentColumn, Calculators.SUM, null)); 
-		}//end for columns
-		
-		//at the end we add one more total 
-		if(hasTotals){
-			//final total columns
-			for(int row=headerRowsCount-2; row >= 0; row--){
-				int colspan = crosstabMetadata.getColspanForLevel(row); 
-			
-				if(dataColsCount!= 0 && (dataColsCount % colspan)==0){
-					int[] positionForCurrentTotal = new int[row+1];
-			
-					for(int j=0; j < positionForCurrentTotal.length; j++){
-						positionForCurrentTotal[j] = ((dataColsCount-1) / crosstabMetadata.getColspanForLevel(j)) % crosstabMetadata.getDistinctValuesCountForLevel(j);
-					}
-					resultDataColsList.add(new SecondProcessTotalColumn(positionForCurrentTotal, Calculators.SUM, null, "Total column="+(dataColsCount)+ ",colspan= "+colspan));
-				}
-			}
-		}//end if has totals
-
-		// .. and finally the grand total
-		if(hasGrandTotal){
-			resultDataColsList.add(new SecondProcessTotalColumn(null, Calculators.SUM, null, "Grand Total")); 
-		}
-
-		return resultDataColsList; 
-	}
 	
 	/**
      * Call this method for execution of the report<br> 
@@ -399,13 +413,9 @@ public class CrossTabReport extends AbstractColumnBasedReport{
     	
     	//configuration of the first report
         config();
-        firstReport.execute(); 
         
-        //transfer data between reports
-        transferDataBetweenReports(); 
         
-        //configure the second report
-        configSecondReport();
-        secondReport.execute(); 
+        reportAlgoContainer.execute(); 
+         
     }
 }

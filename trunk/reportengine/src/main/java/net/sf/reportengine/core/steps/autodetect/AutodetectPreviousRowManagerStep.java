@@ -2,7 +2,7 @@ package net.sf.reportengine.core.steps.autodetect;
 
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.util.IOKeys;
@@ -25,10 +25,10 @@ public class AutodetectPreviousRowManagerStep extends PreviousRowManagerStep{
 	/**
 	 * 
 	 */
-	public void init(Map<IOKeys, Object> algoInput, AlgorithmContext context){
+	public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
 		super.init(algoInput, context); 
 		
-		reportHasGroups = getGroupingColumns() != null && getGroupingColumns().size() > 0;
+		reportHasGroups = getGroupColumns() != null && getGroupColumns().size() > 0;
 	}
 	
 	@Override public void execute(NewRowEvent rowEvent) {

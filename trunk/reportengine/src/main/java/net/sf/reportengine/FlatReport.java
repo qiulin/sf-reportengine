@@ -19,9 +19,9 @@ import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.DecideInputInitStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.ExternalSortPreparationStep;
-import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
+import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
-import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
+import net.sf.reportengine.core.steps.GroupLevelDetectorStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
 import net.sf.reportengine.core.steps.OpenReportIOInitStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
@@ -80,7 +80,7 @@ import org.slf4j.LoggerFactory;
  * @see DataColumn
  * @see GroupColumn
  * 
- * @author dragos balan (dragos dot balan at gmail dot com)
+ * @author dragos balan
  * @since 0.2
  */
 public class FlatReport extends AbstractColumnBasedReport {
@@ -91,7 +91,7 @@ public class FlatReport extends AbstractColumnBasedReport {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FlatReport.class);
     
 	/**
-	 * 
+	 *  the container for two potential algorithms : the sorting algorithm and the reporting algorithm
 	 */
 	private AlgorithmContainer reportAlgoContainer = new AlgorithmContainer(); 
 	
@@ -142,12 +142,12 @@ public class FlatReport extends AbstractColumnBasedReport {
     	reportAlgo.addInitStep(new DecideInputInitStep()); 
     	reportAlgo.addInitStep(new OpenReportIOInitStep()); 
     	reportAlgo.addInitStep(new InitReportDataInitStep()); 
-    	reportAlgo.addInitStep(new FlatReportExtractDataInitStep());
+    	reportAlgo.addInitStep(new FlatReportExtractTotalsDataInitStep());//TODO: only when report has totals
     	reportAlgo.addInitStep(new StartReportInitStep()); 
     	reportAlgo.addInitStep(new ColumnHeaderOutputInitStep(getTitle()));
         
     	//then we add the main steps
-    	reportAlgo.addMainStep(new GroupingLevelDetectorStep());
+    	reportAlgo.addMainStep(new GroupLevelDetectorStep());
     	
         if(getShowTotals() || getShowGrandTotal()){
         	reportAlgo.addMainStep(new FlatReportTotalsOutputStep());

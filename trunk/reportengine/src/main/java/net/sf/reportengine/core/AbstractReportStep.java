@@ -5,9 +5,11 @@
 package net.sf.reportengine.core;
 
 import java.util.List;
+import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.steps.AbstractAlgoMainStep;
 import net.sf.reportengine.core.calc.Calculator;
@@ -44,12 +46,14 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
      */
     public abstract void execute(NewRowEvent rowEvent);
     
+    
+    
     /**
      * returns the aggregation level (especially used in the derived classes)
      * @return  the aggregation level
      */
     public int getGroupingLevel(){
-    	return (Integer)getContext().get(ContextKeys.NEW_GROUPING_LEVEL);
+    	return (Integer)getAlgoContext().get(ContextKeys.NEW_GROUPING_LEVEL);
     }
     
     /**
@@ -57,7 +61,7 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
      * @return
      */
     public Calculator[][] getCalculatorMatrix(){
-    	return (Calculator[][])getContext().get(ContextKeys.CALCULATORS);
+    	return (Calculator[][])getAlgoContext().get(ContextKeys.CALCULATORS);
     }
     
     
@@ -66,7 +70,92 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
      * @return
      */
     public int[] getCalculatorDistributionInColumnDataArray(){
-    	return (int[])getContext().get(ContextKeys.DISTRIBUTION_OF_CALCULATORS);
+    	return (int[])getAlgoContext().get(ContextKeys.DISTRIBUTION_OF_CALCULATORS);
+    }
+    
+    
+    
+    /**
+     * getter for output dispatcher
+     * @return
+     */
+    public ReportOutput getReportOutput(){
+    	return extractRepOutputFromParameters(getAlgoInput(), getAlgoContext()); 
+    }
+    
+    /**
+     * ATTENTION : changing the implementation of this method will have effect on the 
+     * following methods: 
+     * {@link #getReportOutput()}
+     * @param algoInput
+     * @param algoContext
+     * @return
+     */
+    protected ReportOutput extractRepOutputFromParameters(	Map<IOKeys, Object> algoInput, 
+															AlgoContext algoContext){
+		return (ReportOutput)algoInput.get(IOKeys.REPORT_OUTPUT); 
+	}
+    
+    /**
+     * ATTENTION : changing the implementation of this method will have effect on the 
+     * following methods: 
+     * {@link #getDataColumns()}
+     * {@link #getDataColumnsLength()}
+     * 
+     * @param algoInput
+     * @param algoContext
+     * @return
+     */
+    protected List<DataColumn> extractDataColsFromParameters(	Map<IOKeys, Object> algoInput, 
+															AlgoContext algoContext){
+		return (List<DataColumn>)algoInput.get(IOKeys.DATA_COLS); 
+	}
+    
+    public List<DataColumn> getDataColumns(){
+    	return extractDataColsFromParameters(getAlgoInput(), getAlgoContext()); 
+    }
+    
+    public int getDataColumnsLength(){
+    	return getDataColumns() != null ? getDataColumns().size() : 0; 
+    }
+    
+    
+    /**
+     * ATTENTION : changing the implementation of this method will have effect on the 
+     * following methods: 
+     * {@link #getGroupColumns()}
+     * {@link #getGroupColumnsLength()}
+     * {@link #computeAggLevelForCalcRowNumber(int)}
+     * {@link #computeCalcRowNumberForAggLevel(int)}
+     * 
+     * @param algoInput
+     * @param algoContext
+     * @return
+     */
+    protected List<GroupColumn> extractGroupColsFromParameters(	Map<IOKeys, Object> algoInput, 
+																AlgoContext algoContext){
+		return (List<GroupColumn>)algoInput.get(IOKeys.GROUP_COLS); 
+	}
+    
+    public List<GroupColumn> getGroupColumns(){
+    	return extractGroupColsFromParameters(getAlgoInput(), getAlgoContext()); 
+    }
+    
+    public int getGroupColumnsLength(){
+    	return getGroupColumns() != null ? getGroupColumns().size() : 0; 
+    }
+    
+	public String[] getFormattedCellValues(){
+    	return (String[])getAlgoContext().get(ContextKeys.FORMATTED_CELL_VALUES);
+    }
+    
+    
+    public boolean getShowGrandTotal(){
+    	return (Boolean)getAlgoInput().get(IOKeys.SHOW_GRAND_TOTAL);
+    }
+    
+    public boolean getShowTotals(){
+    	return (Boolean)getAlgoInput().get(IOKeys.SHOW_TOTALS);
     }
     
     /**
@@ -75,7 +164,7 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
      * @return
      */
     public int computeCalcRowNumberForAggLevel(int level){
-    	return getGroupingColumnsLength() - level -1;
+    	return getGroupColumnsLength() - level -1;
     }
     
     /**
@@ -84,44 +173,13 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
      * @return
      */
     public int computeAggLevelForCalcRowNumber(int calcRowNumber){
-    	return getGroupingColumns().size() - calcRowNumber - 1;
-    }
-    
-    /**
-     * getter for output dispatcher
-     * @return
-     */
-    public ReportOutput getOutput(){
-    	return (ReportOutput)getInput().get(IOKeys.REPORT_OUTPUT); 
-    }
-    
-	public String[] getFormattedCellValues(){
-    	return (String[])getContext().get(ContextKeys.FORMATTED_CELL_VALUES);
+    	return getGroupColumnsLength() - calcRowNumber - 1;
     }
     
     
-    public boolean getShowGrandTotal(){
-    	return (Boolean)getInput().get(IOKeys.SHOW_GRAND_TOTAL);
-    }
-    
-    public boolean getShowTotals(){
-    	return (Boolean)getInput().get(IOKeys.SHOW_TOTALS);
-    }
-    
-    public List<GroupColumn> getGroupingColumns(){
-    	return (List<GroupColumn>)getInput().get(IOKeys.GROUP_COLS);
-    }
-    
-    public int getGroupingColumnsLength(){
-    	return getGroupingColumns() != null ? getGroupingColumns().size() : 0; 
-    }
-    
-    public List<DataColumn> getDataColumns(){
-    	return (List<DataColumn>)getInput().get(IOKeys.DATA_COLS);
-    }
     
     public Object[] getPreviousRowOfGroupingValues(){
-    	return (Object[])getContext().get(ContextKeys.LAST_GROUPING_VALUES);
+    	return (Object[])getAlgoContext().get(ContextKeys.LAST_GROUPING_VALUES);
     }
 	 
     public String getTotalStringForGroupingLevel(int groupingLevel) {
@@ -190,7 +248,7 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
      * @return
      */
     public Integer getDataRowCount(){
-    	return (Integer)getContext().get(ContextKeys.DATA_ROW_COUNT); 
+    	return (Integer)getAlgoContext().get(ContextKeys.DATA_ROW_COUNT); 
     }
     
     /**
@@ -198,6 +256,6 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
      */
     protected void incrementDataRowNbr(){
     	Integer oldValue = getDataRowCount(); 
-    	getContext().set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(oldValue.intValue()+1));
+    	getAlgoContext().set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(oldValue.intValue()+1));
     }
 }

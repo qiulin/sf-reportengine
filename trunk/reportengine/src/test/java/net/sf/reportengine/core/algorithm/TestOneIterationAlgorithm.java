@@ -33,16 +33,21 @@ public class TestOneIterationAlgorithm {
 	private CellPropsArrayOutput testOut = new CellPropsArrayOutput();
 	
 	private AlgorithmInitStep testInitStep = new AlgorithmInitStep(){
-		public void init(Map<IOKeys, Object> algoInput, AlgorithmContext context){
+		public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
 			context.set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(0));
 		}
+
+		public Map<IOKeys, Object> getResultsMap() {
+			return null;
+		}
+		
 	};
 	
 	private AlgorithmMainStep testMainStep = new AlgorithmMainStep(){
-		private AlgorithmContext context = null;
+		private AlgoContext context = null;
 		private Map<IOKeys, Object> algoInput = null; 
 		
-		public void init(Map<IOKeys, Object> algoInput, AlgorithmContext context){
+		public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
 			this.context = context;
 			//this.context.set("isInitCalledOnMainStep", true);
 			this.context.set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(1));
@@ -57,7 +62,7 @@ public class TestOneIterationAlgorithm {
 			context.set(ContextKeys.NEW_GROUPING_LEVEL, executionCounts+1);
 		}
 		
-		public void exit(Map<IOKeys,Object> algoInput, AlgorithmContext context){}
+		public void exit(Map<IOKeys,Object> algoInput, AlgoContext context){}
 		
 		public Map<IOKeys, Object> getResultsMap(){
 			return null; 

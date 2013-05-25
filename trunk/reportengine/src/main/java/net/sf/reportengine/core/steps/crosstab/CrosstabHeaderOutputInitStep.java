@@ -12,8 +12,8 @@ import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.SecondProcessDataColumn;
 import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
-import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
+import net.sf.reportengine.core.algorithm.AlgoContext;
+import net.sf.reportengine.core.steps.AbstractCrosstabInitStep;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
@@ -30,25 +30,30 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan
  * @since 0.4
  */
-public class CrosstabHeaderOutputInitStep implements AlgorithmInitStep {
+public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep{
 	
 	/**
 	 * the one and only logger
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(CrosstabHeaderOutputInitStep.class);
 	
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)
+	/**
+	 * 
 	 */
-	public void init(Map<IOKeys, Object> algoInput, AlgorithmContext reportContext) {
-		ReportOutput reportOutput = (ReportOutput)algoInput.get(IOKeys.REPORT_OUTPUT);
-		List<DataColumn> dataColumns = (List<DataColumn>)algoInput.get(IOKeys.DATA_COLS);
-		List<GroupColumn> groupColumns = (List<GroupColumn>)algoInput.get(IOKeys.GROUP_COLS); 
-		
-		CtMetadata ctMetadata = (CtMetadata)algoInput.get(IOKeys.CROSSTAB_METADATA);
-		
-		//display header rows
-		outputHeaderRows(reportOutput, ctMetadata, dataColumns, groupColumns); 
+	@Override protected void executeInit() {
+		outputHeaderRows(	getReportOutput(), 
+							getCrosstabMetadata(), 
+							getDataColumns(), 
+							getGroupColumns()); 
+	}
+	
+	
+	@Override protected List<DataColumn> extractDataColsFromParameters(Map<IOKeys, Object> algoInput, AlgoContext algoContext){
+		return (List<DataColumn>)algoContext.get(ContextKeys.INTERNAL_DATA_COLS); 
+	}
+	
+	@Override protected List<GroupColumn> extractGroupColsFromParameters(Map<IOKeys, Object> algoInput, AlgoContext algoContext){
+		return (List<GroupColumn>)algoContext.get(ContextKeys.INTERNAL_GROUP_COLS); 
 	}
 	
 	/**

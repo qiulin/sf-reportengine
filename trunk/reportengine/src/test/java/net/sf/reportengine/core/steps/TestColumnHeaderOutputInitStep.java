@@ -7,7 +7,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.util.ContextKeys;
@@ -28,7 +28,7 @@ public class TestColumnHeaderOutputInitStep  {
 	 */
 	@Test
 	public void testInitScenario1() {
-		AlgorithmContext testReportContext = new DefaultAlgorithmContext(); 
+		AlgoContext testReportContext = new DefaultAlgorithmContext(); 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);  
 		CellPropsArrayOutput mockOutput = new CellPropsArrayOutput(); 
 		

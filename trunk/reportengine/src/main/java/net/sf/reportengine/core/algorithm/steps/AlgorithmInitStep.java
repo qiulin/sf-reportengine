@@ -5,7 +5,7 @@ package net.sf.reportengine.core.algorithm.steps;
 
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.util.IOKeys;
 
 /**
@@ -23,10 +23,15 @@ public interface AlgorithmInitStep {
      * values used inside the execute method.
      * <b>Warning: this is the only place where you can add keys to the report context
      *  
-     * @param reportContext     the context of the report
+     * @param algoInput		the input parameters 	
+     * @param algoContext   the context of the report
      */
-    public void init(Map<IOKeys, Object> algoInput, AlgorithmContext reportContext);
+    public void init(Map<IOKeys, Object> algoInput, AlgoContext algoContext);
     
+    /**
+     * 
+     * @return
+     */
+    public Map<IOKeys, Object> getResultsMap(); 
     
-
 }

@@ -42,7 +42,6 @@ public class TestCrosstabMetadata extends TestCase {
 		
 		
 		CtMetadata classUnderTest = new CtMetadata(distinctValuesHolder); 
-		classUnderTest.computeCoefficients(); 
 		
 		assertEquals(classUnderTest.getDataColumnCount(), 8);
 		
@@ -75,7 +74,7 @@ public class TestCrosstabMetadata extends TestCase {
 		distinctValuesHolder.addValueIfNotExist(2, "80"); 
 		
 		CtMetadata classUnderTest = new CtMetadata(distinctValuesHolder); 
-		classUnderTest.computeCoefficients(); 
+	 
 		
 		assertEquals(classUnderTest.getDataColumnCount(), 24);
 		

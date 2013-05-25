@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.scenarios.CalculatedColumnsScenario;
 import net.sf.reportengine.scenarios.Scenario1;
@@ -41,7 +41,7 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 	 * Test method for {@link net.sf.reportengine.core.steps.ComputeColumnValuesStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
 	 */
 	public void testExecuteScenario1() {
-		AlgorithmContext reportContext = getTestContext(); 
+		AlgoContext reportContext = getTestContext(); 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);  
 		
 		//reportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
@@ -72,7 +72,7 @@ public class TestComputeColumnsStep extends ReportAlgorithmStepTC {
 	}
 	
 	public void testExecuteComputedColumns(){
-		AlgorithmContext reportContext = getTestContext(); 
+		AlgoContext reportContext = getTestContext(); 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);  
 		
 		//reportContext.set(ContextKeys.DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);

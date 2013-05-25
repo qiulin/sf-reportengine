@@ -5,7 +5,7 @@ package net.sf.reportengine.core.steps;
 
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
@@ -18,10 +18,20 @@ import net.sf.reportengine.util.IOKeys;
 public class CloseReportIOExitStep implements AlgorithmExitStep {
 
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep#exit(java.util.Map, net.sf.reportengine.core.algorithm.AlgorithmContext)
+	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep#exit(java.util.Map, net.sf.reportengine.core.algorithm.AlgoContext)
 	 */
-	public void exit(Map<IOKeys, Object> algoInput, AlgorithmContext context) {
-		((ReportOutput)algoInput.get(IOKeys.REPORT_OUTPUT)).close(); 
-		((ReportInput)algoInput.get(IOKeys.REPORT_INPUT)).close(); 
+	public void exit(Map<IOKeys, Object> algoInput, AlgoContext context) {
+		extractRepOutputFromParameters(algoInput, context).close(); 
+		extractRepInputFromParameters(algoInput, context).close(); 
+	}
+	
+	protected ReportOutput extractRepOutputFromParameters(	Map<IOKeys, Object> algoInput, 
+																		AlgoContext algoContext){
+		return (ReportOutput)algoInput.get(IOKeys.REPORT_OUTPUT); 
+	}
+	
+	protected ReportInput extractRepInputFromParameters(	Map<IOKeys, Object> algoInput, 
+			AlgoContext algoContext){
+		return (ReportInput)algoInput.get(IOKeys.REPORT_INPUT); 
 	}
 }

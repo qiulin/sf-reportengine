@@ -10,7 +10,7 @@ import java.util.List;
  * @author dragos balan
  * @since 0.4
  */
-public class CtMetadata {
+public final class CtMetadata {
 	
 	
 	/**
@@ -34,9 +34,10 @@ public class CtMetadata {
 	
 	public CtMetadata(IDistinctValuesHolder distValuesHolder){
 		this.distinctValuesHolder = distValuesHolder; 
+		computeCoefficients(); 
 	}
 	
-	public void computeCoefficients(){
+	private void computeCoefficients(){
 		
 		//first we compute the number of columns
 		dataColumnsCount = 1; 

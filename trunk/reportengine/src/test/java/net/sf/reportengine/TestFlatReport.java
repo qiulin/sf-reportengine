@@ -11,7 +11,6 @@ import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.out.PdfOutput;
 import net.sf.reportengine.out.PngOutput;
-import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.StaxReportOutput;
 import net.sf.reportengine.out.XslFoOutput;
 import net.sf.reportengine.out.XsltOutput;
@@ -20,6 +19,7 @@ import net.sf.reportengine.scenarios.OhlcComputationScenario;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.Scenario2x3x1;
 import net.sf.reportengine.scenarios.ScenarioFormatedValues;
+import net.sf.reportengine.scenarios.ScenarioSort;
 import net.sf.reportengine.util.MatrixUtils;
 import net.sf.reportengine.util.ReportIoUtils;
 
@@ -254,18 +254,17 @@ public class TestFlatReport {
 		flatReport.setGroupValuesSorted(false); 
 		
 		CellPropsArrayOutput mockOut = new CellPropsArrayOutput();
-		//ReportOutput htmlOut = new HtmlOutput("./target/ExternalySorted.html"); 
 		
-		flatReport.setIn(Scenario1.INPUT);
+		flatReport.setIn(ScenarioSort.INPUT);
 		flatReport.setOut(mockOut);
-		flatReport.setDataColumns(Scenario1.DATA_COLUMNS);
-		flatReport.setGroupColumns(Scenario1.GROUPING_COLUMNS);
+		flatReport.setDataColumns(ScenarioSort.DATA_COLUMNS);
+		flatReport.setGroupColumns(ScenarioSort.GROUPING_COLUMNS);
 		flatReport.setShowTotals(false);
 		flatReport.setShowDataRows(true);
 		flatReport.setShowGrandTotal(true);
 		flatReport.execute();
-			
+		
 		Assert.assertTrue(MatrixUtils.compareMatrices(	mockOut.getDataCellMatrix(), 
-														Scenario1.EXPECTED_OUTPUT_SORTED));
+														ScenarioSort.EXPECTED_OUTPUT_SORTED));
 	}
 }

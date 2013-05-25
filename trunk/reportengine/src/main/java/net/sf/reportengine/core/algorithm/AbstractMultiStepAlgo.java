@@ -36,7 +36,7 @@ public abstract class AbstractMultiStepAlgo extends AbstractAlgo implements Mult
     /**
      * the context of the report (holding important values)
      */
-    private AlgorithmContext algorithmContext = new DefaultAlgorithmContext();
+    private AlgoContext algorithmContext = new DefaultAlgorithmContext();
     
     
     /**
@@ -82,7 +82,7 @@ public abstract class AbstractMultiStepAlgo extends AbstractAlgo implements Mult
     	return mainSteps;
     }
     
-    public AlgorithmContext getContext(){
+    public AlgoContext getContext(){
     	return algorithmContext; 
     }
 }

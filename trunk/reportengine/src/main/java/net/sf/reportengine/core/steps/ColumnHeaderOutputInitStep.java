@@ -10,7 +10,8 @@ import java.util.Map;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
+import net.sf.reportengine.core.algorithm.steps.AbstractInitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
@@ -27,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
+public class ColumnHeaderOutputInitStep extends AbstractReportInitStep{
     
 	/**
 	 * the one and only logger
@@ -58,15 +59,13 @@ public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
     /**
      * 
      */
-    public void init(Map<IOKeys, Object> algoInput, AlgorithmContext reportContext){
+    @Override protected void executeInit(){
     	LOGGER.trace("initializing the column header step: output title and column headers");
-    	List<DataColumn> dataCols = (List<DataColumn>)algoInput.get(IOKeys.DATA_COLS);
-    	List<GroupColumn> groupCols = (List<GroupColumn>)algoInput.get(IOKeys.GROUP_COLS); 
     	
-    	int outputColumnsCnt = dataCols.size() + (groupCols != null ? groupCols.size() : 0); 
+    	int outputColumnsCnt = getDataColumnsLength() + getGroupColumnsLength(); 
     	
     	//output the title
-    	ReportOutput output = (ReportOutput)algoInput.get(IOKeys.REPORT_OUTPUT);
+    	ReportOutput output = getReportOutput();
         if(reportTitle != null){
         	output.outputTitle(new TitleProps(reportTitle, outputColumnsCnt));
         }
@@ -75,6 +74,7 @@ public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
         final int rowNumber = 0;
         output.startHeaderRow(new RowProps(rowNumber));
         CellProps cellProps = null;
+        List<GroupColumn> groupCols = getGroupColumns(); 
         if(groupCols != null){
 	        for (GroupColumn groupColumn : groupCols) {
 				cellProps = new CellProps.Builder(groupColumn.getHeader())
@@ -85,6 +85,8 @@ public class ColumnHeaderOutputInitStep implements AlgorithmInitStep{
 				output.outputHeaderCell(cellProps);
 			}
         }
+        
+        List<DataColumn> dataCols = getDataColumns(); 
         for (DataColumn dataColumn: dataCols) {
             cellProps = new CellProps.Builder(dataColumn.getHeader())
             						.colspan(1)

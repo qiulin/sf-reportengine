@@ -8,7 +8,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.LoggerOutput;
@@ -26,7 +26,7 @@ import net.sf.reportengine.util.IOKeys;
  */
 public class ReportAlgorithmStepTC extends TestCase {
 	
-	private AlgorithmContext TEST_REPORT_CONTEXT; 
+	private AlgoContext TEST_REPORT_CONTEXT; 
 	private OutputDispatcher TEST_OUTPUT_DISPATCHER; 
 	
 	private CellPropsArrayOutput cumulativeReportOutput = null;
@@ -46,7 +46,7 @@ public class ReportAlgorithmStepTC extends TestCase {
 	}
 	
 	
-	protected AlgorithmContext getTestContext(){
+	protected AlgoContext getTestContext(){
 		return TEST_REPORT_CONTEXT;
 	}
 	

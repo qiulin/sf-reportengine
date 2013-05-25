@@ -11,7 +11,7 @@ import java.util.Map;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
@@ -37,13 +37,13 @@ public class TestFlatReportExtractDataInitStep {
 	
 
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.FlatReportExtractDataInitStep#init(net.sf.reportengine.core.algorithm.AlgorithmContext)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep#init(net.sf.reportengine.core.algorithm.AlgoContext)}.
 	 */
 	@Test
 	public void testInit() {
-		FlatReportExtractDataInitStep classUnderTest = new FlatReportExtractDataInitStep(); 
+		FlatReportExtractTotalsDataInitStep classUnderTest = new FlatReportExtractTotalsDataInitStep(); 
 		
-		AlgorithmContext reportContext = new DefaultAlgorithmContext(); 
+		AlgoContext reportContext = new DefaultAlgorithmContext(); 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
 		
 		//reportContext.set(ContextKeys.DATA_COLUMNS, TEST_DATA_COLUMNS); 
@@ -56,11 +56,11 @@ public class TestFlatReportExtractDataInitStep {
 		Assert.assertEquals(TEST_DATA_COLUMNS.size(), result.length);
 		
 		
-		Assert.assertEquals(FlatReportExtractDataInitStep.NO_CALCULATOR_ON_THIS_POSITION, result[0]); 
+		Assert.assertEquals(FlatReportExtractTotalsDataInitStep.NO_CALCULATOR_ON_THIS_POSITION, result[0]); 
 		Assert.assertEquals(0, result[1]);
 		Assert.assertEquals(1, result[2]);
-		Assert.assertEquals(FlatReportExtractDataInitStep.NO_CALCULATOR_ON_THIS_POSITION, result[3]);
-		Assert.assertEquals(FlatReportExtractDataInitStep.NO_CALCULATOR_ON_THIS_POSITION, result[4]);
+		Assert.assertEquals(FlatReportExtractTotalsDataInitStep.NO_CALCULATOR_ON_THIS_POSITION, result[3]);
+		Assert.assertEquals(FlatReportExtractTotalsDataInitStep.NO_CALCULATOR_ON_THIS_POSITION, result[4]);
 		Assert.assertEquals(2, result[5]);
 	}
 }
