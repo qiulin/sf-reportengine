@@ -9,7 +9,7 @@ import java.util.List;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.util.ContextKeys;
 
 import org.slf4j.Logger;
@@ -44,13 +44,13 @@ public class PreviousRowManagerStep extends AbstractReportStep {
 		
 		//first time we initialize the last column values
 		if(previousRowOfGroupingColumnValues == null){
-			previousRowOfGroupingColumnValues = new Object[getGroupingColumnsLength()];
-			copyGroupingValuesToLastRowOfGroupingColumnValues(getGroupingColumns(), rowEvent);
+			previousRowOfGroupingColumnValues = new Object[getGroupColumnsLength()];
+			copyGroupingValuesToLastRowOfGroupingColumnValues(getGroupColumns(), rowEvent);
 			
-			getContext().set(ContextKeys.LAST_GROUPING_VALUES, previousRowOfGroupingColumnValues);
+			getAlgoContext().set(ContextKeys.LAST_GROUPING_VALUES, previousRowOfGroupingColumnValues);
 		}else{
 			if(getGroupingLevel() > -1){
-				copyGroupingValuesToLastRowOfGroupingColumnValues(getGroupingColumns(), rowEvent);
+				copyGroupingValuesToLastRowOfGroupingColumnValues(getGroupColumns(), rowEvent);
 			}
 		}
 		

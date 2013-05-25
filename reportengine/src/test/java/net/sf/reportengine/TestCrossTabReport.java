@@ -50,23 +50,6 @@ public class TestCrossTabReport extends TestCase {
 		super.tearDown();
 	}
 
-	/**
-	 * Test method for {@link net.sf.reportengine.AbstractReport#execute()}.
-	 */
-	public void testConstructSecondReportDataColumns() {
-		CrossTabReport classUnderTest = new CrossTabReport(); 
-		
-		
-		CtMetadata testMetadata = new CtMetadata(CtScenario2x2x1With1G1D.MOCK_DISTINCT_VALUES_HOLDER); 
-		
-		List<DataColumn> result = classUnderTest.constructDataColumnsForSecondProcess(testMetadata, 
-															CtScenario2x2x1With1G1D.DATA_COLUMNS, 
-															false, 
-															false); 
-		assertNotNull(result);
-		//TODO: continue the test
-	}
-	
 	
 	public void testExecute1x1x1xT(){
 		CrossTabReport classUnderTest = new CrossTabReport(); 

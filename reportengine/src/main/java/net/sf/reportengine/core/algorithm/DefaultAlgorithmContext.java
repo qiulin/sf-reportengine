@@ -13,7 +13,7 @@ import net.sf.reportengine.util.ContextKeys;
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  */
-public class DefaultAlgorithmContext implements AlgorithmContext{
+public class DefaultAlgorithmContext implements AlgoContext{
     
 	/**
      * an enumMap containing the context data
@@ -37,7 +37,7 @@ public class DefaultAlgorithmContext implements AlgorithmContext{
     }
     
     /**
-     * @see net.sf.reportengine.core.algorithm.AlgorithmContext#get(String)
+     * @see net.sf.reportengine.core.algorithm.AlgoContext#get(String)
      */
     public void set(ContextKeys key, Object value){
         contextData.put(key,value);

@@ -12,8 +12,8 @@ import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
-import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
-import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
+import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
+import net.sf.reportengine.core.steps.GroupLevelDetectorStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
 import net.sf.reportengine.core.steps.OpenReportIOInitStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
@@ -68,7 +68,7 @@ public class AutoconfigFlatReport extends AbstractReport {
      */
     @Override protected void config(){
     	LOGGER.trace("configuring the autodetect flat report"); 
-    	//AlgorithmContext context = algorithm.getContext();
+    	//AlgoContext context = algorithm.getContext();
     	
     	//preparing the context of the report algorithm 
     	algorithm.addIn(IOKeys.REPORT_INPUT, getIn());
@@ -82,12 +82,12 @@ public class AutoconfigFlatReport extends AbstractReport {
 		algorithm.addInitStep(new OpenReportIOInitStep()); 
     	algorithm.addInitStep(new InitReportDataInitStep()); 
     	algorithm.addInitStep(new AutodetectConfigInitStep()); 
-    	algorithm.addInitStep(new FlatReportExtractDataInitStep());
+    	algorithm.addInitStep(new FlatReportExtractTotalsDataInitStep());
     	algorithm.addInitStep(new StartReportInitStep()); 
     	algorithm.addInitStep(new ColumnHeaderOutputInitStep(getTitle()));
         
     	//then we add the main steps
-    	algorithm.addMainStep(new GroupingLevelDetectorStep());
+    	algorithm.addMainStep(new GroupLevelDetectorStep());
     	
         algorithm.addMainStep(new AutodetectFlatReportTotalsOutputStep());
         algorithm.addMainStep(new AutodetectTotalsCalculatorStep());

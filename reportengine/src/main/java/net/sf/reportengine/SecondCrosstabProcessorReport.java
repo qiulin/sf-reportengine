@@ -9,9 +9,9 @@ import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
-import net.sf.reportengine.core.steps.FlatReportExtractDataInitStep;
+import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
-import net.sf.reportengine.core.steps.GroupingLevelDetectorStep;
+import net.sf.reportengine.core.steps.GroupLevelDetectorStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
 import net.sf.reportengine.core.steps.OpenReportIOInitStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
@@ -41,7 +41,7 @@ class SecondCrosstabProcessorReport extends AbstractMultiStepAlgoColumnBasedRepo
 	 */
 	@Override protected void config() {
 		MultiStepAlgo algorithm = getAlgorithm();
-    	//AlgorithmContext context = algorithm.getContext();
+    	//AlgoContext context = algorithm.getContext();
     	
     	//setting the input/output
     	algorithm.addIn(IOKeys.REPORT_INPUT, getIn());
@@ -52,19 +52,19 @@ class SecondCrosstabProcessorReport extends AbstractMultiStepAlgoColumnBasedRepo
 		algorithm.addIn(IOKeys.GROUP_COLS, getGroupColumns()); 
 		algorithm.addIn(IOKeys.SHOW_TOTALS, getShowTotals());
 		algorithm.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal());
-		algorithm.addIn(IOKeys.CROSSTAB_METADATA, ctMetadata); 
+		//algorithm.addIn(IOKeys.CROSSTAB_METADATA, ctMetadata); 
     	
     	//adding steps to the algorithm
 		algorithm.addInitStep(new OpenReportIOInitStep()); 
     	algorithm.addInitStep(new InitReportDataInitStep()); 
-    	algorithm.addInitStep(new FlatReportExtractDataInitStep());
+    	algorithm.addInitStep(new FlatReportExtractTotalsDataInitStep());
     	algorithm.addInitStep(new StartReportInitStep()); 
     	algorithm.addInitStep(new CrosstabHeaderOutputInitStep());
     	
     	//algorithm.addInitStep(new ColumnHeaderOutputInitStep("Second process "));
         
     	algorithm.addMainStep(new ComputeColumnValuesStep());
-    	algorithm.addMainStep(new GroupingLevelDetectorStep());
+    	algorithm.addMainStep(new GroupLevelDetectorStep());
     	
     	if(getShowTotals() || getShowGrandTotal()){
     		algorithm.addMainStep(new FlatReportTotalsOutputStep());

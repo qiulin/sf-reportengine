@@ -5,7 +5,7 @@ package net.sf.reportengine.core.steps.crosstab;
 
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
@@ -27,7 +27,7 @@ public class IntermediateRowDisplayStep extends AbstractCrosstabStep {
 	}
 	
 	
-	public void init(Map<IOKeys, Object> algoInput, AlgorithmContext context){
+	public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
 		super.init(algoInput, context);
 		
 	}
@@ -41,7 +41,7 @@ public class IntermediateRowDisplayStep extends AbstractCrosstabStep {
 		
 		if(groupingLevel >= 0){
 			//if grouping level changed
-			if(groupingLevel < getGroupingColumns().size()){
+			if(groupingLevel < getGroupColumns().size()){
 				//if grouping level changed for the GROUPING COLUMNS
 				displayIntermediateDebugInfo(getIntermediateRow());
 			}else{
@@ -60,7 +60,7 @@ public class IntermediateRowDisplayStep extends AbstractCrosstabStep {
 	}
 	
 	private void displayIntermediateDebugInfo(IntermediateReportRow intermediateRow){
-		ReportOutput output = getOutput(); 
+		ReportOutput output = getReportOutput(); 
 		
 		output.startDataRow(new RowProps());
 		output.outputDataCell(new CellProps.Builder("Intermediate row:").build());

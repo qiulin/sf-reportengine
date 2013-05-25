@@ -40,7 +40,7 @@ public enum ContextKeys {
 	 */
 //	CROSSTAB_HEADER_ROWS, // = "net.sf.reportengine.crosstab.headerRows"; 
 //	CROSSTAB_DATA, // = "net.sf.reportengine.crosstab.data"; 
-//	CROSSTAB_METADATA, // = "net.sf.reportengine.crosstab.metadata";
+	CROSSTAB_METADATA, // = "net.sf.reportengine.crosstab.metadata";
 	
 	
 	/**
@@ -48,6 +48,9 @@ public enum ContextKeys {
 	 */
 	//ORIGINAL_CT_GROUP_COLS_COUNT, // = "net.sf.reportengine.intermediate.origCtGroupColsCnt";
 	//ORIGINAL_CT_DATA_COLS_COUNT, // = "net.sf.reportengine.intermediate.origCtDataColsCnt";
+	INTERNAL_GROUP_COLS, 
+	INTERNAL_DATA_COLS, 
+	INTERMEDIATE_OUTPUT,
 
 	/**
 	 * context identifier (key) for aggregation level
@@ -104,11 +107,6 @@ public enum ContextKeys {
 	 * 
 	 */
 	SORTABLE_DATA_COLS_INDEXES, 
-	
-	/**
-	 * 
-	 */
-	//ARRANGED_FOR_SORT_ROW,
 	
 	/**
 	 * 

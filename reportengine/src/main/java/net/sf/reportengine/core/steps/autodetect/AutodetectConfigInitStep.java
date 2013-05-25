@@ -8,12 +8,10 @@ import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
-import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
+import net.sf.reportengine.core.algorithm.steps.AbstractInitStep;
 import net.sf.reportengine.in.ColumnMetadata;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
 
@@ -21,22 +19,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * constructs column configuration based on column metadata and user preferences
+ * constructs column configuration based on column meta data and user preferences
  * 
  * @author dragos balan
  * @since 0.8
  */
-public class AutodetectConfigInitStep implements AlgorithmInitStep {
+public class AutodetectConfigInitStep extends AbstractInitStep {
 	
 	/**
 	 * the one and only logger
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(AutodetectConfigInitStep.class);
 
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(net.sf.reportengine.core.algorithm.AlgorithmContext)
-	 */
-	public void init(Map<IOKeys,Object> algoInput, AlgorithmContext reportContext) {
+	@Override protected void executeInit() {
+		Map<IOKeys, Object> algoInput = getAlgoInput(); 
 		ReportInput input = (ReportInput)algoInput.get(IOKeys.REPORT_INPUT); 
 		Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)algoInput.get(IOKeys.USER_COLUMN_PREFERENCES);
 		

@@ -7,7 +7,7 @@ package net.sf.reportengine.core.steps;
 import java.util.Map;
 
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.util.CalculatorMatrix;
 import net.sf.reportengine.util.ContextKeys;
@@ -41,23 +41,16 @@ public class TotalsCalculatorStep extends AbstractReportStep{
      */
     int groupColsCnt = -1;
     
-    /**
-     * 
-     * @param columns
-     */
-    public TotalsCalculatorStep(){
-    	
-    }
     
     /**
      * init
      */
-    public void init(Map<IOKeys, Object> algoInput, AlgorithmContext reportContext){
+    @Override public void init(Map<IOKeys, Object> algoInput, AlgoContext reportContext){
         super.init(algoInput, reportContext);
         
         //Calculator[] prototypesCalc = extractCalculators(getDataColumns());
         
-        groupColsCnt = getGroupingColumns() != null ? getGroupingColumns().size() : 0;
+        groupColsCnt = getGroupColumnsLength(); 
         
         if(groupColsCnt == 0){
         	LOGGER.warn("Dangerous setting: TotalsCalculatorStep was set in a report not having group columns");
@@ -73,7 +66,7 @@ public class TotalsCalculatorStep extends AbstractReportStep{
     /**
      * execute
      */
-    public void execute(NewRowEvent newRowEvent){
+    @Override public void execute(NewRowEvent newRowEvent){
 		int aggLevel = getGroupingLevel();
 		if(aggLevel >= 0){
 			//if the current row is not a simple data row but contains a change in the grouping level 

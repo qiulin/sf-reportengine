@@ -7,7 +7,7 @@ package net.sf.reportengine.core.steps;
 import java.util.EnumMap;
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.scenarios.CalculatedColumnsScenario;
@@ -39,7 +39,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     }
 
     public void testExecuteScenario1() {
-    	AlgorithmContext reportContext = getTestContext();
+    	AlgoContext reportContext = getTestContext();
     	Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
     	
     	classUnderTest = new TotalsCalculatorStep();
@@ -111,7 +111,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     }   
     
     public void testExecuteScenario2(){
-    	AlgorithmContext reportContext = getTestContext();
+    	AlgoContext reportContext = getTestContext();
     	Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
     	
     	classUnderTest = new TotalsCalculatorStep();
@@ -138,7 +138,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     }
     
     public void testExecuteCalculatedColumnsScenario(){
-    	AlgorithmContext reportContext = getTestContext();
+    	AlgoContext reportContext = getTestContext();
     	Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
     	
     	classUnderTest = new TotalsCalculatorStep();

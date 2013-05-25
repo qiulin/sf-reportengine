@@ -4,7 +4,7 @@
 package net.sf.reportengine.util;
 
 /**
- * @author dragos
+ * @author dragos balan
  *
  */
 public enum IOKeys {
@@ -31,11 +31,11 @@ public enum IOKeys {
 	
 	ORIGINAL_CT_GROUP_COLS_COUNT, 
 	
-	CROSSTAB_METADATA, 
-	
-	DISTINCT_VALUES_HOLDER, //TODO: this one or the crosstab metadata should dissapear
+	DISTINCT_VALUES_HOLDER,
 	
 	SORTED_FILES, 
 	
-	HAS_GROUP_VALUES_ORDERED
+	HAS_GROUP_VALUES_ORDERED, 
+	
+	INTERMEDIATE_OUTPUT_FILE
 }

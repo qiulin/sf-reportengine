@@ -7,7 +7,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import junit.framework.Assert;
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.out.CellProps;
@@ -28,7 +28,7 @@ public class TestDataRowsOutputStep {
 	public void testExecuteScenario1() {
 		DataRowsOutputStep classUnderTest = new DataRowsOutputStep();
 		
-		AlgorithmContext reportContext = new DefaultAlgorithmContext(); 
+		AlgoContext reportContext = new DefaultAlgorithmContext(); 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		
 		//reportContext.setInput(Scenario1.INPUT);

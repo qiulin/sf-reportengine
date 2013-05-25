@@ -13,7 +13,7 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.scenarios.AutodetectConfigurationScenario;
@@ -30,7 +30,7 @@ import org.junit.Test;
  */
 public class TestAutodetectColumnsInitStep {
 	
-	private AlgorithmContext reportContext; 
+	private AlgoContext reportContext; 
 	private Map<IOKeys, Object> mockAlgoInput ;
 	
 	/* (non-Javadoc)
@@ -48,7 +48,7 @@ public class TestAutodetectColumnsInitStep {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep#init(net.sf.reportengine.core.algorithm.AlgorithmContext)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep#init(net.sf.reportengine.core.algorithm.AlgoContext)}.
 	 */
 	@Test
 	public void testInit_AsManyPreferencesAsMetadataColumns() {
@@ -80,7 +80,7 @@ public class TestAutodetectColumnsInitStep {
 	
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep#init(net.sf.reportengine.core.algorithm.AlgorithmContext)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep#init(net.sf.reportengine.core.algorithm.AlgoContext)}.
 	 */
 	@Test
 	public void testInit_MorePreferencesThanMetadata() {
@@ -111,7 +111,7 @@ public class TestAutodetectColumnsInitStep {
 	}
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep#init(net.sf.reportengine.core.algorithm.AlgorithmContext)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep#init(net.sf.reportengine.core.algorithm.AlgoContext)}.
 	 */
 	@Test
 	public void testInit_LessPreferencesThanMetadata() {
@@ -139,7 +139,7 @@ public class TestAutodetectColumnsInitStep {
 	}
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep#init(net.sf.reportengine.core.algorithm.AlgorithmContext)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep#init(net.sf.reportengine.core.algorithm.AlgoContext)}.
 	 */
 	@Test
 	public void testInit_AsManyPreferencesAsMetadataWithGroups() {
@@ -172,7 +172,7 @@ public class TestAutodetectColumnsInitStep {
 	}
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep#init(net.sf.reportengine.core.algorithm.AlgorithmContext)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep#init(net.sf.reportengine.core.algorithm.AlgoContext)}.
 	 */
 	@Test
 	public void testInit_LessPreferencesThanMetadataWithGroups() {

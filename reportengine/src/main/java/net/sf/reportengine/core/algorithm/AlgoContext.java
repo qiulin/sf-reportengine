@@ -15,7 +15,7 @@ import net.sf.reportengine.util.ContextKeys;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public interface AlgorithmContext {
+public interface AlgoContext {
     
     /**
      * registers the pair (key, object) in the report context

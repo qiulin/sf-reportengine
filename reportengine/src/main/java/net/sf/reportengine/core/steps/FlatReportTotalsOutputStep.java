@@ -11,7 +11,7 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.out.CellProps;
@@ -74,10 +74,10 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     /**
      * init method 
      */
-    public void init(Map<IOKeys, Object> algoInput, AlgorithmContext reportContext){
+    public void init(Map<IOKeys, Object> algoInput, AlgoContext reportContext){
     	super.init(algoInput, reportContext);
     	
-    	groupCols = getGroupingColumns();
+    	groupCols = getGroupColumns();
     	dataCols = getDataColumns(); 
     	distribOfCalculatorsInDataColsArray = getCalculatorDistributionInColumnDataArray(); 
     	
@@ -106,7 +106,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     /**
      * exit displays the last totals in the calculator matrix buffer and the grand total
      */
-    public void exit(Map<IOKeys,Object> algoInput, AlgorithmContext context) {
+    public void exit(Map<IOKeys,Object> algoInput, AlgoContext context) {
         Calculator[][] calculators = getCalculatorMatrix();
         
         if(groupCols != null && getShowTotals()){
@@ -158,7 +158,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     		throw new IllegalArgumentException("dataRows and distributionOfCalculators arrays should have the same length"); 
     	}
     	
-    	ReportOutput output = getOutput();
+    	ReportOutput output = getReportOutput();
     	Integer dataRowNumber = getDataRowCount(); 
     	output.startDataRow(new RowProps(dataRowNumber));
     	
@@ -171,7 +171,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     							.build());
     		
     		if(groupCols.size() > 1){
-    			//for all others grouping columns put whitespaces 
+    			//for all other grouping columns put whitespaces 
     			//(groupColumns.length-1 colspan because the first column was already 
     			//filled with the word "Total xxxx"
     			

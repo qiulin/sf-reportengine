@@ -68,7 +68,10 @@ public class CtScenario2x2x1With1G1D {
 					new DefaultGroupColumn("Region", 0, 0)					
 	});
 	
-	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(new DataColumn[]{new DefaultDataColumn("Country", 3)});
+	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(
+			new DataColumn[]{
+					new DefaultDataColumn("Country", 3)
+	});
 	
 	public static final List<CrosstabHeaderRow> HEADER_ROWS = Arrays.asList(new CrosstabHeaderRow[]{
 		new DefaultCrosstabHeaderRow(1, null), //Sex 
@@ -96,7 +99,8 @@ public class CtScenario2x2x1With1G1D {
 	};
 	
 	
-	public static IDistinctValuesHolder MOCK_DISTINCT_VALUES_HOLDER = new MockDistinctValuesHolder(new String[][]{
+	public static IDistinctValuesHolder MOCK_DISTINCT_VALUES_HOLDER = new MockDistinctValuesHolder(
+			new String[][]{
 		new String[]{"M", "F"}, 
 		new String[]{"20", "50", "80"}
 	});

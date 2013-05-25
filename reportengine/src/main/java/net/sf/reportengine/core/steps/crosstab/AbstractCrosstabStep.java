@@ -32,16 +32,16 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 //		return (GroupColumn[])getContext().get(CrossTabReport.CONTEXT_KEY_CROSSTAB_GROUP_COLS);
 //	}
 	
-	public Integer getOriginalCrosstabGroupingColsLength(){
-		return (Integer)getInput().get(IOKeys.ORIGINAL_CT_GROUP_COLS_COUNT); 
-	}
-	
-	public int getOriginalCrosstabDataColsLength(){
-		return (Integer)getInput().get(IOKeys.ORIGINAL_CT_DATA_COLS_COUNT); 
-	}
+//	public Integer getOriginalCrosstabGroupingColsLength(){
+//		return (Integer)getInput().get(IOKeys.ORIGINAL_CT_GROUP_COLS_COUNT); 
+//	}
+//	
+//	public int getOriginalCrosstabDataColsLength(){
+//		return (Integer)getInput().get(IOKeys.ORIGINAL_CT_DATA_COLS_COUNT); 
+//	}
 		
 	public List<CrosstabHeaderRow> getCrosstabHeaderRows(){
-		return (List<CrosstabHeaderRow>)getInput().get(IOKeys.CROSSTAB_HEADER_ROWS); 
+		return (List<CrosstabHeaderRow>)getAlgoInput().get(IOKeys.CROSSTAB_HEADER_ROWS); 
 	}
 	 
 	 public int getCrosstabHeaderRowsLength(){
@@ -50,11 +50,11 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 		
 	 public CrosstabData getCrosstabData(){
 		 //return (CrosstabData)getContext().get(ContextKeys.CROSSTAB_DATA); 
-		 return (CrosstabData)getInput().get(IOKeys.CROSSTAB_DATA); 
+		 return (CrosstabData)getAlgoInput().get(IOKeys.CROSSTAB_DATA); 
 	 }
 	 
 //	 public int[] getDataRelativePositionToHeader(){
-//		 return (int[])getContext().get(CrosstabDistinctValuesDetectorStep.CONTEXT_KEY_CROSSTAB_RELATIVE_POSITION);
+//		 return (int[])getContext().get(DistinctValuesDetectorStep.CONTEXT_KEY_CROSSTAB_RELATIVE_POSITION);
 //	 }
 	 
 	 /**
@@ -63,15 +63,15 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 	  * @return the crosstab metadata of the report
 	  */
 	 public DistinctValuesHolder getDistinctValuesHolder(){
-		 return (DistinctValuesHolder)getContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER); 
+		 return (DistinctValuesHolder)getAlgoContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER); 
 	 }
 	 
 	 public IntermediateDataInfo getIntermediateCrosstabDataInfo(){
-		 return (IntermediateDataInfo)getContext().get(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO);
+		 return (IntermediateDataInfo)getAlgoContext().get(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO);
 	 }
 	 
 	 public IntermediateReportRow getIntermediateRow(){
-		 return (IntermediateReportRow)getContext().get(ContextKeys.INTERMEDIATE_ROW); 
+		 return (IntermediateReportRow)getAlgoContext().get(ContextKeys.INTERMEDIATE_ROW); 
 	 }
 	 
 	 public boolean getShowTotalsInHeader(){

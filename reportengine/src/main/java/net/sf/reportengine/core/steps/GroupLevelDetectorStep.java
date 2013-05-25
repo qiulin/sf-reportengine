@@ -10,7 +10,7 @@ import java.util.Map;
 
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
@@ -53,12 +53,12 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public class GroupingLevelDetectorStep extends AbstractReportStep{
+public class GroupLevelDetectorStep extends AbstractReportStep{
     
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(GroupingLevelDetectorStep.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GroupLevelDetectorStep.class);
     
     /**
      * the aggregation level
@@ -69,40 +69,32 @@ public class GroupingLevelDetectorStep extends AbstractReportStep{
      * Recommended constructor
      * @param aggregationColumns
      */
-    public GroupingLevelDetectorStep(){}
+    public GroupLevelDetectorStep(){}
     
-	/**
-     * registers some new values into the context
-     * @see net.sf.reportengine.core.algorithm.IAlgorithmInitStep#init(AlgorithmContext)()
-     */
-    public void init(Map<IOKeys, Object> algoInput, AlgorithmContext reportContext){
-        super.init(algoInput, reportContext);
-    }
     
 	/**
 	 * execute method
 	 */
 	public void execute(NewRowEvent newRowEvent) {
         
-        List<GroupColumn> groupingCols = getGroupingColumns();
-        
 		//first time we cannot make any comparison so the return level is zero
 		if(getPreviousRowOfGroupingValues() == null){
 			//handle last row for grouping columns 
-			
 			aggregationLevel = -1;
 		}else{
+			List<GroupColumn> groupingCols = getGroupColumns();
 			aggregationLevel = checkLevelChangedInGroupingColumns(groupingCols, getPreviousRowOfGroupingValues(), newRowEvent); 
-			
 			LOGGER.trace("For newRow={} the grouping level found is {}", newRowEvent, aggregationLevel);
 		}
 		
 		//set the result in context
-		getContext().set(ContextKeys.NEW_GROUPING_LEVEL, aggregationLevel);
+		getAlgoContext().set(ContextKeys.NEW_GROUPING_LEVEL, aggregationLevel);
 	}
     
     
-    private int checkLevelChangedInGroupingColumns(List<GroupColumn> groupingColumns, Object[] lastRowOfGroupingValues, NewRowEvent newRowEvent){
+    private int checkLevelChangedInGroupingColumns(	List<GroupColumn> groupingColumns, 
+    												Object[] lastRowOfGroupingValues, 
+    												NewRowEvent newRowEvent){
 		boolean aggregationLevelFound = false;
 		int i = 0;
 		

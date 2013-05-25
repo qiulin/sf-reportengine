@@ -76,7 +76,7 @@ public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
      * 3. calls the exit method for each main step
      */
     protected void executeMainSteps() {
-    	AlgorithmContext context = getContext();
+    	AlgoContext context = getContext();
     	List<AlgorithmMainStep> mainSteps = getMainSteps();
     	ReportInput reportInput = (ReportInput)getInput().get(IOKeys.REPORT_INPUT);
     	
@@ -119,6 +119,13 @@ public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
      */
     private Map<IOKeys, Object> extractResultsFromSteps(){
     	Map<IOKeys, Object> result = new HashMap<IOKeys, Object>(); 
+    	
+    	for(AlgorithmInitStep step: getInitSteps()){
+    		if(step.getResultsMap() != null){
+    			result.putAll(step.getResultsMap()); 
+    		}
+    	}
+    	
     	for (AlgorithmMainStep step : getMainSteps()) {
 			if(step.getResultsMap() != null){
 				result.putAll(step.getResultsMap()); 

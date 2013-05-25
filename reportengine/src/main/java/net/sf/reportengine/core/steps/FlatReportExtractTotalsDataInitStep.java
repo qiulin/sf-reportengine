@@ -4,14 +4,10 @@
 package net.sf.reportengine.core.steps;
 
 import java.util.List;
-import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
-import net.sf.reportengine.core.algorithm.AlgorithmContext;
-import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
 
 /**
  * extracts some useful data to be used by the next steps in the report. 
@@ -21,7 +17,7 @@ import net.sf.reportengine.util.IOKeys;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public class FlatReportExtractDataInitStep implements AlgorithmInitStep {
+public class FlatReportExtractTotalsDataInitStep extends AbstractReportInitStep {
 	
 	/**
 	 * 
@@ -46,12 +42,11 @@ public class FlatReportExtractDataInitStep implements AlgorithmInitStep {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)
 	 */
-	public void init(Map<IOKeys, Object> algoInput, AlgorithmContext reportContext) {
-		List<DataColumn> dataCols = (List<DataColumn>)algoInput.get(IOKeys.DATA_COLS);
+	@Override protected void executeInit() {
 		calculatorsDistributionInDataColumnsArray = 
-				extractDistributionOfCalculatorsAcrossColumns(dataCols); 
-		reportContext.set(	ContextKeys.DISTRIBUTION_OF_CALCULATORS, 
-							calculatorsDistributionInDataColumnsArray);
+				extractDistributionOfCalculatorsAcrossColumns(getDataColumns()); 
+		getAlgoContext().set(	ContextKeys.DISTRIBUTION_OF_CALCULATORS, 
+								calculatorsDistributionInDataColumnsArray);
 	}
 	
 	/**
