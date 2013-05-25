@@ -54,6 +54,36 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 		context.set(ContextKeys.INTERMEDIATE_ROW, intermediateRow);
 	}
 	
+	@Override public ReportOutput getReportOutput(){
+		return (ReportOutput)getAlgoContext().get(ContextKeys.INTERMEDIATE_OUTPUT); 
+	}
+	
+	private int getIntermGroupColsLength(){
+		return ((List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS)).size(); 
+	}
+	
+	private int getIntermDataColsLength(){
+		return ((List<DataColumn>)getAlgoContext().get(ContextKeys.INTERNAL_DATA_COLS)).size(); 
+	}
+	
+	/**
+     * computes the row number (from the calculators matrix) where the totals are for the given level
+     * @param level		the aggregation level
+     * @return
+     */
+    @Override public int computeCalcRowNumberForAggLevel(int level){
+    	return getIntermGroupColsLength() - level -1;
+    }
+    
+    /**
+     * computes the aggregation level for the given row of the calculators matrix
+     * @param calcRowNumber
+     * @return
+     */
+    @Override public int computeAggLevelForCalcRowNumber(int calcRowNumber){
+    	return getIntermGroupColsLength() - calcRowNumber - 1;
+    }
+	
 	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.AbstractReportStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)
@@ -189,33 +219,5 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 		output.endDataRow(); 
 	}
 	
-	@Override protected ReportOutput extractRepOutputFromParameters(Map<IOKeys, Object> algoInput, AlgoContext algoContext){
-		return (ReportOutput)algoContext.get(ContextKeys.INTERMEDIATE_OUTPUT); 
-	}
 	
-	private int getIntermGroupColsLength(){
-		return ((List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS)).size(); 
-	}
-	
-	private int getIntermDataColsLength(){
-		return ((List<DataColumn>)getAlgoContext().get(ContextKeys.INTERNAL_DATA_COLS)).size(); 
-	}
-	
-	/**
-     * computes the row number (from the calculators matrix) where the totals are for the given level
-     * @param level		the aggregation level
-     * @return
-     */
-    @Override public int computeCalcRowNumberForAggLevel(int level){
-    	return getIntermGroupColsLength() - level -1;
-    }
-    
-    /**
-     * computes the aggregation level for the given row of the calculators matrix
-     * @param calcRowNumber
-     * @return
-     */
-    @Override public int computeAggLevelForCalcRowNumber(int calcRowNumber){
-    	return getIntermGroupColsLength() - calcRowNumber - 1;
-    }
 }

@@ -197,26 +197,11 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	protected void config() {
 		LOGGER.trace("configuring crosstab report ..."); 
 		
-		//IntermediateCrosstabOutput firstReportOutput = new IntermediateCrosstabOutput(); 		
-		//firstReport = new IntermediateCrosstabReport(groupColsLength, dataColsLength); 
-		//firstReport.setIn(getIn()); 
-		//firstReport.setOut(firstReportOutput); 
-		//firstReport.setGroupColumns(groupCols); 
-		//firstReport.setDataColumns(dataColsList); 
-		//firstReport.setCrosstabHeaderRows(getCrosstabHeaderRows()); 
-		//firstReport.setCrosstabData(getCrosstabData()); 
-		//firstReport.setShowDataRows(true); 
-		//firstReport.setShowTotals(getShowTotals());
-		//firstReport.setShowGrandTotal(getShowGrandTotal()); 
-		
-		//new implementation start
 		//setting the input/output
 		reportAlgoContainer.addIn(IOKeys.REPORT_INPUT, getIn());
 		reportAlgoContainer.addIn(IOKeys.REPORT_OUTPUT, getOut());
 		
 		//context keys specific to a flat report
-		//reportAlgoContainer.addIn(IOKeys.DATA_COLS, intermediateDataCols); 
-		//reportAlgoContainer.addIn(IOKeys.GROUP_COLS, intermediateGroupCols); 
 		reportAlgoContainer.addIn(IOKeys.DATA_COLS, getDataColumns()); 
 		reportAlgoContainer.addIn(IOKeys.GROUP_COLS, getGroupColumns()); 
 		reportAlgoContainer.addIn(IOKeys.CROSSTAB_HEADER_ROWS, crosstabHeaderRowsAsList); 
@@ -224,9 +209,6 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 		
 		reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals())); 
 		reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
-		
-		//reportAlgoContainer.addIn(IOKeys.ORIGINAL_CT_DATA_COLS_COUNT, originalDataColsCount); 
-		//reportAlgoContainer.addIn(IOKeys.ORIGINAL_CT_GROUP_COLS_COUNT, originalGroupColsCount); 
 		
 		reportAlgoContainer.addAlgo(configFirstReport()); 
 		reportAlgoContainer.addAlgo(configSecondReport()); 
@@ -246,7 +228,7 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 		//initial steps 
 		algorithm.addInitStep(new ConfigIntermedColsInitStep()); 
 		algorithm.addInitStep(new ConfigAndOpenIntermedIOInitStep()); // instead of new OpenReportIOInitStep()
-		algorithm.addInitStep(new IntermedReportExtractTotalsDataInitStep(IOKeys.DATA_COLS));//TODO: only when totals
+		algorithm.addInitStep(new IntermedReportExtractTotalsDataInitStep(ContextKeys.INTERNAL_DATA_COLS));//TODO: only when totals
 		algorithm.addInitStep(new IntermedStartReportInitStep()); 
     	//only for debug
     	//algorithm.addInitStep(new ColumnHeaderOutputInitStep("Intermediate report"));

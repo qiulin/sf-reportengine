@@ -21,7 +21,7 @@ import org.junit.Test;
 
 
 /**
- * @author dragos
+ * @author dragos balan
  *
  */
 public class TestTotalsOutputStep  {

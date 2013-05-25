@@ -6,7 +6,6 @@ package net.sf.reportengine;
 import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.steps.CloseReportIOExitStep;
-import net.sf.reportengine.core.steps.ComputeColumnValuesStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
@@ -26,6 +25,7 @@ import net.sf.reportengine.util.IOKeys;
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
+ * @deprecated
  */
 class SecondCrosstabProcessorReport extends AbstractMultiStepAlgoColumnBasedReport {
 	
@@ -63,7 +63,7 @@ class SecondCrosstabProcessorReport extends AbstractMultiStepAlgoColumnBasedRepo
     	
     	//algorithm.addInitStep(new ColumnHeaderOutputInitStep("Second process "));
         
-    	algorithm.addMainStep(new ComputeColumnValuesStep());
+    	//algorithm.addMainStep(new ComputeColumnValuesStep());
     	algorithm.addMainStep(new GroupLevelDetectorStep());
     	
     	if(getShowTotals() || getShowGrandTotal()){

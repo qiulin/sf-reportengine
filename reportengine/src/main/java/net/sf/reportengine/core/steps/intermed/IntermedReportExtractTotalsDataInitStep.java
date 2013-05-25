@@ -47,20 +47,18 @@ public class IntermedReportExtractTotalsDataInitStep extends FlatReportExtractTo
 	/**
      * ATTENTION : changing the implementation of this method will have effect on the 
      * following methods: 
-     * {@link #getDataColumns()}
      * {@link #getDataColumnsLength()}
      * 
      * @param algoInput
      * @param algoContext
      * @return
      */
-    @Override protected List<DataColumn> extractDataColsFromParameters(	Map<IOKeys, Object> algoInput, 
-    																	AlgoContext algoContext){
+    @Override public List<DataColumn> getDataColumns(){
     	if(dataColumnIOKey != null){
     		//return (List<DataColumn>)algoInput.get(IOKeys.DATA_COLS); 
-    		return (List<DataColumn>)algoInput.get(dataColumnIOKey);
+    		return (List<DataColumn>)getAlgoInput().get(dataColumnIOKey);
     	}else{
-    		return (List<DataColumn>)algoContext.get(dataColumContextKey); 
+    		return (List<DataColumn>)getAlgoContext().get(dataColumContextKey); 
     	}
 	}
 }

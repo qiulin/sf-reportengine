@@ -33,41 +33,23 @@ public abstract class AbstractReportInitStep extends AbstractInitStep {
      * @return
      */
     public ReportOutput getReportOutput(){
-    	return extractRepOutputFromParameters(getAlgoInput(), getAlgoContext()); 
+    	return (ReportOutput)getAlgoInput().get(IOKeys.REPORT_OUTPUT); 
     }
     
     /**
      * ATTENTION : changing the implementation of this method will have effect on the 
      * following methods: 
-     * {@link #getReportOutput()}
-     * @param algoInput
-     * @param algoContext
-     * @return
-     */
-    protected ReportOutput extractRepOutputFromParameters(	Map<IOKeys, Object> algoInput, 
-															AlgoContext algoContext){
-		return (ReportOutput)algoInput.get(IOKeys.REPORT_OUTPUT); 
-	}
-    
-    /**
-     * ATTENTION : changing the implementation of this method will have effect on the 
-     * following methods: 
-     * {@link #getDataColumns()}
      * {@link #getDataColumnsLength()}
-     * 
-     * @param algoInput
-     * @param algoContext
      * @return
      */
-    protected List<DataColumn> extractDataColsFromParameters(	Map<IOKeys, Object> algoInput, 
-																AlgoContext algoContext){
-		return (List<DataColumn>)algoInput.get(IOKeys.DATA_COLS); 
-	}
-    
     public List<DataColumn> getDataColumns(){
-    	return extractDataColsFromParameters(getAlgoInput(), getAlgoContext()); 
+    	return (List<DataColumn>)getAlgoInput().get(IOKeys.DATA_COLS); 
     }
     
+    /**
+     * 
+     * @return
+     */
     public int getDataColumnsLength(){
     	return getDataColumns() != null ? getDataColumns().size() : 0; 
     }
@@ -77,19 +59,11 @@ public abstract class AbstractReportInitStep extends AbstractInitStep {
      * ATTENTION : changing the implementation of this method will have effect on the 
      * following methods: 
      * {@link #getGroupColumns()}
-     * {@link #getGroupColumnsLength()}
      * 
-     * @param algoInput
-     * @param algoContext
      * @return
      */
-    protected List<GroupColumn> extractGroupColsFromParameters(	Map<IOKeys, Object> algoInput, 
-																AlgoContext algoContext){
-		return (List<GroupColumn>)algoInput.get(IOKeys.GROUP_COLS); 
-	}
-    
     public List<GroupColumn> getGroupColumns(){
-    	return extractGroupColsFromParameters(getAlgoInput(), getAlgoContext()); 
+    	return (List<GroupColumn>)getAlgoInput().get(IOKeys.GROUP_COLS); 
     }
     
     public int getGroupColumnsLength(){

@@ -31,12 +31,12 @@ public class IntermedGroupLevelDetectorStep extends GroupLevelDetectorStep {
 	}
 	
 	
-	@Override protected List<GroupColumn> extractGroupColsFromParameters(Map<IOKeys, Object> algoInput, AlgoContext algoContext){
+	@Override public List<GroupColumn> getGroupColumns(){
 		if(groupColIOKey != null){
-			return (List<GroupColumn>)algoInput.get(groupColIOKey); 
+			return (List<GroupColumn>)getAlgoInput().get(groupColIOKey); 
 		}else{
 			//return (List<GroupColumn>)algoContext.get(ContextKeys.INTERNAL_GROUP_COLS);
-			return (List<GroupColumn>)algoContext.get(groupColContextKey); 
+			return (List<GroupColumn>)getAlgoContext().get(groupColContextKey); 
 		}
 	}
 }

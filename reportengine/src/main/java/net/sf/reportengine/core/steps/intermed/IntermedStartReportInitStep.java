@@ -17,9 +17,7 @@ import net.sf.reportengine.util.IOKeys;
  */
 public class IntermedStartReportInitStep extends StartReportInitStep {
 	
-	
-	@Override protected ReportOutput extractRepOutputFromParameters(	Map<IOKeys, Object> algoInput, 
-																		AlgoContext algoContext){
-		return (ReportOutput)algoContext.get(ContextKeys.INTERMEDIATE_OUTPUT); 
+	@Override public ReportOutput getReportOutput(){
+		return (ReportOutput)getAlgoContext().get(ContextKeys.INTERMEDIATE_OUTPUT); 
 	}
 }
