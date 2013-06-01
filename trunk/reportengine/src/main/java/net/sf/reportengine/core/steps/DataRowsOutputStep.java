@@ -33,12 +33,9 @@ public class DataRowsOutputStep extends AbstractReportStep {
 	/**
 	 * this step's init method
 	 */
-	public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
-		super.init(algoInput, context);
-		
+	public void executeInit(){
 		groupCols = getGroupColumns();
 		dataColumns = getDataColumns();
-		
 		finalReportGroupCount = groupCols != null ? groupCols.size() : 0;
 	}
     

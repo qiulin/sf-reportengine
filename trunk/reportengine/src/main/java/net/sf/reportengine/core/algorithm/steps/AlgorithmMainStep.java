@@ -41,7 +41,7 @@ public interface AlgorithmMainStep {
     /**
      * called when finishing the algorithm execution
      */
-    public void exit(Map<IOKeys,Object> algoInput, AlgoContext context);
+    public void exit();
     
     /**
      * 

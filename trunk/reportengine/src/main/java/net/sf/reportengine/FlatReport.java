@@ -91,7 +91,9 @@ public class FlatReport extends AbstractColumnBasedReport {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FlatReport.class);
     
 	/**
-	 *  the container for two potential algorithms : the sorting algorithm and the reporting algorithm
+	 *  the container for two potential algorithms : 
+	 *   1. the sorting algorithm 
+	 *   2. the reporting algorithm
 	 */
 	private AlgorithmContainer reportAlgoContainer = new AlgorithmContainer(); 
 	

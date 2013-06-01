@@ -31,7 +31,8 @@ public class IntermedGroupLevelDetectorStep extends GroupLevelDetectorStep {
 	}
 	
 	
-	@Override public List<GroupColumn> getGroupColumns(){
+	@Override 
+	public List<GroupColumn> getGroupColumns(){
 		if(groupColIOKey != null){
 			return (List<GroupColumn>)getAlgoInput().get(groupColIOKey); 
 		}else{

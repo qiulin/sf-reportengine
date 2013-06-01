@@ -63,7 +63,7 @@ public class TestInMemorySortStep {
 		
 		
 		//
-		classUnderTest.exit(mockAlgoInput, mockContext); 
+		classUnderTest.exit(); 
 		
 		List<NewRowEvent> result = (List<NewRowEvent>)mockContext.get(ContextKeys.IN_MEM_SORTED_RESULT); 
 		assertNotNull(result); 

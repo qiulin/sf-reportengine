@@ -35,7 +35,6 @@ public class IntermediateRowDisplayStep extends AbstractCrosstabStep {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.AbstractReportStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
-	@Override
 	public void execute(NewRowEvent newRowEvent) {
 		int groupingLevel = getGroupingLevel(); 
 		

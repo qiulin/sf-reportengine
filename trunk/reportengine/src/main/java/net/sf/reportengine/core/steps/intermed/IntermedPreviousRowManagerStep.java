@@ -19,14 +19,16 @@ import net.sf.reportengine.util.IOKeys;
  */
 public class IntermedPreviousRowManagerStep extends PreviousRowManagerStep {
 	
-	@Override public List<GroupColumn> getGroupColumns(){
+	@Override 
+	public List<GroupColumn> getGroupColumns(){
 		return (List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS); 
 	}
 	
 	/**
 	 * executes the super only if the report has group columns
 	 */
-	@Override public void execute(NewRowEvent newRow){
+	@Override 
+	public void execute(NewRowEvent newRow){
 		if(getGroupColumnsLength() > 0 ){
 			super.execute(newRow); 
 		}

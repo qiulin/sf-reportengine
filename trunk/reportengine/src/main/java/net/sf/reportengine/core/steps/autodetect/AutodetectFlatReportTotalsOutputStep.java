@@ -18,12 +18,14 @@ public class AutodetectFlatReportTotalsOutputStep extends FlatReportTotalsOutput
 	
 	private boolean hasTotals = false; 
 	
-	@Override public void init(Map<IOKeys, Object> algoInput, AlgoContext reportContext){
-		super.init(algoInput, reportContext); 
+	@Override 
+	protected void executeInit(){
+		super.executeInit(); 
 		hasTotals = getShowTotals() || getShowGrandTotal(); 
 	}
 	
-	@Override public void execute(NewRowEvent newRowEvent){
+	@Override 
+	public void execute(NewRowEvent newRowEvent){
 		if(hasTotals){
 			super.execute(newRowEvent); 
 		}

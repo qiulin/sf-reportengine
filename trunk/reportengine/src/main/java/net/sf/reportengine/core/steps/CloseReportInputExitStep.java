@@ -15,23 +15,18 @@ import net.sf.reportengine.util.IOKeys;
  * @author dragos balan
  *
  */
-public class CloseReportIOExitStep implements AlgorithmExitStep {
+public class CloseReportInputExitStep implements AlgorithmExitStep {
 
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep#exit(java.util.Map, net.sf.reportengine.core.algorithm.AlgoContext)
 	 */
 	public void exit(Map<IOKeys, Object> algoInput, AlgoContext context) {
-		getReportOutput(algoInput, context).close(); 
 		getReportInput(algoInput, context).close(); 
-	}
-	
-	protected ReportOutput getReportOutput(		Map<IOKeys, Object> algoInput, 
-												AlgoContext algoContext){
-		return (ReportOutput)algoInput.get(IOKeys.REPORT_OUTPUT); 
 	}
 	
 	protected ReportInput getReportInput(	Map<IOKeys, Object> algoInput, 
 											AlgoContext algoContext){
 		return (ReportInput)algoInput.get(IOKeys.REPORT_INPUT); 
 	}
+
 }

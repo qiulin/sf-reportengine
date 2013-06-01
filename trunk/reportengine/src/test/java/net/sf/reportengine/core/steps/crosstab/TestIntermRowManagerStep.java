@@ -52,7 +52,7 @@ public class TestIntermRowManagerStep {
 		
 		classUnderTest.execute(new NewRowEvent(Arrays.asList(new Object[]{"2", "3", "4", "5", "6", "7"}))); 
 		
-		classUnderTest.exit(mockInput, context); 
+		classUnderTest.exit(); 
 		
 		mockReportOutput.close(); 
 		

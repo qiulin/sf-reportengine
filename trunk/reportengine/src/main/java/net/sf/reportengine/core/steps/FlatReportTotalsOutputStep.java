@@ -74,13 +74,11 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     /**
      * init method 
      */
-    public void init(Map<IOKeys, Object> algoInput, AlgoContext reportContext){
-    	super.init(algoInput, reportContext);
-    	
+    @Override
+    protected void executeInit(){
     	groupCols = getGroupColumns();
     	dataCols = getDataColumns(); 
     	distribOfCalculatorsInDataColsArray = getCalculatorDistributionInColumnDataArray(); 
-    	
     	LOGGER.trace("The FlatReportTotalsOutputStep has been initialized. The distribution array is null {}", (distribOfCalculatorsInDataColsArray == null));
     }
     
@@ -106,7 +104,8 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     /**
      * exit displays the last totals in the calculator matrix buffer and the grand total
      */
-    public void exit(Map<IOKeys,Object> algoInput, AlgoContext context) {
+    @Override
+    public void exit() {
         Calculator[][] calculators = getCalculatorMatrix();
         
         if(groupCols != null && getShowTotals()){
@@ -122,8 +121,6 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
         					calculators[calculators.length-1]
         					);	
         }
-        
-        super.exit(algoInput,context);
     }
     
     /**

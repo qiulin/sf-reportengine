@@ -53,16 +53,10 @@ public class AutodetectConfigInitStep extends AbstractInitStep {
 		//}
 		LOGGER.debug("group columns detected : {}",groupColumns); 
 		
-		//set the result in context
-		//reportContext.set(ContextKeys.DATA_COLUMNS, dataColumns);
-		//reportContext.set(ContextKeys.GROUP_COLUMNS, groupColumns); 
-		
 		algoInput.put(IOKeys.DATA_COLS, dataColumns) ;
 		algoInput.put(IOKeys.GROUP_COLS, groupColumns); 
 		
 		boolean reportHasCalculators = ReportUtils.atLeastOneDataColumHasCalculators(dataColumns);
-		//reportContext.set(ContextKeys.DETECTED_SHOW_TOTALS, reportHasCalculators); 
-		//reportContext.set(ContextKeys.DETECTED_SHOW_GRAND_TOTAL, reportHasCalculators); 
 		
 		algoInput.put(IOKeys.SHOW_TOTALS, reportHasCalculators); 
 		algoInput.put(IOKeys.SHOW_GRAND_TOTAL, reportHasCalculators);

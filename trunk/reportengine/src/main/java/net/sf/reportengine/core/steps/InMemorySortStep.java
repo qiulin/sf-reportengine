@@ -35,11 +35,8 @@ public class InMemorySortStep extends AbstractReportStep {
 		
 	}
 	
-	@Override public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
-		super.init(algoInput, context); 
-		
-		
-		
+	@Override 
+	protected void executeInit(){
 		inMemoryResult = new PriorityQueue<NewRowEvent>(
 								100, 
 								new NewRowComparator(	getGroupColumns(), 
@@ -49,14 +46,11 @@ public class InMemorySortStep extends AbstractReportStep {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.AbstractReportStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
-	@Override
 	public void execute(NewRowEvent rowEvent) {
-		LOGGER.info("processing new row {} ", rowEvent); 
 		inMemoryResult.offer(rowEvent); 
 	}
 	
-	public void exit(Map<IOKeys,Object> algoInput, AlgoContext context){
-		
+	public void exit(){
 		List<NewRowEvent> arrayResult = new ArrayList<NewRowEvent>(inMemoryResult.size());
 		
 		while(!inMemoryResult.isEmpty()){
@@ -64,7 +58,6 @@ public class InMemorySortStep extends AbstractReportStep {
 		}
 		
 		//the result is ready for writing
-		context.set(ContextKeys.IN_MEM_SORTED_RESULT, arrayResult); 
-		super.exit(algoInput, context); 
+		getAlgoContext().set(ContextKeys.IN_MEM_SORTED_RESULT, arrayResult); 
 	}
 }
