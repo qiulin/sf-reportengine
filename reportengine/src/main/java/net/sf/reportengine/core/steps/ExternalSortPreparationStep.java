@@ -23,7 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author dragos
+ * @author dragos balan
  *
  */
 public class ExternalSortPreparationStep extends AbstractReportStep{
@@ -71,11 +71,9 @@ public class ExternalSortPreparationStep extends AbstractReportStep{
 	/**
 	 * 
 	 */
-	@Override public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
-		super.init(algoInput, context); 
-		
+	@Override 
+	protected void executeInit(){
 		COMPARATOR = new NewRowComparator(getGroupColumns(), getDataColumns()); 
-		
 		addResult(IOKeys.SORTED_FILES, sortedFiles); 
 	}
 	
@@ -101,7 +99,8 @@ public class ExternalSortPreparationStep extends AbstractReportStep{
 	/**
 	 * 
 	 */
-	@Override public void exit(Map<IOKeys,Object> algoInput, AlgoContext context){
+	@Override 
+	public void exit(){
 		try{
 			if(!tempValuesHolderList.isEmpty()){
 				//first sorting in-memory list
@@ -112,12 +111,10 @@ public class ExternalSortPreparationStep extends AbstractReportStep{
 			throw new ReportEngineRuntimeException(ioExc); 
 		}
 		
-		context.set(ContextKeys.SORTED_FILES, sortedFiles); 
+		getAlgoContext().set(ContextKeys.SORTED_FILES, sortedFiles); 
 		
 		tempValuesHolderList.clear();
 		tempValuesHolderList = null; 
-		
-		super.exit(algoInput, context);
 	}
 	
 	/**

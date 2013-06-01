@@ -25,13 +25,13 @@ public class AutodetectPreviousRowManagerStep extends PreviousRowManagerStep{
 	/**
 	 * 
 	 */
-	public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
-		super.init(algoInput, context); 
-		
+	@Override
+	protected void executeInit(){
 		reportHasGroups = getGroupColumns() != null && getGroupColumns().size() > 0;
 	}
 	
-	@Override public void execute(NewRowEvent rowEvent) {
+	@Override 
+	public void execute(NewRowEvent rowEvent) {
 		if(reportHasGroups){
 			super.execute(rowEvent);
 		}

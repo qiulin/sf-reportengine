@@ -40,7 +40,7 @@ public class PreviousRowManagerStep extends AbstractReportStep {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.AbstractReportStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
-	@Override public void execute(NewRowEvent rowEvent) {
+	public void execute(NewRowEvent rowEvent) {
 		
 		//first time we initialize the last column values
 		if(previousRowOfGroupingColumnValues == null){

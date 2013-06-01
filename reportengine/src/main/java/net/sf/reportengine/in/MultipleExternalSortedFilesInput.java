@@ -10,12 +10,20 @@ import java.util.PriorityQueue;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.NewRowComparator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author dragos
  *
  */
 public class MultipleExternalSortedFilesInput implements ReportInput {
 	
+	/**
+	 * the one and only logger
+	 */
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(MultipleExternalSortedFilesInput.class);
 	/**
 	 * 
 	 */
@@ -27,7 +35,7 @@ public class MultipleExternalSortedFilesInput implements ReportInput {
 	 */
 	public MultipleExternalSortedFilesInput(List<InputStream> externalSortedStreams, 
 									NewRowComparator newRowComparator){
-		
+		LOGGER.info("building input from {} external sorted files", externalSortedStreams.size()); 
 		externalFilesQueue = new PriorityQueue<RowsDataFileBuffer>(
 									externalSortedStreams.size(), 
 									new RowsDataFileBufferComparator(newRowComparator));

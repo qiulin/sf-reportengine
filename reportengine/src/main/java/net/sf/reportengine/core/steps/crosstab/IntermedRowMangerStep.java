@@ -49,9 +49,9 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 	/**
 	 * 
 	 */
-	public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
-		super.init(algoInput, context);
-		context.set(ContextKeys.INTERMEDIATE_ROW, intermediateRow);
+	@Override
+	protected void executeInit(){
+		getAlgoContext().set(ContextKeys.INTERMEDIATE_ROW, intermediateRow);
 	}
 	
 	@Override public ReportOutput getReportOutput(){
@@ -88,7 +88,6 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.AbstractReportStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
-	@Override
 	public void execute(NewRowEvent rowEvent) {
 		int groupingLevel = getGroupingLevel(); 
 		
@@ -133,7 +132,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 	/**
 	 * 
 	 */
-	public void exit(Map<IOKeys,Object> algoInput, AlgoContext context){
+	public void exit(){
 		if(getShowTotals() || getShowGrandTotal()){
 			int originalGroupingColsLength = getGroupColumnsLength(); //getOriginalCrosstabGroupingColsLength();  
 			int originalDataColsLength = getDataColumnsLength(); //getOriginalCrosstabDataColsLength(); 
@@ -145,10 +144,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 		intermediateRow.setLast(true); 
 		addOriginalGroupAndDataColumnsInfoToIntermRow(intermediateRow);
 		writeIntermediateRow(intermediateRow); 
-		//the cleanup
-		intermediateRow = null;
-		//flushObjectOutputStream(); 
-		super.exit(algoInput, context);
+		intermediateRow = null;//clean up
 	}
 	
 	

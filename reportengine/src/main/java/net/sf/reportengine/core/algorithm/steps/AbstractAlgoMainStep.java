@@ -42,13 +42,17 @@ public abstract class AbstractAlgoMainStep implements AlgorithmMainStep {
     public void init(Map<IOKeys, Object> algoInput, AlgoContext algoContext){
         this.algoContext = algoContext;    
         this.algoInput = algoInput; 
+        
+        executeInit();
     }
+    
+    protected void executeInit(){};
     
     /**
      * just an empty implementation for exit 
      * @see net.sf.reportengine.core.algorithm.AlgorithmMainStep#exit()
      */
-    public void exit(Map<IOKeys,Object> algoInput, AlgoContext context) {}
+    public void exit() {}
     
     
     /**

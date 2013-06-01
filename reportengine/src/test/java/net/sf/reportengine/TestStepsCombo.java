@@ -168,11 +168,11 @@ public class TestStepsCombo  {
 		
 		//exit
 		//computeColumnStep.exit(mockAlgoInput, TEST_REPORT_CONTEXT);
-		levelDetectorStep.exit(mockAlgoInput, mockContext);
-		yTotalsOutput.exit(mockAlgoInput, mockContext);
-		dataRowOutput.exit(mockAlgoInput, mockContext);
-		totalsCalculator.exit(mockAlgoInput, mockContext);
-		previosGroupValuesManager.exit(mockAlgoInput, mockContext);
+		levelDetectorStep.exit();
+		yTotalsOutput.exit();
+		dataRowOutput.exit();
+		totalsCalculator.exit();
+		previosGroupValuesManager.exit();
 		
 		endReportExitStep.exit(mockAlgoInput, mockContext);
 		

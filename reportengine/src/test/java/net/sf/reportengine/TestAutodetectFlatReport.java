@@ -11,6 +11,7 @@ import net.sf.reportengine.in.SqlInput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.scenarios.AutodetectConfigurationScenario;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -70,6 +71,28 @@ public class TestAutodetectFlatReport {
 		input.setSqlStatement("select country, region, city, sex, religion, value from testreport t order by country, region, city");
 		flatReport.setIn(input); 
 		flatReport.setOut(new HtmlOutput("./target/AutodetectFromSqlWithUserPrefs.html")); 
+		
+		flatReport.forColumn("COUNTRY").setHAlign(HorizAlign.RIGHT).setHeader("Changed header").setGroup(true); 
+		flatReport.forColumn("VALUE").setCalculator(Calculators.SUM).setFormatter(NumberFormat.getCurrencyInstance()); 
+		flatReport.forColumn("REGION").setGroup(true); 
+		flatReport.forColumn("CITY").setGroup(true); 
+		
+		flatReport.execute();
+	}
+	
+	@Test
+	public void testAutodetectFromDatabaseWithNoOrder(){
+		AutoconfigFlatReport flatReport = new AutoconfigFlatReport(); 
+		SqlInput input = new SqlInput(); 
+		input.setDbUser("SA");
+		input.setDbPassword("");
+		input.setDbDriverClass("org.hsqldb.jdbcDriver");
+		input.setDbConnString("jdbc:hsqldb:file:./src/test/resources/databases/testdb");
+		input.setSqlStatement("select country, region, city, sex, religion, value from testreport t "); //order by country, region, city
+		flatReport.setIn(input); 
+		flatReport.setOut(new HtmlOutput("./target/AutodetFrmSqlWithUserPrefsButOrderedInternally.html")); 
+		
+		flatReport.setGroupValuesSorted(false); 
 		
 		flatReport.forColumn("COUNTRY").setHAlign(HorizAlign.RIGHT).setHeader("Changed header").setGroup(true); 
 		flatReport.forColumn("VALUE").setCalculator(Calculators.SUM).setFormatter(NumberFormat.getCurrencyInstance()); 

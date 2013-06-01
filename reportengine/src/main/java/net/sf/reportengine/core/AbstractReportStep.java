@@ -38,15 +38,7 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
      *
      */
     public AbstractReportStep(){
-        
     }
-    
-    /**
-     * empty implementation
-     */
-    public abstract void execute(NewRowEvent rowEvent);
-    
-    
     
     /**
      * returns the aggregation level (especially used in the derived classes)

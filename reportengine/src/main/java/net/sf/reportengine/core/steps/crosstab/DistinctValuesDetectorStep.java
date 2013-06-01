@@ -49,24 +49,20 @@ public class DistinctValuesDetectorStep extends AbstractCrosstabStep {
      * 
      */
 	@Override
-    public void init(	Map<IOKeys, Object> algoInput, 
-    					AlgoContext algoContext){
-		
-        super.init(algoInput, algoContext);
+    protected void executeInit(){
         List<CrosstabHeaderRow> headerRows = getCrosstabHeaderRows();
         distinctValuesHolder = new DistinctValuesHolder(headerRows);
-        
-        algoContext.set(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER, distinctValuesHolder);
-        
+        getAlgoContext().set(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER, distinctValuesHolder);
         addResult(IOKeys.DISTINCT_VALUES_HOLDER, distinctValuesHolder); 
     }
 	
-	
-	@Override
+	/**
+	 * 
+	 */
 	public void execute(NewRowEvent newRowEvent) {
 		List<CrosstabHeaderRow> headerRows = getCrosstabHeaderRows();
 		
-		//first we take care of the distict values that might occur 
+		//first we take care of the distinct values that might occur 
 		int indexAfterInsertion = -1; 
 		int[] currDataValueRelativePositionToHeaderValues = new int[headerRows.size()]; 
 		

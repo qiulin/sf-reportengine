@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author dragos
+ * @author dragos balan
  *
  */
 public class NewRowComparator implements Comparator<NewRowEvent> {

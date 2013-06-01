@@ -18,7 +18,7 @@ import net.sf.reportengine.util.IOKeys;
 public class IntermedCloseReportIOExitStep extends CloseReportIOExitStep{
 	
 	
-	@Override protected ReportOutput extractRepOutputFromParameters(	Map<IOKeys, Object> algoInput, 
+	@Override protected ReportOutput getReportOutput(	Map<IOKeys, Object> algoInput, 
 																		AlgoContext algoContext){
 		return (ReportOutput)algoContext.get(ContextKeys.INTERMEDIATE_OUTPUT); 
 	}

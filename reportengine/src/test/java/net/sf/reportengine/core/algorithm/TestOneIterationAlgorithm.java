@@ -62,7 +62,7 @@ public class TestOneIterationAlgorithm {
 			context.set(ContextKeys.NEW_GROUPING_LEVEL, executionCounts+1);
 		}
 		
-		public void exit(Map<IOKeys,Object> algoInput, AlgoContext context){}
+		public void exit(){}
 		
 		public Map<IOKeys, Object> getResultsMap(){
 			return null; 

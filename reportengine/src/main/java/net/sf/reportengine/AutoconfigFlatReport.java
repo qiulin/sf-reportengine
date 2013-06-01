@@ -6,16 +6,22 @@ package net.sf.reportengine;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.reportengine.core.algorithm.Algorithm;
+import net.sf.reportengine.core.algorithm.AlgorithmContainer;
 import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.steps.CloseReportIOExitStep;
+import net.sf.reportengine.core.steps.CloseReportInputExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
+import net.sf.reportengine.core.steps.DecideInputInitStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
+import net.sf.reportengine.core.steps.ExternalSortPreparationStep;
 import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
 import net.sf.reportengine.core.steps.GroupLevelDetectorStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
 import net.sf.reportengine.core.steps.OpenReportIOInitStep;
+import net.sf.reportengine.core.steps.OpenReportInputInitStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectFlatReportTotalsOutputStep;
@@ -45,9 +51,11 @@ public class AutoconfigFlatReport extends AbstractReport {
     private Map<String, ColumnPreferences> userColumnPrefs = new HashMap<String, ColumnPreferences>(); 
     
     /**
-     * the algorithm that holds all report steps
-     */
-    private MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(); 
+	 *  the container for two potential algorithms : 
+	 *   1. the sorting algorithm 
+	 *   2. the reporting algorithm
+	 */
+	private AlgorithmContainer reportAlgoContainer = new AlgorithmContainer(); 
     
     /**
      * default constructor
@@ -68,39 +76,70 @@ public class AutoconfigFlatReport extends AbstractReport {
      */
     @Override protected void config(){
     	LOGGER.trace("configuring the autodetect flat report"); 
-    	//AlgoContext context = algorithm.getContext();
     	
     	//preparing the context of the report algorithm 
-    	algorithm.addIn(IOKeys.REPORT_INPUT, getIn());
-		algorithm.addIn(IOKeys.REPORT_OUTPUT, getOut());
-		algorithm.addIn(IOKeys.USER_COLUMN_PREFERENCES, userColumnPrefs); 
-		algorithm.addIn(IOKeys.SHOW_TOTALS, getShowTotals()); 
-		algorithm.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
+    	reportAlgoContainer.addIn(IOKeys.REPORT_INPUT, getIn());
+    	reportAlgoContainer.addIn(IOKeys.REPORT_OUTPUT, getOut());
+    	reportAlgoContainer.addIn(IOKeys.USER_COLUMN_PREFERENCES, userColumnPrefs); 
+    	reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, getShowTotals()); 
+    	reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
+    	reportAlgoContainer.addIn(IOKeys.HAS_GROUP_VALUES_ORDERED, hasGroupValuesSorted()); 
     	
-    	//adding steps to the algorithm :
-    	//we start with the init steps
+    	if(!hasGroupValuesSorted()){
+    		reportAlgoContainer.addAlgo(configSortingAlgo()); 
+    	}
+    	
+    	reportAlgoContainer.addAlgo(configReportAlgo()); 
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    private Algorithm configSortingAlgo(){
+    	MultiStepAlgo sortingAlgo = new LoopThroughReportInputAlgo(); 
+    	
+    	sortingAlgo.addInitStep(new OpenReportInputInitStep());
+    	sortingAlgo.addInitStep(new AutodetectConfigInitStep()); 
+    	
+    	sortingAlgo.addMainStep(new ExternalSortPreparationStep()); 
+    	
+    	sortingAlgo.addExitStep(new CloseReportInputExitStep()); 
+    	return sortingAlgo; 
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    private Algorithm configReportAlgo(){
+    	MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(); 
+    	//the init steps
+    	algorithm.addInitStep(new DecideInputInitStep()); 
 		algorithm.addInitStep(new OpenReportIOInitStep()); 
     	algorithm.addInitStep(new InitReportDataInitStep()); 
-    	algorithm.addInitStep(new AutodetectConfigInitStep()); 
+    	if(hasGroupValuesSorted()){
+    		algorithm.addInitStep(new AutodetectConfigInitStep()); 
+    	}
     	algorithm.addInitStep(new FlatReportExtractTotalsDataInitStep());
     	algorithm.addInitStep(new StartReportInitStep()); 
     	algorithm.addInitStep(new ColumnHeaderOutputInitStep(getTitle()));
         
-    	//then we add the main steps
+    	//the main steps
     	algorithm.addMainStep(new GroupLevelDetectorStep());
-    	
-        algorithm.addMainStep(new AutodetectFlatReportTotalsOutputStep());
+    	algorithm.addMainStep(new AutodetectFlatReportTotalsOutputStep());
         algorithm.addMainStep(new AutodetectTotalsCalculatorStep());
-        
         
         if(getShowDataRows()){
         	algorithm.addMainStep(new DataRowsOutputStep());
         }
-        
         algorithm.addMainStep(new AutodetectPreviousRowManagerStep());
         
+        //exit steps
         algorithm.addExitStep(new EndReportExitStep()); 
         algorithm.addExitStep(new CloseReportIOExitStep()); 
+    	
+    	return algorithm; 
     }
 	
 	/**
@@ -141,6 +180,6 @@ public class AutoconfigFlatReport extends AbstractReport {
 	@Override public void execute() {
 		validate(); 
 		config(); 
-		algorithm.execute(); 
+		reportAlgoContainer.execute(); 
 	}
 }

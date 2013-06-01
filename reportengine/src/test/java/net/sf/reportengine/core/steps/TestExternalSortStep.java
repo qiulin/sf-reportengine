@@ -46,7 +46,7 @@ public class TestExternalSortStep {
 		classUnderTest.execute(new NewRowEvent(Scenario1.ROW_OF_DATA_5));
 		classUnderTest.execute(new NewRowEvent(Scenario1.ROW_OF_DATA_6));
 		
-		classUnderTest.exit(mockAlgoInput, mockContext); 
+		classUnderTest.exit(); 
 		
 		List<File> filesResultedFromExternalSorting = (List<File>)mockContext.get(ContextKeys.SORTED_FILES); 
 		assertNotNull(filesResultedFromExternalSorting); 

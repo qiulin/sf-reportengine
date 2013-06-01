@@ -4,14 +4,10 @@
  */
 package net.sf.reportengine.core.steps;
 
-import java.util.Map;
-
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.util.CalculatorMatrix;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,11 +41,8 @@ public class TotalsCalculatorStep extends AbstractReportStep{
     /**
      * init
      */
-    @Override public void init(Map<IOKeys, Object> algoInput, AlgoContext reportContext){
-        super.init(algoInput, reportContext);
-        
-        //Calculator[] prototypesCalc = extractCalculators(getDataColumns());
-        
+    @Override 
+    protected void executeInit(){
         groupColsCnt = getGroupColumnsLength(); 
         
         if(groupColsCnt == 0){
@@ -60,13 +53,13 @@ public class TotalsCalculatorStep extends AbstractReportStep{
         calculatorMatrix = new CalculatorMatrix(groupColsCnt + 1, getDataColumns());
         calculatorMatrix.initAllCalculators();
         
-        reportContext.set(ContextKeys.CALCULATORS, calculatorMatrix.getCalculators());
+        getAlgoContext().set(ContextKeys.CALCULATORS, calculatorMatrix.getCalculators());
     }
     
     /**
      * execute
      */
-    @Override public void execute(NewRowEvent newRowEvent){
+    public void execute(NewRowEvent newRowEvent){
 		int aggLevel = getGroupingLevel();
 		if(aggLevel >= 0){
 			//if the current row is not a simple data row but contains a change in the grouping level 

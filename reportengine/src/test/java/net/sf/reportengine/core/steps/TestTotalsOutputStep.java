@@ -89,7 +89,7 @@ public class TestTotalsOutputStep  {
 		mockReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[5]);
 		
 		mockReportContext.set(ContextKeys.CALCULATORS, Scenario1.ROW_6_CALCULATORS_RESULTS);
-		classUnderTest.exit(mockAlgoInput, mockReportContext);
+		classUnderTest.exit();
 		
 		CellProps[][] resultCellMatrix = mockOutput.getDataCellMatrix();
 		Assert.assertTrue(MatrixUtils.compareMatrices(Scenario1.OUTPUT_TOTALS, resultCellMatrix));
