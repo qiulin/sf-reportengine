@@ -3,6 +3,8 @@
  */
 package net.sf.reportengine.samples.customColumns;
 
+import java.util.List;
+
 import net.sf.reportengine.config.AbstractDataColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 
@@ -22,9 +24,9 @@ public class SumCustomColumn extends AbstractDataColumn {
 	 */
 	@Override
 	public Integer getValue(NewRowEvent newRowEvent) {
-		Object[] inputRow = newRowEvent.getInputDataRow(); 
-		Integer firstColumn = Integer.valueOf(inputRow[0].toString());
-		Integer thirdColumn = Integer.valueOf(inputRow[2].toString());
+		List<Object> inputRow = newRowEvent.getInputDataRow(); 
+		Integer firstColumn = Integer.valueOf(inputRow.get(0).toString());
+		Integer thirdColumn = Integer.valueOf(inputRow.get(2).toString());
 		return firstColumn + thirdColumn;
 	}
 }

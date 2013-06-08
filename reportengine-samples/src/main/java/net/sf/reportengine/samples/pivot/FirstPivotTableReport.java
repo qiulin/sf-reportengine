@@ -10,7 +10,7 @@ import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.HtmlOutput;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 
 /**
  * this is my first pivot table report
@@ -26,7 +26,7 @@ public class FirstPivotTableReport {
 		ReportInput input = new TextInput("./inputData/expenses.csv", ",");
 		classUnderTest.setIn(input); 
 		
-		IReportOutput output = new HtmlOutput("./output/xpensesPivot.html"); 
+		ReportOutput output = new HtmlOutput("./output/xpensesPivot.html"); 
 		classUnderTest.setOut(output);
 		
 		//set up the data columns
