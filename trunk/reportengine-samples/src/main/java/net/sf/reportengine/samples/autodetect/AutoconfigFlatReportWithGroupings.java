@@ -12,7 +12,7 @@ import net.sf.reportengine.out.HtmlOutput;
 /**
  * simple auto configured report having some default configurations overwritten
  */
-public class AutoconfigFlatSecondSample {
+public class AutoconfigFlatReportWithGroupings {
 	
 	public static void main(String... args){
 		

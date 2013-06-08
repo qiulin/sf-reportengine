@@ -3,6 +3,8 @@
  */
 package net.sf.reportengine.samples.customColumns;
 
+import java.util.List;
+
 import net.sf.reportengine.config.AbstractDataColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 
@@ -25,9 +27,9 @@ public class FullNameCustomDataColumn extends AbstractDataColumn {
 	 */
 	@Override
 	public String getValue(NewRowEvent newRowEvent) {
-		Object[] inputRow = newRowEvent.getInputDataRow(); 
-		String secondColumnValue = (String)inputRow[1]; 
-		String fourthColumnValue = (String)inputRow[3];
+		List<Object> inputRow = newRowEvent.getInputDataRow(); 
+		String secondColumnValue = (String)inputRow.get(1); 
+		String fourthColumnValue = (String)inputRow.get(3);
 		
 		//append the second and fourth column values
 		return secondColumnValue + " " + fourthColumnValue;

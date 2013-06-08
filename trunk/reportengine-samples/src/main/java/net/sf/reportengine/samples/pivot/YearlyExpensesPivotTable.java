@@ -12,7 +12,7 @@ import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.HtmlOutput;
-import net.sf.reportengine.out.IReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 
 /**
  * 
@@ -27,7 +27,7 @@ public class YearlyExpensesPivotTable {
 		ReportInput input = new TextInput("./inputData/yearlyExpenses.txt", "\t");
 		report.setIn(input); 
 		
-		IReportOutput output = new HtmlOutput("./output/yearlyPivot.html"); 
+		ReportOutput output = new HtmlOutput("./output/yearlyPivot.html"); 
 		report.setOut(output);
 		
 		//set up the group and data columns
