@@ -45,15 +45,5 @@ class MaxCalculator extends AbstractNumericCalculator {
                 value = valueToCompare;
             }
         }
-
-    }
-    
-    
-    /**
-     * creates a new instance
-     */
-	public Calculator newInstance() {
-		return new MaxCalculator();
-	}
-    
+    }    
 }

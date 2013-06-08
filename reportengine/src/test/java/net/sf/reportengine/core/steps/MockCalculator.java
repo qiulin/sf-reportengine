@@ -48,11 +48,4 @@ public class MockCalculator extends AbstractCalculator {
 	 * it doesn't do anything
 	 */
 	public void init() {}
-	
-	/**
-     * creates a new instance
-     */
-	public Calculator newInstance() {
-		return new MockCalculator(result);
-	}
 }

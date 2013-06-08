@@ -48,11 +48,4 @@ public class FirstCalculator extends AbstractCalculator {
 	public void init() {
 		value = INIT_VALUE;
 	}
-
-	/**
-     * creates a new instance
-     */
-	public Calculator newInstance() {
-		return new FirstCalculator();
-	}
 }

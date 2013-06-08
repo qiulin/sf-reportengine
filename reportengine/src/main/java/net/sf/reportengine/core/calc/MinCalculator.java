@@ -59,12 +59,4 @@ class MinCalculator extends AbstractNumericCalculator {
         }
 
     }
-    
-    
-    /**
-     * creates a new instance
-     */
-	public Calculator newInstance() {
-		return new MinCalculator();
-	}
 }

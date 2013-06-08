@@ -38,12 +38,4 @@ public class CountCalculator extends AbstractNumericCalculator {
             value = value.add(new BigDecimal(1));
         }
     }
-    
-    /**
-     * creates a new instance of this object
-     */
-	public Calculator newInstance() {
-		return new CountCalculator();
-	}
-    
 }

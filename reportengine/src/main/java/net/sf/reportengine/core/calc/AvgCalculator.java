@@ -25,15 +25,7 @@ class AvgCalculator extends SumCalculator {
 	/**
      * counter for computed elements 
      */
-    int elementsCount;
-    
-    /**
-     * average calculator constructor
-     * calls super() -> init()
-     */
-    AvgCalculator(){
-        super();
-    }
+    private int elementsCount;
     
     /**
      * initializer
@@ -57,13 +49,5 @@ class AvgCalculator extends SumCalculator {
     public Object getResult(){
     	BigDecimal sum = (BigDecimal)super.getResult(); 
     	return sum.doubleValue() / elementsCount; 
-        //return ((BigDecimal)super.getResult()).divide(new BigDecimal(elementsCount), BigDecimal.ROUND_HALF_EVEN);
     }
-    
-    /**
-     * creates a new instance
-     */
-	@Override public Calculator newInstance() {
-		return new AvgCalculator();
-	}
 }
