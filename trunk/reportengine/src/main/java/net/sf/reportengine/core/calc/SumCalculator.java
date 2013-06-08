@@ -48,11 +48,4 @@ public class SumCalculator extends AbstractNumericCalculator {
             System.err.println("skipping null value ");
         }
     }
-    
-    /**
-     * creates a new instance
-     */
-	public Calculator newInstance() {
-		return new SumCalculator();
-	}
 }
