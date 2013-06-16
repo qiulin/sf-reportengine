@@ -20,4 +20,10 @@ public interface AlgorithmExitStep {
      * called when finishing the algorithm execution
      */
     public void exit(Map<IOKeys,Object> algoInput, AlgoContext context);
+    
+    /**
+     * 
+     * @return
+     */
+    public Map<IOKeys, Object> getResultsMap(); 
 }

@@ -3,10 +3,12 @@
  */
 package net.sf.reportengine.in;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -57,6 +59,20 @@ public class IntermediateCrosstabReportInput extends AbstractReportInput {
 		} catch (IOException e) {
 			throw new ReportInputException(e); 
 		} 
+	}
+	
+	/**
+	 * 
+	 * @param input
+	 */
+	public IntermediateCrosstabReportInput(File input){
+		try{
+			this.intermCtLinesInputStream = new ObjectInputStream(new FileInputStream(input)); 
+		}catch(FileNotFoundException fnfExc){
+			throw new ReportInputException(fnfExc); 
+		} catch (IOException e) {
+			throw new ReportInputException(e); 
+		}
 	}
 	
 	@Override

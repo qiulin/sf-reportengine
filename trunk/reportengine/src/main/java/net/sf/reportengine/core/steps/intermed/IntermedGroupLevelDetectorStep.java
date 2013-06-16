@@ -19,25 +19,16 @@ import net.sf.reportengine.util.IOKeys;
 public class IntermedGroupLevelDetectorStep extends GroupLevelDetectorStep {
 	
 	
-	private IOKeys groupColIOKey = null; 
-	private ContextKeys groupColContextKey = null; 
-	
-	public IntermedGroupLevelDetectorStep(ContextKeys groupColumnKey){
-		this.groupColContextKey = groupColumnKey; 
-	}
-	
-	public IntermedGroupLevelDetectorStep(IOKeys groupColumnKey){
-		this.groupColIOKey = groupColumnKey; 
-	}
-	
-	
-	@Override 
-	public List<GroupColumn> getGroupColumns(){
-		if(groupColIOKey != null){
-			return (List<GroupColumn>)getAlgoInput().get(groupColIOKey); 
-		}else{
-			//return (List<GroupColumn>)algoContext.get(ContextKeys.INTERNAL_GROUP_COLS);
-			return (List<GroupColumn>)getAlgoContext().get(groupColContextKey); 
-		}
+	 /**
+     * ATTENTION : changing the implementation of this method will have effect on the 
+     * following methods: 
+     * {@link #getGroupColumnsLength()}
+     * {@link #computeAggLevelForCalcRowNumber(int)}
+     * {@link #computeCalcRowNumberForAggLevel(int)}
+     * 
+     * @return
+     */
+	@Override public List<GroupColumn> getGroupColumns(){
+		return (List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS);
 	}
 }

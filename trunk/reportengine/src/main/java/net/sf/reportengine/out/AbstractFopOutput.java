@@ -141,8 +141,7 @@ public abstract class AbstractFopOutput implements ReportOutput{
 	 */
 	public void open(){
 		try {
-			tempFoFile = File.createTempFile("report", ".fo");
-			LOGGER.info("temporary fo file created on {}", tempFoFile.getAbsolutePath()); 
+			tempFoFile = ReportIoUtils.createTempFile("report-fo");
 			foOutput = new FoOutput(new FileWriter(tempFoFile));
 			foOutput.open(); 
 		} catch (IOException e) {

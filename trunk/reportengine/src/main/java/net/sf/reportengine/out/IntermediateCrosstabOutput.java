@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 
 import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.core.steps.crosstab.IntermediateReportRow;
+import net.sf.reportengine.util.ReportIoUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,10 +43,7 @@ public class IntermediateCrosstabOutput implements ReportOutput {
 	 */
 	public void open() {
 		try {
-			result = File.createTempFile("crosstab", ".tmp");
-			//result.deleteOnExit(); 
-			
-			LOGGER.info("creating temporary file on {}", result.getAbsolutePath());
+			result = ReportIoUtils.createTempFile("interm-obj");
 			objectOutputStream = new ObjectOutputStream(new FileOutputStream(result));
 		} catch (FileNotFoundException e) {
 			throw new ReportEngineRuntimeException(e);

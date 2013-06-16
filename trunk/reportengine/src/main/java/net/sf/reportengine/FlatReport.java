@@ -15,8 +15,9 @@ import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
+import net.sf.reportengine.core.steps.ConfigReportIOInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
-import net.sf.reportengine.core.steps.DecideInputInitStep;
+import net.sf.reportengine.core.steps.ConfigFlatIOInitStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.ExternalSortPreparationStep;
 import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
@@ -24,6 +25,7 @@ import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.GroupLevelDetectorStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
 import net.sf.reportengine.core.steps.OpenReportIOInitStep;
+import net.sf.reportengine.core.steps.OpenReportInputInitStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
@@ -131,6 +133,12 @@ public class FlatReport extends AbstractColumnBasedReport {
      */
     private Algorithm configSortingAlgo(){
     	MultiStepAlgo sortingAlgo = new LoopThroughReportInputAlgo(); 
+    	
+    	//init steps
+    	sortingAlgo.addInitStep(new ConfigReportIOInitStep()); 
+    	sortingAlgo.addInitStep(new OpenReportInputInitStep()); 
+    	
+    	//main steps
     	sortingAlgo.addMainStep(new ExternalSortPreparationStep()); 
     	return sortingAlgo; 
     }
@@ -141,7 +149,7 @@ public class FlatReport extends AbstractColumnBasedReport {
      */
     private Algorithm configReportAlgo(){
     	MultiStepAlgo reportAlgo = new LoopThroughReportInputAlgo(); 
-    	reportAlgo.addInitStep(new DecideInputInitStep()); 
+    	reportAlgo.addInitStep(new ConfigFlatIOInitStep()); 
     	reportAlgo.addInitStep(new OpenReportIOInitStep()); 
     	reportAlgo.addInitStep(new InitReportDataInitStep()); 
     	reportAlgo.addInitStep(new FlatReportExtractTotalsDataInitStep());//TODO: only when report has totals

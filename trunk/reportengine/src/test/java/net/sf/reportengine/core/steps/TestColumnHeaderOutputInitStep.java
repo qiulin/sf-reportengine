@@ -28,16 +28,18 @@ public class TestColumnHeaderOutputInitStep  {
 	 */
 	@Test
 	public void testInitScenario1() {
-		AlgoContext testReportContext = new DefaultAlgorithmContext(); 
-		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);  
-		CellPropsArrayOutput mockOutput = new CellPropsArrayOutput(); 
+		AlgoContext mockContext = new DefaultAlgorithmContext(); 
 		
-		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput); 
+		CellPropsArrayOutput mockOutput = new CellPropsArrayOutput(); 
+		mockContext.set(ContextKeys.LOCAL_REPORT_OUTPUT, mockOutput); 
+		
+		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);  
+		//mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput); 
 		mockAlgoInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
 		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS) ;
 		
 		ColumnHeaderOutputInitStep classUnderTest = new ColumnHeaderOutputInitStep(); 
-		classUnderTest.init(mockAlgoInput, testReportContext);
+		classUnderTest.init(mockAlgoInput, mockContext);
 		
 		Assert.assertTrue(MatrixUtils.compareMatrices(Scenario1.EXPECTED_REPORT_COLUMNS_HEADER, 
 												mockOutput.getHeaderCellMatrix()));

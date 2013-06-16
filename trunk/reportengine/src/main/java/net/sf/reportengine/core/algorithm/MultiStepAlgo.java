@@ -30,11 +30,4 @@ public interface MultiStepAlgo extends Algorithm {
      * @param exitStep
      */
     public void addExitStep(AlgorithmExitStep exitStep);
-    
-    
-    /**
-     * getter for the context
-     * @return
-     */
-    //public AlgoContext getContext();
 }

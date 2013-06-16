@@ -37,16 +37,18 @@ public class TestTotalsOutputStep  {
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		CellPropsArrayOutput mockOutput = new CellPropsArrayOutput(); 
 		
-		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
+		//mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
         mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
         mockAlgoInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
         mockAlgoInput.put(IOKeys.SHOW_GRAND_TOTAL, Scenario1.SHOW_GRAND_TOTAL); 
         mockAlgoInput.put(IOKeys.SHOW_TOTALS, true); 
         
+        mockReportContext.set(ContextKeys.LOCAL_REPORT_OUTPUT, mockOutput); 
         mockReportContext.set(ContextKeys.DISTRIBUTION_OF_CALCULATORS, Scenario1.DISTRIBUTION_OF_CALCULATOR_IN_DATA_ROW_ARRAY); 
         mockReportContext.set(ContextKeys.DATA_ROW_COUNT, 0); 
+        mockReportContext.set(ContextKeys.LOCAL_REPORT_INPUT, Scenario1.INPUT); 
+        //mockAlgoInput.put(IOKeys.REPORT_INPUT, Scenario1.INPUT); 
         
-        mockAlgoInput.put(IOKeys.REPORT_INPUT, Scenario1.INPUT); 
 		classUnderTest.init(mockAlgoInput, mockReportContext);
 		
 		NewRowEvent dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_1);

@@ -8,7 +8,7 @@ import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.algorithm.steps.AbstractInitStep;
+import net.sf.reportengine.core.steps.AbstractReportInitStep;
 import net.sf.reportengine.in.ColumnMetadata;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.in.ReportInput;
@@ -24,16 +24,19 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan
  * @since 0.8
  */
-public class AutodetectConfigInitStep extends AbstractInitStep {
+public class AutodetectConfigInitStep extends AbstractReportInitStep {
 	
 	/**
 	 * the one and only logger
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(AutodetectConfigInitStep.class);
 
+	/**
+	 * 
+	 */
 	@Override protected void executeInit() {
 		Map<IOKeys, Object> algoInput = getAlgoInput(); 
-		ReportInput input = (ReportInput)algoInput.get(IOKeys.REPORT_INPUT); 
+		ReportInput input = getReportInput(); //(ReportInput)algoInput.get(IOKeys.REPORT_INPUT); 
 		Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)algoInput.get(IOKeys.USER_COLUMN_PREFERENCES);
 		
 		LOGGER.info("Autodetecting the columns based on user preferences and input metadata"); 

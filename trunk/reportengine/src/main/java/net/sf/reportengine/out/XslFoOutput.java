@@ -161,27 +161,23 @@ public class XslFoOutput extends AbstractByteBasedOutput {
      * 
      */
     public void open(){
-    	try {
-	    	markAsOpen(); 
-	    	if(mimeType == null){
-	    		setMimeType(MimeConstants.MIME_PDF);
-	    	}
-	    	if(configInputStream == null){
-	    		setFopConfigInputStream(ClassLoader.getSystemResourceAsStream(DEFAULT_FO_CONF_PATH)); 
-	    	}
-	    	if(getTemplateReader() == null){
-				setTemplateReader(ReportIoUtils.createReaderFromClassPath(DEFAULT_XSLFO_CLASSPATH));
-	    	}
-	    	if(tempXmlFilePath== null){
-	    		File tempXmlFile = File.createTempFile("report", ".tmp");
-	    		LOGGER.info("creating temporary xml file {} ", tempXmlFile.getAbsolutePath());
-	    		setTempXmlFilePath(tempXmlFile.getAbsolutePath());
-	    	}
-	    	staxReportOutput.setFilePath(getTempXmlFilePath());
-	    	staxReportOutput.open();
-    	} catch (IOException e) {
-    		throw new ReportOutputException(e); 
+    	markAsOpen(); 
+    	if(mimeType == null){
+    		setMimeType(MimeConstants.MIME_PDF);
     	}
+    	if(configInputStream == null){
+    		setFopConfigInputStream(ClassLoader.getSystemResourceAsStream(DEFAULT_FO_CONF_PATH)); 
+    	}
+    	if(getTemplateReader() == null){
+			setTemplateReader(ReportIoUtils.createReaderFromClassPath(DEFAULT_XSLFO_CLASSPATH));
+    	}
+    	if(tempXmlFilePath== null){
+    		File tempXmlFile = ReportIoUtils.createTempFile("report-xml");
+    		LOGGER.info("creating temporary xml file {} ", tempXmlFile.getAbsolutePath());
+    		setTempXmlFilePath(tempXmlFile.getAbsolutePath());
+    	}
+    	staxReportOutput.setFilePath(getTempXmlFilePath());
+    	staxReportOutput.open();
     }
     
     /**

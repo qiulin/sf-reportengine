@@ -18,6 +18,7 @@ import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.ReportIoUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,11 @@ public class ExternalSortPreparationStep extends AbstractReportStep{
 	 * the one and only logger
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(ExternalSortPreparationStep.class);
+	
+	/**
+	 * 
+	 */
+	private static final int DEFAULT_MAX_ROWS_IN_MEMORY = 1000; 
 	
 	/**
 	 * 
@@ -57,7 +63,7 @@ public class ExternalSortPreparationStep extends AbstractReportStep{
 	 * 
 	 */
 	public ExternalSortPreparationStep(){
-		this(1000); 
+		this(DEFAULT_MAX_ROWS_IN_MEMORY); 
 	}
 	
 	/**
@@ -125,8 +131,7 @@ public class ExternalSortPreparationStep extends AbstractReportStep{
 	 */
 	public File saveToFile(List<NewRowEvent> rowsList) throws IOException  {
 		//saving the sorted list into a temporary file
-		File tempFile = File.createTempFile("temp", ".tmp");
-		tempFile.deleteOnExit();
+		File tempFile = ReportIoUtils.createTempFile("sorted-obj");
 		
 		LOGGER.info("saving the sorted rows list into {}", tempFile.getName());
 		ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(tempFile));

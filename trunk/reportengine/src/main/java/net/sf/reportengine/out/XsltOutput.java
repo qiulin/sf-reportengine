@@ -109,22 +109,18 @@ public class XsltOutput extends AbstractCharBasedOutput {
      */
     public void open(){
     	markAsOpen();
-    	try{
-	    	if(xsltReader == null){
-	    		LOGGER.debug("No xslt reader found ... creating default xslt reader from classpath"); 
-	    		setXsltReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(DEFAULT_XSLT_PATH)));
-	    	}
-	    	if(tempXmlFilePath == null){
-	    		File tempXmlFile = File.createTempFile("report", ".tmp");
-	    		LOGGER.info("creating temporary xml file "+tempXmlFile.getAbsolutePath());
-	    		setTempXmlFilePath(tempXmlFile.getAbsolutePath());
-	    	}
-	    	staxReportOutput.setFilePath(getTempXmlFilePath());
-	    	
-	    	staxReportOutput.open();
-    	}catch(IOException ioEx){
-    		throw new ReportOutputException(ioEx); 
+    	if(xsltReader == null){
+    		LOGGER.debug("No xslt reader found ... creating default xslt reader from classpath"); 
+    		setXsltReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(DEFAULT_XSLT_PATH)));
     	}
+    	if(tempXmlFilePath == null){
+    		File tempXmlFile = ReportIoUtils.createTempFile("report-xml");
+    		
+    		setTempXmlFilePath(tempXmlFile.getAbsolutePath());
+    	}
+    	staxReportOutput.setFilePath(getTempXmlFilePath());
+    	
+    	staxReportOutput.open();
     }
     
     public void startReport(ReportProps reportProps){

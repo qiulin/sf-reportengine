@@ -3,9 +3,6 @@
  */
 package net.sf.reportengine;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,30 +18,26 @@ import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
-import net.sf.reportengine.core.steps.PreviousRowManagerStep;
+import net.sf.reportengine.core.steps.OpenReportIOInitStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
-import net.sf.reportengine.core.steps.crosstab.ConfigAndOpenCrosstabIOInitStep;
 import net.sf.reportengine.core.steps.crosstab.ConfigCrosstabColumnsInitStep;
+import net.sf.reportengine.core.steps.crosstab.ConfigCrosstabIOInitStep;
 import net.sf.reportengine.core.steps.crosstab.CrosstabHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.crosstab.DistinctValuesDetectorStep;
 import net.sf.reportengine.core.steps.crosstab.GenerateCrosstabMetadataInitStep;
 import net.sf.reportengine.core.steps.crosstab.IntermedRowMangerStep;
-import net.sf.reportengine.core.steps.intermed.ConfigAndOpenIntermedIOInitStep;
 import net.sf.reportengine.core.steps.intermed.ConfigIntermedColsInitStep;
-import net.sf.reportengine.core.steps.intermed.IntermedCloseReportIOExitStep;
+import net.sf.reportengine.core.steps.intermed.ConfigIntermedIOInitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedDataRowsOutputStep;
-import net.sf.reportengine.core.steps.intermed.IntermedEndReportExitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedGroupLevelDetectorStep;
 import net.sf.reportengine.core.steps.intermed.IntermedPreviousRowManagerStep;
 import net.sf.reportengine.core.steps.intermed.IntermedReportExtractTotalsDataInitStep;
+import net.sf.reportengine.core.steps.intermed.IntermedSetResultsExitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedStartReportInitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsCalculatorStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsOutputStep;
-import net.sf.reportengine.in.IntermediateCrosstabReportInput;
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.out.ReportOutput;
-import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
@@ -120,22 +113,6 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	 *  the sorting algorithm , the intermediate algorithm and the reporting algorithm
 	 */
 	private AlgorithmContainer reportAlgoContainer = new AlgorithmContainer();
-	
-	/**
-	 * the intermediate report is in charge of : 
-	 * 	1. discovering the distinct values for the header 
-	 *  2. arranging the initial crosstab data into rows for the second report
-	 *  3. computing totals on the crosstab data.
-	 */
-	//private IntermediateCrosstabReport firstReport;
-	
-	/**
-	 * the second report is in charge of: 
-	 * 1. getting the input from the first report's output
-	 * 2. computing the totals on data rows 
-	 * 3. outputting into the user defined output
-	 */
-	private SecondCrosstabProcessorReport secondReport; 
 	
 	/**
 	 * the crosstab header rows
@@ -225,18 +202,19 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	private Algorithm configFirstReport(){
 		
 		MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(); 
+		
 		//initial steps 
 		algorithm.addInitStep(new ConfigIntermedColsInitStep()); 
-		algorithm.addInitStep(new ConfigAndOpenIntermedIOInitStep()); // instead of new OpenReportIOInitStep()
-		algorithm.addInitStep(new IntermedReportExtractTotalsDataInitStep(ContextKeys.INTERNAL_DATA_COLS));//TODO: only when totals
-		algorithm.addInitStep(new IntermedStartReportInitStep()); 
+		algorithm.addInitStep(new ConfigIntermedIOInitStep());
+		algorithm.addInitStep(new OpenReportIOInitStep()); 
+		algorithm.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
+		algorithm.addInitStep(new StartReportInitStep()); 
     	//only for debug
     	//algorithm.addInitStep(new ColumnHeaderOutputInitStep("Intermediate report"));
         
     	//main steps
     	algorithm.addMainStep(new DistinctValuesDetectorStep());
-    	//algorithm.addMainStep(new ComputeColumnValuesStep());
-    	algorithm.addMainStep(new IntermedGroupLevelDetectorStep(ContextKeys.INTERNAL_GROUP_COLS));
+    	algorithm.addMainStep(new IntermedGroupLevelDetectorStep());
     	
     	//only for debug 
     	//if( getShowTotals() || getShowGrandTotal()){
@@ -254,91 +232,55 @@ public class CrossTabReport extends AbstractColumnBasedReport{
     		algorithm.addMainStep(new IntermedPreviousRowManagerStep());
     	//}
     	
-    	algorithm.addExitStep(new IntermedEndReportExitStep()); 
-    	algorithm.addExitStep(new IntermedCloseReportIOExitStep()); 
-		
+    	algorithm.addExitStep(new EndReportExitStep()); 
+    	algorithm.addExitStep(new CloseReportIOExitStep()); 
+		algorithm.addExitStep(new IntermedSetResultsExitStep()); 
 		return algorithm; 
 	}
 	
+	/**
+	 * the second report is in charge of: 
+	 * 1. getting the input from the first report's output
+	 * 2. computing the totals on data rows 
+	 * 3. outputting into the user defined output
+	 */
 	private Algorithm configSecondReport(){
 		MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(); 
 		
 		//adding steps to the algorithm
 		algorithm.addInitStep(new GenerateCrosstabMetadataInitStep()); 
 		algorithm.addInitStep(new ConfigCrosstabColumnsInitStep());
-		algorithm.addInitStep(new ConfigAndOpenCrosstabIOInitStep()); //new OpenReportIOInitStep()
+		algorithm.addInitStep(new ConfigCrosstabIOInitStep());
+		algorithm.addInitStep(new OpenReportIOInitStep()); 
     	algorithm.addInitStep(new InitReportDataInitStep()); 
     	
-    	//algorithm.addInitStep(new FlatReportExtractTotalsDataInitStep());
-    	algorithm.addInitStep(new IntermedReportExtractTotalsDataInitStep(ContextKeys.INTERNAL_DATA_COLS));
+    	algorithm.addInitStep(new IntermedReportExtractTotalsDataInitStep());
     	
     	algorithm.addInitStep(new StartReportInitStep()); 
     	algorithm.addInitStep(new CrosstabHeaderOutputInitStep());
     	
-    	//algorithm.addMainStep(new ComputeColumnValuesStep());
-    	algorithm.addMainStep(new IntermedGroupLevelDetectorStep(ContextKeys.INTERNAL_GROUP_COLS));
+    	algorithm.addMainStep(new IntermedGroupLevelDetectorStep());
     	
     	if(getShowTotals() || getShowGrandTotal()){
-    		algorithm.addMainStep(new IntermedTotalsOutputStep(ContextKeys.INTERNAL_DATA_COLS, ContextKeys.INTERNAL_GROUP_COLS));
-    		algorithm.addMainStep(new IntermedTotalsCalculatorStep());//this uses the internal data
+    		algorithm.addMainStep(new IntermedTotalsOutputStep());
+    		algorithm.addMainStep(new IntermedTotalsCalculatorStep());
     	}
     	
-        algorithm.addMainStep(new IntermedDataRowsOutputStep(ContextKeys.INTERNAL_DATA_COLS, ContextKeys.INTERNAL_GROUP_COLS));
+        algorithm.addMainStep(new IntermedDataRowsOutputStep());
         
         if(getGroupColumns() != null && getGroupColumns().size() > 0){
-        	algorithm.addMainStep(new IntermedPreviousRowManagerStep());//uses internal data
+        	algorithm.addMainStep(new IntermedPreviousRowManagerStep());
         }
         
-        algorithm.addExitStep(new EndReportExitStep()); //uses original output
+        algorithm.addExitStep(new EndReportExitStep()); 
         algorithm.addExitStep(new CloseReportIOExitStep()); 
         
         return algorithm; 
 	}
 	
-	/**
-	 * configuration of the second report based on the results of the first one
-	 */
-//	private void configSecondReportDeleteme() {
-//		try{
-//			//transfer data from first report to the second 
-//			//TODO: Move this in the transfer method and improve
-//			
-//			//AlgoContext firstReportContext = firstReport.getAlgorithm().getContext(); 
-//			//IDistinctValuesHolder distinctValuesHolder = 
-//			//	(IDistinctValuesHolder)firstReportContext.get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER);
-//			
-//			IDistinctValuesHolder distinctValuesHolder = 
-//					(IDistinctValuesHolder)firstReport.getAlgorithm().getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
-//			
-//			CtMetadata crosstabMetadata = new CtMetadata(distinctValuesHolder);
-//			crosstabMetadata.computeCoefficients(); 
-//			
-//			secondReport = new SecondCrosstabProcessorReport(crosstabMetadata);  
-//			InputStream secondReportInput = new FileInputStream(((IntermediateCrosstabOutput)firstReport.getOut()).getSerializedOutputFile()); 
-//			secondReport.setIn(new IntermediateCrosstabReportInput(secondReportInput)); 
-//			secondReport.setOut(getOut()); 
-//			
-//			List<DataColumn> secondReportDataCols = 
-//					constructDataColumnsForSecondProcess(crosstabMetadata, 
-//														getDataColumns(), 
-//														getShowTotals(), 
-//														getShowGrandTotal());
-//			
-//			List<GroupColumn> secondReportGroupCols = constructGroupColumnsForSecondProcess(getGroupColumns()); 
-//			
-//			secondReport.setGroupColumns(secondReportGroupCols); 
-//			secondReport.setDataColumns(secondReportDataCols);
-//			secondReport.setShowDataRows(true); 
-//			secondReport.setShowTotals(getShowTotals());
-//			secondReport.setShowGrandTotal(getShowGrandTotal()); 
-//		}catch(FileNotFoundException fnfExc){
-//			throw new ConfigValidationException(fnfExc); 
-//		}
-//	}
-	
 	
 	/**
-	 * getter method for crosstabl header rows
+	 * getter method for crosstable header rows
 	 * @return	a list of header rows
 	 */
 	public List<CrosstabHeaderRow> getCrosstabHeaderRows() {

@@ -35,7 +35,7 @@ public class TotalsCalculatorStep extends AbstractReportStep{
     /**
      * 
      */
-    int groupColsCnt = -1;
+    private int groupColsCnt = -1;
     
     
     /**

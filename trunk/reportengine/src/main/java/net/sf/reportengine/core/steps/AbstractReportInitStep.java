@@ -12,6 +12,7 @@ import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.steps.AbstractInitStep;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
+import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
 /**
@@ -25,7 +26,7 @@ public abstract class AbstractReportInitStep extends AbstractInitStep {
 	 * @return
 	 */
 	public ReportInput getReportInput(){
-		return (ReportInput)getAlgoInput().get(IOKeys.REPORT_INPUT); 
+		return (ReportInput)getAlgoContext().get(ContextKeys.LOCAL_REPORT_INPUT); 
 	}
 	
 	/**
@@ -33,7 +34,7 @@ public abstract class AbstractReportInitStep extends AbstractInitStep {
      * @return
      */
     public ReportOutput getReportOutput(){
-    	return (ReportOutput)getAlgoInput().get(IOKeys.REPORT_OUTPUT); 
+    	return (ReportOutput)getAlgoContext().get(ContextKeys.LOCAL_REPORT_OUTPUT); 
     }
     
     /**

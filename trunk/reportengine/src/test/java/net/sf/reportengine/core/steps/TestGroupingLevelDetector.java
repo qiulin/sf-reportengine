@@ -74,7 +74,7 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 		
 		for(int i=0; i<Scenario2.RAW_INPUT.length; i++){
 			NewRowEvent dataRowEvent = new NewRowEvent(CalculatedColumnsScenario.RAW_DATA[i]);
-			testReportContext.set(ContextKeys.COMPUTED_CELL_VALUES, CalculatedColumnsScenario.COMPUTED_VALUES[i]);
+			//testReportContext.set(ContextKeys.COMPUTED_CELL_VALUES, CalculatedColumnsScenario.COMPUTED_VALUES[i]);
 			classUnderTest.execute(dataRowEvent);
 			assertEquals(testReportContext.get(ContextKeys.NEW_GROUPING_LEVEL), CalculatedColumnsScenario.AGG_LEVEL[i]);
 			

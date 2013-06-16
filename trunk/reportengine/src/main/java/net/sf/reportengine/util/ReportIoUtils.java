@@ -20,11 +20,19 @@ import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.in.ReportInputException;
 import net.sf.reportengine.out.ReportOutputException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author dragos balan
  * @since 0.7
  */
 public final class ReportIoUtils {
+	
+	/**
+	 * the one and only logger
+	 */
+	private static final Logger LOGGER = LoggerFactory.getLogger(ReportIoUtils.class);
 	
 	/**
 	 * system file encoding 
@@ -160,6 +168,11 @@ public final class ReportIoUtils {
 		return ClassLoader.getSystemResourceAsStream(classPath); 
 	}
 	
+	/**
+	 * 
+	 * @param filePath
+	 * @return
+	 */
 	public static FileOutputStream createOutputStreamFromPath(String filePath){
 		try {
 			return new FileOutputStream(filePath);
@@ -168,16 +181,49 @@ public final class ReportIoUtils {
 		}
 	}
 	
-	
-	public static FileWriter createTmpFileWriter(String prefix, String extension){
+	/**
+	 * creates a temporary file which will be deleted on VM exit
+	 * 
+	 * @param prefix
+	 * @param extension
+	 * @return
+	 */
+	public static File createTempFile(String prefix, String extension){
+		File tempFile;
 		try {
-			File tempFile = File.createTempFile(prefix, "."+extension);
-			return new FileWriter(tempFile); 
+			tempFile = File.createTempFile(prefix, extension);
+			tempFile.deleteOnExit(); 
+			
+			LOGGER.info("temporary file created on path {}", tempFile.getAbsolutePath()); 
 		} catch (IOException e) {
 			throw new ReportEngineRuntimeException(e); 
 		}
+		
+		return tempFile; 
 	}
 	
+	/**
+	 * 
+	 * @param prefix
+	 * @return
+	 */
+	public static File createTempFile(String prefix){
+		return createTempFile(prefix, ".tmp"); 
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static File createTempFile(){
+		return createTempFile("report"); 
+	}
+	
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 */
 	public static FileInputStream createInputStreamFromFile(File file){
 		try {
 			return new FileInputStream(file);

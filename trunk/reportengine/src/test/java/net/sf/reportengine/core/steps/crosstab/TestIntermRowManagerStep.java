@@ -35,16 +35,16 @@ public class TestIntermRowManagerStep {
 		
 		mockInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
 		mockInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
-		mockInput.put(IOKeys.REPORT_OUTPUT, new CellPropsArrayOutput()); 
+		//mockInput.put(IOKeys.REPORT_OUTPUT, new CellPropsArrayOutput()); 
 		mockInput.put(IOKeys.SHOW_TOTALS, false); 
 		mockInput.put(IOKeys.SHOW_GRAND_TOTAL, false); 
 		
-		//context.set(ContextKeys.ORIGINAL_CT_DATA_COLS_COUNT, Integer.valueOf(2)); 
-		//context.set(ContextKeys.ORIGINAL_CT_GROUP_COLS_COUNT, Integer.valueOf(1)); 
 		context.set(ContextKeys.NEW_GROUPING_LEVEL, Integer.valueOf(1)); 
 		context.set(ContextKeys.LAST_GROUPING_VALUES, new String[]{"1", "2", "3", "4", "5", "6"}); 
+		
 		ReportOutput mockReportOutput = new IntermediateCrosstabOutput(); 
-		context.set(ContextKeys.INTERMEDIATE_OUTPUT, mockReportOutput);
+		context.set(ContextKeys.LOCAL_REPORT_OUTPUT, mockReportOutput);
+		
 		mockReportOutput.open(); 
 		
 		IntermedRowMangerStep classUnderTest = new IntermedRowMangerStep(); 
