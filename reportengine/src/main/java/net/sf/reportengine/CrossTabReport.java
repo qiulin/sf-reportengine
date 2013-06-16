@@ -33,7 +33,6 @@ import net.sf.reportengine.core.steps.intermed.IntermedGroupLevelDetectorStep;
 import net.sf.reportengine.core.steps.intermed.IntermedPreviousRowManagerStep;
 import net.sf.reportengine.core.steps.intermed.IntermedReportExtractTotalsDataInitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedSetResultsExitStep;
-import net.sf.reportengine.core.steps.intermed.IntermedStartReportInitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsCalculatorStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsOutputStep;
 import net.sf.reportengine.in.ReportInput;
