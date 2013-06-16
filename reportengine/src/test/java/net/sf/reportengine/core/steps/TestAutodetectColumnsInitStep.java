@@ -17,6 +17,7 @@ import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.scenarios.AutodetectConfigurationScenario;
+import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
 import org.junit.Assert;
@@ -41,10 +42,10 @@ public class TestAutodetectColumnsInitStep {
 		AutodetectConfigurationScenario.initScenario();
 		
 		reportContext = new DefaultAlgorithmContext(); 
-//		reportContext.setInput(AutodetectConfigurationScenario.INPUT); 
+		reportContext.set(ContextKeys.LOCAL_REPORT_INPUT, AutodetectConfigurationScenario.INPUT); 
 		
 		mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
-		mockAlgoInput.put(IOKeys.REPORT_INPUT, AutodetectConfigurationScenario.INPUT); 
+		//mockAlgoInput.put(IOKeys.REPORT_INPUT, AutodetectConfigurationScenario.INPUT); 
 	}
 
 	/**

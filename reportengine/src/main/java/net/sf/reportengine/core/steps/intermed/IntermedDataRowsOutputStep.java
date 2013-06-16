@@ -14,28 +14,14 @@ import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
 /**
+ * 
+ * this is an extension of the DataRowsOutputStep ( relies on the execute method of this class) 
+ * but based on the internal computed data columns and group columns
+ * 
  * @author dragos balan
  *
  */
 public class IntermedDataRowsOutputStep extends DataRowsOutputStep {
-	
-	private IOKeys dataColIOKey; 
-	private ContextKeys dataColContextKey; 
-	
-	private IOKeys groupColIOKey; 
-	private ContextKeys groupColContextKey; 
-	
-	
-	public IntermedDataRowsOutputStep(IOKeys dataColsKey, IOKeys groupColsKey){
-		this.dataColIOKey = dataColsKey; 
-		this.groupColIOKey = groupColsKey; 
-	}
-	
-	
-	public IntermedDataRowsOutputStep(ContextKeys dataColsKey, ContextKeys groupColsKey){
-		this.dataColContextKey = dataColsKey; 
-		this.groupColContextKey = groupColsKey; 
-	}
 	
 	/**
      * ATTENTION : changing the implementation of this method will have effect on the 
@@ -48,11 +34,7 @@ public class IntermedDataRowsOutputStep extends DataRowsOutputStep {
      * @return
      */
     @Override public List<DataColumn> getDataColumns(){
-    	if(dataColIOKey != null){
-    		return (List<DataColumn>)getAlgoInput().get(dataColIOKey); 
-    	}else{
-    		return (List<DataColumn>)getAlgoContext().get(dataColContextKey); 
-    	}
+    	return (List<DataColumn>)getAlgoContext().get(ContextKeys.INTERNAL_DATA_COLS); 
 	}
     
     /**
@@ -67,10 +49,6 @@ public class IntermedDataRowsOutputStep extends DataRowsOutputStep {
      * @return
      */
     @Override public List<GroupColumn> getGroupColumns(){
-    	if(groupColIOKey != null){
-    		return (List<GroupColumn>)getAlgoInput().get(groupColIOKey); 
-    	}else{
-    		return (List<GroupColumn>)getAlgoContext().get(groupColContextKey); 
-    	}
+    	return (List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS); 
 	}
 }

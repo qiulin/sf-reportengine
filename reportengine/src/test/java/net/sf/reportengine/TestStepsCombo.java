@@ -17,29 +17,30 @@ import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
+import net.sf.reportengine.core.steps.ConfigReportIOInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.GroupLevelDetectorStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
+import net.sf.reportengine.core.steps.OpenReportIOInitStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
-import net.sf.reportengine.core.steps.crosstab.ConfigAndOpenCrosstabIOInitStep;
 import net.sf.reportengine.core.steps.crosstab.ConfigCrosstabColumnsInitStep;
+import net.sf.reportengine.core.steps.crosstab.ConfigCrosstabIOInitStep;
 import net.sf.reportengine.core.steps.crosstab.CrosstabHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.crosstab.DistinctValuesDetectorStep;
 import net.sf.reportengine.core.steps.crosstab.GenerateCrosstabMetadataInitStep;
 import net.sf.reportengine.core.steps.crosstab.IntermedRowMangerStep;
-import net.sf.reportengine.core.steps.intermed.ConfigAndOpenIntermedIOInitStep;
 import net.sf.reportengine.core.steps.intermed.ConfigIntermedColsInitStep;
-import net.sf.reportengine.core.steps.intermed.IntermedCloseReportIOExitStep;
+import net.sf.reportengine.core.steps.intermed.ConfigIntermedIOInitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedDataRowsOutputStep;
-import net.sf.reportengine.core.steps.intermed.IntermedEndReportExitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedGroupLevelDetectorStep;
 import net.sf.reportengine.core.steps.intermed.IntermedPreviousRowManagerStep;
 import net.sf.reportengine.core.steps.intermed.IntermedReportExtractTotalsDataInitStep;
+import net.sf.reportengine.core.steps.intermed.IntermedSetResultsExitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedStartReportInitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsCalculatorStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsOutputStep;
@@ -56,7 +57,6 @@ import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With0G2D;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
 import net.sf.reportengine.scenarios.ct.CtScenario4x3x1;
-import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IDistinctValuesHolder;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.MatrixUtils;
@@ -91,6 +91,8 @@ public class TestStepsCombo  {
 		//construct the steps
 		InitReportDataInitStep initReportDataInitStep = new InitReportDataInitStep(); 
 		FlatReportExtractTotalsDataInitStep extractDataInitStep = new FlatReportExtractTotalsDataInitStep(); 
+		ConfigReportIOInitStep configIOStep = new ConfigReportIOInitStep(); 
+		OpenReportIOInitStep openIOStep = new OpenReportIOInitStep(); 
 		
 		StartReportInitStep startReportInitStep = new StartReportInitStep(); 
 		
@@ -106,6 +108,8 @@ public class TestStepsCombo  {
 		
 		//init steps
 		initReportDataInitStep.init(mockAlgoInput, mockContext); 
+		configIOStep.init(mockAlgoInput, mockContext); 
+		openIOStep.init(mockAlgoInput, mockContext); 
 		extractDataInitStep.init(mockAlgoInput, mockContext);
 		startReportInitStep.init(mockAlgoInput, mockContext); 
 		
@@ -200,16 +204,17 @@ public class TestStepsCombo  {
 			//classUnderTest.setShowDataRows(true); 
 			
 			algo.addInitStep(new ConfigIntermedColsInitStep()); 
-			algo.addInitStep(new ConfigAndOpenIntermedIOInitStep()); // instead of new OpenReportIOInitStep()
-			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep(ContextKeys.INTERNAL_DATA_COLS));//TODO: only when totals
-			algo.addInitStep(new IntermedStartReportInitStep()); 
+			algo.addInitStep(new ConfigIntermedIOInitStep()); 
+			algo.addInitStep(new OpenReportIOInitStep()); 
+			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
+			algo.addInitStep(new StartReportInitStep()); 
 	    	//only for debug
 	    	//algorithm.addInitStep(new ColumnHeaderOutputInitStep("Intermediate report"));
 	        
 	    	//main steps
 			algo.addMainStep(new DistinctValuesDetectorStep());
 	    	//algorithm.addMainStep(new ComputeColumnValuesStep());
-	    	algo.addMainStep(new IntermedGroupLevelDetectorStep(ContextKeys.INTERNAL_GROUP_COLS));
+	    	algo.addMainStep(new IntermedGroupLevelDetectorStep());
 	    	
 	    	//only for debug 
 	    	//if( getShowTotals() || getShowGrandTotal()){
@@ -221,8 +226,9 @@ public class TestStepsCombo  {
 	    	//only for debug 
 	    	//algorithm.addMainStep(new DataRowsOutputStep());
 	    	algo.addMainStep(new IntermedPreviousRowManagerStep());
-	    	algo.addExitStep(new IntermedEndReportExitStep()); 
-	    	algo.addExitStep(new IntermedCloseReportIOExitStep()); 
+	    	algo.addExitStep(new EndReportExitStep()); 
+	    	algo.addExitStep(new CloseReportIOExitStep()); 
+	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			algo.execute();
 			
 			IDistinctValuesHolder metadata = 
@@ -267,20 +273,22 @@ public class TestStepsCombo  {
 			
 			//init steps
 			algo.addInitStep(new ConfigIntermedColsInitStep()); 
-			algo.addInitStep(new ConfigAndOpenIntermedIOInitStep()); 
-			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep(ContextKeys.INTERNAL_DATA_COLS));//TODO: only when totals
-			algo.addInitStep(new IntermedStartReportInitStep()); 
+			algo.addInitStep(new ConfigIntermedIOInitStep()); 
+			algo.addInitStep(new OpenReportIOInitStep()); 
+			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
+			algo.addInitStep(new StartReportInitStep()); 
 	        
 	    	//main steps
 			algo.addMainStep(new DistinctValuesDetectorStep());
-	    	algo.addMainStep(new IntermedGroupLevelDetectorStep(ContextKeys.INTERNAL_GROUP_COLS));
+	    	algo.addMainStep(new IntermedGroupLevelDetectorStep());
 	    	algo.addMainStep(new IntermedRowMangerStep());
 	    	algo.addMainStep(new IntermedTotalsCalculatorStep());
 	    	algo.addMainStep(new IntermedPreviousRowManagerStep());
 	    	
 	    	//exit steps
-	    	algo.addExitStep(new IntermedEndReportExitStep()); 
-	    	algo.addExitStep(new IntermedCloseReportIOExitStep()); 
+	    	algo.addExitStep(new EndReportExitStep()); 
+	    	algo.addExitStep(new CloseReportIOExitStep()); 
+	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			algo.execute();
 			
 			IDistinctValuesHolder metadata = 
@@ -325,20 +333,22 @@ public class TestStepsCombo  {
 			
 			//init steps
 			algo.addInitStep(new ConfigIntermedColsInitStep()); 
-			algo.addInitStep(new ConfigAndOpenIntermedIOInitStep()); 
-			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep(ContextKeys.INTERNAL_DATA_COLS));//TODO: only when totals
-			algo.addInitStep(new IntermedStartReportInitStep()); 
+			algo.addInitStep(new ConfigIntermedIOInitStep()); 
+			algo.addInitStep(new OpenReportIOInitStep());
+			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
+			algo.addInitStep(new StartReportInitStep()); 
 	        
 	    	//main steps
 			algo.addMainStep(new DistinctValuesDetectorStep());
-	    	algo.addMainStep(new IntermedGroupLevelDetectorStep(ContextKeys.INTERNAL_GROUP_COLS));
+	    	algo.addMainStep(new IntermedGroupLevelDetectorStep());
 	    	algo.addMainStep(new IntermedRowMangerStep());
 	    	algo.addMainStep(new IntermedTotalsCalculatorStep());
 	    	algo.addMainStep(new IntermedPreviousRowManagerStep());
 	    	
 	    	//exit steps
-	    	algo.addExitStep(new IntermedEndReportExitStep()); 
-	    	algo.addExitStep(new IntermedCloseReportIOExitStep()); 
+	    	algo.addExitStep(new EndReportExitStep()); 
+	    	algo.addExitStep(new CloseReportIOExitStep()); 
+	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			algo.execute();
 			
 			IDistinctValuesHolder metadata = 
@@ -383,20 +393,22 @@ public class TestStepsCombo  {
 			
 			//init steps
 			algo.addInitStep(new ConfigIntermedColsInitStep()); 
-			algo.addInitStep(new ConfigAndOpenIntermedIOInitStep()); 
-			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep(ContextKeys.INTERNAL_DATA_COLS));//TODO: only when totals
-			algo.addInitStep(new IntermedStartReportInitStep()); 
+			algo.addInitStep(new ConfigIntermedIOInitStep()); 
+			algo.addInitStep(new OpenReportIOInitStep()); 
+			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
+			algo.addInitStep(new StartReportInitStep()); 
 	        
 	    	//main steps
 			algo.addMainStep(new DistinctValuesDetectorStep());
-	    	algo.addMainStep(new IntermedGroupLevelDetectorStep(ContextKeys.INTERNAL_GROUP_COLS));
+	    	algo.addMainStep(new IntermedGroupLevelDetectorStep());
 	    	algo.addMainStep(new IntermedRowMangerStep());
 	    	algo.addMainStep(new IntermedTotalsCalculatorStep());
 	    	algo.addMainStep(new IntermedPreviousRowManagerStep());
 	    	
 	    	//exit steps
-	    	algo.addExitStep(new IntermedEndReportExitStep()); 
-	    	algo.addExitStep(new IntermedCloseReportIOExitStep()); 
+	    	algo.addExitStep(new EndReportExitStep()); 
+	    	algo.addExitStep(new CloseReportIOExitStep()); 
+	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			algo.execute();
 			
 			IDistinctValuesHolder metadata = 
@@ -440,20 +452,22 @@ public class TestStepsCombo  {
 			
 			//init steps
 			algo.addInitStep(new ConfigIntermedColsInitStep()); 
-			algo.addInitStep(new ConfigAndOpenIntermedIOInitStep()); 
-			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep(ContextKeys.INTERNAL_DATA_COLS));//TODO: only when totals
-			algo.addInitStep(new IntermedStartReportInitStep()); 
+			algo.addInitStep(new ConfigIntermedIOInitStep()); 
+			algo.addInitStep(new OpenReportIOInitStep()); 
+			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
+			algo.addInitStep(new StartReportInitStep()); 
 	        
 	    	//main steps
 			algo.addMainStep(new DistinctValuesDetectorStep());
-	    	algo.addMainStep(new IntermedGroupLevelDetectorStep(ContextKeys.INTERNAL_GROUP_COLS));
+	    	algo.addMainStep(new IntermedGroupLevelDetectorStep());
 	    	algo.addMainStep(new IntermedRowMangerStep());
 	    	algo.addMainStep(new IntermedTotalsCalculatorStep());
 	    	algo.addMainStep(new IntermedPreviousRowManagerStep());
 	    	
 	    	//exit steps
-	    	algo.addExitStep(new IntermedEndReportExitStep()); 
-	    	algo.addExitStep(new IntermedCloseReportIOExitStep()); 
+	    	algo.addExitStep(new EndReportExitStep()); 
+	    	algo.addExitStep(new CloseReportIOExitStep()); 
+	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			algo.execute();
 			
 			IDistinctValuesHolder metadata = 
@@ -495,20 +509,22 @@ public class TestStepsCombo  {
 			
 			//init steps
 			algo.addInitStep(new ConfigIntermedColsInitStep()); 
-			algo.addInitStep(new ConfigAndOpenIntermedIOInitStep()); 
-			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep(ContextKeys.INTERNAL_DATA_COLS));//TODO: only when totals
-			algo.addInitStep(new IntermedStartReportInitStep()); 
+			algo.addInitStep(new ConfigIntermedIOInitStep()); 
+			algo.addInitStep(new OpenReportIOInitStep()); 
+			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
+			algo.addInitStep(new StartReportInitStep()); 
 	        
 	    	//main steps
 			algo.addMainStep(new DistinctValuesDetectorStep());
-	    	algo.addMainStep(new IntermedGroupLevelDetectorStep(ContextKeys.INTERNAL_GROUP_COLS));
+	    	algo.addMainStep(new IntermedGroupLevelDetectorStep());
 	    	algo.addMainStep(new IntermedRowMangerStep());
 	    	algo.addMainStep(new IntermedTotalsCalculatorStep());
 	    	algo.addMainStep(new IntermedPreviousRowManagerStep());
 	    	
 	    	//exit steps
-	    	algo.addExitStep(new IntermedEndReportExitStep()); 
-	    	algo.addExitStep(new IntermedCloseReportIOExitStep()); 
+	    	algo.addExitStep(new EndReportExitStep()); 
+	    	algo.addExitStep(new CloseReportIOExitStep());
+	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			algo.execute();
 			
 			IDistinctValuesHolder metadata = 
@@ -550,20 +566,22 @@ public class TestStepsCombo  {
 			
 			//init steps
 			algo.addInitStep(new ConfigIntermedColsInitStep()); 
-			algo.addInitStep(new ConfigAndOpenIntermedIOInitStep()); 
-			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep(ContextKeys.INTERNAL_DATA_COLS));//TODO: only when totals
-			algo.addInitStep(new IntermedStartReportInitStep()); 
+			algo.addInitStep(new ConfigIntermedIOInitStep()); 
+			algo.addInitStep(new OpenReportIOInitStep()); 
+			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
+			algo.addInitStep(new StartReportInitStep()); 
 	        
 	    	//main steps
 			algo.addMainStep(new DistinctValuesDetectorStep());
-	    	algo.addMainStep(new IntermedGroupLevelDetectorStep(ContextKeys.INTERNAL_GROUP_COLS));
+	    	algo.addMainStep(new IntermedGroupLevelDetectorStep());
 	    	algo.addMainStep(new IntermedRowMangerStep());
 	    	algo.addMainStep(new IntermedTotalsCalculatorStep());
 	    	algo.addMainStep(new IntermedPreviousRowManagerStep());
 	    	
 	    	//exit steps
-	    	algo.addExitStep(new IntermedEndReportExitStep()); 
-	    	algo.addExitStep(new IntermedCloseReportIOExitStep()); 
+	    	algo.addExitStep(new EndReportExitStep()); 
+	    	algo.addExitStep(new CloseReportIOExitStep()); 
+	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			algo.execute();
 			
 			IDistinctValuesHolder metadata = 
@@ -614,19 +632,20 @@ public class TestStepsCombo  {
 		//adding steps to the algorithm
 		algo.addInitStep(new GenerateCrosstabMetadataInitStep()); 
 		algo.addInitStep(new ConfigCrosstabColumnsInitStep()); 
-		algo.addInitStep(new ConfigAndOpenCrosstabIOInitStep()); //new OpenReportIOInitStep()
+		algo.addInitStep(new ConfigCrosstabIOInitStep()); 
+		algo.addInitStep(new OpenReportIOInitStep()); 
     	algo.addInitStep(new InitReportDataInitStep()); 
     	
-    	algo.addInitStep(new IntermedReportExtractTotalsDataInitStep(ContextKeys.INTERNAL_DATA_COLS));
+    	algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());
     	
     	algo.addInitStep(new StartReportInitStep()); 
     	algo.addInitStep(new CrosstabHeaderOutputInitStep());
     	
     	//algorithm.addMainStep(new ComputeColumnValuesStep());
-    	algo.addMainStep(new IntermedGroupLevelDetectorStep(ContextKeys.INTERNAL_GROUP_COLS));
-    	algo.addMainStep(new IntermedTotalsOutputStep(ContextKeys.INTERNAL_DATA_COLS, ContextKeys.INTERNAL_GROUP_COLS));
+    	algo.addMainStep(new IntermedGroupLevelDetectorStep());
+    	algo.addMainStep(new IntermedTotalsOutputStep());
     	algo.addMainStep(new IntermedTotalsCalculatorStep());//this uses the internal data
-    	algo.addMainStep(new IntermedDataRowsOutputStep(ContextKeys.INTERNAL_DATA_COLS, ContextKeys.INTERNAL_GROUP_COLS));
+    	algo.addMainStep(new IntermedDataRowsOutputStep());
         algo.addMainStep(new IntermedPreviousRowManagerStep());//uses internal data
         
         algo.addExitStep(new EndReportExitStep()); //uses original output
@@ -659,19 +678,20 @@ public class TestStepsCombo  {
 		//adding steps to the algorithm
 		algo.addInitStep(new GenerateCrosstabMetadataInitStep()); 
 		algo.addInitStep(new ConfigCrosstabColumnsInitStep()); 
-		algo.addInitStep(new ConfigAndOpenCrosstabIOInitStep()); //new OpenReportIOInitStep()
+		algo.addInitStep(new ConfigCrosstabIOInitStep()); 
+		algo.addInitStep(new OpenReportIOInitStep());
     	algo.addInitStep(new InitReportDataInitStep()); 
     	
-    	algo.addInitStep(new IntermedReportExtractTotalsDataInitStep(ContextKeys.INTERNAL_DATA_COLS));
+    	algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());
     	
     	algo.addInitStep(new StartReportInitStep()); 
     	algo.addInitStep(new CrosstabHeaderOutputInitStep());
     	
     	//algorithm.addMainStep(new ComputeColumnValuesStep());
-    	algo.addMainStep(new IntermedGroupLevelDetectorStep(ContextKeys.INTERNAL_GROUP_COLS));
-    	algo.addMainStep(new IntermedTotalsOutputStep(ContextKeys.INTERNAL_DATA_COLS, ContextKeys.INTERNAL_GROUP_COLS));
+    	algo.addMainStep(new IntermedGroupLevelDetectorStep());
+    	algo.addMainStep(new IntermedTotalsOutputStep());
     	algo.addMainStep(new IntermedTotalsCalculatorStep());//this uses the internal data
-    	algo.addMainStep(new IntermedDataRowsOutputStep(ContextKeys.INTERNAL_DATA_COLS, ContextKeys.INTERNAL_GROUP_COLS));
+    	algo.addMainStep(new IntermedDataRowsOutputStep());
         algo.addMainStep(new IntermedPreviousRowManagerStep());//uses internal data
         
         algo.addExitStep(new EndReportExitStep()); //uses original output
@@ -704,19 +724,20 @@ public class TestStepsCombo  {
 		//adding steps to the algorithm
 		algo.addInitStep(new GenerateCrosstabMetadataInitStep()); 
 		algo.addInitStep(new ConfigCrosstabColumnsInitStep()); 
-		algo.addInitStep(new ConfigAndOpenCrosstabIOInitStep()); //new OpenReportIOInitStep()
+		algo.addInitStep(new ConfigCrosstabIOInitStep()); 
+		algo.addInitStep(new OpenReportIOInitStep()); 
     	algo.addInitStep(new InitReportDataInitStep()); 
     	
-    	algo.addInitStep(new IntermedReportExtractTotalsDataInitStep(ContextKeys.INTERNAL_DATA_COLS));
+    	algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());
     	
     	algo.addInitStep(new StartReportInitStep()); 
     	algo.addInitStep(new CrosstabHeaderOutputInitStep());
     	
     	//algorithm.addMainStep(new ComputeColumnValuesStep());
-    	algo.addMainStep(new IntermedGroupLevelDetectorStep(ContextKeys.INTERNAL_GROUP_COLS));
-    	algo.addMainStep(new IntermedTotalsOutputStep(ContextKeys.INTERNAL_DATA_COLS, ContextKeys.INTERNAL_GROUP_COLS));
+    	algo.addMainStep(new IntermedGroupLevelDetectorStep());
+    	algo.addMainStep(new IntermedTotalsOutputStep());
     	algo.addMainStep(new IntermedTotalsCalculatorStep());//this uses the internal data
-    	algo.addMainStep(new IntermedDataRowsOutputStep(ContextKeys.INTERNAL_DATA_COLS, ContextKeys.INTERNAL_GROUP_COLS));
+    	algo.addMainStep(new IntermedDataRowsOutputStep());
         algo.addMainStep(new IntermedPreviousRowManagerStep());//uses internal data
         
         algo.addExitStep(new EndReportExitStep()); //uses original output
@@ -749,20 +770,21 @@ public class TestStepsCombo  {
 		//adding steps to the algorithm
 		algo.addInitStep(new GenerateCrosstabMetadataInitStep()); 
 		algo.addInitStep(new ConfigCrosstabColumnsInitStep()); 
-		algo.addInitStep(new ConfigAndOpenCrosstabIOInitStep()); //new OpenReportIOInitStep()
+		algo.addInitStep(new ConfigCrosstabIOInitStep()); 
+		algo.addInitStep(new OpenReportIOInitStep()); 
     	algo.addInitStep(new InitReportDataInitStep()); 
     	
-    	algo.addInitStep(new IntermedReportExtractTotalsDataInitStep(ContextKeys.INTERNAL_DATA_COLS));
+    	algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());
     	
     	algo.addInitStep(new StartReportInitStep()); 
     	algo.addInitStep(new CrosstabHeaderOutputInitStep());
     	
     	//algorithm.addMainStep(new ComputeColumnValuesStep());
-    	algo.addMainStep(new IntermedGroupLevelDetectorStep(ContextKeys.INTERNAL_GROUP_COLS));
-    	algo.addMainStep(new IntermedTotalsOutputStep(ContextKeys.INTERNAL_DATA_COLS, ContextKeys.INTERNAL_GROUP_COLS));
-    	algo.addMainStep(new IntermedTotalsCalculatorStep());//this uses the internal data
-    	algo.addMainStep(new IntermedDataRowsOutputStep(ContextKeys.INTERNAL_DATA_COLS, ContextKeys.INTERNAL_GROUP_COLS));
-        algo.addMainStep(new IntermedPreviousRowManagerStep());//uses internal data
+    	algo.addMainStep(new IntermedGroupLevelDetectorStep());
+    	algo.addMainStep(new IntermedTotalsOutputStep());
+    	algo.addMainStep(new IntermedTotalsCalculatorStep());
+    	algo.addMainStep(new IntermedDataRowsOutputStep());
+        algo.addMainStep(new IntermedPreviousRowManagerStep());
         
         algo.addExitStep(new EndReportExitStep()); //uses original output
         algo.addExitStep(new CloseReportIOExitStep()); 

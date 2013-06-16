@@ -127,7 +127,7 @@ abstract class AbstractReport {
     }
     
     /**
-     * setter method fo report output
+     * setter method for report output
      * @param out
      */
     public void setOut(ReportOutput out){

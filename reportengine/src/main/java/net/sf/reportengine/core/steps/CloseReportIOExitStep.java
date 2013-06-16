@@ -3,35 +3,25 @@
  */
 package net.sf.reportengine.core.steps;
 
-import java.util.Map;
-
-import net.sf.reportengine.core.algorithm.AlgoContext;
-import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
-import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.out.ReportOutput;
-import net.sf.reportengine.util.IOKeys;
 
 /**
  * @author dragos balan
  *
  */
-public class CloseReportIOExitStep implements AlgorithmExitStep {
+public class CloseReportIOExitStep extends AbstractReportExitStep {
 
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep#exit(java.util.Map, net.sf.reportengine.core.algorithm.AlgoContext)
-	 */
-	public void exit(Map<IOKeys, Object> algoInput, AlgoContext context) {
-		getReportOutput(algoInput, context).close(); 
-		getReportInput(algoInput, context).close(); 
+	protected void executeExit(){
+		getReportOutput().close(); 
+		getReportInput().close(); 
 	}
 	
-	protected ReportOutput getReportOutput(		Map<IOKeys, Object> algoInput, 
-												AlgoContext algoContext){
-		return (ReportOutput)algoInput.get(IOKeys.REPORT_OUTPUT); 
-	}
-	
-	protected ReportInput getReportInput(	Map<IOKeys, Object> algoInput, 
-											AlgoContext algoContext){
-		return (ReportInput)algoInput.get(IOKeys.REPORT_INPUT); 
-	}
+//	protected ReportOutput getReportOutput(		Map<IOKeys, Object> algoInput, 
+//												AlgoContext algoContext){
+//		return (ReportOutput)algoInput.get(IOKeys.REPORT_OUTPUT); 
+//	}
+//	
+//	protected ReportInput getReportInput(	Map<IOKeys, Object> algoInput, 
+//											AlgoContext algoContext){
+//		return (ReportInput)algoInput.get(IOKeys.REPORT_INPUT); 
+//	}
 }

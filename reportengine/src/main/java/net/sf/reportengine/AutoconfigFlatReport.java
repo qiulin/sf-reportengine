@@ -13,8 +13,9 @@ import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.CloseReportInputExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
+import net.sf.reportengine.core.steps.ConfigFlatIOInitStep;
+import net.sf.reportengine.core.steps.ConfigReportIOInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
-import net.sf.reportengine.core.steps.DecideInputInitStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.ExternalSortPreparationStep;
 import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
@@ -99,6 +100,7 @@ public class AutoconfigFlatReport extends AbstractReport {
     private Algorithm configSortingAlgo(){
     	MultiStepAlgo sortingAlgo = new LoopThroughReportInputAlgo(); 
     	
+    	sortingAlgo.addInitStep(new ConfigReportIOInitStep()); 
     	sortingAlgo.addInitStep(new OpenReportInputInitStep());
     	sortingAlgo.addInitStep(new AutodetectConfigInitStep()); 
     	
@@ -115,10 +117,13 @@ public class AutoconfigFlatReport extends AbstractReport {
     private Algorithm configReportAlgo(){
     	MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(); 
     	//the init steps
-    	algorithm.addInitStep(new DecideInputInitStep()); 
+    	algorithm.addInitStep(new ConfigFlatIOInitStep()); 
 		algorithm.addInitStep(new OpenReportIOInitStep()); 
     	algorithm.addInitStep(new InitReportDataInitStep()); 
     	if(hasGroupValuesSorted()){
+    		//if the report has group values already sorted 
+    		//then the configuration has not been detected using 
+    		//the previous algorithm
     		algorithm.addInitStep(new AutodetectConfigInitStep()); 
     	}
     	algorithm.addInitStep(new FlatReportExtractTotalsDataInitStep());

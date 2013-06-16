@@ -3,21 +3,19 @@
  */
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.core.algorithm.steps.AbstractInitStep;
-import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.util.IOKeys;
 
 /**
  * @author dragos balan
  *
  */
-public class OpenReportInputInitStep extends AbstractInitStep {
+public class OpenReportInputInitStep extends AbstractReportInitStep {
 
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.algorithm.steps.AbstractInitStep#executeInit()
 	 */
 	@Override
 	protected void executeInit() {
-		((ReportInput)getAlgoInput().get(IOKeys.REPORT_INPUT)).open();
+		//((ReportInput)getAlgoInput().get(IOKeys.REPORT_INPUT)).open();
+		getReportInput().open(); 
 	}
 }

@@ -12,6 +12,7 @@ import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
 import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
@@ -77,7 +78,7 @@ public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
      */
     protected void executeMainSteps() {
     	List<AlgorithmMainStep> mainSteps = getMainSteps();
-    	ReportInput reportInput = (ReportInput)getInput().get(IOKeys.REPORT_INPUT);
+    	ReportInput reportInput = (ReportInput)getContext().get(ContextKeys.LOCAL_REPORT_INPUT);
     	
     	//call init for each step
         for(AlgorithmMainStep mainStep: mainSteps){
@@ -130,6 +131,12 @@ public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
 				result.putAll(step.getResultsMap()); 
 			}
 		}
+    	
+    	for(AlgorithmExitStep step: getExitSteps()){
+    		if(step.getResultsMap() != null){
+    			result.putAll(step.getResultsMap()); 
+    		}
+    	}
     	return result; 
     }
 }

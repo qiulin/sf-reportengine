@@ -19,32 +19,6 @@ import net.sf.reportengine.util.IOKeys;
 public class IntermedReportExtractTotalsDataInitStep extends FlatReportExtractTotalsDataInitStep {
 	
 	/**
-	 * 
-	 */
-	private IOKeys dataColumnIOKey = null;
-	
-	/**
-	 * 
-	 */
-	private ContextKeys dataColumContextKey = null; 
-	
-	/**
-	 * 
-	 * @param dataColumnKey
-	 */
-	public IntermedReportExtractTotalsDataInitStep(IOKeys dataColumnKey){
-		this.dataColumnIOKey = dataColumnKey; 
-	}
-	
-	/**
-	 * 
-	 * @param dataColumnKey
-	 */
-	public IntermedReportExtractTotalsDataInitStep(ContextKeys dataColumnKey){
-		this.dataColumContextKey = dataColumnKey; 
-	}
-	
-	/**
      * ATTENTION : changing the implementation of this method will have effect on the 
      * following methods: 
      * {@link #getDataColumnsLength()}
@@ -54,11 +28,6 @@ public class IntermedReportExtractTotalsDataInitStep extends FlatReportExtractTo
      * @return
      */
     @Override public List<DataColumn> getDataColumns(){
-    	if(dataColumnIOKey != null){
-    		//return (List<DataColumn>)algoInput.get(IOKeys.DATA_COLS); 
-    		return (List<DataColumn>)getAlgoInput().get(dataColumnIOKey);
-    	}else{
-    		return (List<DataColumn>)getAlgoContext().get(dataColumContextKey); 
-    	}
+    	return (List<DataColumn>)getAlgoContext().get(ContextKeys.INTERNAL_DATA_COLS); 
 	}
 }

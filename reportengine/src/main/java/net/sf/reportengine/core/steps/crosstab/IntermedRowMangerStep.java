@@ -54,9 +54,9 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 		getAlgoContext().set(ContextKeys.INTERMEDIATE_ROW, intermediateRow);
 	}
 	
-	@Override public ReportOutput getReportOutput(){
-		return (ReportOutput)getAlgoContext().get(ContextKeys.INTERMEDIATE_OUTPUT); 
-	}
+//	@Override public ReportOutput getReportOutput(){
+//		return (ReportOutput)getAlgoContext().get(ContextKeys.INTERMEDIATE_OUTPUT); 
+//	}
 	
 	private int getIntermGroupColsLength(){
 		return ((List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS)).size(); 

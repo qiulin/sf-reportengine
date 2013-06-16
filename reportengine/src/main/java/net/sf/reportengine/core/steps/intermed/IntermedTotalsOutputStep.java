@@ -14,28 +14,11 @@ import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
 /**
- * @author dragos
+ * @author dragos balan
  *
  */
 public class IntermedTotalsOutputStep extends FlatReportTotalsOutputStep {
 	
-	private IOKeys dataColIOKey; 
-	private ContextKeys dataColContextKey; 
-	
-	private IOKeys groupColIOKey; 
-	private ContextKeys groupColContextKey; 
-	
-	
-	public IntermedTotalsOutputStep(IOKeys dataColsKey, IOKeys groupColsKey){
-		this.dataColIOKey = dataColsKey; 
-		this.groupColIOKey = groupColsKey; 
-	}
-	
-	
-	public IntermedTotalsOutputStep(ContextKeys dataColsKey, ContextKeys groupColsKey){
-		this.dataColContextKey = dataColsKey; 
-		this.groupColContextKey = groupColsKey; 
-	}
 	
 	/**
      * ATTENTION : changing the implementation of this method will have effect on the 
@@ -46,11 +29,7 @@ public class IntermedTotalsOutputStep extends FlatReportTotalsOutputStep {
      * @return
      */
     @Override public List<DataColumn> getDataColumns(){
-    	if(dataColIOKey != null){
-    		return (List<DataColumn>)getAlgoInput().get(dataColIOKey); 
-    	}else{
-    		return (List<DataColumn>)getAlgoContext().get(dataColContextKey); 
-    	}
+    	return (List<DataColumn>)getAlgoContext().get(ContextKeys.INTERNAL_DATA_COLS); 
 	}
     
     /**
@@ -64,10 +43,6 @@ public class IntermedTotalsOutputStep extends FlatReportTotalsOutputStep {
      * @return
      */
     @Override public List<GroupColumn> getGroupColumns(){
-    	if(groupColIOKey != null){
-    		return (List<GroupColumn>)getAlgoInput().get(groupColIOKey); 
-    	}else{
-    		return (List<GroupColumn>)getAlgoContext().get(groupColContextKey); 
-    	}
+    	return (List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS); 
 	}
 }

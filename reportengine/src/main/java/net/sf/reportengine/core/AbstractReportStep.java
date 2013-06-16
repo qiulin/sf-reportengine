@@ -72,7 +72,7 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
      * @return
      */
     public ReportOutput getReportOutput(){
-    	return (ReportOutput)getAlgoInput().get(IOKeys.REPORT_OUTPUT); 
+    	return (ReportOutput)getAlgoContext().get(ContextKeys.LOCAL_REPORT_OUTPUT); 
     }
     
     /**

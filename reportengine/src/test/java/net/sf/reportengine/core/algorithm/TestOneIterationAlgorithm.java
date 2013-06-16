@@ -35,6 +35,7 @@ public class TestOneIterationAlgorithm {
 	private AlgorithmInitStep testInitStep = new AlgorithmInitStep(){
 		public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
 			context.set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(0));
+			context.set(ContextKeys.LOCAL_REPORT_INPUT, algoInput.get(IOKeys.REPORT_INPUT)); 
 		}
 
 		public Map<IOKeys, Object> getResultsMap() {
@@ -49,12 +50,14 @@ public class TestOneIterationAlgorithm {
 		
 		public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
 			this.context = context;
+			this.algoInput = algoInput; 
+			
 			//this.context.set("isInitCalledOnMainStep", true);
 			this.context.set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(1));
 			
 			//this.context.set("executionCount", new Integer(0));
 			this.context.set(ContextKeys.NEW_GROUPING_LEVEL, new Integer(0));
-			this.algoInput = algoInput; 
+			
 		}
 		
 		public void execute(NewRowEvent dataRowEvent){

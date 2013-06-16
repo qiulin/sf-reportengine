@@ -70,11 +70,6 @@ public enum ContextKeys {
 	/**
 	 * the context key for computed cell values
 	 */
-	COMPUTED_CELL_VALUES, // =  "net.sf.reportengine.compCellsValues";
-
-	/**
-	 * the context key for computed cell values
-	 */
 	FORMATTED_CELL_VALUES, // =  "net.sf.reportengine.formattedCellValues";
 
 
@@ -113,5 +108,9 @@ public enum ContextKeys {
 	 */
 	IN_MEM_SORTED_RESULT,
 	
-	SORTED_FILES
+	SORTED_FILES, 
+	
+	LOCAL_REPORT_INPUT, 
+	
+	LOCAL_REPORT_OUTPUT
 }
