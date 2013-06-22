@@ -95,7 +95,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 			//if grouping level changed
 			
 			Calculator[][] calculatorMatrix = getCalculatorMatrix(); 
-			int originalGroupColsLength = getGroupColumnsLength();//getOriginalCrosstabGroupingColsLength();  
+			int originalGroupColsLength = getGroupColumnsCount();//getOriginalCrosstabGroupingColsLength();  
 			int originalDataColsLength = getDataColumnsLength(); //getOriginalCrosstabDataColsLength();
 			
 			if(groupingLevel < originalGroupColsLength + originalDataColsLength){
@@ -134,7 +134,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 	 */
 	public void exit(){
 		if(getShowTotals() || getShowGrandTotal()){
-			int originalGroupingColsLength = getGroupColumnsLength(); //getOriginalCrosstabGroupingColsLength();  
+			int originalGroupingColsLength = getGroupColumnsCount(); //getOriginalCrosstabGroupingColsLength();  
 			int originalDataColsLength = getDataColumnsLength(); //getOriginalCrosstabDataColsLength(); 
 			updateIntermediateTotals(	originalGroupingColsLength + originalDataColsLength-1, //from the last original grouping col
 										getIntermGroupColsLength(),//getGroupColumnsLength() ,  //to the last intermediate grouping col (containing also the headers)
@@ -154,7 +154,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 		int calculatorMatrixRow = -1;
 		Object calculatorResult = null; 
 		//int tmpLevelFrom = getOriginalCrosstabGroupingColsLength()+ getOriginalCrosstabDataColsLength();
-		int tmpLevelFrom = getGroupColumnsLength()+ getDataColumnsLength(); 
+		int tmpLevelFrom = getGroupColumnsCount()+ getDataColumnsLength(); 
 		
 		for (int tempGrpLevel = levelFrom; tempGrpLevel < levelTo; tempGrpLevel++) {
 			calculatorMatrixRow = computeCalcRowNumberForAggLevel(tempGrpLevel); //getGroupingColumnsLength() - tempGrpLevel -1; 
@@ -176,9 +176,9 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 		//only for debug ReportOutput output = getOutput(); 
 		//only for debug output.startRow();
 		//only for debug output.output(new CellProps("Intermediate row:"));
-		Integer originalGroupingValuesLength = getGroupColumnsLength(); //getOriginalCrosstabGroupingColsLength();
+		Integer originalGroupingValuesLength = getGroupColumnsCount(); //getOriginalCrosstabGroupingColsLength();
 		Integer originalDataValuesLength = getDataColumnsLength(); //getOriginalCrosstabDataColsLength(); 
-		Object[] previousGroupValues = getPreviousRowOfGroupingValues(); 
+		Object[] previousGroupValues = getPreviousRowOfGroupValues(); 
 		
 		LOGGER.debug("first: adding {} grouping values to intermediate row ", originalGroupingValuesLength); 
 		//although we have more values in the previous grouping values we display only the original ones

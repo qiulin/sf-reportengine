@@ -14,6 +14,7 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.steps.AbstractAlgoMainStep;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
+import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
@@ -41,12 +42,12 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
     }
     
     /**
-     * returns the aggregation level (especially used in the derived classes)
-     * @return  the aggregation level
+     * @return  the grouping level
      */
     public int getGroupingLevel(){
     	return (Integer)getAlgoContext().get(ContextKeys.NEW_GROUPING_LEVEL);
     }
+    
     
     /**
      * returns the calculator within context
@@ -93,7 +94,7 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
     /**
      * ATTENTION : changing the implementation of this method will have effect on the 
      * following methods: 
-     * {@link #getGroupColumnsLength()}
+     * {@link #getGroupColumnsCount()}
      * {@link #computeAggLevelForCalcRowNumber(int)}
      * {@link #computeCalcRowNumberForAggLevel(int)}
      * 
@@ -103,7 +104,7 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
     	return (List<GroupColumn>)getAlgoInput().get(IOKeys.GROUP_COLS); 
     }
     
-    public int getGroupColumnsLength(){
+    public int getGroupColumnsCount(){
     	return getGroupColumns() != null ? getGroupColumns().size() : 0; 
     }
     
@@ -126,7 +127,7 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
      * @return
      */
     public int computeCalcRowNumberForAggLevel(int level){
-    	return getGroupColumnsLength() - level -1;
+    	return getGroupColumnsCount() - level -1;
     }
     
     /**
@@ -135,22 +136,30 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
      * @return
      */
     public int computeAggLevelForCalcRowNumber(int calcRowNumber){
-    	return getGroupColumnsLength() - calcRowNumber - 1;
+    	return getGroupColumnsCount() - calcRowNumber - 1;
     }
     
     
-    
-    public Object[] getPreviousRowOfGroupingValues(){
+    /**
+     * 
+     * @return
+     */
+    public Object[] getPreviousRowOfGroupValues(){
     	return (Object[])getAlgoContext().get(ContextKeys.LAST_GROUPING_VALUES);
     }
-	 
+	
+    /**
+     * 
+     * @param groupingLevel
+     * @return
+     */
     public String getTotalStringForGroupingLevel(int groupingLevel) {
     	String result = null;
 		
     	if(GRAND_TOTAL_GROUPING_LEVEL == groupingLevel){
     		result = FlatReportTotalsOutputStep.GRAND_TOTAL_STRING;
     	}else{
-    		Object[] prevGroupValuesRow = getPreviousRowOfGroupingValues(); 
+    		Object[] prevGroupValuesRow = getPreviousRowOfGroupValues(); 
         	if(prevGroupValuesRow != null){
         		String prevValueForGropingLevel = prevGroupValuesRow[groupingLevel].toString();
         		result = FlatReportTotalsOutputStep.TOTAL_STRING + " " + prevValueForGropingLevel;
@@ -170,7 +179,7 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
     public Object[] getTotalStringForGroupingLevelAndPredecessors(int groupingLevel) {
     	Object[] result= new Object[groupingLevel+1];
 		
-		Object[] prevDataRow = getPreviousRowOfGroupingValues(); 
+		Object[] prevDataRow = getPreviousRowOfGroupValues(); 
 		if(prevDataRow != null){
 			for(int i=0; i < groupingLevel+1; i++){
 				result[i] = prevDataRow[i];
@@ -193,7 +202,7 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
     	if(groupingLevel >= from){
     		result = new Object[groupingLevel+1-from];
 		
-    		Object[] prevDataRow = getPreviousRowOfGroupingValues(); 
+    		Object[] prevDataRow = getPreviousRowOfGroupValues(); 
     		if(prevDataRow != null){
     			for(int i=from; i < groupingLevel+1; i++){
     				result[i-from] = prevDataRow[i];

@@ -63,7 +63,7 @@ public class GroupLevelDetectorStep extends AbstractReportStep{
     /**
      * the aggregation level
      */
-	private int aggregationLevel = -1; 
+	private int groupLevel = -1; 
 	
     /**
      * Recommended constructor
@@ -78,42 +78,43 @@ public class GroupLevelDetectorStep extends AbstractReportStep{
 	public void execute(NewRowEvent newRowEvent) {
         
 		//first time we cannot make any comparison so the return level is zero
-		if(getPreviousRowOfGroupingValues() == null){
+		if(getPreviousRowOfGroupValues() == null){
 			//handle last row for grouping columns 
-			aggregationLevel = -1;
+			groupLevel = -1;
 		}else{
-			List<GroupColumn> groupingCols = getGroupColumns();
-			aggregationLevel = checkLevelChangedInGroupingColumns(groupingCols, getPreviousRowOfGroupingValues(), newRowEvent); 
-			LOGGER.trace("For newRow={} the grouping level found is {}", newRowEvent, aggregationLevel);
+			groupLevel = checkLevelChangedInGroupingColumns(getGroupColumns(), 
+															getPreviousRowOfGroupValues(), 
+															newRowEvent); 
+			LOGGER.trace("For newRow={} the grouping level found is {}", newRowEvent, groupLevel);
 		}
 		
 		//set the result in context
-		getAlgoContext().set(ContextKeys.NEW_GROUPING_LEVEL, aggregationLevel);
+		getAlgoContext().set(ContextKeys.NEW_GROUPING_LEVEL, groupLevel);
 	}
     
     
     private int checkLevelChangedInGroupingColumns(	List<GroupColumn> groupingColumns, 
     												Object[] lastRowOfGroupingValues, 
     												NewRowEvent newRowEvent){
-		boolean aggregationLevelFound = false;
+		boolean newGroupingLevelFound = false;
 		int i = 0;
 		
 		//TODO: groupings assumed ordered by grouping order: make sure they are ordered
 		//iterate through last row for comparison with the new row of data
 		GroupColumn currentGroupColumn = null; 
-		while (!aggregationLevelFound && i < groupingColumns.size()){
+		while (!newGroupingLevelFound && i < groupingColumns.size()){
 			currentGroupColumn = groupingColumns.get(i); 
 			Object valueToBeCompared = currentGroupColumn.getValue(newRowEvent);
-			LOGGER.trace("checking column {} "+currentGroupColumn.getClass()); 
-			LOGGER.trace(" 		having grouping order {}", currentGroupColumn.getGroupingLevel()); 
-			LOGGER.trace(" 		and value {} against {}", valueToBeCompared,lastRowOfGroupingValues[i]);
+			//LOGGER.trace("checking column {} "+currentGroupColumn.getClass()); 
+			//LOGGER.trace(" 		having grouping order {}", currentGroupColumn.getGroupingLevel()); 
+			//LOGGER.trace(" 		and value {} against {}", valueToBeCompared,lastRowOfGroupingValues[i]);
 			if (!lastRowOfGroupingValues[i].equals(valueToBeCompared)) {
 				//condition to exit from for loop
-				aggregationLevelFound = true;
+				newGroupingLevelFound = true;
 			}else{
 				i++;
 			}           
 		}// end while
-		return aggregationLevelFound ? i:-1; 
+		return newGroupingLevelFound ? i:-1; 
     }
 }

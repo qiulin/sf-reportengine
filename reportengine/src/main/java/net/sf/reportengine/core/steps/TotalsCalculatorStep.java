@@ -43,7 +43,7 @@ public class TotalsCalculatorStep extends AbstractReportStep{
      */
     @Override 
     protected void executeInit(){
-        groupColsCnt = getGroupColumnsLength(); 
+        groupColsCnt = getGroupColumnsCount(); 
         
         if(groupColsCnt == 0){
         	LOGGER.warn("Dangerous setting: TotalsCalculatorStep was set in a report not having group columns");

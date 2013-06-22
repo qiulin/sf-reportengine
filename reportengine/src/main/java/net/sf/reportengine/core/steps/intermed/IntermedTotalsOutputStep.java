@@ -36,7 +36,7 @@ public class IntermedTotalsOutputStep extends FlatReportTotalsOutputStep {
      * ATTENTION : changing the implementation of this method will have effect on the 
      * following methods: 
      * {@link #getGroupColumns()}
-     * {@link #getGroupColumnsLength()}
+     * {@link #getGroupColumnsCount()}
      * {@link #computeAggLevelForCalcRowNumber(int)}
      * {@link #computeCalcRowNumberForAggLevel(int)}
      * 

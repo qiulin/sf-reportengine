@@ -105,7 +105,7 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 	    	if(groupingLevel >= from){
 	    		result = new int[groupingLevel-from+1];
 	    		DistinctValuesHolder ctMetadata = getDistinctValuesHolder(); 
-	    		Object[] prevDataRow = getPreviousRowOfGroupingValues(); 
+	    		Object[] prevDataRow = getPreviousRowOfGroupValues(); 
 	    		if(prevDataRow != null){
 	    			for(int i=from; i < groupingLevel+1; i++){
 	    				result[i-from] = ctMetadata.getIndexFor(i-from, prevDataRow[i]);
