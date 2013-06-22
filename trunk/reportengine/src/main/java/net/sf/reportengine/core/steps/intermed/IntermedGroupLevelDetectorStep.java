@@ -22,7 +22,7 @@ public class IntermedGroupLevelDetectorStep extends GroupLevelDetectorStep {
 	 /**
      * ATTENTION : changing the implementation of this method will have effect on the 
      * following methods: 
-     * {@link #getGroupColumnsLength()}
+     * {@link #getGroupColumnsCount()}
      * {@link #computeAggLevelForCalcRowNumber(int)}
      * {@link #computeCalcRowNumberForAggLevel(int)}
      * 

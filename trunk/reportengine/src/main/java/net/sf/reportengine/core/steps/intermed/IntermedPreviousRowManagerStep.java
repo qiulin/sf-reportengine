@@ -29,7 +29,7 @@ public class IntermedPreviousRowManagerStep extends PreviousRowManagerStep {
 	 */
 	@Override 
 	public void execute(NewRowEvent newRow){
-		if(getGroupColumnsLength() > 0 ){
+		if(getGroupColumnsCount() > 0 ){
 			super.execute(newRow); 
 		}
 	}

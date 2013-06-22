@@ -86,18 +86,18 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
      * execute 
      */
     public void execute(NewRowEvent rowEvent) {
-        int aggLevel = getGroupingLevel();
+        int groupLevel = getGroupingLevel();
         
         //when non simple data row 
-        if( aggLevel >= 0 && getShowTotals()){
-        	int totalRowEnd = computeCalcRowNumberForAggLevel(aggLevel);
+        if( groupLevel >= 0 && getShowTotals()){
+        	int totalRowEnd = computeCalcRowNumberForAggLevel(groupLevel);
         	//TODO: this operation is the opposite of computeAggLevelForCalcRowNumber which is 
         	//called inside outputTotalRowsFromTo. One of them should be deleted.
         	
         	//output totals from level 0 to current grouping level
         	outputTotalRowsFromTo(0, totalRowEnd);            
         }else{
-        	LOGGER.trace("not displaying totals because current level is {}", aggLevel);
+        	LOGGER.trace("not displaying totals because current level is {}", groupLevel);
         }
      }
 
@@ -156,30 +156,31 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     	}
     	
     	ReportOutput output = getReportOutput();
-    	Integer dataRowNumber = getDataRowCount(); 
-    	output.startDataRow(new RowProps(dataRowNumber));
+    	output.startDataRow(new RowProps(getDataRowCount()));
     	
-    	if(groupCols != null && groupCols.size() > 0){
+    	if(	groupCols != null && groupCols.size() > 0){
     		//prepare and output the Total column
     		String totalString = getTotalStringForGroupingLevel(groupLevel);
     		output.outputDataCell(new CellProps.Builder(totalString)
     							.horizAlign(HorizAlign.LEFT)
-    							.rowNumber(dataRowNumber)
+    							.rowNumber(getDataRowCount())
     							.build());
     		
     		if(groupCols.size() > 1){
-    			//for all other grouping columns put whitespaces 
+    			//for all other grouping columns put white spaces 
     			//(groupColumns.length-1 colspan because the first column was already 
     			//filled with the word "Total xxxx"
     			
-    			//if you want a single cell spanning multiple rows decomment this
+    			//if you want a single cell spanning multiple rows un-comment below
     			//output.output(new CellProps.Builder(ReportOutput.WHITESPACE)
     			//							.colspan(groupCols.size()-1) 
     			//							.build());
     			
     			//this is to display an empty cell for every remaining group column
     			for(int i=1; i<groupCols.size(); i++){
-    				output.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(dataRowNumber).build()); 
+    				output.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE)
+    													.rowNumber(getDataRowCount())
+    													.build()); 
     			}
     		}
         }
@@ -198,12 +199,14 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
 				
 				output.outputDataCell(new CellProps.Builder(formattedResult)
 									.horizAlign(dataCols.get(i).getHorizAlign())
-									.rowNumber(dataRowNumber)
+									.rowNumber(getDataRowCount())
 									.build());
 			}else{
-				//if the column doesn't have a calculator asociated 
-				//then display an empty value (whitespace) with colspan 1
-				output.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(dataRowNumber).build());
+				//if the column doesn't have a calculator associated 
+				//then display an empty value (whitespace) with col span 1
+				output.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE)
+													.rowNumber(getDataRowCount())
+													.build());
 			}
 		}
     	output.endDataRow();

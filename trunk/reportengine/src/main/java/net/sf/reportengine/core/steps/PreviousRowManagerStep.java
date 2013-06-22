@@ -36,33 +36,34 @@ public class PreviousRowManagerStep extends AbstractReportStep {
 	 */
 	private Object[] previousRowOfGroupingColumnValues;
     
-	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.AbstractReportStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
 	public void execute(NewRowEvent rowEvent) {
 		
-		//first time we initialize the last column values
+		//first pass : initialize the last column values
 		if(previousRowOfGroupingColumnValues == null){
-			previousRowOfGroupingColumnValues = new Object[getGroupColumnsLength()];
-			copyGroupingValuesToLastRowOfGroupingColumnValues(getGroupColumns(), rowEvent);
+			previousRowOfGroupingColumnValues = new Object[getGroupColumnsCount()];
+			copyGroupingValuesToPrevRowOfGrpValues(getGroupColumns(), rowEvent);
 			
 			getAlgoContext().set(ContextKeys.LAST_GROUPING_VALUES, previousRowOfGroupingColumnValues);
 		}else{
 			if(getGroupingLevel() > -1){
-				copyGroupingValuesToLastRowOfGroupingColumnValues(getGroupColumns(), rowEvent);
+				copyGroupingValuesToPrevRowOfGrpValues(getGroupColumns(), rowEvent);
 			}
 		}
 		
+		//cache the previous grouping level
     	LOGGER.trace("previousRowOfGroupingValues {}", Arrays.toString(previousRowOfGroupingColumnValues));
 	}
 	
 	/**
-	 * copies the current row valus into the previousValues array
+	 * copies the current row values into the previousValues array
 	 * @param groupingCols
 	 * @param newRowEvent
 	 */
-	private void copyGroupingValuesToLastRowOfGroupingColumnValues(List<GroupColumn> groupingCols, NewRowEvent newRowEvent){
+	private void copyGroupingValuesToPrevRowOfGrpValues(List<GroupColumn> groupingCols, 
+														NewRowEvent newRowEvent){
     	for (int i = 0; i < groupingCols.size(); i++) {
     		previousRowOfGroupingColumnValues[i] = groupingCols.get(i).getValue(newRowEvent);
     	}    	

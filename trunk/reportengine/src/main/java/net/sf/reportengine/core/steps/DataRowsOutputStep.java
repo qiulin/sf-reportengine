@@ -36,50 +36,51 @@ public class DataRowsOutputStep extends AbstractReportStep {
 	public void executeInit(){
 		groupCols = getGroupColumns();
 		dataColumns = getDataColumns();
-		finalReportGroupCount = groupCols != null ? groupCols.size() : 0;
+		finalReportGroupCount = getGroupColumnsCount(); 
 	}
     
 	/**
-     * execute. Constructs a cell for each value and sends it to output
+     * Constructs a cell for each value and sends it to output
      */
     public void execute(NewRowEvent newRowEvent) {
-    	ReportOutput output = getReportOutput();
-    	Object[] previousRowGrpValues = getPreviousRowOfGroupingValues();
-		Integer dataRowCount = getDataRowCount();
-		Object valueForCurrentColumn = null; 
-		CellProps.Builder cellPropsBuilder = null; 
+    	Object[] previousRowGrpValues = getPreviousRowOfGroupValues();
 		
 		//start the row
-		output.startDataRow(new RowProps(dataRowCount));
+    	getReportOutput().startDataRow(new RowProps(getDataRowCount()));
+		
+		CellProps.Builder cellPropsBuilder = null;
 		
 		//handle the grouping columns first
 		GroupColumn currentGrpCol = null; 
 		for(int i=0; i<finalReportGroupCount; i++){
 			currentGrpCol = groupCols.get(i);
-			valueForCurrentColumn = currentGrpCol.getValue(newRowEvent);
+			Object valueForCurrentColumn = currentGrpCol.getValue(newRowEvent);
 			
 			if(	currentGrpCol.showDuplicates() 
-				|| previousRowGrpValues == null 
-				|| !valueForCurrentColumn.equals(previousRowGrpValues[i])){
-				cellPropsBuilder = new CellProps.Builder(currentGrpCol.getFormattedValue(valueForCurrentColumn));
+				|| previousRowGrpValues == null    //it's too early and we don't have prevGroupValues set
+				|| getGroupingLevel() > -1 			//immediately after a total row
+				|| !valueForCurrentColumn.equals(previousRowGrpValues[i])//if this value is different from the prev
+				){
+				cellPropsBuilder = new CellProps.Builder(
+						currentGrpCol.getFormattedValue(valueForCurrentColumn));
 			}else{
 				cellPropsBuilder = new CellProps.Builder(ReportOutput.WHITESPACE);
 			}
 			cellPropsBuilder.horizAlign(currentGrpCol.getHorizAlign());
-			cellPropsBuilder.rowNumber(dataRowCount); 
-			output.outputDataCell(cellPropsBuilder.build()); 
+			cellPropsBuilder.rowNumber(getDataRowCount()); 
+			getReportOutput().outputDataCell(cellPropsBuilder.build()); 
 		}
 		
 		//then handle the data columns
 		for(DataColumn dataColumn : dataColumns){
-			valueForCurrentColumn = dataColumn.getValue(newRowEvent);
+			Object valueForCurrentColumn = dataColumn.getValue(newRowEvent);
 			cellPropsBuilder = new CellProps.Builder(dataColumn.getFormattedValue(valueForCurrentColumn));
 			cellPropsBuilder.horizAlign(dataColumn.getHorizAlign());
-			output.outputDataCell(cellPropsBuilder.build()); 
+			getReportOutput().outputDataCell(cellPropsBuilder.build()); 
 		}
     	
 		//end row
-		output.endDataRow();
+		getReportOutput().endDataRow();
 		
 		incrementDataRowNbr();
     }
