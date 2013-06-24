@@ -35,21 +35,23 @@ public class NewRowComparator implements Comparator<NewRowEvent> {
 	/**
 	 * 
 	 */
-	private SortedSet<DataColumn> dataColsHavingOrdering = new TreeSet<DataColumn>(new Comparator<DataColumn>(){
-		public int compare(DataColumn col1, DataColumn col2) {
-			int result = 0;//they are equal
-			if(col1.getOrderLevel() > col2.getOrderLevel()){
-				result = 1;//inverse ordering = the higher the order level, the lower the ordering priority 
-			}else{
-				if(col1.getOrderLevel() <  col2.getOrderLevel()){
-					result = -1;
-				}else{
-					LOGGER.warn("Two columns having the same order priority found. Wrong configuration !"); 
+	private SortedSet<DataColumn> dataColsHavingOrdering = new TreeSet<DataColumn>(
+			new Comparator<DataColumn>(){
+				public int compare(DataColumn col1, DataColumn col2) {
+					int result = 0;//they are equal
+					if(col1.getOrderLevel() > col2.getOrderLevel()){
+						result = 1;//the higher the order level, the lower the ordering priority 
+					}else{
+						if(col1.getOrderLevel() <  col2.getOrderLevel()){
+							result = -1;
+						}else{
+							LOGGER.warn("Two columns having the same order priority found. Wrong configuration !"); 
+						}
+					}
+					return result; 
 				}
 			}
-			return result; 
-		}
-	}); 
+		); 
 	
 	/**
 	 * 
