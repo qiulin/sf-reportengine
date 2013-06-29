@@ -5,14 +5,13 @@ package net.sf.reportengine.core.steps.intermed;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
-import net.sf.reportengine.core.algorithm.AlgoContext;
+import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.AbstractReportInitStep;
@@ -143,7 +142,11 @@ public class ConfigIntermedColsInitStep extends AbstractReportInitStep{
 		public HorizAlign getHorizAlign() {
 			return crosstabData.getHorizAlign(); 
 		}
-
+		
+		public VertAlign getVertAlign() {
+			return crosstabData.getVertAlign(); 
+		}
+		
 		public int getOrderLevel() {
 			return -1; 
 		}
@@ -181,6 +184,10 @@ public class ConfigIntermedColsInitStep extends AbstractReportInitStep{
 
 		public HorizAlign getHorizAlign() {
 			return dataColumn.getHorizAlign(); 
+		}
+		
+		public VertAlign getVertAlign(){
+			return dataColumn.getVertAlign(); 
 		}
 		
 		public boolean showDuplicates(){
@@ -236,6 +243,10 @@ public class ConfigIntermedColsInitStep extends AbstractReportInitStep{
 
 		public HorizAlign getHorizAlign() {
 			return HorizAlign.CENTER; //TODO: check if this is used
+		}
+		
+		public VertAlign getVertAlign(){
+			return VertAlign.MIDDLE; //TODO: check if this is used
 		}
 		
 		public boolean showDuplicates(){

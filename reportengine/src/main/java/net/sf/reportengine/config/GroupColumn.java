@@ -44,9 +44,15 @@ public interface GroupColumn {
 	public String getFormattedValue(Object object);
 	
 	/**
-	 * returns the horizontal alignment for this column
+	 * returns the horizontal alignment of the values of this column
 	 */
-	public HorizAlign getHorizAlign(); 
+	public HorizAlign getHorizAlign();
+	
+	/**
+	 * returns the vertical alignment of the values of this column
+	 * @return
+	 */
+	public VertAlign getVertAlign();
 	
 	/**
 	 * whether or not this group column should display duplicate group values. 

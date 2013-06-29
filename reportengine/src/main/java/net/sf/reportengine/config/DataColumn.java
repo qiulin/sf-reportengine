@@ -51,9 +51,15 @@ public interface DataColumn {
 	
 	
 	/**
-	 * returns the horizontal alignment to be used for this column
+	 * returns the horizontal alignment of the values of this column
 	 */
 	public HorizAlign getHorizAlign();
+	
+	/**
+	 * returns the vertical alignment of the values of this column
+	 * @return
+	 */
+	public VertAlign getVertAlign(); 
 	
 	/**
 	 * The order level is the 

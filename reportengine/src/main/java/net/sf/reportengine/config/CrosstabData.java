@@ -35,9 +35,14 @@ public interface CrosstabData {
 	public Calculator getCalculator();
 	
 	/**
-	 * 
+	 * returns the horizontal alignment of the values of this column
+	 */
+	public HorizAlign getHorizAlign();
+	
+	/**
+	 * returns the vertical alignment of the values of this column
 	 * @return
 	 */
-	public HorizAlign getHorizAlign(); 
+	public VertAlign getVertAlign();
 	
 }

@@ -36,6 +36,11 @@ public abstract class AbstractDataColumn implements DataColumn {
 	private HorizAlign horizAlign; 
 	
 	/**
+	 * the vertical align
+	 */
+	private VertAlign vertAlign; 
+	
+	/**
 	 * 
 	 */
 	private int orderLevel = -1; 
@@ -98,10 +103,29 @@ public abstract class AbstractDataColumn implements DataColumn {
 								Format formatter, 
 								HorizAlign horizAlign, 
 								int orderLevel){
+		this(header, calculator, formatter, horizAlign, VertAlign.MIDDLE, orderLevel);  
+	}
+	
+	/**
+	 * 
+	 * @param header		the header of this column
+	 * @param calculator	the calculator
+	 * @param formatter		the formatter 
+	 * @param horizAlign	the horizontal alignment
+	 * @param vertAlign		the vertical alignment
+	 * @param orderLevel
+	 */
+	public AbstractDataColumn(	String header, 
+								Calculator calculator, 
+								Format formatter, 
+								HorizAlign horizAlign,
+								VertAlign vertAlign, 
+								int orderLevel){
 		setHeader(header); 
 		setFormatter(formatter); 
 		setCalculator(calculator); 
 		setHorizAlign(horizAlign); 
+		setVertAlign(vertAlign); 
 		setOrderLevel(orderLevel); 
 	}
 	
@@ -183,6 +207,20 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 */
 	public void setHorizAlign(HorizAlign horizAlign) {
 		this.horizAlign = horizAlign;
+	}
+	
+	/**
+	 * @return the vertical alignment
+	 */
+	public VertAlign getVertAlign() {
+		return vertAlign;
+	}
+
+	/**
+	 * @param vertAlign the vertical alignment
+	 */
+	public void setVertAlign(VertAlign vertAlign) {
+		this.vertAlign = vertAlign;
 	}
 	
 	/**
