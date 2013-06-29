@@ -17,6 +17,7 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 	private String header; 
 	private Format formatter; 
 	private HorizAlign horizAlign; 
+	private VertAlign vertAlign; 
 	private boolean showDuplicates; 
 	
 	/**
@@ -25,18 +26,39 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 	 * @param groupingLevel
 	 * @param formatter
 	 * @param horizAlign
+	 * @param showDuplicates
 	 */
 	public AbstractGroupColumn(	String header, 
 								int groupingLevel, 
 								Format formatter, 
 								HorizAlign horizAlign, 
 								boolean showDuplicates){
+		this(header, groupingLevel, formatter, horizAlign, VertAlign.MIDDLE, showDuplicates); 
+	}
+	
+	/**
+	 * 
+	 * @param header
+	 * @param groupingLevel
+	 * @param formatter
+	 * @param horizAlign
+	 * @param vertAlign
+	 * @param showDuplicates
+	 */
+	public AbstractGroupColumn(	String header, 
+								int groupingLevel, 
+								Format formatter, 
+								HorizAlign horizAlign, 
+								VertAlign vertAlign, 
+								boolean showDuplicates){
 		setHeader(header);
 		setGroupingLevel(groupingLevel);
 		setFormatter(formatter);
 		setHorizAlign(horizAlign); 
+		setVertAlign(vertAlign); 
 		setShowDuplicates(showDuplicates); 
 	}
+	
 	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.config.GroupColumn#getGroupingLevel()
@@ -91,6 +113,20 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 	 */
 	public void setHorizAlign(HorizAlign horizAlign) {
 		this.horizAlign = horizAlign;
+	}
+	
+	/**
+	 * @return the vertical alignment
+	 */
+	public VertAlign getVertAlign() {
+		return vertAlign;
+	}
+
+	/**
+	 * @param vertAlign the vertical alignment
+	 */
+	public void setVertAlign(VertAlign vertAlign) {
+		this.vertAlign = vertAlign;
 	}
 	
 	/**

@@ -12,10 +12,6 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
  */
 public interface CrosstabHeaderRow {
 	
-	
-	
-	//public int getGroupingLevel();
-	
 	/**
 	 * this method returns the value for the current data row (taken from newRowEvent)
 	 * 

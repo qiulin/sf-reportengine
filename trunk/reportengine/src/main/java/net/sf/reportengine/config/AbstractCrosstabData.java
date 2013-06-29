@@ -26,23 +26,45 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	private Calculator calculator; 
 	
 	/**
-	 * 
+	 * the horizontal alignment for this crosstab data
 	 */
 	private HorizAlign horizAlign; 
 	
 	/**
+	 * the vertical alignment for this crosstab data
+	 */
+	private VertAlign vertAlign; 
+	
+	/**
 	 * 
-	 * @param calcFactory
+	 * @param calc
 	 * @param formatter
+	 * @param horizAlign
 	 */
 	public AbstractCrosstabData(Calculator calc, 
 								Format formatter, 
 								HorizAlign horizAlign){
+		this(calc, formatter, horizAlign, VertAlign.MIDDLE); 
+	}
+	
+	/**
+	 * 
+	 * @param calc
+	 * @param formatter
+	 * @param horizAlign
+	 * @param vertAlign
+	 */
+	public AbstractCrosstabData(Calculator calc, 
+								Format formatter, 
+								HorizAlign horizAlign, 
+								VertAlign vertAlign){
 		setCalculator(calc);
 		setFormatter(formatter);
 		setHorizAlign(horizAlign); 
+		setVertAlign(vertAlign); 
 	}
-
+	
+	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.config.CrosstabData#getFormattedValue(java.lang.Object)
 	 */
@@ -87,5 +109,19 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	public void setHorizAlign(HorizAlign horizAlign) {
 		this.horizAlign = horizAlign;
 	}
+	
+	/**
+	 * @return the vertical alignment
+	 */
+	public VertAlign getVertAlign() {
+		return vertAlign;
+	}
 
+	/**
+	 * @param vertAlign the vertical alignment
+	 */
+	public void setVertAlign(VertAlign vertAlign) {
+		this.vertAlign = vertAlign;
+	}
+	
 }
