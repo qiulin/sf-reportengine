@@ -35,6 +35,8 @@ public abstract class AbstractXmlOutput extends AbstractCharBasedOutput {
 	
 	public final static String ATTR_HORIZ_ALIGN = "horizAlign";
 	
+	public final static String ATTR_VERT_ALIGN = "vertAlign";
+	
 	/**
 	 * empty constructor
 	 */

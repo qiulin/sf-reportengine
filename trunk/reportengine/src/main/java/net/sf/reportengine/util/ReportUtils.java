@@ -12,6 +12,7 @@ import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
+import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.in.ColumnMetadata;
 import net.sf.reportengine.in.ColumnPreferences;
 
@@ -110,7 +111,8 @@ public final class ReportUtils {
     											ColumnMetadata metadata){
 		DefaultDataColumn result = new DefaultDataColumn(); 
 		result.setHeader(prefs.getHeader() != null ? prefs.getHeader() : metadata.getColumnLabel() != null ? metadata.getColumnLabel() : "Column "+columnIndex); 
-		result.setHorizAlign(prefs.getHorizAlign() != null ? prefs.getHorizAlign() : metadata.getHorizontalAlign() != null ? metadata.getHorizontalAlign() : HorizAlign.CENTER); 
+		result.setHorizAlign(prefs.getHorizAlign() != null ? prefs.getHorizAlign() : metadata.getHorizontalAlign() != null ? metadata.getHorizontalAlign() : HorizAlign.CENTER);
+		result.setVertAlign(prefs.getVertAlign() != null ? prefs.getVertAlign() : VertAlign.MIDDLE);
 		result.setInputColumnIndex(columnIndex);
 		result.setCalculator(prefs.getCalculator()); 
 		result.setFormatter(prefs.getFormatter()); 
@@ -147,6 +149,7 @@ public final class ReportUtils {
 		DefaultGroupColumn result = new DefaultGroupColumn(); 
 		result.setHeader(prefs.getHeader() != null ? prefs.getHeader() : metadata.getColumnLabel() != null ? metadata.getColumnLabel() : "Column "+columnIndex);
 		result.setHorizAlign(prefs.getHorizAlign() != null ? prefs.getHorizAlign() : metadata.getHorizontalAlign() != null ? metadata.getHorizontalAlign() : HorizAlign.CENTER); 
+		result.setVertAlign(prefs.getVertAlign() != null ? prefs.getVertAlign() : VertAlign.MIDDLE); 
 		result.setInputColumnIndex(columnIndex);
 		result.setGroupingLevel(groupingLevel); 
 		

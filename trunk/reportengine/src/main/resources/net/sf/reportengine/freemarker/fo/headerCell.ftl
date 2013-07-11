@@ -13,7 +13,9 @@
 								font-style="normal" 
 								font-weight="normal"
 								margin-left="10pt"
-								text-align="${cellProps.horizontalAlign}">
+								text-align="${cellProps.horizAlign.foCode}"
+								display-align="${cellProps.vertAlign.foCode}"
+								>
 						${cellProps.value}
 					</fo:block>
 </fo:table-cell>

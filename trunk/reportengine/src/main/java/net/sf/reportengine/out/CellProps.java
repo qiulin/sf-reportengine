@@ -5,6 +5,7 @@
 package net.sf.reportengine.out;
 
 import net.sf.reportengine.config.HorizAlign;
+import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.ReportContent;
 
 /**
@@ -39,6 +40,11 @@ public final class CellProps {
 	private final HorizAlign horizAlign;
 	
 	/**
+	 * vertical align
+	 */
+	private final VertAlign vertAlign;
+	
+	/**
 	 * row number
 	 */
 	private final int rowNbr; 
@@ -53,6 +59,7 @@ public final class CellProps {
 		this.value = propsBuilder.value; 
 		this.colspan = propsBuilder.colspan; 
 		this.horizAlign = propsBuilder.horizAlign; 
+		this.vertAlign = propsBuilder.vertAlign; 
 		this.rowNbr = propsBuilder.rowNumber; 
 	}
 	
@@ -76,8 +83,16 @@ public final class CellProps {
 	 * the horizontal align
 	 * @return
 	 */
-	public HorizAlign getHorizontalAlign() {
+	public HorizAlign getHorizAlign() {
 		return horizAlign;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public VertAlign getVertAlign(){
+		return vertAlign; 
 	}
 	
 	/**
@@ -99,6 +114,7 @@ public final class CellProps {
 					 && (colspan == anotherAsCP.getColspan())
 					 // TODO include the horizontal alignment in the equals
 					 //&& (horizAlign.equals(anotherAsCP.getHorizontalAlign()))
+					 //&& (vertAlign.equals(anotherAsCP.getVertAlign()))
 					 //&& (rowNbr == anotherAsCP.getRowNumber())
 					 ; 
 		}
@@ -113,6 +129,7 @@ public final class CellProps {
 		result = 97 * result + value.hashCode();
 		result = 97 * result + colspan;
 		result = 97 * result + horizAlign.hashCode(); 
+		result = 97 * result + vertAlign.hashCode(); 
 		result = 97 * result + rowNbr; 
 		return result;
 	}
@@ -125,6 +142,7 @@ public final class CellProps {
 		result.append(value);
 		result.append(",cspan=").append(colspan);
 		result.append(", hAlign=").append(horizAlign);
+		result.append(", vAlign=").append(vertAlign); 
 		result.append(", rowNbr=").append(rowNbr);
 		result.append("]");
 		return result.toString();
@@ -140,7 +158,10 @@ public final class CellProps {
 		
 		private final Object value;
 		private int colspan = 1;
+		
 		private HorizAlign horizAlign = HorizAlign.CENTER;
+		private VertAlign vertAlign = VertAlign.MIDDLE; 
+		
 		private int rowNumber = 0; 
 		
 		public Builder(Object value){
@@ -154,6 +175,11 @@ public final class CellProps {
 		
 		public Builder horizAlign(HorizAlign align){
 			this.horizAlign = align; 
+			return this; 
+		}
+		
+		public Builder vertAlign(VertAlign align){
+			this.vertAlign = align; 
 			return this; 
 		}
 		
