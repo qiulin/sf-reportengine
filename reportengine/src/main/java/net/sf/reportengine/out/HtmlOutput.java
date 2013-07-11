@@ -209,7 +209,9 @@ public class HtmlOutput extends AbstractCharBasedOutput {
         String toWrite = purifyData(cellProps.getValue());
         try {
             StringBuilder strContent = new StringBuilder("<td align =\"");
-            strContent.append(cellProps.getHorizontalAlign().toString()); 
+            strContent.append(cellProps.getHorizAlign().getHtmlCode()); 
+            strContent.append("\" valign=\""); 
+            strContent.append(cellProps.getVertAlign().getHtmlCode()); 
             strContent.append("\" colspan=\"");
             strContent.append(cellProps.getColspan());
             strContent.append("\" rowspan=\"1\" >");

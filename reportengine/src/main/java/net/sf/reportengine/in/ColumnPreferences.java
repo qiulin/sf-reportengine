@@ -3,6 +3,7 @@ package net.sf.reportengine.in;
 import java.text.Format;
 
 import net.sf.reportengine.config.HorizAlign;
+import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.calc.Calculator;
 
 /**
@@ -27,6 +28,11 @@ public class ColumnPreferences {
 	 * horizontal alignment
 	 */
 	private HorizAlign horizAlign = null;
+	
+	/**
+	 * vertical alignment
+	 */
+	private VertAlign vertAlign = null ;
 	
 	/**
 	 * the formatter of the column
@@ -73,6 +79,15 @@ public class ColumnPreferences {
 	public HorizAlign getHorizAlign() {
 		return horizAlign;
 	}
+	
+	/**
+	 * 
+	 * @return the vertical align
+	 */
+	public VertAlign getVertAlign(){
+		return vertAlign; 
+	}
+	
 	/**
 	 * @param horizAlign the horizAlign to set
 	 */
@@ -80,6 +95,15 @@ public class ColumnPreferences {
 		this.horizAlign = horizAlign;
 		return this; 
 	}
+	
+	/**
+	 * @param vertAlign the horizAlign to set
+	 */
+	public ColumnPreferences setVAlign(VertAlign vertAlign) {
+		this.vertAlign = vertAlign;
+		return this; 
+	}
+	
 	/**
 	 * @return the formatter
 	 */

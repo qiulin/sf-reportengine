@@ -6,9 +6,9 @@ package net.sf.reportengine.out;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.math.BigDecimal;
 
 import net.sf.reportengine.config.HorizAlign;
+import net.sf.reportengine.config.VertAlign;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -205,8 +205,8 @@ public class ExcelOutput extends AbstractByteBasedOutput {
         cellStyle.setFillForegroundColor(HSSFColor.BLACK.index);
         cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
         
-        cellStyle.setAlignment(translateHorizAlign(cellProps.getHorizontalAlign()));
-        cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        cellStyle.setAlignment(cellProps.getHorizAlign().getHssfCode());
+        cellStyle.setVerticalAlignment(cellProps.getVertAlign().getHssfCode()); 
         cell.setCellStyle(cellStyle);
         
         String valueToWrite = cellProps.getValue() != null ? cellProps.getValue().toString() : WHITESPACE;
@@ -258,8 +258,8 @@ public class ExcelOutput extends AbstractByteBasedOutput {
         	cellStyle = DEFAULT_ODD_ROW_CELL_STYLE; 
         }
             
-        cellStyle.setAlignment(translateHorizAlign(cellProps.getHorizontalAlign()));
-        cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        cellStyle.setAlignment(cellProps.getHorizAlign().getHssfCode());
+        cellStyle.setVerticalAlignment(cellProps.getVertAlign().getHssfCode());
         
         cell.setCellStyle(cellStyle);
         
@@ -295,7 +295,6 @@ public class ExcelOutput extends AbstractByteBasedOutput {
      * ends the report
      */
     public void close() {
-    	LOGGER.trace("closing excel output...");
         try {
         	workBook.write(getOutputStream());
             super.close();//flushes the output stream and closes the output
@@ -311,11 +310,4 @@ public class ExcelOutput extends AbstractByteBasedOutput {
     public void setSheetName(String name){
         this.sheetName = name;
     }
-    
-    private short translateHorizAlign(HorizAlign horizAlign){
-        return HorizAlign.CENTER.equals(horizAlign)? HSSFCellStyle.ALIGN_CENTER :
-        					HorizAlign.LEFT.equals(horizAlign) ?  HSSFCellStyle.ALIGN_LEFT : HSSFCellStyle.ALIGN_RIGHT;
-    }
-    
-   
 }

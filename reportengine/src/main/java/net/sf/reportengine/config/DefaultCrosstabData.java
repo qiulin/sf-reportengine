@@ -65,13 +65,31 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	 * @param formatter
 	 * @param horizAlign
 	 */
-	public DefaultCrosstabData(	int inputColumIndex, 
+	public DefaultCrosstabData(	int inputColumnIndex, 
 								Calculator calc, 
 								Format formatter, 
 								HorizAlign horizAlign){
-		super(calc, formatter, horizAlign);
-		setInputColumnIndex(inputColumIndex);
+		this(inputColumnIndex, calc, formatter, horizAlign, VertAlign.MIDDLE);
 	}
+	
+	
+	/**
+	 * 
+	 * @param inputColumIndex
+	 * @param calcFactory
+	 * @param formatter
+	 * @param horizAlign
+	 * @param vertAlign
+	 */
+	public DefaultCrosstabData(	int inputColumIndex, 
+								Calculator calc, 
+								Format formatter, 
+								HorizAlign horizAlign, 
+								VertAlign vertAlign){
+		super(calc, formatter, horizAlign, vertAlign);
+		setInputColumnIndex(inputColumIndex);
+	}	
+	
 	
 	public Object getValue(NewRowEvent newRowEvent) {
 		return newRowEvent.getInputDataRow().get(inputColumnIndex);

@@ -10,6 +10,7 @@ import java.util.Map;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
+import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
@@ -163,6 +164,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     		String totalString = getTotalStringForGroupingLevel(groupLevel);
     		output.outputDataCell(new CellProps.Builder(totalString)
     							.horizAlign(HorizAlign.LEFT)
+    							.vertAlign(VertAlign.MIDDLE)
     							.rowNumber(getDataRowCount())
     							.build());
     		
@@ -199,6 +201,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
 				
 				output.outputDataCell(new CellProps.Builder(formattedResult)
 									.horizAlign(dataCols.get(i).getHorizAlign())
+									.vertAlign(dataCols.get(i).getVertAlign())
 									.rowNumber(getDataRowCount())
 									.build());
 			}else{

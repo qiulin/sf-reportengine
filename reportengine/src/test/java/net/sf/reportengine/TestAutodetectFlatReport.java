@@ -6,6 +6,7 @@ package net.sf.reportengine;
 import java.text.NumberFormat;
 
 import net.sf.reportengine.config.HorizAlign;
+import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.SqlInput;
 import net.sf.reportengine.out.HtmlOutput;
@@ -72,8 +73,8 @@ public class TestAutodetectFlatReport {
 		flatReport.setIn(input); 
 		flatReport.setOut(new HtmlOutput("./target/AutodetectFromSqlWithUserPrefs.html")); 
 		
-		flatReport.forColumn("COUNTRY").setHAlign(HorizAlign.RIGHT).setHeader("Changed header").setGroup(true); 
-		flatReport.forColumn("VALUE").setCalculator(Calculators.SUM).setFormatter(NumberFormat.getCurrencyInstance()); 
+		flatReport.forColumn("COUNTRY").setHAlign(HorizAlign.RIGHT).setVAlign(VertAlign.TOP).setHeader("Changed header").setGroup(true); 
+		flatReport.forColumn("VALUE").setVAlign(VertAlign.BOTTOM).setCalculator(Calculators.SUM).setFormatter(NumberFormat.getCurrencyInstance()); 
 		flatReport.forColumn("REGION").setGroup(true); 
 		flatReport.forColumn("CITY").setGroup(true); 
 		

@@ -76,6 +76,7 @@ public class DataRowsOutputStep extends AbstractReportStep {
 			Object valueForCurrentColumn = dataColumn.getValue(newRowEvent);
 			cellPropsBuilder = new CellProps.Builder(dataColumn.getFormattedValue(valueForCurrentColumn));
 			cellPropsBuilder.horizAlign(dataColumn.getHorizAlign());
+			cellPropsBuilder.vertAlign(dataColumn.getVertAlign()); 
 			getReportOutput().outputDataCell(cellPropsBuilder.build()); 
 		}
     	

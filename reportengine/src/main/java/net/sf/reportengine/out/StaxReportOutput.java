@@ -169,7 +169,8 @@ public class StaxReportOutput extends AbstractXmlOutput {
     	try{
         	xmlWriter.writeStartElement(TAG_DATA_CELL);
         	xmlWriter.writeAttribute(ATTR_COLSPAN, ""+cellProps.getColspan());
-        	xmlWriter.writeAttribute(ATTR_HORIZ_ALIGN, cellProps.getHorizontalAlign().toString()); 
+        	xmlWriter.writeAttribute(ATTR_HORIZ_ALIGN, cellProps.getHorizAlign().toString()); 
+        	xmlWriter.writeAttribute(ATTR_VERT_ALIGN, cellProps.getVertAlign().toString()); 
         	xmlWriter.writeCharacters(purifyData(cellProps.getValue()));
         	xmlWriter.writeEndElement();
         }catch(XMLStreamException streamException){

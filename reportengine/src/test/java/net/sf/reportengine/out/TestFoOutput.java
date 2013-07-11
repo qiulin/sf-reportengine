@@ -5,6 +5,9 @@ package net.sf.reportengine.out;
 
 import java.io.FileWriter;
 
+import net.sf.reportengine.config.HorizAlign;
+import net.sf.reportengine.config.VertAlign;
+
 import org.junit.Test;
 
 /**
@@ -44,8 +47,8 @@ public class TestFoOutput {
 		classUnderTest.endDataRow(); 
 		
 		classUnderTest.startDataRow(new RowProps(2)); 
-		classUnderTest.outputDataCell(new CellProps.Builder("row 3 value 1").rowNumber(2).build()); 
-		classUnderTest.outputDataCell(new CellProps.Builder("row 3 value 2").rowNumber(2).build());
+		classUnderTest.outputDataCell(new CellProps.Builder("row 3 value 1 aligned to right").rowNumber(2).horizAlign(HorizAlign.RIGHT).build()); 
+		classUnderTest.outputDataCell(new CellProps.Builder("row 3 value 2 vertically aligned to top").rowNumber(2).vertAlign(VertAlign.TOP).build());
 		classUnderTest.outputDataCell(new CellProps.Builder("row 3 value 3").rowNumber(2).build());
 		classUnderTest.endDataRow(); 
 		
