@@ -105,4 +105,11 @@ public interface GroupColumn {
 	 * @return
 	 */
 	public boolean showDuplicates(); 
+	
+	/**
+	 * whether you want to sort this ascending or descending
+	 * 
+	 * @return
+	 */
+	public SortType getSortType(); 
 }

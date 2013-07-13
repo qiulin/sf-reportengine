@@ -13,8 +13,6 @@ import net.sf.reportengine.core.calc.Calculator;
  */
 public abstract class AbstractDataColumn implements DataColumn {
 	
-	public static final int NO_ORDER = -1; 
-	
 	/**
 	 *  the column header
 	 */
@@ -41,9 +39,14 @@ public abstract class AbstractDataColumn implements DataColumn {
 	private VertAlign vertAlign; 
 	
 	/**
+	 * the sorting level 
+	 */
+	private int sortLevel = NO_SORTING;
+	
+	/**
 	 * 
 	 */
-	private int orderLevel = -1; 
+	private SortType sortType = SortType.ASC; 
 	
 	/**
 	 * 
@@ -86,7 +89,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 								Calculator calculator, 
 								Format formatter, 
 								HorizAlign horizAlign){
-		this(header, calculator, formatter, horizAlign, NO_ORDER); 
+		this(header, calculator, formatter, horizAlign, NO_SORTING); 
 	}
 	
 	
@@ -96,15 +99,16 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * @param calculator
 	 * @param formatter
 	 * @param horizAlign
-	 * @param orderLevel
+	 * @param sortLevel
 	 */
 	public AbstractDataColumn(	String header, 
 								Calculator calculator, 
 								Format formatter, 
 								HorizAlign horizAlign, 
-								int orderLevel){
-		this(header, calculator, formatter, horizAlign, VertAlign.MIDDLE, orderLevel);  
+								int sortLevel){
+		this(header, calculator, formatter, horizAlign, VertAlign.MIDDLE, sortLevel);  
 	}
+	
 	
 	/**
 	 * 
@@ -113,7 +117,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * @param formatter		the formatter 
 	 * @param horizAlign	the horizontal alignment
 	 * @param vertAlign		the vertical alignment
-	 * @param orderLevel
+	 * @param sortLevel	the sorting level
 	 */
 	public AbstractDataColumn(	String header, 
 								Calculator calculator, 
@@ -121,12 +125,34 @@ public abstract class AbstractDataColumn implements DataColumn {
 								HorizAlign horizAlign,
 								VertAlign vertAlign, 
 								int orderLevel){
+		this(header, calculator, formatter, horizAlign, vertAlign, orderLevel, SortType.ASC);  
+	}
+	
+	
+	/**
+	 * 
+	 * @param header		the header of this column
+	 * @param calculator	the calculator
+	 * @param formatter		the formatter 
+	 * @param horizAlign	the horizontal alignment
+	 * @param vertAlign		the vertical alignment
+	 * @param sortLevel	the sorting level 
+	 * @param sortType		the sorting type (asc, desc)
+	 */
+	public AbstractDataColumn(	String header, 
+								Calculator calculator, 
+								Format formatter, 
+								HorizAlign horizAlign,
+								VertAlign vertAlign, 
+								int sortLevel, 
+								SortType sortType){
 		setHeader(header); 
 		setFormatter(formatter); 
 		setCalculator(calculator); 
 		setHorizAlign(horizAlign); 
 		setVertAlign(vertAlign); 
-		setOrderLevel(orderLevel); 
+		setSortLevel(sortLevel);
+		setSortType(sortType); 
 	}
 	
 	/**
@@ -227,25 +253,31 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * The order level is the 
 	 * @return
 	 */
-	public int getOrderLevel(){
-		return orderLevel;
+	public int getSortLevel(){
+		return sortLevel;
 	}
 	
 	/**
 	 * 
-	 * @param orderLevel
+	 * @param sortLevel
 	 */
-	public void setOrderLevel(int orderLevel){
-		this.orderLevel = orderLevel; 
+	public void setSortLevel(int sortLevel){
+		this.sortLevel = sortLevel; 
+	}
+	
+	/**
+	 * 
+	 * @param sortType
+	 */
+	public void setSortType(SortType sortType){
+		this.sortType = sortType; 
 	}
 	
 	/**
 	 * Asc or Desc
 	 * @return
 	 */
-	public int getOrderType(){
-		return -1; 
+	public SortType getSortType(){
+		return sortType; 
 	}
-	
-	
 }

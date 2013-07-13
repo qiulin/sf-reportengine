@@ -13,12 +13,40 @@ import java.text.Format;
  */
 public abstract class AbstractGroupColumn implements GroupColumn {
 	
+	/**
+	 * 
+	 */
 	private int groupingLevel; 
+	
+	/**
+	 * 
+	 */
 	private String header; 
+	
+	/**
+	 * 
+	 */
 	private Format formatter; 
+	
+	/**
+	 * 
+	 */
 	private HorizAlign horizAlign; 
-	private VertAlign vertAlign; 
+	
+	/**
+	 * 
+	 */
+	private VertAlign vertAlign;
+	
+	/**
+	 * 
+	 */
 	private boolean showDuplicates; 
+	
+	/**
+	 * 
+	 */
+	private SortType sortType; 
 	
 	/**
 	 * 
@@ -51,12 +79,34 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 								HorizAlign horizAlign, 
 								VertAlign vertAlign, 
 								boolean showDuplicates){
+		this(header, groupingLevel, formatter, horizAlign, vertAlign, showDuplicates, SortType.DESC); 
+	}
+	
+	
+	/**
+	 * 
+	 * @param header
+	 * @param groupingLevel
+	 * @param formatter
+	 * @param horizAlign
+	 * @param vertAlign
+	 * @param showDuplicates
+	 * @param sortType
+	 */
+	public AbstractGroupColumn(	String header, 
+								int groupingLevel, 
+								Format formatter, 
+								HorizAlign horizAlign, 
+								VertAlign vertAlign, 
+								boolean showDuplicates, 
+								SortType sortType){
 		setHeader(header);
 		setGroupingLevel(groupingLevel);
 		setFormatter(formatter);
 		setHorizAlign(horizAlign); 
 		setVertAlign(vertAlign); 
 		setShowDuplicates(showDuplicates); 
+		setSortType(sortType); 
 	}
 	
 	
@@ -67,20 +117,32 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 		return groupingLevel;
 	}
 	
-	
+	/**
+	 * 
+	 * @param groupingLevel
+	 */
 	public void setGroupingLevel(int groupingLevel) {
 		this.groupingLevel = groupingLevel;
 	}
 
-	
+	/**
+	 * 
+	 */
 	public String getHeader() {
 		return header;
 	}
-
+	
+	/**
+	 * 
+	 * @param header
+	 */
 	public void setHeader(String header) {
 		this.header = header;
 	}
-
+	
+	/**
+	 * 
+	 */
 	public String getFormattedValue(Object value) {
 		String result = "";
 		if(value != null){
@@ -92,11 +154,19 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 		}
 		return result; 
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public Format getFormatter() {
 		return formatter;
 	}
-
+	
+	/**
+	 * 
+	 * @param formatter
+	 */
 	public void setFormatter(Format formatter) {
 		this.formatter = formatter;
 	}
@@ -143,5 +213,19 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 	public void setShowDuplicates(boolean flag){
 		this.showDuplicates = flag; 
 	}
-
+	
+	/**
+	 * 
+	 */
+	public SortType getSortType(){
+		return sortType; 
+	}
+	
+	/**
+	 * 
+	 * @param sortType
+	 */
+	public void setSortType(SortType sortType){
+		this.sortType = sortType; 
+	}
 }

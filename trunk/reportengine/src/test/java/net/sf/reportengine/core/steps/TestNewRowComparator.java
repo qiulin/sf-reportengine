@@ -1,25 +1,25 @@
 package net.sf.reportengine.core.steps;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.Arrays;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.scenarios.SortScenario;
+import net.sf.reportengine.scenarios.SortScenarioOnlyDataColsCount;
+import net.sf.reportengine.scenarios.SortScenarioWithGroupAndDataCols;
 
 import org.junit.Test;
 
 public class TestNewRowComparator {
 
 	@Test
-	public void testCompare() {
+	public void testCompareGroupColumns() {
 		//first 3 cols are group cols, last 3 are data cols
 		//for data columns only the last two columns need ordering 
 		//the last one has a higher order priority than one before last
 		NewRowComparator classUnderTest = new NewRowComparator(
-													SortScenario.GROUPING_COLUMNS, 
-													SortScenario.DATA_COLUMNS);
+													SortScenarioWithGroupAndDataCols.GROUPING_COLUMNS, 
+													SortScenarioWithGroupAndDataCols.DATA_COLUMNS);
 		
 		//same grouping columns but, the third data column has a diff value (3 vs 6)
 		NewRowEvent row1 = new NewRowEvent(Arrays.asList(new Object[]{"1","2","3", "4","5","6"})); 
@@ -71,5 +71,34 @@ public class TestNewRowComparator {
 		row1 = new NewRowEvent(Arrays.asList(new Object[]{"1","1","1", "1","1","1"})); 
 		row2 = new NewRowEvent(Arrays.asList(new Object[]{"1","1","1", "1","1","7"})); 
 		assertTrue(classUnderTest.compare(row1, row2) < 0);
+	}
+	
+	@Test
+	public void testCompareDataColumns() {
+		//first 3 cols are group cols, last 3 are data cols
+		//for data columns only the last two columns need ordering 
+		//the last one has a higher order priority than one before last
+		NewRowComparator classUnderTest = new NewRowComparator(
+													SortScenarioOnlyDataColsCount.GROUPING_COLUMNS, 
+													SortScenarioOnlyDataColsCount.DATA_COLUMNS);
+		
+		//same grouping columns but the last data column (the most important among data cols) 
+		//has a different value then the previous one
+		NewRowEvent row1 = new NewRowEvent(Arrays.asList(new Object[]{"1","1","1", "4",	"5","0"})); 
+		NewRowEvent row2 = new NewRowEvent(Arrays.asList(new Object[]{"1","1","1", "3",	"3","7"})); 
+		assertTrue(classUnderTest.compare(row1, row2) > 0);//the first row is better due to the DESC type in the last column
+		
+		//same grouping columns but the one before last data column has a different value then the previous one
+		row1 = new NewRowEvent(Arrays.asList(new Object[]{"1","1","1", "4",	"5","0"})); 
+		row2 = new NewRowEvent(Arrays.asList(new Object[]{"1","1","1", "3",	"3","0"})); 
+		assertTrue(classUnderTest.compare(row1, row2) > 0);//the second row is better due to the ASC type in the last column
+		
+		//same grouping columns but the last data column (the most important among data cols) 
+		//has a different value then the previous one
+		row1 = new NewRowEvent(Arrays.asList(new Object[]{"1","1","1", "4",	"5","2"})); 
+		row2 = new NewRowEvent(Arrays.asList(new Object[]{"1","1","1", "3",	"3","1"})); 
+		assertTrue(classUnderTest.compare(row1, row2) < 0);//the second row is better due to the DESC type in the last column
+		
+		
 	}
 }

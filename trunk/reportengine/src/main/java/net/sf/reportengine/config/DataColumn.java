@@ -15,6 +15,11 @@ import net.sf.reportengine.core.calc.Calculator;
 public interface DataColumn {
 	
 	/**
+	 * no sorting flag
+	 */
+	public static final int NO_SORTING = -1; 
+	
+	/**
 	 * returns the header of the column. 
 	 * The header will be displayed in the final report as the header of this column and 
 	 * it shouldn't be confused with the column name in case the report input is an SQL query
@@ -65,12 +70,12 @@ public interface DataColumn {
 	 * The order level is the 
 	 * @return
 	 */
-	public int getOrderLevel(); 
+	public int getSortLevel(); 
 	
 	/**
 	 * Asc or Desc
 	 * @return
 	 */
-	public int getOrderType(); 
+	public SortType getSortType(); 
 	
 }

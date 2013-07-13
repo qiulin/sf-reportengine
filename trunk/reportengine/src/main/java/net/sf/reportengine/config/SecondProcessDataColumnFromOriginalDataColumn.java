@@ -71,11 +71,11 @@ public class SecondProcessDataColumnFromOriginalDataColumn implements DataColumn
 		return originalDataColumn.getVertAlign(); 
 	}
 	
-	public int getOrderLevel() {
-		return originalDataColumn.getOrderLevel(); 
+	public int getSortLevel() {
+		return originalDataColumn.getSortLevel(); 
 	}
 
-	public int getOrderType() {
-		return originalDataColumn.getOrderType();
+	public SortType getSortType() {
+		return originalDataColumn.getSortType();
 	}
 }

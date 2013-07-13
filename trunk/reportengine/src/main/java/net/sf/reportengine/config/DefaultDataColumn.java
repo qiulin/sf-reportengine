@@ -124,7 +124,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 								Calculator calculator, 
 								Format formatter, 
 								HorizAlign horizAlign){
-		this(header, inputColumnIndex, calculator, formatter, horizAlign, NO_ORDER); 
+		this(header, inputColumnIndex, calculator, formatter, horizAlign, NO_SORTING); 
 	}
 	
 	/**
@@ -133,16 +133,42 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 * @param inputColumnIndex
 	 * @param calculator
 	 * @param formatter
-	 * @param horizAlign	horizontal alignment 
+	 * @param horizAlign	horizontal alignment
+	 * @param sortLevel 
 	 */
 	public DefaultDataColumn(	String header,
 								int inputColumnIndex, 
 								Calculator calculator, 
 								Format formatter, 
 								HorizAlign horizAlign, 
-								int orderLevel){
+								int sortLevel){
 		
-		super(header, calculator, formatter, horizAlign, orderLevel);
+		super(header, calculator, formatter, horizAlign, sortLevel);
+		setInputColumnIndex(inputColumnIndex);
+	}
+	
+	
+	/**
+	 * 
+	 * @param header
+	 * @param inputColumnIndex
+	 * @param calculator
+	 * @param formatter
+	 * @param horizAlign	the horizontal alignment
+	 * @param vertAlign 	the vertical alignment
+	 * @param sortLevel 
+	 * @param sortType
+	 */
+	public DefaultDataColumn(	String header,
+								int inputColumnIndex, 
+								Calculator calculator, 
+								Format formatter, 
+								HorizAlign horizAlign, 
+								VertAlign vertAlign, 
+								int sortLevel, 
+								SortType sortType){
+		
+		super(header, calculator, formatter, horizAlign, vertAlign, sortLevel, sortType);
 		setInputColumnIndex(inputColumnIndex);
 	}
 	

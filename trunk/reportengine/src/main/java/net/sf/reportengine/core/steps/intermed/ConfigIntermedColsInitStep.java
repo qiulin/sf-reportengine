@@ -6,11 +6,13 @@ package net.sf.reportengine.core.steps.intermed;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.reportengine.config.AbstractDataColumn;
 import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
+import net.sf.reportengine.config.SortType;
 import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.Calculator;
@@ -147,12 +149,12 @@ public class ConfigIntermedColsInitStep extends AbstractReportInitStep{
 			return crosstabData.getVertAlign(); 
 		}
 		
-		public int getOrderLevel() {
-			return -1; 
+		public int getSortLevel() {
+			return NO_SORTING; 
 		}
 
-		public int getOrderType() {
-			return -1; 
+		public SortType getSortType() {
+			return SortType.ASC; 
 		}
 	}
 	
@@ -192,6 +194,10 @@ public class ConfigIntermedColsInitStep extends AbstractReportInitStep{
 		
 		public boolean showDuplicates(){
 			return false; //TODO: check if this is used
+		}
+		
+		public SortType getSortType() {
+			return SortType.ASC; 
 		}
 		
 	}
@@ -252,7 +258,9 @@ public class ConfigIntermedColsInitStep extends AbstractReportInitStep{
 		public boolean showDuplicates(){
 			return false; //this is not used
 		}
-
-}
-	
+		
+		public SortType getSortType() {
+			return SortType.ASC; 
+		}
+	}
 }

@@ -11,6 +11,7 @@ import java.util.TreeSet;
 import net.sf.reportengine.config.AbstractDataColumn;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.config.SortType;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ public class NewRowComparator implements Comparator<NewRowEvent> {
 	 */
 	private List<GroupColumn> groupCols; 
 	
+	
 	/**
 	 * 
 	 */
@@ -39,10 +41,10 @@ public class NewRowComparator implements Comparator<NewRowEvent> {
 			new Comparator<DataColumn>(){
 				public int compare(DataColumn col1, DataColumn col2) {
 					int result = 0;//they are equal
-					if(col1.getOrderLevel() > col2.getOrderLevel()){
+					if(col1.getSortLevel() > col2.getSortLevel()){
 						result = 1;//the higher the order level, the lower the ordering priority 
 					}else{
-						if(col1.getOrderLevel() <  col2.getOrderLevel()){
+						if(col1.getSortLevel() <  col2.getSortLevel()){
 							result = -1;
 						}else{
 							LOGGER.warn("Two columns having the same order priority found. Wrong configuration !"); 
@@ -58,10 +60,11 @@ public class NewRowComparator implements Comparator<NewRowEvent> {
 	 * @param groupCols
 	 * @param dataCols
 	 */
-	public NewRowComparator(List<GroupColumn> groupCols, List<DataColumn> dataCols){
+	public NewRowComparator(List<GroupColumn> groupCols, 
+							List<DataColumn> dataCols){
 		this.groupCols = groupCols; 
 		for (DataColumn dataColumn : dataCols) {
-			if(dataColumn.getOrderLevel() > AbstractDataColumn.NO_ORDER){
+			if(dataColumn.getSortLevel() > AbstractDataColumn.NO_SORTING){
 				dataColsHavingOrdering.add(dataColumn); 
 			}
 		}
@@ -73,27 +76,28 @@ public class NewRowComparator implements Comparator<NewRowEvent> {
 	 */
 	public int compare(NewRowEvent row1, NewRowEvent row2) {
 		int result = 0;
-		
+		//LOGGER.debug("comparing rows {} and {}", row1, row2); 
 		for (GroupColumn groupCol : groupCols) {
+			//LOGGER.debug("for group column {}", groupCol); 
 			Comparable valueRow1 = (Comparable)groupCol.getValue(row1);
 			Comparable valueRow2 = (Comparable)groupCol.getValue(row2); 
 			
-			int valueComparison = valueRow1.compareTo(valueRow2); 
-			if(valueComparison != 0){
-				result = valueComparison; 
+			result = valueRow1.compareTo(valueRow2) * groupCol.getSortType().getSignum(); 
+			//LOGGER.debug("comparing row1 value {} with row2 value {} resulted in {} ", valueRow1, valueRow2, result); 
+			if(result != 0){
 				break; 
 			}
 		}
 		
 		if(result == 0 && !dataColsHavingOrdering.isEmpty()){
+			//LOGGER.debug("group cols values are equals ...now comparing data columns"); 
 			for (DataColumn dataCol : dataColsHavingOrdering) {
-				//LOGGER.info("comparing rows for data cols {} ", dataCol.getHeader()); 
 				Comparable valueRow1 = (Comparable)dataCol.getValue(row1); 
 				Comparable valueRow2 = (Comparable)dataCol.getValue(row2); 
 				
-				int valueComparison = valueRow1.compareTo(valueRow2); 
-				if(valueComparison != 0){
-					result = valueComparison; 
+				result = valueRow1.compareTo(valueRow2) * dataCol.getSortType().getSignum(); 
+				//LOGGER.trace("comparing row 1 value {} with row2 value {} resulted in {}", valueRow1, valueRow2, result); 
+				if(result != 0){
 					break; 
 				}
 			}

@@ -103,26 +103,76 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 								Format formatter, 
 								HorizAlign horizAlign, 
 								boolean showDuplicates){
-		super(header, groupingLevel, formatter, horizAlign, showDuplicates);
+		this(header, inputColumnIndex, groupingLevel, formatter, horizAlign, VertAlign.MIDDLE, showDuplicates); 
+	}
+	
+	/**
+	 * 
+	 * @param header
+	 * @param inputColumnIndex
+	 * @param groupingLevel
+	 * @param formatter
+	 * @param horizAlign
+	 * @param showDuplicates
+	 */
+	public DefaultGroupColumn(	String header, 
+								int inputColumnIndex, 
+								int groupingLevel, 
+								Format formatter, 
+								HorizAlign horizAlign,
+								VertAlign vertAlign, 
+								boolean showDuplicates){
+		this(header, inputColumnIndex, groupingLevel, formatter, horizAlign, vertAlign, showDuplicates, SortType.ASC); 
+	}
+	
+	
+	/**
+	 * 
+	 * @param header
+	 * @param inputColumnIndex
+	 * @param groupingLevel
+	 * @param formatter
+	 * @param horizAlign
+	 * @param showDuplicates
+	 */
+	public DefaultGroupColumn(	String header, 
+								int inputColumnIndex, 
+								int groupingLevel, 
+								Format formatter, 
+								HorizAlign horizAlign,
+								VertAlign vertAlign, 
+								boolean showDuplicates, 
+								SortType sortType){
+		super(header, groupingLevel, formatter, horizAlign, vertAlign, showDuplicates, sortType);
 		setInputColumnIndex(inputColumnIndex);
 	}
 	
-
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.config.GroupColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
 	public Object getValue(NewRowEvent newRowEvent) {
 		return newRowEvent.getInputDataRow().get(inputColumnIndex);
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getInputColumnIndex() {
 		return inputColumnIndex;
 	}
-
+	
+	/**
+	 * 
+	 * @param inputColumnIndex
+	 */
 	public void setInputColumnIndex(int inputColumnIndex) {
 		this.inputColumnIndex = inputColumnIndex;
 	}
 	
+	/**
+	 * 
+	 */
 	public String toString(){
 		StringBuilder result = new StringBuilder("DefaultGroupColumn[");
 		result.append("inputIdx=").append(inputColumnIndex);
@@ -130,8 +180,8 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 		result.append(", header=").append(getHeader());
 		result.append(", hAlign=").append(getHorizAlign());
 		result.append(", formatter=").append(getFormatter());
+		result.append(", sortType=").append(getSortType()); 
 		result.append("]");
 		return result.toString(); 
 	}
-	
 }
