@@ -63,4 +63,8 @@ public class SecondProcessGroupColumn implements GroupColumn {
 	public boolean showDuplicates(){
 		return originalGroupColumn.showDuplicates(); 
 	}
+	
+	public SortType getSortType(){
+		return originalGroupColumn.getSortType(); 
+	}
 }

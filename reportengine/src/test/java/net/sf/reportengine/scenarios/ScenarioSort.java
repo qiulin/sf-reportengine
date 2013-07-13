@@ -21,7 +21,7 @@ import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 
 /**
- * @author dragos
+ * @author dragos balan
  *
  */
 public class ScenarioSort {
@@ -62,12 +62,12 @@ public class ScenarioSort {
 			new DefaultDataColumn("col 5", 5, Calculators.SUM)
 	});
 	
-	 public final static Calculator[][] ROW_6_CALCULATORS_RESULTS = new Calculator[][]{
+	public final static Calculator[][] ROW_6_CALCULATORS_RESULTS = new Calculator[][]{
 	    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
 	    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
 	    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
 	    	new Calculator[]{new MockCalculator(new BigDecimal(6)),new MockCalculator(new BigDecimal(14))}
-		};
+	};
 	
 	public final static CellProps[][] EXPECTED_OUTPUT_SORTED = new CellProps[][]{
 		
@@ -80,6 +80,7 @@ public class ScenarioSort {
 				new CellProps.Builder(ROW_OF_DATA_5.get(4)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_5.get(5)).build() 
 		},
+		
 		//displayed on row 2
 		new CellProps[]{
 				new CellProps.Builder(ROW_OF_DATA_4.get(0)).build(), 
@@ -109,6 +110,7 @@ public class ScenarioSort {
 				new CellProps.Builder(ROW_OF_DATA_2.get(4)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_2.get(5)).build() 
 		},
+		
 		//displayed on row 5
 		new CellProps[]{
 				new CellProps.Builder(ROW_OF_DATA_1.get(0)).build(), 

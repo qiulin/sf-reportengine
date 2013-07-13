@@ -20,6 +20,7 @@ import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.Scenario2x3x1;
 import net.sf.reportengine.scenarios.ScenarioFormatedValues;
 import net.sf.reportengine.scenarios.ScenarioSort;
+import net.sf.reportengine.scenarios.SortScenarioOnlyDataColsCount;
 import net.sf.reportengine.util.MatrixUtils;
 import net.sf.reportengine.util.ReportIoUtils;
 
@@ -266,5 +267,20 @@ public class TestFlatReport {
 		
 		Assert.assertTrue(MatrixUtils.compareMatrices(	mockOut.getDataCellMatrix(), 
 														ScenarioSort.EXPECTED_OUTPUT_SORTED));
+	}
+	
+	@Test
+	public void testExecuteWithSortingOnDataCols(){
+		FlatReport flatReport = new FlatReport();	
+		flatReport.setGroupValuesSorted(false); 
+		
+		flatReport.setIn(SortScenarioOnlyDataColsCount.INPUT);
+		flatReport.setOut(new PdfOutput("./target/testSortingOnDataCols.pdf"));
+		flatReport.setDataColumns(SortScenarioOnlyDataColsCount.DATA_COLUMNS);
+		flatReport.setGroupColumns(SortScenarioOnlyDataColsCount.GROUPING_COLUMNS);
+		flatReport.setShowTotals(false);
+		flatReport.setShowDataRows(true);
+		flatReport.setShowGrandTotal(true);
+		flatReport.execute();
 	}
 }

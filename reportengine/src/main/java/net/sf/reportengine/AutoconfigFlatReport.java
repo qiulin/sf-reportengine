@@ -116,7 +116,7 @@ public class AutoconfigFlatReport extends AbstractReport {
      */
     private Algorithm configReportAlgo(){
     	MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(); 
-    	//the init steps
+    	//the initial steps
     	algorithm.addInitStep(new ConfigFlatIOInitStep()); 
 		algorithm.addInitStep(new OpenReportIOInitStep()); 
     	algorithm.addInitStep(new InitReportDataInitStep()); 
