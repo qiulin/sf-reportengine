@@ -2,7 +2,9 @@ package net.sf.reportengine.in;
 
 import java.text.Format;
 
+import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.HorizAlign;
+import net.sf.reportengine.config.SortType;
 import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.calc.Calculator;
 
@@ -13,6 +15,8 @@ import net.sf.reportengine.core.calc.Calculator;
  * @since 0.8
  */
 public class ColumnPreferences {
+	
+	public static int DEFAULT_SORT_LEVEL = Integer.MAX_VALUE; 
 	
 	/**
 	 * the column header
@@ -43,6 +47,16 @@ public class ColumnPreferences {
 	 * the calculator
 	 */
 	private Calculator calculator = null; 
+	
+	/**
+	 * 
+	 */
+	private int sortLevel = DataColumn.NO_SORTING; 
+	
+	/**
+	 * 
+	 */
+	private SortType sortType = null; 
 	
 	
 	/**
@@ -130,4 +144,32 @@ public class ColumnPreferences {
 		this.calculator = calculator;
 		return this; 
 	} 
+	
+	public ColumnPreferences sortAsc(int sortLevel){
+		this.sortLevel = sortLevel; 
+		this.sortType = SortType.ASC; 
+		return this; 
+	}
+	
+	public ColumnPreferences sortAsc(){
+		return this.sortAsc(DEFAULT_SORT_LEVEL); 
+	}
+	
+	public ColumnPreferences sortDesc(int sortLevel){
+		this.sortLevel = sortLevel;
+		this.sortType = SortType.DESC; 
+		return this; 
+	}
+	
+	public ColumnPreferences sortDesc(){
+		return this.sortDesc(DEFAULT_SORT_LEVEL); 
+	}
+	
+	public int getSortLevel(){
+		return sortLevel; 
+	}
+	
+	public SortType getSortType(){
+		return sortType; 
+	}
 }
