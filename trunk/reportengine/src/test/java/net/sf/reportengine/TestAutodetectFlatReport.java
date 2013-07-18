@@ -12,7 +12,6 @@ import net.sf.reportengine.in.SqlInput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.scenarios.AutodetectConfigurationScenario;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -73,16 +72,16 @@ public class TestAutodetectFlatReport {
 		flatReport.setIn(input); 
 		flatReport.setOut(new HtmlOutput("./target/AutodetectFromSqlWithUserPrefs.html")); 
 		
-		flatReport.forColumn("COUNTRY").setHAlign(HorizAlign.RIGHT).setVAlign(VertAlign.TOP).setHeader("Changed header").setGroup(true); 
-		flatReport.forColumn("VALUE").setVAlign(VertAlign.BOTTOM).setCalculator(Calculators.SUM).setFormatter(NumberFormat.getCurrencyInstance()); 
-		flatReport.forColumn("REGION").setGroup(true); 
-		flatReport.forColumn("CITY").setGroup(true); 
+		flatReport.forColumn("COUNTRY").setHAlign(HorizAlign.RIGHT).setVAlign(VertAlign.TOP).setHeader("Changed header").group(); 
+		flatReport.forColumn("VALUE").setVAlign(VertAlign.BOTTOM).useCalculator(Calculators.SUM).useFormatter(NumberFormat.getCurrencyInstance()); 
+		flatReport.forColumn("REGION").group(); 
+		flatReport.forColumn("CITY").group(); 
 		
 		flatReport.execute();
 	}
 	
 	@Test
-	public void testAutodetectFromDatabaseWithNoOrder(){
+	public void testAutodetectFromDatabaseWithNoDeclaredOrderButSortedInternally(){
 		AutoconfigFlatReport flatReport = new AutoconfigFlatReport(); 
 		SqlInput input = new SqlInput(); 
 		input.setDbUser("SA");
@@ -93,12 +92,47 @@ public class TestAutodetectFlatReport {
 		flatReport.setIn(input); 
 		flatReport.setOut(new HtmlOutput("./target/AutodetFrmSqlWithUserPrefsButOrderedInternally.html")); 
 		
-		flatReport.setGroupValuesSorted(false); 
+		flatReport.setValuesSorted(false); 
 		
-		flatReport.forColumn("COUNTRY").setHAlign(HorizAlign.RIGHT).setHeader("Changed header").setGroup(true); 
-		flatReport.forColumn("VALUE").setCalculator(Calculators.SUM).setFormatter(NumberFormat.getCurrencyInstance()); 
-		flatReport.forColumn("REGION").setGroup(true); 
-		flatReport.forColumn("CITY").setGroup(true); 
+		flatReport.forColumn("COUNTRY").setHAlign(HorizAlign.RIGHT).setHeader("Changed header").group(); 
+		flatReport.forColumn("VALUE").useCalculator(Calculators.SUM).useFormatter(NumberFormat.getCurrencyInstance()); 
+		flatReport.forColumn("REGION").group(); 
+		flatReport.forColumn("CITY").group(); 
+		
+		flatReport.execute();
+	}
+	
+	@Test
+	public void testAutodetectFromDatabaseWithProgramaticOrderingAndNonGroupColumnSorted(){
+		AutoconfigFlatReport flatReport = new AutoconfigFlatReport.Builder()
+					.title("Report with programatic ordering for non-grouping columns")
+					.sortValues()
+					.build(); 
+		SqlInput input = new SqlInput(); 
+		input.setDbUser("SA");
+		input.setDbPassword("");
+		input.setDbDriverClass("org.hsqldb.jdbcDriver");
+		input.setDbConnString("jdbc:hsqldb:file:./src/test/resources/databases/testdb");
+		input.setSqlStatement("select country, region, city, sex, religion, value from testreport t "); //order by country, region, city
+		flatReport.setIn(input); 
+		flatReport.setOut(new HtmlOutput("./target/AutodetFrmSqlWithProgrOrderingAndNonGroupColSorted.html")); 
+		
+		flatReport.forColumn("COUNTRY")	.setHAlign(HorizAlign.RIGHT)
+										.setHeader("Changed header")
+										.group();
+		
+		flatReport.forColumn("SEX")	.setHeader("Sorted ASC programatically with priority 1")
+									.sortAsc(0); 
+		flatReport.forColumn("VALUE")	.setHeader("Sorted ASC programatically with priority 2")
+										.useCalculator(Calculators.SUM)
+										.useFormatter(NumberFormat.getCurrencyInstance())
+										.sortAsc(1); //non group column sorted
+		
+		flatReport.forColumn("REGION").group();	
+		
+		flatReport.forColumn("CITY").group();
+		
+										
 		
 		flatReport.execute();
 	}

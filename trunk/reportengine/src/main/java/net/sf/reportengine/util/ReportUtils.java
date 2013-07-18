@@ -115,7 +115,12 @@ public final class ReportUtils {
 		result.setVertAlign(prefs.getVertAlign() != null ? prefs.getVertAlign() : VertAlign.MIDDLE);
 		result.setInputColumnIndex(columnIndex);
 		result.setCalculator(prefs.getCalculator()); 
-		result.setFormatter(prefs.getFormatter()); 
+		result.setFormatter(prefs.getFormatter());
+		
+		if(prefs.getSortLevel() > DataColumn.NO_SORTING){
+			result.setSortLevel(prefs.getSortLevel() == ColumnPreferences.DEFAULT_SORT_LEVEL ? columnIndex : prefs.getSortLevel()); 
+			result.setSortType(prefs.getSortType()); 
+		}
 		
 		return result; 
 	}
@@ -151,7 +156,11 @@ public final class ReportUtils {
 		result.setHorizAlign(prefs.getHorizAlign() != null ? prefs.getHorizAlign() : metadata.getHorizontalAlign() != null ? metadata.getHorizontalAlign() : HorizAlign.CENTER); 
 		result.setVertAlign(prefs.getVertAlign() != null ? prefs.getVertAlign() : VertAlign.MIDDLE); 
 		result.setInputColumnIndex(columnIndex);
-		result.setGroupingLevel(groupingLevel); 
+		result.setGroupingLevel(groupingLevel);
+		
+		if(prefs.getSortType() != null){
+			result.setSortType(prefs.getSortType()); 
+		}
 		
 		return result; 
 	}

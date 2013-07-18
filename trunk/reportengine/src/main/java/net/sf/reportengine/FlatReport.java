@@ -105,6 +105,17 @@ public class FlatReport extends AbstractColumnBasedReport {
     public FlatReport(){
     }
     
+    /**
+     * 
+     * @param builder
+     */
+    private FlatReport(Builder builder){
+    	this.setShowDataRows(builder.showDataRows); 
+    	this.setShowGrandTotal(builder.showGrandTotal); 
+    	this.setShowTotals(builder.showTotals);
+    	this.setValuesSorted(builder.valuesSorted); 
+    	this.setTitle(builder.reportTitle); 
+    }
     
     /**
      * reportAlgo configuration 
@@ -119,9 +130,9 @@ public class FlatReport extends AbstractColumnBasedReport {
     	reportAlgoContainer.addIn(IOKeys.GROUP_COLS, getGroupColumns()); 
     	reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, getShowTotals()); 
     	reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
-    	reportAlgoContainer.addIn(IOKeys.HAS_GROUP_VALUES_ORDERED, hasGroupValuesSorted()); 
+    	reportAlgoContainer.addIn(IOKeys.HAS_GROUP_VALUES_ORDERED, hasValuesSorted()); 
     	
-    	if(!hasGroupValuesSorted()){
+    	if(!hasValuesSorted()){
     		reportAlgoContainer.addAlgo(configSortingAlgo()); 
     	}
     	reportAlgoContainer.addAlgo(configReportAlgo()); 
@@ -211,5 +222,48 @@ public class FlatReport extends AbstractColumnBasedReport {
     	validate(); 
         config();
         reportAlgoContainer.execute(); 
+    }
+    
+    public static class Builder {
+    	
+    	private String reportTitle = null; 
+    	private boolean showTotals = true; 
+    	private boolean showGrandTotal = true; 
+    	private boolean showDataRows = true; 
+    	private boolean valuesSorted = true; 
+    	
+    	
+    	public Builder() {
+    		
+    	}
+    	
+    	public Builder title(String title){
+    		this.reportTitle = title; 
+    		return this; 
+    	}
+    	
+    	public Builder showTotals(boolean show){
+    		this.showTotals = show; 
+    		return this; 
+    	}
+    	
+    	public Builder showGrandTotal(boolean show){
+    		this.showGrandTotal = show; 
+    		return this; 
+    	}
+    	
+    	public Builder showDataRows(boolean show){
+    		this.showDataRows = show; 
+    		return this; 
+    	}
+    	
+    	public Builder sortValues(){
+    		this.valuesSorted = false; 
+    		return this; 
+    	}
+    	
+    	public FlatReport build(){
+    		return new FlatReport(this); 
+    	}
     }
 }
