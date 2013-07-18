@@ -6,6 +6,7 @@ package net.sf.reportengine;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.reportengine.FlatReport.Builder;
 import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
 import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
@@ -64,6 +65,18 @@ public class AutoconfigFlatReport extends AbstractReport {
     public AutoconfigFlatReport(){}
     
     /**
+     * 
+     * @param builder
+     */
+    private AutoconfigFlatReport(Builder builder){
+    	this.setShowDataRows(builder.showDataRows); 
+    	this.setShowTotals(builder.showTotals); 
+    	this.setShowGrandTotal(builder.showGrandTotal); 
+    	this.setValuesSorted(builder.valuesSorted); 
+    	this.setTitle(builder.reportTitle); 
+    }
+    
+    /**
      * validates the report
      */
     @Override protected void validate(){
@@ -84,9 +97,9 @@ public class AutoconfigFlatReport extends AbstractReport {
     	reportAlgoContainer.addIn(IOKeys.USER_COLUMN_PREFERENCES, userColumnPrefs); 
     	reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, getShowTotals()); 
     	reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
-    	reportAlgoContainer.addIn(IOKeys.HAS_GROUP_VALUES_ORDERED, hasGroupValuesSorted()); 
+    	reportAlgoContainer.addIn(IOKeys.HAS_GROUP_VALUES_ORDERED, hasValuesSorted()); 
     	
-    	if(!hasGroupValuesSorted()){
+    	if(!hasValuesSorted()){
     		reportAlgoContainer.addAlgo(configSortingAlgo()); 
     	}
     	
@@ -120,7 +133,7 @@ public class AutoconfigFlatReport extends AbstractReport {
     	algorithm.addInitStep(new ConfigFlatIOInitStep()); 
 		algorithm.addInitStep(new OpenReportIOInitStep()); 
     	algorithm.addInitStep(new InitReportDataInitStep()); 
-    	if(hasGroupValuesSorted()){
+    	if(hasValuesSorted()){
     		//if the report has group values already sorted 
     		//then the configuration has not been detected using 
     		//the previous algorithm
@@ -187,4 +200,47 @@ public class AutoconfigFlatReport extends AbstractReport {
 		config(); 
 		reportAlgoContainer.execute(); 
 	}
+	
+	public static class Builder {
+    	
+    	private String reportTitle = null; 
+    	private boolean showTotals = true; 
+    	private boolean showGrandTotal = true; 
+    	private boolean showDataRows = true; 
+    	private boolean valuesSorted = true; 
+    	
+    	
+    	public Builder() {
+    		
+    	}
+    	
+    	public Builder title(String title){
+    		this.reportTitle = title; 
+    		return this; 
+    	}
+    	
+    	public Builder showTotals(boolean show){
+    		this.showTotals = show; 
+    		return this; 
+    	}
+    	
+    	public Builder showGrandTotal(boolean show){
+    		this.showGrandTotal = show; 
+    		return this; 
+    	}
+    	
+    	public Builder showDataRows(boolean show){
+    		this.showDataRows = show; 
+    		return this; 
+    	}
+    	
+    	public Builder sortValues(){
+    		this.valuesSorted = false; 
+    		return this; 
+    	}
+    	
+    	public AutoconfigFlatReport build(){
+    		return new AutoconfigFlatReport(this); 
+    	}
+    }
 }

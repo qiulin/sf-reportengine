@@ -83,8 +83,8 @@ public class ColumnPreferences {
 	/**
 	 * @param isGroup the isGroup to set
 	 */
-	public ColumnPreferences setGroup(boolean isGroup) {
-		this.isGroup = isGroup;
+	public ColumnPreferences group() {
+		this.isGroup = true;
 		return this; 
 	}
 	/**
@@ -127,7 +127,7 @@ public class ColumnPreferences {
 	/**
 	 * @param formatter the formatter to set
 	 */
-	public ColumnPreferences setFormatter(Format formatter) {
+	public ColumnPreferences useFormatter(Format formatter) {
 		this.formatter = formatter;
 		return this; 
 	}
@@ -140,7 +140,7 @@ public class ColumnPreferences {
 	/**
 	 * @param calculator the calculator to set
 	 */
-	public ColumnPreferences setCalculator(Calculator calculator) {
+	public ColumnPreferences useCalculator(Calculator calculator) {
 		this.calculator = calculator;
 		return this; 
 	} 

@@ -42,11 +42,11 @@ public class TestReportUtils extends TestCase {
 		//prepare first test: AS MANY USER PREFS AS METADATA COLS
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
-		column1Prefs.setGroup(false).setHeader("Header Data Col 1").setHAlign(HorizAlign.LEFT); 
+		column1Prefs.setHeader("Header Data Col 1").setHAlign(HorizAlign.LEFT); 
 		userPrefs.put("col1", column1Prefs); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
-		column2Prefs.setGroup(false).setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
+		column2Prefs.setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
 		userPrefs.put("col2", column2Prefs);
 		
 		//the method to test
@@ -63,11 +63,11 @@ public class TestReportUtils extends TestCase {
 		//prepare second test: MORE USER PREFERENCES THAN METADATA
 		userPrefs = new HashMap<String, ColumnPreferences>(); 
 		column1Prefs = new ColumnPreferences(); 
-		column1Prefs.setGroup(false).setHeader("Header Data Col 1").setHAlign(HorizAlign.LEFT); 
+		column1Prefs.setHeader("Header Data Col 1").setHAlign(HorizAlign.LEFT); 
 		userPrefs.put("col1", column1Prefs); 
 		
 		column2Prefs = new ColumnPreferences(); 
-		column2Prefs.setGroup(false).setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
+		column2Prefs.setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
 		userPrefs.put("col3", column2Prefs);//NOT TAKEN INTO ACCCOUNT BECAUSE THERE is no metadata with id col3
 		
 		//test the result
@@ -82,7 +82,7 @@ public class TestReportUtils extends TestCase {
 		
 		//prepare the third test: less preferences than metadata
 		column1Prefs = new ColumnPreferences(); 
-		column1Prefs.setGroup(false).setHeader("Second Column Prefs").setHAlign(HorizAlign.LEFT); 
+		column1Prefs.setHeader("Second Column Prefs").setHAlign(HorizAlign.LEFT); 
 		
 		userPrefs = new HashMap<String, ColumnPreferences>(); 
 		userPrefs.put("col2", column1Prefs); 
@@ -103,11 +103,11 @@ public class TestReportUtils extends TestCase {
 		//prepare first test: AS MANY USER PREFS AS METADATA COLS
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
-		column1Prefs.setGroup(false).setHeader("Header Data Col 1").setHAlign(HorizAlign.LEFT); 
+		column1Prefs.setHeader("Header Data Col 1").setHAlign(HorizAlign.LEFT); 
 		userPrefs.put("col1", column1Prefs); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
-		column2Prefs.setGroup(false).setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
+		column2Prefs.setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
 		userPrefs.put("col2", column2Prefs);
 		
 		//the method to test
@@ -122,11 +122,11 @@ public class TestReportUtils extends TestCase {
 		//prepare second test: MORE USER PREFERENCES THAN METADATA
 		userPrefs = new HashMap<String, ColumnPreferences>(); 
 		column1Prefs = new ColumnPreferences(); 
-		column1Prefs.setGroup(false).setHeader("Header Data Col 1").setHAlign(HorizAlign.LEFT); 
+		column1Prefs.setHeader("Header Data Col 1").setHAlign(HorizAlign.LEFT); 
 		userPrefs.put("col1", column1Prefs); 
 		
 		column2Prefs = new ColumnPreferences(); 
-		column2Prefs.setGroup(false).setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
+		column2Prefs.setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
 		userPrefs.put("col3", column2Prefs);//NOT TAKEN INTO ACCCOUNT BECAUSE THERE is no metadata with id col3
 		
 		//test the result
@@ -140,7 +140,7 @@ public class TestReportUtils extends TestCase {
 		
 		//prepare the third test: less preferences than metadata
 		column1Prefs = new ColumnPreferences(); 
-		column1Prefs.setGroup(false).setHeader("Second Column Prefs").setHAlign(HorizAlign.LEFT); 
+		column1Prefs.setHeader("Second Column Prefs").setHAlign(HorizAlign.LEFT); 
 		
 		userPrefs = new HashMap<String, ColumnPreferences>(); 
 		userPrefs.put("col2", column1Prefs); 
@@ -153,5 +153,4 @@ public class TestReportUtils extends TestCase {
 		assertNotNull(groupCols);
 		assertEquals(0, groupCols.size());
 	}
-
 }

@@ -252,7 +252,7 @@ public class TestFlatReport {
 	@Test
 	public void testExecuteWithSorting(){
 		FlatReport flatReport = new FlatReport();	
-		flatReport.setGroupValuesSorted(false); 
+		flatReport.setValuesSorted(false); 
 		
 		CellPropsArrayOutput mockOut = new CellPropsArrayOutput();
 		
@@ -272,7 +272,7 @@ public class TestFlatReport {
 	@Test
 	public void testExecuteWithSortingOnDataCols(){
 		FlatReport flatReport = new FlatReport();	
-		flatReport.setGroupValuesSorted(false); 
+		flatReport.setValuesSorted(false); 
 		
 		flatReport.setIn(SortScenarioOnlyDataColsCount.INPUT);
 		flatReport.setOut(new PdfOutput("./target/testSortingOnDataCols.pdf"));

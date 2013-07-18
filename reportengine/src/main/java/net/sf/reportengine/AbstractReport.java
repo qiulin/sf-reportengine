@@ -73,7 +73,7 @@ abstract class AbstractReport {
      * By default we'll assume this flag is set to true because 
      * the sorting will slow the reporting process. 
      */
-    private boolean groupValuesSorted = true; 
+    private boolean valuesSorted = true; 
     
     /**
      * this is a constructor for 
@@ -97,8 +97,7 @@ abstract class AbstractReport {
     }
     
     /**
-     * call this method to execute the report after you've validated and configured it. 
-     * Most probably you'll need to call {@link #config()} and {@link #validate()} inside
+     * call this method to execute the report.
      */
     public abstract void execute();
     
@@ -199,16 +198,17 @@ abstract class AbstractReport {
     }
 
 	/**
-	 * @return the groupValuesSorted
+	 * @return the valuesSorted
 	 */
-	public boolean hasGroupValuesSorted() {
-		return groupValuesSorted;
+	public boolean hasValuesSorted() {
+		return valuesSorted;
 	}
 
 	/**
-	 * @param groupValuesSorted the groupValuesSorted to set
+	 * Tells the report if your input already has the values sorted. 
+	 * @param valuesSorted the valuesSorted to set
 	 */
-	public void setGroupValuesSorted(boolean alreadySorted) {
-		this.groupValuesSorted = alreadySorted;
+	public void setValuesSorted(boolean valuesAlreadySorted) {
+		this.valuesSorted = valuesAlreadySorted;
 	}
 }
