@@ -80,12 +80,18 @@ public class SqlInput extends AbstractReportInput {
     private Connection dbConnection;
     
     /**
+     * whether the dbConnection has been constructed internally and therefore managed (opened/closed) internally 
+     * or not. 
+     */
+    private boolean dbConnManagedInternally = true; 
+    
+    /**
      * columns count
      */
     private int columnsCount = Integer.MIN_VALUE;
     
     /**
-     * the result set holding query resutls
+     * the result set holding query results
      */
     private ResultSet resultSet;
     
@@ -120,7 +126,7 @@ public class SqlInput extends AbstractReportInput {
     
     
     /**
-     * this is the preffered way to construct this provider
+     * this is the preferred way to construct this provider
      * @param dbConnString      the database connection string 
      * @param driverClass       the driver fully qualified class name
      * @param dbUser            the database user
@@ -153,7 +159,21 @@ public class SqlInput extends AbstractReportInput {
     public void open() {
     	super.open();
     	try {
-			readMetaData();
+    		if(dbConnection == null){
+    			LOGGER.info("creating an internal managed connection to the database..."); 
+                initDBConnection();
+                dbConnManagedInternally = true; 
+            }else{
+            	LOGGER.info("using provided connection..."); 
+            	dbConnManagedInternally = false; 
+            }
+    		
+    		//executing the sql
+    		resultSet = executeSql(); 
+    		
+    		//now reading the metadata
+			setColumnMetadata(readMetaData(resultSet));
+			
 			hasMoreRows = resultSet.first();	            
 		} catch (SQLException e) {
 			closeDbConnection();
@@ -168,8 +188,8 @@ public class SqlInput extends AbstractReportInput {
      * Closes the input meaning : "the reading session it's done !"
      */
     public void close() throws ReportInputException {
-    	super.close();
         closeDbConnection();
+        super.close();
     }
     
     /**
@@ -180,20 +200,16 @@ public class SqlInput extends AbstractReportInput {
             if(resultSet != null ){
                 resultSet.close();
             }
-            if(dbConnection != null && !dbConnection.isClosed()){
+            if(dbConnManagedInternally && dbConnection != null && !dbConnection.isClosed()){
+            	LOGGER.info("closing internally managed db connection .. "); 
                 dbConnection.close();
+            }else{
+            	LOGGER.info("external db connection not closed."); 
             }
         } catch (SQLException e) {
             throw new ReportInputException("SQL Error when closing Input ! See the cause !", e);            
         }
 	}
-    
-    /**
-     * returns the number of columns
-     */
-    public int getColumnsCount(){
-        return columnsCount;
-    }
     
     /**
      * returns the next row
@@ -228,6 +244,72 @@ public class SqlInput extends AbstractReportInput {
     public boolean hasMoreRows() {
         return hasMoreRows;
         
+    }
+    
+    
+    
+    
+    private ResultSet executeSql() throws SQLException{
+    	LOGGER.info("executing query {} ", sqlStatement);
+    	PreparedStatement stmt = dbConnection.prepareStatement(sqlStatement,   
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
+
+		
+		return stmt.executeQuery();
+    }
+    
+    
+    /**
+     * reads the metadata from the result set for getting the 
+     * column names, column types and other 
+     * 
+     * @throws ReportInputException
+     */
+    private List<ColumnMetadata> readMetaData(ResultSet rs) throws SQLException{
+    	LOGGER.info("reading input metadata..."); 
+        columnsCount = rs.getMetaData().getColumnCount(); 
+        return extractMetadata(resultSet.getMetaData()); 
+    }
+    
+    /**
+     * 
+     * @param rsMetadata
+     * @return
+     * @throws SQLException
+     */
+    private List<ColumnMetadata> extractMetadata(ResultSetMetaData rsMetadata) throws SQLException{
+    	List<ColumnMetadata> columnMetadata = new ArrayList<ColumnMetadata>(rsMetadata.getColumnCount());
+        //looping through columns to get their type
+        for(int i=0; i < columnsCount; i++){
+        	columnMetadata.add(new ColumnMetadata(	rsMetadata.getColumnName(i+1), 
+													rsMetadata.getColumnLabel(i+1), 
+													getAlignmentFromColumnType(rsMetadata.getColumnType(i+1)))); 
+        }
+        return columnMetadata; 
+    }
+    
+    
+    /**
+     * 
+     * @param colType
+     * @return
+     */
+    private HorizAlign getAlignmentFromColumnType(int colType){
+    	HorizAlign result = null; 
+    	if(	colType == INTEGER || colType == BIGINT || colType == DECIMAL || colType == DOUBLE 
+    		|| colType == NUMERIC || colType == FLOAT ||  colType == REAL
+    		|| colType == SMALLINT || colType == TINYINT){
+    		result = HorizAlign.RIGHT; 
+    	}else{
+    		if(colType == LONGNVARCHAR || colType == NCHAR || colType == NVARCHAR || colType == VARCHAR){
+    			result = HorizAlign.LEFT; 
+    		}else{
+    			result = HorizAlign.CENTER; 
+    		}
+    	}
+    	
+    	return result; 
     }
     
     /**
@@ -302,85 +384,15 @@ public class SqlInput extends AbstractReportInput {
     
     /**
      * database connection setter . 
-     * Use this method to avoid the lazy database connection construction  
-     * Please note that when using this method you are not required to 
+     * Use this method to avoid the internal database connection construction  
+     * Note 1 :When using this method you are not required to 
      * provide dbUser, password or any other parameters 
+     * 
+     * Note 2: this class will not not touch the connection ( no open / close)
      * 
      * @param conn  the connection 
      */
     public void setConnection(Connection conn){
         this.dbConnection = conn;
-    }
-    
-    /**
-     * getter for database connection
-     * @return  the database connectio 
-     */
-    public Connection getConnection(){
-        return this.dbConnection;
-    }
-    
-    /**
-     * reads the metadata from the result set for getting the 
-     * column names, column types and other 
-     * 
-     * @throws ReportInputException
-     */
-    private void readMetaData() throws SQLException, ClassNotFoundException{
-    	LOGGER.debug("reading input metadata..."); 
-        if(dbConnection == null){
-            initDBConnection();
-        }
-        
-        PreparedStatement stmt = dbConnection.prepareStatement(sqlStatement,   
-                                ResultSet.TYPE_SCROLL_INSENSITIVE,
-                                ResultSet.CONCUR_READ_ONLY);
-        
-        //execute the statement : the return should be true 
-        //if it's a select query or false if it's an update
-        resultSet = stmt.executeQuery();
-        
-        columnsCount = resultSet.getMetaData().getColumnCount(); 
-        setColumnMetadata(extractMetadata(resultSet.getMetaData())); 
-    }
-    
-    /**
-     * 
-     * @param rsMetadata
-     * @return
-     * @throws SQLException
-     */
-    private List<ColumnMetadata> extractMetadata(ResultSetMetaData rsMetadata) throws SQLException{
-    	List<ColumnMetadata> columnMetadata = new ArrayList<ColumnMetadata>(rsMetadata.getColumnCount());
-        //looping through columns to get their type
-        for(int i=0; i < columnsCount; i++){
-        	columnMetadata.add(new ColumnMetadata(	rsMetadata.getColumnName(i+1), 
-													rsMetadata.getColumnLabel(i+1), 
-													getAlignmentFromColumnType(rsMetadata.getColumnType(i+1)))); 
-        }
-        return columnMetadata; 
-    }
-    
-    
-    /**
-     * 
-     * @param colType
-     * @return
-     */
-    private HorizAlign getAlignmentFromColumnType(int colType){
-    	HorizAlign result = null; 
-    	if(	colType == INTEGER || colType == BIGINT || colType == DECIMAL || colType == DOUBLE 
-    		|| colType == NUMERIC || colType == FLOAT ||  colType == REAL
-    		|| colType == SMALLINT || colType == TINYINT){
-    		result = HorizAlign.RIGHT; 
-    	}else{
-    		if(colType == LONGNVARCHAR || colType == NCHAR || colType == NVARCHAR || colType == VARCHAR){
-    			result = HorizAlign.LEFT; 
-    		}else{
-    			result = HorizAlign.CENTER; 
-    		}
-    	}
-    	
-    	return result; 
     }
 }

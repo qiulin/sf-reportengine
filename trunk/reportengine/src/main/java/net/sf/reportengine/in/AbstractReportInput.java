@@ -60,7 +60,7 @@ public abstract class AbstractReportInput implements ReportInput {
             throw new IllegalStateException("You cannot close an input which is not open !");
         }
         isOpen = false;
-    	LOGGER.debug("stream report input closed succesfully");
+    	LOGGER.debug("report input closed succesfully");
     }
     
     /**
