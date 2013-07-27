@@ -63,9 +63,8 @@ public class TestSqlInput extends TestCase {
 
     
     public void testNextAndHasMore(){
-    	SqlInput dataProvider = new SqlInput();
+    	SqlInput dataProvider = new SqlInput(testConnection);
     	dataProvider.setSqlStatement("select id, country, region, city, sex, religion, value from testreport t order by id");
-    	dataProvider.setConnection(testConnection); 
     	
         int currentRow = 0;
         try {
@@ -81,11 +80,31 @@ public class TestSqlInput extends TestCase {
             fail(e.getMessage()); 
         }
         assertEquals(currentRow, EXPECTED_DATA.length);
+        assertNotNull(testConnection); 
+        
+        try {
+        	//since testConnection is an external managed connection we need to make 
+        	//sure the connection is not closed by the SqlInput
+			assertFalse(testConnection.isClosed());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			fail("error encountered while checking if db connection is closed"); 
+		}
+        
+        //closing manually the connection so that all other 
+        //methods can re-create a connection ( for some reason the 
+        //hsqldb doesn't accept more than one connection a a time)
+        try {
+			testConnection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
     }
     
     public void testNonQuery(){
+    	SqlInput dataProvider = null; 
     	try{
-    		SqlInput dataProvider = new SqlInput(); 
+    		dataProvider = new SqlInput(); 
     		dataProvider.setDbConnString("jdbc:hsqldb:mem:testdb");
     		dataProvider.setDbDriverClass("org.hsqldb.jdbcDriver");
     		dataProvider.setDbUser("sa");
@@ -98,6 +117,8 @@ public class TestSqlInput extends TestCase {
     	}catch(Throwable e){
     		assertTrue(e.getCause() instanceof java.sql.SQLException);
     		assertEquals("statement does not generate a result set", e.getCause().getMessage()); 
+    	}finally{
+    		dataProvider.close(); 
     	}
     }
    
@@ -113,6 +134,8 @@ public class TestSqlInput extends TestCase {
     	assertNotNull(dataProvider.getColumnMetadata()); 
     	assertEquals(7, dataProvider.getColumnMetadata().size());
     	assertEquals("ID", dataProvider.getColumnMetadata().get(0).getColumnLabel());
+    	
+    	dataProvider.close(); 
     }
    
 }
