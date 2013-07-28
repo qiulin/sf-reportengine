@@ -1,0 +1,170 @@
+
+<script language="javascript" >
+	var thisBrowser; 
+	var timerID = null;
+	
+	function checkBrowser(){
+		if(document.layers){ 
+			thisBrowser='NN4'; 
+			//alert('netscape 4');
+		}
+		if(document.all){ 
+			thisBrowser='IE'; 
+			//alert('iexplore');
+		}
+		if(!document.all && document.getElementById){ 
+			thisBrowser='NN6';
+			//alert('netscape 6'); 
+		}
+	}
+	
+	checkBrowser();
+	
+	function showMenu(menuname){
+		if(thisBrowser=='NN4') document.layers[menuname].visibility = 'visible';
+		if(thisBrowser=='IE') document.all[menuname].style.visibility = 'visible';
+		if(thisBrowser=='NN6') document.getElementById(menuname).style.visibility = 'visible';
+		if(timerID) clearTimeout(timerID);
+	}
+	function hideMenu(menuname){
+		if(thisBrowser=='NN4') document.layers[menuname].visibility = 'hidden';
+		if(thisBrowser=='IE') document.all[menuname].style.visibility = 'hidden';
+		if(thisBrowser=='NN6') document.getElementById(menuname).style.visibility = 'hidden';
+	}
+	function hideAll()
+	{
+		hideMenu('submenu_applications');
+		hideMenu('submenu_docs');
+		hideMenu('submenu_help');
+		
+	}
+	function openMenu(menuname)
+	{
+		showMenu(menuname);
+		if(menuname!='submenu_help') hideMenu('submenu_help');
+		if(menuname!='submenu_applications') hideMenu('submenu_applications');
+		if(menuname!='submenu_docs') hideMenu('submenu_docs');
+	}
+	function timerMenu(){
+		if(timerID) 
+			clearTimeout(timerID);
+		timerID = setTimeout("hideAll();",1000);
+	}
+	
+</script>
+<table cellpadding="0" cellspacing="0" width="100%" style="margin:0px 0px 0px 0px;"> 
+	<tr>
+		<!-- banner -->
+		<td >
+			<IMG SRC="/img/re_banner.jpg" WIDTH="469px" HEIGHT="78px">
+		</td>
+	</tr>	
+	<tr>
+		<td>
+			<!-- starting the menu -->
+			<span id="menuspan">
+				<table id="menutable" width=500 cellpadding="0" cellspacing="2">
+					<tr>
+						<td class="topcell" onMouseOver="hideAll()">
+							<a href="/index.php" class="topitem" >Home</a>
+						</td>
+						<td class="topcell" onMouseOver="openMenu('submenu_applications')" 
+							onMouseOut="timerMenu();">
+							<a href="" class="topitem">Sourceforge</a>
+						</td>
+						<td class="topcell" onMouseOver="openMenu('submenu_docs')" 
+							onMouseOut="timerMenu();">
+							<a href="" class="topitem">Documentation</a>
+						</td>
+						<td class="topcell" onMouseOver="openMenu('submenu_help')" 
+							onMouseOut="timerMenu();">
+							<a href="" class="topitem" >Support</a>
+						</td>
+						<td class="topcell" onMouseOver="hideAll()">
+							<a href="http://sourceforge.net/project/showfiles.php?group_id=111375" class="topitem">Download</a>
+						</td>
+						<td class="topcell" onMouseOver="hideAll()">
+							<a href="http://ro.linkedin.com/in/dragosbalan" class="topitem">Author</a>
+						</td>
+					</tr>
+				</table>
+				<div id="submenu_applications">
+					<table id="submenutable" width=120 cellspacing=0>
+						<tr>
+							<td align=LEFT class="menucell" height=20 
+								onMouseOver="clearTimeout(timerID);" 
+								onMouseOut="timerMenu();">
+								<a href="http://www.sourceforge.net/projects/reportengine" class="subitem" >Report Engine</a>
+							</td>
+						</tr>
+						<tr>
+							<td align=LEFT class="menucell" height=20 
+								onMouseOver="clearTimeout(timerID);" 
+								onMouseOut="timerMenu();">
+								<a href="http://www.sourceforge.net/projects/reportdesigner" 
+									class="subitem" >Report Designer</a>
+							</td>
+						</tr>											
+					</table>
+				</div>
+				<div id="submenu_docs">
+					<table id="submenutable" width=100 cellspacing=0>
+						<tr>
+							<td align=LEFT class="menucell" height=20 
+								onMouseOver="clearTimeout(timerID);" 
+								onMouseOut="timerMenu();">
+								<a href="/html/tutorial/reportengine_tutorial.htm" 
+									class="subitem" >Tutorial</a>
+							</td>
+						</tr>
+						<tr>
+							<td align=LEFT class="menucell" height=20 
+								onMouseOver="clearTimeout(timerID);" 
+								onMouseOut="timerMenu();">
+								<a href="/html/apidocs/index.html" 
+									class="subitem" >JavaDoc</a>
+							</td>
+						</tr>													
+					</table>
+				</div>
+				<div id="submenu_help">
+					<table id="submenutable" width="120" cellspacing=0>
+						<tr>
+							<td align=LEFT class="menucell" height=20 
+								onMouseOver="clearTimeout(timerID);" 
+								onMouseOut="timerMenu();" >
+								<a href="https://sourceforge.net/projects/reportengine/forums" class="subitem" >Forums</a>
+							</td>
+						</tr>
+						<tr>
+							<td align=LEFT class="menucell" height=20 
+								onMouseOver="clearTimeout(timerID);" 
+								onMouseOut="timerMenu();" >
+								<a href="http://sourceforge.net/tracker/?group_id=111375&atid=659062" class="subitem">Support Request</a>
+							</td>
+						</tr>
+						<tr>
+							<td align=LEFT class="menucell" height=20 
+								onMouseOver="clearTimeout(timerID);" 
+								onMouseOut="timerMenu();" >
+								<a href="http://sourceforge.net/tracker/?group_id=111375&atid=659064" class="subitem">Feature Request</a>
+							</td>
+						</tr>
+						<tr>
+							<td align=LEFT class="menucell" height=20 
+								onMouseOver="clearTimeout(timerID);" 
+								onMouseOut="timerMenu();" >
+								<a href="http://sourceforge.net/tracker/?group_id=111375&atid=659061" class="subitem">Bug tracker</a>
+							</td>
+						</tr>						
+					</table>
+				</div>
+			</span>
+			<!-- end menu -->
+		</td>
+	</tr>
+</table>
+<!--
+</body>
+</html>
+-->
