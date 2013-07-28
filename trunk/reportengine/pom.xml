@@ -4,7 +4,7 @@
   <groupId>net.sf.reportengine</groupId>
   <artifactId>reportengine</artifactId>
   <packaging>jar</packaging>
-  <version>0.9.2</version>
+  <version>0.9.3-SNAPSHOT</version>
   
   <name>reportengine</name>
   <url>http://reportengine.sourceforge.net</url>
@@ -28,9 +28,9 @@
   </parent>
     
    <scm>
-	<connection>scm:svn:https://svn.code.sf.net/p/reportengine/code/tags/reportengine-0.9.2</connection>
-	<developerConnection>scm:svn:https://svn.code.sf.net/p/reportengine/code/tags/reportengine-0.9.2</developerConnection>
-	<url>https://svn.code.sf.net/p/reportengine/code/tags/reportengine-0.9.2</url>
+	<connection>scm:svn:https://svn.code.sf.net/p/reportengine/code/trunk/reportengine</connection>
+	<developerConnection>scm:svn:https://svn.code.sf.net/p/reportengine/code/trunk/reportengine</developerConnection>
+	<url>https://svn.code.sf.net/p/reportengine/code/trunk/reportengine</url>
    </scm>
   
   
