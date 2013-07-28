@@ -43,14 +43,6 @@ public class ArrayReportInput extends AbstractReportInput {
     	currentRow = 0;
     }
 
-    /**
-     * 
-     */
-    public void close() throws ReportInputException {
-       super.close(); 
-    }
-	
-	
 	public boolean hasMoreRows() {
 		return currentRow < data.length ;
 	}
