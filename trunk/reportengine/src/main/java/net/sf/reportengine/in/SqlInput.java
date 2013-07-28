@@ -247,8 +247,6 @@ public class SqlInput extends AbstractReportInput {
     }
     
     
-    
-    
     private ResultSet executeSql() throws SQLException{
     	LOGGER.info("executing query {} ", sqlStatement);
     	PreparedStatement stmt = dbConnection.prepareStatement(sqlStatement,   

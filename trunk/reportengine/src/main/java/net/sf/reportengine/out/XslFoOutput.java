@@ -42,6 +42,7 @@ import org.xml.sax.SAXException;
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
+ * @deprecated Use the {@link FoOutput} instead
  */
 public class XslFoOutput extends AbstractByteBasedOutput {
 	

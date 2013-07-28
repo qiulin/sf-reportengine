@@ -12,7 +12,6 @@ import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.out.PdfOutput;
 import net.sf.reportengine.out.PngOutput;
 import net.sf.reportengine.out.StaxReportOutput;
-import net.sf.reportengine.out.XslFoOutput;
 import net.sf.reportengine.out.XsltOutput;
 import net.sf.reportengine.scenarios.NoGroupsScenario;
 import net.sf.reportengine.scenarios.OhlcComputationScenario;
@@ -186,7 +185,7 @@ public class TestFlatReport {
 		flatReport.addDataColumn(new DefaultDataColumn(2));
 		flatReport.addDataColumn(new DefaultDataColumn(3));
 		
-		flatReport.setOut(new XslFoOutput("./target/testFlatUtf8PdfOutput.pdf"));
+		flatReport.setOut(new PdfOutput("./target/testFlatUtf8PdfOutput.pdf"));
 		
 		flatReport.execute(); 
 		
@@ -271,16 +270,17 @@ public class TestFlatReport {
 	
 	@Test
 	public void testExecuteWithSortingOnDataCols(){
-		FlatReport flatReport = new FlatReport();	
-		flatReport.setValuesSorted(false); 
+		FlatReport flatReport = new FlatReport.Builder()
+									.showDataRows(true)
+									.showGrandTotal(true)
+									.showTotals(false)
+									.sortValues()
+									.build();	
 		
 		flatReport.setIn(SortScenarioOnlyDataColsCount.INPUT);
 		flatReport.setOut(new PdfOutput("./target/testSortingOnDataCols.pdf"));
 		flatReport.setDataColumns(SortScenarioOnlyDataColsCount.DATA_COLUMNS);
 		flatReport.setGroupColumns(SortScenarioOnlyDataColsCount.GROUPING_COLUMNS);
-		flatReport.setShowTotals(false);
-		flatReport.setShowDataRows(true);
-		flatReport.setShowGrandTotal(true);
 		flatReport.execute();
 	}
 }

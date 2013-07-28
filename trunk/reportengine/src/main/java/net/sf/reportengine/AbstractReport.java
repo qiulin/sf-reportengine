@@ -206,6 +206,7 @@ abstract class AbstractReport {
 
 	/**
 	 * Tells the report if your input already has the values sorted. 
+	 * If you need sorting to be done by the reportengine then set this flag to false (of course therea's a big performance penalty) 
 	 * @param valuesSorted the valuesSorted to set
 	 */
 	public void setValuesSorted(boolean valuesAlreadySorted) {
