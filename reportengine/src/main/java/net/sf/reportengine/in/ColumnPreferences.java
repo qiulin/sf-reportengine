@@ -16,6 +16,9 @@ import net.sf.reportengine.core.calc.Calculator;
  */
 public class ColumnPreferences {
 	
+	/**
+	 * 
+	 */
 	public static int DEFAULT_SORT_LEVEL = Integer.MAX_VALUE; 
 	
 	/**
@@ -171,5 +174,17 @@ public class ColumnPreferences {
 	
 	public SortType getSortType(){
 		return sortType; 
+	}
+	
+	/**
+	 * 
+	 */
+	public String toString(){
+		StringBuilder result = new StringBuilder("ColumnPreferences[");
+		result.append("header=").append(header); 
+		result.append(", group=").append(isGroup); 
+		result.append(", sortLevel=").append(sortLevel); 
+		result.append("]");
+		return result.toString(); 
 	}
 }

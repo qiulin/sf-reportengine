@@ -43,11 +43,11 @@ public class TestReportUtils extends TestCase {
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
 		column1Prefs.setHeader("Header Data Col 1").setHAlign(HorizAlign.LEFT); 
-		userPrefs.put("col1", column1Prefs); 
+		userPrefs.put("COL1", column1Prefs); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
 		column2Prefs.setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
-		userPrefs.put("col2", column2Prefs);
+		userPrefs.put("COL2", column2Prefs);
 		
 		//the method to test
 		List<DataColumn> dataCols = ReportUtils.dataColsFromMetadataAndUserPrefs(
@@ -64,11 +64,11 @@ public class TestReportUtils extends TestCase {
 		userPrefs = new HashMap<String, ColumnPreferences>(); 
 		column1Prefs = new ColumnPreferences(); 
 		column1Prefs.setHeader("Header Data Col 1").setHAlign(HorizAlign.LEFT); 
-		userPrefs.put("col1", column1Prefs); 
+		userPrefs.put("COL1", column1Prefs); 
 		
 		column2Prefs = new ColumnPreferences(); 
 		column2Prefs.setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
-		userPrefs.put("col3", column2Prefs);//NOT TAKEN INTO ACCCOUNT BECAUSE THERE is no metadata with id col3
+		userPrefs.put("COL3", column2Prefs);//NOT TAKEN INTO ACCCOUNT BECAUSE THERE is no metadata with id col3
 		
 		//test the result
 		dataCols = ReportUtils.dataColsFromMetadataAndUserPrefs(
@@ -85,7 +85,7 @@ public class TestReportUtils extends TestCase {
 		column1Prefs.setHeader("Second Column Prefs").setHAlign(HorizAlign.LEFT); 
 		
 		userPrefs = new HashMap<String, ColumnPreferences>(); 
-		userPrefs.put("col2", column1Prefs); 
+		userPrefs.put("COL2", column1Prefs); 
 		
 		dataCols = ReportUtils.dataColsFromMetadataAndUserPrefs(
 						AutodetectConfigurationScenario.COLUMN_METADATA, 
@@ -104,11 +104,11 @@ public class TestReportUtils extends TestCase {
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
 		column1Prefs.setHeader("Header Data Col 1").setHAlign(HorizAlign.LEFT); 
-		userPrefs.put("col1", column1Prefs); 
+		userPrefs.put("COL1", column1Prefs); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
 		column2Prefs.setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
-		userPrefs.put("col2", column2Prefs);
+		userPrefs.put("COL2", column2Prefs);
 		
 		//the method to test
 		List<GroupColumn> groupCols = ReportUtils.groupColsFromMetadataAndUserPrefs(
@@ -123,11 +123,11 @@ public class TestReportUtils extends TestCase {
 		userPrefs = new HashMap<String, ColumnPreferences>(); 
 		column1Prefs = new ColumnPreferences(); 
 		column1Prefs.setHeader("Header Data Col 1").setHAlign(HorizAlign.LEFT); 
-		userPrefs.put("col1", column1Prefs); 
+		userPrefs.put("COL1", column1Prefs); 
 		
 		column2Prefs = new ColumnPreferences(); 
 		column2Prefs.setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
-		userPrefs.put("col3", column2Prefs);//NOT TAKEN INTO ACCCOUNT BECAUSE THERE is no metadata with id col3
+		userPrefs.put("COL3", column2Prefs);//NOT TAKEN INTO ACCCOUNT BECAUSE THERE is no metadata with id col3
 		
 		//test the result
 		groupCols = ReportUtils.groupColsFromMetadataAndUserPrefs(
@@ -143,7 +143,7 @@ public class TestReportUtils extends TestCase {
 		column1Prefs.setHeader("Second Column Prefs").setHAlign(HorizAlign.LEFT); 
 		
 		userPrefs = new HashMap<String, ColumnPreferences>(); 
-		userPrefs.put("col2", column1Prefs); 
+		userPrefs.put("COL2", column1Prefs); 
 		
 		//test the result
 		groupCols = ReportUtils.groupColsFromMetadataAndUserPrefs(

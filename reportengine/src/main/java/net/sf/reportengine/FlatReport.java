@@ -4,7 +4,9 @@
  */
 package net.sf.reportengine;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
@@ -15,9 +17,9 @@ import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
+import net.sf.reportengine.core.steps.ConfigFlatIOInitStep;
 import net.sf.reportengine.core.steps.ConfigReportIOInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
-import net.sf.reportengine.core.steps.ConfigFlatIOInitStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.ExternalSortPreparationStep;
 import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
@@ -115,6 +117,10 @@ public class FlatReport extends AbstractColumnBasedReport {
     	this.setShowTotals(builder.showTotals);
     	this.setValuesSorted(builder.valuesSorted); 
     	this.setTitle(builder.reportTitle); 
+    	this.setIn(builder.reportInput); 
+    	this.setOut(builder.reportOutput); 
+    	this.setDataColumns(builder.dataColumns); 
+    	this.setGroupColumns(builder.groupColumns); 
     }
     
     /**
@@ -130,9 +136,12 @@ public class FlatReport extends AbstractColumnBasedReport {
     	reportAlgoContainer.addIn(IOKeys.GROUP_COLS, getGroupColumns()); 
     	reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, getShowTotals()); 
     	reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
-    	reportAlgoContainer.addIn(IOKeys.HAS_GROUP_VALUES_ORDERED, hasValuesSorted()); 
     	
-    	if(!hasValuesSorted()){
+    	boolean needsProgramaticSorting = !hasValuesSorted() || ReportUtils.isSortingInColumns(getGroupColumns(), getDataColumns()); 
+    	LOGGER.info("programatic sorting needed {} ", needsProgramaticSorting); 
+    	reportAlgoContainer.addIn(IOKeys.HAS_VALUES_ORDERED, !needsProgramaticSorting); 
+    	
+    	if(needsProgramaticSorting){
     		reportAlgoContainer.addAlgo(configSortingAlgo()); 
     	}
     	reportAlgoContainer.addAlgo(configReportAlgo()); 
@@ -231,7 +240,10 @@ public class FlatReport extends AbstractColumnBasedReport {
     	private boolean showGrandTotal = true; 
     	private boolean showDataRows = true; 
     	private boolean valuesSorted = true; 
-    	
+    	private ReportInput reportInput = null; 
+    	private ReportOutput reportOutput = null;
+    	private List<DataColumn> dataColumns = new ArrayList<DataColumn>(); 
+    	private List<GroupColumn> groupColumns = new ArrayList<GroupColumn>();
     	
     	public Builder() {
     		
@@ -259,6 +271,36 @@ public class FlatReport extends AbstractColumnBasedReport {
     	
     	public Builder sortValues(){
     		this.valuesSorted = false; 
+    		return this; 
+    	}
+    	
+    	public Builder input(ReportInput input){
+    		this.reportInput = input; 
+    		return this; 
+    	}
+    	
+    	public Builder output(ReportOutput output){
+    		this.reportOutput = output; 
+    		return this; 
+    	}
+    	
+    	public Builder dataColumns(List<DataColumn> dataCols){
+    		this.dataColumns = dataCols; 
+    		return this; 
+    	}
+    	
+    	public Builder addDataColumn(DataColumn dataCol){
+    		this.dataColumns.add(dataCol);
+    		return this; 
+    	}
+    	
+    	public Builder groupColumns(List<GroupColumn> groupCols){
+    		this.groupColumns = groupCols; 
+    		return this; 
+    	}
+    	
+    	public Builder addGroupColumn(GroupColumn groupCol){
+    		this.groupColumns.add(groupCol); 
     		return this; 
     	}
     	

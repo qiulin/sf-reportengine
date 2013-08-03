@@ -39,7 +39,7 @@ public class TestInMemorySortStep {
 		
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
 		mockAlgoInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
-		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
+		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS_WITH_SORTING); 
 		
 		classUnderTest.init(mockAlgoInput, mockContext); 
 		

@@ -32,11 +32,15 @@ public class TestFlatReport {
 	@Test
 	public void testExecuteScenario1(){
 		FlatReport flatReport = new FlatReport();	
+		
+		OutputDispatcher outputDispatcher = new OutputDispatcher(); 
 		CellPropsArrayOutput testOut = new CellPropsArrayOutput();
+		outputDispatcher.registerOutput(testOut); 
+		outputDispatcher.registerOutput(new HtmlOutput("./target/Scenario1.html")); 
+		
 		
 		flatReport.setIn(Scenario1.INPUT);
-		flatReport.setOut(testOut);
-		//flatReport.setOut(new HtmlReportOutput(new FileOutputStream("scenario1.html")));
+		flatReport.setOut(outputDispatcher);
 		flatReport.setDataColumns(Scenario1.DATA_COLUMNS);
 		flatReport.setGroupColumns(Scenario1.GROUPING_COLUMNS);
 		flatReport.setShowTotals(true);
@@ -44,7 +48,7 @@ public class TestFlatReport {
 		flatReport.setShowGrandTotal(true);
 		flatReport.execute();
 			
-			Assert.assertTrue(MatrixUtils.compareMatrices(testOut.getDataCellMatrix(), Scenario1.EXPECTED_OUTPUT_UNSORTED));
+		Assert.assertTrue(MatrixUtils.compareMatrices(testOut.getDataCellMatrix(), Scenario1.EXPECTED_OUTPUT_UNSORTED));
 	}
 	
 	@Test
@@ -251,7 +255,7 @@ public class TestFlatReport {
 	@Test
 	public void testExecuteWithSorting(){
 		FlatReport flatReport = new FlatReport();	
-		flatReport.setValuesSorted(false); 
+		flatReport.setValuesSorted(false); // all group values will be sorted 
 		
 		CellPropsArrayOutput mockOut = new CellPropsArrayOutput();
 		
@@ -274,13 +278,12 @@ public class TestFlatReport {
 									.showDataRows(true)
 									.showGrandTotal(true)
 									.showTotals(false)
-									.sortValues()
+									//.sortValues() - no need to declare that values need sorting because the dataColumns below have sorting
+									.input(SortScenarioOnlyDataColsCount.INPUT)
+									.output(new PdfOutput("./target/testSortingOnDataCols.pdf"))
+									.dataColumns(SortScenarioOnlyDataColsCount.DATA_COLUMNS)
+									.groupColumns(SortScenarioOnlyDataColsCount.GROUPING_COLUMNS)
 									.build();	
-		
-		flatReport.setIn(SortScenarioOnlyDataColsCount.INPUT);
-		flatReport.setOut(new PdfOutput("./target/testSortingOnDataCols.pdf"));
-		flatReport.setDataColumns(SortScenarioOnlyDataColsCount.DATA_COLUMNS);
-		flatReport.setGroupColumns(SortScenarioOnlyDataColsCount.GROUPING_COLUMNS);
 		flatReport.execute();
 	}
 }

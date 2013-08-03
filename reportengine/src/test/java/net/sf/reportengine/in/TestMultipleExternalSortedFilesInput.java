@@ -35,7 +35,7 @@ public class TestMultipleExternalSortedFilesInput {
 		testFiles.add(ReportIoUtils.createInputStreamFromClassPath("ExternalSortedAndSerializedFile1.tmp"));
 		testFiles.add(ReportIoUtils.createInputStreamFromClassPath("ExternalSortedAndSerializedFile2.tmp"));
 		
-		testComparator = new NewRowComparator(Scenario1.GROUPING_COLUMNS, Scenario1.DATA_COLUMNS); 
+		testComparator = new NewRowComparator(Scenario1.GROUPING_COLUMNS_WITH_SORTING, Scenario1.DATA_COLUMNS); 
 	}
 	
 	/**

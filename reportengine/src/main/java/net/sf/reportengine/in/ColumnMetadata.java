@@ -13,7 +13,7 @@ import net.sf.reportengine.config.HorizAlign;
 public final class ColumnMetadata {
 	
 	/**
-	 * the label of the column ( also known as column header)
+	 * the label of the column (also known as column header)
 	 */
 	private final String columnLabel; 
 	
@@ -28,6 +28,7 @@ public final class ColumnMetadata {
 	private final HorizAlign horizontalAlign; 
 	
 	/**
+	 * WARNING: this class is using the upper case of column Id
 	 * 
 	 * @param columnId
 	 */
@@ -36,6 +37,7 @@ public final class ColumnMetadata {
 	}
 	
 	/**
+	 * WARNING: this class is using the upper case of column Id
 	 * 
 	 * @param columnId
 	 * @param columnLabel
@@ -46,12 +48,16 @@ public final class ColumnMetadata {
 	
 	/**
 	 * 
+	 * WARNING: this class is using the upper case of column Id
+	 * 
 	 * @param columnId
 	 * @param columnLabel
 	 * @param horizAlign
 	 */
-	public ColumnMetadata(String columnId, String columnLabel, HorizAlign horizAlign){
-		this.columnId = columnId; 
+	public ColumnMetadata(	String columnId, 
+							String columnLabel, 
+							HorizAlign horizAlign){
+		this.columnId = columnId.toUpperCase();
 		this.columnLabel = columnLabel; 
 		this.horizontalAlign = horizAlign; 
 	}
@@ -75,5 +81,17 @@ public final class ColumnMetadata {
 	 */
 	public HorizAlign getHorizontalAlign() {
 		return horizontalAlign;
+	}
+	
+	/**
+	 * 
+	 */
+	public String toString(){
+		StringBuilder result = new StringBuilder("ColumnMetadata[");
+		result.append("columnId=").append(columnId);
+		result.append(", columnLabel=").append(columnLabel);
+		result.append(", hAlign=").append(horizontalAlign);
+		result.append("]"); 
+		return result.toString(); 
 	}
 }
