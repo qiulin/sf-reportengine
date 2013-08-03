@@ -18,7 +18,7 @@ import org.junit.Test;
  * @author dragos balan (dragos dot balan at gmail dot com)
  *
  */
-public class TestAutodetectFlatReport {
+public class TestAutoconfigFlatReport {
 
 	
 	@Test
@@ -70,7 +70,7 @@ public class TestAutodetectFlatReport {
 		input.setDbConnString("jdbc:hsqldb:file:./src/test/resources/databases/testdb");
 		input.setSqlStatement("select country, region, city, sex, religion, value from testreport t order by country, region, city");
 		flatReport.setIn(input); 
-		flatReport.setOut(new HtmlOutput("./target/AutodetectFromSqlWithUserPrefs.html")); 
+		flatReport.setOut(new HtmlOutput("./target/AutodetectFromSqlWithUserPrefsAndDbOrdering.html")); 
 		
 		flatReport.forColumn("COUNTRY").setHAlign(HorizAlign.RIGHT).setVAlign(VertAlign.TOP).setHeader("Changed header").group(); 
 		flatReport.forColumn("VALUE").setVAlign(VertAlign.BOTTOM).useCalculator(Calculators.SUM).useFormatter(NumberFormat.getCurrencyInstance()); 
@@ -92,6 +92,7 @@ public class TestAutodetectFlatReport {
 		flatReport.setIn(input); 
 		flatReport.setOut(new HtmlOutput("./target/AutodetFrmSqlWithUserPrefsButOrderedInternally.html")); 
 		
+		//we need to declare that values are not sorted because the column preferences below don't have any sort declared
 		flatReport.setValuesSorted(false); 
 		
 		flatReport.forColumn("COUNTRY").setHAlign(HorizAlign.RIGHT).setHeader("Changed header").group(); 
@@ -113,7 +114,7 @@ public class TestAutodetectFlatReport {
 		input.setDbPassword("");
 		input.setDbDriverClass("org.hsqldb.jdbcDriver");
 		input.setDbConnString("jdbc:hsqldb:file:./src/test/resources/databases/testdb");
-		input.setSqlStatement("select country, region, city, sex, religion, value from testreport t "); //order by country, region, city
+		input.setSqlStatement("select country, region, city, sex, religion, value from testreport t "); 
 		flatReport.setIn(input); 
 		flatReport.setOut(new HtmlOutput("./target/AutodetFrmSqlWithProgrOrderingAndNonGroupColSorted.html")); 
 		
@@ -132,7 +133,8 @@ public class TestAutodetectFlatReport {
 		
 		flatReport.forColumn("CITY").group();
 		
-										
+		//we don't need to declare that values are not sorted because the column preferences above have sorting declared
+		//flatReport.setValuesSorted(false); 								
 		
 		flatReport.execute();
 	}
