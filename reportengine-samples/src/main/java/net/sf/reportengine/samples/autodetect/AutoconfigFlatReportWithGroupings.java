@@ -29,9 +29,9 @@ public class AutoconfigFlatReportWithGroupings {
 		report.setIn(input); 
 		report.setOut(new HtmlOutput("./output/ConfiguredAutodetect.html")); 
 		
-		report.forColumn("COUNTRY").setGroup(true).setHAlign(HorizAlign.CENTER); 
-		report.forColumn("REGION").setGroup(true).setHeader("East/West"); 
-		report.forColumn("VALUE").setCalculator(Calculators.SUM); 
+		report.forColumn("COUNTRY").group().setHAlign(HorizAlign.CENTER); 
+		report.forColumn("REGION").group().setHeader("East/West"); 
+		report.forColumn("VALUE").useCalculator(Calculators.SUM); 
 		
 		report.execute(); 
 	}
