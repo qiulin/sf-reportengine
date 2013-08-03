@@ -204,6 +204,8 @@ public class DefaultDataColumn extends AbstractDataColumn {
 		result.append(", hAlign=").append(getHorizAlign());
 		result.append(", formatter=").append(getFormatter());
 		result.append(", calculator=").append(getCalculator());
+		result.append(", sortlevel=").append(getSortLevel());
+		result.append(", sortType=").append(getSortType()); 
 		result.append("]");
 		return result.toString(); 
 	}

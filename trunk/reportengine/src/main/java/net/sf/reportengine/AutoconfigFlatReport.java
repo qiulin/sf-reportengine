@@ -31,6 +31,7 @@ import net.sf.reportengine.core.steps.autodetect.AutodetectPreviousRowManagerSte
 import net.sf.reportengine.core.steps.autodetect.AutodetectTotalsCalculatorStep;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.ReportUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +60,9 @@ public class AutoconfigFlatReport extends AbstractReport {
 	 */
 	private AlgorithmContainer reportAlgoContainer = new AlgorithmContainer(); 
     
+	
+	private boolean needsProgramaticSorting = false; 
+	
     /**
      * default constructor
      */
@@ -97,9 +101,11 @@ public class AutoconfigFlatReport extends AbstractReport {
     	reportAlgoContainer.addIn(IOKeys.USER_COLUMN_PREFERENCES, userColumnPrefs); 
     	reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, getShowTotals()); 
     	reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
-    	reportAlgoContainer.addIn(IOKeys.HAS_GROUP_VALUES_ORDERED, hasValuesSorted()); 
     	
-    	if(!hasValuesSorted()){
+    	needsProgramaticSorting = !hasValuesSorted() || ReportUtils.isSortingInPreferences(userColumnPrefs); 
+    	reportAlgoContainer.addIn(IOKeys.HAS_VALUES_ORDERED, !needsProgramaticSorting); 
+    	
+    	if(needsProgramaticSorting){
     		reportAlgoContainer.addAlgo(configSortingAlgo()); 
     	}
     	
@@ -133,8 +139,8 @@ public class AutoconfigFlatReport extends AbstractReport {
     	algorithm.addInitStep(new ConfigFlatIOInitStep()); 
 		algorithm.addInitStep(new OpenReportIOInitStep()); 
     	algorithm.addInitStep(new InitReportDataInitStep()); 
-    	if(hasValuesSorted()){
-    		//if the report has group values already sorted 
+    	if(!needsProgramaticSorting){
+    		//if the report has values already sorted 
     		//then the configuration has not been detected using 
     		//the previous algorithm
     		algorithm.addInitStep(new AutodetectConfigInitStep()); 
@@ -180,7 +186,6 @@ public class AutoconfigFlatReport extends AbstractReport {
     	}else{
     		LOGGER.error("null passed as argument to AutoconfigFlatReport.forColumn method"); 
     	}
-    	
     	return result; 
     }
     
@@ -208,7 +213,6 @@ public class AutoconfigFlatReport extends AbstractReport {
     	private boolean showGrandTotal = true; 
     	private boolean showDataRows = true; 
     	private boolean valuesSorted = true; 
-    	
     	
     	public Builder() {
     		

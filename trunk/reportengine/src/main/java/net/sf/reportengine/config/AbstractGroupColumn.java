@@ -46,7 +46,7 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 	/**
 	 * 
 	 */
-	private SortType sortType; 
+	private SortType sortType = SortType.NONE; 
 	
 	/**
 	 * 
@@ -79,7 +79,7 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 								HorizAlign horizAlign, 
 								VertAlign vertAlign, 
 								boolean showDuplicates){
-		this(header, groupingLevel, formatter, horizAlign, vertAlign, showDuplicates, SortType.DESC); 
+		this(header, groupingLevel, formatter, horizAlign, vertAlign, showDuplicates, SortType.NONE/*no sorting*/); 
 	}
 	
 	

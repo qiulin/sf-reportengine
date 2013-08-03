@@ -58,11 +58,11 @@ public class TestAutodetectColumnsInitStep {
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
 		column1Prefs.setHeader("Header Data Col 1").setHAlign(HorizAlign.LEFT); 
-		userPrefs.put("col1", column1Prefs); 
+		userPrefs.put("COL1", column1Prefs); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
 		column2Prefs.setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
-		userPrefs.put("col2", column2Prefs);
+		userPrefs.put("COL2", column2Prefs);
 		
 		mockAlgoInput.put(IOKeys.USER_COLUMN_PREFERENCES, userPrefs); 
 		
@@ -90,11 +90,11 @@ public class TestAutodetectColumnsInitStep {
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
 		column1Prefs.setHeader("Header Data Col 1").setHAlign(HorizAlign.LEFT); 
-		userPrefs.put("col1", column1Prefs); 
+		userPrefs.put("COL1", column1Prefs); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
 		column2Prefs.setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
-		userPrefs.put("col3", column2Prefs);//NOT TAKEN INTO ACCCOUNT BECAUSE THERE is no metadata with id col3
+		userPrefs.put("COL3", column2Prefs);//NOT TAKEN INTO ACCCOUNT BECAUSE THERE is no metadata with id col3
 		
 		mockAlgoInput.put(IOKeys.USER_COLUMN_PREFERENCES, userPrefs); 
 		
@@ -123,7 +123,7 @@ public class TestAutodetectColumnsInitStep {
 		column1Prefs.setHeader("Second Column Prefs").setHAlign(HorizAlign.LEFT); 
 		
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
-		userPrefs.put("col2", column1Prefs); 
+		userPrefs.put("COL2", column1Prefs); 
 		
 		mockAlgoInput.put(IOKeys.USER_COLUMN_PREFERENCES, userPrefs); 
 		
@@ -149,11 +149,11 @@ public class TestAutodetectColumnsInitStep {
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
 		column1Prefs.group().setHeader("Header Group Col 1").setHAlign(HorizAlign.LEFT); 
-		userPrefs.put("col1", column1Prefs); 
+		userPrefs.put("COL1", column1Prefs); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
 		column2Prefs.group().setHeader("Header Group Col 2").setHAlign(HorizAlign.RIGHT); 
-		userPrefs.put("col2", column2Prefs);
+		userPrefs.put("COL2", column2Prefs);
 		
 		mockAlgoInput.put(IOKeys.USER_COLUMN_PREFERENCES, userPrefs); 
 		
@@ -183,7 +183,7 @@ public class TestAutodetectColumnsInitStep {
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
 		column2Prefs.group().setHeader("Header Group Col 2").setHAlign(HorizAlign.RIGHT); 
-		userPrefs.put("col2", column2Prefs);
+		userPrefs.put("COL2", column2Prefs);
 		
 		mockAlgoInput.put(IOKeys.USER_COLUMN_PREFERENCES, userPrefs);  
 		

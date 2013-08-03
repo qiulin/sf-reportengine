@@ -9,7 +9,10 @@ package net.sf.reportengine.config;
  */
 public enum SortType {
 	
-	ASC(1), DESC(-1);
+	ASC(1), 
+	DESC(-1),
+	NONE(1);
+	
 	
 	private int signum; 
 	

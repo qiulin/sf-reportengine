@@ -124,8 +124,8 @@ public abstract class AbstractDataColumn implements DataColumn {
 								Format formatter, 
 								HorizAlign horizAlign,
 								VertAlign vertAlign, 
-								int orderLevel){
-		this(header, calculator, formatter, horizAlign, vertAlign, orderLevel, SortType.ASC);  
+								int sortLevel){
+		this(header, calculator, formatter, horizAlign, vertAlign, sortLevel, SortType.ASC);  
 	}
 	
 	

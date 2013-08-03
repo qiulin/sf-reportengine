@@ -77,15 +77,17 @@ public class NewRowComparator implements Comparator<NewRowEvent> {
 	public int compare(NewRowEvent row1, NewRowEvent row2) {
 		int result = 0;
 		//LOGGER.debug("comparing rows {} and {}", row1, row2); 
-		for (GroupColumn groupCol : groupCols) {
-			//LOGGER.debug("for group column {}", groupCol); 
-			Comparable valueRow1 = (Comparable)groupCol.getValue(row1);
-			Comparable valueRow2 = (Comparable)groupCol.getValue(row2); 
-			
-			result = valueRow1.compareTo(valueRow2) * groupCol.getSortType().getSignum(); 
-			//LOGGER.debug("comparing row1 value {} with row2 value {} resulted in {} ", valueRow1, valueRow2, result); 
-			if(result != 0){
-				break; 
+		if(groupCols != null){
+			for (GroupColumn groupCol : groupCols) {
+				//LOGGER.debug("for group column {}", groupCol); 
+				Comparable valueRow1 = (Comparable)groupCol.getValue(row1);
+				Comparable valueRow2 = (Comparable)groupCol.getValue(row2); 
+				
+				result = valueRow1.compareTo(valueRow2) * groupCol.getSortType().getSignum(); 
+				//LOGGER.debug("comparing row1 value {} with row2 value {} resulted in {} ", valueRow1, valueRow2, result); 
+				if(result != 0){
+					break; 
+				}
 			}
 		}
 		

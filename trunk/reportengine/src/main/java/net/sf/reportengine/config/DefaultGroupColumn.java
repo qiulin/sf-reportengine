@@ -122,7 +122,7 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 								HorizAlign horizAlign,
 								VertAlign vertAlign, 
 								boolean showDuplicates){
-		this(header, inputColumnIndex, groupingLevel, formatter, horizAlign, vertAlign, showDuplicates, SortType.ASC); 
+		this(header, inputColumnIndex, groupingLevel, formatter, horizAlign, vertAlign, showDuplicates, SortType.NONE /*no default sorting*/); 
 	}
 	
 	
@@ -183,5 +183,26 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 		result.append(", sortType=").append(getSortType()); 
 		result.append("]");
 		return result.toString(); 
+	}
+	
+	public static class Builder{
+		
+		private int inputColumnIdx = 0;
+		private int groupLevel = 0;
+		private String header = ""; 
+		
+		public Builder(int inputColumnIndex){
+			this.inputColumnIdx = inputColumnIndex; 
+		}
+		
+		public Builder level(int grpLevel){
+			this.groupLevel = grpLevel; 
+			return this; 
+		}
+		
+		public Builder header(String header){
+			this.header = header; 
+			return this; 
+		}
 	}
 }

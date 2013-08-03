@@ -12,6 +12,8 @@ import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
+import net.sf.reportengine.config.SortType;
+import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.steps.MockCalculator;
@@ -68,6 +70,13 @@ public class Scenario1 {
 				new DefaultGroupColumn("col 1", 1, 1, null, HorizAlign.CENTER, true), 
 				new DefaultGroupColumn("col 2", 2, 2, null, HorizAlign.CENTER, true)
 		});
+	
+	public static final List<GroupColumn> GROUPING_COLUMNS_WITH_SORTING = Arrays.asList(
+			new GroupColumn[]{
+					new DefaultGroupColumn("col 0", 0, 0, null, HorizAlign.CENTER, VertAlign.MIDDLE, true, SortType.ASC), 
+					new DefaultGroupColumn("col 1", 1, 1, null, HorizAlign.CENTER, VertAlign.MIDDLE, true, SortType.ASC), 
+					new DefaultGroupColumn("col 2", 2, 2, null, HorizAlign.CENTER, VertAlign.MIDDLE, true, SortType.ASC)
+			});
 	
 	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(
 			new DataColumn[]{

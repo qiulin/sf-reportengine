@@ -30,10 +30,8 @@ public class TestExternalSortStep {
 		DefaultAlgorithmContext mockContext = new DefaultAlgorithmContext(); 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		
-		//mockContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS); 
-		//mockContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS); 
 		mockAlgoInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
-		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
+		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS_WITH_SORTING); 
 		
 		ExternalSortPreparationStep classUnderTest = new ExternalSortPreparationStep(MAX_ROWS_IN_MEMORY); 
 		classUnderTest.init(mockAlgoInput, mockContext); 

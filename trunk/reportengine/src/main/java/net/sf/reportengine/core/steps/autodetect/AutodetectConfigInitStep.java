@@ -45,7 +45,7 @@ public class AutodetectConfigInitStep extends AbstractReportInitStep {
 		
 		//construct data columns
 		List<DataColumn> dataColumns = ReportUtils.dataColsFromMetadataAndUserPrefs(colMetadata, colPrefs); 
-		LOGGER.debug("data columns detected : {}",dataColumns); 
+		LOGGER.debug("data columns detected : {}", dataColumns); 
 		
 		List<GroupColumn> groupColumns = null; 
 		if(dataColumns !=  null && dataColumns.size() < colMetadata.size()){
@@ -54,7 +54,7 @@ public class AutodetectConfigInitStep extends AbstractReportInitStep {
 		}//else{
 			//no group column. All configured columns are data columns
 		//}
-		LOGGER.debug("group columns detected : {}",groupColumns); 
+		LOGGER.debug("group columns detected : {}", groupColumns); 
 		
 		algoInput.put(IOKeys.DATA_COLS, dataColumns) ;
 		algoInput.put(IOKeys.GROUP_COLS, groupColumns); 

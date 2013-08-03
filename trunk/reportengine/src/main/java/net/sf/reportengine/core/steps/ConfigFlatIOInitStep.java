@@ -13,7 +13,6 @@ import java.util.List;
 import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.in.MultipleExternalSortedFilesInput;
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
 /**
@@ -25,15 +24,15 @@ public class ConfigFlatIOInitStep extends ConfigReportIOInitStep{
 	@Override protected ReportInput configReportInput(){
 		ReportInput result; 
 		try {
-			//if the report doesn't have the group values ordered 
-			//then the sorting algorithm has created the external sorted files
+			//if the report doesn't have the values ordered 
+			//then the sorting algorithm has created external sorted files
 			//which will serve as input from this point on
-			if(!(Boolean)getAlgoInput().get(IOKeys.HAS_GROUP_VALUES_ORDERED)){
+			if(!(Boolean)getAlgoInput().get(IOKeys.HAS_VALUES_ORDERED)){
 				
 				List<File> externalSortedFiles = (List<File>)getAlgoInput().get(IOKeys.SORTED_FILES); 
 				List<InputStream> externalSortedStreams = new ArrayList<InputStream>(); 
 				for (File file : externalSortedFiles) {
-						externalSortedStreams.add(new FileInputStream(file));
+					externalSortedStreams.add(new FileInputStream(file));
 				}
 				
 				result = new MultipleExternalSortedFilesInput(
@@ -55,7 +54,7 @@ public class ConfigFlatIOInitStep extends ConfigReportIOInitStep{
 //			//if the report doesn't have the group values ordered 
 //			//then the sorting algorithm has created the external sorted files
 //			//which will serve as input from this point on
-//			if(!(Boolean)getAlgoInput().get(IOKeys.HAS_GROUP_VALUES_ORDERED)){
+//			if(!(Boolean)getAlgoInput().get(IOKeys.HAS_VALUES_ORDERED)){
 //				
 //				List<File> externalSortedFiles = (List<File>)getAlgoInput().get(IOKeys.SORTED_FILES); 
 //				List<InputStream> externalSortedStreams = new ArrayList<InputStream>(); 
