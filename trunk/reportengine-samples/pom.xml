@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sf.reportengine</groupId>
   <artifactId>samples</artifactId>
-  <version>0.9.1</version>
+  <version>0.9.3</version>
   <name>ReportengineSamples</name>
   <description>Sample reports created with reportengine</description>
   
@@ -47,7 +47,7 @@
         	</executions>
  
         	<configuration>
-          		<mainClass>net.sf.reportengine.samples.flat.SecondReport</mainClass>
+          		<mainClass>net.sf.reportengine.samples.flat.SortedFlatReport</mainClass>
         	</configuration>
       	</plugin>
             	
@@ -59,7 +59,7 @@
   	<dependency>
   		<groupId>net.sf.reportengine</groupId>
   		<artifactId>reportengine</artifactId>
-  		<version>0.9.1</version>
+  		<version>0.9.3-SNAPSHOT</version>
   	</dependency>
   	
   	<dependency>
