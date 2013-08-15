@@ -30,9 +30,9 @@ public final class CtMetadata {
 	
 	private int headerRowsCount = -1; 
 	
-	private IDistinctValuesHolder distinctValuesHolder = null ; 
+	private DistinctValuesHolder distinctValuesHolder = null ; 
 	
-	public CtMetadata(IDistinctValuesHolder distValuesHolder){
+	public CtMetadata(DistinctValuesHolder distValuesHolder){
 		this.distinctValuesHolder = distValuesHolder; 
 		computeCoefficients(); 
 	}

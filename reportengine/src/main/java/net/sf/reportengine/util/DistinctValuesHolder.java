@@ -9,7 +9,7 @@ import java.util.List;
  * @author Administrator
  *
  */
-public interface IDistinctValuesHolder {
+public interface DistinctValuesHolder {
 	
 	/**
 	 * adds a new value in the list of distinct values

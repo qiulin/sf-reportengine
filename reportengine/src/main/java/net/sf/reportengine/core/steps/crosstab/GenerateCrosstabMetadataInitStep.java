@@ -6,7 +6,7 @@ package net.sf.reportengine.core.steps.crosstab;
 import net.sf.reportengine.core.algorithm.steps.AbstractInitStep;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
-import net.sf.reportengine.util.IDistinctValuesHolder;
+import net.sf.reportengine.util.DistinctValuesHolder;
 import net.sf.reportengine.util.IOKeys;
 
 /**
@@ -20,8 +20,8 @@ public class GenerateCrosstabMetadataInitStep extends AbstractInitStep {
 	 */
 	@Override
 	protected void executeInit() {
-		IDistinctValuesHolder distinctValuesHolder = 
-				(IDistinctValuesHolder)getAlgoInput().get(IOKeys.DISTINCT_VALUES_HOLDER); 
+		DistinctValuesHolder distinctValuesHolder = 
+				(DistinctValuesHolder)getAlgoInput().get(IOKeys.DISTINCT_VALUES_HOLDER); 
 		
 		getAlgoContext().set(ContextKeys.CROSSTAB_METADATA, new CtMetadata(distinctValuesHolder)); 
 	}
