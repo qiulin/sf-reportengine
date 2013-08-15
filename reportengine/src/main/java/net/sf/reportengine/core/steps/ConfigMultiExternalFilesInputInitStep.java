@@ -15,32 +15,46 @@ import net.sf.reportengine.in.MultipleExternalSortedFilesInput;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.util.IOKeys;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author dragos balan
  *
  */
-public class ConfigFlatIOInitStep extends ConfigReportIOInitStep{
+public class ConfigMultiExternalFilesInputInitStep extends ConfigReportIOInitStep{
+	
+	/**
+	 * the one and only logger
+	 */
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ConfigMultiExternalFilesInputInitStep.class);
 	
 	@Override protected ReportInput configReportInput(){
-		ReportInput result; 
+		ReportInput result = null; 
 		try {
 			//if the report doesn't have the values ordered 
 			//then the sorting algorithm has created external sorted files
 			//which will serve as input from this point on
-			if(!(Boolean)getAlgoInput().get(IOKeys.HAS_VALUES_ORDERED)){
+			
+			//if(!(Boolean)getAlgoInput().get(IOKeys.HAS_VALUES_ORDERED)){
 				
 				List<File> externalSortedFiles = (List<File>)getAlgoInput().get(IOKeys.SORTED_FILES); 
-				List<InputStream> externalSortedStreams = new ArrayList<InputStream>(); 
-				for (File file : externalSortedFiles) {
-					externalSortedStreams.add(new FileInputStream(file));
+				if(externalSortedFiles != null && !externalSortedFiles.isEmpty()){
+					List<InputStream> externalSortedStreams = new ArrayList<InputStream>(); 
+					for (File file : externalSortedFiles) {
+						externalSortedStreams.add(new FileInputStream(file));
+					}
+					
+					result = new MultipleExternalSortedFilesInput(
+									externalSortedStreams, 
+									new NewRowComparator(getGroupColumns(), getDataColumns()));
+				}else{
+					LOGGER.error("No external sorted files found. The report is missconfigured."); 
 				}
-				
-				result = new MultipleExternalSortedFilesInput(
-								externalSortedStreams, 
-								new NewRowComparator(getGroupColumns(), getDataColumns()));
-			}else{
-				result = super.configReportInput();  
-			}
+			//}else{
+			//	result = super.configReportInput();  
+			//}
 		} catch (FileNotFoundException e) {
 			throw new ReportEngineRuntimeException(e); 
 		}

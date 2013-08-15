@@ -4,10 +4,8 @@
 package net.sf.reportengine;
 
 import java.io.FileNotFoundException;
-import java.util.List;
 
 import junit.framework.TestCase;
-import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
@@ -17,13 +15,14 @@ import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.ExcelOutput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.OutputDispatcher;
+import net.sf.reportengine.out.PdfOutput;
 import net.sf.reportengine.out.StaxReportOutput;
-import net.sf.reportengine.out.XslFoOutput;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With0G2D;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
-import net.sf.reportengine.util.CtMetadata;
+import net.sf.reportengine.scenarios.ct.CtUnsortedScenario2x2x1With0G2D;
+import net.sf.reportengine.scenarios.ct.CtUnsortedScenario2x2x1With1G1D;
 import net.sf.reportengine.util.ReportIoUtils;
 
 /**
@@ -100,7 +99,7 @@ public class TestCrossTabReport extends TestCase {
 		OutputDispatcher outDispatcher = new OutputDispatcher(); 
 		outDispatcher.registerOutput(new HtmlOutput("./target/CrosstabReport2x2x1.html"));
 		outDispatcher.registerOutput(new StaxReportOutput("./target/CrosstabReport2x2x1.xml"));
-		outDispatcher.registerOutput(new XslFoOutput("./target/CrosstabReport2x2x1.pdf"));
+		outDispatcher.registerOutput(new PdfOutput("./target/CrosstabReport2x2x1.pdf"));
 		outDispatcher.registerOutput(new ExcelOutput("./target/CrossrabReport2x2x1.xls"));
 		classUnderTest.setOut(outDispatcher);
 		
@@ -108,6 +107,26 @@ public class TestCrossTabReport extends TestCase {
 		classUnderTest.setDataColumns(CtScenario2x2x1With1G1D.DATA_COLUMNS); 
 		classUnderTest.setCrosstabData(CtScenario2x2x1With1G1D.CROSSTAB_DATA); 
 		classUnderTest.setHeaderRows(CtScenario2x2x1With1G1D.HEADER_ROWS); 
+		
+		classUnderTest.setShowTotals(false); 
+		classUnderTest.setShowGrandTotal(false); 
+		
+		classUnderTest.execute(); 
+	}
+	
+	
+	public void testProgramaticSorting2x2x1() throws FileNotFoundException{
+		CrossTabReport classUnderTest = new CrossTabReport(); 
+		
+		classUnderTest.setTitle("This report has group columns sorted programatically");
+		classUnderTest.setIn(CtUnsortedScenario2x2x1With1G1D.INPUT); 
+		classUnderTest.setOut(new HtmlOutput("./target/CtProgramaticallySorted2x2x1.html"));
+		classUnderTest.setValuesSorted(false); 
+		
+		classUnderTest.setGroupColumns(CtUnsortedScenario2x2x1With1G1D.GROUPING_COLUMNS);
+		classUnderTest.setDataColumns(CtUnsortedScenario2x2x1With1G1D.DATA_COLUMNS); 
+		classUnderTest.setCrosstabData(CtUnsortedScenario2x2x1With1G1D.CROSSTAB_DATA); 
+		classUnderTest.setHeaderRows(CtUnsortedScenario2x2x1With1G1D.HEADER_ROWS); 
 		
 		classUnderTest.setShowTotals(false); 
 		classUnderTest.setShowGrandTotal(false); 
@@ -200,6 +219,23 @@ public class TestCrossTabReport extends TestCase {
 		classUnderTest.execute(); 
 	}
 	
+	
+	public void testProgramaticSortingFor2x2x1xTHavingNoGroups(){
+		CrossTabReport classUnderTest = new CrossTabReport(); 
+		
+		classUnderTest.setTitle("This report has 2 data columns programatically sorted.");
+		classUnderTest.setIn(CtUnsortedScenario2x2x1With0G2D.INPUT); 
+		classUnderTest.setOut(new HtmlOutput("target/CrosstabReportProgramaticallySorted2x2x1With0G2D.html"));
+		
+		classUnderTest.setDataColumns(CtUnsortedScenario2x2x1With0G2D.DATA_COLUMNS); 
+		classUnderTest.setHeaderRows(CtUnsortedScenario2x2x1With0G2D.HEADER_ROWS);
+		classUnderTest.setCrosstabData(CtUnsortedScenario2x2x1With0G2D.CROSSTAB_DATA); 
+		
+		classUnderTest.setShowTotals(false); 
+		classUnderTest.setShowGrandTotal(false); 
+		
+		classUnderTest.execute(); 
+	}
 	
 //	public void testWrongConfiguration1(){
 //		try{
