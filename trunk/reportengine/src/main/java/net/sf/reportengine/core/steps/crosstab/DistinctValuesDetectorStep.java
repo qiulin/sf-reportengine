@@ -7,7 +7,7 @@ import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.DistinctValuesHolder;
+import net.sf.reportengine.util.DefaultDistinctValuesHolder;
 import net.sf.reportengine.util.IOKeys;
 
 
@@ -40,7 +40,7 @@ public class DistinctValuesDetectorStep extends AbstractCrosstabStep {
 	/**
 	 * the distinct values holder
 	 */
-	private DistinctValuesHolder distinctValuesHolder = null; 
+	private DefaultDistinctValuesHolder distinctValuesHolder = null; 
 	
 	
 	/**
@@ -51,7 +51,7 @@ public class DistinctValuesDetectorStep extends AbstractCrosstabStep {
 	@Override
     protected void executeInit(){
         List<CrosstabHeaderRow> headerRows = getCrosstabHeaderRows();
-        distinctValuesHolder = new DistinctValuesHolder(headerRows);
+        distinctValuesHolder = new DefaultDistinctValuesHolder(headerRows);
         getAlgoContext().set(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER, distinctValuesHolder);
         addResult(IOKeys.DISTINCT_VALUES_HOLDER, distinctValuesHolder); 
     }

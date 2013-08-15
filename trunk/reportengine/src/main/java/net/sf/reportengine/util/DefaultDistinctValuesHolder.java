@@ -20,7 +20,7 @@ import net.sf.reportengine.config.CrosstabHeaderRow;
  * @author dragos balan (dragos dot balan at gmail dot com) 
  * @since 0.4
  */
-public class DistinctValuesHolder implements IDistinctValuesHolder{
+public class DefaultDistinctValuesHolder implements IDistinctValuesHolder{
 	
 	/**
 	 * a hashmap containing distinct values for each column declared to take part in the header
@@ -39,7 +39,7 @@ public class DistinctValuesHolder implements IDistinctValuesHolder{
 	 * @param headerRows
 	 * @deprecated
 	 */
-	public DistinctValuesHolder(CrosstabHeaderRow[] headerRows){
+	public DefaultDistinctValuesHolder(CrosstabHeaderRow[] headerRows){
 		this(Arrays.asList(headerRows)); 
 	}
 	
@@ -47,7 +47,7 @@ public class DistinctValuesHolder implements IDistinctValuesHolder{
 	 * 
 	 * @param headerRows
 	 */
-	public DistinctValuesHolder(List<CrosstabHeaderRow> headerRows){
+	public DefaultDistinctValuesHolder(List<CrosstabHeaderRow> headerRows){
 		distinctValuesMap = new HashMap<Integer, DistinctValuesRow>(headerRows.size()); 
 		for (int i = 0; i < headerRows.size(); i++) {
 			distinctValuesMap.put(i, new DistinctValuesRow());

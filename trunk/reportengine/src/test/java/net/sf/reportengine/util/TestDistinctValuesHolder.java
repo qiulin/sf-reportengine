@@ -21,10 +21,10 @@ public class TestDistinctValuesHolder extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.util.DistinctValuesHolder#addValueIfNotExist(int, java.lang.Object)}.
+	 * Test method for {@link net.sf.reportengine.util.DefaultDistinctValuesHolder#addValueIfNotExist(int, java.lang.Object)}.
 	 */
 	public void testAddValueIfNotExist() {
-		DistinctValuesHolder classUnderTest = new DistinctValuesHolder(CtScenario2x2x1With1G1D.HEADER_ROWS); 
+		DefaultDistinctValuesHolder classUnderTest = new DefaultDistinctValuesHolder(CtScenario2x2x1With1G1D.HEADER_ROWS); 
 		
 		//add on first level
 		assertEquals(0, classUnderTest.addValueIfNotExist(0, "level0value0"));
@@ -54,10 +54,10 @@ public class TestDistinctValuesHolder extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.util.DistinctValuesHolder#computeCrosstabCoefficients()}.
+	 * Test method for {@link net.sf.reportengine.util.DefaultDistinctValuesHolder#computeCrosstabCoefficients()}.
 	 */
 	public void testComputeCrosstabCoefficient2x2x1sNoTotals() {
-			DistinctValuesHolder classUnderTest = new DistinctValuesHolder(CtScenario2x2x1With1G1D.HEADER_ROWS); 
+			DefaultDistinctValuesHolder classUnderTest = new DefaultDistinctValuesHolder(CtScenario2x2x1With1G1D.HEADER_ROWS); 
 			assertNotNull(classUnderTest);
 			
 			classUnderTest.addValueIfNotExist(0, "North");
@@ -81,10 +81,10 @@ public class TestDistinctValuesHolder extends TestCase {
 	}
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.util.DistinctValuesHolder#computeCrosstabCoefficients()}.
+	 * Test method for {@link net.sf.reportengine.util.DefaultDistinctValuesHolder#computeCrosstabCoefficients()}.
 	 */
 	public void testComputeCrosstabCoefficient1x3x1sNoTotals() {
-			DistinctValuesHolder classUnderTest = new DistinctValuesHolder(CtScenario1x3x1.HEADER_ROWS); 
+			DefaultDistinctValuesHolder classUnderTest = new DefaultDistinctValuesHolder(CtScenario1x3x1.HEADER_ROWS); 
 			assertNotNull(classUnderTest);
 			
 			classUnderTest.addValueIfNotExist(0, "North");

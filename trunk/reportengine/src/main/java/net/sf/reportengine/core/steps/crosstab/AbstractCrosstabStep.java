@@ -9,7 +9,7 @@ import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.DistinctValuesHolder;
+import net.sf.reportengine.util.DefaultDistinctValuesHolder;
 import net.sf.reportengine.util.IOKeys;
 
 /**
@@ -62,8 +62,8 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 	  * 
 	  * @return the crosstab metadata of the report
 	  */
-	 public DistinctValuesHolder getDistinctValuesHolder(){
-		 return (DistinctValuesHolder)getAlgoContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER); 
+	 public DefaultDistinctValuesHolder getDistinctValuesHolder(){
+		 return (DefaultDistinctValuesHolder)getAlgoContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER); 
 	 }
 	 
 	 public IntermediateDataInfo getIntermediateCrosstabDataInfo(){
@@ -104,7 +104,7 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 	    	int[] result = null; 
 	    	if(groupingLevel >= from){
 	    		result = new int[groupingLevel-from+1];
-	    		DistinctValuesHolder ctMetadata = getDistinctValuesHolder(); 
+	    		DefaultDistinctValuesHolder ctMetadata = getDistinctValuesHolder(); 
 	    		Object[] prevDataRow = getPreviousRowOfGroupValues(); 
 	    		if(prevDataRow != null){
 	    			for(int i=from; i < groupingLevel+1; i++){

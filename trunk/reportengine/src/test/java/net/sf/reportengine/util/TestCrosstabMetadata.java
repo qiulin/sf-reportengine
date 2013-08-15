@@ -29,7 +29,7 @@ public class TestCrosstabMetadata extends TestCase {
 	}
 	
 	public void testComputeCoefficients2x2x1(){
-		DistinctValuesHolder distinctValuesHolder = new DistinctValuesHolder(CtScenario2x2x1With1G1D.HEADER_ROWS); 
+		DefaultDistinctValuesHolder distinctValuesHolder = new DefaultDistinctValuesHolder(CtScenario2x2x1With1G1D.HEADER_ROWS); 
 		assertNotNull(distinctValuesHolder);
 		
 		distinctValuesHolder.addValueIfNotExist(0, "North");
@@ -58,7 +58,7 @@ public class TestCrosstabMetadata extends TestCase {
 	 */
 	public void testComputeCoefficients1x3x1() {
 		
-		DistinctValuesHolder distinctValuesHolder = new DistinctValuesHolder(CtScenario1x3x1.HEADER_ROWS); 
+		DefaultDistinctValuesHolder distinctValuesHolder = new DefaultDistinctValuesHolder(CtScenario1x3x1.HEADER_ROWS); 
 		assertNotNull(distinctValuesHolder);
 		
 		distinctValuesHolder.addValueIfNotExist(0, "North");
