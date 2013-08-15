@@ -15,7 +15,7 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.util.IDistinctValuesHolder;
+import net.sf.reportengine.util.DistinctValuesHolder;
 import net.sf.reportengine.util.MockDistinctValuesHolder;
 
 /**
@@ -60,7 +60,7 @@ public class CtScenario2x2x1With0G2D {
 		
 	public static final DefaultCrosstabData CROSSTAB_DATA = new DefaultCrosstabData(4, Calculators.SUM); //the count column
 	
-	public static IDistinctValuesHolder MOCK_DISTINCT_VALUES_HOLDER = new MockDistinctValuesHolder(new String[][]{
+	public static DistinctValuesHolder MOCK_DISTINCT_VALUES_HOLDER = new MockDistinctValuesHolder(new String[][]{
 			new String[]{"M", "F"}, 
 			new String[]{"20", "50", "80"}
 		});

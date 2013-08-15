@@ -17,7 +17,7 @@ import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.ArrayReportInput;
-import net.sf.reportengine.util.IDistinctValuesHolder;
+import net.sf.reportengine.util.DistinctValuesHolder;
 import net.sf.reportengine.util.MockDistinctValuesHolder;
 
 /**
@@ -111,7 +111,7 @@ public class CtScenario1x3x1 {
 		new IntermediateDataInfo("30", new int[]{3,1,1})
 	};
 	
-	public static IDistinctValuesHolder MOCK_DISTINCT_VALUES_HOLDER = new MockDistinctValuesHolder(new String[][]{
+	public static DistinctValuesHolder MOCK_DISTINCT_VALUES_HOLDER = new MockDistinctValuesHolder(new String[][]{
 			new String[]{"North", "South", "East", "West"},
 			new String[]{"M", "F"},
 			new String[]{"20","50","80"}

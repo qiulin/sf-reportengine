@@ -56,7 +56,7 @@ import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With0G2D;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
 import net.sf.reportengine.scenarios.ct.CtScenario4x3x1;
-import net.sf.reportengine.util.IDistinctValuesHolder;
+import net.sf.reportengine.util.DistinctValuesHolder;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.MatrixUtils;
 import net.sf.reportengine.util.ReportIoUtils;
@@ -230,8 +230,8 @@ public class TestStepsCombo  {
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			algo.execute();
 			
-			IDistinctValuesHolder metadata = 
-					(IDistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
+			DistinctValuesHolder metadata = 
+					(DistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
 			assertNotNull(metadata);
 			
 			File intermedOutput = (File)algo.getResult(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
@@ -290,8 +290,8 @@ public class TestStepsCombo  {
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			algo.execute();
 			
-			IDistinctValuesHolder metadata = 
-					(IDistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
+			DistinctValuesHolder metadata = 
+					(DistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
 			assertNotNull(metadata);
 			
 			File intermedOutput = (File)algo.getResult(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
@@ -350,8 +350,8 @@ public class TestStepsCombo  {
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			algo.execute();
 			
-			IDistinctValuesHolder metadata = 
-					(IDistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
+			DistinctValuesHolder metadata = 
+					(DistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
 			assertNotNull(metadata);
 			
 			File intermedOutput = (File)algo.getResult(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
@@ -410,8 +410,8 @@ public class TestStepsCombo  {
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			algo.execute();
 			
-			IDistinctValuesHolder metadata = 
-					(IDistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
+			DistinctValuesHolder metadata = 
+					(DistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
 			assertNotNull(metadata);
 			
 			File intermedOutput = (File)algo.getResult(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
@@ -469,8 +469,8 @@ public class TestStepsCombo  {
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			algo.execute();
 			
-			IDistinctValuesHolder metadata = 
-					(IDistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
+			DistinctValuesHolder metadata = 
+					(DistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
 			assertNotNull(metadata);
 			
 			File intermedOutput = (File)algo.getResult(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
@@ -526,8 +526,8 @@ public class TestStepsCombo  {
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			algo.execute();
 			
-			IDistinctValuesHolder metadata = 
-					(IDistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
+			DistinctValuesHolder metadata = 
+					(DistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
 			assertNotNull(metadata);
 			
 			File intermedOutput = (File)algo.getResult(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
@@ -583,8 +583,8 @@ public class TestStepsCombo  {
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			algo.execute();
 			
-			IDistinctValuesHolder metadata = 
-					(IDistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
+			DistinctValuesHolder metadata = 
+					(DistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
 			assertNotNull(metadata);
 			
 			File intermedOutput = (File)algo.getResult(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
