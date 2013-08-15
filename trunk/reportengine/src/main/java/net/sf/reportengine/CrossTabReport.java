@@ -16,9 +16,15 @@ import net.sf.reportengine.core.algorithm.AlgorithmContainer;
 import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.steps.CloseReportIOExitStep;
+import net.sf.reportengine.core.steps.CloseReportInputExitStep;
+import net.sf.reportengine.core.steps.ConfigMultiExternalFilesInputForIntermReportInitStep;
+import net.sf.reportengine.core.steps.ConfigMultiExternalFilesInputInitStep;
+import net.sf.reportengine.core.steps.ConfigReportIOInitStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
+import net.sf.reportengine.core.steps.ExternalSortPreparationStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
 import net.sf.reportengine.core.steps.OpenReportIOInitStep;
+import net.sf.reportengine.core.steps.OpenReportInputInitStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.crosstab.ConfigCrosstabColumnsInitStep;
 import net.sf.reportengine.core.steps.crosstab.ConfigCrosstabIOInitStep;
@@ -38,6 +44,7 @@ import net.sf.reportengine.core.steps.intermed.IntermedTotalsOutputStep;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.ReportUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -124,6 +131,11 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	private CrosstabData crosstabData; 
 	
 	/**
+	 * 
+	 */
+	private boolean needsProgramaticSorting = false;
+	
+	/**
 	 * constructs a new crosstab report
 	 */
 	public CrossTabReport(){
@@ -186,6 +198,17 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 		reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals())); 
 		reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
 		
+		needsProgramaticSorting = 
+					!hasValuesSorted() 
+					|| ReportUtils.isSortingInColumns(getGroupColumns(), getDataColumns());
+		
+		LOGGER.info("programatic sorting needed {} ", needsProgramaticSorting); 
+    	//reportAlgoContainer.addIn(IOKeys.HAS_VALUES_ORDERED, !needsProgramaticSorting); 
+    	
+    	if(needsProgramaticSorting){
+    		reportAlgoContainer.addAlgo(configSortingAlgo()); 
+    	}
+		
 		reportAlgoContainer.addAlgo(configFirstReport()); 
 		reportAlgoContainer.addAlgo(configSecondReport()); 
 	}
@@ -204,7 +227,12 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 		
 		//initial steps 
 		algorithm.addInitStep(new ConfigIntermedColsInitStep()); 
-		algorithm.addInitStep(new ConfigIntermedIOInitStep());
+		
+		if(!needsProgramaticSorting){
+			algorithm.addInitStep(new ConfigIntermedIOInitStep());
+		}else{
+			algorithm.addInitStep(new ConfigMultiExternalFilesInputForIntermReportInitStep()); 
+		}
 		algorithm.addInitStep(new OpenReportIOInitStep()); 
 		algorithm.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
 		algorithm.addInitStep(new StartReportInitStep()); 
@@ -277,6 +305,26 @@ public class CrossTabReport extends AbstractColumnBasedReport{
         return algorithm; 
 	}
 	
+	
+	/**
+     * 
+     * @return
+     */
+    private Algorithm configSortingAlgo(){
+    	MultiStepAlgo sortingAlgo = new LoopThroughReportInputAlgo(); 
+    	
+    	//init steps
+    	sortingAlgo.addInitStep(new ConfigReportIOInitStep()); 
+    	sortingAlgo.addInitStep(new OpenReportInputInitStep()); 
+    	
+    	//main steps
+    	sortingAlgo.addMainStep(new ExternalSortPreparationStep()); 
+    	
+    	//exit steps
+    	sortingAlgo.addExitStep(new CloseReportInputExitStep());
+    	
+    	return sortingAlgo; 
+    }
 	
 	/**
 	 * getter method for crosstable header rows

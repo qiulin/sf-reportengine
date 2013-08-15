@@ -14,7 +14,7 @@ import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.CloseReportInputExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
-import net.sf.reportengine.core.steps.ConfigFlatIOInitStep;
+import net.sf.reportengine.core.steps.ConfigMultiExternalFilesInputInitStep;
 import net.sf.reportengine.core.steps.ConfigReportIOInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
@@ -103,7 +103,7 @@ public class AutoconfigFlatReport extends AbstractReport {
     	reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
     	
     	needsProgramaticSorting = !hasValuesSorted() || ReportUtils.isSortingInPreferences(userColumnPrefs); 
-    	reportAlgoContainer.addIn(IOKeys.HAS_VALUES_ORDERED, !needsProgramaticSorting); 
+    	//reportAlgoContainer.addIn(IOKeys.HAS_VALUES_ORDERED, !needsProgramaticSorting); 
     	
     	if(needsProgramaticSorting){
     		reportAlgoContainer.addAlgo(configSortingAlgo()); 
@@ -136,7 +136,12 @@ public class AutoconfigFlatReport extends AbstractReport {
     private Algorithm configReportAlgo(){
     	MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(); 
     	//the initial steps
-    	algorithm.addInitStep(new ConfigFlatIOInitStep()); 
+    	if(!needsProgramaticSorting){
+    		algorithm.addInitStep(new ConfigReportIOInitStep()); 
+    	}else{
+    		algorithm.addInitStep(new ConfigMultiExternalFilesInputInitStep()); 
+    	}
+    	//algorithm.addInitStep(new ConfigMultiExternalFilesInputInitStep()); 
 		algorithm.addInitStep(new OpenReportIOInitStep()); 
     	algorithm.addInitStep(new InitReportDataInitStep()); 
     	if(!needsProgramaticSorting){
