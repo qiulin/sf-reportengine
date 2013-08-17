@@ -71,7 +71,7 @@ public class ColumnPreferences {
 	/**
 	 * @param header the header to set
 	 */
-	public ColumnPreferences setHeader(String header) {
+	public ColumnPreferences header(String header) {
 		this.header = header;
 		return this; 
 	}
@@ -108,7 +108,7 @@ public class ColumnPreferences {
 	/**
 	 * @param horizAlign the horizAlign to set
 	 */
-	public ColumnPreferences setHAlign(HorizAlign horizAlign) {
+	public ColumnPreferences horizAlign(HorizAlign horizAlign) {
 		this.horizAlign = horizAlign;
 		return this; 
 	}
@@ -116,7 +116,7 @@ public class ColumnPreferences {
 	/**
 	 * @param vertAlign the horizAlign to set
 	 */
-	public ColumnPreferences setVAlign(VertAlign vertAlign) {
+	public ColumnPreferences vertAlign(VertAlign vertAlign) {
 		this.vertAlign = vertAlign;
 		return this; 
 	}
@@ -127,6 +127,7 @@ public class ColumnPreferences {
 	public Format getFormatter() {
 		return formatter;
 	}
+	
 	/**
 	 * @param formatter the formatter to set
 	 */
@@ -134,12 +135,14 @@ public class ColumnPreferences {
 		this.formatter = formatter;
 		return this; 
 	}
+	
 	/**
 	 * @return the calculator
 	 */
 	public Calculator getCalculator() {
 		return calculator;
 	}
+	
 	/**
 	 * @param calculator the calculator to set
 	 */

@@ -5,7 +5,9 @@ package net.sf.reportengine.config;
 
 import java.text.Format;
 
+import net.sf.reportengine.config.DefaultDataColumn.Builder;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.calc.Calculator;
 
 /**
  * 
@@ -147,6 +149,21 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 		setInputColumnIndex(inputColumnIndex);
 	}
 	
+	/**
+	 * 
+	 * @param builder
+	 */
+	private DefaultGroupColumn(Builder builder){
+		super(	builder.header, 
+				builder.groupLevel, 
+				builder.formatter, 
+				builder.hAlign, 
+				builder.vAlign, 
+				builder.showDuplicateValues, 
+				builder.sortType); 
+		setInputColumnIndex(builder.columnIndex); 
+	}
+	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.config.GroupColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
@@ -186,23 +203,62 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 	}
 	
 	public static class Builder{
+		private int columnIndex; 
+		private String header; 
+		private HorizAlign hAlign = HorizAlign.CENTER; 
+		private VertAlign  vAlign = VertAlign.MIDDLE; 
+		private Format formatter = null; 
+		private SortType sortType = SortType.NONE; 
 		
-		private int inputColumnIdx = 0;
-		private int groupLevel = 0;
-		private String header = ""; 
+		private int groupLevel = 0; 
+		private boolean showDuplicateValues = false; 
 		
-		public Builder(int inputColumnIndex){
-			this.inputColumnIdx = inputColumnIndex; 
-		}
-		
-		public Builder level(int grpLevel){
-			this.groupLevel = grpLevel; 
-			return this; 
+		public Builder(int columnIndex){
+			this.columnIndex = columnIndex; 
 		}
 		
 		public Builder header(String header){
 			this.header = header; 
 			return this; 
+		}
+		
+		public Builder horizAlign(HorizAlign hAlign){
+			this.hAlign = hAlign; 
+			return this; 
+		}
+		
+		public Builder vertAlign(VertAlign vAlign){
+			this.vAlign = vAlign; 
+			return this; 
+		}
+		
+		public Builder useFormatter(Format format){
+			this.formatter = format; 
+			return this; 
+		}
+		
+		public Builder sortAsc(){
+			this.sortType = SortType.ASC; 
+			return this;
+		}
+		
+		public Builder sortDesc(){
+			this.sortType = SortType.DESC; 
+			return this; 
+		}
+		
+		public Builder level(int groupLevel){
+			this.groupLevel = groupLevel; 
+			return this; 
+		}
+		
+		public Builder showDuplicateValues(){
+			this.showDuplicateValues = true; 
+			return this; 
+		}
+		
+		public DefaultGroupColumn build(){
+			return new DefaultGroupColumn(this); 
 		}
 	}
 }

@@ -6,7 +6,6 @@ package net.sf.reportengine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
