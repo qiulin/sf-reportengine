@@ -5,6 +5,7 @@ package net.sf.reportengine.config;
 
 import java.text.Format;
 
+import net.sf.reportengine.config.DefaultDataColumn.Builder;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.Calculator;
 
@@ -90,6 +91,14 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 		setInputColumnIndex(inputColumIndex);
 	}	
 	
+	/**
+	 * 
+	 * @param builder
+	 */
+	private DefaultCrosstabData(Builder builder){
+		super(builder.calculator, builder.formatter, builder.hAlign, builder.vAlign); 
+		setInputColumnIndex(builder.columnIndex); 
+	}
 	
 	public Object getValue(NewRowEvent newRowEvent) {
 		return newRowEvent.getInputDataRow().get(inputColumnIndex);
@@ -101,5 +110,41 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 
 	public void setInputColumnIndex(int inputColumnIndex) {
 		this.inputColumnIndex = inputColumnIndex;
+	}
+	
+	public static class Builder{
+		private int columnIndex; 
+		private HorizAlign hAlign = HorizAlign.CENTER; 
+		private VertAlign  vAlign = VertAlign.MIDDLE; 
+		private Format formatter = null; 
+		private Calculator calculator = null; 
+		
+		public Builder(int columnIndex){
+			this.columnIndex = columnIndex; 
+		}
+		
+		public Builder horizAlign(HorizAlign hAlign){
+			this.hAlign = hAlign; 
+			return this; 
+		}
+		
+		public Builder vertAlign(VertAlign vAlign){
+			this.vAlign = vAlign; 
+			return this; 
+		}
+		
+		public Builder useFormatter(Format format){
+			this.formatter = format; 
+			return this; 
+		}
+		
+		public Builder useCalculator(Calculator calc){
+			this.calculator = calc; 
+			return this; 
+		}
+		
+		public DefaultCrosstabData build(){
+			return new DefaultCrosstabData(this); 
+		}
 	}
 }

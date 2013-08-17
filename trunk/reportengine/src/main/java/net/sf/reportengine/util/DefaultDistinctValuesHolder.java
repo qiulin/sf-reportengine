@@ -37,15 +37,6 @@ public class DefaultDistinctValuesHolder implements DistinctValuesHolder{
 	/**
 	 * 
 	 * @param headerRows
-	 * @deprecated
-	 */
-	public DefaultDistinctValuesHolder(CrosstabHeaderRow[] headerRows){
-		this(Arrays.asList(headerRows)); 
-	}
-	
-	/**
-	 * 
-	 * @param headerRows
 	 */
 	public DefaultDistinctValuesHolder(List<CrosstabHeaderRow> headerRows){
 		distinctValuesMap = new HashMap<Integer, DistinctValuesRow>(headerRows.size()); 

@@ -40,8 +40,8 @@ public class TestAutoconfigFlatReport {
 		
 		flatReport.setIn(AutodetectConfigurationScenario.INPUT); 
 		flatReport.setOut(new HtmlOutput("./target/testAutodetectWithUserPrefs.html")); 
-		flatReport.forColumn("col1").setHeader("First column forced by prefs to right align")
-									.setHAlign(HorizAlign.RIGHT); 
+		flatReport.forColumn("col1").header("First column forced by prefs to right align")
+									.horizAlign(HorizAlign.RIGHT); 
 		flatReport.execute(); 
 	}
 	
@@ -72,8 +72,8 @@ public class TestAutoconfigFlatReport {
 		flatReport.setIn(input); 
 		flatReport.setOut(new HtmlOutput("./target/AutodetectFromSqlWithUserPrefsAndDbOrdering.html")); 
 		
-		flatReport.forColumn("COUNTRY").setHAlign(HorizAlign.RIGHT).setVAlign(VertAlign.TOP).setHeader("Changed header").group(); 
-		flatReport.forColumn("VALUE").setVAlign(VertAlign.BOTTOM).useCalculator(Calculators.SUM).useFormatter(NumberFormat.getCurrencyInstance()); 
+		flatReport.forColumn("COUNTRY").horizAlign(HorizAlign.RIGHT).vertAlign(VertAlign.TOP).header("Changed header").group(); 
+		flatReport.forColumn("VALUE").vertAlign(VertAlign.BOTTOM).useCalculator(Calculators.SUM).useFormatter(NumberFormat.getCurrencyInstance()); 
 		flatReport.forColumn("REGION").group(); 
 		flatReport.forColumn("CITY").group(); 
 		
@@ -95,7 +95,7 @@ public class TestAutoconfigFlatReport {
 		//we need to declare that values are not sorted because the column preferences below don't have any sort declared
 		flatReport.setValuesSorted(false); 
 		
-		flatReport.forColumn("COUNTRY").setHAlign(HorizAlign.RIGHT).setHeader("Changed header").group(); 
+		flatReport.forColumn("COUNTRY").horizAlign(HorizAlign.RIGHT).header("Changed header").group(); 
 		flatReport.forColumn("VALUE").useCalculator(Calculators.SUM).useFormatter(NumberFormat.getCurrencyInstance()); 
 		flatReport.forColumn("REGION").group(); 
 		flatReport.forColumn("CITY").group(); 
@@ -118,13 +118,13 @@ public class TestAutoconfigFlatReport {
 		flatReport.setIn(input); 
 		flatReport.setOut(new HtmlOutput("./target/AutodetFrmSqlWithProgrOrderingAndNonGroupColSorted.html")); 
 		
-		flatReport.forColumn("COUNTRY")	.setHAlign(HorizAlign.RIGHT)
-										.setHeader("Changed header")
+		flatReport.forColumn("COUNTRY")	.horizAlign(HorizAlign.RIGHT)
+										.header("Changed header")
 										.group();
 		
-		flatReport.forColumn("SEX")	.setHeader("Sorted ASC programatically with priority 1")
+		flatReport.forColumn("SEX")	.header("Sorted ASC programatically with priority 1")
 									.sortAsc(0); 
-		flatReport.forColumn("VALUE")	.setHeader("Sorted ASC programatically with priority 2")
+		flatReport.forColumn("VALUE")	.header("Sorted ASC programatically with priority 2")
 										.useCalculator(Calculators.SUM)
 										.useFormatter(NumberFormat.getCurrencyInstance())
 										.sortAsc(1); //non group column sorted

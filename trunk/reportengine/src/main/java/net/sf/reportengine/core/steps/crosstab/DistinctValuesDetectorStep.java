@@ -1,13 +1,12 @@
 package net.sf.reportengine.core.steps.crosstab;
 
 import java.util.List;
-import java.util.Map;
 
 import net.sf.reportengine.config.CrosstabHeaderRow;
-import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.DefaultDistinctValuesHolder;
+import net.sf.reportengine.util.DistinctValuesHolder;
 import net.sf.reportengine.util.IOKeys;
 
 
@@ -37,10 +36,11 @@ import net.sf.reportengine.util.IOKeys;
  */
 public class DistinctValuesDetectorStep extends AbstractCrosstabStep {
 	
+	
 	/**
 	 * the distinct values holder
 	 */
-	private DefaultDistinctValuesHolder distinctValuesHolder = null; 
+	private DistinctValuesHolder distinctValuesHolder = null; 
 	
 	
 	/**
@@ -70,7 +70,7 @@ public class DistinctValuesDetectorStep extends AbstractCrosstabStep {
 			CrosstabHeaderRow headerRow = headerRows.get(i);
 			
 			//add value even if it's not a different value we call this method 
-			//for getting teh idex of the value in the distinct values array
+			//for getting the index of the value in the distinct values array
 			indexAfterInsertion = distinctValuesHolder.addValueIfNotExist(i, 
 										headerRow.getValue(newRowEvent));
 			
@@ -78,8 +78,6 @@ public class DistinctValuesDetectorStep extends AbstractCrosstabStep {
 			currDataValueRelativePositionToHeaderValues[i] = indexAfterInsertion; 
 		}
 		
-		
-		//getContext().set(CONTEXT_KEY_CROSSTAB_RELATIVE_POSITION, currentDataValueRelativePositionToHeaderValues);
 		getAlgoContext().set(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO, 
 						new IntermediateDataInfo(getCrosstabData().getValue(newRowEvent), 
 												currDataValueRelativePositionToHeaderValues)); 

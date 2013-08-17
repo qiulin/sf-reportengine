@@ -57,11 +57,11 @@ public class TestAutodetectColumnsInitStep {
 		//set up user preferences
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
-		column1Prefs.setHeader("Header Data Col 1").setHAlign(HorizAlign.LEFT); 
+		column1Prefs.header("Header Data Col 1").horizAlign(HorizAlign.LEFT); 
 		userPrefs.put("COL1", column1Prefs); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
-		column2Prefs.setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
+		column2Prefs.header("Header Data Col 2").horizAlign(HorizAlign.RIGHT); 
 		userPrefs.put("COL2", column2Prefs);
 		
 		mockAlgoInput.put(IOKeys.USER_COLUMN_PREFERENCES, userPrefs); 
@@ -89,11 +89,11 @@ public class TestAutodetectColumnsInitStep {
 		//set up user preferences
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
-		column1Prefs.setHeader("Header Data Col 1").setHAlign(HorizAlign.LEFT); 
+		column1Prefs.header("Header Data Col 1").horizAlign(HorizAlign.LEFT); 
 		userPrefs.put("COL1", column1Prefs); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
-		column2Prefs.setHeader("Header Data Col 2").setHAlign(HorizAlign.RIGHT); 
+		column2Prefs.header("Header Data Col 2").horizAlign(HorizAlign.RIGHT); 
 		userPrefs.put("COL3", column2Prefs);//NOT TAKEN INTO ACCCOUNT BECAUSE THERE is no metadata with id col3
 		
 		mockAlgoInput.put(IOKeys.USER_COLUMN_PREFERENCES, userPrefs); 
@@ -120,7 +120,7 @@ public class TestAutodetectColumnsInitStep {
 		
 		//set up report context
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
-		column1Prefs.setHeader("Second Column Prefs").setHAlign(HorizAlign.LEFT); 
+		column1Prefs.header("Second Column Prefs").horizAlign(HorizAlign.LEFT); 
 		
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		userPrefs.put("COL2", column1Prefs); 
@@ -148,11 +148,11 @@ public class TestAutodetectColumnsInitStep {
 		//set up user preferences
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
-		column1Prefs.group().setHeader("Header Group Col 1").setHAlign(HorizAlign.LEFT); 
+		column1Prefs.group().header("Header Group Col 1").horizAlign(HorizAlign.LEFT); 
 		userPrefs.put("COL1", column1Prefs); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
-		column2Prefs.group().setHeader("Header Group Col 2").setHAlign(HorizAlign.RIGHT); 
+		column2Prefs.group().header("Header Group Col 2").horizAlign(HorizAlign.RIGHT); 
 		userPrefs.put("COL2", column2Prefs);
 		
 		mockAlgoInput.put(IOKeys.USER_COLUMN_PREFERENCES, userPrefs); 
@@ -182,7 +182,7 @@ public class TestAutodetectColumnsInitStep {
 		Map<String, ColumnPreferences> userPrefs = new HashMap<String, ColumnPreferences>(); 
 		
 		ColumnPreferences column2Prefs = new ColumnPreferences(); 
-		column2Prefs.group().setHeader("Header Group Col 2").setHAlign(HorizAlign.RIGHT); 
+		column2Prefs.group().header("Header Group Col 2").horizAlign(HorizAlign.RIGHT); 
 		userPrefs.put("COL2", column2Prefs);
 		
 		mockAlgoInput.put(IOKeys.USER_COLUMN_PREFERENCES, userPrefs);  

@@ -172,6 +172,15 @@ public class DefaultDataColumn extends AbstractDataColumn {
 		setInputColumnIndex(inputColumnIndex);
 	}
 	
+	/**
+	 * 
+	 * @param builder
+	 */
+	private DefaultDataColumn(Builder builder){
+		super(builder.header, builder.calculator, builder.formatter, builder.hAlign, builder.vAlign, builder.sortLevel, builder.sortType); 
+		setInputColumnIndex(builder.columnIndex); 
+	}
+	
 	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.config.DataColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
@@ -202,11 +211,76 @@ public class DefaultDataColumn extends AbstractDataColumn {
 		result.append("inputIdx=").append(inputColumnIndex);
 		result.append(", header=").append(getHeader());
 		result.append(", hAlign=").append(getHorizAlign());
+		result.append(", vAlign=").append(getVertAlign()); 
 		result.append(", formatter=").append(getFormatter());
 		result.append(", calculator=").append(getCalculator());
 		result.append(", sortlevel=").append(getSortLevel());
 		result.append(", sortType=").append(getSortType()); 
 		result.append("]");
 		return result.toString(); 
+	}
+	
+	public static class Builder{
+		private int columnIndex; 
+		private String header = ""; 
+		private HorizAlign hAlign = HorizAlign.CENTER; 
+		private VertAlign  vAlign = VertAlign.MIDDLE; 
+		private Format formatter = null; 
+		private Calculator calculator = null; 
+		private int sortLevel = DataColumn.NO_SORTING; 
+		private SortType sortType = SortType.NONE; 
+		
+		public Builder(int columnIndex){
+			this.columnIndex = columnIndex; 
+		}
+		
+		public Builder header(String header){
+			this.header = header; 
+			return this; 
+		}
+		
+		public Builder horizAlign(HorizAlign hAlign){
+			this.hAlign = hAlign; 
+			return this; 
+		}
+		
+		public Builder vertAlign(VertAlign vAlign){
+			this.vAlign = vAlign; 
+			return this; 
+		}
+		
+		public Builder useFormatter(Format format){
+			this.formatter = format; 
+			return this; 
+		}
+		
+		public Builder useCalculator(Calculator calc){
+			this.calculator = calc; 
+			return this; 
+		}
+		
+		public Builder sortAsc(int sortLevel){
+			this.sortLevel = sortLevel; 
+			this.sortType = SortType.ASC; 
+			return this; 
+		}
+		
+		public Builder sortAsc(){
+			return this.sortAsc(0);
+		}
+		
+		public Builder sortDesc(int sortLevel){
+			this.sortLevel = sortLevel; 
+			this.sortType = SortType.DESC; 
+			return this;
+		}
+		
+		public Builder sortDesc(){
+			return sortDesc(0); 
+		}
+		
+		public DefaultDataColumn build(){
+			return new DefaultDataColumn(this); 
+		}
 	}
 }

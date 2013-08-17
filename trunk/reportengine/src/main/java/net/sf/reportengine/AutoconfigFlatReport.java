@@ -6,7 +6,6 @@ package net.sf.reportengine;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.reportengine.FlatReport.Builder;
 import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
 import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
@@ -30,6 +29,8 @@ import net.sf.reportengine.core.steps.autodetect.AutodetectFlatReportTotalsOutpu
 import net.sf.reportengine.core.steps.autodetect.AutodetectPreviousRowManagerStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectTotalsCalculatorStep;
 import net.sf.reportengine.in.ColumnPreferences;
+import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
 
@@ -78,6 +79,8 @@ public class AutoconfigFlatReport extends AbstractReport {
     	this.setShowGrandTotal(builder.showGrandTotal); 
     	this.setValuesSorted(builder.valuesSorted); 
     	this.setTitle(builder.reportTitle); 
+    	this.setIn(builder.reportInput); 
+    	this.setOut(builder.reportOutput);
     }
     
     /**
@@ -218,6 +221,8 @@ public class AutoconfigFlatReport extends AbstractReport {
     	private boolean showGrandTotal = true; 
     	private boolean showDataRows = true; 
     	private boolean valuesSorted = true; 
+    	private ReportInput reportInput = null; 
+    	private ReportOutput reportOutput = null;
     	
     	public Builder() {
     		
@@ -245,6 +250,16 @@ public class AutoconfigFlatReport extends AbstractReport {
     	
     	public Builder sortValues(){
     		this.valuesSorted = false; 
+    		return this; 
+    	}
+    	
+    	public Builder input(ReportInput input){
+    		this.reportInput = input; 
+    		return this; 
+    	}
+    	
+    	public Builder output(ReportOutput output){
+    		this.reportOutput = output; 
     		return this; 
     	}
     	

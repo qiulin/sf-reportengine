@@ -36,8 +36,6 @@ public class DistinctValuesRow {
 	}
 	
 	
-	
-	
 	/**
 	 * tries to add a distinct value to the list. 
 	 * 
@@ -57,7 +55,7 @@ public class DistinctValuesRow {
 	
 	public String toString(){
 		StringBuffer result = new StringBuffer(); 
-		result.append("HeaderDistinctValuesDescriptor[");
+		result.append("HeaderDistinctValuesRow[");
 		result.append(distinctValues.toString());
 		result.append("]");
 		return result.toString();

@@ -18,7 +18,6 @@ import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.CloseReportInputExitStep;
 import net.sf.reportengine.core.steps.ConfigMultiExternalFilesInputForIntermReportInitStep;
-import net.sf.reportengine.core.steps.ConfigMultiExternalFilesInputInitStep;
 import net.sf.reportengine.core.steps.ConfigReportIOInitStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.ExternalSortPreparationStep;
@@ -139,6 +138,21 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	 * constructs a new crosstab report
 	 */
 	public CrossTabReport(){
+		
+	}
+	
+	public CrossTabReport(Builder builder){
+		this.setShowDataRows(builder.showDataRows); 
+    	this.setShowGrandTotal(builder.showGrandTotal); 
+    	this.setShowTotals(builder.showTotals);
+    	this.setValuesSorted(builder.valuesSorted); 
+    	this.setTitle(builder.reportTitle); 
+    	this.setIn(builder.reportInput); 
+    	this.setOut(builder.reportOutput); 
+    	this.setDataColumns(builder.dataColumns); 
+    	this.setGroupColumns(builder.groupColumns); 
+    	this.setCrosstabData(builder.crosstabData); 
+    	this.setHeaderRows(builder.headerRows); 
 	}
 	
 	/**
@@ -388,5 +402,98 @@ public class CrossTabReport extends AbstractColumnBasedReport{
         
         reportAlgoContainer.execute(); 
          
+    }
+    
+public static class Builder {
+    	
+    	private String reportTitle = null; 
+    	private boolean showTotals = true; 
+    	private boolean showGrandTotal = true; 
+    	private boolean showDataRows = true; 
+    	private boolean valuesSorted = true; 
+    	private ReportInput reportInput = null; 
+    	private ReportOutput reportOutput = null;
+    	private List<DataColumn> dataColumns = new ArrayList<DataColumn>(); 
+    	private List<GroupColumn> groupColumns = new ArrayList<GroupColumn>();
+    	private List<CrosstabHeaderRow> headerRows = new ArrayList<CrosstabHeaderRow>(); 
+    	private CrosstabData crosstabData = null; 
+    	
+    	public Builder() {
+    		
+    	}
+    	
+    	public Builder title(String title){
+    		this.reportTitle = title; 
+    		return this; 
+    	}
+    	
+    	public Builder showTotals(boolean show){
+    		this.showTotals = show; 
+    		return this; 
+    	}
+    	
+    	public Builder showGrandTotal(boolean show){
+    		this.showGrandTotal = show; 
+    		return this; 
+    	}
+    	
+    	public Builder showDataRows(boolean show){
+    		this.showDataRows = show; 
+    		return this; 
+    	}
+    	
+    	public Builder sortValues(){
+    		this.valuesSorted = false; 
+    		return this; 
+    	}
+    	
+    	public Builder input(ReportInput input){
+    		this.reportInput = input; 
+    		return this; 
+    	}
+    	
+    	public Builder output(ReportOutput output){
+    		this.reportOutput = output; 
+    		return this; 
+    	}
+    	
+    	public Builder dataColumns(List<DataColumn> dataCols){
+    		this.dataColumns = dataCols; 
+    		return this; 
+    	}
+    	
+    	public Builder addDataColumn(DataColumn dataCol){
+    		this.dataColumns.add(dataCol);
+    		return this; 
+    	}
+    	
+    	public Builder groupColumns(List<GroupColumn> groupCols){
+    		this.groupColumns = groupCols; 
+    		return this; 
+    	}
+    	
+    	public Builder addGroupColumn(GroupColumn groupCol){
+    		this.groupColumns.add(groupCol); 
+    		return this; 
+    	}
+    	
+    	public Builder headerRows(List<CrosstabHeaderRow> headerRows){
+    		this.headerRows = headerRows; 
+    		return this; 
+    	}
+    	
+    	public Builder addHeaderRow(CrosstabHeaderRow headerRow){
+    		this.headerRows.add(headerRow);
+    		return this; 
+    	}
+    	
+    	public Builder crosstabData(CrosstabData data){
+    		this.crosstabData = data; 
+    		return this; 
+    	}
+    	
+    	public CrossTabReport build(){
+    		return new CrossTabReport(this); 
+    	}
     }
 }
