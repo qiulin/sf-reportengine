@@ -55,5 +55,29 @@ public class TestPdfOutput {
 		classUnderTest.endReport(); 
 		classUnderTest.close(); 
 	}
-
+	
+	
+	@Test
+	public void testUtf8Output() throws Exception {
+		PdfOutput classUnderTest = new PdfOutput(new FileOutputStream("./target/pdfOutputUtf8.pdf"));
+		
+		classUnderTest.open();
+		classUnderTest.startReport(new ReportProps()); 
+		classUnderTest.outputTitle(new TitleProps("Τη γλώσσα μου έδωσαν ελληνική", 3));
+		
+		classUnderTest.startHeaderRow(new RowProps(0)); 
+		classUnderTest.outputHeaderCell(new CellProps.Builder("header1").build()); 
+		classUnderTest.outputHeaderCell(new CellProps.Builder("header2").build());
+		classUnderTest.outputHeaderCell(new CellProps.Builder("header3").build());
+		classUnderTest.endHeaderRow(); 
+		
+		classUnderTest.startDataRow(new RowProps(0)); 
+		classUnderTest.outputDataCell(new CellProps.Builder("Действията").build()); 
+		classUnderTest.outputDataCell(new CellProps.Builder("във връзка с").build());
+		classUnderTest.outputDataCell(new CellProps.Builder("подобряване на").build());
+		classUnderTest.endDataRow(); 
+		
+		classUnderTest.endReport(); 
+		classUnderTest.close(); 
+	}
 }

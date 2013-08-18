@@ -136,6 +136,32 @@ public final class ReportIoUtils {
 	
 	/**
 	 * 
+	 * @param file
+	 * @return
+	 */
+	public static Writer createWriterFromFile(File file){
+		return createWriterFromFile(file, UTF8_ENCODING); 
+	}
+	
+	
+	/**
+	 * 
+	 * @param file
+	 * @param encoding
+	 * @return
+	 */
+	public static Writer createWriterFromFile(File file, String encoding){
+		try{
+			return new OutputStreamWriter(new FileOutputStream(file), encoding); 
+		} catch (FileNotFoundException e) {
+			throw new ReportOutputException(e); 
+		} catch(UnsupportedEncodingException e){
+			throw new ReportOutputException(e); 
+		}
+	}
+	
+	/**
+	 * 
 	 * @param classpath
 	 * @return
 	 */

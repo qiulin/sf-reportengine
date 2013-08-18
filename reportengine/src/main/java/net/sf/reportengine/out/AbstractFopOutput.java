@@ -140,13 +140,9 @@ public abstract class AbstractFopOutput implements ReportOutput{
 	 * 
 	 */
 	public void open(){
-		try {
-			tempFoFile = ReportIoUtils.createTempFile("report-fo");
-			foOutput = new FoOutput(new FileWriter(tempFoFile));
-			foOutput.open(); 
-		} catch (IOException e) {
-			throw new ReportOutputException(e);
-		}
+		tempFoFile = ReportIoUtils.createTempFile("report-fo");
+		foOutput = new FoOutput(ReportIoUtils.createWriterFromFile(tempFoFile));
+		foOutput.open(); 
 	}
 	
 	public void startReport(ReportProps reportProps){

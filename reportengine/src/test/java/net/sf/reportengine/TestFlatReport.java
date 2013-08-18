@@ -31,24 +31,26 @@ public class TestFlatReport {
 	
 	@Test
 	public void testExecuteScenario1(){
-		FlatReport flatReport = new FlatReport();	
 		
 		OutputDispatcher outputDispatcher = new OutputDispatcher(); 
 		CellPropsArrayOutput testOut = new CellPropsArrayOutput();
 		outputDispatcher.registerOutput(testOut); 
 		outputDispatcher.registerOutput(new HtmlOutput("./target/Scenario1.html")); 
 		
-		
-		flatReport.setIn(Scenario1.INPUT);
-		flatReport.setOut(outputDispatcher);
-		flatReport.setDataColumns(Scenario1.DATA_COLUMNS);
-		flatReport.setGroupColumns(Scenario1.GROUPING_COLUMNS);
-		flatReport.setShowTotals(true);
-		flatReport.setShowDataRows(true);
-		flatReport.setShowGrandTotal(true);
+		FlatReport flatReport = new FlatReport.Builder()
+									.input(Scenario1.INPUT)
+									.output(outputDispatcher)
+									.dataColumns(Scenario1.DATA_COLUMNS)
+									.groupColumns(Scenario1.GROUPING_COLUMNS)
+									.showTotals(true)
+									.showDataRows(true)
+									.showGrandTotal(true)
+									.build();	
 		flatReport.execute();
 			
-		Assert.assertTrue(MatrixUtils.compareMatrices(testOut.getDataCellMatrix(), Scenario1.EXPECTED_OUTPUT_UNSORTED));
+		Assert.assertTrue(MatrixUtils.compareMatrices(
+										testOut.getDataCellMatrix(), 
+										Scenario1.EXPECTED_OUTPUT_UNSORTED));
 	}
 	
 	@Test

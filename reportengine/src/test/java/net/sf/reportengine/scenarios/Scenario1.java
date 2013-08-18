@@ -66,23 +66,23 @@ public class Scenario1 {
 	
 	public static final List<GroupColumn> GROUPING_COLUMNS = Arrays.asList(
 		new GroupColumn[]{
-				new DefaultGroupColumn("col 0", 0, 0, null, HorizAlign.CENTER, true), 
-				new DefaultGroupColumn("col 1", 1, 1, null, HorizAlign.CENTER, true), 
-				new DefaultGroupColumn("col 2", 2, 2, null, HorizAlign.CENTER, true)
+				new DefaultGroupColumn.Builder(0).level(0).header("col 0").showDuplicateValues().build(), 
+				new DefaultGroupColumn.Builder(1).level(1).header("col 1").showDuplicateValues().build(), 
+				new DefaultGroupColumn.Builder(2).level(2).header("col 2").showDuplicateValues().build()
 		});
 	
 	public static final List<GroupColumn> GROUPING_COLUMNS_WITH_SORTING = Arrays.asList(
 			new GroupColumn[]{
-					new DefaultGroupColumn("col 0", 0, 0, null, HorizAlign.CENTER, VertAlign.MIDDLE, true, SortType.ASC), 
-					new DefaultGroupColumn("col 1", 1, 1, null, HorizAlign.CENTER, VertAlign.MIDDLE, true, SortType.ASC), 
-					new DefaultGroupColumn("col 2", 2, 2, null, HorizAlign.CENTER, VertAlign.MIDDLE, true, SortType.ASC)
+					new DefaultGroupColumn.Builder(0).level(0).header("col 0").showDuplicateValues().sortAsc().build(), 
+					new DefaultGroupColumn.Builder(1).level(1).header("col 1").showDuplicateValues().sortAsc().build(), 
+					new DefaultGroupColumn.Builder(2).level(2).header("col 2").showDuplicateValues().sortAsc().build()
 			});
 	
 	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(
 			new DataColumn[]{
-		new DefaultDataColumn("col 3", 3), 
-		new DefaultDataColumn("col 4", 4, Calculators.COUNT), 
-		new DefaultDataColumn("col 5", 5, Calculators.SUM)
+		new DefaultDataColumn.Builder(3).header("col 3").build(), 
+		new DefaultDataColumn.Builder(4).header("col 4").useCalculator(Calculators.COUNT).build(), 
+		new DefaultDataColumn.Builder(5).header("col 5").useCalculator(Calculators.SUM).build()
 	});
 	
 	public static final int[] DISTRIBUTION_OF_CALCULATOR_IN_DATA_ROW_ARRAY = new int[]{-1,0,1};  
