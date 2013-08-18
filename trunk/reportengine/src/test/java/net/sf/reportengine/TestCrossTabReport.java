@@ -51,16 +51,16 @@ public class TestCrossTabReport extends TestCase {
 
 	
 	public void testExecute1x1x1xT(){
-		CrossTabReport classUnderTest = new CrossTabReport(); 
-		classUnderTest.setIn(CtScenario1x1x1.INPUT); 
-		classUnderTest.setOut(new HtmlOutput("target/CrosstabReport1x1x1xT.html"));
-		classUnderTest.setGroupColumns(CtScenario1x1x1.GROUP_COLUMNS);
-		classUnderTest.setDataColumns(CtScenario1x1x1.DATA_COLUMNS); 
-		classUnderTest.setCrosstabData(CtScenario1x1x1.CROSSTAB_DATA_WITH_TOTALS); 
-		classUnderTest.setHeaderRows(CtScenario1x1x1.ROW_HEADERS); 
-		classUnderTest.setShowTotals(true); 
-		classUnderTest.setShowGrandTotal(true); 
-		
+		CrossTabReport classUnderTest = new CrossTabReport.Builder()
+											.input(CtScenario1x1x1.INPUT)
+											.output(new HtmlOutput("target/CrosstabReport1x1x1xT.html"))
+											.groupColumns(CtScenario1x1x1.GROUP_COLUMNS)
+											.dataColumns(CtScenario1x1x1.DATA_COLUMNS)
+											.crosstabData(CtScenario1x1x1.CROSSTAB_DATA_WITH_TOTALS)
+											.headerRows(CtScenario1x1x1.ROW_HEADERS)
+											.showTotals(true)
+											.showGrandTotal(true)
+											.build(); 
 		classUnderTest.execute(); 
 	}
 	

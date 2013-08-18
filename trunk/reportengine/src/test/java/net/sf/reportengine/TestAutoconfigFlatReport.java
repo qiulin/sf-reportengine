@@ -23,12 +23,13 @@ public class TestAutoconfigFlatReport {
 	
 	@Test
 	public void testAutodetectColumnsFromMetadata(){
-		AutoconfigFlatReport flatReport = new AutoconfigFlatReport(); 
 		
 		AutodetectConfigurationScenario.initScenario(); 
 		
-		flatReport.setIn(AutodetectConfigurationScenario.INPUT); 
-		flatReport.setOut(new HtmlOutput("./target/testBasicAutodetect.html")); 
+		AutoconfigFlatReport flatReport = new AutoconfigFlatReport.Builder()
+			.input(AutodetectConfigurationScenario.INPUT)
+			.output(new HtmlOutput("./target/testBasicAutodetect.html"))
+			.build(); 
 		flatReport.execute(); 
 	}
 	
