@@ -4,7 +4,7 @@
  
 <beans>
   	<bean id="expensesReport" class="net.sf.reportengine.FlatReport">
-    	<property name="reportTitle" value="Spring Configured Report" />
+    	<property name="title" value="Spring Configured Report" />
     	<property name="showTotals" value="true" />
     	<property name="showGrandTotal" value="true"/>
     	<property name="showDataRows" value="true" />

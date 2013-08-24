@@ -20,21 +20,14 @@ import net.sf.reportengine.out.HtmlOutput;
 public class FirstReport {
 
 	public static void main(String[] args) {
-		FlatReport flatReport = new FlatReport();
-		flatReport.setTitle("My first expenses report");
-	
-		//the input
-		TextInput reportInput = new TextInput("./inputData/expenses.csv",",");
-		flatReport.setIn(reportInput);
-	
-		//the output
-		HtmlOutput reportOutput = new HtmlOutput("./output/myFirstReport.html");
-		flatReport.setOut(reportOutput);
-		
-		//columns configuration
-		flatReport.addDataColumn(new DefaultDataColumn("Month",0));	
-		flatReport.addDataColumn(new DefaultDataColumn("Spent on",1));
-		flatReport.addDataColumn(new DefaultDataColumn("Amount",2));
+		FlatReport flatReport = new FlatReport.Builder()
+			.title("My first report")
+			.input(new TextInput("./inputData/expenses.csv",","))
+			.output(new HtmlOutput("./output/myFirstReport.html"))
+			.addDataColumn(new DefaultDataColumn.Builder(0).header("Month").build())
+			.addDataColumn(new DefaultDataColumn.Builder(1).header("Spent on").build())
+			.addDataColumn(new DefaultDataColumn.Builder(2).header("Amount").build())
+			.build();
 		
 		flatReport.execute();
 	}

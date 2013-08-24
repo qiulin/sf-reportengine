@@ -22,27 +22,17 @@ public class FirstGroupReport {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		FlatReport flatReport = new FlatReport();
-		flatReport.setShowTotals(true);
-		flatReport.setShowGrandTotal(false); 
-		flatReport.setTitle("Mothly Expenses report");
+		FlatReport flatReport = new FlatReport.Builder()
+			.title("Average Mothly Expenses")
+			//.showGrandTotal(false)
+			.input(new TextInput("./inputData/expenses.csv",","))
+			.output(new HtmlOutput("./output/avgMonthlyExpensesUsingGroups.html"))
+			.addGroupColumn(new DefaultGroupColumn.Builder(0).header("Month").build())
+			.addDataColumn(new DefaultDataColumn.Builder(1).header("On What?").build())
+			.addDataColumn(new DefaultDataColumn.Builder(2).header("Amount").useCalculator(Calculators.AVG).build())
+			.build();
 		
-		//define the input
-		TextInput reportInput = new TextInput("./inputData/expenses.csv",",");
-		flatReport.setIn(reportInput);
-	
-		//define the output
-		HtmlOutput reportOutput = new HtmlOutput("./output/avgMonthlyExpensesWithGroups.html");
-		flatReport.setOut(reportOutput);
-		
-		//group column configuration
-		flatReport.addGroupColumn(new DefaultGroupColumn("Month", 0, 0));
-		
-		//data columns configuration
-		flatReport.addDataColumn(new DefaultDataColumn("On What?",1));
-		flatReport.addDataColumn(new DefaultDataColumn("Amount", 2, Calculators.AVG));
-		
-		//start executing the report
+		//just to be visible
 		flatReport.execute();
 	}
 }

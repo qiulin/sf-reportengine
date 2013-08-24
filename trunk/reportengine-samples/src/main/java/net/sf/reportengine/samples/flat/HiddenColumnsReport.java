@@ -17,25 +17,20 @@ import net.sf.reportengine.out.HtmlOutput;
  */
 public class HiddenColumnsReport {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		
-		FlatReport flatReport = new FlatReport();
-		flatReport.setTitle("This report shows only 2 out of 4 columns");
-	
-		//the input
-		flatReport.setIn(new TextInput("./inputData/names.txt","\t"));
-	
-		//the output
-		flatReport.setOut(new HtmlOutput("./output/hiddenCols.html"));
-		
-		//data columns ( as you can see two columns are missing. the column 0 and 2 are missing)
-		flatReport.addDataColumn(new DefaultDataColumn("Firstname", 1));
-		flatReport.addDataColumn(new DefaultDataColumn("Lastname", 3)); 
-		
-		//report execution
-		flatReport.execute();
+		new FlatReport.Builder()
+			.title("This report shows only 2 out of 4 columns")
+			
+			//this input has more than two columns
+			.input(new TextInput("./inputData/names.txt","\t"))
+			.output(new HtmlOutput("./output/hiddenCols.html"))
+			
+			//even though the input has more than two columns we only declare two of them: 
+			//the second ( having index 1) and the fourth ( index 3)
+			.addDataColumn(new DefaultDataColumn.Builder(1).header("FirstName").build())
+			.addDataColumn(new DefaultDataColumn.Builder(3).header("LastName").build())
+			.build()
+		.execute();
 	}
 }
