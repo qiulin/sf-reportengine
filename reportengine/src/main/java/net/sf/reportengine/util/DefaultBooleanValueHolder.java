@@ -26,7 +26,15 @@ public enum DefaultBooleanValueHolder {
 		return value; 
 	}
 	
-	public boolean isRequesteByUser(){
+	public boolean isRequestedByUser(){
 		return isUserRequested; 
+	}
+	
+	public boolean isTrue(){
+		return (value == true); 
+	}
+	
+	public boolean isFalse(){
+		return (value == false); 
 	}
 }

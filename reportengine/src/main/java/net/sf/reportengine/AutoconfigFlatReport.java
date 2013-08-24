@@ -3,6 +3,10 @@
  */
 package net.sf.reportengine;
 
+import static net.sf.reportengine.util.DefaultBooleanValueHolder.DEFAULT_FALSE;
+import static net.sf.reportengine.util.DefaultBooleanValueHolder.USER_REQUESTED_FALSE;
+import static net.sf.reportengine.util.DefaultBooleanValueHolder.USER_REQUESTED_TRUE;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +35,7 @@ import net.sf.reportengine.core.steps.autodetect.AutodetectTotalsCalculatorStep;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
+import net.sf.reportengine.util.DefaultBooleanValueHolder;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
 
@@ -75,8 +80,8 @@ public class AutoconfigFlatReport extends AbstractReport {
      */
     private AutoconfigFlatReport(Builder builder){
     	this.setShowDataRows(builder.showDataRows); 
-    	this.setShowTotals(builder.showTotals); 
-    	this.setShowGrandTotal(builder.showGrandTotal); 
+    	this.setShowTotals(builder.showTotals.getValue()); 
+    	this.setShowGrandTotal(builder.showGrandTotal.getValue()); 
     	this.setValuesSorted(builder.valuesSorted); 
     	this.setTitle(builder.reportTitle); 
     	this.setIn(builder.reportInput); 
@@ -217,10 +222,13 @@ public class AutoconfigFlatReport extends AbstractReport {
 	public static class Builder {
     	
     	private String reportTitle = null; 
-    	private boolean showTotals = true; 
-    	private boolean showGrandTotal = true; 
+    	
+    	private DefaultBooleanValueHolder showTotals = DEFAULT_FALSE; 
+    	private DefaultBooleanValueHolder showGrandTotal = DEFAULT_FALSE; 
+    	
     	private boolean showDataRows = true; 
     	private boolean valuesSorted = true; 
+    	
     	private ReportInput reportInput = null; 
     	private ReportOutput reportOutput = null;
     	
@@ -234,18 +242,30 @@ public class AutoconfigFlatReport extends AbstractReport {
     	}
     	
     	public Builder showTotals(boolean show){
-    		this.showTotals = show; 
+    		this.showTotals = show ? USER_REQUESTED_TRUE : USER_REQUESTED_FALSE; 
     		return this; 
     	}
     	
+    	public Builder showTotals(){
+    		return showTotals(true); 
+    	}
+    	
     	public Builder showGrandTotal(boolean show){
-    		this.showGrandTotal = show; 
+    		this.showGrandTotal = show ? USER_REQUESTED_TRUE : USER_REQUESTED_FALSE; 
     		return this; 
+    	}
+    	
+    	public Builder showGrandTotal(){
+    		return showGrandTotal(true); 
     	}
     	
     	public Builder showDataRows(boolean show){
     		this.showDataRows = show; 
     		return this; 
+    	}
+    	
+    	public Builder showDataRows(){
+    		return showDataRows(true); 
     	}
     	
     	public Builder sortValues(){

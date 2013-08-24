@@ -3,6 +3,11 @@
  */
 package net.sf.reportengine;
 
+import static net.sf.reportengine.util.DefaultBooleanValueHolder.DEFAULT_FALSE;
+import static net.sf.reportengine.util.DefaultBooleanValueHolder.DEFAULT_TRUE;
+import static net.sf.reportengine.util.DefaultBooleanValueHolder.USER_REQUESTED_FALSE;
+import static net.sf.reportengine.util.DefaultBooleanValueHolder.USER_REQUESTED_TRUE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +47,7 @@ import net.sf.reportengine.core.steps.intermed.IntermedTotalsCalculatorStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsOutputStep;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
+import net.sf.reportengine.util.DefaultBooleanValueHolder;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
 
@@ -143,8 +149,8 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	
 	public CrossTabReport(Builder builder){
 		this.setShowDataRows(builder.showDataRows); 
-    	this.setShowGrandTotal(builder.showGrandTotal); 
-    	this.setShowTotals(builder.showTotals);
+    	this.setShowGrandTotal(builder.showGrandTotal.getValue()); 
+    	this.setShowTotals(builder.showTotals.getValue());
     	this.setValuesSorted(builder.valuesSorted); 
     	this.setTitle(builder.reportTitle); 
     	this.setIn(builder.reportInput); 
@@ -407,12 +413,16 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 public static class Builder {
     	
     	private String reportTitle = null; 
-    	private boolean showTotals = true; 
-    	private boolean showGrandTotal = true; 
+    	
+    	private DefaultBooleanValueHolder showTotals = DEFAULT_FALSE; 
+    	private DefaultBooleanValueHolder showGrandTotal = DEFAULT_FALSE; 
     	private boolean showDataRows = true; 
+    	
     	private boolean valuesSorted = true; 
+    	
     	private ReportInput reportInput = null; 
     	private ReportOutput reportOutput = null;
+    	
     	private List<DataColumn> dataColumns = new ArrayList<DataColumn>(); 
     	private List<GroupColumn> groupColumns = new ArrayList<GroupColumn>();
     	private List<CrosstabHeaderRow> headerRows = new ArrayList<CrosstabHeaderRow>(); 
@@ -428,18 +438,30 @@ public static class Builder {
     	}
     	
     	public Builder showTotals(boolean show){
-    		this.showTotals = show; 
+    		this.showTotals = show ? USER_REQUESTED_TRUE : USER_REQUESTED_FALSE; 
     		return this; 
     	}
     	
+    	public Builder showTotals(){
+    		return showTotals(true); 
+    	}
+    	
     	public Builder showGrandTotal(boolean show){
-    		this.showGrandTotal = show; 
+    		this.showGrandTotal = show ? USER_REQUESTED_TRUE : USER_REQUESTED_FALSE; 
     		return this; 
+    	}
+    	
+    	public Builder showGrandTotal(){
+    		return showGrandTotal(true); 
     	}
     	
     	public Builder showDataRows(boolean show){
     		this.showDataRows = show; 
     		return this; 
+    	}
+    	
+    	public Builder showDataRows(){
+    		return showDataRows(true); 
     	}
     	
     	public Builder sortValues(){
@@ -458,12 +480,26 @@ public static class Builder {
     	}
     	
     	public Builder dataColumns(List<DataColumn> dataCols){
-    		this.dataColumns = dataCols; 
+    		for (DataColumn dataColumn : dataCols) {
+				internalAddDataColumn(dataColumn); 
+			}
     		return this; 
     	}
     	
+    	private void internalAddDataColumn(DataColumn dataCol){
+    		this.dataColumns.add(dataCol); 
+    		if(dataCol.getCalculator() != null){
+    			if(!showTotals.isRequestedByUser()){
+    				this.showTotals = DEFAULT_TRUE; 
+    			}
+    			if(!showGrandTotal.isRequestedByUser()){
+    				this.showGrandTotal = DEFAULT_TRUE; 
+    			}
+    		}
+    	}
+    	
     	public Builder addDataColumn(DataColumn dataCol){
-    		this.dataColumns.add(dataCol);
+    		internalAddDataColumn(dataCol); 
     		return this; 
     	}
     	
