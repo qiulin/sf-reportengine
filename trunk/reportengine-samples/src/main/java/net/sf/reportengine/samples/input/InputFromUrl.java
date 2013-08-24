@@ -20,29 +20,21 @@ import net.sf.reportengine.out.HtmlOutput;
  *
  */
 public class InputFromUrl {
-	/**
-	 * @param args
-	 */
+	
+	
 	public static void main(String[] args) {
 		try {
-			FlatReport flatReport = new FlatReport();
-			flatReport.setTitle("My first expenses report");
-		
-			//the input
-			URL fileUrl = new URL("http://svn.code.sf.net/p/reportengine/code/samples/inputData/expenses.csv");
-			TextInput reportInput = new TextInput(new InputStreamReader(fileUrl.openStream()),",");
-			flatReport.setIn(reportInput);
-		
-			//the output
-			HtmlOutput reportOutput = new HtmlOutput("./output/outReportFromUrl.html");
-			flatReport.setOut(reportOutput);
+			URL fileUrl = new URL("http://svn.code.sf.net/p/reportengine/code/trunk/reportengine-samples/inputData/expenses.csv");
 			
-			//columns configuration
-			flatReport.addDataColumn(new DefaultDataColumn("Month",0));	
-			flatReport.addDataColumn(new DefaultDataColumn("Spent on",1));
-			flatReport.addDataColumn(new DefaultDataColumn("Amount",2));
-			
-			flatReport.execute();
+			new FlatReport.Builder()
+				.title("This report gets its input data from an URL")
+				.input(new TextInput(new InputStreamReader(fileUrl.openStream()),","))
+				.output(new HtmlOutput("./output/outReportFromUrl.html"))
+				.addDataColumn(new DefaultDataColumn("Month",0))	
+				.addDataColumn(new DefaultDataColumn("Spent on",1))
+				.addDataColumn(new DefaultDataColumn("Amount",2))
+				.build()
+			.execute();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

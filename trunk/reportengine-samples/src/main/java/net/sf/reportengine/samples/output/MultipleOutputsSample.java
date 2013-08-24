@@ -9,6 +9,7 @@ import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.ExcelOutput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.OutputDispatcher;
+import net.sf.reportengine.out.PdfOutput;
 import net.sf.reportengine.out.StaxReportOutput;
 
 /**
@@ -19,30 +20,24 @@ import net.sf.reportengine.out.StaxReportOutput;
  */
 public class MultipleOutputsSample {
 	
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		
-		FlatReport flatReport = new FlatReport();
-		flatReport.setTitle("Report having multiple output");
-	
-		//the input
-		flatReport.setIn(new TextInput("./inputData/expenses.csv",","));
-	
 		//the output
 		OutputDispatcher outputDispatcher = new OutputDispatcher(); 
 		outputDispatcher.registerOutput(new ExcelOutput("./output/multipleOutput.xls")); 
 		outputDispatcher.registerOutput(new HtmlOutput("./output/multipleOutput.html"));
 		outputDispatcher.registerOutput(new StaxReportOutput("./output/multipleOutput.xml")); 
-		flatReport.setOut(outputDispatcher);
+		outputDispatcher.registerOutput(new PdfOutput("./output/multipleOutput.pdf")); 
 		
-		//columns configuration
-		flatReport.addDataColumn(new DefaultDataColumn("Month",0));	
-		flatReport.addDataColumn(new DefaultDataColumn("Spent on",1));
-		flatReport.addDataColumn(new DefaultDataColumn("Amount",2));
-		
-		flatReport.execute();
+		new FlatReport.Builder()
+			.title("This report creates excel, html, xml and pdf results")
+			.input(new TextInput("./inputData/expenses.csv",","))
+			.output(outputDispatcher)
+			.addDataColumn(new DefaultDataColumn("Month",0))
+			.addDataColumn(new DefaultDataColumn("Spent on",1))
+			.addDataColumn(new DefaultDataColumn("Amount",2))
+			.build()
+		.execute();
 	}
 	
 }
