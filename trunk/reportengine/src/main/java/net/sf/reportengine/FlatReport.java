@@ -263,8 +263,10 @@ public class FlatReport extends AbstractColumnBasedReport {
     	
     	private boolean showDataRows = true; 
     	private boolean valuesSorted = true; 
+    	
     	private ReportInput reportInput = null; 
     	private ReportOutput reportOutput = null;
+    	
     	private List<DataColumn> dataColumns = new ArrayList<DataColumn>(); 
     	private List<GroupColumn> groupColumns = new ArrayList<GroupColumn>();
     	
@@ -322,10 +324,10 @@ public class FlatReport extends AbstractColumnBasedReport {
     	private void internalAddDataColumn(DataColumn dataCol){
     		this.dataColumns.add(dataCol);
     		if(dataCol.getCalculator() != null){
-    			if(!showTotals.isRequesteByUser()){
+    			if(!showTotals.isRequestedByUser()){
     				this.showTotals = DEFAULT_TRUE; 
     			}
-    			if(!showGrandTotal.isRequesteByUser()){
+    			if(!showGrandTotal.isRequestedByUser()){
     				this.showGrandTotal = DEFAULT_TRUE; 
     			}
     		}	
