@@ -21,24 +21,15 @@ public class FirstPivotTableReport {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CrossTabReport classUnderTest = new CrossTabReport(); 
+		CrossTabReport crosstabReport = new CrossTabReport.Builder()
+			.input(new TextInput("./inputData/expenses.csv", ","))
+			.output(new HtmlOutput("./output/expensesPivot.html"))
+			.addDataColumn(new DefaultDataColumn("Month", 0))
+			.addHeaderRow(new DefaultCrosstabHeaderRow(1))
+			.crosstabData(new DefaultCrosstabData(2))
+		.build();
 		
-		ReportInput input = new TextInput("./inputData/expenses.csv", ",");
-		classUnderTest.setIn(input); 
+		crosstabReport.execute(); 
 		
-		ReportOutput output = new HtmlOutput("./output/xpensesPivot.html"); 
-		classUnderTest.setOut(output);
-		
-		//set up the data columns
-		classUnderTest.addDataColumn(new DefaultDataColumn("Month", 0)); 
-		
-		//set up the header rows
-		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(1));
-		
-		//set up the crosstab data
-		classUnderTest.setCrosstabData(new DefaultCrosstabData(2));
-		
-		//report execution
-		classUnderTest.execute();
 	}
 }
