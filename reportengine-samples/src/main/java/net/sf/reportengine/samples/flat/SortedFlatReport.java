@@ -20,13 +20,14 @@ public class SortedFlatReport {
 		TextInput input = new TextInput("./inputData/employees.csv",","); 
 		input.setFirstLineHeader(true); 
 		
-		AutoconfigFlatReport report = new AutoconfigFlatReport(); 
-		report.setIn(input); 
-		report.setOut(new HtmlOutput("./output/SortedEmployeesByName.html")); 
+		AutoconfigFlatReport report = new AutoconfigFlatReport.Builder()
+			.input(input)
+			.output(new HtmlOutput("./output/SortedEmployeesByName.html"))
+			.build(); 
+		
 		report.forColumn("Firstname").sortAsc(); 
 		
 		report.execute(); 
-
 	}
 
 }

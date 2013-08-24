@@ -18,9 +18,6 @@ public class FlatReportFromSqlQuery {
 	
 	public static void main(String[] args) {
 		
-		FlatReport report = new FlatReport(); 
-		report.setTitle("Report obtained from SQL query"); 
-		
 		//input configuration
 		SqlInput input = new SqlInput(); 
 		input.setDbDriverClass("org.hsqldb.jdbcDriver");
@@ -29,18 +26,22 @@ public class FlatReportFromSqlQuery {
 		input.setDbPassword("");
 		input.setSqlStatement("select country, region, city, sex, religion, value from testreport t order by country, region, city");
 		
-		//setting the input
-		report.setIn(input);
 		
-		//the configuration below doesn't make too much sense as it skips some columns
-		//but it's just for demo purposes
-		report.addDataColumn(new DefaultDataColumn("country", 0));
-		report.addDataColumn(new DefaultDataColumn("city", 2)); 
-		report.addDataColumn(new DefaultDataColumn("sex", 3));
-		report.addDataColumn(new DefaultDataColumn("value", 5));
+		FlatReport report = new FlatReport.Builder()
+			.title("Report from SQL input")
+			
+			//the configuration below doesn't make too much sense as it skips some columns
+			//but it's just for demo purposes
+			.addDataColumn(new DefaultDataColumn("country", 0))
+			.addDataColumn(new DefaultDataColumn("city", 2)) 
+			.addDataColumn(new DefaultDataColumn("sex", 3))
+			.addDataColumn(new DefaultDataColumn("value", 5))
+			
+			.input(input)
+			
+			.output(new HtmlOutput("./output/ReportFromDbQuery.html"))
+			.build(); 
 		
-		//setting the output
-		report.setOut(new HtmlOutput("./output/ReportFromDbQuery.html"));
 		
 		//the one and only execute
 		report.execute();

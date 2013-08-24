@@ -11,8 +11,9 @@ import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.HtmlOutput;
 
 /**
- * @author dragos
- *
+ * 
+ * 
+ * @author dragos balan
  */
 public class YearlyExpenses {
 
@@ -21,26 +22,21 @@ public class YearlyExpenses {
 	 */
 	public static void main(String[] args) {
 		
-		FlatReport flatReport = new FlatReport();
-		flatReport.setTitle("Yearly expenses report");
-		flatReport.setShowTotals(true); 
+		new FlatReport.Builder()
+			.title("Yearly expenses report")
+			.input(new TextInput("./inputData/yearlyExpenses.txt","\t"))
+			.output(new HtmlOutput("./output/yearlyExpensesReport.html"))
+			
+			//groups configuration
+			.addGroupColumn(new DefaultGroupColumn("Year",0, 0))
+			.addGroupColumn(new DefaultGroupColumn("Month", 1, 1))
 		
-		//the input
-		flatReport.setIn(new TextInput("./inputData/yearlyExpenses.txt","\t"));
-	
-		//the output
-		HtmlOutput reportOutput = new HtmlOutput("./output/yearlyExpensesReport.html");
-		flatReport.setOut(reportOutput);
-		
-		//groups configuration
-		flatReport.addGroupColumn(new DefaultGroupColumn("Year",0, 0));
-		flatReport.addGroupColumn(new DefaultGroupColumn("Month", 1, 1)); 
-		
-		//data columns
-		flatReport.addDataColumn(new DefaultDataColumn("Spent on",2, Calculators.COUNT));
-		flatReport.addDataColumn(new DefaultDataColumn("Amount",3, Calculators.SUM));
-		
-		flatReport.execute();
+			//data columns
+			.addDataColumn(new DefaultDataColumn("Spent on",2, Calculators.COUNT))
+			.addDataColumn(new DefaultDataColumn("Amount",3, Calculators.SUM))
+			
+			.build()
+		.execute();
 	}
 
 }
