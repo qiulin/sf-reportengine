@@ -230,7 +230,7 @@ public final class ReportUtils {
 			}
 		}
 		
-		LOGGER.debug("checking if {} and {} need sorting ? {}", groupCols, dataCols, result); 
+		LOGGER.debug("checking if group cols {} or data cols {} need sorting ? {}", groupCols, dataCols, result); 
 		
 		return result; 
 	}

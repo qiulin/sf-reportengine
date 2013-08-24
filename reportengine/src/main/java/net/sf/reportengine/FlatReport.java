@@ -33,6 +33,8 @@ import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
+import net.sf.reportengine.util.DefaultBooleanValueHolder;
+import static net.sf.reportengine.util.DefaultBooleanValueHolder.*;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
 
@@ -119,8 +121,8 @@ public class FlatReport extends AbstractColumnBasedReport {
      */
     private FlatReport(Builder builder){
     	this.setShowDataRows(builder.showDataRows); 
-    	this.setShowGrandTotal(builder.showGrandTotal); 
-    	this.setShowTotals(builder.showTotals);
+    	this.setShowGrandTotal(builder.showGrandTotal.getValue()); 
+    	this.setShowTotals(builder.showTotals.getValue());
     	this.setValuesSorted(builder.valuesSorted); 
     	this.setTitle(builder.reportTitle); 
     	this.setIn(builder.reportInput); 
@@ -247,11 +249,18 @@ public class FlatReport extends AbstractColumnBasedReport {
         reportAlgoContainer.execute(); 
     }
     
+    /**
+     * 
+     * @author dragos balan
+     *
+     */
     public static class Builder {
     	
     	private String reportTitle = null; 
-    	private boolean showTotals = true; 
-    	private boolean showGrandTotal = true; 
+    	
+    	private DefaultBooleanValueHolder showTotals = DefaultBooleanValueHolder.DEFAULT_FALSE; 
+    	private DefaultBooleanValueHolder showGrandTotal = DefaultBooleanValueHolder.DEFAULT_FALSE; 
+    	
     	private boolean showDataRows = true; 
     	private boolean valuesSorted = true; 
     	private ReportInput reportInput = null; 
@@ -269,18 +278,30 @@ public class FlatReport extends AbstractColumnBasedReport {
     	}
     	
     	public Builder showTotals(boolean show){
-    		this.showTotals = show; 
+    		this.showTotals = show ? USER_REQUESTED_TRUE : USER_REQUESTED_FALSE; 
     		return this; 
     	}
     	
+    	public Builder showTotals(){
+    		return showTotals(true); 
+    	}
+    	
     	public Builder showGrandTotal(boolean show){
-    		this.showGrandTotal = show; 
+    		this.showGrandTotal = show ? USER_REQUESTED_TRUE : USER_REQUESTED_FALSE; 
     		return this; 
+    	}
+    	
+    	public Builder showGrandTotal(){
+    		return showGrandTotal(true); 
     	}
     	
     	public Builder showDataRows(boolean show){
     		this.showDataRows = show; 
     		return this; 
+    	}
+    	
+    	public Builder showDataRows(){
+    		return showDataRows(true); 
     	}
     	
     	public Builder sortValues(){
@@ -298,15 +319,31 @@ public class FlatReport extends AbstractColumnBasedReport {
     		return this; 
     	}
     	
-    	public Builder dataColumns(List<DataColumn> dataCols){
-    		this.dataColumns = dataCols; 
-    		return this; 
+    	private void internalAddDataColumn(DataColumn dataCol){
+    		this.dataColumns.add(dataCol);
+    		if(dataCol.getCalculator() != null){
+    			if(!showTotals.isRequesteByUser()){
+    				this.showTotals = DEFAULT_TRUE; 
+    			}
+    			if(!showGrandTotal.isRequesteByUser()){
+    				this.showGrandTotal = DEFAULT_TRUE; 
+    			}
+    		}	
     	}
     	
     	public Builder addDataColumn(DataColumn dataCol){
-    		this.dataColumns.add(dataCol);
+    		internalAddDataColumn(dataCol); 
     		return this; 
     	}
+    	
+    	
+    	public Builder dataColumns(List<DataColumn> dataCols){
+    		for (DataColumn dataColumn : dataCols) {
+				internalAddDataColumn(dataColumn); 
+			} 
+    		return this; 
+    	}
+    	
     	
     	public Builder groupColumns(List<GroupColumn> groupCols){
     		this.groupColumns = groupCols; 
