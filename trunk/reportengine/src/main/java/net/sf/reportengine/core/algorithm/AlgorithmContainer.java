@@ -65,7 +65,7 @@ public class AlgorithmContainer implements Algorithm {
 			}
 		}
 		
-		LOGGER.info("algo container final result {}", result);
+		LOGGER.debug("algo container final result {}", result);
 	}
 
 	public void addIn(IOKeys key, Object value) {
