@@ -30,6 +30,20 @@ import org.junit.Test;
 public class TestFlatReport {
 	
 	@Test
+	public void testExecuteReportWithoutGroupColumns(){
+		
+		new FlatReport.Builder()
+					.title("This report has not grouping columns but it should have a grand total at the end")
+					.input(Scenario1.INPUT)
+					.output(new HtmlOutput("./target/ReportWithoutGroupColumns.html"))
+					.dataColumns(Scenario1.DATA_COLUMNS)
+					.showDataRows(true)
+				.build()
+			.execute();
+	}
+	
+	
+	@Test
 	public void testExecuteScenario1(){
 		
 		OutputDispatcher outputDispatcher = new OutputDispatcher(); 
