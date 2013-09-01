@@ -1,0 +1,35 @@
+/**
+ * 
+ */
+package net.sf.reportengine.samples.flat.autoconfig;
+
+import net.sf.reportengine.AutoconfigFlatReport;
+import net.sf.reportengine.in.TextInput;
+import net.sf.reportengine.out.HtmlOutput;
+
+/**
+ * @author dragos balan
+ *
+ */
+public class SortedFlatReport {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		TextInput input = new TextInput("./inputData/employees.csv",","); 
+		input.setFirstLineHeader(true); 
+		
+		AutoconfigFlatReport report = new AutoconfigFlatReport.Builder()
+			.input(input)
+			.output(new HtmlOutput("./output/SortedEmployeesByName.html"))
+			.build(); 
+		
+		//requesting this columns to be sorted will trigger 
+		//the sorting mechanism inside the report algorithms
+		report.forColumn("Firstname").sortAsc(); 
+		
+		report.execute(); 
+	}
+
+}

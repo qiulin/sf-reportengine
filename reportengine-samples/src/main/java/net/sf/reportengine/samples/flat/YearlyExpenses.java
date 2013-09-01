@@ -28,15 +28,25 @@ public class YearlyExpenses {
 			.output(new HtmlOutput("./output/yearlyExpensesReport.html"))
 			
 			//groups configuration
-			.addGroupColumn(new DefaultGroupColumn("Year",0, 0))
-			.addGroupColumn(new DefaultGroupColumn("Month", 1, 1))
+			.addGroupColumn(new DefaultGroupColumn.Builder(0)
+										.header("Year")
+										.level(0)
+										.build())
+			.addGroupColumn(new DefaultGroupColumn.Builder(1)
+										.header("Month")
+										.level(1)
+										.build())
 		
 			//data columns
-			.addDataColumn(new DefaultDataColumn("Spent on",2, Calculators.COUNT))
-			.addDataColumn(new DefaultDataColumn("Amount",3, Calculators.SUM))
+			.addDataColumn(new DefaultDataColumn.Builder(2)
+									.header("Spent on")
+									.useCalculator(Calculators.COUNT)
+									.build())
+			.addDataColumn(new DefaultDataColumn.Builder(3)
+									.header("Amount")
+									.useCalculator(Calculators.SUM)
+									.build())
 			
-			.build()
-		.execute();
+			.build().execute();
 	}
-
 }
