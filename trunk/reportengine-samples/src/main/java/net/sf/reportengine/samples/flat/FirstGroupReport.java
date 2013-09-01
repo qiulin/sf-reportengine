@@ -23,13 +23,13 @@ public class FirstGroupReport {
 	 */
 	public static void main(String[] args) {
 		FlatReport flatReport = new FlatReport.Builder()
-			.title("Average Mothly Expenses")
+			.title("Mothly Expenses")
 			//.showGrandTotal(false)
 			.input(new TextInput("./inputData/expenses.csv",","))
 			.output(new HtmlOutput("./output/avgMonthlyExpensesUsingGroups.html"))
 			.addGroupColumn(new DefaultGroupColumn.Builder(0).header("Month").build())
 			.addDataColumn(new DefaultDataColumn.Builder(1).header("On What?").build())
-			.addDataColumn(new DefaultDataColumn.Builder(2).header("Amount").useCalculator(Calculators.AVG).build())
+			.addDataColumn(new DefaultDataColumn.Builder(2).header("Amount").useCalculator(Calculators.SUM).build())
 			.build();
 		
 		//just to be visible
