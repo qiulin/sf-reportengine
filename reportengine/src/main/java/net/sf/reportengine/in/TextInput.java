@@ -121,7 +121,10 @@ public class TextInput extends AbstractReportInput{
      * @param firstLineIsHeader specifies whether the first line contains the column headers or not
      * 
      */
-	public TextInput(String filePath, String separator, String encoding, boolean firstLineIsHeader){
+	public TextInput(	String filePath, 
+						String separator, 
+						String encoding, 
+						boolean firstLineIsHeader){
 		setInputReader(ReportIoUtils.createReaderFromPath(filePath, encoding));
 		setSeparator(separator);
 		setFirstLineHeader(firstLineIsHeader); 
@@ -157,7 +160,9 @@ public class TextInput extends AbstractReportInput{
 	 * @param encoding		the encoding 
 	 * @throws UnsupportedEncodingException
 	 */
-	public TextInput(InputStream is, String separator, String encoding){
+	public TextInput(	InputStream is, 
+						String separator, 
+						String encoding){
 		this(is, separator, encoding, false); 
 	}
 	
@@ -171,7 +176,10 @@ public class TextInput extends AbstractReportInput{
 	 * @param encoding 		this flag specifies whether or not the first line contains the column headers
 	 * @throws UnsupportedEncodingException
 	 */
-	public TextInput(InputStream is, String separator, String encoding, boolean firstLineIsHeader){
+	public TextInput(	InputStream is, 
+						String separator, 
+						String encoding, 
+						boolean firstLineIsHeader){
 		try{
 			setInputReader(new InputStreamReader(is, encoding));
 			setSeparator(separator);
@@ -210,7 +218,9 @@ public class TextInput extends AbstractReportInput{
 	 * @param separator		the separator used to identify data/columns
 	 * @param firstLineIsHeaderFlag	this flag specifies if the first line contains the column headers
 	 */
-	public TextInput(Reader inReader, String separator, boolean firstLineIsHeaderFlag){
+	public TextInput(	Reader inReader, 
+						String separator, 
+						boolean firstLineIsHeaderFlag){
 		setInputReader(inReader); 
 		setSeparator(separator);
 		setFirstLineHeader(firstLineIsHeaderFlag);
@@ -314,13 +324,12 @@ public class TextInput extends AbstractReportInput{
      */
     private List<Object> transformRawDataRowIntoList(String rawLine, String separator){
     	List<Object> result = new ArrayList<Object>();
-        StringTokenizer strTokenizer = new StringTokenizer(rawLine, separator);//TODO: replace string tokenizer with String.split()
+        StringTokenizer strTokenizer = new StringTokenizer(rawLine, separator);
         
         while(strTokenizer.hasMoreTokens()){
             result.add(strTokenizer.nextToken());
         };
         
-        //return tempDataRow.toArray(new String[tempDataRow.size()]);
         return result; 
     }
     
@@ -334,16 +343,20 @@ public class TextInput extends AbstractReportInput{
      */
     private List<String> transformRawDataIntoList(String rawLine, String separator){
     	List<String> result = new ArrayList<String>();
-        StringTokenizer strTokenizer = new StringTokenizer(rawLine, separator);//TODO: replace string tokenizer with String.split()
+        StringTokenizer strTokenizer = new StringTokenizer(rawLine, separator);
         
         while(strTokenizer.hasMoreTokens()){
             result.add(strTokenizer.nextToken());
         };
         
-        //return tempDataRow.toArray(new String[tempDataRow.size()]);
         return result; 
     }
     
+    /**
+     * 
+     * @param headersList
+     * @return
+     */
     private List<ColumnMetadata> extractMetadataFromHeaders(List<String> headersList){
     	List<ColumnMetadata> result = new ArrayList<ColumnMetadata>(headersList.size()); 
 		for (String header : headersList) {
@@ -352,6 +365,11 @@ public class TextInput extends AbstractReportInput{
 		return result;
     }
     
+    /**
+     * 
+     * @param columnCount
+     * @return
+     */
     private List<ColumnMetadata> createEmptyMetadata(int columnCount){
     	List<ColumnMetadata> result = new ArrayList<ColumnMetadata>(columnCount); 
 		for (int i=0; i<columnCount; i++) {
@@ -408,6 +426,10 @@ public class TextInput extends AbstractReportInput{
 		this.firstLineIsHeader = flag; 
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isFirstLineHeader(){
 		return firstLineIsHeader; 
 	}

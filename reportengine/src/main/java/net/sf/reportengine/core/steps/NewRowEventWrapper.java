@@ -12,7 +12,7 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
  * helper class for serialization. 
  * It contains a isLast member helping with de-serialization (detect end of the objectStream)
  * 
- * @author dragos
+ * @author dragos balan
  *
  */
 public final class NewRowEventWrapper implements Serializable{
@@ -74,5 +74,12 @@ public final class NewRowEventWrapper implements Serializable{
 		StringBuilder builder = new StringBuilder("NewRowEventWrapper[isLast="); 
 		builder.append(isLast).append(", newRowEvent=").append(newRowEvent.toString());
 		return builder.toString(); 
+	}
+	
+	public int hashCode(){
+		int result = 17; 
+		result = 31 * result + (isLast ? 0 : 1); 
+		result = 31 * result + newRowEvent.hashCode(); 
+		return result; 
 	}
 }

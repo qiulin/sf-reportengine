@@ -14,7 +14,7 @@ import java.util.List;
  * @version $Revision$
  * $log$
  */
-public class NewRowEvent  implements Serializable{
+public final class NewRowEvent  implements Serializable{
     
     /**
 	 * 
@@ -24,7 +24,7 @@ public class NewRowEvent  implements Serializable{
 	/**
 	 * 
 	 */
-	private List<Object> inputData;
+	private final List<Object> inputData;
     
 	/**
 	 * 
@@ -68,5 +68,9 @@ public class NewRowEvent  implements Serializable{
     		result = inputData.equals(anotherAsNRE.getInputDataRow());
     	}
     	return result; 
+    }
+    
+    public int hashCode(){
+    	return inputData.hashCode(); 
     }
 }
