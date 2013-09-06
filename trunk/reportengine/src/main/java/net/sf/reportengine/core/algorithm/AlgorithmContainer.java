@@ -15,6 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * A container ( list ) of algorithms which itself implements the {@link Algorithm} interface. 
+ * The execute method calls all Algorithm.execute() methods and passes the result of each one as input
+ * for the next one. 
+ * 
+ * 
  * @author dragos balan
  *
  */
@@ -71,14 +76,19 @@ public class AlgorithmContainer implements Algorithm {
 	public void addIn(IOKeys key, Object value) {
 		initialInput.put(key, value); 
 	}
-
+	
+	/**
+	 * returns null as this container viewed as Algorithm has 
+	 * no results
+	 */
 	public Map<IOKeys, Object> getResultMap() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	/**
+	 * returns null as this this container has no results
+	 */
 	public Object getResult(IOKeys key) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
