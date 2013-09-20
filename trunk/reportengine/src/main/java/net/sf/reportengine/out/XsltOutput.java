@@ -47,38 +47,40 @@ public class XsltOutput extends AbstractCharBasedOutput {
 	private static final String DEFAULT_XSLT_PATH = "net/sf/reportengine/xslt/defaultTemplate.xslt"; 
 	
     /**
-     * 
+     * the xslt reader
      */
     private Reader xsltReader;
     
     /**
-     * 
+     * the stax output
      */
     private StaxReportOutput staxReportOutput = new StaxReportOutput();
     
     /**
-     * 
+     * temp xml file
      */
     private String tempXmlFilePath;
     
     /**
-     * output into memory ( using a StringWriter)
+     * output into a StringWriter (memory)
      */
     public XsltOutput(){}
     
     
     /**
+     * output into the specified file 
      * 
-     * @param outFilePath
+     * @param outFilePath	the path of the output file
      */
-    public XsltOutput(String outFileName){
-    	super(outFileName); 
+    public XsltOutput(String outFilePath){
+    	super(outFilePath); 
     }
     
     /**
+     * output into the specified file using the xslt provided
      * 
-     * @param filePath
-     * @param xsltReader
+     * @param filePath		the output file path
+     * @param xsltReader	the xslt reader
      */
     public XsltOutput(String outFilePath, Reader xsltReader){
     	super(outFilePath); 
@@ -86,6 +88,7 @@ public class XsltOutput extends AbstractCharBasedOutput {
     }
     
     /**
+     * output into the specified writer 
      * 
      * @param outputWriter
      */
@@ -94,6 +97,7 @@ public class XsltOutput extends AbstractCharBasedOutput {
     }
     
     /**
+     * output into the specified writer using the xslt provided 
      * 
      * @param outputWriter
      * @param xsltReader

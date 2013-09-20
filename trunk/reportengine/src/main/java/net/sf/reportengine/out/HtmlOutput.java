@@ -103,6 +103,9 @@ public class HtmlOutput extends AbstractCharBasedOutput {
           markAsOpen(); 
     }
     
+    /**
+     * starts the report
+     */
     public void startReport(ReportProps reportProps){
     	try {
             if(isStandalonePage){
@@ -126,6 +129,9 @@ public class HtmlOutput extends AbstractCharBasedOutput {
         }
     }
     
+    /**
+     * marks the end of the report
+     */
     public void endReport(){
     	try {
             getOutputWriter().write("</table>");
@@ -137,6 +143,9 @@ public class HtmlOutput extends AbstractCharBasedOutput {
         }
     }
     
+    /**
+     * marks the start of a header row
+     */
     public void startHeaderRow(RowProps rowProps){
     	ensureOutputIsOpen();
         try {
@@ -146,16 +155,22 @@ public class HtmlOutput extends AbstractCharBasedOutput {
         }
     }
     
+    /**
+     * outputs the header cell 
+     */
     public void outputHeaderCell(CellProps cellProps){
     	outputDataCell(cellProps);
     }
     
+    /**
+     * marks the end of a header row
+     */
     public void endHeaderRow(){
     	endDataRow(); 
     }
     
     /**
-     * 
+     * outputs the title of the report
      */
     public void outputTitle(TitleProps titleProps){
     	try{

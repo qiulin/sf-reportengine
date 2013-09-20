@@ -31,13 +31,17 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 /**
+ * Abstract parent class for any fop based report output.
+ * The final output is created in two steps : 
+ * 	1. output to fo (as a temporary file)
+ *  2. output to desired format (pdf, png ...) by transforming the temporary fo.
+ *  
  * @author dragos balan
- *
  */
 public abstract class AbstractFopOutput implements ReportOutput{
 	
 	/**
-	 * 
+	 * the default configuration class path
 	 */
 	private static final String DEFAULT_FO_CONF_PATH = "net/sf/reportengine/fop/fop.xconf";
 	
@@ -47,17 +51,17 @@ public abstract class AbstractFopOutput implements ReportOutput{
 	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractFopOutput.class);
 	
 	/**
-	 * 
+	 * fo output
 	 */
 	private FoOutput foOutput; 
 	
 	/**
-	 * 
+	 * the output stream
 	 */
 	private OutputStream outputStream; 
 	
 	/**
-	 * 
+	 * the temporary fo file
 	 */
 	private File tempFoFile;
 	
@@ -68,59 +72,67 @@ public abstract class AbstractFopOutput implements ReportOutput{
 	private Configuration fopConfiguration; 
 	
 	/**
-	 * 
+	 * default output into a {@code ByteArrayOutputStream}
 	 */
 	public AbstractFopOutput(){
 		this(new ByteArrayOutputStream()); 
 	}
 	
 	/**
+	 * output into a file 
 	 * 
-	 * @param filePath
+	 * @param filePath	the path of the resulting output file
 	 */
 	public AbstractFopOutput(String filePath){
-		this(filePath, getDefaultConfiguration());
+		this(filePath, buildDefaultConfiguration());
 	}
 	
 	/**
+	 * this outputs into a file with custom fop configuration
 	 * 
-	 * @param filePath
-	 * @param fopConfig
+	 * @param filePath		the output file path
+	 * @param fopConfig		the custom fop configuration
 	 */
 	public AbstractFopOutput(String filePath, Configuration fopConfig){
 		this(ReportIoUtils.createOutputStreamFromPath(filePath), fopConfig); 
+		LOGGER.info("output into file {}", filePath); 
 	}
 	
 	
 	/**
+	 * outputs into the given outputStream
 	 * 
-	 * @param out
+	 * @param out	the output stream
 	 */
 	public AbstractFopOutput(OutputStream out){
-		this(out, getDefaultConfiguration()); 
+		this(out, buildDefaultConfiguration()); 
 	}
 	
 	
 	/**
+	 * outputs into the output stream using a fop custom configuration
 	 * 
-	 * @param out
+	 * @param out the output stream 
+	 * @param fopConfig the custom fop configuration
 	 */
 	public AbstractFopOutput(OutputStream out, Configuration fopConfig){
 		this.outputStream = out;
 		this.fopConfiguration = fopConfig; 
+		LOGGER.info("output into stream "); 
 	}
 	
 	/**
 	 * 
-	 * @return
+	 * @return	the mime type of the result
 	 */
 	protected abstract String getMimeType();
 	
 	/**
+	 * constructs and returns the default fop configuration
 	 * 
-	 * @return
+	 * @return	the default fop configuration
 	 */
-	private static Configuration getDefaultConfiguration(){
+	private static Configuration buildDefaultConfiguration(){
 		DefaultConfigurationBuilder configBuilder = new DefaultConfigurationBuilder();
 		Configuration configuration;
 		try {
@@ -137,7 +149,7 @@ public abstract class AbstractFopOutput implements ReportOutput{
 	}
 	
 	/**
-	 * 
+	 * creates a temporary file for the fo content and opens the fo output
 	 */
 	public void open(){
 		tempFoFile = ReportIoUtils.createTempFile("report-fo");
@@ -169,9 +181,7 @@ public abstract class AbstractFopOutput implements ReportOutput{
 		foOutput.startDataRow(rowProps); 
 	}
 	
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.ReportOutput#output(net.sf.reportengine.out.CellProps)
-	 */
+	
 	public void outputDataCell(CellProps cellProps) {
 		foOutput.outputDataCell(cellProps); 
 	}
@@ -184,6 +194,11 @@ public abstract class AbstractFopOutput implements ReportOutput{
 		foOutput.endReport(); 
 	}
 	
+	/**
+	 * 1.closes the fo output
+	 * 2. transforms the fo into the specific format(pdf, png, ...)
+	 * 3. closes the outputStream 
+	 */
 	public void close(){
 		try {
 			foOutput.close(); 
@@ -194,21 +209,20 @@ public abstract class AbstractFopOutput implements ReportOutput{
 		}
 	}
 	
-	public void transformFo(){
+	/**
+	 * transforms the fo file into the requested mime type 
+	 */
+	private void transformFo(){
     	try {
-    		String mimeType = getMimeType(); 
-    		LOGGER.info("transforming temporary fo file to {}", mimeType); 
+    		LOGGER.info("transforming temporary fo file to {}", getMimeType()); 
     		
-    		//DefaultConfigurationBuilder configBuilder = new DefaultConfigurationBuilder();
-    		//Configuration configuration  = configBuilder.build(configInputStream); 
-    	
     		FopFactory fopFactory = FopFactory.newInstance();
     		if(fopConfiguration != null){
     			fopFactory.setUserConfig(fopConfiguration);
     		}
     		
     		//unfortunately fop requires an outputStream 
-    		Fop fop = fopFactory.newFop(mimeType, outputStream);
+    		Fop fop = fopFactory.newFop(getMimeType(), outputStream);
 		
 			TransformerFactory transformFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformFactory.newTransformer();
@@ -217,20 +231,13 @@ public abstract class AbstractFopOutput implements ReportOutput{
 			Result result = new SAXResult(fop.getDefaultHandler());
 			transformer.transform(foSource, result); 
 			
+			LOGGER.info("succesful tansformation to {}", getMimeType());
 		}catch(TransformerConfigurationException e){
 			throw new ReportOutputException(e);
 		}catch(TransformerException e){
 			throw new ReportOutputException(e);
     	}catch (FOPException e) {
     		throw new ReportOutputException(e);
-//		} catch (ConfigurationException e) {
-//			throw new ReportOutputException(e);
-//		} catch (SAXException e) {
-//			throw new ReportOutputException(e);
-//		} catch (IOException e) {
-//			throw new ReportOutputException(e);
-		}finally{
-			 
 		}
     }
 }

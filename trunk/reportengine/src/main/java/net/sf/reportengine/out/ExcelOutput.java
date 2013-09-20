@@ -27,11 +27,14 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * A simple implementation of the AbstractReportOut having 
- * as result an Excel file. 
- * This is based on jakarta's poi library for excel format.
+ * A simple implementation of the AbstractReportOut having as result an Excel file 
+ * based on jakarta's poi library for excel.
  * 
- * @author dragos balan (dragos.balan@gmail.com)
+ * <pre>
+ * Usage: 
+ * 		ReportOutput reportOutput = new ExcelOutput("c:/temp/test.xls"); 
+ * </pre>
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
 public class ExcelOutput extends AbstractByteBasedOutput {

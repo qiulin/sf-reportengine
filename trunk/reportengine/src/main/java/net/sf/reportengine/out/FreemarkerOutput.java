@@ -19,11 +19,15 @@ import freemarker.template.TemplateException;
  * 
  * This report output has a template for every step of the report: 
  * <ol>
- * 	<li>startReport.ftl</li>
- *  <li>startRow.ftl</li>
- *  <li>cell.ftl</li>
- *  <li>endRow.ftl</li>
- *  <li>endReport.ftl</li>
+ * 	<li>startReport.ftl - for the report start</li>
+ * 	<li>title.ftl - outputting the title of the report </li>
+ *  <li>startHeaderRow.ftl - for the start of every header row </li>
+ *  <li>headerCell.ftl - for every cell in the header</li>
+ *  <li>endHeaderRow.ftl - for the start of every header row </li>
+ *  <li>startDataRow.ftl -  for the start of every row</li>
+ *  <li>dataCell.ftl -  for the cell </li>
+ *  <li>endDataRow.ftl - end of every data row</li>
+ *  <li>endReport.ftl - end of the report</li>
  *  </ol>
  *  
  *  The default provided templates  will output html but you are strongly encouraged 
@@ -230,7 +234,7 @@ public class FreemarkerOutput extends AbstractCharBasedOutput {
 	}
 	
 	/**
-	 * 
+	 * calls the title.ftl template
 	 */
 	public void outputTitle(TitleProps titleProps){
 		try {
@@ -244,7 +248,9 @@ public class FreemarkerOutput extends AbstractCharBasedOutput {
 	}
 	
 	/**
+	 * calls the startHeaderRow.ftl template with the given rowProperties
 	 * 
+	 * @param rowProperties row properties
 	 */
 	public void startHeaderRow(RowProps headerRowProps){
 		try {
@@ -258,7 +264,9 @@ public class FreemarkerOutput extends AbstractCharBasedOutput {
 	}
 	
 	/**
+	 * calls the headerCell.ftl template with the given cell properties
 	 * 
+	 * @param headerCellProps the header cell properties
 	 */
 	public void outputHeaderCell(CellProps headerCellProps){
 		try {
@@ -272,7 +280,7 @@ public class FreemarkerOutput extends AbstractCharBasedOutput {
 	}
 	
 	/**
-	 * 
+	 * calls the endHeaderRow.ftl template
 	 */
 	public void endHeaderRow(){
 		try {
@@ -299,7 +307,9 @@ public class FreemarkerOutput extends AbstractCharBasedOutput {
 	}
 	
 	/**
-	 * calls the dataCell.ftl template
+	 * calls the dataCell.ftl template with the given cell properties
+	 * 
+	 * @param cellProps the data cell properties
 	 */
 	public void outputDataCell(CellProps cellProps) {
 		try {
@@ -313,7 +323,7 @@ public class FreemarkerOutput extends AbstractCharBasedOutput {
 	}
 	
 	/**
-	 * calls the end row template 
+	 * calls the endDataRow.ftl template
 	 */
 	public void endDataRow() {
 		try {

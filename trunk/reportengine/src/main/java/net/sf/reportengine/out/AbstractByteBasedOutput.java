@@ -11,6 +11,9 @@ import java.io.OutputStream;
 
 import net.sf.reportengine.util.ReportIoUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * <p>
  * abstract parent class for all your byte based output.
@@ -40,26 +43,37 @@ import net.sf.reportengine.util.ReportIoUtils;
 public abstract class AbstractByteBasedOutput extends AbstractOutput {
 	
 	/**
+	 * the one and only logger
+	 */
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractByteBasedOutput.class);
+	
+	/**
 	 * the output stream behind this report output
 	 */
 	private OutputStream outputStream; 
 	
 	/**
-	 * 
+	 * outputs into memory as {@code ByteArrayOutputStream}
 	 */
 	public AbstractByteBasedOutput() {
 		this(new ByteArrayOutputStream()); 
 	}
 
 	/**
-	 * @param filePath
+	 * byte output into the specified file 
+	 * 
+	 * @param filePath	the output file path
 	 */
 	public AbstractByteBasedOutput(String filePath) {
 		this(ReportIoUtils.createOutputStreamFromPath(filePath));
+		LOGGER.info("output to file {}", filePath); 
 	}
 
 	/**
-	 * @param out
+	 * byte output into the specified output stream
+	 * This is the main constructor called by all other constructors. 
+	 * 
+	 * @param out	the output stream
 	 */
 	public AbstractByteBasedOutput(OutputStream out) {
 		this.outputStream = out; 
@@ -82,6 +96,7 @@ public abstract class AbstractByteBasedOutput extends AbstractOutput {
 
 	
 	/**
+	 * getter for the output stream
 	 * @return the outputStream
 	 */
 	public OutputStream getOutputStream() {
@@ -89,6 +104,7 @@ public abstract class AbstractByteBasedOutput extends AbstractOutput {
 	}
 
 	/**
+	 * setter for the output stream 
 	 * @param outputStream the outputStream to set
 	 */
 	public void setOutputStream(OutputStream outputStream) {
@@ -96,7 +112,7 @@ public abstract class AbstractByteBasedOutput extends AbstractOutput {
 	}
 	
 	/**
-	 * 
+	 * sets the file path
 	 * @param filePath
 	 */
 	public void setFilePath(String filePath){

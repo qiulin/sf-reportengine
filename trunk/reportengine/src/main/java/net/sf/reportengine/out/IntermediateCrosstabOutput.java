@@ -17,16 +17,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author dragos balan
- *
+ * This is for internal use only. 
+ * This is a special type of output because it serializes the provided data into a temporary file. 
+ * 
+ * @author dragos balan (dragos dot balan at gmail dot com)
  */
 public class IntermediateCrosstabOutput implements ReportOutput {
 	
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(IntermediateCrosstabOutput.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(IntermediateCrosstabOutput.class);
 	
 	/**
 	 * the output stream where all inermediaterows will be serialized
@@ -52,38 +53,43 @@ public class IntermediateCrosstabOutput implements ReportOutput {
 		}
 	}
 	
-	public void startReport(ReportProps props){
-		
-	}
-	
-	public void endReport(){
-		
-	}
-	
-	public void startHeaderRow(RowProps props){
-		
-	}
-	
-	public void outputHeaderCell(CellProps props){
-		
-	}
-	
-	public void endHeaderRow(){
-		
-	}
+	/**
+	 * empty implementation
+	 */
+	public void startReport(ReportProps props){}
 	
 	/**
-	 * 
+	 * empty implementation
+	 */
+	public void endReport(){}
+	
+	/**
+	 * empty implementation
+	 */
+	public void startHeaderRow(RowProps props){}
+	
+	/**
+	 * empty implementation
+	 */
+	public void outputHeaderCell(CellProps props){}
+	
+	/**
+	 * empty implementation
+	 */
+	public void endHeaderRow(){}
+	
+	/**
+	 * empty implementation
 	 */
 	public void outputTitle(TitleProps titleProps){}
 	
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.ReportOutput#startRow()
+	/**
+	 * empty implementation
 	 */
 	public void startDataRow(RowProps rowProperties) {}
 	
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.ReportOutput#endRow()
+	/**
+	 * resets the object output stream
 	 */
 	public void endDataRow() {
 		try {
@@ -93,12 +99,14 @@ public class IntermediateCrosstabOutput implements ReportOutput {
 		} 
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.ReportOutput#output(net.sf.reportengine.out.CellProps)
+	/**
+	 * serializes the values provided ( IntermediateReportRow )
 	 */
 	public void outputDataCell(CellProps cellProps) {
 		//TODO: check if open
 		Object value = cellProps.getValue();
+		
+		//TODO: see if you can fix the check below and get rid of the instanceof
 		if(value instanceof IntermediateReportRow){
 			IntermediateReportRow intermediateRow = (IntermediateReportRow)value; 
 			//serialize
@@ -114,8 +122,8 @@ public class IntermediateCrosstabOutput implements ReportOutput {
 	}
 	
 
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.algorithm.IAlgorithmOutput#close()
+	/**
+	 * flushes the object output stream and then closes it
 	 */
 	public void close() {
 		try {
@@ -127,6 +135,10 @@ public class IntermediateCrosstabOutput implements ReportOutput {
 		} 
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public File getSerializedOutputFile(){
 		return result; 
 	}

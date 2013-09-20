@@ -13,7 +13,7 @@ package net.sf.reportengine.out;
  *  	reportOutput.startReport(); 	`	//once per report
  *  	reportOutput.outputTitle();			//once per report
  *  	reportOutput.startHeaderRow(); 		//for each line of header	
- *  	reportOutput.outputHeaderCell(); 	//several times
+ *  	reportOutput.outputHeaderCell(); 	//for every cell in the current header row
  *  	reportOutput.endHeaderRow(); 		//for each header row started
  *  	reportOutput.startDataRow(); 	//for each resulting data row
  *  	reportOutput.outputDataCell(); 	//several times
