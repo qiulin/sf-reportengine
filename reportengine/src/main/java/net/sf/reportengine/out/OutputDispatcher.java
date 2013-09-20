@@ -9,110 +9,138 @@ import java.util.List;
 
 
 /**
- * <p>
- * dispatches the output to the outputters
- * </p> 
- * @author dragos balan (dragos.balan@gmail.com)
+ * <p>Use this output method when you need to output to different formats </p>
+ *  
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
 public class OutputDispatcher implements ReportOutput{
     
-    private List<ReportOutput> outputList;
+	/**
+	 * the list of different outputs
+	 */
+    private List<ReportOutput> outputersList;
     
+    /**
+     * creates an array of ReportOutput(s)
+     */
     public OutputDispatcher(){
-        outputList = new ArrayList<ReportOutput>(3);
+        outputersList = new ArrayList<ReportOutput>(3);
     }
 
+    /**
+     * calls the same method for all configured outputs
+     */
     public void open(){
-        for(ReportOutput output: outputList){
+        for(ReportOutput output: outputersList){
             output.open();
         }
     }
     
+    /**
+     * calls the same method for all configured outputs
+     */
     public void outputTitle(TitleProps titleProps){
-    	for(ReportOutput output: outputList){
+    	for(ReportOutput output: outputersList){
             output.outputTitle(titleProps);
         }
     }
     
+    /**
+     * calls the same method for all configured outputs
+     */
     public void startReport(ReportProps reportProps){
-    	for(ReportOutput output: outputList){
+    	for(ReportOutput output: outputersList){
             output.startReport(reportProps);
         }
     }
     
+    /**
+     * calls the same method for all configured outputs
+     */
     public void endReport(){
-    	for(ReportOutput output: outputList){
+    	for(ReportOutput output: outputersList){
             output.endReport();
         }
     }
     
-    
+    /**
+     * calls the same method for all configured outputs
+     */
     public void startHeaderRow(RowProps rowProperties){
-    	for(ReportOutput output: outputList){
+    	for(ReportOutput output: outputersList){
             output.startHeaderRow(rowProperties);
         }
     }
     
+    /**
+     * calls the same method for all configured outputs
+     */
     public void endHeaderRow(){
-    	for(ReportOutput output: outputList){
+    	for(ReportOutput output: outputersList){
             output.endHeaderRow();
         }
     }
     
+    /**
+     * calls the same method for all configured outputs
+     */
     public void outputHeaderCell(CellProps cellProps){
-    	for(ReportOutput output: outputList){
+    	for(ReportOutput output: outputersList){
             output.outputHeaderCell(cellProps);
         }
     }
     
+    /**
+     * calls the same method for all configured outputs
+     */
     public void close(){
-    	for(ReportOutput output: outputList){
+    	for(ReportOutput output: outputersList){
             output.close();
         }
     }
     
+    /**
+     * calls the same method for all configured outputs
+     */
     public void startDataRow(RowProps rowProperties){
-    	for(ReportOutput output: outputList){
+    	for(ReportOutput output: outputersList){
             output.startDataRow(rowProperties);
         }
     }
     
+    /**
+     * calls the same method for all configured outputs
+     */
     public void endDataRow(){
-    	for(ReportOutput output: outputList){
+    	for(ReportOutput output: outputersList){
             output.endDataRow();
         }
     }
     
+    /**
+     * calls the same method for all configured outputs
+     */
     public void outputDataCell(CellProps cellProps){
-    	for(ReportOutput output: outputList){
+    	for(ReportOutput output: outputersList){
             output.outputDataCell(cellProps);
         }
     }
     
-//    public void emptyCell(int colspan, int contentType){
-//        ListIterator outputIter = outputList.listIterator();
-//        CellProps emptyValuedCellProps = null;
-//        while(outputIter.hasNext()){
-//            ReportOutput output = (ReportOutput)outputIter.next();
-//            emptyValuedCellProps = new CellProps(output.getWhiteSpace(), colspan, contentType);
-//            output.output(emptyValuedCellProps);
-//        }
-//    }
-    
-//    public void emptyCell(int colspan){
-//    	emptyCell(colspan, ReportConstants.CONTENT_DATA);
-//    }
-    
+    /**
+     * registers the given report output
+     * 
+     * @param out the report output
+     */
     public void registerOutput(ReportOutput out){
-        this.outputList.add(out);
+        this.outputersList.add(out);
     }
     
+    /**
+     * true if any output has been registered 
+     * @return
+     */
     public boolean hasOutputters(){
-        return outputList.size() > 0;
+        return outputersList.size() > 0;
     }
-
-	public String getWhiteSpace() {
-		return " ";
-	}
 }

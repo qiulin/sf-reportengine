@@ -9,6 +9,9 @@ import java.io.Writer;
 
 import net.sf.reportengine.util.ReportIoUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * <p>
  * abstract parent class for all your character based output.
@@ -39,35 +42,49 @@ import net.sf.reportengine.util.ReportIoUtils;
 public abstract class AbstractCharBasedOutput extends AbstractOutput {
 	
 	/**
+	 * the one and only logger
+	 */
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCharBasedOutput.class);
+	
+	/**
 	 * the writer behind this class
 	 */
 	private Writer outputWriter; 
 	
 	/**
-	 * 
+	 * char based output into a string writer (memory)
 	 */
 	public AbstractCharBasedOutput() {
 		this(new StringWriter());
+		LOGGER.info("output to memory"); 
 	}
 
 	/**
-	 * @param filePath
+	 * char based output into the specified file path
+	 * 
+	 * @param filePath	the path of the output file
 	 */
 	public AbstractCharBasedOutput(String filePath) {
 		this(ReportIoUtils.createWriterFromPath(filePath)); 
+		LOGGER.info("output to file {}", filePath); 
 	}
 	
 	/**
+	 * char based output into the specified file path using the encoding provided
 	 * 
-	 * @param filePath
-	 * @param encoding
+	 * @param filePath	the path of the output file
+	 * @param encoding	the encoding
 	 */
 	public AbstractCharBasedOutput(String filePath, String encoding){
 		this(ReportIoUtils.createWriterFromPath(filePath, encoding));
+		LOGGER.info("output to file {} using encoding {}", filePath, encoding); 
 	}
 	
 	/**
-	 * @param writer
+	 * Outputs the characters into the given writer. 
+	 * This is the main constructor (all other constructors call this one)
+	 * 
+	 * @param writer	the output writer
 	 */
 	public AbstractCharBasedOutput(Writer writer) {
 		this.outputWriter = writer;

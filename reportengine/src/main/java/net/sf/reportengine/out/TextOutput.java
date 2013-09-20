@@ -12,9 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * txt output report data as separated data. 
- * Because the data is separated by commans (or something else) this output is not 
- * effective for Crosstab reports. A better version will be provided in the next releases
+ * txt output report data as comma (or something else) separated data. 
+ * Because the data is separated by commas (or something else) this output is not 
+ * recommended for Crosstab reports. 
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
@@ -43,41 +43,49 @@ public class TextOutput extends AbstractCharBasedOutput{
 	private String separator = DEFAULT_DATA_SEPARATOR;
 	
 	/**
-	 * outputs into a String if no other writer is set
+	 * text output into a String Writer (memory)
 	 */
 	public TextOutput(){
 		super(); 
 	}
 	
 	/**
+	 * text output into the specified writer
 	 * 
-	 * @param writer
+	 * @param writer	the output writer
 	 */
 	public TextOutput(Writer writer){
 		this(writer, DEFAULT_DATA_SEPARATOR);
 	}
 	
 	/**
+	 * text output into the specified writer using the separator
 	 * 
-	 * @param writer
-	 * @param separator
+	 * @param writer		the output writer
+	 * @param separator		the separator
 	 */
 	public TextOutput(Writer writer, String separator){
 		super(writer);
 		setSeparator(separator); 
 	}
 	
+	/**
+	 * 
+	 */
 	public void open(){
 		markAsOpen(); 
 	}
 	
+	/**
+	 * empty implementation
+	 */
 	public void startReport(ReportProps reportProps){
 		
 	}
 	
 	
 	/**
-	 * 
+	 * writes the title to the output
 	 */
 	public void outputTitle(TitleProps titleProps){
 		try{
@@ -88,21 +96,29 @@ public class TextOutput extends AbstractCharBasedOutput{
 		}
 	}
 	
-	
+	/**
+	 * re-init the header buffer
+	 */
 	public void startHeaderRow(RowProps rowProps){
 		startDataRow(rowProps);
 	}
 	
+	/**
+	 * writes the cell data into the header buffer
+	 */
 	public void outputHeaderCell(CellProps cellProps){
 		outputDataCell(cellProps); 
 	}
 	
+	/**
+	 * writes the header buffer to the writer
+	 */
 	public void endHeaderRow(){
 		endDataRow(); 
 	}
 	
 	/**
-     * start row
+     * re-init the data row buffer
      */ 
     public void startDataRow(RowProps rowProperties){
     	ensureOutputIsOpen(); 
@@ -110,7 +126,7 @@ public class TextOutput extends AbstractCharBasedOutput{
 	}
 	
     /**
-     * end row
+     * writes the data row buffer to the output writer
      */
 	public void endDataRow(){
 		try {
@@ -123,20 +139,22 @@ public class TextOutput extends AbstractCharBasedOutput{
 	}
 	
 	/**
-	 * output
+	 * writes the cell value into the data row buffer
 	 */
 	public void outputDataCell(CellProps cellProps) {
 		rowDataBuffer.append(cellProps.getValue()).append(separator);
 	}
 
 	/**
-	 * 
+	 * empty implementation
 	 */
 	public void endReport(){
 		
 	}
 	
 	/**
+	 * getter for the separator of data in the report
+	 * 
 	 * @return the separator
 	 */
 	public String getSeparator() {
@@ -144,6 +162,8 @@ public class TextOutput extends AbstractCharBasedOutput{
 	}
 
 	/**
+	 * setter for the separator
+	 * 
 	 * @param separator the separator to set
 	 */
 	public void setSeparator(String separator) {

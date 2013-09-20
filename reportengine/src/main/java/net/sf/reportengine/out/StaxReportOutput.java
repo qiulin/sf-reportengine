@@ -13,26 +13,29 @@ import javax.xml.stream.XMLStreamWriter;
  * XML report output based on Stax technology (fast & low memory footprint)
  * The final xml should be : 
  * <pre>
- * 		<report>
- * 				<title>Title of the report</title>
- * 				<header>
- * 					<row>
- * 						<cell>Column header 1</cell>
- * 						<cell>Column header 2</cell>
- * 					</row>
- * 					<row>
- * 						...
- * 					</row>
- * 				<data>
- * 					<row>
- * 						<cell>Value 1</cell>
- * 						<cell>Value 2</cell>
- * 					</row>
- * 					<row>
- * 						...
- * 					</row>
- * 				</data>
- * 		</report>
+ * 		
+ &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+	&lt;report engineVersion=&quot;0.9&quot;&gt;
+		&lt;title&gt;Test flat report 2x3x1d&lt;/title&gt;
+		&lt;header-row rowNumber=&quot;0&quot;&gt;
+			&lt;data-cell colspan=&quot;1&quot; horizAlign=&quot;CENTER&quot; vertAlign=&quot;MIDDLE&quot;&gt;Continent&lt;/data-cell&gt;
+			&lt;data-cell colspan=&quot;1&quot; horizAlign=&quot;CENTER&quot; vertAlign=&quot;MIDDLE&quot;&gt;Direction&lt;/data-cell&gt;
+			&lt;data-cell colspan=&quot;1&quot; horizAlign=&quot;CENTER&quot; vertAlign=&quot;MIDDLE&quot;&gt;Country&lt;/data-cell&gt;
+			&lt;data-cell colspan=&quot;1&quot; horizAlign=&quot;CENTER&quot; vertAlign=&quot;MIDDLE&quot;&gt;Sex&lt;/data-cell&gt;
+			&lt;data-cell colspan=&quot;1&quot; horizAlign=&quot;CENTER&quot; vertAlign=&quot;MIDDLE&quot;&gt;Age&lt;/data-cell&gt;
+			&lt;data-cell colspan=&quot;1&quot; horizAlign=&quot;CENTER&quot; vertAlign=&quot;MIDDLE&quot;&gt;Count&lt;/data-cell&gt;
+		&lt;/header-row&gt;
+		&lt;data-row rowNumber=&quot;0&quot;&gt;
+			&lt;data-cell colspan=&quot;1&quot; horizAlign=&quot;CENTER&quot; vertAlign=&quot;MIDDLE&quot;&gt;Europe&lt;/data-cell&gt;
+			&lt;data-cell colspan=&quot;1&quot; horizAlign=&quot;CENTER&quot; vertAlign=&quot;MIDDLE&quot;&gt;North&lt;/data-cell&gt;
+			&lt;data-cell colspan=&quot;1&quot; horizAlign=&quot;CENTER&quot; vertAlign=&quot;MIDDLE&quot;&gt;Sweden&lt;/data-cell&gt;
+			&lt;data-cell colspan=&quot;1&quot; horizAlign=&quot;CENTER&quot; vertAlign=&quot;MIDDLE&quot;&gt;Males&lt;/data-cell&gt;
+			&lt;data-cell colspan=&quot;1&quot; horizAlign=&quot;CENTER&quot; vertAlign=&quot;MIDDLE&quot;&gt;under 30&lt;/data-cell&gt;
+			&lt;data-cell colspan=&quot;1&quot; horizAlign=&quot;CENTER&quot; vertAlign=&quot;MIDDLE&quot;&gt;1&lt;/data-cell&gt;
+		&lt;/data-row&gt;
+		&lt;data-row&gt; 
+			...
+	&lt;/report&gt;
  * </pre>
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
@@ -41,45 +44,46 @@ import javax.xml.stream.XMLStreamWriter;
 public class StaxReportOutput extends AbstractXmlOutput {
 	
 	/**
-	 * 
+	 * the version of the engine
 	 */
-	public static final String ENGINE_VERSION = "0.9";
+	private static final String ENGINE_VERSION = "0.9";
 	
 	/**
-	 * 
+	 * the xml stream writer
 	 */
 	private XMLStreamWriter xmlWriter;
 	
 	/**
-	 * outputs into a string if no other writer is set
+	 * outputs into a string writer (memory)
 	 */
 	public StaxReportOutput(){}
 	
 	/**
-	 * outputs into a file
-	 * @param outFileName
+	 * output into the given file
+	 * 
+	 * @param outFilePath	the output file path
 	 */
-	public StaxReportOutput(String outFileName){
-		super(outFileName); 
+	public StaxReportOutput(String outFilePath){
+		super(outFilePath); 
 	}
 	
 	/**
 	 * outputs into the specified writer
-	 * @param writer
+	 * 
+	 * @param writer	the output writer
 	 */
 	public StaxReportOutput(Writer writer){
 		super(writer);
 	}
 	
 	/**
-	 * 
+	 * opens the output
 	 */
 	public void open(){
 		markAsOpen();
 		try{
 			XMLOutputFactory factory = XMLOutputFactory.newInstance();
 			xmlWriter = factory.createXMLStreamWriter(getOutputWriter());
-			
 		}catch(XMLStreamException streamException){
 			throw new RuntimeException(streamException);
 		}
@@ -88,7 +92,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	
 	
 	/**
-	 * empty implementation
+	 * marks the start of the report by sending to the writer the "report" tag
 	 */
 	public void startReport(ReportProps reportProps){
 		try{
@@ -101,7 +105,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	}
 	
 	/**
-	 * 
+	 * outputs the title
 	 */
 	public void outputTitle(TitleProps titleProps){
 		try {
@@ -114,7 +118,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	}
 	
 	/**
-	 * 
+	 * writes the header row 
 	 */
 	public void startHeaderRow(RowProps rowProps){
 		try{
@@ -126,21 +130,23 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	}
 	
 	/**
-	 * 
+	 * output the header cell
 	 */
 	public void outputHeaderCell(CellProps cellProps){
 		outputDataCell(cellProps); 
 	}
 	
 	/**
-	 * 
+	 * ends the header row
 	 */
 	public void endHeaderRow(){
 		endDataRow(); 
 	}
 	
 	/**
-     * new line
+     * starts the data row
+     * 
+     * @param rowProperties the properties of the current row
      */
     public void startDataRow(RowProps rowProperties) {
         try{
@@ -152,7 +158,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
     }
     
     /**
-     * end a report line
+     * ends a data row
      */
     public void endDataRow(){
         try{
@@ -163,7 +169,9 @@ public class StaxReportOutput extends AbstractXmlOutput {
     }
 	
 	/**
-     * output
+     * output of a data cell
+     * 
+     * @param cellProps the cell properties
      */
     public void outputDataCell(CellProps cellProps) {
     	try{
@@ -179,7 +187,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
     }
     
     /**
-	 * empty implementation
+	 * ends this report by sending the end report tag
 	 */
 	public void endReport(){
 		try{
@@ -191,7 +199,7 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	}
     
     /**
-	 * 
+	 * flushes the writer and closes it.
 	 */
 	public void close(){
 		try{

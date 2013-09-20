@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Debug implementation for ReportOutput where all outputed values go to the log file at each end of line
+ * Test implementation for ReportOutput where all output values go to the log file at each end of line
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  */

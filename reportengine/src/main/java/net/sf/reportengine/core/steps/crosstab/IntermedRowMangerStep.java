@@ -89,6 +89,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 	 * @see net.sf.reportengine.core.AbstractReportStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
 	public void execute(NewRowEvent rowEvent) {
+		//TODO: try to simplify this class ( it's complex compared to the other step classes)
 		int groupingLevel = getGroupingLevel(); 
 		
 		if(groupingLevel >= 0){

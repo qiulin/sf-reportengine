@@ -10,7 +10,7 @@ import net.sf.reportengine.core.steps.crosstab.IntermediateTotalInfo;
 import org.junit.Test;
 
 /**
- * @author dragos
+ * @author dragos balan (dragos dot balan at gmail dot com)
  *
  */
 public class TestIntermediateCrosstabOutput {

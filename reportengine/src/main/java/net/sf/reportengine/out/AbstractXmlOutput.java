@@ -6,7 +6,8 @@ package net.sf.reportengine.out;
 import java.io.Writer;
 
 /**
- * Abstract output for all xml based report output
+ * Abstract output for all xml based report output. 
+ * The output looks like: 
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
