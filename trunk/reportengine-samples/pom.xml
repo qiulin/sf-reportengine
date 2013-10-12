@@ -47,7 +47,7 @@
         	</executions>
  
         	<configuration>
-          		<mainClass>net.sf.reportengine.samples.flat.autoconfig.SortedFlatReport</mainClass>
+          		<mainClass>net.sf.reportengine.samples.flat.autoconfig.SortedAutoconfigFlatReport</mainClass>
         	</configuration>
       	</plugin>
             	

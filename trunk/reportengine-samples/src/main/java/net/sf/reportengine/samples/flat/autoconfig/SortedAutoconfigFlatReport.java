@@ -11,7 +11,7 @@ import net.sf.reportengine.out.HtmlOutput;
  * @author dragos balan
  *
  */
-public class SortedFlatReport {
+public class SortedAutoconfigFlatReport {
 
 	/**
 	 * @param args
