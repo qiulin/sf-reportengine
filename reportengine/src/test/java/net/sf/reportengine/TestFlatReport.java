@@ -270,7 +270,7 @@ public class TestFlatReport {
 	
 	@Test
 	public void testExecuteWithSorting(){
-		FlatReport flatReport = new FlatReport();	
+		FlatReport flatReport = new FlatReport(); //todo: apply builder here	
 		flatReport.setValuesSorted(false); // all group values will be sorted 
 		
 		CellPropsArrayOutput mockOut = new CellPropsArrayOutput();
