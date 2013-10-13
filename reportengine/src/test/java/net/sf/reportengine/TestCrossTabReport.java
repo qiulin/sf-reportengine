@@ -52,6 +52,7 @@ public class TestCrossTabReport extends TestCase {
 	
 	public void testExecute1x1x1xT(){
 		CrossTabReport classUnderTest = new CrossTabReport.Builder()
+											.title("Crosstab report 1 group, 1x1x1xT")
 											.input(CtScenario1x1x1.INPUT)
 											.output(new HtmlOutput("target/CrosstabReport1x1x1xT.html"))
 											.groupColumns(CtScenario1x1x1.GROUP_COLUMNS)
@@ -66,6 +67,7 @@ public class TestCrossTabReport extends TestCase {
 	
 	public void testExecute1x1x1() {
 		CrossTabReport classUnderTest = new CrossTabReport(); 
+		classUnderTest.setTitle("Crosstab report 1x1x1 no totals"); 
 		classUnderTest.setIn(CtScenario1x1x1.INPUT); 
 		classUnderTest.setOut(new HtmlOutput("target/CrosstabReport1x1x1.html"));
 		classUnderTest.setGroupColumns(CtScenario1x1x1.GROUP_COLUMNS);
@@ -80,6 +82,7 @@ public class TestCrossTabReport extends TestCase {
 	
 	public void testExecute2x2x1xT() throws FileNotFoundException{
 		CrossTabReport classUnderTest = new CrossTabReport(); 
+		classUnderTest.setTitle("crosstab report 2x2x1xT");
 		classUnderTest.setIn(CtScenario2x2x1With1G1D.INPUT); 
 		classUnderTest.setOut(new HtmlOutput("target/CrosstabReport2x2x1xT.html"));
 		classUnderTest.setGroupColumns(CtScenario2x2x1With1G1D.GROUPING_COLUMNS);
@@ -94,6 +97,7 @@ public class TestCrossTabReport extends TestCase {
 	
 	public void testExecute2x2x1() throws FileNotFoundException{
 		CrossTabReport classUnderTest = new CrossTabReport(); 
+		classUnderTest.setTitle("crosstab 2x2x1");		
 		classUnderTest.setIn(CtScenario2x2x1With1G1D.INPUT); 
 		
 		OutputDispatcher outDispatcher = new OutputDispatcher(); 
@@ -117,7 +121,6 @@ public class TestCrossTabReport extends TestCase {
 	
 	public void testProgramaticSorting2x2x1() throws FileNotFoundException{
 		CrossTabReport classUnderTest = new CrossTabReport(); 
-		
 		classUnderTest.setTitle("This report has group columns sorted programatically");
 		classUnderTest.setIn(CtUnsortedScenario2x2x1With1G1D.INPUT); 
 		classUnderTest.setOut(new HtmlOutput("./target/CtProgramaticallySorted2x2x1.html"));
@@ -164,6 +167,7 @@ public class TestCrossTabReport extends TestCase {
 	
 	public void testExecute3x2x1xT(){
 		CrossTabReport classUnderTest = new CrossTabReport(); 
+		classUnderTest.setTitle("crosstab report 3x2x1xT"); 
 		classUnderTest.setIn(new TextInput(ReportIoUtils.createInputStreamFromClassPath("3x2x1.txt"), ",")); 
 		classUnderTest.setOut(new HtmlOutput("target/CrosstabReport3x2x1xT.html"));
 		

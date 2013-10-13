@@ -143,10 +143,12 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	/**
 	 * constructs a new crosstab report
 	 */
-	public CrossTabReport(){
-		
-	}
+	public CrossTabReport(){}
 	
+	/**
+	 * constructs a crosstab report based on the builder values 
+	 * @param builder
+	 */
 	public CrossTabReport(Builder builder){
 		this.setShowDataRows(builder.showDataRows); 
     	this.setShowGrandTotal(builder.showGrandTotal.getValue()); 
@@ -205,6 +207,7 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	protected void config() {
 		LOGGER.trace("configuring crosstab report ..."); 
 		
+		reportAlgoContainer.addIn(IOKeys.REPORT_TITLE, getTitle()); 
 		//setting the input/output
 		reportAlgoContainer.addIn(IOKeys.REPORT_INPUT, getIn());
 		reportAlgoContainer.addIn(IOKeys.REPORT_OUTPUT, getOut());

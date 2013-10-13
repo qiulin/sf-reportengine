@@ -104,6 +104,7 @@ public class AutoconfigFlatReport extends AbstractReport {
     	LOGGER.trace("configuring the autodetect flat report"); 
     	
     	//preparing the context of the report algorithm 
+    	reportAlgoContainer.addIn(IOKeys.REPORT_TITLE, getTitle()); 
     	reportAlgoContainer.addIn(IOKeys.REPORT_INPUT, getIn());
     	reportAlgoContainer.addIn(IOKeys.REPORT_OUTPUT, getOut());
     	reportAlgoContainer.addIn(IOKeys.USER_COLUMN_PREFERENCES, userColumnPrefs); 
@@ -160,7 +161,7 @@ public class AutoconfigFlatReport extends AbstractReport {
     	}
     	algorithm.addInitStep(new FlatReportExtractTotalsDataInitStep());
     	algorithm.addInitStep(new StartReportInitStep()); 
-    	algorithm.addInitStep(new ColumnHeaderOutputInitStep(getTitle()));
+    	algorithm.addInitStep(new ColumnHeaderOutputInitStep());
         
     	//the main steps
     	algorithm.addMainStep(new GroupLevelDetectorStep());

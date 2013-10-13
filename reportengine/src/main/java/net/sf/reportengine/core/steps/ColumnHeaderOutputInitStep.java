@@ -35,26 +35,6 @@ public class ColumnHeaderOutputInitStep extends AbstractReportInitStep{
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(ColumnHeaderOutputInitStep.class);
 	
-	/**
-	 * the title of the report
-	 */
-    private String reportTitle;
-    
-    
-    /**
-     * 
-     */
-    public ColumnHeaderOutputInitStep(){
-        this(null);
-    }
-    
-    /**
-     * 
-     * @param title
-     */
-    public ColumnHeaderOutputInitStep(String title){
-        this.reportTitle = title;
-    }
     
     /**
      * 
@@ -66,8 +46,8 @@ public class ColumnHeaderOutputInitStep extends AbstractReportInitStep{
     	
     	//output the title
     	ReportOutput output = getReportOutput();
-        if(reportTitle != null){
-        	output.outputTitle(new TitleProps(reportTitle, outputColumnsCnt));
+        if(getReportTitle() != null){
+        	output.outputTitle(new TitleProps(getReportTitle(), outputColumnsCnt));
         }
         
         //output the report column headers

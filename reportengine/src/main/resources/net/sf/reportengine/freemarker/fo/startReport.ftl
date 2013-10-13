@@ -29,7 +29,7 @@
       
       	<fo:page-sequence master-reference="A4">
       		<fo:flow flow-name="xsl-region-body">
-				
+				<#-- this is for later use
 				<fo:block 	font-family="ArialUnicodeMS" 
 						font-size="24pt" 
 						font-style="normal" 
@@ -37,7 +37,7 @@
 						text-align="center">
 					Title goes here
           		</fo:block> 
-          		
+          		-->
           		<fo:block>
 				 <fo:table 	border-top-style="solid"
 				 			border-bottom-style="solid"

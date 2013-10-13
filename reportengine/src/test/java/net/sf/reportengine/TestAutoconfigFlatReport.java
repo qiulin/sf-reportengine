@@ -27,6 +27,7 @@ public class TestAutoconfigFlatReport {
 		AutodetectConfigurationScenario.initScenario(); 
 		
 		AutoconfigFlatReport flatReport = new AutoconfigFlatReport.Builder()
+			.title("Autoconfig flat report")
 			.input(AutodetectConfigurationScenario.INPUT)
 			.output(new HtmlOutput("./target/testBasicAutodetect.html"))
 			.build(); 
@@ -49,6 +50,7 @@ public class TestAutoconfigFlatReport {
 	@Test
 	public void testAutodetectFromDatabase(){
 		AutoconfigFlatReport flatReport = new AutoconfigFlatReport(); 
+		flatReport.setTitle("autoconfig report from sql"); 
 		SqlInput input = new SqlInput(); 
 		input.setDbUser("SA");
 		input.setDbPassword("");
