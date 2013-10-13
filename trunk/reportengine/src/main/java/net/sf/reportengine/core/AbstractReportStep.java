@@ -87,6 +87,10 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
     	return (List<DataColumn>)getAlgoInput().get(IOKeys.DATA_COLS); 
     }
     
+    /**
+     * 
+     * @return
+     */
     public int getDataColumnsLength(){
     	return getDataColumns() != null ? getDataColumns().size() : 0; 
     }
@@ -228,5 +232,13 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
     protected void incrementDataRowNbr(){
     	Integer oldValue = getDataRowCount(); 
     	getAlgoContext().set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(oldValue.intValue()+1));
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public String getReportTitle(){
+    	return (String)getAlgoInput().get(IOKeys.REPORT_TITLE); 
     }
 }

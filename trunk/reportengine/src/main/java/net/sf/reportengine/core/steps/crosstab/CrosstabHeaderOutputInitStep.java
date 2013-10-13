@@ -17,6 +17,7 @@ import net.sf.reportengine.core.steps.AbstractCrosstabInitStep;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
+import net.sf.reportengine.out.TitleProps;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
 import net.sf.reportengine.util.IOKeys;
@@ -41,6 +42,9 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep{
 	 * 
 	 */
 	@Override protected void executeInit() {
+		outputTitle(getReportTitle(), 
+					getDataColumnsLength() + getGroupColumnsLength(), 
+					getReportOutput());
 		outputHeaderRows(	getReportOutput(), 
 							getCrosstabMetadata(), 
 							getDataColumns(), 
@@ -54,6 +58,19 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep{
 	
 	@Override public List<GroupColumn> getGroupColumns(){
 		return (List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS); 
+	}
+	
+	/**
+	 * 
+	 * @param title
+	 * @param reportOutput
+	 */
+	private void outputTitle(	String reportTitle, 
+								int colspan,  
+								ReportOutput reportOutput){
+		if(reportTitle != null){
+        	reportOutput.outputTitle(new TitleProps(reportTitle, colspan));
+        }
 	}
 	
 	/**

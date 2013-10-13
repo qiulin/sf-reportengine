@@ -138,6 +138,7 @@ public class FlatReport extends AbstractColumnBasedReport {
     	LOGGER.trace("configuring flat report"); 
     	
     	//preparing the context of the report reportAlgo 
+    	reportAlgoContainer.addIn(IOKeys.REPORT_TITLE, getTitle()); 
     	reportAlgoContainer.addIn(IOKeys.REPORT_INPUT, getIn());
     	reportAlgoContainer.addIn(IOKeys.REPORT_OUTPUT, getOut());
     	reportAlgoContainer.addIn(IOKeys.DATA_COLS, getDataColumns()); 
@@ -147,7 +148,6 @@ public class FlatReport extends AbstractColumnBasedReport {
     	
     	needsProgramaticSorting = !hasValuesSorted() || ReportUtils.isSortingInColumns(getGroupColumns(), getDataColumns()); 
     	LOGGER.info("programatic sorting needed {} ", needsProgramaticSorting); 
-    	//reportAlgoContainer.addIn(IOKeys.HAS_VALUES_ORDERED, !needsProgramaticSorting); 
     	
     	if(needsProgramaticSorting){
     		reportAlgoContainer.addAlgo(configSortingAlgo()); 
@@ -190,7 +190,7 @@ public class FlatReport extends AbstractColumnBasedReport {
     	reportAlgo.addInitStep(new InitReportDataInitStep()); 
     	reportAlgo.addInitStep(new FlatReportExtractTotalsDataInitStep());//TODO: only when report has totals
     	reportAlgo.addInitStep(new StartReportInitStep()); 
-    	reportAlgo.addInitStep(new ColumnHeaderOutputInitStep(getTitle()));
+    	reportAlgo.addInitStep(new ColumnHeaderOutputInitStep());
         
     	//then we add the main steps
     	reportAlgo.addMainStep(new GroupLevelDetectorStep());

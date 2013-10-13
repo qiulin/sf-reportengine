@@ -78,4 +78,8 @@ public abstract class AbstractReportInitStep extends AbstractInitStep {
     public Boolean getShowGrandTotal(){
     	return (Boolean)getAlgoInput().get(IOKeys.SHOW_GRAND_TOTAL); 
     }
+    
+    public String getReportTitle(){
+    	return (String)getAlgoInput().get(IOKeys.REPORT_TITLE); 
+    }
 }
