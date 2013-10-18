@@ -188,18 +188,19 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 	}
 	
 	/**
-	 * 
+	 * returns a string interpretation of this object 
 	 */
 	public String toString(){
-		StringBuilder result = new StringBuilder("DefaultGroupColumn[");
-		result.append("inputIdx=").append(inputColumnIndex);
-		result.append(", groupLevel=").append(getGroupingLevel());
-		result.append(", header=").append(getHeader());
-		result.append(", hAlign=").append(getHorizAlign());
-		result.append(", formatter=").append(getFormatter());
-		result.append(", sortType=").append(getSortType()); 
-		result.append("]");
-		return result.toString(); 
+		return new StringBuilder("DefaultGroupColumn[")
+			.append("inputIdx=").append(inputColumnIndex)
+			.append(", groupLevel=").append(getGroupingLevel())
+			.append(", header=").append(getHeader())
+			.append(", hAlign=").append(getHorizAlign())
+			.append(", vAlign=").append(getVertAlign())
+			.append(", formatter=").append(getFormatter())
+			.append(", sortType=").append(getSortType())
+			.append("]")
+		.toString(); 
 	}
 	
 	public static class Builder{

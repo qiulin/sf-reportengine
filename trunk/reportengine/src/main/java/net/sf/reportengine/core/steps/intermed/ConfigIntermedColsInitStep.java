@@ -119,8 +119,15 @@ public class ConfigIntermedColsInitStep extends AbstractReportInitStep{
 	
 	static class IntermDataColumnFromCrosstabData implements DataColumn{
 		
+		/**
+		 * the original cross tab data on which this data column is based
+		 */
 		private CrosstabData crosstabData;
 		
+		/**
+		 * 
+		 * @param crosstabData
+		 */
 		public IntermDataColumnFromCrosstabData(CrosstabData crosstabData){
 			this.crosstabData = crosstabData; 
 		}

@@ -13,14 +13,25 @@ import net.sf.reportengine.core.calc.Calculator;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedDataList;
 
 /**
- * this is only for internal use. 
+ * Warning: only for internal use !
+ * This is a data column which uses 
+ * 	1. the original crosstab data for visual properties (horiz/vert align, formatting)
+ *  2. the previously computed value ( computed in the intermediate step)
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public class SecondProcessDataColumn extends AbstractDataColumn{
+public class SecondProcessDataColumn implements DataColumn{
 	
+	/**
+	 * 
+	 */
 	private int[] positionRelativeToHeader; 
+	
+	/**
+	 * original crosstab data
+	 */
+	private CrosstabData originalCtData; 
 	
 	/**
 	 * 
@@ -29,11 +40,10 @@ public class SecondProcessDataColumn extends AbstractDataColumn{
 	 * @param formatter
 	 */
 	public SecondProcessDataColumn(	int[] positionRelativeToHeader, 	
-									Calculator calc, 
-									Format formatter) {
+									CrosstabData crosstabData) {
 		//normally we don't need the column header
-		super("Data"+Arrays.toString(positionRelativeToHeader), calc, formatter);
-		this.positionRelativeToHeader = positionRelativeToHeader; 
+		this.positionRelativeToHeader = positionRelativeToHeader;
+		this.originalCtData = crosstabData; 
 	}
 	
 	
@@ -52,5 +62,40 @@ public class SecondProcessDataColumn extends AbstractDataColumn{
 	
 	public int[] getPosition(){
 		return positionRelativeToHeader; 
+	}
+
+
+	public String getHeader() {
+		return "Data"+Arrays.toString(positionRelativeToHeader);
+	}
+
+
+	public String getFormattedValue(Object value) {
+		return originalCtData.getFormattedValue(value);
+	}
+
+
+	public Calculator getCalculator() {
+		return originalCtData.getCalculator();
+	}
+
+
+	public HorizAlign getHorizAlign() {
+		return originalCtData.getHorizAlign();
+	}
+
+
+	public VertAlign getVertAlign() {
+		return originalCtData.getVertAlign();
+	}
+
+
+	public int getSortLevel() {
+		return NO_SORTING;
+	}
+
+
+	public SortType getSortType() {
+		return SortType.NONE;
 	}
 }

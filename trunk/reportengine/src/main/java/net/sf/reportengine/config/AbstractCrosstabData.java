@@ -65,9 +65,6 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	}
 	
 	
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.config.CrosstabData#getFormattedValue(java.lang.Object)
-	 */
 	public String getFormattedValue(Object unformattedValue) {
 		String result = "";
 		if(unformattedValue != null){
@@ -123,5 +120,4 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	public void setVertAlign(VertAlign vertAlign) {
 		this.vertAlign = vertAlign;
 	}
-	
 }

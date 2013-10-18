@@ -18,12 +18,17 @@ import net.sf.reportengine.core.steps.crosstab.IntermComputedTotalsList;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public class SecondProcessTotalColumn extends AbstractDataColumn {
+public class SecondProcessTotalColumn implements DataColumn {
 	
 	/**
 	 * 
 	 */
 	private int[] positionRelativeToHeader; 
+	
+	/**
+	 * the original crosstab data 
+	 */
+	private CrosstabData originalCtData; 
 	
 	/**
 	 * 
@@ -32,11 +37,10 @@ public class SecondProcessTotalColumn extends AbstractDataColumn {
 	 * @param formatter
 	 */
 	public SecondProcessTotalColumn(int[] positionRelativeToHeader, 
-									Calculator calc,
-									Format formatter, 
-									String debugHeader) {
-		super(debugHeader +" "+Arrays.toString(positionRelativeToHeader), calc, formatter);
+									CrosstabData originalCtData) {
+		//super(debugHeader +" "+Arrays.toString(positionRelativeToHeader), calc, formatter);
 		this.positionRelativeToHeader = positionRelativeToHeader; 
+		this.originalCtData = originalCtData; 
 	}
 
 	/* (non-Javadoc)
@@ -57,5 +61,33 @@ public class SecondProcessTotalColumn extends AbstractDataColumn {
 	
 	public int[] getPosition(){
 		return positionRelativeToHeader; 
+	}
+
+	public String getHeader() {
+		return Arrays.toString(positionRelativeToHeader);
+	}
+
+	public String getFormattedValue(Object value) {
+		return originalCtData.getFormattedValue(value);
+	}
+
+	public Calculator getCalculator() {
+		return originalCtData.getCalculator();
+	}
+
+	public HorizAlign getHorizAlign() {
+		return originalCtData.getHorizAlign();
+	}
+
+	public VertAlign getVertAlign() {
+		return originalCtData.getVertAlign();
+	}
+
+	public int getSortLevel() {
+		return NO_SORTING;
+	}
+
+	public SortType getSortType() {
+		return SortType.NONE;
 	}
 }

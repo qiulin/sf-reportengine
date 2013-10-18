@@ -39,6 +39,7 @@ public class TestConfigCrosstabColumnsInitStep {
 		
 		List<DataColumn> result = classUnderTest.constructDataColumnsForSecondProcess(testMetadata, 
 															CtScenario2x2x1With1G1D.DATA_COLUMNS, 
+															CtScenario2x2x1With1G1D.CROSSTAB_DATA, 
 															false, 
 															false); 
 		assertNotNull(result);
