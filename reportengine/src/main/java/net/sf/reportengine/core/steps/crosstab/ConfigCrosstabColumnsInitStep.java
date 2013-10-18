@@ -6,6 +6,7 @@ package net.sf.reportengine.core.steps.crosstab;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.SecondProcessDataColumn;
@@ -30,7 +31,8 @@ public class ConfigCrosstabColumnsInitStep extends AbstractCrosstabInitStep {
 	protected void executeInit() {
 		
 		List<DataColumn> newDataCols = constructDataColumnsForSecondProcess(getCrosstabMetadata(), 
-																			getDataColumns(), 
+																			getDataColumns(),
+																			getCrosstabData(), 
 																			getShowTotals(), 
 																			getShowGrandTotal());
 		getAlgoContext().set(ContextKeys.INTERNAL_DATA_COLS, newDataCols); 
@@ -70,7 +72,8 @@ public class ConfigCrosstabColumnsInitStep extends AbstractCrosstabInitStep {
 	 * @return	a list data columns necessary to the second process
 	 */
 	protected List<DataColumn> constructDataColumnsForSecondProcess(	CtMetadata crosstabMetadata, 
-																		List<DataColumn> originalDataColumns, 
+																		List<DataColumn> originalDataColumns,
+																		CrosstabData originalCtData, 
 																		boolean hasTotals, 
 																		boolean hasGrandTotal){
 		int dataColsCount = crosstabMetadata.getDataColumnCount(); 
@@ -78,7 +81,8 @@ public class ConfigCrosstabColumnsInitStep extends AbstractCrosstabInitStep {
 		
 		List<DataColumn> resultDataColsList = new ArrayList<DataColumn>();
 		
-		//first we add the original data columns (those declared by the user in his configuration)
+		//first we add the original data columns 
+		//those declared initially by the user in his configuration
 		for(int i=0; i < originalDataColumns.size(); i++){
 			resultDataColsList.add(new SecondProcessDataColumnFromOriginalDataColumn(originalDataColumns.get(i), i));
 		}
@@ -100,21 +104,19 @@ public class ConfigCrosstabColumnsInitStep extends AbstractCrosstabInitStep {
 						}
 		
 						resultDataColsList.add(
-								new SecondProcessTotalColumn(	positionForCurrentTotal, 
-																Calculators.SUM, 
-																null, 
-																"Total column="+column+ ",colspan= "+colspan));
+								//"Total column="+column+ ",colspan= "+colspan
+								new SecondProcessTotalColumn(	positionForCurrentTotal, originalCtData));
 					}
 				}//end for
 			}//end if has totals
 
-			//data columns coming from data columns
+			//data columns coming from crosstab data
 			int[] positionForCurrentColumn = new int[headerRowsCount];
 			for(int j=0; j < headerRowsCount; j++){
 				positionForCurrentColumn[j] = (column / crosstabMetadata.getColspanForLevel(j)) % crosstabMetadata.getDistinctValuesCountForLevel(j);
 			}
 		
-			resultDataColsList.add(new SecondProcessDataColumn(positionForCurrentColumn, Calculators.SUM, null)); 
+			resultDataColsList.add(new SecondProcessDataColumn(positionForCurrentColumn, originalCtData)); 
 		}//end for columns
 		
 		//at the end we add one more total 
@@ -129,14 +131,16 @@ public class ConfigCrosstabColumnsInitStep extends AbstractCrosstabInitStep {
 					for(int j=0; j < positionForCurrentTotal.length; j++){
 						positionForCurrentTotal[j] = ((dataColsCount-1) / crosstabMetadata.getColspanForLevel(j)) % crosstabMetadata.getDistinctValuesCountForLevel(j);
 					}
-					resultDataColsList.add(new SecondProcessTotalColumn(positionForCurrentTotal, Calculators.SUM, null, "Total column="+(dataColsCount)+ ",colspan= "+colspan));
+					//"Total column="+(dataColsCount)+ ",colspan= "+colspan
+					resultDataColsList.add(new SecondProcessTotalColumn(positionForCurrentTotal, originalCtData));
 				}
 			}
 		}//end if has totals
 
 		// .. and finally the grand total
 		if(hasGrandTotal){
-			resultDataColsList.add(new SecondProcessTotalColumn(null, Calculators.SUM, null, "Grand Total")); 
+			//"Grand Total"
+			resultDataColsList.add(new SecondProcessTotalColumn(null, originalCtData)); 
 		}
 
 		return resultDataColsList; 

@@ -16,8 +16,15 @@ import net.sf.reportengine.core.steps.crosstab.IntermOriginalGroupValuesList;
  */
 public class SecondProcessGroupColumn implements GroupColumn {
 	
+	/**
+	 * the original group column on which this new column is based
+	 */
 	private GroupColumn originalGroupColumn; 
 	
+	/**
+	 * 
+	 * @param anotherGroupColumn
+	 */
 	public SecondProcessGroupColumn(GroupColumn anotherGroupColumn){
 		this.originalGroupColumn = anotherGroupColumn;  
 	}

@@ -3,36 +3,30 @@
  */
 package net.sf.reportengine.scenarios.ct;
 
+import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
 
+import net.sf.reportengine.config.CrosstabData;
+import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.config.CrosstabData;
-import net.sf.reportengine.config.CrosstabHeaderRow;
-import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.config.HorizAlign;
+import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.calc.Calculators;
-import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
-import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.ArrayReportInput;
-import net.sf.reportengine.util.DistinctValuesHolder;
-import net.sf.reportengine.util.MockDistinctValuesHolder;
+import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.util.MockStringFormat;
 
 /**
  * @author dragos balan
  *
  */
-public class CtScenario4x3x1 {
-	public static final String[][] DISTINCT_VALUES = new String[][]{
-		new String[]{"North","South","East","West"},
-		new String[]{"M","F"},
-		new String[]{"20", "50", "80"}
-	};
-	
-	public static final Boolean HAS_HEADER_TOTALS = new Boolean(true);
+public class CtScenarioFormatting4x3x1 {
 	
 	public static final Object[][] RAW_INPUT = new Object[][]{
 		
@@ -60,14 +54,34 @@ public class CtScenario4x3x1 {
 	
 	public final static List<GroupColumn> GROUP_COLUMNS = Arrays.asList( 
 			new GroupColumn[]{
-					new DefaultGroupColumn("Planet",  0, 0), 
-					new DefaultGroupColumn("Continent", 1, 1), 
-					new DefaultGroupColumn("Region", 2, 2),
+					new DefaultGroupColumn.Builder(0)
+						.header("Planet HorizAlign=Right, VertAlign=Top")
+						.level(0)
+						.horizAlign(HorizAlign.RIGHT)
+						.vertAlign(VertAlign.TOP)
+						.build(), 
+					new DefaultGroupColumn.Builder(1)
+						.header("Continent HorizAlign=Left, VertAlign=Bottom")
+						.level(1)
+						.horizAlign(HorizAlign.LEFT)
+						.vertAlign(VertAlign.BOTTOM)
+						.build(), 
+					new DefaultGroupColumn.Builder(2)
+						.header("Region HorizAlign=Center, VertAlign=Top")
+						.level(2)
+						.horizAlign(HorizAlign.CENTER)
+						.useFormatter(new MockStringFormat())
+						.build(),
 	});
 	
 	public final static List<DataColumn> DATA_COLUMNS = Arrays.asList( 
 			new DataColumn[]{
-					new DefaultDataColumn("Country", 3)
+					new DefaultDataColumn.Builder(3)
+						.header("Country HorizAlign=Left, VertAlign=Top")
+						.horizAlign(HorizAlign.LEFT)
+						.vertAlign(VertAlign.TOP)
+						.useFormatter(new MockStringFormat())
+						.build()
 	});
 	
 	public final static List<CrosstabHeaderRow> HEADER_ROWS = Arrays.asList(
@@ -77,51 +91,12 @@ public class CtScenario4x3x1 {
 		new DefaultCrosstabHeaderRow(6)		//Age
 	}); 
 	
-	public final static CrosstabData CROSSTAB_DATA = 
-		new DefaultCrosstabData(7, Calculators.SUM);
+	public final static CrosstabData CROSSTAB_DATA = new DefaultCrosstabData.Builder(7)
+														.useCalculator(Calculators.SUM)
+														.horizAlign(HorizAlign.RIGHT)
+														.vertAlign(VertAlign.TOP)
+														.useFormatter(NumberFormat.getCurrencyInstance())
+														.build();
 	
 	public final static ReportInput INPUT = new ArrayReportInput(RAW_INPUT);
-	
-	//untested
-	public final static int[] AGG_LEVEL = new int[]{
-		-1,
-		
-		0,
-		3,
-		3,		
-		2,
-		
-		0,
-		
-		0,
-		1,
-		
-		0, 
-		1, 
-		2};  
-
-	//untested
-	public static final IntermediateDataInfo[] INTERMEDIATE_DATA_INFO = new IntermediateDataInfo[]{
-		new IntermediateDataInfo("100", new int[]{0,0,0}),
-		
-		new IntermediateDataInfo("1000", new int[]{0,0,1}),
-		new IntermediateDataInfo("10", new int[]{0,0,0}),
-		new IntermediateDataInfo("4", new int[]{0,0,2}),
-		new IntermediateDataInfo("1", new int[]{0,1,1}),
-		
-		new IntermediateDataInfo("2000", new int[]{1,0,1}),
-		
-		new IntermediateDataInfo("200", new int[]{2,1,0}),
-		new IntermediateDataInfo("2", new int[]{3,1,0}),
-		
-		new IntermediateDataInfo("3000", new int[]{2,0,2}),
-		new IntermediateDataInfo("300", new int[]{3,0,1}),
-		new IntermediateDataInfo("30", new int[]{3,1,1})
-	};
-	
-	public static DistinctValuesHolder MOCK_DISTINCT_VALUES_HOLDER = new MockDistinctValuesHolder(new String[][]{
-			new String[]{"North", "South", "East", "West"},
-			new String[]{"M", "F"},
-			new String[]{"20","50","80"}
-	});
 }

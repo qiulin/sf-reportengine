@@ -285,6 +285,7 @@ public class CrossTabReport extends AbstractColumnBasedReport{
     	algorithm.addExitStep(new EndReportExitStep()); 
     	algorithm.addExitStep(new CloseReportIOExitStep()); 
 		algorithm.addExitStep(new IntermedSetResultsExitStep()); 
+		
 		return algorithm; 
 	}
 	

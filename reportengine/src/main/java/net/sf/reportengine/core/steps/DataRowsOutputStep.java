@@ -66,17 +66,18 @@ public class DataRowsOutputStep extends AbstractReportStep {
 			}else{
 				cellPropsBuilder = new CellProps.Builder(ReportOutput.WHITESPACE);
 			}
-			cellPropsBuilder.horizAlign(currentGrpCol.getHorizAlign());
-			cellPropsBuilder.rowNumber(getDataRowCount()); 
+			cellPropsBuilder.horizAlign(currentGrpCol.getHorizAlign())
+							.vertAlign(currentGrpCol.getVertAlign())
+							.rowNumber(getDataRowCount()); 
 			getReportOutput().outputDataCell(cellPropsBuilder.build()); 
 		}
 		
 		//then handle the data columns
 		for(DataColumn dataColumn : dataColumns){
 			Object valueForCurrentColumn = dataColumn.getValue(newRowEvent);
-			cellPropsBuilder = new CellProps.Builder(dataColumn.getFormattedValue(valueForCurrentColumn));
-			cellPropsBuilder.horizAlign(dataColumn.getHorizAlign());
-			cellPropsBuilder.vertAlign(dataColumn.getVertAlign()); 
+			cellPropsBuilder = new CellProps.Builder(dataColumn.getFormattedValue(valueForCurrentColumn))
+				.horizAlign(dataColumn.getHorizAlign())
+				.vertAlign(dataColumn.getVertAlign()); 
 			getReportOutput().outputDataCell(cellPropsBuilder.build()); 
 		}
     	
