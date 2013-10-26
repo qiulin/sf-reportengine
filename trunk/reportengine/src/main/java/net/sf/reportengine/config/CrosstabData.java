@@ -30,6 +30,11 @@ public interface CrosstabData {
 	
 	/**
 	 * 
+	 */
+	public String getFormattedTotal(Object unformattedTotalValue);
+	
+	/**
+	 * 
 	 * @return
 	 */
 	public Calculator getCalculator();

@@ -3,8 +3,6 @@
  */
 package net.sf.reportengine;
 
-import java.text.NumberFormat;
-
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.calc.Calculators;
@@ -76,7 +74,7 @@ public class TestAutoconfigFlatReport {
 		flatReport.setOut(new HtmlOutput("./target/AutodetectFromSqlWithUserPrefsAndDbOrdering.html")); 
 		
 		flatReport.forColumn("COUNTRY").horizAlign(HorizAlign.RIGHT).vertAlign(VertAlign.TOP).header("Changed header").group(); 
-		flatReport.forColumn("VALUE").vertAlign(VertAlign.BOTTOM).useCalculator(Calculators.SUM).useFormatter(NumberFormat.getCurrencyInstance()); 
+		flatReport.forColumn("VALUE").vertAlign(VertAlign.BOTTOM).useCalculator(Calculators.SUM).valuesFormatter("%d $").totalsFormatter("%f $"); 
 		flatReport.forColumn("REGION").group(); 
 		flatReport.forColumn("CITY").group(); 
 		
@@ -99,7 +97,7 @@ public class TestAutoconfigFlatReport {
 		flatReport.setValuesSorted(false); 
 		
 		flatReport.forColumn("COUNTRY").horizAlign(HorizAlign.RIGHT).header("Changed header").group(); 
-		flatReport.forColumn("VALUE").useCalculator(Calculators.SUM).useFormatter(NumberFormat.getCurrencyInstance()); 
+		flatReport.forColumn("VALUE").useCalculator(Calculators.SUM).valuesFormatter("%d $").totalsFormatter("%f $"); 
 		flatReport.forColumn("REGION").group(); 
 		flatReport.forColumn("CITY").group(); 
 		
@@ -129,7 +127,8 @@ public class TestAutoconfigFlatReport {
 									.sortAsc(0); 
 		flatReport.forColumn("VALUE")	.header("Sorted ASC programatically with priority 2")
 										.useCalculator(Calculators.SUM)
-										.useFormatter(NumberFormat.getCurrencyInstance())
+										.valuesFormatter("%d $")
+										.totalsFormatter("%f $")
 										.sortAsc(1); //non group column sorted
 		
 		flatReport.forColumn("REGION").group();	

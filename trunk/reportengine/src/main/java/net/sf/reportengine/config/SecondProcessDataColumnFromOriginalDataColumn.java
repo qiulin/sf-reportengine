@@ -48,7 +48,11 @@ public class SecondProcessDataColumnFromOriginalDataColumn implements DataColumn
 	public String getFormattedValue(Object value) {
 		return originalDataColumn.getFormattedValue(value); 
 	}
-
+	
+	public String getFormattedTotal(Object value){
+		return originalDataColumn.getFormattedTotal(value); 
+	}
+	
 	public Object getValue(NewRowEvent newRowEvent) {
 		//according to the contract the second object in each row array is an 
 		//instance of IntermOrigGroupValuesList

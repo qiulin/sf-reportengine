@@ -9,9 +9,7 @@ package net.sf.reportengine.core.calc;
  * @author dragos dragos (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public abstract class AbstractCalculator implements Calculator {
-
-	
+public abstract class AbstractCalculator<T, V> implements Calculator<T, V> {
 
 	/**
 	 * serial version id
@@ -19,15 +17,51 @@ public abstract class AbstractCalculator implements Calculator {
 	private static final long serialVersionUID = 955527292301539906L;
 	
 	/**
-	 * deep copy of this object
+	 * the return value of this calculator
 	 */
-	public Calculator clone(){
-		Calculator result = null; 
+	private T value; 
+	
+	/**
+	 * 
+	 */
+	public AbstractCalculator(){}
+	
+	/**
+	 * 
+	 */
+	public T getResult(){
+        return value;
+    }
+	
+	
+	/**
+	 * returns a clone of this object
+	 */
+	public Calculator<T, V> clone(){
+		Calculator<T, V> result = null; 
 		try {
-			result = (Calculator)super.clone();
+			result = (Calculator<T, V>)super.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new CalculatorException("Cloning is not supported", e);
 		}
 		return result; 
 	}
+	
+	/**
+	 * 
+	 * @param value
+	 */
+	protected void setValue(T value){
+		this.value = value; 
+	}
+	
+	
+	/**
+     * returns the name of the class and the value
+     * @return a string
+     */
+    public String toString(){
+        String className = this.getClass().getSimpleName(); 
+        return className+" [val="+value+"]";
+    }    
 }

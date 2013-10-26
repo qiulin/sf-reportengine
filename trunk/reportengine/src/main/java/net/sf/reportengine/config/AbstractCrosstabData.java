@@ -18,7 +18,12 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	/**
 	 * 
 	 */
-	private Format formatter; 
+	private String valuesFormatter; 
+	
+	/**
+	 * 
+	 */
+	private String totalsFormatter; 
 	
 	/**
 	 * 
@@ -42,10 +47,25 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	 * @param horizAlign
 	 */
 	public AbstractCrosstabData(Calculator calc, 
-								Format formatter, 
+								String valuesFormatter, 
 								HorizAlign horizAlign){
-		this(calc, formatter, horizAlign, VertAlign.MIDDLE); 
+		this(calc, valuesFormatter, horizAlign, VertAlign.MIDDLE); 
 	}
+	
+	/**
+	 * 
+	 * @param calc
+	 * @param valuesFormatter
+	 * @param horizAlign
+	 * @param vertAlign
+	 */
+	public AbstractCrosstabData(Calculator calc, 
+								String  valuesFormatter, 
+								HorizAlign horizAlign, 
+								VertAlign vertAlign){
+		this(calc, valuesFormatter, null, horizAlign, vertAlign); 
+	}
+	
 	
 	/**
 	 * 
@@ -55,36 +75,65 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	 * @param vertAlign
 	 */
 	public AbstractCrosstabData(Calculator calc, 
-								Format formatter, 
+								String  valuesFormatter, 
+								String totalsFormatter, 
 								HorizAlign horizAlign, 
 								VertAlign vertAlign){
 		setCalculator(calc);
-		setFormatter(formatter);
+		setValuesFormatter(valuesFormatter);
+		setTotalsFormatter(totalsFormatter); 
 		setHorizAlign(horizAlign); 
 		setVertAlign(vertAlign); 
 	}
 	
-	
+	/**
+	 * 
+	 */
 	public String getFormattedValue(Object unformattedValue) {
 		String result = "";
 		if(unformattedValue != null){
-			if(formatter != null){
-				result = formatter.format(unformattedValue);
+			if(valuesFormatter != null){
+				result = String.format(valuesFormatter, unformattedValue);
 			}else{
 				result = unformattedValue.toString();
 			}
 		}
 		return result; 
 	}
-
-	public Format getFormatter() {
-		return formatter;
+	
+	/**
+	 * 
+	 */
+	public String getFormattedTotal(Object unformattedValue) {
+		String result = "";
+		if(unformattedValue != null){
+			if(totalsFormatter != null){
+				result = String.format(totalsFormatter, unformattedValue);
+			}else{
+				result = unformattedValue.toString();
+			}
+		}
+		return result; 
+	}
+	
+	
+	public String getValuesFormatter() {
+		return valuesFormatter;
 	}
 
-	public void setFormatter(Format formatter) {
-		this.formatter = formatter;
+	public void setValuesFormatter(String formatter) {
+		this.valuesFormatter = formatter;
+	}
+	
+	public String getTotalsFormatter() {
+		return totalsFormatter;
 	}
 
+	public void setTotalsFormatter(String formatter) {
+		this.totalsFormatter = formatter;
+	}
+	
+	
 	public Calculator getCalculator() {
 		return calculator;
 	}

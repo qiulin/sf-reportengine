@@ -1,8 +1,9 @@
 package net.sf.reportengine.config;
 
-import java.text.Format;
-
 import net.sf.reportengine.core.calc.Calculator;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract implementation for DataColumn. 
@@ -14,14 +15,24 @@ import net.sf.reportengine.core.calc.Calculator;
 public abstract class AbstractDataColumn implements DataColumn {
 	
 	/**
+	 * the one and only logger
+	 */
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDataColumn.class);
+	
+	/**
 	 *  the column header
 	 */
 	private String header; 
 	
 	/**
-	 * the formatter
+	 * the formatter for the values of this column
 	 */
-	private Format formatter; 
+	private String valuesFormatter; 
+	
+	/**
+	 * the formatter for the totals in this column
+	 */
+	private String totalFormatter; 
 	
 	/**
 	 * the calculator of this column
@@ -69,12 +80,12 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * 
 	 * @param header
 	 * @param calculator
-	 * @param formatter
+	 * @param valuesFormatter
 	 */
 	public AbstractDataColumn(	String header, 
 								Calculator calculator, 
-								Format formatter){
-		this(header, calculator, formatter, HorizAlign.CENTER);
+								String valuesFormatter){
+		this(header, calculator, valuesFormatter, HorizAlign.CENTER);
 	}
 	
 	
@@ -82,14 +93,14 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * 
 	 * @param header
 	 * @param calculator
-	 * @param formatter
+	 * @param valuesFormatter
 	 * @param horizAlign
 	 */
 	public AbstractDataColumn(	String header, 
 								Calculator calculator, 
-								Format formatter, 
+								String valuesFormatter, 
 								HorizAlign horizAlign){
-		this(header, calculator, formatter, horizAlign, NO_SORTING); 
+		this(header, calculator, valuesFormatter, horizAlign, NO_SORTING); 
 	}
 	
 	
@@ -97,16 +108,16 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * 
 	 * @param header
 	 * @param calculator
-	 * @param formatter
+	 * @param valuesFormatter
 	 * @param horizAlign
 	 * @param sortLevel
 	 */
 	public AbstractDataColumn(	String header, 
 								Calculator calculator, 
-								Format formatter, 
+								String valuesFormatter, 
 								HorizAlign horizAlign, 
 								int sortLevel){
-		this(header, calculator, formatter, horizAlign, VertAlign.MIDDLE, sortLevel);  
+		this(header, calculator, valuesFormatter, horizAlign, VertAlign.MIDDLE, sortLevel);  
 	}
 	
 	
@@ -114,18 +125,18 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * 
 	 * @param header		the header of this column
 	 * @param calculator	the calculator
-	 * @param formatter		the formatter 
+	 * @param valuesFormatter		the valuesFormatter 
 	 * @param horizAlign	the horizontal alignment
 	 * @param vertAlign		the vertical alignment
 	 * @param sortLevel	the sorting level
 	 */
 	public AbstractDataColumn(	String header, 
 								Calculator calculator, 
-								Format formatter, 
+								String valuesFormatter, 
 								HorizAlign horizAlign,
 								VertAlign vertAlign, 
 								int sortLevel){
-		this(header, calculator, formatter, horizAlign, vertAlign, sortLevel, SortType.ASC);  
+		this(header, calculator, valuesFormatter, horizAlign, vertAlign, sortLevel, SortType.ASC);  
 	}
 	
 	
@@ -133,7 +144,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * 
 	 * @param header		the header of this column
 	 * @param calculator	the calculator
-	 * @param formatter		the formatter 
+	 * @param valuesFormatter		the valuesFormatter 
 	 * @param horizAlign	the horizontal alignment
 	 * @param vertAlign		the vertical alignment
 	 * @param sortLevel	the sorting level 
@@ -141,13 +152,37 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 */
 	public AbstractDataColumn(	String header, 
 								Calculator calculator, 
-								Format formatter, 
+								String valuesFormatter,
+								HorizAlign horizAlign,
+								VertAlign vertAlign, 
+								int sortLevel, 
+								SortType sortType){
+		this(header, calculator, valuesFormatter, null, horizAlign, vertAlign, sortLevel, sortType); 
+	}
+	
+	
+	/**
+	 * 
+	 * @param header		the header of this column
+	 * @param calculator	the calculator
+	 * @param valuesFormatter		the valuesFormatter 
+	 * @param totalsFormatter		the valuesFormatter 
+	 * @param horizAlign	the horizontal alignment
+	 * @param vertAlign		the vertical alignment
+	 * @param sortLevel	the sorting level 
+	 * @param sortType		the sorting type (asc, desc)
+	 */
+	public AbstractDataColumn(	String header, 
+								Calculator calculator, 
+								String valuesFormatter,
+								String totalsFormatter, 
 								HorizAlign horizAlign,
 								VertAlign vertAlign, 
 								int sortLevel, 
 								SortType sortType){
 		setHeader(header); 
-		setFormatter(formatter); 
+		setValuesFormatter(valuesFormatter); 
+		setTotalsFormatter(totalsFormatter); 
 		setCalculator(calculator); 
 		setHorizAlign(horizAlign); 
 		setVertAlign(vertAlign); 
@@ -177,14 +212,32 @@ public abstract class AbstractDataColumn implements DataColumn {
 	public String getFormattedValue(Object value) {
 		String result = "";
 		if(value != null){
-			if(formatter != null){
-				result = formatter.format(value);
+			if(valuesFormatter != null){
+				//LOGGER.trace("formatting "+value+" as class "+value.getClass().getSimpleName());
+				result = String.format(valuesFormatter, value);
 			}else{
 				result = value.toString();
 			}
 		}
 		return result; 
 	}
+	
+	/**
+	 * 
+	 */
+	public String getFormattedTotal(Object totalValue){
+		String result = "";
+		if(totalValue != null){
+			if(totalFormatter != null){
+				result = String.format(totalFormatter, totalValue); 
+			}else{
+				result = totalValue.toString(); 
+			}
+		}
+		return result; 
+	}
+	
+	
 	
 	/**
 	 * getter for this column's calculator (if any)
@@ -203,24 +256,45 @@ public abstract class AbstractDataColumn implements DataColumn {
 	
 	
 	/**
-	 * sets a formatter for this column. 
-	 * All values of this column will be formatted using this formatter when 
+	 * sets a valuesFormatter for this column. 
+	 * All values of this column will be formatted using this valuesFormatter when 
 	 * the report engine calls {@link #getFormattedValue(Object)}
 	 * 
-	 * @param formatter
+	 * @param valuesFormatter
 	 */
-	public void setFormatter(Format formatter) {
-		this.formatter = formatter;
+	public void setValuesFormatter(String formatter) {
+		this.valuesFormatter = formatter;
 	}
 	
 	/**
-	 * getter for the formatter
+	 * getter for the valuesFormatter
 	 * @return
 	 */
-	public Format getFormatter(){
-		return formatter; 
+	public String getValuesFormatter(){
+		return valuesFormatter; 
 	}
-
+	
+	
+	/**
+	 * sets a formatter for totals displayed on this column. 
+	 * All values of this column will be formatted when 
+	 * the report engine calls {@link #getFormattedTotal(Object)}
+	 * 
+	 * @param valuesFormatter
+	 */
+	public void setTotalsFormatter(String formatter) {
+		this.totalFormatter = formatter;
+	}
+	
+	/**
+	 * getter for the valuesFormatter
+	 * @return
+	 */
+	public String getTotalsFormatter(){
+		return totalFormatter; 
+	}
+	
+	
 	/**
 	 * @return the horizAlign
 	 */

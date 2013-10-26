@@ -4,7 +4,9 @@
  */
 package net.sf.reportengine.core.calc;
 
-import java.math.BigDecimal;
+import org.apache.commons.lang.math.NumberUtils;
+
+
 
 /**
  * <p>
@@ -15,13 +17,14 @@ import java.math.BigDecimal;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class CountCalculator extends AbstractNumericCalculator {
+public class CountCalculator extends AbstractInitializedCalculator<Integer, Object> {
     
     /**
 	 * serial version id
 	 */
 	private static final long serialVersionUID = -722184855794011072L;
-
+	
+	
 	/**
      * the constructor makes a call to init() method
      */
@@ -35,7 +38,14 @@ public class CountCalculator extends AbstractNumericCalculator {
      */
     public void compute(Object newValue) {
         if(newValue != null){
-            value = value.add(new BigDecimal(1));
+            setValue(getResult()+1); 
         }
     }
+
+	@Override
+	protected Integer getInitValue() {
+		return NumberUtils.INTEGER_ZERO;
+	}
+    
+    
 }

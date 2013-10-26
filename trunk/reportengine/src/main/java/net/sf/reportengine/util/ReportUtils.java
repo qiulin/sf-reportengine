@@ -3,6 +3,7 @@
  */
 package net.sf.reportengine.util;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -133,7 +134,8 @@ public final class ReportUtils {
 		result.setVertAlign(prefs.getVertAlign() != null ? prefs.getVertAlign() : VertAlign.MIDDLE);
 		result.setInputColumnIndex(columnIndex);
 		result.setCalculator(prefs.getCalculator()); 
-		result.setFormatter(prefs.getFormatter());
+		result.setValuesFormatter(prefs.getValuesFormatter());
+		result.setTotalsFormatter(prefs.getTotalsFormatter()); 
 		
 		if(prefs.getSortLevel() > DataColumn.NO_SORTING){
 			LOGGER.debug("computing sorting for column={} from prefs={} and colIndex={}", result.getHeader(), prefs.getSortLevel(), columnIndex); 
@@ -233,5 +235,20 @@ public final class ReportUtils {
 		LOGGER.debug("checking if group cols {} or data cols {} need sorting ? {}", groupCols, dataCols, result); 
 		
 		return result; 
+	}
+	
+	public static BigDecimal createBigDecimal(Object value){
+		BigDecimal valueAsBd = null; 
+		if(value instanceof Number){
+			valueAsBd = new BigDecimal(((Number) value).doubleValue()); 
+		}else{
+			if(value instanceof String){
+				valueAsBd = new BigDecimal((String)value); 
+			}else{
+				valueAsBd = new BigDecimal(value.toString()); 
+			}
+		}
+		
+		return valueAsBd; 
 	}
 }

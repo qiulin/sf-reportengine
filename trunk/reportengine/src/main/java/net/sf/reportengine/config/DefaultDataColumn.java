@@ -3,8 +3,6 @@
  */
 package net.sf.reportengine.config;
 
-import java.text.Format;
-
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.Calculator;
 
@@ -40,7 +38,7 @@ import net.sf.reportengine.core.calc.Calculator;
  * Please keep in mind that inputColumnIndex is a zero based index.<br/>
  * The other attributes of this column are : 
  *  1. header
- *  2. formatter
+ *  2. valuesFormatter
  *  3. horizontal alignment
  *  4. calculator
  * 
@@ -63,7 +61,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 * 	inputColumn=0
 	 * 	no calculator
 	 *  header=Column 0 
-	 *  no formatter
+	 *  no valuesFormatter
 	 */
 	public DefaultDataColumn(){
 		this(0); 
@@ -101,12 +99,12 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 * @param header
 	 * @param inputColumnIndex
 	 * @param calculator
-	 * @param formatter
+	 * @param valuesFormatter
 	 */
 	public DefaultDataColumn(	String header,
 								int inputColumnIndex, 
 								Calculator calculator, 
-								Format formatter){
+								String formatter){
 		this(header, inputColumnIndex, calculator, formatter, HorizAlign.CENTER);
 	}
 	
@@ -116,13 +114,13 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 * @param header
 	 * @param inputColumnIndex
 	 * @param calculator
-	 * @param formatter
+	 * @param valuesFormatter
 	 * @param horizAlign	horizontal alignment 
 	 */
 	public DefaultDataColumn(	String header,
 								int inputColumnIndex, 
 								Calculator calculator, 
-								Format formatter, 
+								String formatter, 
 								HorizAlign horizAlign){
 		this(header, inputColumnIndex, calculator, formatter, horizAlign, NO_SORTING); 
 	}
@@ -132,14 +130,14 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 * @param header
 	 * @param inputColumnIndex
 	 * @param calculator
-	 * @param formatter
+	 * @param valuesFormatter
 	 * @param horizAlign	horizontal alignment
 	 * @param sortLevel 
 	 */
 	public DefaultDataColumn(	String header,
 								int inputColumnIndex, 
 								Calculator calculator, 
-								Format formatter, 
+								String formatter, 
 								HorizAlign horizAlign, 
 								int sortLevel){
 		
@@ -153,7 +151,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 * @param header
 	 * @param inputColumnIndex
 	 * @param calculator
-	 * @param formatter
+	 * @param valuesFormatter
 	 * @param horizAlign	the horizontal alignment
 	 * @param vertAlign 	the vertical alignment
 	 * @param sortLevel 
@@ -162,7 +160,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	public DefaultDataColumn(	String header,
 								int inputColumnIndex, 
 								Calculator calculator, 
-								Format formatter, 
+								String formatter, 
 								HorizAlign horizAlign, 
 								VertAlign vertAlign, 
 								int sortLevel, 
@@ -177,7 +175,14 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 * @param builder
 	 */
 	private DefaultDataColumn(Builder builder){
-		super(builder.header, builder.calculator, builder.formatter, builder.hAlign, builder.vAlign, builder.sortLevel, builder.sortType); 
+		super(	builder.header, 
+				builder.calculator, 
+				builder.valuesFormatter, 
+				builder.totalsFormatter, 
+				builder.hAlign, 
+				builder.vAlign, 
+				builder.sortLevel, 
+				builder.sortType); 
 		setInputColumnIndex(builder.columnIndex); 
 	}
 	
@@ -212,7 +217,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 		result.append(", header=").append(getHeader());
 		result.append(", hAlign=").append(getHorizAlign());
 		result.append(", vAlign=").append(getVertAlign()); 
-		result.append(", formatter=").append(getFormatter());
+		result.append(", valuesFormatter=").append(getValuesFormatter());
 		result.append(", calculator=").append(getCalculator());
 		result.append(", sortlevel=").append(getSortLevel());
 		result.append(", sortType=").append(getSortType()); 
@@ -221,14 +226,17 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	}
 	
 	public static class Builder{
+		
 		private int columnIndex; 
 		private String header = ""; 
 		private HorizAlign hAlign = HorizAlign.CENTER; 
 		private VertAlign  vAlign = VertAlign.MIDDLE; 
-		private Format formatter = null; 
+		private String valuesFormatter = null;
+		private String totalsFormatter = null; 
 		private Calculator calculator = null; 
 		private int sortLevel = DataColumn.NO_SORTING; 
 		private SortType sortType = SortType.NONE; 
+		
 		
 		public Builder(int columnIndex){
 			this.columnIndex = columnIndex; 
@@ -249,8 +257,13 @@ public class DefaultDataColumn extends AbstractDataColumn {
 			return this; 
 		}
 		
-		public Builder useFormatter(Format format){
-			this.formatter = format; 
+		public Builder valuesFormatter(String format){
+			this.valuesFormatter = format; 
+			return this; 
+		}
+		
+		public Builder totalsFormatter(String format){
+			this.totalsFormatter = format; 
 			return this; 
 		}
 		

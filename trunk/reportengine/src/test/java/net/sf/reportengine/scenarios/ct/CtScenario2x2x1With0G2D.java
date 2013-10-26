@@ -25,22 +25,17 @@ import net.sf.reportengine.util.MockDistinctValuesHolder;
  */
 public class CtScenario2x2x1With0G2D {
 	
-	public static final String[][] RAW_INPUT = new String[][]{
-		new String[]{"North",	"Sweden", 	"M",	"20",	"1000"},
-		new String[]{"North",	"Sweden", 	"M",	"50",	"10"},
-		new String[]{"North",	"Sweden", 	"M",	"80",	"4"},
-		new String[]{"North",	"Sweden", 	"F",	"20",	"1"},
-				
-		new String[]{"North",	"Norway", 	"M",	"50",	"100"}, 
-				
-		new String[]{"South",	"Italy", 	"M",	"20",	"2000"},
-				
-		new String[]{"East",	"Romania", 	"F",	"50",	"200"}, 
-				
-		new String[]{"West",	"France", 	"M",	"80",	"3000"}, 
-		new String[]{"West",	"France", 	"M",	"20",	"300"}, 
-		new String[]{"West",	"France", 	"F",	"20",	"30"}
-
+	public static final Object[][] RAW_INPUT = new Object[][]{
+		new Object[]{"North",	"Sweden", 	"M",	"20",	1000},
+		new Object[]{"North",	"Sweden", 	"M",	"50",	10},
+		new Object[]{"North",	"Sweden", 	"M",	"80",	4},
+		new Object[]{"North",	"Sweden", 	"F",	"20",	1},
+		new Object[]{"North",	"Norway", 	"M",	"50",	100}, 
+		new Object[]{"South",	"Italy", 	"M",	"20",	2000},
+		new Object[]{"East",	"Romania", 	"F",	"50",	200}, 
+		new Object[]{"West",	"France", 	"M",	"80",	3000}, 
+		new Object[]{"West",	"France", 	"M",	"20",	300}, 
+		new Object[]{"West",	"France", 	"F",	"20",	30}
     }; 
 	
 	public final static ReportInput INPUT = new ArrayReportInput(RAW_INPUT);

@@ -3,7 +3,6 @@
  */
 package net.sf.reportengine.scenarios.ct;
 
-import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -80,7 +79,7 @@ public class CtScenarioFormatting4x3x1 {
 						.header("Country HorizAlign=Left, VertAlign=Top")
 						.horizAlign(HorizAlign.LEFT)
 						.vertAlign(VertAlign.TOP)
-						.useFormatter(new MockStringFormat())
+						.valuesFormatter("formatted %s")
 						.build()
 	});
 	
@@ -95,7 +94,8 @@ public class CtScenarioFormatting4x3x1 {
 														.useCalculator(Calculators.SUM)
 														.horizAlign(HorizAlign.RIGHT)
 														.vertAlign(VertAlign.TOP)
-														.useFormatter(NumberFormat.getCurrencyInstance())
+														.valuesFormatter("%s $")
+														.totalsFormatter("%f $")
 														.build();
 	
 	public final static ReportInput INPUT = new ArrayReportInput(RAW_INPUT);

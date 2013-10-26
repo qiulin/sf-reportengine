@@ -85,11 +85,11 @@ public class TestRowsDataFileBuffer {
 		
 		classUnderTest.poll(); 
 		newRow = classUnderTest.peek(); 
-		assertTrue(Scenario1.ROW_OF_DATA_2.equals(newRow.getInputDataRow()));
+		assertTrue(Scenario1.ROW_OF_DATA_1.equals(newRow.getInputDataRow()));
 		
 		classUnderTest.poll(); 
 		newRow = classUnderTest.peek(); 
-		assertTrue(Scenario1.ROW_OF_DATA_1.equals(newRow.getInputDataRow()));
+		assertTrue(Scenario1.ROW_OF_DATA_2.equals(newRow.getInputDataRow()));
 	}
 
 	/**
@@ -121,8 +121,8 @@ public class TestRowsDataFileBuffer {
 		
 		assertTrue(Scenario1.ROW_OF_DATA_4.equals(classUnderTest.poll().getInputDataRow()));
 		assertTrue(Scenario1.ROW_OF_DATA_3.equals(classUnderTest.poll().getInputDataRow()));
-		assertTrue(Scenario1.ROW_OF_DATA_2.equals(classUnderTest.poll().getInputDataRow()));
 		assertTrue(Scenario1.ROW_OF_DATA_1.equals(classUnderTest.poll().getInputDataRow()));
+		assertTrue(Scenario1.ROW_OF_DATA_2.equals(classUnderTest.poll().getInputDataRow()));
 		
 		classUnderTest.close(); 
 	}

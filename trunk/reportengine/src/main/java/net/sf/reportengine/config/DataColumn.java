@@ -30,13 +30,19 @@ public interface DataColumn {
 	
 	
 	/**
-	 * returns the formatted value ready to be displayed on the report
+	 * returns the formatted value ready to be displayed in the report
 	 * 
 	 * @param value	the unformatted value
 	 * @return	the formatted value
 	 */
 	public String getFormattedValue(Object value);
 	
+	/**
+	 * returns the formatted value of the total as it will be displayed in the report
+	 * @param totalValue
+	 * @return	the formatted total as a string
+	 */
+	public String getFormattedTotal(Object totalValue); 
 	
 	/**
 	 * retrieves the value for this column. 

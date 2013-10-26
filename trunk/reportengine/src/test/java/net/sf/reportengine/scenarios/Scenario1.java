@@ -33,25 +33,25 @@ public class Scenario1 {
 	public static final int[] AGG_COLUMNS_INDEX = new int []{0,1,2};
 	
 	public static final List<Object> ROW_OF_DATA_1 = 
-			Arrays.asList(new Object[]{"1","2","3",    "4",  "5","6"});
+			Arrays.asList(new Object[]{"1","2","3",    "4",  "5",6});
 	public static final List<Object> ROW_OF_DATA_2 = 
-			Arrays.asList(new Object[]{"1","2","3",    "3",  "3","3"});
+			Arrays.asList(new Object[]{"1","2","3",    "3",  "3",3});
 	public static final List<Object> ROW_OF_DATA_3 = 
-			Arrays.asList(new Object[]{"1","2","2",    "2",  "2","2"});
+			Arrays.asList(new Object[]{"1","2","2",    "2",  "2",2});
 	public static final List<Object> ROW_OF_DATA_4 = 
-			Arrays.asList(new Object[]{"1","1","1",    "1",  "1","1"});
+			Arrays.asList(new Object[]{"1","1","1",    "1",  "1",1});
 	public static final List<Object> ROW_OF_DATA_5 = 
-			Arrays.asList(new Object[]{"1","1","1",    "1",  "1","1"});
+			Arrays.asList(new Object[]{"1","1","1",    "1",  "1",1});
 	public static final List<Object> ROW_OF_DATA_6 = 
-			Arrays.asList(new Object[]{"7","1","1",    "1",  "7","1"});
+			Arrays.asList(new Object[]{"7","1","1",    "1",  "7",1});
 	
 	public static final Object[][] RAW_DATA = new Object[][]{
-		ROW_OF_DATA_1.toArray(new String[]{}),
-		ROW_OF_DATA_2.toArray(new String[]{}),
-		ROW_OF_DATA_3.toArray(new String[]{}),
-		ROW_OF_DATA_4.toArray(new String[]{}),
-		ROW_OF_DATA_5.toArray(new String[]{}),
-		ROW_OF_DATA_6.toArray(new String[]{})
+		ROW_OF_DATA_1.toArray(new Object[]{}),
+		ROW_OF_DATA_2.toArray(new Object[]{}),
+		ROW_OF_DATA_3.toArray(new Object[]{}),
+		ROW_OF_DATA_4.toArray(new Object[]{}),
+		ROW_OF_DATA_5.toArray(new Object[]{}),
+		ROW_OF_DATA_6.toArray(new Object[]{})
 	};
 	
 	public static final Object[][] PREVIOUS_GROUP_VALUES = new Object[][]{
@@ -108,44 +108,44 @@ public class Scenario1 {
     public final static int[] TEST_COLUMNS_TO_COMPUTE_TOTALS_ON = new int[]{4,5};
     
     public final static Calculator[][] ROW_1_CALCULATORS_RESULTS = new Calculator[][]{
-    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(6))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(6))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(6))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(6))}
+    	new Calculator[]{new MockCalculator(Integer.valueOf(1)),new MockCalculator(new BigDecimal(6))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(1)),new MockCalculator(new BigDecimal(6))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(1)),new MockCalculator(new BigDecimal(6))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(1)),new MockCalculator(new BigDecimal(6))}
     															};
     
     public final static Calculator[][] ROW_2_CALCULATORS_RESULTS = new Calculator[][]{
-    	new Calculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(9))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(9))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(9))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(9))}
+    	new Calculator[]{new MockCalculator(Integer.valueOf(2)),new MockCalculator(new BigDecimal(9))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(2)),new MockCalculator(new BigDecimal(9))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(2)),new MockCalculator(new BigDecimal(9))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(2)),new MockCalculator(new BigDecimal(9))}
 															};
     
     public final static Calculator[][] ROW_3_CALCULATORS_RESULTS = new Calculator[][]{
-    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(2))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(3)),new MockCalculator(new BigDecimal(11))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(3)),new MockCalculator(new BigDecimal(11))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(3)),new MockCalculator(new BigDecimal(11))}
+    	new Calculator[]{new MockCalculator(Integer.valueOf(1)),new MockCalculator(new BigDecimal(2))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(3)),new MockCalculator(new BigDecimal(11))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(3)),new MockCalculator(new BigDecimal(11))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(3)),new MockCalculator(new BigDecimal(11))}
 															};
     public final static Calculator[][] ROW_4_CALCULATORS_RESULTS = new Calculator[][]{
-    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(4)),new MockCalculator(new BigDecimal(12))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(4)),new MockCalculator(new BigDecimal(12))}
+    	new Calculator[]{new MockCalculator(Integer.valueOf(1)),new MockCalculator(new BigDecimal(1))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(1)),new MockCalculator(new BigDecimal(1))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(4)),new MockCalculator(new BigDecimal(12))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(4)),new MockCalculator(new BigDecimal(12))}
 	};
     
     public final static Calculator[][] ROW_5_CALCULATORS_RESULTS = new Calculator[][]{
-    	new Calculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(2))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(2)),new MockCalculator(new BigDecimal(2))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(5)),new MockCalculator(new BigDecimal(13))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(5)),new MockCalculator(new BigDecimal(13))}
+    	new Calculator[]{new MockCalculator(Integer.valueOf(2)),new MockCalculator(new BigDecimal(2))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(2)),new MockCalculator(new BigDecimal(2))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(5)),new MockCalculator(new BigDecimal(13))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(5)),new MockCalculator(new BigDecimal(13))}
 	};
     
     public final static Calculator[][] ROW_6_CALCULATORS_RESULTS = new Calculator[][]{
-    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(6)),new MockCalculator(new BigDecimal(14))}
+    	new Calculator[]{new MockCalculator(Integer.valueOf(1)),new MockCalculator(new BigDecimal(1))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(1)),new MockCalculator(new BigDecimal(1))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(1)),new MockCalculator(new BigDecimal(1))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(6)),new MockCalculator(new BigDecimal(14))}
 	};
 	
     public final static ReportInput INPUT = new ArrayReportInput(RAW_DATA);
@@ -240,7 +240,7 @@ public class Scenario1 {
 			}
 	};
 	
-	public final static CellProps[][] OUTPUT_DATA = new CellProps[][]{
+	public final static CellProps[][] EXPECTED_OUTPUT_DATA = new CellProps[][]{
 		//displayed on row 1
 		new CellProps[]{
 				new CellProps.Builder(ROW_OF_DATA_1.get(0)).build(), 
@@ -248,7 +248,7 @@ public class Scenario1 {
 				new CellProps.Builder(ROW_OF_DATA_1.get(2)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_1.get(3)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_1.get(4)).build(), 
-				new CellProps.Builder(ROW_OF_DATA_1.get(5)).build() 
+				new CellProps.Builder(ROW_OF_DATA_1.get(5).toString()).build() 
 		},
 		//displayed on row 2
 		new CellProps[]{
@@ -257,7 +257,7 @@ public class Scenario1 {
 				new CellProps.Builder(ROW_OF_DATA_2.get(2)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_2.get(3)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_2.get(4)).build(), 
-				new CellProps.Builder(ROW_OF_DATA_2.get(5)).build() 
+				new CellProps.Builder(ROW_OF_DATA_2.get(5).toString()).build() 
 		},
 		//displayed on row 3
 		new CellProps[]{
@@ -266,7 +266,7 @@ public class Scenario1 {
 				new CellProps.Builder(ROW_OF_DATA_3.get(2)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_3.get(3)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_3.get(4)).build(), 
-				new CellProps.Builder(ROW_OF_DATA_3.get(5)).build() 
+				new CellProps.Builder(ROW_OF_DATA_3.get(5).toString()).build() 
 		},
 		//displayed on row 4
 		new CellProps[]{
@@ -275,7 +275,7 @@ public class Scenario1 {
 				new CellProps.Builder(ROW_OF_DATA_4.get(2)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_4.get(3)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_4.get(4)).build(), 
-				new CellProps.Builder(ROW_OF_DATA_4.get(5)).build() 
+				new CellProps.Builder(ROW_OF_DATA_4.get(5).toString()).build() 
 		},
 		//displayed on row 5
 		new CellProps[]{
@@ -284,7 +284,7 @@ public class Scenario1 {
 				new CellProps.Builder(ROW_OF_DATA_5.get(2)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_5.get(3)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_5.get(4)).build(), 
-				new CellProps.Builder(ROW_OF_DATA_5.get(5)).build() 
+				new CellProps.Builder(ROW_OF_DATA_5.get(5).toString()).build() 
 		},
 		//displayed on row 6
 		new CellProps[]{
@@ -293,7 +293,7 @@ public class Scenario1 {
 				new CellProps.Builder(ROW_OF_DATA_6.get(2)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_6.get(3)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_6.get(4)).build(), 
-				new CellProps.Builder(ROW_OF_DATA_6.get(5)).build() 
+				new CellProps.Builder(ROW_OF_DATA_6.get(5).toString()).build() 
 		}
 	};
 	
@@ -316,7 +316,7 @@ public class Scenario1 {
 				new CellProps.Builder(ROW_OF_DATA_1.get(2)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_1.get(3)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_1.get(4)).build(), 
-				new CellProps.Builder(ROW_OF_DATA_1.get(5)).build() 
+				new CellProps.Builder(ROW_OF_DATA_1.get(5).toString()).build() 
 		},
 		//displayed on row 2
 		new CellProps[]{
@@ -325,7 +325,7 @@ public class Scenario1 {
 				new CellProps.Builder(ROW_OF_DATA_2.get(2)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_2.get(3)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_2.get(4)).build(), 
-				new CellProps.Builder(ROW_OF_DATA_2.get(5)).build() 
+				new CellProps.Builder(ROW_OF_DATA_2.get(5).toString()).build() 
 		},
 		
 		//totals displayed on row 3
@@ -345,7 +345,7 @@ public class Scenario1 {
 				new CellProps.Builder(ROW_OF_DATA_3.get(2)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_3.get(3)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_3.get(4)).build(), 
-				new CellProps.Builder(ROW_OF_DATA_3.get(5)).build() 
+				new CellProps.Builder(ROW_OF_DATA_3.get(5).toString()).build() 
 		},
 		
 		//totals displayed on row 4
@@ -373,7 +373,7 @@ public class Scenario1 {
 				new CellProps.Builder(ROW_OF_DATA_4.get(2)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_4.get(3)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_4.get(4)).build(), 
-				new CellProps.Builder(ROW_OF_DATA_4.get(5)).build() 
+				new CellProps.Builder(ROW_OF_DATA_4.get(5).toString()).build() 
 		},
 		//displayed on row 5
 		new CellProps[]{
@@ -382,7 +382,7 @@ public class Scenario1 {
 				new CellProps.Builder(ROW_OF_DATA_5.get(2)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_5.get(3)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_5.get(4)).build(), 
-				new CellProps.Builder(ROW_OF_DATA_5.get(5)).build() 
+				new CellProps.Builder(ROW_OF_DATA_5.get(5).toString()).build() 
 		},
 		
 		//totals displayed on row 6
@@ -418,7 +418,7 @@ public class Scenario1 {
 				new CellProps.Builder(ROW_OF_DATA_6.get(2)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_6.get(3)).build(), 
 				new CellProps.Builder(ROW_OF_DATA_6.get(4)).build(), 
-				new CellProps.Builder(ROW_OF_DATA_6.get(5)).build() 
+				new CellProps.Builder(ROW_OF_DATA_6.get(5).toString()).build() 
 		},
 		
 		//totals displayed on exit

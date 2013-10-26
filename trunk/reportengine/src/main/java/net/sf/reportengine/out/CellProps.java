@@ -138,14 +138,14 @@ public final class CellProps {
 	 * toString
 	 */
 	@Override public String toString() {
-		StringBuilder result = new StringBuilder("CP[");
-		result.append(value);
-		result.append(",cspan=").append(colspan);
-		result.append(", hAlign=").append(horizAlign);
-		result.append(", vAlign=").append(vertAlign); 
-		result.append(", rowNbr=").append(rowNbr);
-		result.append("]");
-		return result.toString();
+		return new StringBuilder("CP[")
+		.append(value != null ? value.getClass().getSimpleName() : "ClassCannotBeIdentified")
+		.append("(").append(value).append(")")
+		.append(",cspan=").append(colspan)
+		.append(", hAlign=").append(horizAlign)
+		.append(", vAlign=").append(vertAlign) 
+		.append(", rowNbr=").append(rowNbr)
+		.append("]").toString(); 
 	}
 	
 	/**

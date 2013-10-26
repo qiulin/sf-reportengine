@@ -35,23 +35,19 @@ public class CtScenario1x3x1 {
 	public static final Boolean HAS_HEADER_TOTALS = new Boolean(true);
 	
 	
-	public static final String[][] RAW_INPUT = new String[][]{
+	public static final Object[][] RAW_INPUT = new Object[][]{
 		
-		new String[]{"Norway",	"North",	"M",	"50",	"100"}, 
-		
-		new String[]{"Sweden", 	"North",	"M",	"20",	"1000"},
-		new String[]{"Sweden", 	"North",	"M",	"50",	"10"},
-		new String[]{"Sweden", 	"North",	"M",	"80",	"4"},
-		new String[]{"Sweden", 	"North",	"F",	"20",	"1"},
-		
-		new String[]{"Italy",	"South",	"M",	"20",	"2000"},
-		
-		new String[]{"Romania",	"East",		"F",	"50",	"200"}, 
-		new String[]{"Romania",	"West",		"F",	"50",	"2"},
-		
-		new String[]{"France",	"East",		"M",	"80",	"3000"}, 
-		new String[]{"France",	"West",		"M",	"20",	"300"}, 
-		new String[]{"France",	"West",		"F",	"20",	"30"}
+		new Object[]{"Norway",	"North",	"M",	"50",	100}, 
+		new Object[]{"Sweden", 	"North",	"M",	"20",	1000},
+		new Object[]{"Sweden", 	"North",	"M",	"50",	10},
+		new Object[]{"Sweden", 	"North",	"M",	"80",	4},
+		new Object[]{"Sweden", 	"North",	"F",	"20",	1},
+		new Object[]{"Italy",	"South",	"M",	"20",	2000},
+		new Object[]{"Romania",	"East",		"F",	"50",	200}, 
+		new Object[]{"Romania",	"West",		"F",	"50",	2},
+		new Object[]{"France",	"East",		"M",	"80",	3000}, 
+		new Object[]{"France",	"West",		"M",	"20",	300}, 
+		new Object[]{"France",	"West",		"F",	"20",	30}
     }; 
 	
 	public final static List<GroupColumn> GROUP_COLUMNS = null; 
@@ -94,21 +90,21 @@ public class CtScenario1x3x1 {
 
 	
 	public static final IntermediateDataInfo[] INTERMEDIATE_DATA_INFO = new IntermediateDataInfo[]{
-		new IntermediateDataInfo("100", new int[]{0,0,0}),
+		new IntermediateDataInfo(100, new int[]{0,0,0}),
 		
-		new IntermediateDataInfo("1000", new int[]{0,0,1}),
-		new IntermediateDataInfo("10", new int[]{0,0,0}),
-		new IntermediateDataInfo("4", new int[]{0,0,2}),
-		new IntermediateDataInfo("1", new int[]{0,1,1}),
+		new IntermediateDataInfo(1000, new int[]{0,0,1}),
+		new IntermediateDataInfo(10, new int[]{0,0,0}),
+		new IntermediateDataInfo(4, new int[]{0,0,2}),
+		new IntermediateDataInfo(1, new int[]{0,1,1}),
 		
-		new IntermediateDataInfo("2000", new int[]{1,0,1}),
+		new IntermediateDataInfo(2000, new int[]{1,0,1}),
 		
-		new IntermediateDataInfo("200", new int[]{2,1,0}),
-		new IntermediateDataInfo("2", new int[]{3,1,0}),
+		new IntermediateDataInfo(200, new int[]{2,1,0}),
+		new IntermediateDataInfo(2, new int[]{3,1,0}),
 		
-		new IntermediateDataInfo("3000", new int[]{2,0,2}),
-		new IntermediateDataInfo("300", new int[]{3,0,1}),
-		new IntermediateDataInfo("30", new int[]{3,1,1})
+		new IntermediateDataInfo(3000, new int[]{2,0,2}),
+		new IntermediateDataInfo(300, new int[]{3,0,1}),
+		new IntermediateDataInfo(30, new int[]{3,1,1})
 	};
 	
 	public static DistinctValuesHolder MOCK_DISTINCT_VALUES_HOLDER = new MockDistinctValuesHolder(new String[][]{

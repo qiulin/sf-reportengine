@@ -44,7 +44,12 @@ public class ColumnPreferences {
 	/**
 	 * the formatter of the column
 	 */
-	private Format formatter = null; 
+	private String valuesFormatter = null; 
+	
+	/**
+	 * the formatter for the totals
+	 */
+	private String totalsFormatter = null;
 	
 	/**
 	 * the calculator
@@ -124,15 +129,30 @@ public class ColumnPreferences {
 	/**
 	 * @return the formatter
 	 */
-	public Format getFormatter() {
-		return formatter;
+	public String getValuesFormatter() {
+		return valuesFormatter;
 	}
 	
 	/**
 	 * @param formatter the formatter to set
 	 */
-	public ColumnPreferences useFormatter(Format formatter) {
-		this.formatter = formatter;
+	public ColumnPreferences valuesFormatter(String formatter) {
+		this.valuesFormatter = formatter;
+		return this; 
+	}
+	
+	/**
+	 * @return the formatter of the totals
+	 */
+	public String getTotalsFormatter() {
+		return totalsFormatter;
+	}
+	
+	/**
+	 * @param formatter the formatter to set
+	 */
+	public ColumnPreferences totalsFormatter(String formatter) {
+		this.totalsFormatter = formatter;
 		return this; 
 	}
 	

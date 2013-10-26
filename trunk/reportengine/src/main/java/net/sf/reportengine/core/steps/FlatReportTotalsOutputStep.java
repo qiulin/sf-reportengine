@@ -197,7 +197,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
 				Object calculatorResult = calcForCurrentGroupingLevel[calculatorIndex].getResult();
 				
 				//format the computed value 
-				formattedResult = dataCols.get(i).getFormattedValue(calculatorResult); 
+				formattedResult = dataCols.get(i).getFormattedTotal(calculatorResult); 
 				
 				output.outputDataCell(new CellProps.Builder(formattedResult)
 									.horizAlign(dataCols.get(i).getHorizAlign())

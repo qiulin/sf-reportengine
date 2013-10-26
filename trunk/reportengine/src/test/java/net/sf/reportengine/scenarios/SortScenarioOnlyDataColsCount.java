@@ -18,12 +18,12 @@ import net.sf.reportengine.out.CellPropsArrayOutput;
 public class SortScenarioOnlyDataColsCount {
 	
 	public static final Object[][] RAW_DATA = new Object[][]{
-		new Object[]{"1","1","1",    "4",  "5","3"}, 
-		new Object[]{"1","1","1",    "3",  "4","5"},
-		new Object[]{"1","1","1",    "2",  "3","4"},
-		new Object[]{"1","1","1",    "1",  "2","2"}, 
-		new Object[]{"1","1","1",    "1",  "1","1"}, 
-		new Object[]{"1","1","1",    "1",  "0","1"}
+		new Object[]{"1","1","1",    "4",  5,3}, 
+		new Object[]{"1","1","1",    "3",  4,5},
+		new Object[]{"1","1","1",    "2",  3,4},
+		new Object[]{"1","1","1",    "1",  2,2}, 
+		new Object[]{"1","1","1",    "1",  1,1}, 
+		new Object[]{"1","1","1",    "1",  0,1}
 	};
 	
 	/**

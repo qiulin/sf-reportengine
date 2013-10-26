@@ -29,21 +29,21 @@ import net.sf.reportengine.util.MockDistinctValuesHolder;
  */
 public class CtScenario2x2x1With1G1D {
 	
-	public static final String[][] RAW_INPUT = new String[][]{
-		new String[]{"North",	"M",	"20",	"Sweden", 	"1000"},
-		new String[]{"North",	"M",	"50",	"Sweden", 	"10"},
-		new String[]{"North",	"M",	"80",	"Sweden", 	"4"},
-		new String[]{"North",	"F",	"20",	"Sweden", 	"1"},
+	public static final Object[][] RAW_INPUT = new Object[][]{
+		new Object[]{"North",	"M",	"20",	"Sweden", 	1000},
+		new Object[]{"North",	"M",	"50",	"Sweden", 	10},
+		new Object[]{"North",	"M",	"80",	"Sweden", 	4},
+		new Object[]{"North",	"F",	"20",	"Sweden", 	1},
 		
-		new String[]{"North",	"M",	"50",	"Norway", 	"100"}, 
+		new Object[]{"North",	"M",	"50",	"Norway", 	100}, 
 		
-		new String[]{"South",	"M",	"20",	"Italy", 	"2000"},
+		new Object[]{"South",	"M",	"20",	"Italy", 	2000},
 		
-		new String[]{"East",	"F",	"50",	"Romania", 	"200"}, 
+		new Object[]{"East",	"F",	"50",	"Romania", 	200}, 
 		
-		new String[]{"West",	"M",	"80",	"France", 	"3000"}, 
-		new String[]{"West",	"M",	"20",	"France", 	"300"}, 
-		new String[]{"West",	"F",	"20",	"France", 	"30"}
+		new Object[]{"West",	"M",	"80",	"France", 	3000}, 
+		new Object[]{"West",	"M",	"20",	"France", 	300}, 
+		new Object[]{"West",	"F",	"20",	"France", 	30}
     }; 
 	
 	public final static ReportInput INPUT = new ArrayReportInput(RAW_INPUT);
@@ -82,20 +82,20 @@ public class CtScenario2x2x1With1G1D {
 	
 	
 	public static final IntermediateDataInfo[] INTERMEDIATE_DATA_INFO = new IntermediateDataInfo[]{
-		new IntermediateDataInfo("1000", new int[]{0,0}),
-		new IntermediateDataInfo("10", new int[]{0,1}),
-		new IntermediateDataInfo("4", new int[]{0,2}),
-		new IntermediateDataInfo("1", new int[]{1,0}),
+		new IntermediateDataInfo(1000, new int[]{0,0}),
+		new IntermediateDataInfo(10, new int[]{0,1}),
+		new IntermediateDataInfo(4, new int[]{0,2}),
+		new IntermediateDataInfo(1, new int[]{1,0}),
 		
-		new IntermediateDataInfo("100", new int[]{0,1}),
+		new IntermediateDataInfo(100, new int[]{0,1}),
 		
-		new IntermediateDataInfo("2000", new int[]{0,0}),
+		new IntermediateDataInfo(2000, new int[]{0,0}),
 		
-		new IntermediateDataInfo("200", new int[]{1,1}),
+		new IntermediateDataInfo(200, new int[]{1,1}),
 		
-		new IntermediateDataInfo("3000", new int[]{0,2}),
-		new IntermediateDataInfo("300", new int[]{0,0}),
-		new IntermediateDataInfo("30", new int[]{1,0})
+		new IntermediateDataInfo(3000, new int[]{0,2}),
+		new IntermediateDataInfo(300, new int[]{0,0}),
+		new IntermediateDataInfo(30, new int[]{1,0})
 	};
 	
 	
