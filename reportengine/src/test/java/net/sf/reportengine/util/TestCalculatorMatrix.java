@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang.math.NumberUtils;
+
 import junit.framework.TestCase;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DataColumn;
@@ -15,7 +17,7 @@ import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.calc.Calculator;
 
 /**
- * @author dragos
+ * @author dragos balan
  *
  */
 public class TestCalculatorMatrix extends TestCase {
@@ -53,6 +55,7 @@ public class TestCalculatorMatrix extends TestCase {
 	
 	public void testExtractCalculatorsData(){
 		classUnderTest = new CalculatorMatrix(3, TEST_DATA_COLUMNS);
+		classUnderTest.initAllCalculators(); 
 		
 		assertNotNull(classUnderTest);
 		assertNotNull(classUnderTest.getDataColumnsHavingCalculators());
@@ -73,6 +76,7 @@ public class TestCalculatorMatrix extends TestCase {
 	 */
 	public void testInitFirstXRows() {
 		classUnderTest = new CalculatorMatrix(3, TEST_DATA_COLUMNS);
+		classUnderTest.initAllCalculators(); 
 		
 		classUnderTest.addValuesToEachRow(new NewRowEvent(TEST_VALUES));
 		//reinit the first two columns
@@ -83,21 +87,21 @@ public class TestCalculatorMatrix extends TestCase {
 		Calculator[] row1 = classUnderTest.getRow(0);
 		assertNotNull(row1);
 		assertEquals(row1.length, 2);
-		assertEquals(row1[0].getResult(), BigDecimal.ZERO);
+		assertEquals(row1[0].getResult(), NumberUtils.INTEGER_ZERO);
 		assertEquals(row1[1].getResult(), BigDecimal.ZERO);
 		
-		//the second row should be also reinited
+		//the second row should be also re-init
 		Calculator[] row2 = classUnderTest.getRow(1);
 		assertNotNull(row2);
 		assertEquals(row2.length, 2);
-		assertEquals(row2[0].getResult(), BigDecimal.ZERO);
+		assertEquals(row2[0].getResult(), NumberUtils.INTEGER_ZERO);
 		assertEquals(row2[1].getResult(), BigDecimal.ZERO);
 		
 		//the third row should not be reinited
 		Calculator[] row3 = classUnderTest.getRow(2);
 		assertNotNull(row3);
 		assertEquals(row3.length, 2);
-		assertNotSame(row3[0].getResult(), BigDecimal.ZERO);
+		assertNotSame(row3[0].getResult(), NumberUtils.INTEGER_ZERO);
 		assertNotSame(row3[1].getResult(), BigDecimal.ZERO);
 		
 		try{
@@ -113,6 +117,8 @@ public class TestCalculatorMatrix extends TestCase {
 	 */
 	public void testAddValuesToEachRow() {
 		classUnderTest = new CalculatorMatrix(3, TEST_DATA_COLUMNS);
+		classUnderTest.initAllCalculators(); 
+		
 		classUnderTest.addValuesToEachRow(new NewRowEvent(TEST_VALUES));
 		
 		assertNotNull(classUnderTest);
@@ -125,8 +131,8 @@ public class TestCalculatorMatrix extends TestCase {
 			//test the column with COUNT
 			assertNotNull(row[0]);
 			Object result = row[0].getResult();
-			assertTrue(result instanceof BigDecimal);
-			assertEquals(((BigDecimal)result).intValue(), 1);
+			assertTrue(result instanceof Integer);
+			assertEquals(result, 1);
 			
 			//test the column with SUM
 			assertNotNull(row[1]);
@@ -154,8 +160,8 @@ public class TestCalculatorMatrix extends TestCase {
 		//count on first row first column
 		assertNotNull(row[0]);
 		Object result = row[0].getResult();
-		assertTrue(result instanceof BigDecimal);
-		assertEquals(((BigDecimal)result).intValue(), 2);
+		assertTrue(result instanceof Integer);
+		assertEquals(result, 2);
 		
 		//sum on the first row second column
 		assertNotNull(row[1]);
@@ -171,8 +177,8 @@ public class TestCalculatorMatrix extends TestCase {
 		//count on first row first column
 		assertNotNull(row[0]);
 		result = row[0].getResult();
-		assertTrue(result instanceof BigDecimal);
-		assertEquals(((BigDecimal)result).intValue(), 2);
+		assertTrue(result instanceof Integer);
+		assertEquals(result, 2);
 		
 		//sum on the first row second column
 		assertNotNull(row[1]);
@@ -189,8 +195,8 @@ public class TestCalculatorMatrix extends TestCase {
 		//count on third row first column
 		assertNotNull(row[0]);
 		result = row[0].getResult();
-		assertTrue(result instanceof BigDecimal);
-		assertEquals(((BigDecimal)result).intValue(), 2);
+		assertTrue(result instanceof Integer);
+		assertEquals(result, 2);
 		
 		//sum on the third row second column
 		assertNotNull(row[1]);
@@ -209,20 +215,21 @@ public class TestCalculatorMatrix extends TestCase {
 
 	public void testExport() {
 		classUnderTest = new CalculatorMatrix(3, TEST_DATA_COLUMNS);
+		classUnderTest.initAllCalculators(); 
+		
 		classUnderTest.addValuesToEachRow(new NewRowEvent(TEST_VALUES));
 		classUnderTest.addValuesToEachRow(new NewRowEvent(TEST_VALUES));
 		
 		Object[][] results = classUnderTest.exportResults();
 		assertNotNull(results);
 		assertEquals(results.length, classUnderTest.getRowCount());
-		assertEquals(((BigDecimal)results[0][0]).intValue(), 2);
-		assertEquals(((BigDecimal)results[0][1]).intValue(), 6);
+		assertEquals(results[0][0], 2);//count
+		assertEquals(((BigDecimal)results[0][1]).intValue(), 6);//sum
 		
-		assertEquals(((BigDecimal)results[1][0]).intValue(), 2);
-		assertEquals(((BigDecimal)results[1][1]).intValue(), 6);
+		assertEquals(results[1][0], 2);//count
+		assertEquals(((BigDecimal)results[1][1]).intValue(), 6);//sum
 		
-		assertEquals(((BigDecimal)results[2][0]).intValue(), 2);
-		assertEquals(((BigDecimal)results[2][1]).intValue(), 6);		
+		assertEquals(results[2][0], 2);//count
+		assertEquals(((BigDecimal)results[2][1]).intValue(), 6);//sum		
 	}
-
 }

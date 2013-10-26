@@ -84,7 +84,7 @@ public class CtScenario1x1x1 {
 	};
 	
 	
-//	public final static CellProps[][] OUTPUT_DATA = new CellProps[][]{
+//	public final static CellProps[][] EXPECTED_OUTPUT_DATA = new CellProps[][]{
 //	    new CellProps[]{
 //	            new CellProps.Builder("East").contentType(ReportContent.COLUMN_HEADER).build(), 
 //	            new CellProps.Builder("North").contentType(ReportContent.COLUMN_HEADER).build(), 

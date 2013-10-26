@@ -11,41 +11,33 @@ package net.sf.reportengine.core.calc;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public class FirstCalculator extends AbstractCalculator {
+public class FirstCalculator<T> extends AbstractCalculator<T, T> {
 	
 	/**
 	 * serial version id
 	 */
 	private static final long serialVersionUID = 6437488441945365316L;
-
-	private String INIT_VALUE = "net.sf.reportengine.impossible";
 	
 	/**
-	 * the first value
+	 * 
 	 */
-	private Object value;
+	private boolean first = true; 
 	
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.calc.Calculator#compute(java.lang.Object)
+	/**
+	 * 
 	 */
-	public void compute(Object newValue) {
+	public void compute(T newValue) {
 		//remember only the first value
-		if(INIT_VALUE.equals(value) && !value.equals(newValue)){
-			value = newValue;
+		if(first){
+			setValue(newValue);  
+			first = false; 
 		}
 	}
-
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.calc.Calculator#getResult()
-	 */
-	public Object getResult() {
-		return value;
-	}
-
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.calc.Calculator#init()
+	
+	/**
+	 * 
 	 */
 	public void init() {
-		value = INIT_VALUE;
+		first = true; 
 	}
 }

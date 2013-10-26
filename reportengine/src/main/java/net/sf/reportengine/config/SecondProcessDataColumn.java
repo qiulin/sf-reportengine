@@ -73,7 +73,10 @@ public class SecondProcessDataColumn implements DataColumn{
 	public String getFormattedValue(Object value) {
 		return originalCtData.getFormattedValue(value);
 	}
-
+	
+	public String getFormattedTotal(Object value){
+		return originalCtData.getFormattedTotal(value);
+	}
 
 	public Calculator getCalculator() {
 		return originalCtData.getCalculator();

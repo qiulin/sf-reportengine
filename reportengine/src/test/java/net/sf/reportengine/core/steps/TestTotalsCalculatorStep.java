@@ -45,8 +45,6 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     	classUnderTest = new TotalsCalculatorStep();
          
         //simulate the level detector
-    	//reportContext.set(ContextKeys.DATA_COLUMNS, Scenario1.DATA_COLUMNS);
-    	//reportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
     	mockAlgoInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
     	mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
     	
@@ -144,8 +142,6 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     	classUnderTest = new TotalsCalculatorStep();
          
         //simulate the level detector
-    	//reportContext.set(ContextKeys.DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
-    	//reportContext.set(ContextKeys.GROUP_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
     	mockAlgoInput.put(IOKeys.DATA_COLS, CalculatedColumnsScenario.DATA_COLUMNS); 
     	mockAlgoInput.put(IOKeys.GROUP_COLS, CalculatedColumnsScenario.GROUP_COLUMNS);
     	

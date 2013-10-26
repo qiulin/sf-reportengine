@@ -8,7 +8,7 @@ package net.sf.reportengine.core.calc;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public class LastCalculator extends AbstractCalculator {
+public class LastCalculator<T> extends AbstractCalculator<T, T> {
 	
 	/**
 	 * the serial version id
@@ -16,22 +16,10 @@ public class LastCalculator extends AbstractCalculator {
 	private static final long serialVersionUID = -8775227212750608867L;
 	
 	/**
-	 * last value passed to compute
-	 */
-	private Object last;
-	
-	/**
 	 * keeps the value passed as parameter for later usage
 	 */
-	public void compute(Object value) {
-		last = value;
-	}
-	
-	/**
-	 * returns the last value passed to {@link #compute(Object)}
-	 */
-	public Object getResult() {
-		return last;
+	public void compute(T value) {
+		setValue(value);
 	}
 	
 	/**

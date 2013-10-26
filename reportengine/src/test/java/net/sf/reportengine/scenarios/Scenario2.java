@@ -3,16 +3,15 @@
  */
 package net.sf.reportengine.scenarios;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
+import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.core.steps.MockCalculator;
 
 /**
@@ -78,10 +77,10 @@ public class Scenario2 {
 	};
 	
 	public final static Calculator[][] CALCULATORS_RESULTS = new Calculator[][]{
-    	new Calculator[]{new MockCalculator(new BigDecimal(3))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(6))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(8))},
-    	new Calculator[]{new MockCalculator(new BigDecimal(10))}
+    	new Calculator[]{new MockCalculator(Integer.valueOf(3))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(6))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(8))},
+    	new Calculator[]{new MockCalculator(Integer.valueOf(10))}
 	};
 	
 }

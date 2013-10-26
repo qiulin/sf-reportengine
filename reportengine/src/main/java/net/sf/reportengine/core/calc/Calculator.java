@@ -8,12 +8,19 @@ import java.io.Serializable;
 
 /**
  * <p>
- *  Definition interface for any calculator
+ *  Calculator interface used for data columns and crosstab data
  * </p>
+ * <p>
+ * 	 T - the type of the result ( obtained when calling getResult())
+ *	 V - the type of the values computed ( used as input parameters for compute() method)
+ * </p>
+ * 
+ * 
+ * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public interface Calculator extends Serializable, Cloneable {
+public interface Calculator<T, V> extends Serializable, Cloneable {
     
     /**
      * initializer of the totals 
@@ -28,18 +35,18 @@ public interface Calculator extends Serializable, Cloneable {
      * 
      * @param value    an object representing a new value to be computed
      */
-    public void compute(Object value);
+    public void compute(V value);
     
     /**
      * the result of computation
      * @return	result
      */
-    public Object getResult();
+    public T getResult();
     
     /**
      * returns a deep copy of this calculator 
      * (this is a variant of the Prototype pattern )
      * @return	a clone of this calculator
      */
-    public Calculator clone(); 
+    public Calculator<T, V> clone(); 
 }

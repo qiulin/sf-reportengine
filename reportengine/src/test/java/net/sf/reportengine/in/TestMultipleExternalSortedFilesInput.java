@@ -60,11 +60,11 @@ public class TestMultipleExternalSortedFilesInput {
 		
 		newRow = classUnderTest.nextRow(); 
 		assertNotNull(newRow);
-		assertTrue(Scenario1.ROW_OF_DATA_2.equals(newRow)); 
+		assertTrue(Scenario1.ROW_OF_DATA_1.equals(newRow)); 
 		
 		newRow = classUnderTest.nextRow(); 
 		assertNotNull(newRow);
-		assertTrue(Scenario1.ROW_OF_DATA_1.equals(newRow)); 
+		assertTrue(Scenario1.ROW_OF_DATA_2.equals(newRow)); 
 		
 		newRow = classUnderTest.nextRow(); 
 		assertNotNull(newRow);

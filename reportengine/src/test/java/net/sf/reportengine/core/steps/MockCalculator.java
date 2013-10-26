@@ -13,7 +13,7 @@ import net.sf.reportengine.core.calc.Calculator;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class MockCalculator extends AbstractCalculator {
+public class MockCalculator<T, V> extends AbstractCalculator<T, V> {
 	
 	
 	/**
@@ -24,25 +24,25 @@ public class MockCalculator extends AbstractCalculator {
 	/**
 	 * the value to be returned when calling {@link #getResult()}
 	 */
-	private Object result; 
+	private T result; 
 	
 	/**
 	 * constructor
 	 * @param result
 	 */
-	public MockCalculator(Object result){
+	public MockCalculator(T result){
 		this.result = result;
 	}
 	
 	/**
 	 * it doesn't do anything
 	 */
-	public void compute(Object value) {}
+	public void compute(V value) {}
 	
 	/**
 	 * retrieves the object set in the constructor
 	 */
-	public Object getResult() {return result;}
+	public T getResult() {return result;}
 	
 	/**
 	 * it doesn't do anything

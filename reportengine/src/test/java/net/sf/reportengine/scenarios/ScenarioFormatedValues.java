@@ -33,7 +33,7 @@ public class ScenarioFormatedValues {
 	
 	
 	public static final ReportInput INPUT = new ArrayReportInput(new Object[][]{
-			new Object[]{Integer.valueOf(0), "1000", 	Integer.valueOf(100), calendar.getTime()}, 
+			new Object[]{Integer.valueOf(0), "1000", 	Integer.valueOf(101), calendar.getTime()}, 
 			new Object[]{Integer.valueOf(1), "20000", 	Integer.valueOf(200), calendar.getTime()},
 			new Object[]{Integer.valueOf(2), "3000", 	Integer.valueOf(300), calendar.getTime()},
 			new Object[]{Integer.valueOf(3), "400000", 	Integer.valueOf(400), calendar.getTime()},
@@ -51,13 +51,19 @@ public class ScenarioFormatedValues {
 	
 	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList( 
 	new DataColumn[]{
-		new DefaultDataColumn("Formatted String", 1, null, null){
-			@Override
-			public String getFormattedValue(Object value){
-				return String.format("the value %s is formatted", value); 
-			}
-		},
-		new DefaultDataColumn("Formatted Integer", 2, Calculators.MAX, NumberFormat.getCurrencyInstance()),
-		new DefaultDataColumn("Formatted Date", 3, null, SimpleDateFormat.getDateInstance(DateFormat.SHORT))
+			new DefaultDataColumn.Builder(1)
+				.header("Formatted String")
+				.valuesFormatter("formatted string %s")
+				.build(),  
+		new DefaultDataColumn.Builder(2)
+				.header("Formatted Integer")
+				.useCalculator(Calculators.MAX)
+				.valuesFormatter("formatted integer %d")
+				.totalsFormatter("formatted totals %f")
+				.build(),
+		new DefaultDataColumn.Builder(3)
+				.header("Formatted Date")
+				.valuesFormatter("formatted date as %tD")
+				.build()
 	});
 }

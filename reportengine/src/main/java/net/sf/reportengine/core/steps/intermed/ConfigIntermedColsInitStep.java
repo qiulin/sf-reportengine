@@ -139,6 +139,10 @@ public class ConfigIntermedColsInitStep extends AbstractReportInitStep{
 		public String getFormattedValue(Object value) {
 			return crosstabData.getFormattedValue(value);
 		}
+		
+		public String getFormattedTotal(Object value){
+			return crosstabData.getFormattedTotal(value); 
+		}
 
 		public Object getValue(NewRowEvent newRowEvent) {
 			return crosstabData.getValue(newRowEvent);

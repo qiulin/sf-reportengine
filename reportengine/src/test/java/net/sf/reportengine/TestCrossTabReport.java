@@ -181,7 +181,7 @@ public class TestCrossTabReport extends TestCase {
 		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(3)); 
 		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(4)); 
 		
-		classUnderTest.setCrosstabData(new DefaultCrosstabData(5, Calculators.SUM)); 
+		classUnderTest.setCrosstabData(new DefaultCrosstabData(5, Calculators.COUNT)); 
 		
 		classUnderTest.setShowTotals(true); 
 		classUnderTest.setShowGrandTotal(true); 

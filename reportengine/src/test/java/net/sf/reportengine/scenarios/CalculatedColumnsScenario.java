@@ -112,11 +112,11 @@ public class CalculatedColumnsScenario {
 	public final static int[] AGG_COLUMNS_INDEX = new int[]{0,1,3,5};
 	
 	public final static Calculator[][] CALCULATORS_RESULTS = new Calculator[][]{
-	    	new Calculator[]{new MockCalculator(new BigDecimal(3))},
-	    	new Calculator[]{new MockCalculator(new BigDecimal(6))},
-	    	new Calculator[]{new MockCalculator(new BigDecimal(6))},
-	    	new Calculator[]{new MockCalculator(new BigDecimal(8))},
-	    	new Calculator[]{new MockCalculator(new BigDecimal(10))}
+	    	new Calculator[]{new MockCalculator(Integer.valueOf(3))},
+	    	new Calculator[]{new MockCalculator(Integer.valueOf(6))},
+	    	new Calculator[]{new MockCalculator(Integer.valueOf(6))},
+	    	new Calculator[]{new MockCalculator(Integer.valueOf(8))},
+	    	new Calculator[]{new MockCalculator(Integer.valueOf(10))}
 		};
 }
 

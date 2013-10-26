@@ -249,7 +249,6 @@ public class TestStepsCombo  {
 			while(expectedOutputReader.hasMoreRows()){
 				Assert.assertTrue(actualOutputReader.hasMoreRows());
 				Assert.assertEquals(expectedOutputReader.nextRow(), actualOutputReader.nextRow()); 
-				
 			}
 			actualOutputReader.close();
 			expectedOutputReader.close(); 
