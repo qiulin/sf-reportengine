@@ -32,8 +32,11 @@ public class YearlyExpensesPivotTable {
 		
 			.addHeaderRow(new DefaultCrosstabHeaderRow(2))
 		
-			.crosstabData(new DefaultCrosstabData(3, Calculators.SUM))
-			.showGrandTotal(false)
+			.crosstabData(new DefaultCrosstabData.Builder(3)
+								.useCalculator(Calculators.SUM, "%.2f")
+								.build())
+			.showGrandTotal()
+			.showTotals()
 			.build()
 		.execute();
 	}

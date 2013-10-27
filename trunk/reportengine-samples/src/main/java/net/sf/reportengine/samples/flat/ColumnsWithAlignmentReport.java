@@ -18,17 +18,24 @@ import net.sf.reportengine.out.HtmlOutput;
  *
  */
 public class ColumnsWithAlignmentReport {
-
+	
 	public static void main(String[] args) {
 		new FlatReport.Builder()
 			.title("Report with columns aligned programatically")
 			.input(new TextInput("./inputData/expenses.csv",","))
 			.output(new HtmlOutput("./output/myFormattedOutput.html"))
-			
-			//the month column
-			.addDataColumn(new DefaultDataColumn.Builder(0).header("Month").horizAlign(HorizAlign.LEFT).build())	
-			.addDataColumn(new DefaultDataColumn.Builder(1).header("Spent on ?").horizAlign(HorizAlign.LEFT).build())
-			.addDataColumn(new DefaultDataColumn.Builder(2).header("Amount").horizAlign(HorizAlign.RIGHT).build())
+			.addDataColumn(new DefaultDataColumn.Builder(0)
+									.header("Month")
+									.horizAlign(HorizAlign.LEFT)
+									.build())	
+			.addDataColumn(new DefaultDataColumn.Builder(1)
+									.header("Spent on ?")
+									.horizAlign(HorizAlign.LEFT)
+									.build())
+			.addDataColumn(new DefaultDataColumn.Builder(2)
+									.header("Amount")
+									.horizAlign(HorizAlign.RIGHT)
+									.build())
 			
 			.build()
 		.execute();
