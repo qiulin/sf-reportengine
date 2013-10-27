@@ -44,7 +44,7 @@ public class YearlyExpenses {
 									.build())
 			.addDataColumn(new DefaultDataColumn.Builder(3)
 									.header("Amount")
-									.useCalculator(Calculators.SUM)
+									.useCalculator(Calculators.SUM, "%.2f")
 									.build())
 			
 			.build().execute();
