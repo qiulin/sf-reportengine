@@ -45,7 +45,7 @@ public class ScenarioFormatedValues {
 	
 	public static final List<GroupColumn> GROUP_COLUMNS = Arrays.asList(
 			new GroupColumn[]{
-				new DefaultGroupColumn("Formatted group value", 0, 0, NumberFormat.getCurrencyInstance())
+				new DefaultGroupColumn("Formatted group value", 0, 0, "%d")
 			}
 	); 
 	
@@ -57,9 +57,8 @@ public class ScenarioFormatedValues {
 				.build(),  
 		new DefaultDataColumn.Builder(2)
 				.header("Formatted Integer")
-				.useCalculator(Calculators.MAX)
+				.useCalculator(Calculators.MAX, "formatted totals %f")
 				.valuesFormatter("formatted integer %d")
-				.totalsFormatter("formatted totals %f")
 				.build(),
 		new DefaultDataColumn.Builder(3)
 				.header("Formatted Date")

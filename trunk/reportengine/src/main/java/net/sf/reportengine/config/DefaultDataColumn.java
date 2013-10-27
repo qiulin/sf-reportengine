@@ -262,13 +262,14 @@ public class DefaultDataColumn extends AbstractDataColumn {
 			return this; 
 		}
 		
-		public Builder totalsFormatter(String format){
-			this.totalsFormatter = format; 
+		public Builder useCalculator(Calculator calc){
+			this.calculator = calc; 
 			return this; 
 		}
 		
-		public Builder useCalculator(Calculator calc){
+		public Builder useCalculator(Calculator calc, String totalsFormatter){
 			this.calculator = calc; 
+			this.totalsFormatter = totalsFormatter; 
 			return this; 
 		}
 		

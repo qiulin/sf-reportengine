@@ -140,14 +140,14 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 			return this; 
 		}
 		
-		public Builder totalsFormatter(String formatter){
-			this.totalsFormatter = formatter; 
+		public Builder useCalculator(Calculator calc){
+			this.calculator = calc; 
 			return this; 
 		}
 		
-		
-		public Builder useCalculator(Calculator calc){
+		public Builder useCalculator(Calculator calc, String totalsFormatter){
 			this.calculator = calc; 
+			this.totalsFormatter = totalsFormatter; 
 			return this; 
 		}
 		

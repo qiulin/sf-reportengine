@@ -74,7 +74,7 @@ public class TestAutoconfigFlatReport {
 		flatReport.setOut(new HtmlOutput("./target/AutodetectFromSqlWithUserPrefsAndDbOrdering.html")); 
 		
 		flatReport.forColumn("COUNTRY").horizAlign(HorizAlign.RIGHT).vertAlign(VertAlign.TOP).header("Changed header").group(); 
-		flatReport.forColumn("VALUE").vertAlign(VertAlign.BOTTOM).useCalculator(Calculators.SUM).valuesFormatter("%d $").totalsFormatter("%f $"); 
+		flatReport.forColumn("VALUE").vertAlign(VertAlign.BOTTOM).useCalculator(Calculators.SUM, "%f $").valuesFormatter("%d $"); 
 		flatReport.forColumn("REGION").group(); 
 		flatReport.forColumn("CITY").group(); 
 		
@@ -97,7 +97,7 @@ public class TestAutoconfigFlatReport {
 		flatReport.setValuesSorted(false); 
 		
 		flatReport.forColumn("COUNTRY").horizAlign(HorizAlign.RIGHT).header("Changed header").group(); 
-		flatReport.forColumn("VALUE").useCalculator(Calculators.SUM).valuesFormatter("%d $").totalsFormatter("%f $"); 
+		flatReport.forColumn("VALUE").useCalculator(Calculators.SUM, "%f $").valuesFormatter("%d $"); 
 		flatReport.forColumn("REGION").group(); 
 		flatReport.forColumn("CITY").group(); 
 		
@@ -126,9 +126,8 @@ public class TestAutoconfigFlatReport {
 		flatReport.forColumn("SEX")	.header("Sorted ASC programatically with priority 1")
 									.sortAsc(0); 
 		flatReport.forColumn("VALUE")	.header("Sorted ASC programatically with priority 2")
-										.useCalculator(Calculators.SUM)
+										.useCalculator(Calculators.SUM, "%f $")
 										.valuesFormatter("%d $")
-										.totalsFormatter("%f $")
 										.sortAsc(1); //non group column sorted
 		
 		flatReport.forColumn("REGION").group();	
