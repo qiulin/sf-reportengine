@@ -19,7 +19,6 @@ import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.calc.Calculators;
 import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.util.MockStringFormat;
 
 /**
  * @author dragos balan
@@ -69,7 +68,7 @@ public class CtScenarioFormatting4x3x1 {
 						.header("Region HorizAlign=Center, VertAlign=Top")
 						.level(2)
 						.horizAlign(HorizAlign.CENTER)
-						.useFormatter(new MockStringFormat())
+						.valuesFormatter("formatted %s")
 						.build(),
 	});
 	
@@ -91,11 +90,10 @@ public class CtScenarioFormatting4x3x1 {
 	}); 
 	
 	public final static CrosstabData CROSSTAB_DATA = new DefaultCrosstabData.Builder(7)
-														.useCalculator(Calculators.SUM)
+														.useCalculator(Calculators.SUM, "%f $")
 														.horizAlign(HorizAlign.RIGHT)
 														.vertAlign(VertAlign.TOP)
 														.valuesFormatter("%s $")
-														.totalsFormatter("%f $")
 														.build();
 	
 	public final static ReportInput INPUT = new ArrayReportInput(RAW_INPUT);

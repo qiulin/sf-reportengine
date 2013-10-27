@@ -69,8 +69,8 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 	public DefaultGroupColumn(	String header, 
 								int inputColumnIndex, 
 								int groupingLevel, 
-								Format formatter){
-		this(header, inputColumnIndex, groupingLevel, formatter, HorizAlign.CENTER); 
+								String valuesFormatter){
+		this(header, inputColumnIndex, groupingLevel, valuesFormatter, HorizAlign.CENTER); 
 	}
 	
 	
@@ -85,9 +85,9 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 	public DefaultGroupColumn(	String header, 
 								int inputColumnIndex, 
 								int groupingLevel, 
-								Format formatter, 
+								String valuesFormatter, 
 								HorizAlign horizAlign){
-		this(header, inputColumnIndex, groupingLevel, formatter, horizAlign, false); 
+		this(header, inputColumnIndex, groupingLevel, valuesFormatter, horizAlign, false); 
 	}
 	
 	/**
@@ -102,10 +102,10 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 	public DefaultGroupColumn(	String header, 
 								int inputColumnIndex, 
 								int groupingLevel, 
-								Format formatter, 
+								String valuesFormatter, 
 								HorizAlign horizAlign, 
 								boolean showDuplicates){
-		this(header, inputColumnIndex, groupingLevel, formatter, horizAlign, VertAlign.MIDDLE, showDuplicates); 
+		this(header, inputColumnIndex, groupingLevel, valuesFormatter, horizAlign, VertAlign.MIDDLE, showDuplicates); 
 	}
 	
 	/**
@@ -120,11 +120,11 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 	public DefaultGroupColumn(	String header, 
 								int inputColumnIndex, 
 								int groupingLevel, 
-								Format formatter, 
+								String valuesFormatter, 
 								HorizAlign horizAlign,
 								VertAlign vertAlign, 
 								boolean showDuplicates){
-		this(header, inputColumnIndex, groupingLevel, formatter, horizAlign, vertAlign, showDuplicates, SortType.NONE /*no default sorting*/); 
+		this(header, inputColumnIndex, groupingLevel, valuesFormatter, horizAlign, vertAlign, showDuplicates, SortType.NONE /*no default sorting*/); 
 	}
 	
 	
@@ -140,12 +140,12 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 	public DefaultGroupColumn(	String header, 
 								int inputColumnIndex, 
 								int groupingLevel, 
-								Format formatter, 
+								String valuesFormatter, 
 								HorizAlign horizAlign,
 								VertAlign vertAlign, 
 								boolean showDuplicates, 
 								SortType sortType){
-		super(header, groupingLevel, formatter, horizAlign, vertAlign, showDuplicates, sortType);
+		super(header, groupingLevel, valuesFormatter, horizAlign, vertAlign, showDuplicates, sortType);
 		setInputColumnIndex(inputColumnIndex);
 	}
 	
@@ -156,7 +156,7 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 	private DefaultGroupColumn(Builder builder){
 		super(	builder.header, 
 				builder.groupLevel, 
-				builder.formatter, 
+				builder.valuesFormatter, 
 				builder.hAlign, 
 				builder.vAlign, 
 				builder.showDuplicateValues, 
@@ -197,7 +197,7 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 			.append(", header=").append(getHeader())
 			.append(", hAlign=").append(getHorizAlign())
 			.append(", vAlign=").append(getVertAlign())
-			.append(", formatter=").append(getFormatter())
+			.append(", formatter=").append(getValuesFormatter())
 			.append(", sortType=").append(getSortType())
 			.append("]")
 		.toString(); 
@@ -208,7 +208,7 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 		private String header; 
 		private HorizAlign hAlign = HorizAlign.CENTER; 
 		private VertAlign  vAlign = VertAlign.MIDDLE; 
-		private Format formatter = null; 
+		private String valuesFormatter = null; 
 		private SortType sortType = SortType.NONE; 
 		
 		private int groupLevel = 0; 
@@ -233,8 +233,8 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 			return this; 
 		}
 		
-		public Builder useFormatter(Format format){
-			this.formatter = format; 
+		public Builder valuesFormatter(String formatter){
+			this.valuesFormatter = formatter; 
 			return this; 
 		}
 		

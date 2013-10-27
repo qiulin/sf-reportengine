@@ -26,7 +26,7 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 	/**
 	 * 
 	 */
-	private Format formatter; 
+	private String valuesFormatter; 
 	
 	/**
 	 * 
@@ -52,34 +52,34 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 	 * 
 	 * @param header
 	 * @param groupingLevel
-	 * @param formatter
+	 * @param valuesFormatter
 	 * @param horizAlign
 	 * @param showDuplicates
 	 */
 	public AbstractGroupColumn(	String header, 
 								int groupingLevel, 
-								Format formatter, 
+								String valuesFormatter, 
 								HorizAlign horizAlign, 
 								boolean showDuplicates){
-		this(header, groupingLevel, formatter, horizAlign, VertAlign.MIDDLE, showDuplicates); 
+		this(header, groupingLevel, valuesFormatter, horizAlign, VertAlign.MIDDLE, showDuplicates); 
 	}
 	
 	/**
 	 * 
 	 * @param header
 	 * @param groupingLevel
-	 * @param formatter
+	 * @param valuesFormatter
 	 * @param horizAlign
 	 * @param vertAlign
 	 * @param showDuplicates
 	 */
 	public AbstractGroupColumn(	String header, 
 								int groupingLevel, 
-								Format formatter, 
+								String valuesFormatter, 
 								HorizAlign horizAlign, 
 								VertAlign vertAlign, 
 								boolean showDuplicates){
-		this(header, groupingLevel, formatter, horizAlign, vertAlign, showDuplicates, SortType.NONE/*no sorting*/); 
+		this(header, groupingLevel, valuesFormatter, horizAlign, vertAlign, showDuplicates, SortType.NONE/*no sorting*/); 
 	}
 	
 	
@@ -87,7 +87,7 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 	 * 
 	 * @param header
 	 * @param groupingLevel
-	 * @param formatter
+	 * @param valuesFormatter
 	 * @param horizAlign
 	 * @param vertAlign
 	 * @param showDuplicates
@@ -95,14 +95,14 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 	 */
 	public AbstractGroupColumn(	String header, 
 								int groupingLevel, 
-								Format formatter, 
+								String valuesFormatter, 
 								HorizAlign horizAlign, 
 								VertAlign vertAlign, 
 								boolean showDuplicates, 
 								SortType sortType){
 		setHeader(header);
 		setGroupingLevel(groupingLevel);
-		setFormatter(formatter);
+		setValuesFormatter(valuesFormatter);
 		setHorizAlign(horizAlign); 
 		setVertAlign(vertAlign); 
 		setShowDuplicates(showDuplicates); 
@@ -146,8 +146,8 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 	public String getFormattedValue(Object value) {
 		String result = "";
 		if(value != null){
-			if(formatter != null){
-				result = formatter.format(value);
+			if(valuesFormatter != null){
+				result = String.format(valuesFormatter, value);
 			}else{
 				result = value.toString();
 			}
@@ -159,16 +159,16 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 	 * 
 	 * @return
 	 */
-	public Format getFormatter() {
-		return formatter;
+	public String getValuesFormatter() {
+		return valuesFormatter;
 	}
 	
 	/**
 	 * 
-	 * @param formatter
+	 * @param valuesFormatter
 	 */
-	public void setFormatter(Format formatter) {
-		this.formatter = formatter;
+	public void setValuesFormatter(String formatter) {
+		this.valuesFormatter = formatter;
 	}
 
 	/**

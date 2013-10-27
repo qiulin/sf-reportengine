@@ -199,7 +199,7 @@ public class ExcelOutput extends AbstractByteBasedOutput {
     public void outputHeaderCell(CellProps cellProps){
     	int rowCount = cellProps.getRowNumber() + titleRowSpan; 
         
-    	LOGGER.debug("on row {} output header cell {}", rowCount, cellProps);
+    	//LOGGER.debug("on row {} output header cell {}", rowCount, cellProps);
     	
         HSSFCell cell = currentRow.createCell(currentCol);
         HSSFCellStyle cellStyle = workBook.createCellStyle();
@@ -248,7 +248,7 @@ public class ExcelOutput extends AbstractByteBasedOutput {
     public void outputDataCell(CellProps cellProps) {
         int rowCount = cellProps.getRowNumber() + titleRowSpan + headerRowSpan ; 
         
-        LOGGER.debug("on row {} output data cell {}", rowCount, cellProps);
+        //LOGGER.debug("on row {} output data cell {}", rowCount, cellProps);
         
         HSSFCell cell = currentRow.createCell(currentCol);
         HSSFCellStyle cellStyle = null;

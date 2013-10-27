@@ -1,7 +1,5 @@
 package net.sf.reportengine.in;
 
-import java.text.Format;
-
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.SortType;
@@ -149,14 +147,6 @@ public class ColumnPreferences {
 	}
 	
 	/**
-	 * @param formatter the formatter to set
-	 */
-	public ColumnPreferences totalsFormatter(String formatter) {
-		this.totalsFormatter = formatter;
-		return this; 
-	}
-	
-	/**
 	 * @return the calculator
 	 */
 	public Calculator getCalculator() {
@@ -168,6 +158,12 @@ public class ColumnPreferences {
 	 */
 	public ColumnPreferences useCalculator(Calculator calculator) {
 		this.calculator = calculator;
+		return this; 
+	} 
+	
+	public ColumnPreferences useCalculator(Calculator calculator, String totalsFormatter) {
+		this.calculator = calculator;
+		this.totalsFormatter = totalsFormatter; 
 		return this; 
 	} 
 	
