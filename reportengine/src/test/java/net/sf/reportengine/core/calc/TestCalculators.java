@@ -21,7 +21,7 @@ public class TestCalculators {
 
 	@Test
 	public void testCountCalculator() {
-		CountCalculator calculator = new CountCalculator(); 
+		CountGroupCalculator calculator = new CountGroupCalculator(); 
 		calculator.init(); 
 		
 		assertNotNull(calculator.getResult()); 
@@ -52,7 +52,7 @@ public class TestCalculators {
 	
 	@Test
 	public void testUniversalSumCalculator() {
-		UniversalSumCalculator calculator = new UniversalSumCalculator(); 
+		UniversalSumGroupCalculator calculator = new UniversalSumGroupCalculator(); 
 		calculator.init(); 
 		
 		assertNotNull(calculator.getResult()); 
@@ -81,7 +81,7 @@ public class TestCalculators {
 	
 	@Test
 	public void testUniversalAvgCalculator() {
-		UniversalAvgCalculator calculator = new UniversalAvgCalculator(); 
+		UniversalAvgGroupCalculator calculator = new UniversalAvgGroupCalculator(); 
 		calculator.init(); 
 		
 		//assertNotNull(calculator.getResult()); 

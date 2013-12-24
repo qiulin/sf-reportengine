@@ -10,7 +10,7 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.SortType;
 import net.sf.reportengine.config.VertAlign;
-import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.CellPropsArrayOutput;
@@ -42,8 +42,8 @@ public class SortScenarioOnlyDataColsCount {
 	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(
 		new DataColumn[]{
 			new DefaultDataColumn("no sorting", 3), //no ordering
-			new DefaultDataColumn("asc. sorted with sorting level 1", 4, Calculators.COUNT, null, HorizAlign.CENTER, VertAlign.MIDDLE, 1, SortType.ASC), 
-			new DefaultDataColumn("desc sorted with sorting level 0", 5, Calculators.SUM, null, HorizAlign.CENTER, VertAlign.MIDDLE, 0, SortType.DESC) //higher order priority
+			new DefaultDataColumn("asc. sorted with sorting level 1", 4, GroupCalculators.COUNT, null, HorizAlign.CENTER, VertAlign.MIDDLE, 1, SortType.ASC), 
+			new DefaultDataColumn("desc sorted with sorting level 0", 5, GroupCalculators.SUM, null, HorizAlign.CENTER, VertAlign.MIDDLE, 0, SortType.DESC) //higher order priority
 	});
 	
 	public final static ReportInput INPUT = new ArrayReportInput(RAW_DATA);

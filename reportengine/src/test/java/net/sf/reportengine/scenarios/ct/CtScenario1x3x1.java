@@ -13,7 +13,7 @@ import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.ArrayReportInput;
@@ -67,7 +67,7 @@ public class CtScenario1x3x1 {
 		new DefaultCrosstabHeaderRow(3)		//Age
 	}); 
 	
-	public final static CrosstabData CROSSTAB_DATA = new DefaultCrosstabData(4, Calculators.SUM);
+	public final static CrosstabData CROSSTAB_DATA = new DefaultCrosstabData(4, GroupCalculators.SUM);
 	
 	public final static ReportInput INPUT = new ArrayReportInput(RAW_INPUT);
 	

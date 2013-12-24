@@ -14,7 +14,7 @@ import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
@@ -107,7 +107,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
      */
     @Override
     public void exit() {
-        Calculator[][] calculators = getCalculatorMatrix();
+        GroupCalculator[][] calculators = getCalculatorMatrix();
         
         if(groupCols != null && getShowTotals()){
         	//calculators.length-2 because for levelCalculators.lenght-1 is a separate call
@@ -133,7 +133,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
      */
     private void outputTotalRowsFromTo(int rowStart, int rowEnd){
     	LOGGER.trace("output totals from {} to ", rowStart, rowEnd);
-    	Calculator[][] calculators = getCalculatorMatrix();
+    	GroupCalculator[][] calculators = getCalculatorMatrix();
         for(int row = rowStart; row <= rowEnd ; row++){
         	//based on the row we can compute the aggregation level so that we can determine the 
         	// column to use from the previous data row
@@ -150,7 +150,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
      * @param calcForCurrentGroupingLevel
      */
     private void outputTotalsRow(	int groupLevel, 
-    								Calculator[] calcForCurrentGroupingLevel){
+    								GroupCalculator[] calcForCurrentGroupingLevel){
     	if(distribOfCalculatorsInDataColsArray.length != dataCols.size()){
     		//TODO: improve
     		throw new IllegalArgumentException("dataRows and distributionOfCalculators arrays should have the same length"); 

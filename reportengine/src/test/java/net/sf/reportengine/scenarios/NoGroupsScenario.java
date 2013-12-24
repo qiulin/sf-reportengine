@@ -9,7 +9,7 @@ import java.util.List;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.ArrayReportInput;
 
@@ -39,11 +39,11 @@ public final class NoGroupsScenario {
 	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList( 
 			new DataColumn[]{
 		new DefaultDataColumn("Zero or one", 0, null), 
-		new DefaultDataColumn("2 multiples", 2, Calculators.SUM), 
-		new DefaultDataColumn("3 multiples", 4, Calculators.AVG), 
+		new DefaultDataColumn("2 multiples", 2, GroupCalculators.SUM), 
+		new DefaultDataColumn("3 multiples", 4, GroupCalculators.AVG), 
 		new DefaultDataColumn("Column A", 1), 
 		new DefaultDataColumn("Column A", 3), 
-		new DefaultDataColumn("Column A", 5, Calculators.COUNT), 
+		new DefaultDataColumn("Column A", 5, GroupCalculators.COUNT), 
 	});
 	
 	public final static int[] AGG_LEVEL = new int[]{

@@ -11,7 +11,7 @@ import java.math.BigDecimal;
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  */
-public class SumNumberCalculator extends AbstractInitializedCalculator<BigDecimal, Number> {
+public class SumNumberGroupCalculator extends AbstractInitializedGroupCalculator<BigDecimal, Number> {
     
     /**
 	 * serial version

@@ -14,7 +14,7 @@ import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.ArrayReportInput;
@@ -78,7 +78,7 @@ public class CtScenario4x3x1 {
 	}); 
 	
 	public final static CrosstabData CROSSTAB_DATA = 
-		new DefaultCrosstabData(7, Calculators.SUM);
+		new DefaultCrosstabData(7, GroupCalculators.SUM);
 	
 	public final static ReportInput INPUT = new ArrayReportInput(RAW_INPUT);
 	

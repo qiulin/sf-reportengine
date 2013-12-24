@@ -4,7 +4,7 @@
 package net.sf.reportengine.config;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
 
 /**
  * Data column for flat and crosstab reports. 
@@ -58,7 +58,7 @@ public interface DataColumn {
 	/**
 	 * returns the calculator (if any) to be used on this column 
 	 */
-	public Calculator getCalculator();
+	public GroupCalculator getCalculator();
 	
 	
 	/**

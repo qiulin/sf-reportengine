@@ -11,7 +11,7 @@ package net.sf.reportengine.core.calc;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public class FirstCalculator<T> extends AbstractCalculator<T, T> {
+public class FirstGroupCalculator<T> extends AbstractGroupCalculator<T, T> {
 	
 	/**
 	 * serial version id

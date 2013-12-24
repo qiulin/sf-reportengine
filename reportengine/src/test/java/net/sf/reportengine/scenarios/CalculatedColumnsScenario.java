@@ -15,9 +15,9 @@ import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.Calculators;
-import net.sf.reportengine.core.calc.Calculator;
-import net.sf.reportengine.core.steps.MockCalculator;
+import net.sf.reportengine.core.calc.GroupCalculators;
+import net.sf.reportengine.core.calc.GroupCalculator;
+import net.sf.reportengine.core.steps.MockGroupCalculator;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.ArrayReportInput;
 
@@ -73,7 +73,7 @@ public class CalculatedColumnsScenario {
 	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(new DataColumn[] {
 		new DefaultDataColumn("Column A", 1),
 		new DefaultDataColumn("Column B", 3), 
-		new DefaultDataColumn("Column C", 5, Calculators.COUNT),
+		new DefaultDataColumn("Column C", 5, GroupCalculators.COUNT),
 		new AbstractDataColumn("0+3", null, null, HorizAlign.CENTER) {
 			public String getValue(NewRowEvent newRowEvent) {
 				List<Object> data = newRowEvent.getInputDataRow();
@@ -111,12 +111,12 @@ public class CalculatedColumnsScenario {
 	
 	public final static int[] AGG_COLUMNS_INDEX = new int[]{0,1,3,5};
 	
-	public final static Calculator[][] CALCULATORS_RESULTS = new Calculator[][]{
-	    	new Calculator[]{new MockCalculator(Integer.valueOf(3))},
-	    	new Calculator[]{new MockCalculator(Integer.valueOf(6))},
-	    	new Calculator[]{new MockCalculator(Integer.valueOf(6))},
-	    	new Calculator[]{new MockCalculator(Integer.valueOf(8))},
-	    	new Calculator[]{new MockCalculator(Integer.valueOf(10))}
+	public final static GroupCalculator[][] CALCULATORS_RESULTS = new GroupCalculator[][]{
+	    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(3))},
+	    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(6))},
+	    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(6))},
+	    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(8))},
+	    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(10))}
 		};
 }
 

@@ -9,7 +9,7 @@ package net.sf.reportengine.core.calc;
  * Maximum calculator 
  * @author dragos balan(dragos dot balan at gmail dot com)
  */
-abstract class AbstractMaxCalculator<T extends Comparable<T>> extends AbstractInitializedCalculator<T, T> {
+abstract class AbstractMaxGroupCalculator<T extends Comparable<T>> extends AbstractInitializedGroupCalculator<T, T> {
     
     /**
 	 * serial version id

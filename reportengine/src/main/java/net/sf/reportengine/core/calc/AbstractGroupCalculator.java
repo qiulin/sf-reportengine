@@ -4,12 +4,12 @@
 package net.sf.reportengine.core.calc;
 
 /**
- * abstract implementation for Calculator interface
+ * abstract implementation for GroupCalculator interface
  * 
  * @author dragos dragos (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public abstract class AbstractCalculator<T, V> implements Calculator<T, V> {
+public abstract class AbstractGroupCalculator<T, V> implements GroupCalculator<T, V> {
 
 	/**
 	 * serial version id
@@ -24,7 +24,7 @@ public abstract class AbstractCalculator<T, V> implements Calculator<T, V> {
 	/**
 	 * 
 	 */
-	public AbstractCalculator(){}
+	public AbstractGroupCalculator(){}
 	
 	/**
 	 * 
@@ -37,12 +37,12 @@ public abstract class AbstractCalculator<T, V> implements Calculator<T, V> {
 	/**
 	 * returns a clone of this object
 	 */
-	public Calculator<T, V> clone(){
-		Calculator<T, V> result = null; 
+	public GroupCalculator<T, V> clone(){
+		GroupCalculator<T, V> result = null; 
 		try {
-			result = (Calculator<T, V>)super.clone();
+			result = (GroupCalculator<T, V>)super.clone();
 		} catch (CloneNotSupportedException e) {
-			throw new CalculatorException("Cloning is not supported", e);
+			throw new GroupCalculatorException("Cloning is not supported", e);
 		}
 		return result; 
 	}

@@ -17,7 +17,7 @@ import org.apache.commons.lang.math.NumberUtils;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class CountCalculator extends AbstractInitializedCalculator<Integer, Object> {
+public class CountGroupCalculator extends AbstractInitializedGroupCalculator<Integer, Object> {
     
     /**
 	 * serial version id
@@ -28,7 +28,7 @@ public class CountCalculator extends AbstractInitializedCalculator<Integer, Obje
 	/**
      * the constructor makes a call to init() method
      */
-    CountCalculator(){
+    CountGroupCalculator(){
         super();
     }
     

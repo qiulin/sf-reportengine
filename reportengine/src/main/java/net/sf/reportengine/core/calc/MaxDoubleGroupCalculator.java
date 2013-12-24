@@ -7,7 +7,7 @@ package net.sf.reportengine.core.calc;
  * @author dragos
  *
  */
-public class MaxDoubleCalculator extends AbstractMaxCalculator<Double> {
+public class MaxDoubleGroupCalculator extends AbstractMaxGroupCalculator<Double> {
 
 	/**
 	 * 
@@ -15,7 +15,7 @@ public class MaxDoubleCalculator extends AbstractMaxCalculator<Double> {
 	private static final long serialVersionUID = -340218578500883479L;
 
 	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.calc.AbstractCalculator#getInitValue()
+	 * @see net.sf.reportengine.core.calc.AbstractGroupCalculator#getInitValue()
 	 */
 	@Override
 	protected Double getInitValue() {

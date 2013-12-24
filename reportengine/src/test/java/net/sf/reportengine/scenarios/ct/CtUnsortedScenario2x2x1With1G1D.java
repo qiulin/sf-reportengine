@@ -10,7 +10,7 @@ import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.in.ReportInput;
 
@@ -52,5 +52,5 @@ public class CtUnsortedScenario2x2x1With1G1D {
 		new DefaultCrosstabHeaderRow(2, null)   //Age
 	}); 
 	
-	public static final DefaultCrosstabData CROSSTAB_DATA = new DefaultCrosstabData(4, Calculators.SUM); //the count column
+	public static final DefaultCrosstabData CROSSTAB_DATA = new DefaultCrosstabData(4, GroupCalculators.SUM); //the count column
 }

@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
 import net.sf.reportengine.core.steps.crosstab.IntermComputedDataList;
 
 /**
@@ -78,7 +78,7 @@ public class SecondProcessDataColumn implements DataColumn{
 		return originalCtData.getFormattedTotal(value);
 	}
 
-	public Calculator getCalculator() {
+	public GroupCalculator getCalculator() {
 		return originalCtData.getCalculator();
 	}
 

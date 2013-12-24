@@ -6,7 +6,7 @@ package net.sf.reportengine.config;
 import java.util.List;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalDataColsList;
 
 /**
@@ -63,7 +63,7 @@ public class SecondProcessDataColumnFromOriginalDataColumn implements DataColumn
 		return intermGroupValues.getDataValues().get(indexInOriginalDataColsArray); 
 	}
 
-	public Calculator getCalculator() {
+	public GroupCalculator getCalculator() {
 		return originalDataColumn.getCalculator();
 	}
 

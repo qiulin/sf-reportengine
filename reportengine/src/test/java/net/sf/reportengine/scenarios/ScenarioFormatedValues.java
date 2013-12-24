@@ -15,7 +15,7 @@ import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.ArrayReportInput;
 
@@ -57,7 +57,7 @@ public class ScenarioFormatedValues {
 				.build(),  
 		new DefaultDataColumn.Builder(2)
 				.header("Formatted Integer")
-				.useCalculator(Calculators.MAX, "formatted totals %f")
+				.useCalculator(GroupCalculators.MAX, "formatted totals %f")
 				.valuesFormatter("formatted integer %d")
 				.build(),
 		new DefaultDataColumn.Builder(3)

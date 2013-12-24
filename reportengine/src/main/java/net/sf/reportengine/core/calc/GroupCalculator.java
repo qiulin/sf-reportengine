@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- *  Calculator interface used for data columns and crosstab data
+ *  GroupCalculator interface used for data columns and crosstab data
  * </p>
  * <p>
  * 	 T - the type of the result ( obtained when calling getResult())
@@ -20,7 +20,7 @@ import java.io.Serializable;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public interface Calculator<T, V> extends Serializable, Cloneable {
+public interface GroupCalculator<T, V> extends Serializable, Cloneable {
     
     /**
      * initializer of the totals 
@@ -48,5 +48,5 @@ public interface Calculator<T, V> extends Serializable, Cloneable {
      * (this is a variant of the Prototype pattern )
      * @return	a clone of this calculator
      */
-    public Calculator<T, V> clone(); 
+    public GroupCalculator<T, V> clone(); 
 }

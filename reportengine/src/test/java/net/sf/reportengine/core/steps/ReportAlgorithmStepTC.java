@@ -9,7 +9,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.AlgoContext;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.LoggerOutput;
 import net.sf.reportengine.out.OutputDispatcher;
@@ -54,7 +54,7 @@ public class ReportAlgorithmStepTC extends TestCase {
 		TEST_REPORT_CONTEXT.set(ContextKeys.NEW_GROUPING_LEVEL, aggLevel);
 	}
 	
-	protected void setCalculatorMatrix(Calculator[][] calculators){
+	protected void setCalculatorMatrix(GroupCalculator[][] calculators){
 		TEST_REPORT_CONTEXT.set(ContextKeys.CALCULATORS, calculators);
 	}
 	
@@ -70,8 +70,8 @@ public class ReportAlgorithmStepTC extends TestCase {
 		return cumulativeReportOutput;
 	}
 	
-	protected void assertEqualsCalculatorValues(Calculator[][] expectedValues){
-		Calculator[][] calcMatrix = (Calculator[][])TEST_REPORT_CONTEXT.get(ContextKeys.CALCULATORS);
+	protected void assertEqualsCalculatorValues(GroupCalculator[][] expectedValues){
+		GroupCalculator[][] calcMatrix = (GroupCalculator[][])TEST_REPORT_CONTEXT.get(ContextKeys.CALCULATORS);
 		assertEquals(expectedValues.length, calcMatrix.length);
 		for(int i=0; i< expectedValues.length; i++){
 			assertEquals(expectedValues[i].length, calcMatrix[i].length);
