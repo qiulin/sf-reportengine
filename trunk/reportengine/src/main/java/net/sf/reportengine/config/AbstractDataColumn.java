@@ -1,6 +1,6 @@
 package net.sf.reportengine.config;
 
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +37,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	/**
 	 * the calculator of this column
 	 */
-	private Calculator calculator; 
+	private GroupCalculator calculator; 
 	
 	/**
 	 * the horizontal alignment
@@ -72,7 +72,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * @param header
 	 * @param calculator
 	 */
-	public AbstractDataColumn(String header, Calculator calculator){
+	public AbstractDataColumn(String header, GroupCalculator calculator){
 		this(header, calculator, null); 
 	}
 	
@@ -83,7 +83,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * @param valuesFormatter
 	 */
 	public AbstractDataColumn(	String header, 
-								Calculator calculator, 
+								GroupCalculator calculator, 
 								String valuesFormatter){
 		this(header, calculator, valuesFormatter, HorizAlign.CENTER);
 	}
@@ -97,7 +97,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * @param horizAlign
 	 */
 	public AbstractDataColumn(	String header, 
-								Calculator calculator, 
+								GroupCalculator calculator, 
 								String valuesFormatter, 
 								HorizAlign horizAlign){
 		this(header, calculator, valuesFormatter, horizAlign, NO_SORTING); 
@@ -113,7 +113,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * @param sortLevel
 	 */
 	public AbstractDataColumn(	String header, 
-								Calculator calculator, 
+								GroupCalculator calculator, 
 								String valuesFormatter, 
 								HorizAlign horizAlign, 
 								int sortLevel){
@@ -131,7 +131,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * @param sortLevel	the sorting level
 	 */
 	public AbstractDataColumn(	String header, 
-								Calculator calculator, 
+								GroupCalculator calculator, 
 								String valuesFormatter, 
 								HorizAlign horizAlign,
 								VertAlign vertAlign, 
@@ -151,7 +151,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * @param sortType		the sorting type (asc, desc)
 	 */
 	public AbstractDataColumn(	String header, 
-								Calculator calculator, 
+								GroupCalculator calculator, 
 								String valuesFormatter,
 								HorizAlign horizAlign,
 								VertAlign vertAlign, 
@@ -173,7 +173,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * @param sortType		the sorting type (asc, desc)
 	 */
 	public AbstractDataColumn(	String header, 
-								Calculator calculator, 
+								GroupCalculator calculator, 
 								String valuesFormatter,
 								String totalsFormatter, 
 								HorizAlign horizAlign,
@@ -242,7 +242,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	/**
 	 * getter for this column's calculator (if any)
 	 */
-	public Calculator getCalculator() {
+	public GroupCalculator getCalculator() {
 		return calculator;
 	}
 	
@@ -250,7 +250,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * 
 	 * @param calculator
 	 */
-	public void setCalculator(Calculator calculator) {
+	public void setCalculator(GroupCalculator calculator) {
 		this.calculator = calculator;
 	}
 	

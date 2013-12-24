@@ -4,7 +4,7 @@
 package net.sf.reportengine.config;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
 
 /**
  * Crosstab data
@@ -37,7 +37,7 @@ public interface CrosstabData {
 	 * 
 	 * @return
 	 */
-	public Calculator getCalculator();
+	public GroupCalculator getCalculator();
 	
 	/**
 	 * returns the horizontal alignment of the values of this column

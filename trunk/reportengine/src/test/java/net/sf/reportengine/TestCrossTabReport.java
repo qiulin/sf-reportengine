@@ -10,7 +10,7 @@ import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.ExcelOutput;
 import net.sf.reportengine.out.HtmlOutput;
@@ -24,6 +24,7 @@ import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
 import net.sf.reportengine.scenarios.ct.CtScenarioFormatting4x3x1;
 import net.sf.reportengine.scenarios.ct.CtUnsortedScenario2x2x1With0G2D;
 import net.sf.reportengine.scenarios.ct.CtUnsortedScenario2x2x1With1G1D;
+import net.sf.reportengine.scenarios.ct.CtUnsortedScenario2x2x1With2G0D;
 import net.sf.reportengine.util.ReportIoUtils;
 
 /**
@@ -176,12 +177,12 @@ public class TestCrossTabReport extends TestCase {
 		classUnderTest.addGroupColumn(new DefaultGroupColumn("Country", 0, 0));
 		classUnderTest.addGroupColumn(new DefaultGroupColumn("Region", 1, 1));
 		
-		classUnderTest.addDataColumn(new DefaultDataColumn("City", 2, Calculators.COUNT));
+		classUnderTest.addDataColumn(new DefaultDataColumn("City", 2, GroupCalculators.COUNT));
 		
 		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(3)); 
 		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(4)); 
 		
-		classUnderTest.setCrosstabData(new DefaultCrosstabData(5, Calculators.COUNT)); 
+		classUnderTest.setCrosstabData(new DefaultCrosstabData(5, GroupCalculators.COUNT)); 
 		
 		classUnderTest.setShowTotals(true); 
 		classUnderTest.setShowGrandTotal(true); 
@@ -202,7 +203,7 @@ public class TestCrossTabReport extends TestCase {
 		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(3)); 
 		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(4)); 
 		
-		classUnderTest.setCrosstabData(new DefaultCrosstabData(5, Calculators.SUM)); 
+		classUnderTest.setCrosstabData(new DefaultCrosstabData(5, GroupCalculators.SUM)); 
 		
 		classUnderTest.setShowTotals(false); 
 		classUnderTest.setShowGrandTotal(false); 
@@ -239,6 +240,24 @@ public class TestCrossTabReport extends TestCase {
 			.build()
 		.execute(); 
 	}
+	
+	
+	public void testProgramaticSortingFor2x2x1xTHavingNoDataCols(){
+		new CrossTabReport.Builder() 
+			.title("This report has 2 group columns programatically sorted.")
+			.input(CtUnsortedScenario2x2x1With2G0D.INPUT)
+			.output(new HtmlOutput("target/CrosstabReportProgramaticallySorted2x2x1With2G0D.html"))
+			.groupColumns(CtUnsortedScenario2x2x1With2G0D.GROUPING_COLUMNS)
+			//.dataColumns(CtUnsortedScenario2x2x1With2G0D.DATA_COLUMNS) /*dataCols is null*/
+			.headerRows(CtUnsortedScenario2x2x1With2G0D.HEADER_ROWS)
+			.crosstabData(CtUnsortedScenario2x2x1With2G0D.CROSSTAB_DATA)
+			//.showTotals(true)
+			//.showGrandTotal(true)
+			.sortValues()
+			.build()
+		.execute(); 
+	}
+	
 	
 	public void testFormatting(){
 		new CrossTabReport.Builder()

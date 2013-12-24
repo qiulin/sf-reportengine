@@ -5,7 +5,7 @@ package net.sf.reportengine.config;
 
 import java.text.Format;
 
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
 
 
 /**
@@ -28,7 +28,7 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	/**
 	 * 
 	 */
-	private Calculator calculator; 
+	private GroupCalculator calculator; 
 	
 	/**
 	 * the horizontal alignment for this crosstab data
@@ -46,7 +46,7 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	 * @param formatter
 	 * @param horizAlign
 	 */
-	public AbstractCrosstabData(Calculator calc, 
+	public AbstractCrosstabData(GroupCalculator calc, 
 								String valuesFormatter, 
 								HorizAlign horizAlign){
 		this(calc, valuesFormatter, horizAlign, VertAlign.MIDDLE); 
@@ -59,7 +59,7 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	 * @param horizAlign
 	 * @param vertAlign
 	 */
-	public AbstractCrosstabData(Calculator calc, 
+	public AbstractCrosstabData(GroupCalculator calc, 
 								String  valuesFormatter, 
 								HorizAlign horizAlign, 
 								VertAlign vertAlign){
@@ -74,7 +74,7 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	 * @param horizAlign
 	 * @param vertAlign
 	 */
-	public AbstractCrosstabData(Calculator calc, 
+	public AbstractCrosstabData(GroupCalculator calc, 
 								String  valuesFormatter, 
 								String totalsFormatter, 
 								HorizAlign horizAlign, 
@@ -134,11 +134,11 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	}
 	
 	
-	public Calculator getCalculator() {
+	public GroupCalculator getCalculator() {
 		return calculator;
 	}
 
-	public void setCalculator(Calculator calc) {
+	public void setCalculator(GroupCalculator calc) {
 		this.calculator = calc;
 	}
 

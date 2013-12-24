@@ -12,7 +12,7 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.AlgoContext;
-import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
@@ -27,11 +27,11 @@ public class TestFlatReportExtractDataInitStep {
 	
 	private static List<DataColumn> TEST_DATA_COLUMNS = Arrays.asList(new DataColumn[]{
 		new DefaultDataColumn("No calculator column", 0, null),
-		new DefaultDataColumn("Count Column", 1, Calculators.COUNT), 
-		new DefaultDataColumn("Sum Column", 2, Calculators.SUM), 
+		new DefaultDataColumn("Count Column", 1, GroupCalculators.COUNT), 
+		new DefaultDataColumn("Sum Column", 2, GroupCalculators.SUM), 
 		new DefaultDataColumn("We don't care about this one", 3), 
 		new DefaultDataColumn("Another column without calculator", 4), 
-		new DefaultDataColumn("Last calculator column", 5, Calculators.AVG)
+		new DefaultDataColumn("Last calculator column", 5, GroupCalculators.AVG)
 	});
 	
 	

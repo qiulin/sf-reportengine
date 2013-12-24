@@ -13,8 +13,8 @@ import junit.framework.TestCase;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.Calculators;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculators;
+import net.sf.reportengine.core.calc.GroupCalculator;
 
 /**
  * @author dragos balan
@@ -32,8 +32,8 @@ public class TestCalculatorMatrix extends TestCase {
 	private static List<DataColumn> TEST_DATA_COLUMNS = Arrays.asList(
 			new DataColumn[]{
 					new DefaultDataColumn("No calculator column", 0, null),
-					new DefaultDataColumn("Count Column", 1, Calculators.COUNT), 
-					new DefaultDataColumn("Sum Column", 2, Calculators.SUM), 
+					new DefaultDataColumn("Count Column", 1, GroupCalculators.COUNT), 
+					new DefaultDataColumn("Sum Column", 2, GroupCalculators.SUM), 
 					new DefaultDataColumn("We don't care about this one", 3)
 	});
 	
@@ -84,21 +84,21 @@ public class TestCalculatorMatrix extends TestCase {
 		assertNotNull(classUnderTest);
 		
 		//the first row should be reinited
-		Calculator[] row1 = classUnderTest.getRow(0);
+		GroupCalculator[] row1 = classUnderTest.getRow(0);
 		assertNotNull(row1);
 		assertEquals(row1.length, 2);
 		assertEquals(row1[0].getResult(), NumberUtils.INTEGER_ZERO);
 		assertEquals(row1[1].getResult(), BigDecimal.ZERO);
 		
 		//the second row should be also re-init
-		Calculator[] row2 = classUnderTest.getRow(1);
+		GroupCalculator[] row2 = classUnderTest.getRow(1);
 		assertNotNull(row2);
 		assertEquals(row2.length, 2);
 		assertEquals(row2[0].getResult(), NumberUtils.INTEGER_ZERO);
 		assertEquals(row2[1].getResult(), BigDecimal.ZERO);
 		
 		//the third row should not be reinited
-		Calculator[] row3 = classUnderTest.getRow(2);
+		GroupCalculator[] row3 = classUnderTest.getRow(2);
 		assertNotNull(row3);
 		assertEquals(row3.length, 2);
 		assertNotSame(row3[0].getResult(), NumberUtils.INTEGER_ZERO);
@@ -122,7 +122,7 @@ public class TestCalculatorMatrix extends TestCase {
 		classUnderTest.addValuesToEachRow(new NewRowEvent(TEST_VALUES));
 		
 		assertNotNull(classUnderTest);
-		Calculator[] row = null; 
+		GroupCalculator[] row = null; 
 		for(int i=0; i< 3; i++){
 			row = classUnderTest.getRow(i);
 			assertNotNull(row);
@@ -141,7 +141,7 @@ public class TestCalculatorMatrix extends TestCase {
 			assertEquals(((BigDecimal)result).intValue(), 3);
 		
 			try{
-				Calculator calc = row[2];
+				GroupCalculator calc = row[2];
 				assertTrue(false);
 			}catch(ArrayIndexOutOfBoundsException exc){
 				assertTrue(true);

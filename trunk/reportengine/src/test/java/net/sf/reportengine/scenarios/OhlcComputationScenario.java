@@ -10,8 +10,8 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.calc.Calculators;
-import net.sf.reportengine.core.calc.UniversalSumCalculator;
+import net.sf.reportengine.core.calc.GroupCalculators;
+import net.sf.reportengine.core.calc.UniversalSumGroupCalculator;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.TextInput;
 
@@ -25,14 +25,14 @@ public class OhlcComputationScenario {
 	
 	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(
 	new DataColumn[]{
-		new DefaultDataColumn("Time",1, Calculators.FIRST),
+		new DefaultDataColumn("Time",1, GroupCalculators.FIRST),
 		
-		new DefaultDataColumn("Volume",2, new UniversalSumCalculator()),
+		new DefaultDataColumn("Volume",2, new UniversalSumGroupCalculator()),
 		
-		new DefaultDataColumn("Open",3, Calculators.FIRST),
-		new DefaultDataColumn("High",4, Calculators.MAX),
-		new DefaultDataColumn("Low",5, 	Calculators.MIN),
-		new DefaultDataColumn("Close",6, Calculators.LAST)
+		new DefaultDataColumn("Open",3, GroupCalculators.FIRST),
+		new DefaultDataColumn("High",4, GroupCalculators.MAX),
+		new DefaultDataColumn("Low",5, 	GroupCalculators.MIN),
+		new DefaultDataColumn("Close",6, GroupCalculators.LAST)
 	});
 	
 	public static final List<GroupColumn> GROUPING_COLUMNS = Arrays.asList(

@@ -6,7 +6,7 @@ package net.sf.reportengine.core.steps;
 import java.util.List;
 
 import net.sf.reportengine.config.DataColumn;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
 import net.sf.reportengine.util.ContextKeys;
 
 /**
@@ -59,7 +59,7 @@ public class FlatReportExtractTotalsDataInitStep extends AbstractReportInitStep 
     	
     	int columnWithCalculatorsCount = 0;
     	for(int i=0; i<dataCols.size(); i++){
-    		Calculator calculator = dataCols.get(i).getCalculator();
+    		GroupCalculator calculator = dataCols.get(i).getCalculator();
     		if(calculator != null){
     			result[i] = columnWithCalculatorsCount; 
     			columnWithCalculatorsCount++;

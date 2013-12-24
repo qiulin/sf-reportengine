@@ -3,17 +3,17 @@
  */
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.core.calc.AbstractCalculator;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.AbstractGroupCalculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
 
 /**
- * dummy implementation for Calculator. 
+ * dummy implementation for GroupCalculator. 
  * It will always return the value passed as parameter to the constructor
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class MockCalculator<T, V> extends AbstractCalculator<T, V> {
+public class MockGroupCalculator<T, V> extends AbstractGroupCalculator<T, V> {
 	
 	
 	/**
@@ -30,7 +30,7 @@ public class MockCalculator<T, V> extends AbstractCalculator<T, V> {
 	 * constructor
 	 * @param result
 	 */
-	public MockCalculator(T result){
+	public MockGroupCalculator(T result){
 		this.result = result;
 	}
 	

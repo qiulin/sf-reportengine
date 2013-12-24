@@ -13,7 +13,7 @@ import net.sf.reportengine.core.ReportEngineRuntimeException;
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2
  */
-public class CalculatorException extends ReportEngineRuntimeException {
+public class GroupCalculatorException extends ReportEngineRuntimeException {
     
     /**
 	 * serial version id
@@ -24,7 +24,7 @@ public class CalculatorException extends ReportEngineRuntimeException {
      * constructor
      * @param message   the message to be shown
      */
-    public CalculatorException(String message){
+    public GroupCalculatorException(String message){
         super(message);
     }
     
@@ -33,7 +33,7 @@ public class CalculatorException extends ReportEngineRuntimeException {
      * @param message   the message
      * @param cause     the cause
      */
-    public CalculatorException(String message, Throwable cause){
+    public GroupCalculatorException(String message, Throwable cause){
         super(message, cause);
     }
 }

@@ -12,7 +12,7 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.steps.AbstractAlgoMainStep;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.out.ReportOutput;
@@ -53,8 +53,8 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
      * returns the calculator within context
      * @return
      */
-    public Calculator[][] getCalculatorMatrix(){
-    	return (Calculator[][])getAlgoContext().get(ContextKeys.CALCULATORS);
+    public GroupCalculator[][] getCalculatorMatrix(){
+    	return (GroupCalculator[][])getAlgoContext().get(ContextKeys.CALCULATORS);
     }
     
     

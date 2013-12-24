@@ -10,7 +10,7 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
@@ -95,7 +95,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 		if(groupingLevel >= 0){
 			//if grouping level changed
 			
-			Calculator[][] calculatorMatrix = getCalculatorMatrix(); 
+			GroupCalculator[][] calculatorMatrix = getCalculatorMatrix(); 
 			int originalGroupColsLength = getGroupColumnsCount();//getOriginalCrosstabGroupingColsLength();  
 			int originalDataColsLength = getDataColumnsLength(); //getOriginalCrosstabDataColsLength();
 			
@@ -151,7 +151,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 	
 	private void updateIntermediateTotals(	int levelFrom, 
 											int levelTo, 
-											Calculator[][] calculatorMatrix){
+											GroupCalculator[][] calculatorMatrix){
 		int calculatorMatrixRow = -1;
 		Object calculatorResult = null; 
 		//int tmpLevelFrom = getOriginalCrosstabGroupingColsLength()+ getOriginalCrosstabDataColsLength();

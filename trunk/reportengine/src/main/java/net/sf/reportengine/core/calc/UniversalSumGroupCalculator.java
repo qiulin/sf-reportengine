@@ -8,7 +8,7 @@ import net.sf.reportengine.util.ReportUtils;
  * 
  * @author dragos balan
  */
-public class UniversalSumCalculator extends AbstractInitializedCalculator <BigDecimal, Object> {
+public class UniversalSumGroupCalculator extends AbstractInitializedGroupCalculator <BigDecimal, Object> {
 
 	/**
 	 * 

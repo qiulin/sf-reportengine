@@ -16,7 +16,7 @@ import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.VertAlign;
-import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.in.ReportInput;
 
@@ -90,7 +90,7 @@ public class CtScenarioFormatting4x3x1 {
 	}); 
 	
 	public final static CrosstabData CROSSTAB_DATA = new DefaultCrosstabData.Builder(7)
-														.useCalculator(Calculators.SUM, "%f $")
+														.useCalculator(GroupCalculators.SUM, "%f $")
 														.horizAlign(HorizAlign.RIGHT)
 														.vertAlign(VertAlign.TOP)
 														.valuesFormatter("%s $")

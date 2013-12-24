@@ -8,11 +8,11 @@ import java.util.List;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.CalculatorException;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculatorException;
+import net.sf.reportengine.core.calc.GroupCalculator;
 
 /**
- * this is a wrapper around a matrix of Calculator which builds itself based on the 
+ * this is a wrapper around a matrix of GroupCalculator which builds itself based on the 
  * prototype calculators passed as arguments in the constructor. The building process
  * is based entirely on cloning
  * 
@@ -27,12 +27,12 @@ public class CalculatorMatrix {
      * matrix of calculators 
      * Each row represents a level 
      */
-    private Calculator[][] calculators;
+    private GroupCalculator[][] calculators;
     
     /**
      * the calculator prototypes
      */
-    private Calculator[] calculatorPrototypes;  
+    private GroupCalculator[] calculatorPrototypes;  
     
     /**
      * 
@@ -71,7 +71,7 @@ public class CalculatorMatrix {
     protected void extractCalculatorsData(List<DataColumn> columns){
     	
     	//prepare the temporary values 
-    	Calculator[] tempCalcPrototypes = new Calculator[columns.size()];
+    	GroupCalculator[] tempCalcPrototypes = new GroupCalculator[columns.size()];
     	DataColumn[] tempDataCols = new DataColumn[columns.size()];
     	int[] tempColIndex = new int[columns.size()];
     	
@@ -79,7 +79,7 @@ public class CalculatorMatrix {
     	
     	int columnWithCalculatorsCount = 0;
     	for(int i=0; i<columns.size(); i++){
-    		Calculator calcPrototype = columns.get(i).getCalculator();
+    		GroupCalculator calcPrototype = columns.get(i).getCalculator();
     		if(calcPrototype != null){
     			tempCalcPrototypes[columnWithCalculatorsCount] = calcPrototype;
     			tempDataCols[columnWithCalculatorsCount] = columns.get(i);
@@ -89,7 +89,7 @@ public class CalculatorMatrix {
     	}
     	
     	//prepare the results    	
-    	calculatorPrototypes = new Calculator[columnWithCalculatorsCount];
+    	calculatorPrototypes = new GroupCalculator[columnWithCalculatorsCount];
     	dataColumnsHavingCalculators = new DataColumn[columnWithCalculatorsCount];
     	indexOfColumnsHavingCalculators = new int[columnWithCalculatorsCount];
     	
@@ -107,12 +107,12 @@ public class CalculatorMatrix {
      * @param calcFactories
      * @return
      */
-    private Calculator[][] createMultipleRows(int rowCount, Calculator[] calcPrototypes ){
-        Calculator[][] result = new Calculator[rowCount][calcPrototypes.length];
+    private GroupCalculator[][] createMultipleRows(int rowCount, GroupCalculator[] calcPrototypes ){
+        GroupCalculator[][] result = new GroupCalculator[rowCount][calcPrototypes.length];
     	for(int i=0; i< rowCount; i++){
-    		result[i] = new Calculator[calcPrototypes.length];
+    		result[i] = new GroupCalculator[calcPrototypes.length];
     		for (int j = 0; j < calcPrototypes.length; j++) {
-    			result[i][j] = (Calculator)calcPrototypes[j].clone();
+    			result[i][j] = (GroupCalculator)calcPrototypes[j].clone();
     		}
     	}
         return result;
@@ -137,7 +137,7 @@ public class CalculatorMatrix {
      * @deprecated use addValuesToEachRow(NewRowEvent)
      */
     public void addValuesToEachRow(Object[] values, int[] columnsIndexes)
-    throws CalculatorException{
+    throws GroupCalculatorException{
         for(int i= 0; i < calculators.length; i++){
             for(int j = 0; j < calculators[i].length; j++){
                 calculators[i][j].compute(values[columnsIndexes[j]]);
@@ -177,7 +177,7 @@ public class CalculatorMatrix {
      * @param row
      * @return
      */
-    public Calculator[] getRow(int row){
+    public GroupCalculator[] getRow(int row){
         return calculators[row];
     }
     
@@ -186,7 +186,7 @@ public class CalculatorMatrix {
      * gets the ICalculators matrix used by this helper class
      * @return
      */
-    public Calculator[][] getCalculators(){
+    public GroupCalculator[][] getCalculators(){
         return calculators;
     }
     
@@ -196,7 +196,7 @@ public class CalculatorMatrix {
      * @param level
      */
     public void initRow(int row){
-        Calculator[] calcs = getRow(row);
+        GroupCalculator[] calcs = getRow(row);
         for (int i = 0; i < calcs.length; i++) {
             calcs[i].init();
         }
@@ -229,7 +229,7 @@ public class CalculatorMatrix {
     public Object[][] exportResults(){
     	Object[][] results = new Object[calculators.length][];
     	for(int i=0; i<calculators.length; i++){
-    		Calculator[] row = calculators[i];
+    		GroupCalculator[] row = calculators[i];
     		results[i] = new Object[row.length];
     		for(int j=0; j<row.length; j++){
     			results[i][j] = row[j].getResult();
@@ -241,14 +241,14 @@ public class CalculatorMatrix {
 
 
 
-	public Calculator[] getCalculatorPrototypes() {
+	public GroupCalculator[] getCalculatorPrototypes() {
 		return calculatorPrototypes;
 	}
 
 
 
 
-	public void setCalculatorPrototypes(Calculator[] calcPrototypes) {
+	public void setCalculatorPrototypes(GroupCalculator[] calcPrototypes) {
 		this.calculatorPrototypes = calcPrototypes;
 	}
 

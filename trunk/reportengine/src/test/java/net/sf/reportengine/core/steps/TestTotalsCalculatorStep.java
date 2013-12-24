@@ -9,7 +9,7 @@ import java.util.Map;
 
 import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
 import net.sf.reportengine.scenarios.CalculatedColumnsScenario;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.Scenario2;
@@ -20,7 +20,7 @@ import net.sf.reportengine.util.IOKeys;
  * @author dragos balan (dragos.balan@gmail.com)
  *
  * used to test the changes made in any of the below classes :
- * ThirdCalculatorStep, CalculatorsPack, Calculator
+ * ThirdCalculatorStep, CalculatorsPack, GroupCalculator
  * 
  */
 public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
@@ -60,7 +60,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     	//reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_1);
 		classUnderTest.execute(dataRowEvent);
 		
-		Calculator[][] calcMatrix = (Calculator[][])reportContext.get(ContextKeys.CALCULATORS);
+		GroupCalculator[][] calcMatrix = (GroupCalculator[][])reportContext.get(ContextKeys.CALCULATORS);
 		assertNotNull(calcMatrix);
 		assertEquals(calcMatrix.length, Scenario1.AGG_COLUMNS_INDEX.length + 1 /* for Grand total*/);
 		

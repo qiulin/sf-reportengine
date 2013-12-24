@@ -13,7 +13,7 @@ package net.sf.reportengine.core.calc;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-abstract class AbstractMinCalculator<T extends Comparable<T>> extends AbstractInitializedCalculator<T, T> {
+abstract class AbstractMinGroupCalculator<T extends Comparable<T>> extends AbstractInitializedGroupCalculator<T, T> {
     
     /**
 	 * 

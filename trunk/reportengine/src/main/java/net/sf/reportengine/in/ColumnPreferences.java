@@ -4,7 +4,7 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.SortType;
 import net.sf.reportengine.config.VertAlign;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
 
 /**
  * column preferences
@@ -52,7 +52,7 @@ public class ColumnPreferences {
 	/**
 	 * the calculator
 	 */
-	private Calculator calculator = null; 
+	private GroupCalculator calculator = null; 
 	
 	/**
 	 * 
@@ -149,19 +149,19 @@ public class ColumnPreferences {
 	/**
 	 * @return the calculator
 	 */
-	public Calculator getCalculator() {
+	public GroupCalculator getCalculator() {
 		return calculator;
 	}
 	
 	/**
 	 * @param calculator the calculator to set
 	 */
-	public ColumnPreferences useCalculator(Calculator calculator) {
+	public ColumnPreferences useCalculator(GroupCalculator calculator) {
 		this.calculator = calculator;
 		return this; 
 	} 
 	
-	public ColumnPreferences useCalculator(Calculator calculator, String totalsFormatter) {
+	public ColumnPreferences useCalculator(GroupCalculator calculator, String totalsFormatter) {
 		this.calculator = calculator;
 		this.totalsFormatter = totalsFormatter; 
 		return this; 

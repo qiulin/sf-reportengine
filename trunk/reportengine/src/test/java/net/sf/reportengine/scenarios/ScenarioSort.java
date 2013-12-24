@@ -14,9 +14,9 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.SortType;
 import net.sf.reportengine.config.VertAlign;
-import net.sf.reportengine.core.calc.Calculator;
-import net.sf.reportengine.core.calc.Calculators;
-import net.sf.reportengine.core.steps.MockCalculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
+import net.sf.reportengine.core.calc.GroupCalculators;
+import net.sf.reportengine.core.steps.MockGroupCalculator;
 import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.CellProps;
@@ -60,15 +60,15 @@ public class ScenarioSort {
 	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(
 				new DataColumn[]{
 			new DefaultDataColumn("col 3", 3), 
-			new DefaultDataColumn("col 4", 4, Calculators.COUNT), 
-			new DefaultDataColumn("col 5", 5, Calculators.SUM)
+			new DefaultDataColumn("col 4", 4, GroupCalculators.COUNT), 
+			new DefaultDataColumn("col 5", 5, GroupCalculators.SUM)
 	});
 	
-	public final static Calculator[][] ROW_6_CALCULATORS_RESULTS = new Calculator[][]{
-	    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
-	    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
-	    	new Calculator[]{new MockCalculator(new BigDecimal(1)),new MockCalculator(new BigDecimal(1))},
-	    	new Calculator[]{new MockCalculator(new BigDecimal(6)),new MockCalculator(new BigDecimal(14))}
+	public final static GroupCalculator[][] ROW_6_CALCULATORS_RESULTS = new GroupCalculator[][]{
+	    	new GroupCalculator[]{new MockGroupCalculator(new BigDecimal(1)),new MockGroupCalculator(new BigDecimal(1))},
+	    	new GroupCalculator[]{new MockGroupCalculator(new BigDecimal(1)),new MockGroupCalculator(new BigDecimal(1))},
+	    	new GroupCalculator[]{new MockGroupCalculator(new BigDecimal(1)),new MockGroupCalculator(new BigDecimal(1))},
+	    	new GroupCalculator[]{new MockGroupCalculator(new BigDecimal(6)),new MockGroupCalculator(new BigDecimal(14))}
 	};
 	
 	public final static CellProps[][] EXPECTED_OUTPUT_SORTED = new CellProps[][]{

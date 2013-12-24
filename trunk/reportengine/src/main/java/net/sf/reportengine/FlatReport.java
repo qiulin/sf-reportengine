@@ -156,7 +156,7 @@ public class FlatReport extends AbstractColumnBasedReport {
     }
     
     /**
-     * 
+     * configuration of the sorting algorithm
      * @return
      */
     private Algorithm configSortingAlgo(){
@@ -175,7 +175,7 @@ public class FlatReport extends AbstractColumnBasedReport {
     }
     
     /**
-     * 
+     * configures the report algorithm
      * @return
      */
     private Algorithm configReportAlgo(){
@@ -214,7 +214,10 @@ public class FlatReport extends AbstractColumnBasedReport {
         return reportAlgo; 
     }
     
-
+    
+    /**
+     * validation of configuration
+     */
 	@Override protected void validate() {
 		LOGGER.trace("validating flat report"); 
 		//validate non null input and output
@@ -225,10 +228,10 @@ public class FlatReport extends AbstractColumnBasedReport {
         	throw new ConfigValidationException("The report needs at least one data column to work properly"); 
         }
         
-        //if totals are needed then check if any Calculators have been added to ALL DataColumns
+        //if totals are needed then check if any GroupCalculators have been added to ALL DataColumns
 		if(	(getShowTotals() || getShowGrandTotal()) 
 			&& !ReportUtils.atLeastOneDataColumHasCalculators(dataColumns)){
-			throw new ConfigValidationException("Please configure a Calculator to at least one DataColumn in order to display totals");
+			throw new ConfigValidationException("Please configure a GroupCalculator to at least one DataColumn in order to display totals");
 		}
 	}
 
@@ -251,7 +254,7 @@ public class FlatReport extends AbstractColumnBasedReport {
     
     /**
      * 
-     * @author dragos balan
+     * 
      *
      */
     public static class Builder {

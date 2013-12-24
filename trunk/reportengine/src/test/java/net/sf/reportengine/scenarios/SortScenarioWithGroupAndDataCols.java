@@ -13,7 +13,7 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.SortType;
 import net.sf.reportengine.config.VertAlign;
-import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.core.calc.GroupCalculators;
 
 /**
  * @author dragos
@@ -44,7 +44,7 @@ public class SortScenarioWithGroupAndDataCols {
 	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(
 		new DataColumn[]{
 			new DefaultDataColumn("col 3", 3), //no ordering
-			new DefaultDataColumn("col 4", 4, Calculators.COUNT, null, HorizAlign.CENTER, VertAlign.MIDDLE, 1, SortType.ASC), 
-			new DefaultDataColumn("col 5", 5, Calculators.SUM, null, HorizAlign.CENTER, VertAlign.MIDDLE, 0, SortType.ASC) //higher order priority
+			new DefaultDataColumn("col 4", 4, GroupCalculators.COUNT, null, HorizAlign.CENTER, VertAlign.MIDDLE, 1, SortType.ASC), 
+			new DefaultDataColumn("col 5", 5, GroupCalculators.SUM, null, HorizAlign.CENTER, VertAlign.MIDDLE, 0, SortType.ASC) //higher order priority
 	});
 }

@@ -191,10 +191,10 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 			throw new ConfigValidationException("Crosstab reports need data and/or group columns configured"); 
 		}
 		
-		//if totals are needed then check if any Calculators have been added to ALL DataColumns
+		//if totals are needed then check if any GroupCalculators have been added to ALL DataColumns
         if(	(getShowTotals() || getShowGrandTotal()) 
 			&& ctData.getCalculator() == null){
-			throw new ConfigValidationException("Please configure a Calculator to CrosstabData to display totals");
+			throw new ConfigValidationException("Please configure a GroupCalculator to CrosstabData to display totals");
 		}
 	}
 	
@@ -484,9 +484,11 @@ public static class Builder {
     	}
     	
     	public Builder dataColumns(List<DataColumn> dataCols){
-    		for (DataColumn dataColumn : dataCols) {
-				internalAddDataColumn(dataColumn); 
-			}
+    		//if(dataCols != null){
+	    		for (DataColumn dataColumn : dataCols) {
+					internalAddDataColumn(dataColumn); 
+				}
+    		//}
     		return this; 
     	}
     	

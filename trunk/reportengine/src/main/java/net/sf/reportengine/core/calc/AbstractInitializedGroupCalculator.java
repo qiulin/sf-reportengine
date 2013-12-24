@@ -7,7 +7,7 @@ package net.sf.reportengine.core.calc;
  * @author dragos balan
  *
  */
-public abstract class AbstractInitializedCalculator<T, V> extends AbstractCalculator<T, V> {
+public abstract class AbstractInitializedGroupCalculator<T, V> extends AbstractGroupCalculator<T, V> {
 
 	/**
 	 * 

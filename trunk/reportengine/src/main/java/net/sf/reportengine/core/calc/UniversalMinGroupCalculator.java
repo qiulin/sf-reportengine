@@ -11,7 +11,7 @@ import net.sf.reportengine.util.ReportUtils;
  * @author dragos balan
  *
  */
-public class UniversalMinCalculator extends AbstractInitializedCalculator<BigDecimal, Object> {
+public class UniversalMinGroupCalculator extends AbstractInitializedGroupCalculator<BigDecimal, Object> {
 
 	/**
 	 * 

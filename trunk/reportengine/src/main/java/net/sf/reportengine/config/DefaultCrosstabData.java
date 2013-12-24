@@ -4,7 +4,7 @@
 package net.sf.reportengine.config;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
 
 
 /**
@@ -40,7 +40,7 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	 * @param inputColumnIndex
 	 * @param calcFactory
 	 */
-	public DefaultCrosstabData(int inputColumnIndex, Calculator calc){
+	public DefaultCrosstabData(int inputColumnIndex, GroupCalculator calc){
 		this(inputColumnIndex, calc, null);
 	}
 	
@@ -51,7 +51,7 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	 * @param formatter
 	 */
 	public DefaultCrosstabData(	int inputColumIndex, 
-								Calculator calc, 
+								GroupCalculator calc, 
 								String valuesFormatter){
 		this(inputColumIndex, calc, valuesFormatter, HorizAlign.CENTER);
 	}
@@ -64,7 +64,7 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	 * @param horizAlign
 	 */
 	public DefaultCrosstabData(	int inputColumnIndex, 
-								Calculator calc, 
+								GroupCalculator calc, 
 								String valuesFormatter, 
 								HorizAlign horizAlign){
 		this(inputColumnIndex, calc, valuesFormatter, horizAlign, VertAlign.MIDDLE);
@@ -80,7 +80,7 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	 * @param vertAlign
 	 */
 	public DefaultCrosstabData(	int inputColumIndex, 
-								Calculator calc, 
+								GroupCalculator calc, 
 								String valuesFormatter, 
 								HorizAlign horizAlign, 
 								VertAlign vertAlign){
@@ -119,7 +119,7 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 		private VertAlign  vAlign = VertAlign.MIDDLE; 
 		private String  valuesFormatter = null;
 		private String totalsFormatter = null;
-		private Calculator calculator = null; 
+		private GroupCalculator calculator = null; 
 		
 		public Builder(int columnIndex){
 			this.columnIndex = columnIndex; 
@@ -140,12 +140,12 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 			return this; 
 		}
 		
-		public Builder useCalculator(Calculator calc){
+		public Builder useCalculator(GroupCalculator calc){
 			this.calculator = calc; 
 			return this; 
 		}
 		
-		public Builder useCalculator(Calculator calc, String totalsFormatter){
+		public Builder useCalculator(GroupCalculator calc, String totalsFormatter){
 			this.calculator = calc; 
 			this.totalsFormatter = totalsFormatter; 
 			return this; 

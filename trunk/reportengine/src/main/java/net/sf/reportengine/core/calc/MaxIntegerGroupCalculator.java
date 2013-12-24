@@ -1,6 +1,6 @@
 package net.sf.reportengine.core.calc;
 
-public class MaxIntegerCalculator extends AbstractMaxCalculator<Integer> {
+public class MaxIntegerGroupCalculator extends AbstractMaxGroupCalculator<Integer> {
 	
 	/**
 	 * 

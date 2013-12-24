@@ -4,7 +4,7 @@
 package net.sf.reportengine.config;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.Calculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
 
 /**
  * <p>This is the basic implementation for a data column.</p> 
@@ -90,7 +90,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 * @param inputColumnIndex
 	 * @param calculatorsFactory
 	 */
-	public DefaultDataColumn(String header, int inputColumnIndex, Calculator calculator){
+	public DefaultDataColumn(String header, int inputColumnIndex, GroupCalculator calculator){
 		this(header, inputColumnIndex, calculator, null);
 	}
 	
@@ -103,7 +103,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 */
 	public DefaultDataColumn(	String header,
 								int inputColumnIndex, 
-								Calculator calculator, 
+								GroupCalculator calculator, 
 								String formatter){
 		this(header, inputColumnIndex, calculator, formatter, HorizAlign.CENTER);
 	}
@@ -119,7 +119,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 */
 	public DefaultDataColumn(	String header,
 								int inputColumnIndex, 
-								Calculator calculator, 
+								GroupCalculator calculator, 
 								String formatter, 
 								HorizAlign horizAlign){
 		this(header, inputColumnIndex, calculator, formatter, horizAlign, NO_SORTING); 
@@ -136,7 +136,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 */
 	public DefaultDataColumn(	String header,
 								int inputColumnIndex, 
-								Calculator calculator, 
+								GroupCalculator calculator, 
 								String formatter, 
 								HorizAlign horizAlign, 
 								int sortLevel){
@@ -159,7 +159,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 	 */
 	public DefaultDataColumn(	String header,
 								int inputColumnIndex, 
-								Calculator calculator, 
+								GroupCalculator calculator, 
 								String formatter, 
 								HorizAlign horizAlign, 
 								VertAlign vertAlign, 
@@ -233,7 +233,7 @@ public class DefaultDataColumn extends AbstractDataColumn {
 		private VertAlign  vAlign = VertAlign.MIDDLE; 
 		private String valuesFormatter = null;
 		private String totalsFormatter = null; 
-		private Calculator calculator = null; 
+		private GroupCalculator calculator = null; 
 		private int sortLevel = DataColumn.NO_SORTING; 
 		private SortType sortType = SortType.NONE; 
 		
@@ -262,12 +262,12 @@ public class DefaultDataColumn extends AbstractDataColumn {
 			return this; 
 		}
 		
-		public Builder useCalculator(Calculator calc){
+		public Builder useCalculator(GroupCalculator calc){
 			this.calculator = calc; 
 			return this; 
 		}
 		
-		public Builder useCalculator(Calculator calc, String totalsFormatter){
+		public Builder useCalculator(GroupCalculator calc, String totalsFormatter){
 			this.calculator = calc; 
 			this.totalsFormatter = totalsFormatter; 
 			return this; 

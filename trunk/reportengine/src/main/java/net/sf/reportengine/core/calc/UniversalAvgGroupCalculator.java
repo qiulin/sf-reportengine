@@ -10,7 +10,7 @@ import java.math.MathContext;
  * @author dragos balan
  *
  */
-public class UniversalAvgCalculator extends AbstractCalculator<BigDecimal, Object> {
+public class UniversalAvgGroupCalculator extends AbstractGroupCalculator<BigDecimal, Object> {
 
 	/**
 	 * 
@@ -20,12 +20,12 @@ public class UniversalAvgCalculator extends AbstractCalculator<BigDecimal, Objec
 	/**
 	 * 
 	 */
-	private UniversalSumCalculator sumCalculator = new UniversalSumCalculator(); 
+	private UniversalSumGroupCalculator sumCalculator = new UniversalSumGroupCalculator(); 
 	
 	/**
 	 * 
 	 */
-	private CountCalculator countCalculator = new CountCalculator(); 
+	private CountGroupCalculator countCalculator = new CountGroupCalculator(); 
 	
 	
 	/**

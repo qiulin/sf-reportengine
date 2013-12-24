@@ -8,7 +8,7 @@ package net.sf.reportengine.core.calc;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public class LastCalculator<T> extends AbstractCalculator<T, T> {
+public class LastGroupCalculator<T> extends AbstractGroupCalculator<T, T> {
 	
 	/**
 	 * the serial version id
@@ -23,7 +23,7 @@ public class LastCalculator<T> extends AbstractCalculator<T, T> {
 	}
 	
 	/**
-	 * empty implementation of #Calculator.init()
+	 * empty implementation of #GroupCalculator.init()
 	 */
 	public void init() {}
 }

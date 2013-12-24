@@ -7,7 +7,7 @@ package net.sf.reportengine.core.calc;
  * @author dragos balan
  *
  */
-public class MinDoubleCalculator extends AbstractMinCalculator<Double> {
+public class MinDoubleGroupCalculator extends AbstractMinGroupCalculator<Double> {
 
 	/**
 	 * 

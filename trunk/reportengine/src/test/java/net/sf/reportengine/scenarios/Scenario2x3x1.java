@@ -10,7 +10,7 @@ import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.TextInput;
 
@@ -33,7 +33,7 @@ public class Scenario2x3x1 {
 		new DataColumn[]{
 				new DefaultDataColumn("Sex", 3),
 				new DefaultDataColumn("Age", 4),
-				new DefaultDataColumn("Count", 5, Calculators.SUM)
+				new DefaultDataColumn("Count", 5, GroupCalculators.SUM)
 	});
 	
 }

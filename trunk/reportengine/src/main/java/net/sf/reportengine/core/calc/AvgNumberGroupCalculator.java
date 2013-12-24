@@ -10,21 +10,21 @@ import java.math.MathContext;
 
 /**
  * Average calculator. 
- * This is just a SumNumberCalculator that divides the sum to the count of the elements passed 
+ * This is just a SumNumberGroupCalculator that divides the sum to the count of the elements passed 
  * as arguments to {@link #compute(Object)} method
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-class AvgNumberCalculator extends AbstractCalculator<BigDecimal, Number> {
+class AvgNumberGroupCalculator extends AbstractGroupCalculator<BigDecimal, Number> {
     
     /**
 	 * serial version id
 	 */
 	private static final long serialVersionUID = -2717104274824984991L;
 
-	private SumNumberCalculator sumCalculator = new SumNumberCalculator(); 
-	private CountCalculator countCalculator = new CountCalculator(); 
+	private SumNumberGroupCalculator sumCalculator = new SumNumberGroupCalculator(); 
+	private CountGroupCalculator countCalculator = new CountGroupCalculator(); 
 	
 	/**
 	 * 

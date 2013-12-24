@@ -4,10 +4,10 @@
 package net.sf.reportengine.core.calc;
 
 /**
- * @author dragos
+ * @author dragos balan
  *
  */
-public class MinIntegerCalculator extends AbstractMinCalculator<Integer> {
+public class MinIntegerGroupCalculator extends AbstractMinGroupCalculator<Integer> {
 
 	/**
 	 * the serial version id
