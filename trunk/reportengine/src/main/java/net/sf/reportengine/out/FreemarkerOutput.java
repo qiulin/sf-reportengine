@@ -108,7 +108,6 @@ public class FreemarkerOutput extends AbstractCharBasedOutput {
 	 * with {@link #setOutputWriter(Writer)} or {@link #setFilePath(String)}
 	 */
 	public FreemarkerOutput(){
-		super(); 
 	}
 	
 	/**

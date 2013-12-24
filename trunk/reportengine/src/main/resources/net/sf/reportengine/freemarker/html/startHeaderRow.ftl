@@ -1,1 +1,1 @@
-<tr class="reportTableHeader" >
+<tr class="reportTableHeader">

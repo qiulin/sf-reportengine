@@ -7,7 +7,7 @@ import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.ExcelOutput;
-import net.sf.reportengine.out.HtmlOutput;
+import net.sf.reportengine.out.Html5Output;
 import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.out.PdfOutput;
 import net.sf.reportengine.out.PngOutput;
@@ -35,7 +35,7 @@ public class TestFlatReport {
 		new FlatReport.Builder()
 					.title("This report has not grouping columns but it should have a grand total at the end")
 					.input(Scenario1.INPUT)
-					.output(new HtmlOutput("./target/ReportWithoutGroupColumns.html"))
+					.output(new Html5Output("./target/ReportWithoutGroupColumns.html"))
 					.dataColumns(Scenario1.DATA_COLUMNS)
 					.showDataRows(true)
 				.build()
@@ -49,7 +49,7 @@ public class TestFlatReport {
 		OutputDispatcher outputDispatcher = new OutputDispatcher(); 
 		CellPropsArrayOutput testOut = new CellPropsArrayOutput();
 		outputDispatcher.registerOutput(testOut); 
-		outputDispatcher.registerOutput(new HtmlOutput("./target/Scenario1.html")); 
+		outputDispatcher.registerOutput(new Html5Output("./target/Scenario1.html")); 
 		
 		FlatReport flatReport = new FlatReport.Builder()
 									.input(Scenario1.INPUT)
@@ -102,7 +102,7 @@ public class TestFlatReport {
 		TextInput in = new TextInput(testStream,"\t");
 		
 		OutputDispatcher output = new OutputDispatcher();
-		output.registerOutput(new HtmlOutput("target/testFlatReportOHLC.html"));
+		output.registerOutput(new Html5Output("target/testFlatReportOHLC.html"));
 		output.registerOutput(new ExcelOutput("target/testFlatReportOHLC.xls"));
 		
 		flatReport.setIn(in);
@@ -131,7 +131,7 @@ public class TestFlatReport {
         flatReport.setIn(input); 
         
         OutputDispatcher output = new OutputDispatcher();
-        output.registerOutput(new HtmlOutput("target/testExecute2x3x1.html"));
+        output.registerOutput(new Html5Output("target/testExecute2x3x1.html"));
         output.registerOutput(new StaxReportOutput("target/testExecute2x3x1.xml"));
         output.registerOutput(new XsltOutput(	"target/testXsltOutput2x3x1.html", 
         										ReportIoUtils.createReaderFromClassPath("net/sf/reportengine/xslt/defaultTemplate.xslt")));
@@ -155,7 +155,7 @@ public class TestFlatReport {
         flatReport.setIn(NoGroupsScenario.INPUT); 
         
         OutputDispatcher output = new OutputDispatcher();
-        output.registerOutput(new HtmlOutput("target/testFlatReportNoGroupings.html"));
+        output.registerOutput(new Html5Output("target/testFlatReportNoGroupings.html"));
         output.registerOutput(new PdfOutput("target/testFlatReportNoGroupings.pdf")); 
         output.registerOutput(new PngOutput("target/testFlatReportNoGroupings.png")); 
         
@@ -184,7 +184,7 @@ public class TestFlatReport {
 		flatReport.addDataColumn(new DefaultDataColumn(2));
 		flatReport.addDataColumn(new DefaultDataColumn(3));
 		
-		flatReport.setOut(new HtmlOutput(ReportIoUtils.createWriterFromPath("./target/testFlatReportUtf8Output.html")));
+		flatReport.setOut(new Html5Output(ReportIoUtils.createWriterFromPath("./target/testFlatReportUtf8Output.html")));
 		
 		flatReport.execute(); 
 	}
@@ -221,7 +221,7 @@ public class TestFlatReport {
 		TextInput in = new TextInput(testStream, "\t");
 		
 		flatReport.setIn(in);
-		flatReport.setOut(new HtmlOutput("./target/testHugeReport.html"));
+		flatReport.setOut(new Html5Output("./target/testHugeReport.html"));
 		
 		flatReport.setTitle("OHLC TEST");
 		flatReport.setGroupColumns(OhlcComputationScenario.GROUPING_COLUMNS);
@@ -237,7 +237,7 @@ public class TestFlatReport {
 	public void testFlatReportWithFormattedValues(){
 		FlatReport flatReport = new FlatReport();	
 		flatReport.setIn(ScenarioFormatedValues.INPUT);
-		flatReport.setOut(new HtmlOutput("./target/testFormattedValues.html"));
+		flatReport.setOut(new Html5Output("./target/testFormattedValues.html"));
 		flatReport.setTitle("Formatted Values");
 		flatReport.setShowTotals(true); 
 		flatReport.setShowGrandTotal(true); 
@@ -254,7 +254,7 @@ public class TestFlatReport {
 	public void testMemoryLeaks(){
 		FlatReport flatReport = new FlatReport();	
 		flatReport.setIn(ScenarioFormatedValues.INPUT);
-		flatReport.setOut(new HtmlOutput("./target/testMemoryLeaks.html"));
+		flatReport.setOut(new Html5Output("./target/testMemoryLeaks.html"));
 		flatReport.setTitle("Formatted Values");
 		flatReport.setShowTotals(true); 
 		flatReport.setShowGrandTotal(true); 

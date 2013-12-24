@@ -1,3 +1,3 @@
-<td align="${cellProps.horizAlign.htmlCode}" valign="${cellProps.vertAlign.htmlCode}" colspan="${cellProps.colspan}" rowspan="1" >
+<td style="text-align: ${cellProps.horizAlign.htmlCode}; vertical-align: ${cellProps.vertAlign.htmlCode}" colspan="${cellProps.colspan}" rowspan="1" >
 	${cellProps.value}
 </td>
