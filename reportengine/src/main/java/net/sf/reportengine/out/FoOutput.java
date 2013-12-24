@@ -122,8 +122,6 @@ public class FoOutput implements ReportOutput{
 		freemarkerOutput.endDataRow(); 
 	}
 	
-	
-	
 	public void endReport(){
 		freemarkerOutput.endReport(); 
 	}
