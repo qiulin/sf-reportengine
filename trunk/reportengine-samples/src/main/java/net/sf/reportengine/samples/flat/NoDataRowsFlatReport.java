@@ -6,7 +6,7 @@ package net.sf.reportengine.samples.flat;
 import net.sf.reportengine.FlatReport;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.HtmlOutput;
 
@@ -33,7 +33,7 @@ public class NoDataRowsFlatReport {
 			.addGroupColumn(new DefaultGroupColumn.Builder(0).header("Month").build())
 			
 			//and we only display the average for the third column
-			.addDataColumn(new DefaultDataColumn.Builder(2).header("Amount").useCalculator(Calculators.AVG).build()) 
+			.addDataColumn(new DefaultDataColumn.Builder(2).header("Amount").useCalculator(GroupCalculators.AVG).build()) 
 			.build()
 		.execute();
 	}

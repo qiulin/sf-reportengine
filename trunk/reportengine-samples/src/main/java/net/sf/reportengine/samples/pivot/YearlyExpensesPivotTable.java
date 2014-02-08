@@ -8,11 +8,9 @@ import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.core.calc.Calculators;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.HtmlOutput;
-import net.sf.reportengine.out.ReportOutput;
 
 /**
  * 
@@ -33,7 +31,7 @@ public class YearlyExpensesPivotTable {
 			.addHeaderRow(new DefaultCrosstabHeaderRow(2))
 		
 			.crosstabData(new DefaultCrosstabData.Builder(3)
-								.useCalculator(Calculators.SUM, "%.2f")
+								.useCalculator(GroupCalculators.SUM, "%.2f")
 								.build())
 			.showGrandTotal()
 			.showTotals()

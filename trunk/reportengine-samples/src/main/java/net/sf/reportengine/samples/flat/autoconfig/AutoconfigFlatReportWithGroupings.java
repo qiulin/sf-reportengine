@@ -5,7 +5,7 @@ package net.sf.reportengine.samples.flat.autoconfig;
 
 import net.sf.reportengine.AutoconfigFlatReport;
 import net.sf.reportengine.config.HorizAlign;
-import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.in.SqlInput;
 import net.sf.reportengine.out.HtmlOutput;
 
@@ -32,7 +32,7 @@ public class AutoconfigFlatReportWithGroupings {
 		
 		report.forColumn("COUNTRY").group().horizAlign(HorizAlign.CENTER); 
 		report.forColumn("REGION").group().header("East/West"); 
-		report.forColumn("VALUE").useCalculator(Calculators.SUM); 
+		report.forColumn("VALUE").useCalculator(GroupCalculators.SUM); 
 		
 		report.execute(); 
 	}
