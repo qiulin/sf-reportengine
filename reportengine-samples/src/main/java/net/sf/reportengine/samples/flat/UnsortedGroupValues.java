@@ -6,7 +6,7 @@ package net.sf.reportengine.samples.flat;
 import net.sf.reportengine.FlatReport;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.HtmlOutput;
 
@@ -27,7 +27,7 @@ public class UnsortedGroupValues {
 			.output(new HtmlOutput("./output/monthlyExpensesFromUnsortedInput.html"))
 			.addGroupColumn(new DefaultGroupColumn.Builder(0).header("Month").build())
 			.addDataColumn(new DefaultDataColumn.Builder(1).header("On What?").build())
-			.addDataColumn(new DefaultDataColumn.Builder(2).header("Amount").useCalculator(Calculators.SUM).build())
+			.addDataColumn(new DefaultDataColumn.Builder(2).header("Amount").useCalculator(GroupCalculators.SUM).build())
 			.build();
 		
 		//just to be visible

@@ -6,7 +6,7 @@ package net.sf.reportengine.samples.flat;
 import net.sf.reportengine.FlatReport;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.core.calc.Calculators;
+import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.HtmlOutput;
 
@@ -40,11 +40,11 @@ public class YearlyExpenses {
 			//data columns
 			.addDataColumn(new DefaultDataColumn.Builder(2)
 									.header("Spent on")
-									.useCalculator(Calculators.COUNT)
+									.useCalculator(GroupCalculators.COUNT)
 									.build())
 			.addDataColumn(new DefaultDataColumn.Builder(3)
 									.header("Amount")
-									.useCalculator(Calculators.SUM, "%.2f")
+									.useCalculator(GroupCalculators.SUM, "%.2f")
 									.build())
 			
 			.build().execute();
