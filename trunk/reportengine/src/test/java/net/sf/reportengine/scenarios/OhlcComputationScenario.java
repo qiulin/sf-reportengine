@@ -14,6 +14,7 @@ import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.calc.UniversalSumGroupCalculator;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.TextInput;
+import net.sf.reportengine.util.ReportIoUtils;
 
 /**
  * @author dragos balan
@@ -21,7 +22,7 @@ import net.sf.reportengine.in.TextInput;
  */
 public class OhlcComputationScenario {
 	
-	public static final ReportInput INPUT = new TextInput(OhlcComputationScenario.class.getClassLoader().getResourceAsStream(""),"\t");
+	public static final ReportInput INPUT = new TextInput(ReportIoUtils.createInputStreamFromClassPath("2010-1MIN-DATA.tsv"), "\t");
 	
 	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(
 	new DataColumn[]{
