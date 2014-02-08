@@ -8,7 +8,7 @@ import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.HtmlOutput;
+import net.sf.reportengine.out.Html5Output;
 
 /**
  * This report shows only the total rows. 
@@ -27,7 +27,7 @@ public class NoDataRowsFlatReport {
 			.showDataRows(false)
 			
 			.input(new TextInput("./inputData/expenses.csv",","))
-			.output(new HtmlOutput("./output/avgMonthlyExpensesNoDataRows.html"))
+			.output(new Html5Output("./output/avgMonthlyExpensesNoDataRows.html"))
 			
 			//we group for each month
 			.addGroupColumn(new DefaultGroupColumn.Builder(0).header("Month").build())

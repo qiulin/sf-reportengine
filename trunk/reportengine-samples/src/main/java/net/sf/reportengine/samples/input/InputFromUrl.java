@@ -11,7 +11,7 @@ import java.net.URL;
 import net.sf.reportengine.FlatReport;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.HtmlOutput;
+import net.sf.reportengine.out.Html5Output;
 
 /**
  * this report gets its data from an url
@@ -29,7 +29,7 @@ public class InputFromUrl {
 			new FlatReport.Builder()
 				.title("This report gets its input data from an URL")
 				.input(new TextInput(new InputStreamReader(fileUrl.openStream()),","))
-				.output(new HtmlOutput("./output/outReportFromUrl.html"))
+				.output(new Html5Output("./output/outReportFromUrl.html"))
 				.addDataColumn(new DefaultDataColumn("Month",0))	
 				.addDataColumn(new DefaultDataColumn("Spent on",1))
 				.addDataColumn(new DefaultDataColumn("Amount",2))

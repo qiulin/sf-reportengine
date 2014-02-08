@@ -8,7 +8,7 @@ import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.HtmlOutput;
+import net.sf.reportengine.out.Html5Output;
 
 /**
  * The first report containing a group column. 
@@ -26,7 +26,7 @@ public class FirstGroupReport {
 			.title("Mothly Expenses")
 			//.showGrandTotal(false)
 			.input(new TextInput("./inputData/expenses.csv",","))
-			.output(new HtmlOutput("./output/avgMonthlyExpensesUsingGroups.html"))
+			.output(new Html5Output("./output/avgMonthlyExpensesUsingGroups.html"))
 			.addGroupColumn(new DefaultGroupColumn.Builder(0).header("Month").build())
 			.addDataColumn(new DefaultDataColumn.Builder(1).header("On What?").build())
 			.addDataColumn(new DefaultDataColumn.Builder(2).header("Amount").useCalculator(GroupCalculators.SUM).build())

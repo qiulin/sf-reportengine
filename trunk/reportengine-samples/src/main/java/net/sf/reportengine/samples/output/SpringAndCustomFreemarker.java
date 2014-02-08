@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * @author balan
+ * @author dragos balan
  *
  */
 public class SpringAndCustomFreemarker {
