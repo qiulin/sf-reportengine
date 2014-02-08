@@ -7,7 +7,7 @@ import net.sf.reportengine.FlatReport;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.ExcelOutput;
-import net.sf.reportengine.out.HtmlOutput;
+import net.sf.reportengine.out.Html5Output;
 import net.sf.reportengine.out.OutputDispatcher;
 import net.sf.reportengine.out.PdfOutput;
 import net.sf.reportengine.out.StaxReportOutput;
@@ -25,7 +25,7 @@ public class MultipleOutputsSample {
 		//the output
 		OutputDispatcher outputDispatcher = new OutputDispatcher(); 
 		outputDispatcher.registerOutput(new ExcelOutput("./output/multipleOutput.xls")); 
-		outputDispatcher.registerOutput(new HtmlOutput("./output/multipleOutput.html"));
+		outputDispatcher.registerOutput(new Html5Output("./output/multipleOutput.html"));
 		outputDispatcher.registerOutput(new StaxReportOutput("./output/multipleOutput.xml")); 
 		outputDispatcher.registerOutput(new PdfOutput("./output/multipleOutput.pdf")); 
 		

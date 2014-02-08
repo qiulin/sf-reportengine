@@ -7,10 +7,8 @@ import net.sf.reportengine.CrossTabReport;
 import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.HtmlOutput;
-import net.sf.reportengine.out.ReportOutput;
+import net.sf.reportengine.out.Html5Output;
 
 /**
  * this is my first pivot table report
@@ -23,7 +21,7 @@ public class FirstPivotTableReport {
 	public static void main(String[] args) {
 		CrossTabReport crosstabReport = new CrossTabReport.Builder()
 			.input(new TextInput("./inputData/expenses.csv", ","))
-			.output(new HtmlOutput("./output/expensesPivot.html"))
+			.output(new Html5Output("./output/expensesPivot.html"))
 			.addDataColumn(new DefaultDataColumn("Month", 0))
 			.addHeaderRow(new DefaultCrosstabHeaderRow(1))
 			.crosstabData(new DefaultCrosstabData(2))

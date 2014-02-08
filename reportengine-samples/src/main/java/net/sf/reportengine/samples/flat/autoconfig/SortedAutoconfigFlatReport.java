@@ -5,7 +5,7 @@ package net.sf.reportengine.samples.flat.autoconfig;
 
 import net.sf.reportengine.AutoconfigFlatReport;
 import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.HtmlOutput;
+import net.sf.reportengine.out.Html5Output;
 
 /**
  * @author dragos balan
@@ -22,7 +22,7 @@ public class SortedAutoconfigFlatReport {
 		
 		AutoconfigFlatReport report = new AutoconfigFlatReport.Builder()
 			.input(input)
-			.output(new HtmlOutput("./output/SortedEmployeesByName.html"))
+			.output(new Html5Output("./output/SortedEmployeesByName.html"))
 			.build(); 
 		
 		//requesting this columns to be sorted will trigger 

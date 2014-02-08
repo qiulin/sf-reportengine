@@ -6,7 +6,7 @@ package net.sf.reportengine.samples.flat;
 import net.sf.reportengine.FlatReport;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.HtmlOutput;
+import net.sf.reportengine.out.Html5Output;
 
 /**
  * This report shows how you can display only some columns. 
@@ -24,7 +24,7 @@ public class HiddenColumnsReport {
 			
 			//this input has more than two columns
 			.input(new TextInput("./inputData/names.txt","\t"))
-			.output(new HtmlOutput("./output/hiddenCols.html"))
+			.output(new Html5Output("./output/hiddenCols.html"))
 			
 			//even though the input has more than two columns we only declare two of them: 
 			//the second ( having index 1) and the fourth ( index 3)

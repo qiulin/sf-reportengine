@@ -6,7 +6,7 @@ package net.sf.reportengine.samples.flat;
 import net.sf.reportengine.FlatReport;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.in.SqlInput;
-import net.sf.reportengine.out.HtmlOutput;
+import net.sf.reportengine.out.Html5Output;
 
 /**
  * Normal report having as input an SQL query
@@ -39,7 +39,7 @@ public class FlatReportFromSqlQuery {
 			
 			.input(input)
 			
-			.output(new HtmlOutput("./output/ReportFromDbQuery.html"))
+			.output(new Html5Output("./output/ReportFromDbQuery.html"))
 			.build(); 
 		
 		

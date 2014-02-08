@@ -7,7 +7,7 @@ import net.sf.reportengine.AutoconfigFlatReport;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.in.SqlInput;
-import net.sf.reportengine.out.HtmlOutput;
+import net.sf.reportengine.out.Html5Output;
 
 /**
  * simple auto configured report having some default configurations overwritten
@@ -27,7 +27,7 @@ public class AutoconfigFlatReportWithGroupings {
 		
 		AutoconfigFlatReport report = new AutoconfigFlatReport.Builder()
 			.input(input)
-			.output(new HtmlOutput("./output/AutoconfigFromDatabase.html"))
+			.output(new Html5Output("./output/AutoconfigFromDatabase.html"))
 			.build(); 
 		
 		report.forColumn("COUNTRY").group().horizAlign(HorizAlign.CENTER); 

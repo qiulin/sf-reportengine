@@ -5,7 +5,7 @@ package net.sf.reportengine.samples.flat.customColumns;
 
 import net.sf.reportengine.FlatReport;
 import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.HtmlOutput;
+import net.sf.reportengine.out.Html5Output;
 
 /**
  * This report uses the {@link FullNameCustomDataColumn} custom created column
@@ -18,7 +18,7 @@ public class CustomColumnFlatReport {
 		new FlatReport.Builder()
 			.title("My custom columns report")
 			.input(new TextInput("./inputData/names.txt","\t"))
-			.output(new HtmlOutput("./output/customColumnsResult.html"))
+			.output(new Html5Output("./output/customColumnsResult.html"))
 			
 			//this is a custom data column
 			.addDataColumn(new FullNameCustomDataColumn())

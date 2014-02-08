@@ -7,7 +7,7 @@ import net.sf.reportengine.FlatReport;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.HtmlOutput;
+import net.sf.reportengine.out.Html5Output;
 
 /**
  * this report is the same as {@link FirstReport} only that 
@@ -23,7 +23,7 @@ public class ColumnsWithAlignmentReport {
 		new FlatReport.Builder()
 			.title("Report with columns aligned programatically")
 			.input(new TextInput("./inputData/expenses.csv",","))
-			.output(new HtmlOutput("./output/myFormattedOutput.html"))
+			.output(new Html5Output("./output/myFormattedOutput.html"))
 			.addDataColumn(new DefaultDataColumn.Builder(0)
 									.header("Month")
 									.horizAlign(HorizAlign.LEFT)

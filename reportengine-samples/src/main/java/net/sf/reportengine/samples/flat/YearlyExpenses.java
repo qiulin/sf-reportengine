@@ -8,7 +8,7 @@ import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.HtmlOutput;
+import net.sf.reportengine.out.Html5Output;
 
 /**
  * 
@@ -25,7 +25,7 @@ public class YearlyExpenses {
 		new FlatReport.Builder()
 			.title("Yearly expenses report")
 			.input(new TextInput("./inputData/yearlyExpenses.txt","\t"))
-			.output(new HtmlOutput("./output/yearlyExpensesReport.html"))
+			.output(new Html5Output("./output/yearlyExpensesReport.html"))
 			
 			//groups configuration
 			.addGroupColumn(new DefaultGroupColumn.Builder(0)

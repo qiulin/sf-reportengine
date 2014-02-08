@@ -5,7 +5,7 @@ package net.sf.reportengine.samples.flat.autoconfig;
 
 import net.sf.reportengine.AutoconfigFlatReport;
 import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.HtmlOutput;
+import net.sf.reportengine.out.Html5Output;
 
 /**
  * @author dragos balan
@@ -21,7 +21,7 @@ public class AutoconfigFlatReportFromTextToPdf {
 		
 		new AutoconfigFlatReport.Builder()
 			.input(input)
-			.output(new HtmlOutput("./output/AutodetectFromTextInput.html"))
+			.output(new Html5Output("./output/AutodetectFromTextInput.html"))
 			.build()
 		.execute(); 
 	}
