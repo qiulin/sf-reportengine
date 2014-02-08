@@ -23,10 +23,9 @@ public class UniversalMinGroupCalculator extends AbstractInitializedGroupCalcula
 	 */
 	public void compute(Object value) {
 		BigDecimal newValueAsBd = ReportUtils.createBigDecimal(value); 
-		if(getResult().compareTo(newValueAsBd) < 0){
+		if(getResult().compareTo(newValueAsBd) > 0){
 			setValue(newValueAsBd); 
-		}
-		
+		}	
 	}
 
 	@Override

@@ -214,21 +214,14 @@ public class TestFlatReport {
 	
 	@Test
 	public void testHugeReportHtmlOut(){
-		FlatReport flatReport = new FlatReport();	
-		InputStream testStream = ReportIoUtils.createInputStreamFromClassPath("2010-1MIN-DATA.tsv");
-		Assert.assertNotNull(testStream);
-		
-		TextInput in = new TextInput(testStream, "\t");
-		
-		flatReport.setIn(in);
-		flatReport.setOut(new Html5Output("./target/testHugeReport.html"));
-		
-		flatReport.setTitle("OHLC TEST");
-		flatReport.setGroupColumns(OhlcComputationScenario.GROUPING_COLUMNS);
-		flatReport.setDataColumns(OhlcComputationScenario.DATA_COLUMNS);
-		flatReport.setShowTotals(true);
-		flatReport.setShowDataRows(true);
-		flatReport.execute();
+		new FlatReport.Builder()
+			.title("OHLC TEST")
+			.input(OhlcComputationScenario.INPUT)
+			.output(new Html5Output("./target/testHugeReport.html"))
+			.groupColumns(OhlcComputationScenario.GROUPING_COLUMNS)
+			.dataColumns(OhlcComputationScenario.DATA_COLUMNS)
+			.build() 
+		.execute(); 
 		
 		//TODO: assert here
 	}
