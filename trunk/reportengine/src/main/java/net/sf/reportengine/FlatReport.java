@@ -33,8 +33,8 @@ import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
-import net.sf.reportengine.util.DefaultBooleanValueHolder;
-import static net.sf.reportengine.util.DefaultBooleanValueHolder.*;
+import net.sf.reportengine.util.UserRequestedBoolean;
+import static net.sf.reportengine.util.UserRequestedBoolean.*;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
 
@@ -111,6 +111,7 @@ public class FlatReport extends AbstractColumnBasedReport {
 	
     /**
      * default constructor
+     * @deprecated use FlatReport.Builder() instead
      */
     public FlatReport(){
     }
@@ -261,8 +262,8 @@ public class FlatReport extends AbstractColumnBasedReport {
     	
     	private String reportTitle = null; 
     	
-    	private DefaultBooleanValueHolder showTotals = DefaultBooleanValueHolder.DEFAULT_FALSE; 
-    	private DefaultBooleanValueHolder showGrandTotal = DefaultBooleanValueHolder.DEFAULT_FALSE; 
+    	private UserRequestedBoolean showTotals = UserRequestedBoolean.FALSE_NOT_REQUESTED_BY_USER; 
+    	private UserRequestedBoolean showGrandTotal = UserRequestedBoolean.FALSE_NOT_REQUESTED_BY_USER; 
     	
     	private boolean showDataRows = true; 
     	private boolean valuesSorted = true; 
@@ -283,7 +284,7 @@ public class FlatReport extends AbstractColumnBasedReport {
     	}
     	
     	public Builder showTotals(boolean show){
-    		this.showTotals = show ? USER_REQUESTED_TRUE : USER_REQUESTED_FALSE; 
+    		this.showTotals = show ? TRUE_REQUESTED_BY_USER : FALSE_REQUESTED_BY_USER; 
     		return this; 
     	}
     	
@@ -292,7 +293,7 @@ public class FlatReport extends AbstractColumnBasedReport {
     	}
     	
     	public Builder showGrandTotal(boolean show){
-    		this.showGrandTotal = show ? USER_REQUESTED_TRUE : USER_REQUESTED_FALSE; 
+    		this.showGrandTotal = show ? TRUE_REQUESTED_BY_USER : FALSE_REQUESTED_BY_USER; 
     		return this; 
     	}
     	
@@ -324,15 +325,30 @@ public class FlatReport extends AbstractColumnBasedReport {
     		return this; 
     	}
     	
+    	/**
+    	 * adds the data colum to the internal list of data columns 
+    	 * and checks if there is any calculator assigned to it. 
+    	 * If there is a calculator then the showTotals is recomputed 
+    	 * taking into account the groupCalculators and the user's choice
+    	 * 
+    	 * @param dataCol
+    	 */
     	private void internalAddDataColumn(DataColumn dataCol){
     		this.dataColumns.add(dataCol);
     		if(dataCol.getCalculator() != null){
+    			
+    			//if the user didn't requested to show totals
     			if(!showTotals.isRequestedByUser()){
-    				this.showTotals = DEFAULT_TRUE; 
+    				this.showTotals = TRUE_NOT_REQUESTED_BY_USER; 
     			}
+    			//else ( the user requested a specific value for the showTotals) 
+    			// we keep that value
+    			
+    			//if the user didn't requested to show the grand total
     			if(!showGrandTotal.isRequestedByUser()){
-    				this.showGrandTotal = DEFAULT_TRUE; 
+    				this.showGrandTotal = TRUE_NOT_REQUESTED_BY_USER; 
     			}
+    			//else we keep the user value
     		}	
     	}
     	
