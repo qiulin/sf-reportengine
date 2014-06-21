@@ -31,20 +31,33 @@ public class TestFlatReport {
 	
 	@Test
 	public void testExecuteReportWithoutGroupColumns(){
-		
-		new FlatReport.Builder()
-					.title("This report has not grouping columns but it should have a grand total at the end")
+		//this report has no grouping columns but it has a grand total at the end
+		//because the data columns have group calculators added
+		FlatReport report = new FlatReport.Builder()
+					.title("This report has no grouping columns but it has a grand total at the end")
 					.input(Scenario1.INPUT)
 					.output(new Html5Output("./target/ReportWithoutGroupColumns.html"))
 					.dataColumns(Scenario1.DATA_COLUMNS)
-					.showDataRows(true)
-				.build()
-			.execute();
+					//.showDataRows(true) - this is by default
+				.build();
+		
+		//test the computed values
+		Assert.assertTrue(report.getShowDataRows());
+		Assert.assertTrue(report.getShowTotals());
+		Assert.assertTrue(report.getShowGrandTotal());
+		Assert.assertNotNull(report.getTitle());
+		
+		//execute the report
+		report.execute();
+		
+		//TODO: test the output here
 	}
 	
 	
 	@Test
 	public void testExecuteScenario1(){
+		//test of a simple report with 3 grouping columns and 3 data columns 
+		//the grouping columns don't require any sorting
 		
 		OutputDispatcher outputDispatcher = new OutputDispatcher(); 
 		CellPropsArrayOutput testOut = new CellPropsArrayOutput();
@@ -56,19 +69,30 @@ public class TestFlatReport {
 									.output(outputDispatcher)
 									.dataColumns(Scenario1.DATA_COLUMNS)
 									.groupColumns(Scenario1.GROUPING_COLUMNS)
-									.showTotals(true)
-									.showDataRows(true)
-									.showGrandTotal(true)
-									.build();	
+									//.showTotals(true)
+									//.showDataRows(true)
+									//.showGrandTotal(true)
+									.build();
+		
+		//check the default values
+		Assert.assertTrue(flatReport.getShowTotals());
+		Assert.assertTrue(flatReport.getShowGrandTotal());
+		Assert.assertTrue(flatReport.getShowDataRows());
+		Assert.assertNull(flatReport.getTitle());
+		
+		//execute the report
 		flatReport.execute();
-			
+		
+		//test the output	
 		Assert.assertTrue(MatrixUtils.compareMatrices(
 										testOut.getDataCellMatrix(), 
 										Scenario1.EXPECTED_OUTPUT_UNSORTED));
 	}
 	
 	@Test
-	public void testExecuteScenario1WithAddColumn(){
+	public void testExecuteScenario1WithNonFluentBuilder(){
+		//same test as above but instead of using the fluent builder we use the FlatReport constructor
+		//plus instead of adding all columns at once (as a list) we add the columns one by one
 		FlatReport flatReport = new FlatReport();	
 		CellPropsArrayOutput testOut = new CellPropsArrayOutput();
 		
@@ -83,10 +107,17 @@ public class TestFlatReport {
 		flatReport.addGroupColumn(Scenario1.GROUPING_COLUMNS.get(1));
 		flatReport.addGroupColumn(Scenario1.GROUPING_COLUMNS.get(2));
 		
+		//one of the drawbacks when using the FlatReport constructor 
+		//instead of the fluent builder is that you need to set the 
+		//values manually 
 		flatReport.setShowTotals(true);
 		flatReport.setShowDataRows(true);
 		flatReport.setShowGrandTotal(true); 
-	
+		
+		Assert.assertTrue(flatReport.getShowDataRows());
+		Assert.assertTrue(flatReport.getShowTotals());
+		Assert.assertTrue(flatReport.getShowGrandTotal());
+		
 		flatReport.execute();
 		
 		//MatrixUtils.logMatrix(testOut.getCellMatrix()); 
@@ -115,7 +146,7 @@ public class TestFlatReport {
 		flatReport.setShowDataRows(false);
 		flatReport.execute();
 		
-		//TODO: create assert
+		//TODO: test the final output here
 	}
 	
 	@Test
@@ -146,7 +177,7 @@ public class TestFlatReport {
     }
 	
 	@Test
-	public void testExecuteNoGroupingColumnsReport() throws Exception{
+	public void testExecuteNoGroupingColumnsReport() {
 		FlatReport flatReport = new FlatReport();	
     	flatReport.setGroupColumns(NoGroupsScenario.GROUPING_COLUMNS);
         flatReport.setDataColumns(NoGroupsScenario.DATA_COLUMNS);
@@ -174,7 +205,7 @@ public class TestFlatReport {
 		InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("Utf8Input.txt");
 		Assert.assertNotNull(inputStream);
 		
-		flatReport.setTitle("Τη γλώσσα μου έδωσαν ελληνική");
+		flatReport.setTitle("Sîne klâwen durh die wolken sint geslagen");
 		
 		ReportInput reportInput = new TextInput(inputStream, ",", "UTF-8"); 
 		flatReport.setIn(reportInput); 
@@ -195,7 +226,7 @@ public class TestFlatReport {
 		InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("Utf8Input.txt");
 		Assert.assertNotNull(inputStream);
 		
-		flatReport.setTitle("Τη γλώσσα μου έδωσαν ελληνική");
+		flatReport.setTitle("Sîne klâwen durh die wolken sint geslagen");
 		
 		ReportInput reportInput = new TextInput(inputStream, ",", "UTF-8"); 
 		flatReport.setIn(reportInput); 
@@ -248,7 +279,7 @@ public class TestFlatReport {
 		FlatReport flatReport = new FlatReport();	
 		flatReport.setIn(ScenarioFormatedValues.INPUT);
 		flatReport.setOut(new Html5Output("./target/testMemoryLeaks.html"));
-		flatReport.setTitle("Formatted Values");
+		flatReport.setTitle("Test Memory leaks");
 		flatReport.setShowTotals(true); 
 		flatReport.setShowGrandTotal(true); 
 		
@@ -284,15 +315,22 @@ public class TestFlatReport {
 	@Test
 	public void testExecuteWithSortingOnDataCols(){
 		FlatReport flatReport = new FlatReport.Builder()
-									.showDataRows(true)
-									.showGrandTotal(true)
+									//.showDataRows(true)
+									//.showGrandTotal(true)
 									.showTotals(false)
 									//.sortValues() - no need to declare that values need sorting because the dataColumns below have sorting
 									.input(SortScenarioOnlyDataColsCount.INPUT)
 									.output(new PdfOutput("./target/testSortingOnDataCols.pdf"))
 									.dataColumns(SortScenarioOnlyDataColsCount.DATA_COLUMNS)
 									.groupColumns(SortScenarioOnlyDataColsCount.GROUPING_COLUMNS)
-									.build();	
+									.build();
+		
+		//check some of the computed values + default ones
+		Assert.assertTrue(flatReport.getShowDataRows());
+		Assert.assertFalse(flatReport.getShowTotals()); 
+		Assert.assertTrue(flatReport.getShowGrandTotal());
+		Assert.assertTrue(flatReport.hasValuesSorted());
+				
 		flatReport.execute();
 	}
 }

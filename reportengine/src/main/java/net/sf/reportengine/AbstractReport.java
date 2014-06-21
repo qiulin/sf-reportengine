@@ -57,11 +57,20 @@ abstract class AbstractReport {
      * whether the report will display totals or not 
      */
     private boolean showTotals = false; 
+    //false is assigned initially because the report may not have group columns therefore no totals to display. 
+    //As soon as you add to the report (via the fluent builder)a data column containing a group calculator  
+    //the value is re-calculated to true 
+    //If the data column is not added via fluent api then this value remains the same
     
     /**
      * whether the report will display grand total
      */
     private boolean showGrandTotal = false;
+    //false is assigned initially because the report may not have group columns therefore no totals to display. 
+    //As soon as you add to the report (via the fluent builder)a data column containing a group calculator  
+    //the value is re-calculated to true 
+    //If the data column is not added via fluent api then this value remains the same 
+    
     
     /**
      * whether the report will display normal data rows or not 
