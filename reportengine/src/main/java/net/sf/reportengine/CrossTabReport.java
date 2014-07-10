@@ -14,6 +14,9 @@ import java.util.List;
 import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.DefaultCrosstabData;
+import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
+import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.Algorithm;
@@ -46,6 +49,8 @@ import net.sf.reportengine.core.steps.intermed.IntermedSetResultsExitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsCalculatorStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsOutputStep;
 import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.TextInput;
+import net.sf.reportengine.out.Html5Output;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.UserRequestedBoolean;
 import net.sf.reportengine.util.IOKeys;
@@ -58,46 +63,37 @@ import org.slf4j.LoggerFactory;
  * <p>
  *  This is the main class to be used for Cross tab reports (or Pivot tables).
  *  The layout of pivot tables will look like: <br/>
- *  <table>
+ *  <table border="1">
  *  	<tr><td>&nbsp;</td><td>&nbsp;</td>						<td colspan="4" align="center"><b>Row header 1</b></td></tr>
  *  	<tr><td><b>Column 1</b></td><td><b>Column 2</b></td>	<td colspan="4" align="center"><b>Row header 2</b></td></tr>
  *  	<tr><td>value 1</td><td>value 2</td>					<td>ct data 11</td><td>ct data 12</td><td>ct data 13</td><td>ct data 14</td></tr>
  *  	<tr><td>value 3</td><td>value 4</td>					<td>ct data 21</td><td>ct data 22</td><td>ct data 23</td><td>ct data 24</td></tr>
  *  	<tr><td>value 5</td><td>value 6</td>					<td>ct data 31</td><td>ct data 32</td><td>ct data 33</td><td>ct data 34</td></tr>
  *  </table><br/>
- * Each pivot table report needs five elements configured: 
+ *  where the values from Row header 1, Row header 2, etc. are taken from the input 
+ *  
+ * <p>
+ * Each pivot table report needs at least five elements configured: 
  * <ul>
  * 	<li>input</li>
- * 	<li>column config</li>
- *  <li>row headers config</li> 
+ * 	<li>data columns configuration</li>
+ *  <li>row headers configuration</li> 
  *  <li>crosstab data</li>
  * 	<li>output</li>
  * </ul>
- * 
+ * </p>
  * A simple pivot table report example is: 
  * <pre>
  * {@code
- *  CrossTabReport report = new CrossTabReport(); 
- *	
- *  //set up the input/output			
- *  ReportInput in = new TextInput(new FileInputStream("expenses.csv"));
- *  report.setIn(input); 
- *			
- *  ReportOutput output = new HtmlOutput(new FileOutputStream("xpenses.html")); 
- *  report.setOut(output);
- *			
- *  //set up data column
- *  report.addDataColumn(new DefaultDataColumn("Month", 0)); 
- *			
- *  //set up the header rows (from the second column)
- *  report.addHeaderRow(new DefaultCrosstabHeaderRow(1));
- *			
- *  //set up the crosstab data
- *  report.setCrosstabData(new DefaultCrosstabData(2));
- *			
- *  //report execution
- *  report.execute();
- *
+ * CrossTabReport crosstabReport = new CrossTabReport.Builder()
+ *		.input(new TextInput("./inputData/expenses.csv", ","))
+ *		.output(new Html5Output("./output/expensesPivot.html"))
+ *		.addDataColumn(new DefaultDataColumn("Month", 0))
+ *		.addHeaderRow(new DefaultCrosstabHeaderRow(1))
+ *		.crosstabData(new DefaultCrosstabData(2))
+ *		.build();
+ *		
+ * crosstabReport.execute();
  * }
  * </pre>
  * </p>
@@ -108,6 +104,11 @@ import org.slf4j.LoggerFactory;
  * @see DataColumn
  * @see GroupColumn
  * @see CrosstabData
+ * 
+ * @see DefaultDataColumn
+ * @see DefaultGroupColumn
+ * @see DefaultCrosstabHeaderRow
+ * @see DefaultCrosstabData
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2 
