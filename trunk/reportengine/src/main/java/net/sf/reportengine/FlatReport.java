@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.Algorithm;
@@ -32,6 +33,8 @@ import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.TextInput;
+import net.sf.reportengine.out.Html5Output;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.UserRequestedBoolean;
 import static net.sf.reportengine.util.UserRequestedBoolean.*;
@@ -51,7 +54,7 @@ import org.slf4j.LoggerFactory;
  *  <tr><td>data 31</td><td>data 32</td><td>data 33</td><tr>
  * </table>
  *
- * Each flat report needs three elements configured: 
+ * Any flat report needs at least three elements configured: 
  * <ul>
  * 	<li>input</li>
  * 	<li>column configuration</li> 
@@ -60,22 +63,14 @@ import org.slf4j.LoggerFactory;
  * A simple report example can be: 
  * <pre>
  * {@code
- * FlatReport flatReport = new FlatReport();	
- * 
- * //input configuration
- * ReportInput input = new TextInput(new FileInputStream("input.txt"));
- * flatReport.setIn(input);
- *
- * //output configuration
- * ReportOutput output = new ExcelOutput(new FileOutputStream("output.xls")); 
- * flatReport.setOut(output);
- *
- * //columns configuration
- * flatReport.addDataColumn(new DefaultDataColumn("Country", 0)); 
- * flatReport.addDataColumn(new DefaultDataColumn("City", 1)); 
- * flatReport.addDataColumn(new DefaultDataColumn("Population", 2)); 
- *
- * //start execution
+ * FlatReport flatReport = new FlatReport.Builder()
+ *    .title("My first report")
+ *    .input(new TextInput("./inputData/expenses.csv",","))
+ *    .output(new Html5Output("./output/myFirstReport.html"))
+ *    .addDataColumn(new DefaultDataColumn.Builder(0).header("Country").build())
+ *    .addDataColumn(new DefaultDataColumn.Builder(1).header("City").build())
+ *    .addDataColumn(new DefaultDataColumn.Builder(2).header("Population").build())
+ *    .build();
  * flatReport.execute();
  *}
  * </pre>
@@ -85,6 +80,8 @@ import org.slf4j.LoggerFactory;
  * @see ReportOutput
  * @see DataColumn
  * @see GroupColumn
+ * @see DefaultDataColumn
+ * @see DefaultGroupColumn
  * 
  * @author dragos balan
  * @since 0.2
