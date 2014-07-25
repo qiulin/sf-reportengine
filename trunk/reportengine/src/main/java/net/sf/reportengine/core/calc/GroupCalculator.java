@@ -1,52 +1,42 @@
-/*
- * Created on 05.04.2005
- * Author: dragos balan
+/**
+ * 
  */
 package net.sf.reportengine.core.calc;
 
 import java.io.Serializable;
 
 /**
- * <p>
- *  GroupCalculator interface used for data columns and crosstab data
- * </p>
- * <p>
- * 	 T - the type of the result ( obtained when calling getResult())
- *	 V - the type of the values computed ( used as input parameters for compute() method)
- * </p>
+ * Interface for Group Calculators
  * 
+ * @param R - type of the final result. Example: a count calculator should return a java.lang.Integer
+ * @param I - type of the intermediate result (this should extend CalcIntermResult<R>). This is only used internally
+ * @param V - the type of each new value (this is the value taken from the column where this calculator was set). 
  * 
- * 
- * @author dragos balan (dragos dot balan at gmail dot com)
- * @since 0.2
+ * @author dragos balan
+ *
  */
-public interface GroupCalculator<T, V> extends Serializable, Cloneable {
-    
-    /**
-     * initializer of the totals 
-     * Example:<br>
-     *  for a sum calculator the default initial value should be 0 <br>
-     *  for a product calculator the default value should be 1
-     */
-    public void init();
-    
-    /**
-     * compute the value
-     * 
-     * @param value    an object representing a new value to be computed
-     */
-    public void compute(V value);
-    
-    /**
-     * the result of computation
-     * @return	result
-     */
-    public T getResult();
-    
-    /**
-     * returns a deep copy of this calculator 
-     * (this is a variant of the Prototype pattern )
-     * @return	a clone of this calculator
-     */
-    public GroupCalculator<T, V> clone(); 
+public interface GroupCalculator <R, I extends CalcIntermResult<R>, V> extends Serializable{
+	
+	/**
+	 * this is used for initializing the intermediate result. 
+	 * <p>
+	 * Example: for a COUNT calculator the initial value should be zero 
+	 * (well, actually it should be an implementation of CalcIntermResult<Integer> containing ZERO as data) 
+	 * </p>
+	 * @return the initial value of the intermediate result
+	 */
+	public I init(); 
+	
+	/**
+	 * compute the new value with the previous result and return a new result.
+	 * 
+	 * <p>
+	 * Example: for a COUNT calculator after computing 10 records the next call to 
+	 * this method should be :  compute(10, "whatever text"). This call should return 11. 
+	 * </p>
+	 * @param intermResult	the previous intermediate result ( it's the 10 in my example)
+	 * @param newValue		the current value (it's the "whatever text" in my example above)
+	 * @return
+	 */
+	public I compute(I intermResult, V newValue);
 }

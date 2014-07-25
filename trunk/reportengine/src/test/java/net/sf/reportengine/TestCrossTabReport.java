@@ -11,6 +11,8 @@ import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
+import net.sf.reportengine.core.calc.CountGroupCalculator;
+import net.sf.reportengine.core.calc.SumGroupCalculator;
 import net.sf.reportengine.in.TextInput;
 import net.sf.reportengine.out.ExcelOutput;
 import net.sf.reportengine.out.HtmlOutput;
@@ -177,12 +179,12 @@ public class TestCrossTabReport extends TestCase {
 		classUnderTest.addGroupColumn(new DefaultGroupColumn("Country", 0, 0));
 		classUnderTest.addGroupColumn(new DefaultGroupColumn("Region", 1, 1));
 		
-		classUnderTest.addDataColumn(new DefaultDataColumn("City", 2, GroupCalculators.COUNT));
+		classUnderTest.addDataColumn(new DefaultDataColumn("City", 2, new CountGroupCalculator()));
 		
 		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(3)); 
 		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(4)); 
 		
-		classUnderTest.setCrosstabData(new DefaultCrosstabData(5, GroupCalculators.COUNT)); 
+		classUnderTest.setCrosstabData(new DefaultCrosstabData(5, new CountGroupCalculator())); 
 		
 		classUnderTest.setShowTotals(true); 
 		classUnderTest.setShowGrandTotal(true); 
@@ -203,7 +205,7 @@ public class TestCrossTabReport extends TestCase {
 		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(3)); 
 		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(4)); 
 		
-		classUnderTest.setCrosstabData(new DefaultCrosstabData(5, GroupCalculators.SUM)); 
+		classUnderTest.setCrosstabData(new DefaultCrosstabData(5, new SumGroupCalculator())); 
 		
 		classUnderTest.setShowTotals(false); 
 		classUnderTest.setShowGrandTotal(false); 

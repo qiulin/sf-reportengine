@@ -14,13 +14,16 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.SortType;
 import net.sf.reportengine.config.VertAlign;
-import net.sf.reportengine.core.calc.GroupCalculator;
-import net.sf.reportengine.core.calc.GroupCalculators;
-import net.sf.reportengine.core.steps.MockGroupCalculator;
+import net.sf.reportengine.core.calc.CalcIntermResult;
+import net.sf.reportengine.core.calc.DefaultCalcIntermResult;
+import net.sf.reportengine.core.calc.CountGroupCalculator;
+import net.sf.reportengine.core.calc.SumGroupCalculator;
 import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.CellPropsArrayOutput;
+
+import org.apache.commons.lang.math.NumberUtils;
 
 /**
  * @author dragos balan
@@ -60,15 +63,15 @@ public class ScenarioSort {
 	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(
 				new DataColumn[]{
 			new DefaultDataColumn("col 3", 3), 
-			new DefaultDataColumn("col 4", 4, GroupCalculators.COUNT), 
-			new DefaultDataColumn("col 5", 5, GroupCalculators.SUM)
+			new DefaultDataColumn("col 4", 4, new CountGroupCalculator()), 
+			new DefaultDataColumn("col 5", 5, new SumGroupCalculator())
 	});
 	
-	public final static GroupCalculator[][] ROW_6_CALCULATORS_RESULTS = new GroupCalculator[][]{
-	    	new GroupCalculator[]{new MockGroupCalculator(new BigDecimal(1)),new MockGroupCalculator(new BigDecimal(1))},
-	    	new GroupCalculator[]{new MockGroupCalculator(new BigDecimal(1)),new MockGroupCalculator(new BigDecimal(1))},
-	    	new GroupCalculator[]{new MockGroupCalculator(new BigDecimal(1)),new MockGroupCalculator(new BigDecimal(1))},
-	    	new GroupCalculator[]{new MockGroupCalculator(new BigDecimal(6)),new MockGroupCalculator(new BigDecimal(14))}
+	public final static CalcIntermResult[][] ROW_6_CALCULATORS_RESULTS = new CalcIntermResult[][]{
+	    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(NumberUtils.INTEGER_ONE), new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(1))},
+	    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(NumberUtils.INTEGER_ONE), new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(1))},
+	    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(NumberUtils.INTEGER_ONE), new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(1))},
+	    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(6)), new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(14))}
 	};
 	
 	public final static CellProps[][] EXPECTED_OUTPUT_SORTED = new CellProps[][]{

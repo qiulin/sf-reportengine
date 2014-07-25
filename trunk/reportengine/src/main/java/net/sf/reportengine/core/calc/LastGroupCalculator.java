@@ -1,29 +1,39 @@
+/**
+ * 
+ */
 package net.sf.reportengine.core.calc;
 
-
 /**
- * this is just a holder of the last value passed to {@link #compute(Object)} therefore 
- * it will always return the last value passed 
+ * This group calculator always stores the last value passed to the {@link #compute(DefaultCalcIntermResult, Object)} method
  * 
- * @author dragos balan (dragos dot balan at gmail dot com)
- * @since 0.3
+ * @author dragos balan
  */
-public class LastGroupCalculator<T> extends AbstractGroupCalculator<T, T> {
+public class LastGroupCalculator<T> implements GroupCalculator<T, DefaultCalcIntermResult<T>, T> {
+
+	/**
+	 * serial version id
+	 */
+	private static final long serialVersionUID = 8131223933103594743L;
 	
 	/**
-	 * the serial version id
+	 * returns an empty intermediate calculator result ( empty means that it contains a null value)
 	 */
-	private static final long serialVersionUID = -8775227212750608867L;
-	
-	/**
-	 * keeps the value passed as parameter for later usage
-	 */
-	public void compute(T value) {
-		setValue(value);
+	public DefaultCalcIntermResult<T> init() {
+		//TODO come back here when java 8 will be the target platform
+		//and add an optional inside DefaultCalcIntermResult
+		return new DefaultCalcIntermResult<T>(null); 
 	}
 	
 	/**
-	 * empty implementation of #GroupCalculator.init()
+	 * stores the last value passes to this method as @param newValue
+	 * 
+	 * @param intermResult	the previous result
+	 * @param newValue		the new value	
 	 */
-	public void init() {}
+	public DefaultCalcIntermResult<T> compute(
+			DefaultCalcIntermResult<T> intermResult, T newValue) {
+		return new DefaultCalcIntermResult<T>(newValue);
+	}
+
+
 }

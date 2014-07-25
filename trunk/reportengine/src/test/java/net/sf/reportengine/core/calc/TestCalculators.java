@@ -22,93 +22,110 @@ public class TestCalculators {
 	@Test
 	public void testCountCalculator() {
 		CountGroupCalculator calculator = new CountGroupCalculator(); 
-		calculator.init(); 
+		assertTrue(calculator.init() instanceof DefaultCalcIntermResult); 
+		assertTrue(calculator.init().getResult() instanceof Integer); 
+		assertEquals(calculator.init().getResult(), NumberUtils.INTEGER_ZERO); 
 		
-		assertNotNull(calculator.getResult()); 
-		assertEquals(calculator.getResult(), NumberUtils.INTEGER_ZERO); 
+		DefaultCalcIntermResult<Integer> testIntermResult = new DefaultCalcIntermResult<Integer>(0); 
+		DefaultCalcIntermResult<Integer> newResult = calculator.compute(testIntermResult, "first object"); 
 		
-		calculator.compute("first object"); 
-		assertNotNull(calculator.getResult()); 
-		assertEquals(calculator.getResult(), NumberUtils.INTEGER_ONE); 
+		assertNotNull(newResult); 
+		assertNotNull(newResult.getResult()); 
+		assertEquals(newResult.getResult(), NumberUtils.INTEGER_ONE); 
 		
-		calculator.compute(new Integer(7)); 
-		assertNotNull(calculator.getResult()); 
-		assertEquals(calculator.getResult(), Integer.valueOf(2));
+		testIntermResult = new DefaultCalcIntermResult<Integer>(Integer.valueOf(7)); 
+		newResult = calculator.compute(testIntermResult, "another object here"); 
 		
-		calculator.init(); 
-		assertNotNull(calculator.getResult()); 
-		assertEquals(calculator.getResult(), NumberUtils.INTEGER_ZERO); 
-		
-		calculator.compute("third object"); 
-		assertNotNull(calculator.getResult()); 
-		assertEquals(calculator.getResult(), NumberUtils.INTEGER_ONE); 
-		
-		calculator.compute(new Date()); 
-		assertNotNull(calculator.getResult()); 
-		assertEquals(calculator.getResult(), Integer.valueOf(2));
+		assertNotNull(newResult); 
+		assertNotNull(newResult.getResult()); 
+		assertEquals(newResult.getResult(), Integer.valueOf(8)); 
 		
 	}
 	
 	
 	@Test
 	public void testUniversalSumCalculator() {
-		UniversalSumGroupCalculator calculator = new UniversalSumGroupCalculator(); 
-		calculator.init(); 
+		SumGroupCalculator calculator = new SumGroupCalculator(); 
+		assertTrue(calculator.init() instanceof DefaultCalcIntermResult); 
+		assertTrue(calculator.init().getResult() instanceof BigDecimal); 
+		assertEquals(calculator.init().getResult(), BigDecimal.ZERO); 
 		
-		assertNotNull(calculator.getResult()); 
-		assertEquals(calculator.getResult(), BigDecimal.ZERO); 
 		
-		calculator.compute("1"); 
-		assertNotNull(calculator.getResult()); 
-		assertEquals(calculator.getResult(), new BigDecimal(1)); 
+		DefaultCalcIntermResult<BigDecimal> testIntermResult = new DefaultCalcIntermResult<BigDecimal>(BigDecimal.ZERO); 
+		DefaultCalcIntermResult<BigDecimal> newResult = calculator.compute(testIntermResult, "1"); 
 		
-		calculator.compute(new Integer(7)); 
-		assertNotNull(calculator.getResult()); 
-		assertEquals(calculator.getResult(), new BigDecimal(8));
+		assertNotNull(newResult); 
+		assertNotNull(newResult.getResult()); 
+		assertEquals(newResult.getResult(), new BigDecimal(1)); 
 		
-		calculator.init(); 
-		assertNotNull(calculator.getResult()); 
-		assertEquals(calculator.getResult(), BigDecimal.ZERO); 
+		testIntermResult = newResult; 
+		newResult = calculator.compute(testIntermResult, Integer.valueOf(7)); 
 		
-		calculator.compute("1.18907"); 
-		assertNotNull(calculator.getResult()); 
-		assertTrue(calculator.getResult().doubleValue()== 1.18907D); 
+		assertNotNull(newResult); 
+		assertNotNull(newResult.getResult()); 
+		assertEquals(newResult.getResult(), new BigDecimal(8));
 		
-		calculator.compute(new Double(2.3)); 
-		assertNotNull(calculator.getResult()); 
-		assertTrue(calculator.getResult().doubleValue() == 3.48907);
+		testIntermResult = new DefaultCalcIntermResult<BigDecimal>(BigDecimal.ZERO); 
+		newResult = calculator.compute(testIntermResult, new BigDecimal(1.18907)); 
+		
+		assertNotNull(newResult); 
+		assertNotNull(newResult.getResult()); 
+		assertTrue(newResult.getResult().doubleValue()== 1.18907D); 
+		
+		testIntermResult = new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(1.18907)); 
+		newResult = calculator.compute(testIntermResult, new Double(2.3));
+		
+		assertNotNull(newResult); 
+		assertNotNull(newResult.getResult()); 
+		assertTrue(newResult.getResult().doubleValue() == 3.48907);
 	}
 	
 	@Test
 	public void testUniversalAvgCalculator() {
-		UniversalAvgGroupCalculator calculator = new UniversalAvgGroupCalculator(); 
-		calculator.init(); 
+		AvgGroupCalculator calculator = new AvgGroupCalculator(); 
+		assertTrue(calculator.init() instanceof AvgCalcIntermResult); 
+		assertTrue(calculator.init().getResult() instanceof BigDecimal); 
+		assertEquals(calculator.init().getResult(), BigDecimal.ZERO); 
+		assertEquals(calculator.init().getCount(), 0); 
 		
-		//assertNotNull(calculator.getResult()); 
-		//assertEquals(calculator.getResult(), BigDecimal.ZERO); 
 		
-		calculator.compute("1"); 
-		assertNotNull(calculator.getResult()); 
-		assertEquals(calculator.getResult(), new BigDecimal(1)); 
+		AvgCalcIntermResult<BigDecimal> testIntermResult = new AvgCalcIntermResult<BigDecimal>(BigDecimal.ZERO, 0); 
+		AvgCalcIntermResult<BigDecimal> newResult = calculator.compute(testIntermResult, "1"); 
 		
-		calculator.compute(new Integer(7)); 
-		assertNotNull(calculator.getResult()); 
-		assertEquals(calculator.getResult(), new BigDecimal(4));
+		assertNotNull(newResult); 
+		assertNotNull(newResult.getResult()); 
+		assertEquals(newResult.getResult(), new BigDecimal(1));
+		assertEquals(newResult.getCount(), 1); 
 		
-		calculator.init(); 
-		//assertNotNull(calculator.getResult()); 
-		//assertEquals(calculator.getResult(), BigDecimal.ZERO); 
+		testIntermResult = newResult; //ie. result=1, count=1
+		newResult = calculator.compute(testIntermResult, Integer.valueOf(7)); 
 		
-		calculator.compute("1.1890"); 
-		assertNotNull(calculator.getResult()); 
-		assertTrue(calculator.getResult().doubleValue()== 1.1890); 
+		assertNotNull(newResult); 
+		assertNotNull(newResult.getResult()); 
+		assertEquals(newResult.getResult(), new BigDecimal(4));
+		assertEquals(newResult.getCount(), 2); 
 		
-		calculator.compute(new Double(2.3)); 
-		assertNotNull(calculator.getResult()); 
-		assertEquals(calculator.getResult().doubleValue(), 1.7445D, 0/*delta*/);
+		//reset
+		testIntermResult = new AvgCalcIntermResult<BigDecimal>(BigDecimal.ZERO, 0); 
+		newResult = calculator.compute(testIntermResult, "1.1890"); 
 		
-		calculator.compute(new Double(2.511)); 
-		assertNotNull(calculator.getResult()); 
-		assertEquals(calculator.getResult().doubleValue(), 2.0, 0/*delta*/);
+		assertNotNull(newResult);
+		assertNotNull(newResult.getResult()); 
+		assertTrue(newResult.getResult().doubleValue()== 1.1890); 
+		
+		testIntermResult = newResult; 
+		newResult = calculator.compute(testIntermResult, new Double(2.3));
+		
+		assertNotNull(newResult); 
+		assertNotNull(newResult.getResult()); 
+		assertEquals(newResult.getResult().doubleValue(), 1.7445D, 0/*delta*/);
+		assertEquals(newResult.getCount(), 2); 
+		
+		testIntermResult = newResult; 
+		newResult = calculator.compute(testIntermResult, new Double(2.511)); 
+		
+		assertNotNull(newResult); 
+		assertNotNull(newResult.getResult()); 
+		assertEquals(newResult.getResult().doubleValue(), 2.0, 0/*delta*/);
 	}
 }

@@ -58,12 +58,17 @@ public class FlatReportExtractTotalsDataInitStep extends AbstractReportInitStep 
 		int[] result = new int[dataCols.size()];
     	
     	int columnWithCalculatorsCount = 0;
+    	
+    	//for each data column 
     	for(int i=0; i<dataCols.size(); i++){
-    		GroupCalculator calculator = dataCols.get(i).getCalculator();
-    		if(calculator != null){
+    		
+    		//check if there's a group calculator attached to this column
+    		if(dataCols.get(i).getCalculator() != null){
+    			//if there is a group calculator
     			result[i] = columnWithCalculatorsCount; 
     			columnWithCalculatorsCount++;
     		}else{
+    			//if no calculator is assigned to this column
     			result[i] = NO_CALCULATOR_ON_THIS_POSITION; 
     		}
     	}

@@ -6,7 +6,7 @@ package net.sf.reportengine.core.steps;
 
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.util.CalculatorMatrix;
+import net.sf.reportengine.util.CalculatorIntermResultsMatrix;
 import net.sf.reportengine.util.ContextKeys;
 
 import org.slf4j.Logger;
@@ -30,7 +30,7 @@ public class TotalsCalculatorStep extends AbstractReportStep{
 	/**
      * the calculators matrix
      */
-    private CalculatorMatrix calculatorMatrix;
+    private CalculatorIntermResultsMatrix calculatorMatrix;
     
     /**
      * 
@@ -50,10 +50,10 @@ public class TotalsCalculatorStep extends AbstractReportStep{
         }
         
         //groupColsCnt +1 (for Grand Total)
-        calculatorMatrix = new CalculatorMatrix(groupColsCnt + 1, getDataColumns());
-        calculatorMatrix.initAllCalculators();
+        calculatorMatrix = new CalculatorIntermResultsMatrix(groupColsCnt + 1, getDataColumns());
+        calculatorMatrix.initAll();
         
-        getAlgoContext().set(ContextKeys.CALCULATORS, calculatorMatrix.getCalculators());
+        getAlgoContext().set(ContextKeys.CALC_INTERM_RESULTS, calculatorMatrix.getIntermResultsMatrix());
     }
     
     /**

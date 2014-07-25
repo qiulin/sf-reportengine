@@ -5,6 +5,7 @@ package net.sf.reportengine.config;
 
 import junit.framework.TestCase;
 import net.sf.reportengine.core.calc.GroupCalculators;
+import net.sf.reportengine.core.calc.SumGroupCalculator;
 
 /**
  * @author dragos
@@ -33,11 +34,11 @@ public class TestDefaultDataColumn extends TestCase {
 		DefaultDataColumn classUnderTest = new DefaultDataColumn(); 
 		classUnderTest.setHeader("Month"); 
 		classUnderTest.setInputColumnIndex(0);
-		classUnderTest.setCalculator(GroupCalculators.SUM);
+		classUnderTest.setCalculator(new SumGroupCalculator());
 	}
 	
 	
 	public void testDefaultDataColumnConstructor() {
-		DefaultDataColumn classUnderTest = new DefaultDataColumn("Month", 0, GroupCalculators.SUM); 
+		DefaultDataColumn classUnderTest = new DefaultDataColumn("Month", 0, new SumGroupCalculator()); 
 	}
 }

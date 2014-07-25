@@ -3,11 +3,7 @@
  */
 package net.sf.reportengine.config;
 
-import java.text.Format;
-
-import net.sf.reportengine.config.DefaultDataColumn.Builder;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.GroupCalculator;
 
 /**
  * 
