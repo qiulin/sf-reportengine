@@ -55,42 +55,42 @@ public class TestTotalsOutputStep  {
 		
     	//simulate the level detector
 		mockReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.ROW_1_AGG_LEVEL);
-		mockReportContext.set(ContextKeys.CALCULATORS, null);
+		mockReportContext.set(ContextKeys.CALC_INTERM_RESULTS, null);
     	classUnderTest.execute(dataRowEvent);
     	mockReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[0]);
 		
     	dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_2);
     	mockReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.ROW_2_AGG_LEVEL);
-    	mockReportContext.set(ContextKeys.CALCULATORS, Scenario1.ROW_1_CALCULATORS_RESULTS);
+    	mockReportContext.set(ContextKeys.CALC_INTERM_RESULTS, Scenario1.ROW_1_CALCULATORS_RESULTS);
 		classUnderTest.execute(dataRowEvent);
 		mockReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[1]);
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_3);
 		mockReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.ROW_3_AGG_LEVEL);
-		mockReportContext.set(ContextKeys.CALCULATORS, Scenario1.ROW_2_CALCULATORS_RESULTS);
+		mockReportContext.set(ContextKeys.CALC_INTERM_RESULTS, Scenario1.ROW_2_CALCULATORS_RESULTS);
 		classUnderTest.execute(dataRowEvent);
 		mockReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[2]);
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_4);
 		mockReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.ROW_4_AGG_LEVEL);
-		mockReportContext.set(ContextKeys.CALCULATORS, Scenario1.ROW_3_CALCULATORS_RESULTS);
+		mockReportContext.set(ContextKeys.CALC_INTERM_RESULTS, Scenario1.ROW_3_CALCULATORS_RESULTS);
 		classUnderTest.execute(dataRowEvent);
 		mockReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[3]);
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_5);
 		mockReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.ROW_5_AGG_LEVEL);
-		mockReportContext.set(ContextKeys.CALCULATORS, Scenario1.ROW_4_CALCULATORS_RESULTS);
+		mockReportContext.set(ContextKeys.CALC_INTERM_RESULTS, Scenario1.ROW_4_CALCULATORS_RESULTS);
 		classUnderTest.execute(dataRowEvent);
 		mockReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[4]);
 		
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_6);
 		mockReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.ROW_6_AGG_LEVEL);
-		mockReportContext.set(ContextKeys.CALCULATORS, Scenario1.ROW_5_CALCULATORS_RESULTS);
+		mockReportContext.set(ContextKeys.CALC_INTERM_RESULTS, Scenario1.ROW_5_CALCULATORS_RESULTS);
 		classUnderTest.execute(dataRowEvent);
 		mockReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[5]);
 		
-		mockReportContext.set(ContextKeys.CALCULATORS, Scenario1.ROW_6_CALCULATORS_RESULTS);
+		mockReportContext.set(ContextKeys.CALC_INTERM_RESULTS, Scenario1.ROW_6_CALCULATORS_RESULTS);
 		classUnderTest.exit();
 		
 		CellProps[][] resultCellMatrix = mockOutput.getDataCellMatrix();

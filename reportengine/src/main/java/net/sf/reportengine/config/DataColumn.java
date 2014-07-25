@@ -60,7 +60,6 @@ public interface DataColumn {
 	 */
 	public GroupCalculator getCalculator();
 	
-	
 	/**
 	 * returns the horizontal alignment of the values of this column
 	 */

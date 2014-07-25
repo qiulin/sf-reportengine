@@ -4,50 +4,49 @@
  */
 package net.sf.reportengine.core.calc;
 
-import java.math.BigDecimal;
 
 /**
  * utility collection of calculators 
  * 
- * @author dragos balan (dragos dot balan at gmail dot com)
- * @since 0.3
+ * @author dragos balan 
  */
 public final class GroupCalculators {
     
     /**
      * 
      */
-    public static final GroupCalculator<BigDecimal, Object> SUM = new UniversalSumGroupCalculator();
+    public static final SumGroupCalculator SUM = new SumGroupCalculator(); 
+	
+    /**
+     * 
+     */
+    public static final CountGroupCalculator COUNT = new CountGroupCalculator(); 
+    
     
     /**
      * 
      */
-    public static final GroupCalculator<Integer, Object> COUNT = new CountGroupCalculator();
+    public static final AvgGroupCalculator AVG = new AvgGroupCalculator(); 
     
     /**
      * 
      */
-    public static final GroupCalculator<BigDecimal, Object> AVG = new UniversalAvgGroupCalculator();
+    public static final MinGroupCalculator MIN = new MinGroupCalculator(); 
     
     /**
      * 
      */
-    public static final GroupCalculator<BigDecimal, Object> MIN = new UniversalMinGroupCalculator();
+    public static final MaxGroupCalculator MAX = new MaxGroupCalculator(); 
     
     /**
      * 
      */
-    public static final GroupCalculator<BigDecimal, Object> MAX = new UniversalMaxGroupCalculator();
+    public static final FirstGroupCalculator<Object> FIRST = new FirstGroupCalculator<Object>(); 
     
     /**
      * 
      */
-    public static final GroupCalculator<Object, Object> FIRST = new FirstGroupCalculator<Object>();
-    
-    /**
-     * 
-     */
-    public static final GroupCalculator<Object, Object> LAST = new LastGroupCalculator<Object>();
+    public static final LastGroupCalculator<Object> LAST = new LastGroupCalculator<Object>();
     
     /**
      * just to prevent inheritance

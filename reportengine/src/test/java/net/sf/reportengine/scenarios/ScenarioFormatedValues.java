@@ -3,21 +3,19 @@
  */
 package net.sf.reportengine.scenarios;
 
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.core.calc.MaxGroupCalculator;
 import net.sf.reportengine.in.ArrayReportInput;
+import net.sf.reportengine.in.ReportInput;
 
 /**
  * @author dragos balan

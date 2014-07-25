@@ -5,20 +5,17 @@
 package net.sf.reportengine.core.steps;
 
 import java.util.List;
-import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.GroupCalculator;
+import net.sf.reportengine.core.calc.CalcIntermResult;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
-import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,19 +104,19 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
      */
     @Override
     public void exit() {
-        GroupCalculator[][] calculators = getCalculatorMatrix();
+        CalcIntermResult[][] calcIntermResults = getCalcIntermResultsMatrix();
         
         if(groupCols != null && getShowTotals()){
         	//calculators.length-2 because for levelCalculators.lenght-1 is a separate call
         	//(a call for Grand total see below)
-        	outputTotalRowsFromTo(0, calculators.length-2);
+        	outputTotalRowsFromTo(0, calcIntermResults.length-2);
         }
         
         //now the grand total
         if(getShowGrandTotal()){
         	//outputTotalsRow("Grand Total", calculators[calculators.length-1]);
         	outputTotalsRow(GRAND_TOTAL_GROUPING_LEVEL, 
-        					calculators[calculators.length-1]
+        					calcIntermResults[calcIntermResults.length-1]
         					);	
         }
     }
@@ -133,13 +130,13 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
      */
     private void outputTotalRowsFromTo(int rowStart, int rowEnd){
     	LOGGER.trace("output totals from {} to ", rowStart, rowEnd);
-    	GroupCalculator[][] calculators = getCalculatorMatrix();
+    	CalcIntermResult[][] calcResults = getCalcIntermResultsMatrix();
         for(int row = rowStart; row <= rowEnd ; row++){
         	//based on the row we can compute the aggregation level so that we can determine the 
         	// column to use from the previous data row
         	int aggLevel = computeAggLevelForCalcRowNumber(row);
         	
-        	outputTotalsRow(aggLevel, calculators[row]);
+        	outputTotalsRow(aggLevel, calcResults[row]);
         	        	
         }
     }
@@ -147,10 +144,10 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     /**
      * 
      * @param groupLevel
-     * @param calcForCurrentGroupingLevel
+     * @param calcResultForCurrentGrpLevel
      */
     private void outputTotalsRow(	int groupLevel, 
-    								GroupCalculator[] calcForCurrentGroupingLevel){
+    								CalcIntermResult[] calcResultForCurrentGrpLevel){
     	if(distribOfCalculatorsInDataColsArray.length != dataCols.size()){
     		//TODO: improve
     		throw new IllegalArgumentException("dataRows and distributionOfCalculators arrays should have the same length"); 
@@ -194,7 +191,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
 			DataColumn column = dataCols.get(i);
 			if(column.getCalculator() != null){
 				int calculatorIndex = distribOfCalculatorsInDataColsArray[i];
-				Object calculatorResult = calcForCurrentGroupingLevel[calculatorIndex].getResult();
+				Object calculatorResult = calcResultForCurrentGrpLevel[calculatorIndex].getResult();
 				
 				//format the computed value 
 				formattedResult = dataCols.get(i).getFormattedTotal(calculatorResult); 

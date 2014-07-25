@@ -11,12 +11,12 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.config.HorizAlign;
-import net.sf.reportengine.config.SortType;
-import net.sf.reportengine.config.VertAlign;
-import net.sf.reportengine.core.calc.GroupCalculator;
+import net.sf.reportengine.core.calc.CalcIntermResult;
+import net.sf.reportengine.core.calc.DefaultCalcIntermResult;
 import net.sf.reportengine.core.calc.GroupCalculators;
-import net.sf.reportengine.core.steps.MockGroupCalculator;
+import net.sf.reportengine.core.calc.CountGroupCalculator;
+import net.sf.reportengine.core.calc.GroupCalculator;
+import net.sf.reportengine.core.calc.SumGroupCalculator;
 import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.CellProps;
@@ -81,8 +81,8 @@ public class Scenario1 {
 	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(
 			new DataColumn[]{
 		new DefaultDataColumn.Builder(3).header("col 3").build(), 
-		new DefaultDataColumn.Builder(4).header("col 4").useCalculator(GroupCalculators.COUNT).build(), 
-		new DefaultDataColumn.Builder(5).header("col 5").useCalculator(GroupCalculators.SUM).build()
+		new DefaultDataColumn.Builder(4).header("col 4").useCalculator(new CountGroupCalculator()).build(), 
+		new DefaultDataColumn.Builder(5).header("col 5").useCalculator(new SumGroupCalculator()).build()
 	});
 	
 	public static final int[] DISTRIBUTION_OF_CALCULATOR_IN_DATA_ROW_ARRAY = new int[]{-1,0,1};  
@@ -103,49 +103,50 @@ public class Scenario1 {
 		ROW_6_AGG_LEVEL
 	};
 	
-	public final static GroupCalculator[] TEST_CALCULATOR_PROTOTYPES = new GroupCalculator[]{GroupCalculators.COUNT, GroupCalculators.SUM};
+	public final static GroupCalculator[] TEST_CALCULATOR_PROTOTYPES = 
+			new GroupCalculator[]{GroupCalculators.COUNT, GroupCalculators.SUM};
 	
     public final static int[] TEST_COLUMNS_TO_COMPUTE_TOTALS_ON = new int[]{4,5};
     
-    public final static GroupCalculator[][] ROW_1_CALCULATORS_RESULTS = new GroupCalculator[][]{
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(1)),new MockGroupCalculator(new BigDecimal(6))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(1)),new MockGroupCalculator(new BigDecimal(6))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(1)),new MockGroupCalculator(new BigDecimal(6))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(1)),new MockGroupCalculator(new BigDecimal(6))}
+    public final static CalcIntermResult[][] ROW_1_CALCULATORS_RESULTS = new CalcIntermResult[][]{
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(1)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(6))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(1)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(6))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(1)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(6))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(1)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(6))}
     															};
     
-    public final static GroupCalculator[][] ROW_2_CALCULATORS_RESULTS = new GroupCalculator[][]{
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(2)),new MockGroupCalculator(new BigDecimal(9))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(2)),new MockGroupCalculator(new BigDecimal(9))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(2)),new MockGroupCalculator(new BigDecimal(9))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(2)),new MockGroupCalculator(new BigDecimal(9))}
+    public final static CalcIntermResult[][] ROW_2_CALCULATORS_RESULTS = new CalcIntermResult[][]{
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(2)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(9))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(2)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(9))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(2)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(9))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(2)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(9))}
 															};
     
-    public final static GroupCalculator[][] ROW_3_CALCULATORS_RESULTS = new GroupCalculator[][]{
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(1)),new MockGroupCalculator(new BigDecimal(2))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(3)),new MockGroupCalculator(new BigDecimal(11))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(3)),new MockGroupCalculator(new BigDecimal(11))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(3)),new MockGroupCalculator(new BigDecimal(11))}
+    public final static CalcIntermResult[][] ROW_3_CALCULATORS_RESULTS = new CalcIntermResult[][]{
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(1)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(2))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(3)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(11))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(3)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(11))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(3)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(11))}
 															};
-    public final static GroupCalculator[][] ROW_4_CALCULATORS_RESULTS = new GroupCalculator[][]{
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(1)),new MockGroupCalculator(new BigDecimal(1))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(1)),new MockGroupCalculator(new BigDecimal(1))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(4)),new MockGroupCalculator(new BigDecimal(12))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(4)),new MockGroupCalculator(new BigDecimal(12))}
+    public final static CalcIntermResult[][] ROW_4_CALCULATORS_RESULTS = new CalcIntermResult[][]{
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(1)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(1))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(1)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(1))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(4)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(12))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(4)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(12))}
 	};
     
-    public final static GroupCalculator[][] ROW_5_CALCULATORS_RESULTS = new GroupCalculator[][]{
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(2)),new MockGroupCalculator(new BigDecimal(2))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(2)),new MockGroupCalculator(new BigDecimal(2))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(5)),new MockGroupCalculator(new BigDecimal(13))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(5)),new MockGroupCalculator(new BigDecimal(13))}
+    public final static CalcIntermResult[][] ROW_5_CALCULATORS_RESULTS = new CalcIntermResult[][]{
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(2)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(2))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(2)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(2))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(5)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(13))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(5)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(13))}
 	};
     
-    public final static GroupCalculator[][] ROW_6_CALCULATORS_RESULTS = new GroupCalculator[][]{
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(1)),new MockGroupCalculator(new BigDecimal(1))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(1)),new MockGroupCalculator(new BigDecimal(1))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(1)),new MockGroupCalculator(new BigDecimal(1))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(6)),new MockGroupCalculator(new BigDecimal(14))}
+    public final static CalcIntermResult[][] ROW_6_CALCULATORS_RESULTS = new CalcIntermResult[][]{
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(1)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(1))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(1)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(1))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(1)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(1))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(6)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(14))}
 	};
 	
     public final static ReportInput INPUT = new ArrayReportInput(RAW_DATA);

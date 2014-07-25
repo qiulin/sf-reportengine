@@ -6,6 +6,7 @@ package net.sf.reportengine;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.calc.GroupCalculators;
+import net.sf.reportengine.core.calc.SumGroupCalculator;
 import net.sf.reportengine.in.SqlInput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.scenarios.AutodetectConfigurationScenario;
@@ -74,7 +75,7 @@ public class TestAutoconfigFlatReport {
 		flatReport.setOut(new HtmlOutput("./target/AutodetectFromSqlWithUserPrefsAndDbOrdering.html")); 
 		
 		flatReport.forColumn("COUNTRY").horizAlign(HorizAlign.RIGHT).vertAlign(VertAlign.TOP).header("Changed header").group(); 
-		flatReport.forColumn("VALUE").vertAlign(VertAlign.BOTTOM).useCalculator(GroupCalculators.SUM, "%f $").valuesFormatter("%d $"); 
+		flatReport.forColumn("VALUE").vertAlign(VertAlign.BOTTOM).useCalculator(new SumGroupCalculator(), "%f $").valuesFormatter("%d $"); 
 		flatReport.forColumn("REGION").group(); 
 		flatReport.forColumn("CITY").group(); 
 		
@@ -97,7 +98,7 @@ public class TestAutoconfigFlatReport {
 		flatReport.setValuesSorted(false); 
 		
 		flatReport.forColumn("COUNTRY").horizAlign(HorizAlign.RIGHT).header("Changed header").group(); 
-		flatReport.forColumn("VALUE").useCalculator(GroupCalculators.SUM, "%f $").valuesFormatter("%d $"); 
+		flatReport.forColumn("VALUE").useCalculator(new SumGroupCalculator(), "%f $").valuesFormatter("%d $"); 
 		flatReport.forColumn("REGION").group(); 
 		flatReport.forColumn("CITY").group(); 
 		
@@ -126,7 +127,7 @@ public class TestAutoconfigFlatReport {
 		flatReport.forColumn("SEX")	.header("Sorted ASC programatically with priority 1")
 									.sortAsc(0); 
 		flatReport.forColumn("VALUE")	.header("Sorted ASC programatically with priority 2")
-										.useCalculator(GroupCalculators.SUM, "%f $")
+										.useCalculator(new SumGroupCalculator(), "%f $")
 										.valuesFormatter("%d $")
 										.sortAsc(1); //non group column sorted
 		

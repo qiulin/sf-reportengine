@@ -4,7 +4,6 @@
 package net.sf.reportengine.config;
 
 import java.math.BigDecimal;
-import java.text.Format;
 import java.util.Arrays;
 import java.util.List;
 

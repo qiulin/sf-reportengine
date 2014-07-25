@@ -5,16 +5,12 @@
 package net.sf.reportengine.core;
 
 import java.util.List;
-import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.algorithm.AlgoContext;
-import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.steps.AbstractAlgoMainStep;
-import net.sf.reportengine.core.calc.GroupCalculator;
+import net.sf.reportengine.core.calc.CalcIntermResult;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
-import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
@@ -53,8 +49,8 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
      * returns the calculator within context
      * @return
      */
-    public GroupCalculator[][] getCalculatorMatrix(){
-    	return (GroupCalculator[][])getAlgoContext().get(ContextKeys.CALCULATORS);
+    public CalcIntermResult[][] getCalcIntermResultsMatrix(){
+    	return (CalcIntermResult[][])getAlgoContext().get(ContextKeys.CALC_INTERM_RESULTS);
     }
     
     

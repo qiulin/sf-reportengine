@@ -10,9 +10,9 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.calc.GroupCalculator;
-import net.sf.reportengine.core.calc.GroupCalculators;
-import net.sf.reportengine.core.steps.MockGroupCalculator;
+import net.sf.reportengine.core.calc.CalcIntermResult;
+import net.sf.reportengine.core.calc.DefaultCalcIntermResult;
+import net.sf.reportengine.core.calc.CountGroupCalculator;
 
 /**
  * @author dragos
@@ -58,7 +58,7 @@ public class Scenario2 {
 			new DataColumn[]{
 		new DefaultDataColumn("Column A", 1), 
 		new DefaultDataColumn("Column A", 3), 
-		new DefaultDataColumn("Column A", 5, GroupCalculators.COUNT), 
+		new DefaultDataColumn("Column A", 5, new CountGroupCalculator()), 
 	});
 	
 	public static final int[] AGG_COLUMNS_INDEX = new int[]{0,2,4};
@@ -76,11 +76,11 @@ public class Scenario2 {
 		-1
 	};
 	
-	public final static GroupCalculator[][] CALCULATORS_RESULTS = new GroupCalculator[][]{
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(3))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(6))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(8))},
-    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(10))}
+	public final static CalcIntermResult[][] CALCULATORS_RESULTS = new CalcIntermResult[][]{
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(3))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(6))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(8))},
+    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(10))}
 	};
 	
 }

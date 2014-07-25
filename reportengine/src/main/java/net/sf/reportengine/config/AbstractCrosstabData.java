@@ -3,8 +3,6 @@
  */
 package net.sf.reportengine.config;
 
-import java.text.Format;
-
 import net.sf.reportengine.core.calc.GroupCalculator;
 
 

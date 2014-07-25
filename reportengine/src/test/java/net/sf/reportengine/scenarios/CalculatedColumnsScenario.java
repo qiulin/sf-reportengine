@@ -3,23 +3,22 @@
  */
 package net.sf.reportengine.scenarios;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
 import net.sf.reportengine.config.AbstractDataColumn;
 import net.sf.reportengine.config.AbstractGroupColumn;
+import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
-import net.sf.reportengine.config.HorizAlign;
-import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.calc.CalcIntermResult;
+import net.sf.reportengine.core.calc.DefaultCalcIntermResult;
 import net.sf.reportengine.core.calc.GroupCalculators;
-import net.sf.reportengine.core.calc.GroupCalculator;
-import net.sf.reportengine.core.steps.MockGroupCalculator;
-import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.in.ArrayReportInput;
+import net.sf.reportengine.in.ReportInput;
 
 /**
  * @author dragos balan
@@ -111,12 +110,12 @@ public class CalculatedColumnsScenario {
 	
 	public final static int[] AGG_COLUMNS_INDEX = new int[]{0,1,3,5};
 	
-	public final static GroupCalculator[][] CALCULATORS_RESULTS = new GroupCalculator[][]{
-	    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(3))},
-	    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(6))},
-	    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(6))},
-	    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(8))},
-	    	new GroupCalculator[]{new MockGroupCalculator(Integer.valueOf(10))}
+	public final static CalcIntermResult[][] CALCULATORS_RESULTS = new CalcIntermResult[][]{
+	    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(3))},
+	    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(6))},
+	    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(6))},
+	    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(8))},
+	    	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(10))}
 		};
 }
 

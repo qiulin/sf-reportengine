@@ -4,18 +4,15 @@
 package net.sf.reportengine.core.steps.crosstab;
 
 import java.util.List;
-import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.GroupCalculator;
+import net.sf.reportengine.core.calc.CalcIntermResult;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,7 +92,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 		if(groupingLevel >= 0){
 			//if grouping level changed
 			
-			GroupCalculator[][] calculatorMatrix = getCalculatorMatrix(); 
+			CalcIntermResult[][] calcResults = getCalcIntermResultsMatrix(); 
 			int originalGroupColsLength = getGroupColumnsCount();//getOriginalCrosstabGroupingColsLength();  
 			int originalDataColsLength = getDataColumnsLength(); //getOriginalCrosstabDataColsLength();
 			
@@ -107,7 +104,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 					//we don't need all totals. From the groupingColumns we take only the first one
 					updateIntermediateTotals(	originalGroupColsLength+originalDataColsLength-1, 
 												getIntermGroupColsLength(), //getGroupColumnsLength() , 
-												calculatorMatrix);
+												calcResults);
 				}
 				//Second: we display the intermediate row
 				addOriginalGroupAndDataColumnsInfoToIntermRow(intermediateRow);
@@ -121,7 +118,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 				if(getShowTotals() || getShowGrandTotal()){
 					updateIntermediateTotals(	groupingLevel, 				//from the current grouping level 
 												getIntermGroupColsLength(),//getGroupColumnsLength(), //to the last intermediate grouping col
-												calculatorMatrix);
+												calcResults);
 				}
 			}
 		}
@@ -139,7 +136,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 			int originalDataColsLength = getDataColumnsLength(); //getOriginalCrosstabDataColsLength(); 
 			updateIntermediateTotals(	originalGroupingColsLength + originalDataColsLength-1, //from the last original grouping col
 										getIntermGroupColsLength(),//getGroupColumnsLength() ,  //to the last intermediate grouping col (containing also the headers)
-										getCalculatorMatrix());
+										getCalcIntermResultsMatrix());
 		}
 		
 		intermediateRow.setLast(true); 
@@ -151,7 +148,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 	
 	private void updateIntermediateTotals(	int levelFrom, 
 											int levelTo, 
-											GroupCalculator[][] calculatorMatrix){
+											CalcIntermResult[][] calcResults){
 		int calculatorMatrixRow = -1;
 		Object calculatorResult = null; 
 		//int tmpLevelFrom = getOriginalCrosstabGroupingColsLength()+ getOriginalCrosstabDataColsLength();
@@ -165,7 +162,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 			//our intermediate report has only one column containing calculators 
 			//(the column containing crosstab data) therefore we have only one column 
 			//in the calculator matrix (see the zero below)
-			calculatorResult = calculatorMatrix[calculatorMatrixRow][0].getResult(); 
+			calculatorResult = calcResults[calculatorMatrixRow][0].getResult(); 
 			intermediateRow.addIntermTotalsInfo(new IntermediateTotalInfo(	calculatorResult, 
 																			position, 
 																			totalStrings));

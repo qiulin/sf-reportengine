@@ -9,7 +9,7 @@ import java.util.Map;
 
 import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.GroupCalculator;
+import net.sf.reportengine.core.calc.CalcIntermResult;
 import net.sf.reportengine.scenarios.CalculatedColumnsScenario;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.Scenario2;
@@ -60,11 +60,11 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     	//reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_1);
 		classUnderTest.execute(dataRowEvent);
 		
-		GroupCalculator[][] calcMatrix = (GroupCalculator[][])reportContext.get(ContextKeys.CALCULATORS);
-		assertNotNull(calcMatrix);
-		assertEquals(calcMatrix.length, Scenario1.AGG_COLUMNS_INDEX.length + 1 /* for Grand total*/);
+		CalcIntermResult[][] calcResults = (CalcIntermResult[][])reportContext.get(ContextKeys.CALC_INTERM_RESULTS);
+		assertNotNull(calcResults);
+		assertEquals(calcResults.length, Scenario1.AGG_COLUMNS_INDEX.length + 1 /* for Grand total*/);
 		
-		assertEqualsCalculatorValues(Scenario1.ROW_1_CALCULATORS_RESULTS);
+		assertEqualsCalculatorResults(Scenario1.ROW_1_CALCULATORS_RESULTS);
 		
 		//simulate level detector
 		setAggLevel(Scenario1.ROW_2_AGG_LEVEL);
@@ -73,7 +73,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
 		//reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_2);
 		classUnderTest.execute(dataRowEvent);
 		
-		assertEqualsCalculatorValues(Scenario1.ROW_2_CALCULATORS_RESULTS);
+		assertEqualsCalculatorResults(Scenario1.ROW_2_CALCULATORS_RESULTS);
 		
 		//simulate level detector
 		setAggLevel(Scenario1.ROW_3_AGG_LEVEL);
@@ -81,7 +81,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
 		//reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_3);
 		classUnderTest.execute(dataRowEvent);
 		
-		assertEqualsCalculatorValues(Scenario1.ROW_3_CALCULATORS_RESULTS);
+		assertEqualsCalculatorResults(Scenario1.ROW_3_CALCULATORS_RESULTS);
 		
 		//simulate level detector
 		setAggLevel(Scenario1.ROW_4_AGG_LEVEL);
@@ -89,7 +89,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
 		//reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_4);
 		classUnderTest.execute(dataRowEvent);
 		
-		assertEqualsCalculatorValues(Scenario1.ROW_4_CALCULATORS_RESULTS);
+		assertEqualsCalculatorResults(Scenario1.ROW_4_CALCULATORS_RESULTS);
 		
 		//simulate level detector
 		setAggLevel(Scenario1.ROW_5_AGG_LEVEL);
@@ -97,7 +97,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
 		//reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_5);
 		classUnderTest.execute(dataRowEvent);
 		
-		assertEqualsCalculatorValues(Scenario1.ROW_5_CALCULATORS_RESULTS);
+		assertEqualsCalculatorResults(Scenario1.ROW_5_CALCULATORS_RESULTS);
 		
 		//simulate level detector
 		setAggLevel(Scenario1.ROW_6_AGG_LEVEL);
@@ -105,7 +105,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_6);
 		classUnderTest.execute(dataRowEvent);
 		
-		assertEqualsCalculatorValues(Scenario1.ROW_6_CALCULATORS_RESULTS);
+		assertEqualsCalculatorResults(Scenario1.ROW_6_CALCULATORS_RESULTS);
     }   
     
     public void testExecuteScenario2(){
@@ -132,7 +132,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     		classUnderTest.execute(dataRowEvent);
         }
         
-        assertEqualsCalculatorValues(Scenario2.CALCULATORS_RESULTS);
+        assertEqualsCalculatorResults(Scenario2.CALCULATORS_RESULTS);
     }
     
     public void testExecuteCalculatedColumnsScenario(){
@@ -157,6 +157,6 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     		classUnderTest.execute(dataRowEvent);
         }
         
-        assertEqualsCalculatorValues(CalculatedColumnsScenario.CALCULATORS_RESULTS);
+        assertEqualsCalculatorResults(CalculatedColumnsScenario.CALCULATORS_RESULTS);
     }
 }
