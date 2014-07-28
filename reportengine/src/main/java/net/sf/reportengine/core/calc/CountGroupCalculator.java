@@ -12,13 +12,34 @@ import org.apache.commons.lang.math.NumberUtils;
  * 
  * @author dragos balan
  */
-public class CountGroupCalculator implements GroupCalculator<Integer, DefaultCalcIntermResult<Integer>, Object> {
+public class CountGroupCalculator extends AbstractGroupCalculator<Integer, DefaultCalcIntermResult<Integer>, Object> {
 	
 	/**
 	 * the serial version id
 	 */
 	private static final long serialVersionUID = -3168637033035009530L;
 
+	/**
+	 * the label
+	 */
+	public static final String LABEL = "Count"; 
+	
+	/**
+	 * constructor (sets the label = "Count")
+	 */
+	public CountGroupCalculator(){
+		this(LABEL); 
+	}
+	
+	/**
+	 * Use this constructor when you want to control the label
+	 * 
+	 * @param label	the label
+	 */
+	public CountGroupCalculator(String label){
+		super(label); 
+	}
+	
 	/**
 	 * initializes the counter to zero
 	 */

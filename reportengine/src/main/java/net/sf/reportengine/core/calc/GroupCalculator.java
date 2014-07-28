@@ -39,4 +39,14 @@ public interface GroupCalculator <R, I extends CalcIntermResult<R>, V> extends S
 	 * @return
 	 */
 	public I compute(I intermResult, V newValue);
+	
+	/**
+	 * returns the label to be displayed at the beginning of the total row. 
+	 * Example: 
+	 * 1. for a SumGroupCalculator this label should be "Total" so that each 
+	 * total row to display Total and Grand Total at the end
+	 * 2. for a AvgGroupCalculator this label should be "Average" 
+	 * @return
+	 */
+	public String getLabel(); 
 }

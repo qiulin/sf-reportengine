@@ -19,7 +19,7 @@ import java.math.MathContext;
  * @author dragos balan
  *
  */
-public class AvgGroupCalculator implements GroupCalculator<BigDecimal, AvgCalcIntermResult<BigDecimal>, Object> {
+public class AvgGroupCalculator extends AbstractGroupCalculator<BigDecimal, AvgCalcIntermResult<BigDecimal>, Object> {
 	
 	
 	/**
@@ -28,24 +28,45 @@ public class AvgGroupCalculator implements GroupCalculator<BigDecimal, AvgCalcIn
 	private static final long serialVersionUID = -8084427675511918932L;
 	
 	/**
+	 * the label for this calculator
+	 */
+	public static final String LABEL = "Average";
+	
+	/**
 	 * the math context to be used when executing BigDecimal operations
 	 */
 	private final MathContext mathContext; 
 	
 	/**
-	 * by default the number of exact decimals is 32
+	 * Default constructor (
+	 *  label = "Average" 
+	 *  number of exact decimals = 32 )
 	 */
 	public AvgGroupCalculator(){
-		this(MathContext.DECIMAL32);
+		this(LABEL);
+	}
+	
+	/**
+	 * average group calculator constructor on which you can set the label 
+	 * ( number of exact decimal = 32)
+	 * 
+	 * @param label the label to be displayed on each totals row
+	 */
+	public AvgGroupCalculator(String label){
+		this(label, MathContext.DECIMAL32); 
 	}
 	
 	/**
 	 * use this constructor if you want to control the number exact decimals
-	 * @param mathContext
+	 * @param label			the label to be displayed on each total row 
+	 * @param mathContext	the math context for BigDecimal operations
 	 */
-	public AvgGroupCalculator(MathContext mathContext){
+	public AvgGroupCalculator(String label, MathContext mathContext){
+		super(label); 
 		this.mathContext = mathContext; 
 	}
+	
+	
 	
 	/**
 	 * init method required by the GroupCalculator

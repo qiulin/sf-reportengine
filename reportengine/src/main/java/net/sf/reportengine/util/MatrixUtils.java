@@ -88,7 +88,7 @@ public final class MatrixUtils {
 					if(!matrix1[i][j].equals(matrix2[i][j])){
 						result = false;
 						LOGGER.info("row="+i+",col="+j);
-						LOGGER.info(" 	the object {} of class {} is not equal to {} of class {}", 	
+						LOGGER.info(" 	the object {} is not equal to {}", 	
 												matrix1[i][j], 
 												matrix2[i][j]);
 						LOGGER.info(" 	stopping iteration in matrix");

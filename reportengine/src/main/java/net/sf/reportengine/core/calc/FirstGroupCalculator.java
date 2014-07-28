@@ -10,13 +10,33 @@ package net.sf.reportengine.core.calc;
  * 
  * @author dragos balan
  */
-public class FirstGroupCalculator<T> implements GroupCalculator<T, FirstCalcIntermResult<T>, T> {
+public class FirstGroupCalculator<T> extends AbstractGroupCalculator<T, FirstCalcIntermResult<T>, T> {
 	
 	/**
 	 * the serial version id
 	 */
 	private static final long serialVersionUID = -2380332591835262973L;
-
+	
+	/**
+	 * the default label
+	 */
+	public static final String LABEL = "First"; 
+	
+	/**
+	 * builds this group calculator with the default label
+	 */
+	public FirstGroupCalculator(){
+		this(LABEL); 
+	}
+	
+	/**
+	 * builds this group calculator with a custom label
+	 * @param label	the label
+	 */
+	public FirstGroupCalculator(String label){
+		super(label); 
+	}
+	
 	/**
 	 * returns an empty (null) element with the isFirst flag = true
 	 */

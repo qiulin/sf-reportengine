@@ -137,7 +137,7 @@ public class ScenarioSort {
 		},
 		
 		new CellProps[]{
-				new CellProps.Builder("Grand Total").build(),
+				new CellProps.Builder("Grand Count Total ").build(),
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,

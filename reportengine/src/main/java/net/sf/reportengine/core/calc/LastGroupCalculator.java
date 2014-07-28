@@ -8,12 +8,32 @@ package net.sf.reportengine.core.calc;
  * 
  * @author dragos balan
  */
-public class LastGroupCalculator<T> implements GroupCalculator<T, DefaultCalcIntermResult<T>, T> {
+public class LastGroupCalculator<T> extends AbstractGroupCalculator<T, DefaultCalcIntermResult<T>, T> {
 
 	/**
 	 * serial version id
 	 */
 	private static final long serialVersionUID = 8131223933103594743L;
+	
+	/**
+	 * the default label
+	 */
+	public static final String LABEL = "Last"; 
+	
+	/**
+	 * builds this group calculator with the default label
+	 */
+	public LastGroupCalculator(){
+		this(LABEL); 
+	}
+	
+	/**
+	 * builds this group calculator with the custom label 
+	 * @param label	the label
+	 */
+	public LastGroupCalculator(String label){
+		super(label); 
+	}
 	
 	/**
 	 * returns an empty intermediate calculator result ( empty means that it contains a null value)
