@@ -43,8 +43,10 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(FlatReportTotalsOutputStep.class);
 	
-	public static final String TOTAL_STRING = "Total";
-	public static final String GRAND_TOTAL_STRING = "Grand Total";
+	/**
+	 * "Grand " label. To be used in front of Total, Average, Count etc. 
+	 */
+	public static final String GRAND_TOTAL_STRING = "Grand ";
    
     
     /**
@@ -63,10 +65,16 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     private int[] distribOfCalculatorsInDataColsArray; 
     
     /**
+     * the label of the calculators with whitespaces between
+     */
+    private String calcLabels; 
+    
+    /**
      * 
      */
     public FlatReportTotalsOutputStep(){
     	//empty constructor
+    	
     }
     
     /**
@@ -77,6 +85,8 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     	groupCols = getGroupColumns();
     	dataCols = getDataColumns(); 
     	distribOfCalculatorsInDataColsArray = getCalculatorDistributionInColumnDataArray(); 
+    	calcLabels = getLabelsForAllCalculators(dataCols); 
+    	
     	LOGGER.trace("The FlatReportTotalsOutputStep has been initialized. The distribution array is null {}", (distribOfCalculatorsInDataColsArray == null));
     }
     
@@ -107,7 +117,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
         CalcIntermResult[][] calcIntermResults = getCalcIntermResultsMatrix();
         
         if(groupCols != null && getShowTotals()){
-        	//calculators.length-2 because for levelCalculators.lenght-1 is a separate call
+        	//calculators.length-2 because for levelCalculators.length-1 is a separate call
         	//(a call for Grand total see below)
         	outputTotalRowsFromTo(0, calcIntermResults.length-2);
         }
@@ -129,7 +139,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
      * @param rowEnd  		the last row to output
      */
     private void outputTotalRowsFromTo(int rowStart, int rowEnd){
-    	LOGGER.trace("output totals from {} to ", rowStart, rowEnd);
+    	LOGGER.trace("output totals from {} to {}", rowStart, rowEnd);
     	CalcIntermResult[][] calcResults = getCalcIntermResultsMatrix();
         for(int row = rowStart; row <= rowEnd ; row++){
         	//based on the row we can compute the aggregation level so that we can determine the 
@@ -148,17 +158,13 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
      */
     private void outputTotalsRow(	int groupLevel, 
     								CalcIntermResult[] calcResultForCurrentGrpLevel){
-    	if(distribOfCalculatorsInDataColsArray.length != dataCols.size()){
-    		//TODO: improve
-    		throw new IllegalArgumentException("dataRows and distributionOfCalculators arrays should have the same length"); 
-    	}
     	
     	ReportOutput output = getReportOutput();
     	output.startDataRow(new RowProps(getDataRowCount()));
     	
     	if(	groupCols != null && groupCols.size() > 0){
     		//prepare and output the Total column
-    		String totalString = getTotalStringForGroupingLevel(groupLevel);
+    		String totalString = getTotalStringForGroupingLevel(calcLabels, groupLevel);
     		output.outputDataCell(new CellProps.Builder(totalString)
     							.horizAlign(HorizAlign.LEFT)
     							.vertAlign(VertAlign.MIDDLE)
@@ -211,5 +217,15 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
 		}
     	output.endDataRow();
     	incrementDataRowNbr(); 
+    }
+    
+    private String getLabelsForAllCalculators(List<DataColumn> dataColumns){
+    	StringBuilder result = new StringBuilder(); 
+    	for (DataColumn dataColumn : dataColumns) {
+			if(dataColumn.getCalculator() != null){
+				result.append(dataColumn.getCalculator().getLabel()).append(" ") ;
+			}
+		}
+    	return result.toString(); 
     }
 }

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  * 
  * @author dragos balan
  */
-public class MaxGroupCalculator implements GroupCalculator<BigDecimal, DefaultCalcIntermResult<BigDecimal>, Object> {
+public class MaxGroupCalculator extends AbstractGroupCalculator<BigDecimal, DefaultCalcIntermResult<BigDecimal>, Object> {
 
 	/**
 	 * serial version id
@@ -17,14 +17,35 @@ public class MaxGroupCalculator implements GroupCalculator<BigDecimal, DefaultCa
 	private static final long serialVersionUID = 1685207603024868298L;
 	
 	/**
+	 * the default label
+	 */
+	public static final String LABEL = "Maximum"; 
+	
+	/**
+	 * builds this group calculator with the default label
+	 */
+	public MaxGroupCalculator(){
+		this(LABEL); 
+	}
+	
+	/**
+	 * builds this group calculator with a custom label
 	 * 
+	 * @param label	the label
+	 */
+	public MaxGroupCalculator(String label){
+		super(label); 
+	}
+	
+	/**
+	 * returns a BigDecimal based on Double.MIN_VALUE
 	 */
 	public DefaultCalcIntermResult<BigDecimal> init() {
 		return new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(Double.MIN_VALUE));
 	}
 	
 	/**
-	 * 
+	 * checks whether the new value is lower than the previous result
 	 */
 	public DefaultCalcIntermResult<BigDecimal> compute(
 			DefaultCalcIntermResult<BigDecimal> intermResult, Object newValue) {

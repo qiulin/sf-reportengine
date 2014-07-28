@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * 
  * @author dragos balan
  */
-public class MinGroupCalculator implements GroupCalculator<BigDecimal, DefaultCalcIntermResult<BigDecimal>, Object> {
+public class MinGroupCalculator extends AbstractGroupCalculator<BigDecimal, DefaultCalcIntermResult<BigDecimal>, Object> {
 
 	/**
 	 * serial version id
@@ -20,14 +20,35 @@ public class MinGroupCalculator implements GroupCalculator<BigDecimal, DefaultCa
 	private static final long serialVersionUID = 2910018078671866178L;
 	
 	/**
+	 * the default label
+	 */
+	public static final String LABEL = "Minimum"; 
+	
+	/**
+	 * builds this group calculator with the default label
+	 */
+	public MinGroupCalculator(){
+		this(LABEL);
+	}
+	
+	/**
+	 * builds this group calculator with a custom label
 	 * 
+	 * @param label	the label
+	 */
+	public MinGroupCalculator(String label){
+		super(label); 
+	}
+	
+	/**
+	 * returns a BigDecimal having Double.MAX_VALUE value
 	 */
 	public DefaultCalcIntermResult<BigDecimal> init() {
 		return new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(Double.MAX_VALUE)); 
 	}
 	
 	/**
-	 * 
+	 * compares the previous result with the new value and returns the minimum
 	 */
 	public DefaultCalcIntermResult<BigDecimal> compute(	DefaultCalcIntermResult<BigDecimal> intermResult, 
 														Object newValue) {

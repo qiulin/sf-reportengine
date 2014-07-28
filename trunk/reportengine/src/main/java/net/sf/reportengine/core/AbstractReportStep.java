@@ -153,16 +153,16 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
      * @param groupingLevel
      * @return
      */
-    public String getTotalStringForGroupingLevel(int groupingLevel) {
+    public String getTotalStringForGroupingLevel(String calculatorLabels, int groupingLevel) {
     	String result = null;
 		
     	if(GRAND_TOTAL_GROUPING_LEVEL == groupingLevel){
-    		result = FlatReportTotalsOutputStep.GRAND_TOTAL_STRING;
+    		result = FlatReportTotalsOutputStep.GRAND_TOTAL_STRING + calculatorLabels;
     	}else{
     		Object[] prevGroupValuesRow = getPreviousRowOfGroupValues(); 
         	if(prevGroupValuesRow != null){
         		String prevValueForGropingLevel = prevGroupValuesRow[groupingLevel].toString();
-        		result = FlatReportTotalsOutputStep.TOTAL_STRING + " " + prevValueForGropingLevel;
+        		result = calculatorLabels + prevValueForGropingLevel;
         	}else{
         		throw new IllegalArgumentException("Cannot determine the previous grouping values. Previous group values array is null"); 
         	}

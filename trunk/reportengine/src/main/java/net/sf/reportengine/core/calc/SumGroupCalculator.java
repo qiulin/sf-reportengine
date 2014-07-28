@@ -14,13 +14,34 @@ import java.math.BigDecimal;
  * @author dragos balan
  *
  */
-public class SumGroupCalculator implements GroupCalculator<BigDecimal, DefaultCalcIntermResult<BigDecimal>,  Object> {
+public class SumGroupCalculator extends AbstractGroupCalculator<BigDecimal, DefaultCalcIntermResult<BigDecimal>,  Object> {
 	
 	
 	/**
 	 * the serial version id
 	 */
 	private static final long serialVersionUID = 7717198690428873303L;
+	
+	/**
+	 * the default label
+	 */
+	public static final String LABEL = "Total";
+	
+	/**
+	 * builds this group calculator with the default label
+	 */
+	public SumGroupCalculator(){
+		this(LABEL); 
+	}
+	
+	/**
+	 * builds this group calculator with the given label
+	 * 
+	 * @param label	the label
+	 */
+	public SumGroupCalculator(String label){
+		super(label); 
+	}
 	
 	/**
 	 * initializes with zero the intermediate result ( to start the sum computation)

@@ -154,7 +154,7 @@ public class Scenario1 {
 	public final static CellProps[][] OUTPUT_TOTALS = new CellProps[][]{
 			//displayed on row 3
 			new CellProps[]{
-					new CellProps.Builder("Total 3").build(), 
+					new CellProps.Builder("Count Total 3").build(), 
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL, 
@@ -164,7 +164,7 @@ public class Scenario1 {
 			
 			//displayed on row 4
 			new CellProps[]{
-					new CellProps.Builder("Total 2").build(), 
+					new CellProps.Builder("Count Total 2").build(), 
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
@@ -172,7 +172,7 @@ public class Scenario1 {
 					new CellProps.Builder(""+ROW_3_CALCULATORS_RESULTS[0][1].getResult()).build()
 			}, 
 			new CellProps[]{
-					new CellProps.Builder("Total 2").build(),
+					new CellProps.Builder("Count Total 2").build(),
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
@@ -182,7 +182,7 @@ public class Scenario1 {
 			
 			//displayed on row 6
 			new CellProps[]{
-					new CellProps.Builder("Total 1").build(), 
+					new CellProps.Builder("Count Total 1").build(), 
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
@@ -190,7 +190,7 @@ public class Scenario1 {
 					new CellProps.Builder(""+ROW_5_CALCULATORS_RESULTS[0][1].getResult()).build()
 			},
 			new CellProps[]{
-					new CellProps.Builder("Total 1").build(), 
+					new CellProps.Builder("Count Total 1").build(), 
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
@@ -198,7 +198,7 @@ public class Scenario1 {
 					new CellProps.Builder(""+ROW_5_CALCULATORS_RESULTS[1][1].getResult()).build()
 			}, 
 			new CellProps[]{
-					new CellProps.Builder("Total 1").build(),
+					new CellProps.Builder("Count Total 1").build(),
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
@@ -208,7 +208,7 @@ public class Scenario1 {
 			
 			//displayed on exit
 			new CellProps[]{
-					new CellProps.Builder("Total 1").build(), 
+					new CellProps.Builder("Count Total 1").build(), 
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
@@ -216,7 +216,7 @@ public class Scenario1 {
 					new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[0][1].getResult()).build()
 			},
 			new CellProps[]{
-					new CellProps.Builder("Total 1").build(), 
+					new CellProps.Builder("Count Total 1").build(), 
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
@@ -224,7 +224,7 @@ public class Scenario1 {
 					new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[1][1].getResult()).build()
 			}, 
 			new CellProps[]{
-					new CellProps.Builder("Total 7").build(),
+					new CellProps.Builder("Count Total 7").build(),
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
@@ -232,7 +232,7 @@ public class Scenario1 {
 					new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[2][1].getResult()).build()
 			},
 			new CellProps[]{
-					new CellProps.Builder("Grand Total").build(),
+					new CellProps.Builder("Grand Count Total ").build(),
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
 					CellProps.EMPTY_CELL,
@@ -331,7 +331,7 @@ public class Scenario1 {
 		
 		//totals displayed on row 3
 		new CellProps[]{
-				new CellProps.Builder("Total 3").build(), 
+				new CellProps.Builder("Count Total 3").build(), 
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
@@ -351,7 +351,7 @@ public class Scenario1 {
 		
 		//totals displayed on row 4
 		new CellProps[]{
-				new CellProps.Builder("Total 2").build(), 
+				new CellProps.Builder("Count Total 2").build(), 
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
@@ -359,7 +359,7 @@ public class Scenario1 {
 				new CellProps.Builder(""+ROW_3_CALCULATORS_RESULTS[0][1].getResult()).build()
 		}, 
 		new CellProps[]{
-				new CellProps.Builder("Total 2").build(),
+				new CellProps.Builder("Count Total 2").build(),
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
@@ -388,7 +388,7 @@ public class Scenario1 {
 		
 		//totals displayed on row 6
 		new CellProps[]{
-				new CellProps.Builder("Total 1").build(), 
+				new CellProps.Builder("Count Total 1").build(), 
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL, 
@@ -396,7 +396,7 @@ public class Scenario1 {
 				new CellProps.Builder(""+ROW_5_CALCULATORS_RESULTS[0][1].getResult()).build()
 		},
 		new CellProps[]{
-				new CellProps.Builder("Total 1").build(), 
+				new CellProps.Builder("Count Total 1").build(), 
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
@@ -404,7 +404,7 @@ public class Scenario1 {
 				new CellProps.Builder(""+ROW_5_CALCULATORS_RESULTS[1][1].getResult()).build()
 		}, 
 		new CellProps[]{
-				new CellProps.Builder("Total 1").build(),
+				new CellProps.Builder("Count Total 1").build(),
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
@@ -424,7 +424,7 @@ public class Scenario1 {
 		
 		//totals displayed on exit
 		new CellProps[]{
-				new CellProps.Builder("Total 1").build(), 
+				new CellProps.Builder("Count Total 1").build(), 
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
@@ -432,7 +432,7 @@ public class Scenario1 {
 				new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[0][1].getResult()).build()
 		},
 		new CellProps[]{
-				new CellProps.Builder("Total 1").build(), 
+				new CellProps.Builder("Count Total 1").build(), 
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
@@ -440,7 +440,7 @@ public class Scenario1 {
 				new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[1][1].getResult()).build()
 		}, 
 		new CellProps[]{
-				new CellProps.Builder("Total 7").build(),
+				new CellProps.Builder("Count Total 7").build(),
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
@@ -448,7 +448,7 @@ public class Scenario1 {
 				new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[2][1].getResult()).build()
 		},
 		new CellProps[]{
-				new CellProps.Builder("Grand Total").build(),
+				new CellProps.Builder("Grand Count Total ").build(),
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
 				CellProps.EMPTY_CELL,
