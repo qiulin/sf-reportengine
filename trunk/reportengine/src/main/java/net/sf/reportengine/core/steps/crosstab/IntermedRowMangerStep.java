@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  * the grouping level is changed. At this moment the intermediate manager 
  * is resetting the intermediate row. 
  * 
- * @author dragos balan (dragos dot bala at gmail dot com)
+ * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
 public class IntermedRowMangerStep extends AbstractCrosstabStep {
@@ -86,7 +86,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 	 * @see net.sf.reportengine.core.AbstractReportStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
 	public void execute(NewRowEvent rowEvent) {
-		//TODO: try to simplify this class ( it's complex compared to the other step classes)
+		//TODO: try to simplify this class (it is pretty complex as compared to the other step classes)
 		int groupingLevel = getGroupingLevel(); 
 		
 		if(groupingLevel >= 0){
@@ -97,7 +97,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 			int originalDataColsLength = getDataColumnsLength(); //getOriginalCrosstabDataColsLength();
 			
 			if(groupingLevel < originalGroupColsLength + originalDataColsLength){
-				//this is a change in the original group so
+				//this is a change in the original group so...
 				
 				//First we update all remaining totals (if the report contains totals)
 				if(getShowTotals() || getShowGrandTotal()){
