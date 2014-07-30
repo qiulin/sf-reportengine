@@ -13,6 +13,7 @@ import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.ReportUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -171,9 +172,11 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 	
 	
 	private void addOriginalGroupAndDataColumnsInfoToIntermRow(IntermediateReportRow intermediateRow){
-		//only for debug ReportOutput output = getOutput(); 
-		//only for debug output.startRow();
-		//only for debug output.output(new CellProps("Intermediate row:"));
+		if(ReportUtils.DEBUG){
+			getReportOutput().startDataRow(new RowProps());
+			getReportOutput().outputDataCell(new CellProps.Builder("Intermediate row:").build());
+		}
+		
 		Integer originalGroupingValuesLength = getGroupColumnsCount(); //getOriginalCrosstabGroupingColsLength();
 		Integer originalDataValuesLength = getDataColumnsLength(); //getOriginalCrosstabDataColsLength(); 
 		Object[] previousGroupValues = getPreviousRowOfGroupValues(); 
@@ -182,7 +185,9 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 		//although we have more values in the previous grouping values we display only the original ones
 		//because they are further needed in the second iteration
 		for (int i=0; i<originalGroupingValuesLength; i++) {
-			//only for debug output.output(new CellProps(previousGroupValues[i]));
+			if(ReportUtils.DEBUG){
+				getReportOutput().outputDataCell(new CellProps.Builder(previousGroupValues[i]).build());
+			}
 			intermediateRow.addOrigGroupValue(previousGroupValues[i]);
 		}
 		LOGGER.debug("second: adding {} data values to intermediate row", originalDataValuesLength);
@@ -191,16 +196,16 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 			intermediateRow.addOrigDataColValue(prevValue);
 		}
 		
-		/*only for debug
-		for (IntermediateDataInfo element : intermediateRow.getIntermediateDataRow().getDataList()) {
-			output.output(new CellProps(element.toString()));
-		}
+		if(ReportUtils.DEBUG){
+			for (IntermediateDataInfo element : intermediateRow.getIntermComputedDataList().getDataList()) {
+				getReportOutput().outputDataCell(new CellProps.Builder(element.toString()).build());
+			}
 		
-		for (IntermediateTotalInfo totalInfo : intermediateRow.getIntermediateTotals().getTotalsDataList()) {
-			output.output(new CellProps(totalInfo.toString()));
+			for (IntermediateTotalInfo totalInfo : intermediateRow.getIntermComputedTotalsList().getTotalsDataList()) {
+				getReportOutput().outputDataCell(new CellProps.Builder(totalInfo.toString()).build());
+			}
+			getReportOutput().endDataRow(); 
 		}
-		output.endRow(); 
-		*/
 	}
 	
 	
