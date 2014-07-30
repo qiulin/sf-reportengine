@@ -3,9 +3,18 @@
  */
 package net.sf.reportengine;
 
+import static net.sf.reportengine.util.IOKeys.CROSSTAB_DATA;
+import static net.sf.reportengine.util.IOKeys.CROSSTAB_HEADER_ROWS;
+import static net.sf.reportengine.util.IOKeys.DATA_COLS;
+import static net.sf.reportengine.util.IOKeys.GROUP_COLS;
+import static net.sf.reportengine.util.IOKeys.REPORT_INPUT;
+import static net.sf.reportengine.util.IOKeys.REPORT_OUTPUT;
+import static net.sf.reportengine.util.IOKeys.REPORT_TITLE;
+import static net.sf.reportengine.util.IOKeys.SHOW_GRAND_TOTAL;
+import static net.sf.reportengine.util.IOKeys.SHOW_TOTALS;
 import static net.sf.reportengine.util.UserRequestedBoolean.FALSE_NOT_REQUESTED_BY_USER;
-import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_NOT_REQUESTED_BY_USER;
 import static net.sf.reportengine.util.UserRequestedBoolean.FALSE_REQUESTED_BY_USER;
+import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_NOT_REQUESTED_BY_USER;
 import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_REQUESTED_BY_USER;
 
 import java.util.ArrayList;
@@ -17,6 +26,7 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
+import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.Algorithm;
@@ -49,12 +59,9 @@ import net.sf.reportengine.core.steps.intermed.IntermedSetResultsExitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsCalculatorStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsOutputStep;
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.Html5Output;
 import net.sf.reportengine.out.ReportOutput;
-import net.sf.reportengine.util.UserRequestedBoolean;
-import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
+import net.sf.reportengine.util.UserRequestedBoolean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -208,20 +215,20 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	protected void config() {
 		LOGGER.trace("configuring crosstab report ..."); 
 		
-		reportAlgoContainer.addIn(IOKeys.REPORT_TITLE, getTitle()); 
+		reportAlgoContainer.addIn(REPORT_TITLE, getTitle()); 
 		
 		//setting the input/output
-		reportAlgoContainer.addIn(IOKeys.REPORT_INPUT, getIn());
-		reportAlgoContainer.addIn(IOKeys.REPORT_OUTPUT, getOut());
+		reportAlgoContainer.addIn(REPORT_INPUT, getIn());
+		reportAlgoContainer.addIn(REPORT_OUTPUT, getOut());
 		
 		//context keys specific to a flat report
-		reportAlgoContainer.addIn(IOKeys.DATA_COLS, getDataColumns()); 
-		reportAlgoContainer.addIn(IOKeys.GROUP_COLS, getGroupColumns()); 
-		reportAlgoContainer.addIn(IOKeys.CROSSTAB_HEADER_ROWS, crosstabHeaderRowsAsList); 
-		reportAlgoContainer.addIn(IOKeys.CROSSTAB_DATA, crosstabData); 
+		reportAlgoContainer.addIn(DATA_COLS, getDataColumns()); 
+		reportAlgoContainer.addIn(GROUP_COLS, getGroupColumns()); 
+		reportAlgoContainer.addIn(CROSSTAB_HEADER_ROWS, crosstabHeaderRowsAsList); 
+		reportAlgoContainer.addIn(CROSSTAB_DATA, crosstabData); 
 		
-		reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, Boolean.valueOf(getShowTotals())); 
-		reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
+		reportAlgoContainer.addIn(SHOW_TOTALS, Boolean.valueOf(getShowTotals())); 
+		reportAlgoContainer.addIn(SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
 		
 		needsProgramaticSorting = 
 					!hasValuesSorted() 

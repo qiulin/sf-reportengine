@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
@@ -33,6 +32,10 @@ public final class ReportUtils {
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(ReportUtils.class);
 	
+	/**
+	 * debug flag
+	 */
+	public static boolean DEBUG = false;
 	
 	/**
 	 * the private constructor

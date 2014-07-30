@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -218,7 +217,9 @@ public final class ReportIoUtils {
 		File tempFile;
 		try {
 			tempFile = File.createTempFile(prefix, extension);
-			tempFile.deleteOnExit(); 
+			if(!ReportUtils.DEBUG){
+				tempFile.deleteOnExit(); 
+			}
 			
 			LOGGER.info("temporary file created on path {}", tempFile.getAbsolutePath()); 
 		} catch (IOException e) {
