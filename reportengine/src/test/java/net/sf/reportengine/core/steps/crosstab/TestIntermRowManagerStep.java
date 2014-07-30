@@ -3,14 +3,18 @@
  */
 package net.sf.reportengine.core.steps.crosstab;
 
+import static net.sf.reportengine.util.IOKeys.DATA_COLS;
+import static net.sf.reportengine.util.IOKeys.GROUP_COLS;
+import static net.sf.reportengine.util.IOKeys.SHOW_GRAND_TOTAL;
+import static net.sf.reportengine.util.IOKeys.SHOW_TOTALS;
+
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 
+import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.AlgoContext;
-import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.scenarios.Scenario1;
@@ -33,11 +37,11 @@ public class TestIntermRowManagerStep {
 		AlgoContext context = new DefaultAlgorithmContext();
 		Map<IOKeys, Object> mockInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		
-		mockInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
-		mockInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
-		//mockInput.put(IOKeys.REPORT_OUTPUT, new CellPropsArrayOutput()); 
-		mockInput.put(IOKeys.SHOW_TOTALS, false); 
-		mockInput.put(IOKeys.SHOW_GRAND_TOTAL, false); 
+		mockInput.put(DATA_COLS, Scenario1.DATA_COLUMNS); 
+		mockInput.put(GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
+		//mockInput.put(REPORT_OUTPUT, new CellPropsArrayOutput()); 
+		mockInput.put(SHOW_TOTALS, false); 
+		mockInput.put(SHOW_GRAND_TOTAL, false); 
 		
 		context.set(ContextKeys.NEW_GROUPING_LEVEL, Integer.valueOf(1)); 
 		context.set(ContextKeys.LAST_GROUPING_VALUES, new String[]{"1", "2", "3", "4", "5", "6"}); 

@@ -103,7 +103,8 @@ public class IntermediateCrosstabReportInput extends AbstractReportInput {
 		LOGGER.trace("requesting next intermediate row"); 
 		List<Object> result = null; 
 		if(hasMoreRows()){
-			Object[] temp = transformIntermediateCrosstabLine(nextRawLine); //TODO: try to return directly a list
+			//TODO: try to return directly a list
+			Object[] temp = transformIntermediateCrosstabLine(nextRawLine); 
 			result = Arrays.asList(temp); 
 			//prepare the next line
 			if(!nextRawLine.isLast()){
@@ -157,25 +158,21 @@ public class IntermediateCrosstabReportInput extends AbstractReportInput {
 			IntermOriginalGroupValuesList intermGroupValues = intermRow.getIntermGroupValuesList(); 
 			if(intermGroupValues != null){
 				result[0] = intermGroupValues; 
-				//result.set(0, intermGroupValues); 
 			}
 			
 			IntermOriginalDataColsList intermOrigDataColValues = intermRow.getIntermOriginalDataValuesList(); 
 			if(intermOrigDataColValues != null){
 				result[1] = intermOrigDataColValues; 
-				//result.set(1, intermOrigDataColValues);
 			}
 			
 			IntermComputedDataList intermDataList = intermRow.getIntermComputedDataList(); 
 			if(intermDataList != null){
 				result[2] = intermDataList; 
-				//result.set(2, intermDataList); 
 			}
 			
 			IntermComputedTotalsList intermTotals = intermRow.getIntermComputedTotalsList(); 
 			if(intermTotals !=  null){
 				result[3] = intermTotals; 
-				//result.set(3, intermTotals); 
 			}
 		}
 		return result; 
