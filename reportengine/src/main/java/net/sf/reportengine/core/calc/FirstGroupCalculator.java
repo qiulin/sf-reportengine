@@ -13,11 +13,6 @@ package net.sf.reportengine.core.calc;
 public class FirstGroupCalculator<T> extends AbstractGroupCalculator<T, FirstCalcIntermResult<T>, T> {
 	
 	/**
-	 * the serial version id
-	 */
-	private static final long serialVersionUID = -2380332591835262973L;
-	
-	/**
 	 * the default label
 	 */
 	public static final String LABEL = "First"; 

@@ -3,8 +3,6 @@
  */
 package net.sf.reportengine.util;
 
-import static org.junit.Assert.*;
-
 import java.io.InputStream;
 
 import org.junit.Before;

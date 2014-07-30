@@ -23,11 +23,6 @@ public class AvgGroupCalculator extends AbstractGroupCalculator<BigDecimal, AvgC
 	
 	
 	/**
-	 * the serial version id
-	 */
-	private static final long serialVersionUID = -8084427675511918932L;
-	
-	/**
 	 * the label for this calculator
 	 */
 	public static final String LABEL = "Average";

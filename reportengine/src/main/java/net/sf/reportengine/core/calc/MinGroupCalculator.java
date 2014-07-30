@@ -15,11 +15,6 @@ import java.math.BigDecimal;
 public class MinGroupCalculator extends AbstractGroupCalculator<BigDecimal, DefaultCalcIntermResult<BigDecimal>, Object> {
 
 	/**
-	 * serial version id
-	 */
-	private static final long serialVersionUID = 2910018078671866178L;
-	
-	/**
 	 * the default label
 	 */
 	public static final String LABEL = "Minimum"; 

@@ -12,11 +12,6 @@ import java.math.BigDecimal;
 public class MaxGroupCalculator extends AbstractGroupCalculator<BigDecimal, DefaultCalcIntermResult<BigDecimal>, Object> {
 
 	/**
-	 * serial version id
-	 */
-	private static final long serialVersionUID = 1685207603024868298L;
-	
-	/**
 	 * the default label
 	 */
 	public static final String LABEL = "Maximum"; 

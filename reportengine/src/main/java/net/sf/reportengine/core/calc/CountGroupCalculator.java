@@ -15,11 +15,6 @@ import org.apache.commons.lang.math.NumberUtils;
 public class CountGroupCalculator extends AbstractGroupCalculator<Integer, DefaultCalcIntermResult<Integer>, Object> {
 	
 	/**
-	 * the serial version id
-	 */
-	private static final long serialVersionUID = -3168637033035009530L;
-
-	/**
 	 * the label
 	 */
 	public static final String LABEL = "Count"; 
