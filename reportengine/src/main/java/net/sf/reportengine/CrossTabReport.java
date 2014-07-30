@@ -132,12 +132,12 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	private List<CrosstabHeaderRow> crosstabHeaderRowsAsList = new ArrayList<CrosstabHeaderRow>(); 
 	
 	/**
-	 * the crossta data
+	 * the crosstab data
 	 */
 	private CrosstabData crosstabData; 
 	
 	/**
-	 * 
+	 * whether or not this report needs programatic sorting
 	 */
 	private boolean needsProgramaticSorting = false;
 	
@@ -209,6 +209,7 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 		LOGGER.trace("configuring crosstab report ..."); 
 		
 		reportAlgoContainer.addIn(IOKeys.REPORT_TITLE, getTitle()); 
+		
 		//setting the input/output
 		reportAlgoContainer.addIn(IOKeys.REPORT_INPUT, getIn());
 		reportAlgoContainer.addIn(IOKeys.REPORT_OUTPUT, getOut());
@@ -258,7 +259,9 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 			algorithm.addInitStep(new ConfigMultiExternalFilesInputForIntermReportInitStep()); 
 		}
 		algorithm.addInitStep(new OpenReportIOInitStep()); 
-		algorithm.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
+		
+		//TODO: only when totals add the step below
+		algorithm.addInitStep(new IntermedReportExtractTotalsDataInitStep());
 		algorithm.addInitStep(new StartReportInitStep()); 
     	//only for debug
     	//algorithm.addInitStep(new ColumnHeaderOutputInitStep("Intermediate report"));
@@ -277,7 +280,8 @@ public class CrossTabReport extends AbstractColumnBasedReport{
     		algorithm.addMainStep(new IntermedTotalsCalculatorStep());
     	}
     	
-    	//only for debug algorithm.addMainStep(new DataRowsOutputStep());
+    	//only for debug 
+    	//algorithm.addMainStep(new DataRowsOutputStep());
     	
     	//if( intermediateGroupCols.size() > 0){
     		algorithm.addMainStep(new IntermedPreviousRowManagerStep());
