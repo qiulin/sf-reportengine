@@ -3,7 +3,6 @@
  */
 package net.sf.reportengine.core.calc;
 
-import java.io.Serializable;
 
 /**
  * Interface for Group Calculators
