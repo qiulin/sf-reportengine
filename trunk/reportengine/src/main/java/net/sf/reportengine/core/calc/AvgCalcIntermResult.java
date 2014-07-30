@@ -3,9 +3,6 @@
  */
 package net.sf.reportengine.core.calc;
 
-import java.math.BigDecimal;
-
-import org.apache.poi.ss.formula.functions.T;
 
 
 /**

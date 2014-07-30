@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @author dragos balan
  *
  */
-public interface GroupCalculator <R, I extends CalcIntermResult<R>, V> extends Serializable{
+public interface GroupCalculator <R, I extends CalcIntermResult<R>, V>{
 	
 	/**
 	 * this is used for initializing the intermediate result. 

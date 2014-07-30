@@ -14,11 +14,6 @@ public abstract class AbstractGroupCalculator<R, I extends CalcIntermResult<R>, 
 				implements GroupCalculator <R, I, V>{
 
 	/**
-	 *  serial version id
-	 */
-	private static final long serialVersionUID = 307245703496260662L;
-	
-	/**
 	 * the label of the calculator
 	 */
 	private final String label; 

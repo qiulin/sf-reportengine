@@ -11,11 +11,6 @@ package net.sf.reportengine.core.calc;
 public class LastGroupCalculator<T> extends AbstractGroupCalculator<T, DefaultCalcIntermResult<T>, T> {
 
 	/**
-	 * serial version id
-	 */
-	private static final long serialVersionUID = 8131223933103594743L;
-	
-	/**
 	 * the default label
 	 */
 	public static final String LABEL = "Last"; 

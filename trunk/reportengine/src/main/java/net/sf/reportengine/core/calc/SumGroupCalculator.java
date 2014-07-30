@@ -18,11 +18,6 @@ public class SumGroupCalculator extends AbstractGroupCalculator<BigDecimal, Defa
 	
 	
 	/**
-	 * the serial version id
-	 */
-	private static final long serialVersionUID = 7717198690428873303L;
-	
-	/**
 	 * the default label
 	 */
 	public static final String LABEL = "Total";
