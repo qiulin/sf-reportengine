@@ -45,4 +45,20 @@ public class IntermedTotalsOutputStep extends FlatReportTotalsOutputStep {
     @Override public List<GroupColumn> getGroupColumns(){
     	return (List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS); 
 	}
+    
+    
+    public List<DataColumn> getInitialDataColumns(){
+    	return (List<DataColumn>)getAlgoInput().get(IOKeys.DATA_COLS); 
+    }
+    
+    @Override
+    protected String getLabelsForAllCalculators(){
+    	StringBuilder result = new StringBuilder(); 
+    	for (DataColumn dataColumn : getInitialDataColumns()) {
+			if(dataColumn.getCalculator() != null){
+				result.append(dataColumn.getCalculator().getLabel()).append(" ") ;
+			}
+		}
+    	return result.toString(); 
+    }
 }
