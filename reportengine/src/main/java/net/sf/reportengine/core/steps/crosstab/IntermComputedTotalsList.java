@@ -55,7 +55,7 @@ public class IntermComputedTotalsList implements Serializable{
 		boolean allPositionsAreEqual =  true; 
 		
 		if(position != null){
-			//iterate over dataList
+			//iterate over the totals data List
 			for (IntermediateTotalInfo totalInfo : totalsDataList) {
 				int[] positionRelativeToHeader = totalInfo.getPositionRelativeToHeader();
 			
@@ -87,6 +87,7 @@ public class IntermComputedTotalsList implements Serializable{
 				}
 			}//end loop totalsInfo 
 		}else{
+			//position is null
 			for (IntermediateTotalInfo totalInfo : totalsDataList) {
 				if(totalInfo.getPositionRelativeToHeader() == null){
 					result = totalInfo.getComputedValue(); 

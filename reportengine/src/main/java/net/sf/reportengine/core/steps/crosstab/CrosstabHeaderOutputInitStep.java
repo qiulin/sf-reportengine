@@ -114,7 +114,8 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep{
 						displayHeaderForTotalColumn((SecondProcessTotalColumn)currentDataColumn,
 													reportOutput, 
 													ctMetadata, 
-													currHeaderRow);
+													currHeaderRow, 
+													getCrosstabData().getCalculator().getLabel());
 						currentColumn++;
 					}else{
 						if(currentDataColumn instanceof SecondProcessDataColumnFromOriginalDataColumn){
@@ -202,7 +203,8 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep{
 	private void displayHeaderForTotalColumn(	SecondProcessTotalColumn secondProcessTotalCol,
 												ReportOutput reportOutput, 
 												CtMetadata ctMetadata, 
-												int currHeaderRow) {
+												int currHeaderRow, 
+												String totalLabel) {
 		int[] position = secondProcessTotalCol.getPosition();
 		
 		if(position != null){
@@ -216,7 +218,7 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep{
 			}else{
 				//if there's no position for this header row then this is a hard-coded "TOTAL" 
 				if(currHeaderRow == position.length){
-					reportOutput.outputHeaderCell(new CellProps.Builder("Total")
+					reportOutput.outputHeaderCell(new CellProps.Builder(totalLabel)
 												.horizAlign(HorizAlign.CENTER)
 												.rowNumber(currHeaderRow)
 												.build());
@@ -227,7 +229,7 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep{
 		}else{
 			//the only data column that has null positions is the grand total column
 			if(currHeaderRow == 0){
-				reportOutput.outputHeaderCell(new CellProps.Builder("Grand Total")
+				reportOutput.outputHeaderCell(new CellProps.Builder("Grand "+totalLabel)
 											.horizAlign(HorizAlign.LEFT)
 											.rowNumber(currHeaderRow)
 											.build());

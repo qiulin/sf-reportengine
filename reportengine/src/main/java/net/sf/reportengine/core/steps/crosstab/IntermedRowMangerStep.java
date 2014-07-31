@@ -118,7 +118,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 				
 				if(getShowTotals() || getShowGrandTotal()){
 					updateIntermediateTotals(	groupingLevel, 				//from the current grouping level 
-												getIntermGroupColsLength(),//getGroupColumnsLength(), //to the last intermediate grouping col
+												getIntermGroupColsLength(), //to the last intermediate grouping col
 												calcResults);
 				}
 			}

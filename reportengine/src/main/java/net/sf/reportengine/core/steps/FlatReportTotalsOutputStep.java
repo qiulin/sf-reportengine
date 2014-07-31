@@ -85,7 +85,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     	groupCols = getGroupColumns();
     	dataCols = getDataColumns(); 
     	distribOfCalculatorsInDataColsArray = getCalculatorDistributionInColumnDataArray(); 
-    	calcLabels = getLabelsForAllCalculators(dataCols); 
+    	calcLabels = getLabelsForAllCalculators(); 
     	
     	LOGGER.trace("The FlatReportTotalsOutputStep has been initialized. The distribution array is null {}", (distribOfCalculatorsInDataColsArray == null));
     }
@@ -219,9 +219,9 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     	incrementDataRowNbr(); 
     }
     
-    private String getLabelsForAllCalculators(List<DataColumn> dataColumns){
+    protected String getLabelsForAllCalculators(){
     	StringBuilder result = new StringBuilder(); 
-    	for (DataColumn dataColumn : dataColumns) {
+    	for (DataColumn dataColumn : dataCols) {
 			if(dataColumn.getCalculator() != null){
 				result.append(dataColumn.getCalculator().getLabel()).append(" ") ;
 			}
