@@ -171,25 +171,24 @@ public class TestCrossTabReport extends TestCase {
 	}
 	
 	public void testExecute3x2x1xT(){
-		CrossTabReport classUnderTest = new CrossTabReport(); 
-		classUnderTest.setTitle("crosstab report 3x2x1xT"); 
-		classUnderTest.setIn(new TextInput(ReportIoUtils.createInputStreamFromClassPath("3x2x1.txt"), ",")); 
-		classUnderTest.setOut(new HtmlOutput("target/CrosstabReport3x2x1xT.html"));
+		new CrossTabReport.Builder() 
+			.title("Pivot table 3x2x1xT. Please observe the strange behaviour on Count Rows. <br/>It's due to using two different group calculators (one for crosstabData and a different one for dataColumn") 
+			.input(new TextInput(ReportIoUtils.createInputStreamFromClassPath("3x2x1.txt"), ","))
+			.output(new HtmlOutput("target/CrosstabReport3x2x1xT.html"))
+			.addGroupColumn(new DefaultGroupColumn.Builder(0).header("Country").build())
+			.addGroupColumn(new DefaultGroupColumn.Builder(1).header("Region").build())
 		
-		classUnderTest.addGroupColumn(new DefaultGroupColumn("Country", 0, 0));
-		classUnderTest.addGroupColumn(new DefaultGroupColumn("Region", 1, 1));
+			.addDataColumn(new DefaultDataColumn("City", 2, GroupCalculators.COUNT))
 		
-		classUnderTest.addDataColumn(new DefaultDataColumn("City", 2, new CountGroupCalculator()));
+			.addHeaderRow(new DefaultCrosstabHeaderRow(3))
+			.addHeaderRow(new DefaultCrosstabHeaderRow(4)) 
 		
-		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(3)); 
-		classUnderTest.addHeaderRow(new DefaultCrosstabHeaderRow(4)); 
+			.crosstabData(new DefaultCrosstabData(5, GroupCalculators.SUM)) 
 		
-		classUnderTest.setCrosstabData(new DefaultCrosstabData(5, new CountGroupCalculator())); 
-		
-		classUnderTest.setShowTotals(true); 
-		classUnderTest.setShowGrandTotal(true); 
-		
-		classUnderTest.execute(); 
+			.showTotals(true) 
+			.showGrandTotal(true)
+			.build()
+		.execute(); 
 	}
 	
 	//TODO
