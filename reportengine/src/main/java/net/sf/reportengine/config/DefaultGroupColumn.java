@@ -212,6 +212,7 @@ public class DefaultGroupColumn extends AbstractGroupColumn {
 		
 		public Builder(int columnIndex){
 			this.columnIndex = columnIndex; 
+			this.groupLevel = columnIndex; 
 		}
 		
 		public Builder header(String header){
