@@ -12,7 +12,7 @@ import java.io.Writer;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public abstract class AbstractXmlOutput extends AbstractCharBasedOutput {
+public abstract class AbstractXmlOutput extends AbstractCharOutput {
 	
 	public final static String TAG_REPORT = "report";
 	

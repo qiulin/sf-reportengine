@@ -44,7 +44,7 @@ import org.xml.sax.SAXException;
  * @since 0.3
  * @deprecated Use the {@link FoOutput} instead
  */
-public class XslFoOutput extends AbstractByteBasedOutput {
+public class XslFoOutput extends AbstractByteOutput {
 	
 	/**
 	 * the one and only logger

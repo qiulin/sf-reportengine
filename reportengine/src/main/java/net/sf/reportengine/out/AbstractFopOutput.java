@@ -78,23 +78,35 @@ public abstract class AbstractFopOutput implements ReportOutput{
 		this(new ByteArrayOutputStream()); 
 	}
 	
+	
 	/**
-	 * output into a file 
+	 * creates a new file and writes the content of the report into it
 	 * 
 	 * @param filePath	the path of the resulting output file
 	 */
 	public AbstractFopOutput(String filePath){
-		this(filePath, buildDefaultConfiguration());
+		this(filePath, false);
+	}
+	
+	/**
+	 * output into a file with the choice of appending to an existing file
+	 * 
+	 * @param filePath	the path of the resulting output file
+	 * @param append 	true if you want to append the output to an existing file
+	 */
+	public AbstractFopOutput(String filePath, boolean append){
+		this(filePath, append, buildDefaultConfiguration());
 	}
 	
 	/**
 	 * this outputs into a file with custom fop configuration
 	 * 
 	 * @param filePath		the output file path
+	 * @param append 		true if you want to append the output to an existing file
 	 * @param fopConfig		the custom fop configuration
 	 */
-	public AbstractFopOutput(String filePath, Configuration fopConfig){
-		this(ReportIoUtils.createOutputStreamFromPath(filePath), fopConfig); 
+	public AbstractFopOutput(String filePath, boolean append, Configuration fopConfig){
+		this(ReportIoUtils.createOutputStreamFromPath(filePath, append), fopConfig); 
 		LOGGER.info("output into file {}", filePath); 
 	}
 	

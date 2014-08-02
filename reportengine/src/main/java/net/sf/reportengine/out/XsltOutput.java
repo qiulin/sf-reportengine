@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public class XsltOutput extends AbstractCharBasedOutput {
+public class XsltOutput extends AbstractCharOutput {
 	
 	/**
 	 * the one and only logger
@@ -76,14 +76,27 @@ public class XsltOutput extends AbstractCharBasedOutput {
     	super(outFilePath); 
     }
     
+    
     /**
      * output into the specified file using the xslt provided
      * 
      * @param filePath		the output file path
      * @param xsltReader	the xslt reader
      */
-    public XsltOutput(String outFilePath, Reader xsltReader){
-    	super(outFilePath); 
+    public XsltOutput(String outFilePath, boolean append){
+    	super(outFilePath, append); 
+    	//null xslt reader
+    }
+    
+    
+    /**
+     * output into the specified file using the xslt provided
+     * 
+     * @param filePath		the output file path
+     * @param xsltReader	the xslt reader
+     */
+    public XsltOutput(String outFilePath, boolean append, Reader xsltReader){
+    	super(outFilePath, append); 
     	setXsltReader(xsltReader); 
     }
     

@@ -49,10 +49,22 @@ public class PngOutput extends AbstractFopOutput {
 	 * fop configuration will be used.
 	 * 
 	 * @param filePath	the path of the file where png will be generated
+	 * @param append 	true if you want to append the content to an existing file
+	 */
+	public PngOutput(String filePath, boolean append){
+		super(filePath, append); 
+	}
+	
+	/**
+	 * generates the png onto the specified file path and during the creation of the png the specified
+	 * fop configuration will be used.
+	 * 
+	 * @param filePath	the path of the file where png will be generated
+	 * @param append 	true if you want to append the content to an existing file
 	 * @param fopConfig	the custom fop configuration
 	 */
-	public PngOutput(String filePath, Configuration fopConfig){
-		super(filePath, fopConfig); 
+	public PngOutput(String filePath, boolean append, Configuration fopConfig){
+		super(filePath, append, fopConfig); 
 	}
 	
 	/**

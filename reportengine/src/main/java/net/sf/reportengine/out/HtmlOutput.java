@@ -25,7 +25,7 @@ import net.sf.reportengine.util.ReportIoUtils;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class HtmlOutput extends AbstractCharBasedOutput {
+public class HtmlOutput extends AbstractCharOutput {
     /**
      * css style
      */
@@ -79,12 +79,23 @@ public class HtmlOutput extends AbstractCharBasedOutput {
     }
     
     /**
-     * html output to the specified file
+     * html output to a new file 
      * 
      * @param fileName
      */
     public HtmlOutput(String fileName){
-    	super(fileName); 
+    	super(fileName, false); 
+    }
+    
+    
+    /**
+     * html output to the specified file
+     * 
+     * @param fileName	the full path of the file
+     * @param append 	true if you want to append the current report to an existing file
+     */
+    public HtmlOutput(String fileName, boolean append){
+    	super(fileName, append); 
     }
     
     /**
