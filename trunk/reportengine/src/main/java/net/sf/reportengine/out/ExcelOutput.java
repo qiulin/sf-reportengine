@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class ExcelOutput extends AbstractByteBasedOutput {
+public class ExcelOutput extends AbstractByteOutput {
     
 	/**
 	 * the one and only logger

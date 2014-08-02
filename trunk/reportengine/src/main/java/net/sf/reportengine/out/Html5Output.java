@@ -14,7 +14,11 @@ public class Html5Output extends FreemarkerOutput {
 	}
 	
 	public Html5Output(String filePath){
-		super(filePath);
+		this(filePath, false); 
+	}
+	
+	public Html5Output(String filePath, boolean append){
+		super(filePath, append);
 	}
 	
 	public Html5Output(Writer writer){

@@ -55,16 +55,26 @@ public class FoOutput implements ReportOutput{
 	 * @param filePath
 	 */
 	public FoOutput(String filePath){
-		freemarkerOutput = new FreemarkerOutput(filePath, getDefaultFreemarkerConfig()); 
+		freemarkerOutput = new FreemarkerOutput(filePath, false, getDefaultFreemarkerConfig()); 
 	}
 	
 	/**
 	 * 
 	 * @param filePath
+	 * @param append 		true if you want to append the current report to an existing file	
+	 */
+	public FoOutput(String filePath, boolean append ){
+		freemarkerOutput = new FreemarkerOutput(filePath, append, getDefaultFreemarkerConfig()); 
+	}    
+	
+	/**
+	 * 
+	 * @param filePath
+	 * @param append 			true if you want to append the current report to an existing file
 	 * @param freemarkerConfig
 	 */
-	public FoOutput(String filePath, Configuration freemarkerConfig){
-		freemarkerOutput = new FreemarkerOutput(filePath, freemarkerConfig); 
+	public FoOutput(String filePath, boolean append, Configuration freemarkerConfig){
+		freemarkerOutput = new FreemarkerOutput(filePath, append, freemarkerConfig); 
 	}
 	
 	/**

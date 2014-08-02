@@ -45,14 +45,26 @@ public class PdfOutput extends AbstractFopOutput{
 	}
 	
 	/**
+	 * generates the pdf onto the specified file path with the possibility to append to an existing file.
+	 * 
+	 * @param filePath	the path of the file where pdf will be generated
+	 * @param append 	true if you want to append the content to an existing file
+	 */
+	public PdfOutput(String filePath, boolean append){
+		super(filePath, append); 
+	}
+	
+	
+	/**
 	 * generates the pdf onto the specified file path and during the creation of the pdf the specified
 	 * fop configuration will be used.
 	 * 
 	 * @param filePath	the path of the file where pdf will be generated
+	 * @param append 	true if you want to append the content to an existing file
 	 * @param fopConfig	the custom fop configuration
 	 */
-	public PdfOutput(String filePath, Configuration fopConfig){
-		super(filePath, fopConfig); 
+	public PdfOutput(String filePath, boolean append, Configuration fopConfig){
+		super(filePath, append, fopConfig); 
 	}
 	
 	/**

@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public class TextOutput extends AbstractCharBasedOutput{
+public class TextOutput extends AbstractCharOutput{
 	
 	/**
 	 * default data/columns separator

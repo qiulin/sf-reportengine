@@ -165,6 +165,7 @@ public class TestFlatReport {
         output.registerOutput(new Html5Output("target/testExecute2x3x1.html"));
         output.registerOutput(new StaxReportOutput("target/testExecute2x3x1.xml"));
         output.registerOutput(new XsltOutput(	"target/testXsltOutput2x3x1.html", 
+        										false, 
         										ReportIoUtils.createReaderFromClassPath("net/sf/reportengine/xslt/defaultTemplate.xslt")));
         output.registerOutput(new PdfOutput("target/testExecute2x3x1.pdf"));
         output.registerOutput(new PngOutput("target/testExecute2x3x1.png"));
@@ -332,5 +333,22 @@ public class TestFlatReport {
 		Assert.assertTrue(flatReport.hasValuesSorted());
 				
 		flatReport.execute();
+	}
+	
+	@Test
+	public void testTwoTablesInSameFile(){
+		new FlatReport.Builder()
+			.title("This is the first report in the document. Below this table you should see another one.")
+			.input(Scenario1.INPUT)
+			.output(new Html5Output("./target/ReportMultipleTables.html"))
+			.dataColumns(Scenario1.DATA_COLUMNS)
+			.build().execute();;
+		
+		new FlatReport.Builder()
+			.title("This is the second table. If it is displayed correctly then the test has passed")
+			.input(Scenario1.INPUT)
+			.output(new Html5Output("./target/ReportMultipleTables.html"))
+			.dataColumns(Scenario1.DATA_COLUMNS)
+			.build().execute();
 	}
 }

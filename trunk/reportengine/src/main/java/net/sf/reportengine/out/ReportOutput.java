@@ -23,7 +23,7 @@ package net.sf.reportengine.out;
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.1
- * @see {@link AbstractByteBasedOutput} {@link AbstractCharBasedOutput}
+ * @see {@link AbstractByteOutput} {@link AbstractCharOutput}
  */
 public interface ReportOutput {
 	
@@ -100,5 +100,5 @@ public interface ReportOutput {
 	 * closes the output (frees any resources used during the output)
 	 */
 	public void close();
-    
+	
 }

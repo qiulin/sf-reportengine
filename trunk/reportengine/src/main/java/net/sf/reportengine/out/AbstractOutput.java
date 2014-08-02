@@ -9,11 +9,11 @@ package net.sf.reportengine.out;
  * marking the opening/closing reports, null values replacement, counting rows. 
  * 
  * For better functionality it is recommended to extend one of the two children  
- * {@link AbstractByteBasedOutput} or {@link AbstractCharBasedOutput}
+ * {@link AbstractByteOutput} or {@link AbstractCharOutput}
  * 
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
- * @see {@link AbstractByteBasedOutput}, {@link AbstractCharBasedOutput}
+ * @see {@link AbstractByteOutput}, {@link AbstractCharOutput}
  * @since 0.2
  */
 public abstract class AbstractOutput implements ReportOutput {

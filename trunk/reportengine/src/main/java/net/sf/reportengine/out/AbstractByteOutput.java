@@ -38,14 +38,14 @@ import org.slf4j.LoggerFactory;
  * 
  * @author dragos balan (dragos dot balan @ gmail dot com)
  * @since 0.7
- * @see {@link AbstractCharBasedOutput} {@link ExcelOutput} {@link XslFoOutput}
+ * @see {@link AbstractCharOutput} {@link ExcelOutput} {@link XslFoOutput}
  */
-public abstract class AbstractByteBasedOutput extends AbstractOutput {
+public abstract class AbstractByteOutput extends AbstractOutput {
 	
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractByteBasedOutput.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractByteOutput.class);
 	
 	/**
 	 * the output stream behind this report output
@@ -55,18 +55,28 @@ public abstract class AbstractByteBasedOutput extends AbstractOutput {
 	/**
 	 * outputs into memory as {@code ByteArrayOutputStream}
 	 */
-	public AbstractByteBasedOutput() {
+	public AbstractByteOutput() {
 		this(new ByteArrayOutputStream()); 
 	}
 
 	/**
-	 * byte output into the specified file 
+	 * creates a new file and outputs the content into it
 	 * 
 	 * @param filePath	the output file path
 	 */
-	public AbstractByteBasedOutput(String filePath) {
-		this(ReportIoUtils.createOutputStreamFromPath(filePath));
-		LOGGER.info("output to file {}", filePath); 
+	public AbstractByteOutput(String filePath) {
+		this(filePath, false); 
+	}
+	
+	/**
+	 * Creates a new file ( or uses an existing one if append = true) and outputs the content into it
+	 * 
+	 * @param filePath	the output file path
+	 * @param append 	true if you want to append the generated content to an existing file
+	 */
+	public AbstractByteOutput(String filePath, boolean append) {
+		this(ReportIoUtils.createOutputStreamFromPath(filePath, append));
+		LOGGER.info("output to file {} in append mode {}", filePath, append); 
 	}
 
 	/**
@@ -75,7 +85,7 @@ public abstract class AbstractByteBasedOutput extends AbstractOutput {
 	 * 
 	 * @param out	the output stream
 	 */
-	public AbstractByteBasedOutput(OutputStream out) {
+	public AbstractByteOutput(OutputStream out) {
 		this.outputStream = out; 
 	}
 	

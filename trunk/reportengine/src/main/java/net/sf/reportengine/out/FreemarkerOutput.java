@@ -37,7 +37,7 @@ import freemarker.template.TemplateException;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.7
  */
-public class FreemarkerOutput extends AbstractCharBasedOutput {
+public class FreemarkerOutput extends AbstractCharOutput {
 	
 	/**
 	 * freemarker configuration class
@@ -108,6 +108,7 @@ public class FreemarkerOutput extends AbstractCharBasedOutput {
 	 * with {@link #setOutputWriter(Writer)} or {@link #setFilePath(String)}
 	 */
 	public FreemarkerOutput(){
+		super();
 	}
 	
 	/**
@@ -115,17 +116,29 @@ public class FreemarkerOutput extends AbstractCharBasedOutput {
 	 * @param filePath	the path of the file
 	 */
 	public FreemarkerOutput(String filePath){
-		super(filePath);
+		this(filePath, false); 
+	}
+	
+	
+	/**
+	 * Output into the specified file using the provided freemarker configuration
+	 * 
+	 * @param filePath			the path of the output file
+	 * @param append 			true if you want to append the current report to an existing file
+	 */
+	public FreemarkerOutput(String filePath, boolean append){
+		this(filePath, append, null); 
 	}
 	
 	/**
 	 * Output into the specified file using the provided freemarker configuration
 	 * 
 	 * @param filePath			the path of the output file
+	 * @param append 			true if you want to append the current report to an existing file
 	 * @param freemarkerConfig	the freemarker configuration 
 	 */
-	public FreemarkerOutput(String filePath, Configuration freemarkerConfig){
-		super(filePath); 
+	public FreemarkerOutput(String filePath, boolean append, Configuration freemarkerConfig){
+		super(filePath, append); 
 		setFreemarkerConfig(freemarkerConfig); 
 	}
 	

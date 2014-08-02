@@ -109,11 +109,22 @@ public final class ReportIoUtils {
 	
 	/**
 	 * 
-	 * @param filePath
+	 * @param filePath	the complete file path
+	 * 
 	 * @return
 	 */
 	public static Writer createWriterFromPath(String filePath){
-		return createWriterFromPath(filePath, UTF8_ENCODING); 
+		return createWriterFromPath(filePath, false, UTF8_ENCODING); 
+	}
+	
+	/**
+	 * 
+	 * @param filePath	the complete file path
+	 * @param append 	true if you want to create the file writer in append mode
+	 * @return
+	 */
+	public static Writer createWriterFromPath(String filePath, boolean append){
+		return createWriterFromPath(filePath, append, UTF8_ENCODING); 
 	}
 	
 	/**
@@ -122,9 +133,9 @@ public final class ReportIoUtils {
 	 * @param encoding
 	 * @return
 	 */
-	public static Writer createWriterFromPath(String filePath, String encoding){
+	public static Writer createWriterFromPath(String filePath, boolean append, String encoding){
 		try {
-			return new OutputStreamWriter(	new FileOutputStream(filePath), 
+			return new OutputStreamWriter(	new FileOutputStream(filePath, append), 
 											encoding);
 		} catch (FileNotFoundException e) {
 			throw new ReportOutputException(e); 
@@ -195,12 +206,22 @@ public final class ReportIoUtils {
 	
 	/**
 	 * 
-	 * @param filePath
+	 * @param filePath	the full path to the file
 	 * @return
 	 */
 	public static FileOutputStream createOutputStreamFromPath(String filePath){
+		return createOutputStreamFromPath(filePath, false); 
+	}
+	
+	/**
+	 * 
+	 * @param filePath	the full path to the file
+	 * @param append 	if true the resulting output stream will be created in append mode
+	 * @return
+	 */
+	public static FileOutputStream createOutputStreamFromPath(String filePath, boolean append){
 		try {
-			return new FileOutputStream(filePath);
+			return new FileOutputStream(filePath, append);
 		} catch (FileNotFoundException e) {
 			throw new ReportOutputException(e); 
 		}

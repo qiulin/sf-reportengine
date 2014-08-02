@@ -37,14 +37,14 @@ import org.slf4j.LoggerFactory;
  * 
  * @author dragos balan (dragos dot balan @ gmail dot com)
  * @since 0.7
- * @see {@link AbstractByteBasedOutput} {@link TextOutput} {@link HtmlOutput} {@link StaxReportOutput}
+ * @see {@link AbstractByteOutput} {@link TextOutput} {@link HtmlOutput} {@link StaxReportOutput}
  */
-public abstract class AbstractCharBasedOutput extends AbstractOutput {
+public abstract class AbstractCharOutput extends AbstractOutput {
 	
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCharBasedOutput.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCharOutput.class);
 	
 	/**
 	 * the writer behind this class
@@ -54,9 +54,8 @@ public abstract class AbstractCharBasedOutput extends AbstractOutput {
 	/**
 	 * char based output into a string writer (memory)
 	 */
-	public AbstractCharBasedOutput() {
+	public AbstractCharOutput() {
 		this(new StringWriter());
-		LOGGER.info("output to memory"); 
 	}
 
 	/**
@@ -64,19 +63,30 @@ public abstract class AbstractCharBasedOutput extends AbstractOutput {
 	 * 
 	 * @param filePath	the path of the output file
 	 */
-	public AbstractCharBasedOutput(String filePath) {
-		this(ReportIoUtils.createWriterFromPath(filePath)); 
-		LOGGER.info("output to file {}", filePath); 
+	public AbstractCharOutput(String filePath) {
+		this(filePath, false); 
 	}
+	
+	/**
+	 * char based output into the specified file path using the UTF-8 encoding
+	 * 
+	 * @param filePath	the path of the output file
+	 * @param append 	true if you want to append this content to an existing file
+	 */
+	public AbstractCharOutput(String filePath, boolean append){
+		this(filePath, append, ReportIoUtils.UTF8_ENCODING);
+	}
+	
 	
 	/**
 	 * char based output into the specified file path using the encoding provided
 	 * 
 	 * @param filePath	the path of the output file
-	 * @param encoding	the encoding
+	 * @param append 	true if you want to append this content to an existing file
+	 * @param encoding	the encoding of the file
 	 */
-	public AbstractCharBasedOutput(String filePath, String encoding){
-		this(ReportIoUtils.createWriterFromPath(filePath, encoding));
+	public AbstractCharOutput(String filePath, boolean append, String encoding){
+		this(ReportIoUtils.createWriterFromPath(filePath, append, encoding));
 		LOGGER.info("output to file {} using encoding {}", filePath, encoding); 
 	}
 	
@@ -86,7 +96,7 @@ public abstract class AbstractCharBasedOutput extends AbstractOutput {
 	 * 
 	 * @param writer	the output writer
 	 */
-	public AbstractCharBasedOutput(Writer writer) {
+	public AbstractCharOutput(Writer writer) {
 		this.outputWriter = writer;
 	}
 	
@@ -121,8 +131,9 @@ public abstract class AbstractCharBasedOutput extends AbstractOutput {
 	/**
 	 * 
 	 * @param filePath
+	 * @deprecated there's no control over encoding and other parameters. This method will be removed. 
 	 */
 	public void setFilePath(String filePath) {
-		setOutputWriter(ReportIoUtils.createWriterFromPath(filePath));
+		setOutputWriter(ReportIoUtils.createWriterFromPath(filePath, false, ReportIoUtils.UTF8_ENCODING));
 	}
 }
