@@ -5,7 +5,6 @@ package net.sf.reportengine.out;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -34,7 +33,7 @@ import org.xml.sax.SAXException;
  * Abstract parent class for any fop based report output.
  * The final output is created in two steps : 
  * 	1. output to fo (as a temporary file)
- *  2. output to desired format (pdf, png ...) by transforming the temporary fo.
+ *  2. output to desired format (pdf, png ...) by transforming the temporary fo using the apache fop library
  *  
  * @author dragos balan
  */

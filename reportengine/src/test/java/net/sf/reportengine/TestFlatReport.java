@@ -340,14 +340,14 @@ public class TestFlatReport {
 		new FlatReport.Builder()
 			.title("This is the first report in the document. Below this table you should see another one.")
 			.input(Scenario1.INPUT)
-			.output(new Html5Output("./target/ReportMultipleTables.html"))
+			.output(new Html5Output("./target/ReportMultipleTables.html", false))
 			.dataColumns(Scenario1.DATA_COLUMNS)
 			.build().execute();;
 		
 		new FlatReport.Builder()
 			.title("This is the second table. If it is displayed correctly then the test has passed")
 			.input(Scenario1.INPUT)
-			.output(new Html5Output("./target/ReportMultipleTables.html"))
+			.output(new Html5Output("./target/ReportMultipleTables.html", true))
 			.dataColumns(Scenario1.DATA_COLUMNS)
 			.build().execute();
 	}
