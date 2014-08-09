@@ -60,6 +60,11 @@ public abstract class AbstractFopOutput implements ReportOutput{
 	private OutputStream outputStream; 
 	
 	/**
+	 * if true this class is responsible for the lifecycle of the outputStream
+	 */
+	private boolean managedOutputStream = true; 
+	
+	/**
 	 * the temporary fo file
 	 */
 	private File tempFoFile;
@@ -116,7 +121,7 @@ public abstract class AbstractFopOutput implements ReportOutput{
 	 * @param out	the output stream
 	 */
 	public AbstractFopOutput(OutputStream out){
-		this(out, buildDefaultConfiguration()); 
+		this(out, true, buildDefaultConfiguration()); 
 	}
 	
 	
@@ -127,9 +132,19 @@ public abstract class AbstractFopOutput implements ReportOutput{
 	 * @param fopConfig the custom fop configuration
 	 */
 	public AbstractFopOutput(OutputStream out, Configuration fopConfig){
+		this(out, true, fopConfig); 
+	}
+	
+	/**
+	 * outputs into the output stream using a fop custom configuration
+	 * 
+	 * @param out the output stream 
+	 * @param fopConfig the custom fop configuration
+	 */
+	public AbstractFopOutput(OutputStream out, boolean managedStream, Configuration fopConfig){
 		this.outputStream = out;
 		this.fopConfiguration = fopConfig; 
-		LOGGER.info("output into stream "); 
+		this.managedOutputStream = managedStream; 
 	}
 	
 	/**
@@ -164,7 +179,7 @@ public abstract class AbstractFopOutput implements ReportOutput{
 	 */
 	public void open(){
 		tempFoFile = ReportIoUtils.createTempFile("report-fo");
-		foOutput = new FoOutput(ReportIoUtils.createWriterFromFile(tempFoFile));
+		foOutput = new FoOutput(ReportIoUtils.createWriterFromFile(tempFoFile), true);
 		foOutput.open(); 
 	}
 	
@@ -214,7 +229,9 @@ public abstract class AbstractFopOutput implements ReportOutput{
 		try {
 			foOutput.close(); 
 			transformFo(); 
-			outputStream.close();
+			if(managedOutputStream){
+				outputStream.close();
+			}
 		} catch (IOException e) {
 			throw new ReportOutputException(e);
 		}

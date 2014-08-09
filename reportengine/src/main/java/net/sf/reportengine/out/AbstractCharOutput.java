@@ -52,6 +52,11 @@ public abstract class AbstractCharOutput extends AbstractOutput {
 	private Writer outputWriter; 
 	
 	/**
+	 * if this flag is true then this class is responsible for the lifecycle(open/close) of the outputWriter
+	 */
+	private boolean managedWriter = true; 
+	
+	/**
 	 * char based output into a string writer (memory)
 	 */
 	public AbstractCharOutput() {
@@ -94,10 +99,23 @@ public abstract class AbstractCharOutput extends AbstractOutput {
 	 * Outputs the characters into the given writer. 
 	 * This is the main constructor (all other constructors call this one)
 	 * 
-	 * @param writer	the output writer
+	 * @param writer			the output writer
 	 */
 	public AbstractCharOutput(Writer writer) {
+		this(writer, true);
+	}
+	
+	
+	/**
+	 * Outputs the characters into the given writer. 
+	 * This is the main constructor (all other constructors call this one)
+	 * 
+	 * @param writer			the output writer
+	 * @param managedWriter		if true then this class is responsible for the lifecycle(open/close) of the writer
+	 */
+	public AbstractCharOutput(Writer writer, boolean managedWriter) {
 		this.outputWriter = writer;
+		this.managedWriter = managedWriter; 
 	}
 	
 	
@@ -107,7 +125,9 @@ public abstract class AbstractCharOutput extends AbstractOutput {
     public void close(){
     	try {
     		outputWriter.flush(); 
-			outputWriter.close();
+    		if(managedWriter){
+    			outputWriter.close();
+    		}
 		} catch (IOException e) {
 			throw new ReportOutputException(e);
 		}

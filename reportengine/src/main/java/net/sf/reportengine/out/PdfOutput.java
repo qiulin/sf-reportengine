@@ -79,11 +79,22 @@ public class PdfOutput extends AbstractFopOutput{
 	/**
 	 * generates pdf into the specified output stream using the custom fop configuration. 
 	 * 
-	 * @param out		the output stream 
-	 * @param fopConfig	the fop custom configuration
+	 * @param out					the output stream
+	 * @param fopConfig				the fop custom configuration
 	 */
 	public PdfOutput(OutputStream out, Configuration fopConfig){
-		super(out, fopConfig); 
+		this(out, true, fopConfig); 
+	}
+	
+	/**
+	 * generates pdf into the specified output stream using the custom fop configuration. 
+	 * 
+	 * @param out					the output stream
+	 * @param managedOutputStream 	if true, the lifecycle (open/close) of the outputStream is controlled by this class 
+	 * @param fopConfig				the fop custom configuration
+	 */
+	public PdfOutput(OutputStream out, boolean managedOutputStream, Configuration fopConfig){
+		super(out, managedOutputStream, fopConfig); 
 	}
 	
 	

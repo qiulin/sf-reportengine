@@ -65,7 +65,19 @@ public class TextOutput extends AbstractCharOutput{
 	 * @param separator		the separator
 	 */
 	public TextOutput(Writer writer, String separator){
-		super(writer);
+		this(writer, separator, true);
+	}
+	
+	
+	/**
+	 * text output into the specified writer using the separator
+	 * 
+	 * @param writer		the output writer
+	 * @param separator		the separator
+	 * @param managedWriter	if true, this class is responsible for the lifecycle of the writer
+	 */
+	public TextOutput(Writer writer, String separator, boolean managedWriter){
+		super(writer, managedWriter);
 		setSeparator(separator); 
 	}
 	

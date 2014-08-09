@@ -109,6 +109,17 @@ public class XsltOutput extends AbstractCharOutput {
     	super(outputWriter);
     }
     
+    
+    /**
+     * output into the specified writer using the xslt provided 
+     * 
+     * @param outputWriter
+     * @param managedWriter	if true, the lifecycle of the writer is controlled by this class
+     */
+    public XsltOutput(Writer outputWriter, boolean managedWriter){
+    	this(outputWriter, null, managedWriter); 
+    }
+    
     /**
      * output into the specified writer using the xslt provided 
      * 
@@ -116,7 +127,19 @@ public class XsltOutput extends AbstractCharOutput {
      * @param xsltReader
      */
     public XsltOutput(Writer outputWriter, Reader xsltReader){
-    	super(outputWriter); 
+    	this(outputWriter, xsltReader, true); 
+    }
+    
+    
+    /**
+     * output into the specified writer using the xslt provided 
+     * 
+     * @param outputWriter
+     * @param xsltReader
+     * @param managedWriter	if true, the lifecycle of the writer is controlled by this class
+     */
+    public XsltOutput(Writer outputWriter, Reader xsltReader, boolean managedWriter){
+    	super(outputWriter, managedWriter); 
     	setXsltReader(xsltReader); 
     }
     
