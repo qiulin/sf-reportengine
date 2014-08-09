@@ -38,7 +38,7 @@ public class FoOutput implements ReportOutput{
 	 * @param writer
 	 */
 	public FoOutput(Writer writer){
-		freemarkerOutput = new FreemarkerOutput(writer, getDefaultFreemarkerConfig()); 
+		freemarkerOutput = new FreemarkerOutput(writer, true, getDefaultFreemarkerConfig()); 
 	}
 	
 	/**
@@ -47,7 +47,26 @@ public class FoOutput implements ReportOutput{
 	 * @param freemarkerConfig
 	 */
 	public FoOutput(Writer writer, Configuration freemarkerConfig){
-		freemarkerOutput = new FreemarkerOutput(writer, freemarkerConfig); 
+		freemarkerOutput = new FreemarkerOutput(writer, true, freemarkerConfig); 
+	}
+	
+	/**
+	 * 
+	 * @param writer
+	 * @param managedWriter
+	 */
+	public FoOutput(Writer writer, boolean managedWriter){
+		freemarkerOutput = new FreemarkerOutput(writer, managedWriter, getDefaultFreemarkerConfig()); 
+	}
+	
+	/**
+	 * 
+	 * @param writer
+	 * @param managedWriter
+	 * @param freemarkerConfig
+	 */
+	public FoOutput(Writer writer, boolean managedWriter, Configuration freemarkerConfig){
+		freemarkerOutput = new FreemarkerOutput(writer, managedWriter, freemarkerConfig); 
 	}
 	
 	/**

@@ -56,7 +56,9 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	/**
 	 * outputs into a string writer (memory)
 	 */
-	public StaxReportOutput(){}
+	public StaxReportOutput(){
+		super(); 
+	}
 	
 	/**
 	 * output into the given file
@@ -70,10 +72,21 @@ public class StaxReportOutput extends AbstractXmlOutput {
 	/**
 	 * outputs into the specified writer
 	 * 
-	 * @param writer	the output writer
+	 * @param writer			the output writer
 	 */
 	public StaxReportOutput(Writer writer){
-		super(writer);
+		this(writer, true);
+	}
+	
+	
+	/**
+	 * outputs into the specified writer
+	 * 
+	 * @param writer			the output writer
+	 * @param managedWriter		if true this class is responsible for the lifecycle(open/close) of the writer
+	 */
+	public StaxReportOutput(Writer writer, boolean managedWriter){
+		super(writer, managedWriter);
 	}
 	
 	/**

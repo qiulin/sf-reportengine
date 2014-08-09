@@ -56,6 +56,15 @@ public abstract class AbstractXmlOutput extends AbstractCharOutput {
      * @param writer
      */
     public AbstractXmlOutput(Writer writer){
-    	super(writer);
+    	this(writer, true);
+    }
+	
+	/**
+     * 
+     * @param writer
+     * @param managedWriter
+     */
+    public AbstractXmlOutput(Writer writer, boolean managedWriter){
+    	super(writer, managedWriter);
     }
 }

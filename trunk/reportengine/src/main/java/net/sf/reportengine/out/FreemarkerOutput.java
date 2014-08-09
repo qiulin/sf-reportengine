@@ -145,20 +145,43 @@ public class FreemarkerOutput extends AbstractCharOutput {
 	/**
 	 * output into the specified writer
 	 * 
-	 * @param writer	the output writer
+	 * @param writer			the output writer
 	 */
 	public FreemarkerOutput(Writer writer){
-		super(writer); 
+		super(writer, true); 
 	}
 	
 	/**
-	 * output into the specified writer using the configuration provided
+	 * output into the specified writer
+	 * 
+	 * @param writer			the output writer
+	 * @param managedWriter		if true the writer's lifecycle(open/close) is controlled by this class
+	 */
+	public FreemarkerOutput(Writer writer, boolean managedWriter){
+		super(writer, managedWriter); 
+	}
+	
+	/**
+	 * output into the specified writer using the configuration provided. 
+	 * The writer is controlled ( closed) by this class
 	 * 
 	 * @param writer			the output writer
 	 * @param freemarkerConfig	the freemarker configuration
 	 */
 	public FreemarkerOutput(Writer writer, Configuration freemarkerConfig){
-		super(writer); 
+		this(writer, true, freemarkerConfig); 
+	}
+	
+	
+	/**
+	 * output into the specified writer using the configuration provided
+	 * 
+	 * @param writer			the output writer
+	 * @param managedWriter		if true then this class is responsible for the lifecycle (open/close) of the writer
+	 * @param freemarkerConfig	the freemarker configuration
+	 */
+	public FreemarkerOutput(Writer writer, boolean managedWriter, Configuration freemarkerConfig){
+		super(writer, managedWriter); 
 		setFreemarkerConfig(freemarkerConfig); 
 	}
 	

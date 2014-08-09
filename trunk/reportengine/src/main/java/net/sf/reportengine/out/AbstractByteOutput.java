@@ -53,6 +53,11 @@ public abstract class AbstractByteOutput extends AbstractOutput {
 	private OutputStream outputStream; 
 	
 	/**
+	 * whether or not the output stream is managed (open/closed) by this class
+	 */
+	private boolean managedOutputStream; 
+	
+	/**
 	 * outputs into memory as {@code ByteArrayOutputStream}
 	 */
 	public AbstractByteOutput() {
@@ -78,15 +83,27 @@ public abstract class AbstractByteOutput extends AbstractOutput {
 		this(ReportIoUtils.createOutputStreamFromPath(filePath, append));
 		LOGGER.info("output to file {} in append mode {}", filePath, append); 
 	}
-
+	
+	/**
+	 * byte output into the specified output stream where the output stream is managed ( closed) by this class
+	 * 
+	 * @param out					the output stream
+	 */
+	public AbstractByteOutput(OutputStream out){
+		this(out, true);
+	}
+	
+	
 	/**
 	 * byte output into the specified output stream
 	 * This is the main constructor called by all other constructors. 
 	 * 
-	 * @param out	the output stream
+	 * @param out					the output stream
+	 * @param managedOutputStream	if true then this class is responsible for opening/closing the stream 
 	 */
-	public AbstractByteOutput(OutputStream out) {
+	public AbstractByteOutput(OutputStream out, boolean managedOutputStream) {
 		this.outputStream = out; 
+		this.managedOutputStream = managedOutputStream; 
 	}
 	
 	
@@ -97,7 +114,9 @@ public abstract class AbstractByteOutput extends AbstractOutput {
     public void close(){
     	try {
     		outputStream.flush(); 
-			outputStream.close();
+    		if(managedOutputStream){
+    			outputStream.close();
+    		}
 		} catch (IOException e) {
 			throw new ReportOutputException(e);
 		}

@@ -114,13 +114,21 @@ public class ExcelOutput extends AbstractByteOutput {
     	super(fileName); 
     }
     
+    /**
+     * output into an outputStream
+     * @param out     					the output stream
+     */
+    public ExcelOutput(OutputStream out){
+    	this(out, true); 
+    }
     
     /**
      * output into an outputStream
-     * @param out     the output stream
+     * @param out     					the output stream
+     * @param managedOutputStream		if true, the lifecycle of the outputStrem ( open/close) is controlled by this class
      */
-    public ExcelOutput(OutputStream out){
-        super(out); 
+    public ExcelOutput(OutputStream out, boolean managedOutputStream){
+        super(out, managedOutputStream); 
     }
         
     /**

@@ -75,7 +75,7 @@ public class PngOutput extends AbstractFopOutput {
 	public PngOutput(OutputStream out) {
 		super(out);
 	}
-
+	
 	/**
 	 * generates png into the specified output stream using the custom fop configuration. 
 	 * 
@@ -83,7 +83,19 @@ public class PngOutput extends AbstractFopOutput {
 	 * @param fopConfig	the fop custom configuration
 	 */
 	public PngOutput(OutputStream out, Configuration fopConfig) {
-		super(out, fopConfig);
+		super(out, true, fopConfig);
+	}
+	
+	
+	/**
+	 * generates png into the specified output stream using the custom fop configuration. 
+	 * 
+	 * @param out		the output stream 
+	 * @param managedOutputStream if true, the lifecycle (open/close) of the outputStream is controlled by this class
+	 * @param fopConfig	the fop custom configuration
+	 */
+	public PngOutput(OutputStream out, boolean managedOutputStream, Configuration fopConfig) {
+		super(out, managedOutputStream, fopConfig);
 	}
 
 	/**
