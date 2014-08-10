@@ -32,7 +32,7 @@
   					<property name="header" value="Amount"/>
   					<property name="inputColumnIndex" value="2"/>
   					<property name="calculator">
-  						<bean class="net.sf.reportengine.core.calc.UniversalSumCalculator" />
+  						<bean class="net.sf.reportengine.core.calc.SumGroupCalculator" />
   					</property>
   				</bean>
   			</list>
