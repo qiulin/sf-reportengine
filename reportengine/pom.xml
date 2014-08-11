@@ -4,7 +4,7 @@
   <groupId>net.sf.reportengine</groupId>
   <artifactId>reportengine</artifactId>
   <packaging>jar</packaging>
-  <version>0.12.0-SNAPSHOT</version>
+  <version>0.12.0</version>
   
   <name>reportengine</name>
   <url>http://reportengine.sourceforge.net</url>
