@@ -80,10 +80,10 @@ public class SqlInput extends AbstractReportInput {
     private Connection dbConnection;
     
     /**
-     * whether the dbConnection has been constructed internally and therefore managed (opened/closed) internally 
+     * if true the lifecycle of dbConnection (opened/closed) is controlled by this class
      * or not. 
      */
-    private boolean dbConnManagedInternally = true; 
+    private boolean managedDbConnection = true; 
     
     /**
      * columns count
@@ -115,13 +115,29 @@ public class SqlInput extends AbstractReportInput {
      */
     public SqlInput(){}
     
+    
     /**
-     * Use this constructor if you have a connection pooling system and you want to provide your own connection.
+     * Builds the sql input based on the provided connection which will be managed (closed) externally. 
+     * If you want to control the lifecycle of the connection you should use the other constructor.
      * Besides the connection you have to provide a query statement using <source>setSqlStatement(String)</source>
+     * 
      * @param conn      the connection provided 
      */
     public SqlInput(Connection conn){
+        this(conn, false);  
+    }
+    
+    /**
+     * Builds the sql input based on the provided connection which will be managed (closed) 
+     * according to the managedConnection flag.
+     * Besides the connection you have to provide a query statement using <source>setSqlStatement(String)</source>
+     * 
+     * @param conn      the connection provided 
+     * @param managedConnection 	if true the connection will be managed (close) by this class
+     */
+    public SqlInput(Connection conn, boolean managedConnection){
         this.dbConnection = conn;
+        this.managedDbConnection = managedConnection; 
     }
     
     
@@ -162,10 +178,10 @@ public class SqlInput extends AbstractReportInput {
     		if(dbConnection == null){
     			LOGGER.info("creating an internal managed connection to the database..."); 
                 initDBConnection();
-                dbConnManagedInternally = true; 
+                managedDbConnection = true; 
             }else{
             	LOGGER.info("using provided connection..."); 
-            	dbConnManagedInternally = false; 
+            	managedDbConnection = false; 
             }
     		
     		//executing the sql
@@ -200,7 +216,7 @@ public class SqlInput extends AbstractReportInput {
             if(resultSet != null ){
                 resultSet.close();
             }
-            if(dbConnManagedInternally && dbConnection != null && !dbConnection.isClosed()){
+            if(managedDbConnection && dbConnection != null && !dbConnection.isClosed()){
             	LOGGER.info("closing internally managed db connection .. "); 
                 dbConnection.close();
             }else{
