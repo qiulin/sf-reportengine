@@ -4,9 +4,15 @@
 package net.sf.reportengine;
 
 /**
- * @author balan
+ * @author dragos balan
  *
  */
 public interface ReportComponent {
-	public void output(); 
+	
+	/**
+	 * renders this component 
+	 * 
+	 * @param out the output of the report
+	 */
+	public void output(ReportOutput out); 
 }
