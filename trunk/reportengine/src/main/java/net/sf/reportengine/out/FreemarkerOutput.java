@@ -386,9 +386,9 @@ public class FreemarkerOutput extends AbstractCharOutput {
 	/**
 	 * @return the freemarkerConfig
 	 */
-	public Configuration getFreemarkerConfig() {
-		return freemarkerConfig;
-	}
+//	public Configuration getFreemarkerConfig() {
+//		return freemarkerConfig;
+//	}
 
 	/**
 	 * @param freemarkerConfig the freemarkerConfig to set
