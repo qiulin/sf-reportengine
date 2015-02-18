@@ -27,7 +27,6 @@ public abstract class AbstractReportComponent<T> implements ReportComponent {
 	 */
 	private final String templateName; 
 	
-	private final NewReportOutput reportOutput; 
 	
 	private final Map templateRootModel; 
 	
@@ -35,17 +34,16 @@ public abstract class AbstractReportComponent<T> implements ReportComponent {
 	 * 
 	 * @param freemarkerConfig
 	 */
-	public AbstractReportComponent(String fmId, String templateName, NewReportOutput reportOutput){
+	public AbstractReportComponent(String fmId, String templateName){
 		this.fmId = fmId; 
 		this.templateName = templateName;
-		this.reportOutput  = reportOutput; 
 		this.templateRootModel = new HashMap<String, Object>(); 
 	}
 	
 	public void output(NewReportOutput reportOutput, T model){
 		try {
-			//templateRootModel.put(fmId, model); 
-			reportOutput.getFmConfig().getTemplate(templateName).process(model, reportOutput.getWriter());
+			templateRootModel.put(fmId, model); 
+			reportOutput.getFmConfig().getTemplate(templateName).process(templateRootModel, reportOutput.getWriter());
 		} catch (TemplateException e) {
 			throw new ReportOutputException(e); 
 		} catch (IOException e) {
