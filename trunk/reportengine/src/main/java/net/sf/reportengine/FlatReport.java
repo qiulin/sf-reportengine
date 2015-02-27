@@ -4,11 +4,16 @@
  */
 package net.sf.reportengine;
 
+import static net.sf.reportengine.util.UserRequestedBoolean.FALSE_REQUESTED_BY_USER;
+import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_NOT_REQUESTED_BY_USER;
+import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_REQUESTED_BY_USER;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
+import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.Algorithm;
@@ -33,13 +38,10 @@ import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.Html5Output;
 import net.sf.reportengine.out.ReportOutput;
-import net.sf.reportengine.util.UserRequestedBoolean;
-import static net.sf.reportengine.util.UserRequestedBoolean.*;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
+import net.sf.reportengine.util.UserRequestedBoolean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

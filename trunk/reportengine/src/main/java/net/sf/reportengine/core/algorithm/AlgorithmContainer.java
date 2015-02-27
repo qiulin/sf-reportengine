@@ -60,6 +60,8 @@ public class AlgorithmContainer implements Algorithm {
 		for (Iterator<Algorithm> algoIterator = algos.iterator(); algoIterator.hasNext(); ) {
 			Algorithm algo = algoIterator.next(); 
 			algo.setIn(input);
+			
+			//execution of the algorithm
 			algo.execute(); 
 			
 			result = algo.getResultMap(); 

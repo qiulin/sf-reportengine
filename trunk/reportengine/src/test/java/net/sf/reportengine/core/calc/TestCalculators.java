@@ -8,7 +8,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.junit.Test;

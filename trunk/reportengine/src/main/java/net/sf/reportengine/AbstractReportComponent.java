@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.reportengine.components.ReportComponent;
 import net.sf.reportengine.out.ReportOutputException;
 import net.sf.reportengine.out.neo.NewReportOutput;
 import freemarker.template.TemplateException;
@@ -37,7 +38,7 @@ public abstract class AbstractReportComponent<T> implements ReportComponent {
 	public AbstractReportComponent(String fmId, String templateName){
 		this.fmId = fmId; 
 		this.templateName = templateName;
-		this.templateRootModel = new HashMap<String, Object>(); 
+		this.templateRootModel = new HashMap<String, T>(); 
 	}
 	
 	public void output(NewReportOutput reportOutput, T model){

@@ -3,6 +3,8 @@
  */
 package net.sf.reportengine;
 
+import net.sf.reportengine.components.ReportComponent;
+
 /**
  * Report interface 
  * 
