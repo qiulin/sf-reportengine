@@ -5,14 +5,17 @@
 package net.sf.reportengine.core.steps;
 
 import java.util.List;
+import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
+import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.out.TitleProps;
+import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,22 +37,22 @@ public class ColumnHeaderOutputInitStep extends AbstractReportInitStep{
     /**
      * 
      */
-    @Override protected void executeInit(){
+    @Override protected  Map<IOKeys, Object> executeInit(Map<IOKeys, Object> inputParams){
     	LOGGER.trace("initializing the column header step: output title and column headers");
     	
-    	int outputColumnsCnt = getDataColumnsLength() + getGroupColumnsLength(); 
+    	int outputColumnsCnt = getDataColumnsLength(inputParams) + getGroupColumnsLength(inputParams); 
     	
     	//output the title
     	ReportOutput output = getReportOutput();
-        if(getReportTitle() != null){
-        	output.outputTitle(new TitleProps(getReportTitle(), outputColumnsCnt));
+        if(getReportTitle(inputParams) != null){
+        	output.outputTitle(new TitleProps(getReportTitle(inputParams), outputColumnsCnt));
         }
         
         //output the report column headers
         final int rowNumber = 0;
         output.startHeaderRow(new RowProps(rowNumber));
         CellProps cellProps = null;
-        List<GroupColumn> groupCols = getGroupColumns(); 
+        List<GroupColumn> groupCols = getGroupColumns(inputParams); 
         if(groupCols != null){
 	        for (GroupColumn groupColumn : groupCols) {
 				cellProps = new CellProps.Builder(groupColumn.getHeader())
@@ -61,7 +64,7 @@ public class ColumnHeaderOutputInitStep extends AbstractReportInitStep{
 			}
         }
         
-        List<DataColumn> dataCols = getDataColumns(); 
+        List<DataColumn> dataCols = getDataColumns(inputParams); 
         for (DataColumn dataColumn: dataCols) {
             cellProps = new CellProps.Builder(dataColumn.getHeader())
             						.colspan(1)
@@ -72,5 +75,7 @@ public class ColumnHeaderOutputInitStep extends AbstractReportInitStep{
         }
         
         output.endHeaderRow();
+        
+        return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
     }
 }

@@ -3,7 +3,6 @@
  */
 package net.sf.reportengine.core.algorithm.steps;
 
-import java.util.EnumMap;
 import java.util.Map;
 
 import net.sf.reportengine.core.algorithm.AlgoContext;
@@ -18,29 +17,24 @@ public abstract class AbstractExitStep implements AlgorithmExitStep {
 	/**
 	 * a reference to algo input
 	 */
-	private Map<IOKeys, Object> algoInput = null;
+//	private Map<IOKeys, Object> algoInput = null;
 	
 	/**
 	 * reference to algo context
 	 */
 	private AlgoContext algoContext = null;
 	
-	/**
-	 * the results after processing this step
-	 */
-	private Map<IOKeys, Object> stepResults = null;
-	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep#exit(java.util.Map, net.sf.reportengine.core.algorithm.AlgoContext)
 	 */
-	public void exit(Map<IOKeys, Object> algoInput, AlgoContext context) {
-		this.algoInput = algoInput; 
+	public Map<IOKeys, Object> exit(Map<IOKeys, Object> algoInput, AlgoContext context) {
+//		this.algoInput = algoInput; 
 		this.algoContext = context; 
-		executeExit(); 
+		return executeExit(algoInput); 
 	}
 	
 	
-	protected abstract void executeExit(); 
+	protected abstract Map<IOKeys, Object> executeExit(Map<IOKeys, Object> algoInput); 
 	
 	/**
 	 * 
@@ -50,22 +44,22 @@ public abstract class AbstractExitStep implements AlgorithmExitStep {
 		return algoContext; 
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public Map<IOKeys, Object> getAlgoInput(){
-		return algoInput; 
-	}
+//	/**
+//	 * 
+//	 * @return
+//	 */
+//	public Map<IOKeys, Object> getAlgoInput(){
+//		return algoInput; 
+//	}
 	
-	public Map<IOKeys, Object> getResultsMap(){
-    	return stepResults; 
-    }
-    
-    protected void addResult(IOKeys keys, Object value){
-    	if(stepResults == null){
-    		stepResults = new EnumMap<IOKeys, Object>(IOKeys.class); 
-    	}
-    	stepResults.put(keys, value); 
-    }
+//	public Map<IOKeys, Object> getResultsMap(){
+//    	return stepResults; 
+//    }
+//    
+//    protected void addResult(IOKeys keys, Object value){
+//    	if(stepResults == null){
+//    		stepResults = new EnumMap<IOKeys, Object>(IOKeys.class); 
+//    	}
+//    	stepResults.put(keys, value); 
+//    }
 }

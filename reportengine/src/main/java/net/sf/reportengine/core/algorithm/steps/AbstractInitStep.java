@@ -3,7 +3,6 @@
  */
 package net.sf.reportengine.core.algorithm.steps;
 
-import java.util.EnumMap;
 import java.util.Map;
 
 import net.sf.reportengine.core.algorithm.AlgoContext;
@@ -16,51 +15,28 @@ import net.sf.reportengine.util.IOKeys;
 public abstract class AbstractInitStep implements AlgorithmInitStep {
 	
 	/**
-	 * a reference to algo input
-	 */
-	private Map<IOKeys, Object> algoInput = null;
-	
-	/**
 	 * reference to algo context
 	 */
 	private AlgoContext algoContext = null;
 	
-	/**
-	 * the results after processing this step
-	 */
-	private Map<IOKeys, Object> stepResults = null;
-	
-	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(java.util.Map, net.sf.reportengine.core.algorithm.AlgoContext)
 	 */
-	public void init(Map<IOKeys, Object> algoInput, AlgoContext algoContext) {
-		this.algoInput = algoInput; 
+	public Map<IOKeys, Object> init(Map<IOKeys, Object> algoInput, AlgoContext algoContext) {
 		this.algoContext = algoContext; 
-		executeInit(); 
+		return executeInit(algoInput); 
 	}
 	
 	/**
 	 * call this method for the needed processing 
 	 */
-	protected abstract void executeInit(); 
+	protected abstract Map<IOKeys, Object> executeInit(Map<IOKeys, Object> inputParams); 
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public AlgoContext getAlgoContext(){
 		return algoContext; 
 	}
-	
-	public Map<IOKeys, Object> getAlgoInput(){
-		return algoInput; 
-	}
-	
-	public Map<IOKeys, Object> getResultsMap(){
-    	return stepResults; 
-    }
-    
-    protected void addResult(IOKeys keys, Object value){
-    	if(stepResults == null){
-    		stepResults = new EnumMap<IOKeys, Object>(IOKeys.class); 
-    	}
-    	stepResults.put(keys, value); 
-    }
 }

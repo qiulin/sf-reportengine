@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.in.MultipleExternalSortedFilesInput;
@@ -30,7 +31,7 @@ public class ConfigMultiExternalFilesInputInitStep extends ConfigReportIOInitSte
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ConfigMultiExternalFilesInputInitStep.class);
 	
-	@Override protected ReportInput configReportInput(){
+	@Override protected ReportInput configReportInput(Map<IOKeys, Object> inputParams){
 		ReportInput result = null; 
 		try {
 			//if the report doesn't have the values ordered 
@@ -39,7 +40,7 @@ public class ConfigMultiExternalFilesInputInitStep extends ConfigReportIOInitSte
 			
 			//if(!(Boolean)getAlgoInput().get(IOKeys.HAS_VALUES_ORDERED)){
 				
-				List<File> externalSortedFiles = (List<File>)getAlgoInput().get(IOKeys.SORTED_FILES); 
+				List<File> externalSortedFiles = (List<File>)inputParams.get(IOKeys.SORTED_FILES); 
 				if(externalSortedFiles != null && !externalSortedFiles.isEmpty()){
 					List<InputStream> externalSortedStreams = new ArrayList<InputStream>(); 
 					for (File file : externalSortedFiles) {
@@ -48,7 +49,7 @@ public class ConfigMultiExternalFilesInputInitStep extends ConfigReportIOInitSte
 					
 					result = new MultipleExternalSortedFilesInput(
 									externalSortedStreams, 
-									new NewRowComparator(getGroupColumns(), getDataColumns()));
+									new NewRowComparator(getGroupColumns(inputParams), getDataColumns(inputParams)));
 				}else{
 					LOGGER.error("No external sorted files found. The report is missconfigured."); 
 				}

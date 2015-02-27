@@ -5,6 +5,7 @@ package net.sf.reportengine.core.steps.intermed;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.CrosstabHeaderRow;
@@ -13,6 +14,7 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.SortType;
 import net.sf.reportengine.config.VertAlign;
+import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.GroupCalculator;
 import net.sf.reportengine.core.steps.AbstractReportInitStep;
@@ -34,11 +36,11 @@ public class ConfigIntermedColsInitStep extends AbstractReportInitStep{
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigIntermedColsInitStep.class);
 	
 	
-	@Override protected void executeInit() {
-		List<DataColumn> originalCtDataCols = getDataColumns(); 
-		List<GroupColumn> originalCtGroupingCols = getGroupColumns(); 
+	@Override protected Map<IOKeys, Object> executeInit(Map<IOKeys, Object> inputParams) {
+		List<DataColumn> originalCtDataCols = getDataColumns(inputParams); 
+		List<GroupColumn> originalCtGroupingCols = getGroupColumns(inputParams); 
 		List<CrosstabHeaderRow> originalCtHeaderRows = 
-				(List<CrosstabHeaderRow>)getAlgoInput().get(IOKeys.CROSSTAB_HEADER_ROWS);
+				(List<CrosstabHeaderRow>)inputParams.get(IOKeys.CROSSTAB_HEADER_ROWS);
 		
 		getAlgoContext().set(ContextKeys.INTERNAL_GROUP_COLS, 
 				transformGroupingCrosstabConfigInFlatReportConfig(
@@ -46,9 +48,11 @@ public class ConfigIntermedColsInitStep extends AbstractReportInitStep{
 											originalCtDataCols, 
 											originalCtHeaderRows));		
 		
-		CrosstabData originalCtData = (CrosstabData)getAlgoInput().get(IOKeys.CROSSTAB_DATA); 
+		CrosstabData originalCtData = (CrosstabData)inputParams.get(IOKeys.CROSSTAB_DATA); 
 		getAlgoContext().set(ContextKeys.INTERNAL_DATA_COLS, 
 				transformCrosstabDataIntoDataColumns(originalCtData));
+		
+		return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
 	}
 	
 	/**

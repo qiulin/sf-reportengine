@@ -104,12 +104,6 @@ public class FlatReport extends AbstractColumnBasedReport {
 	 */
 	private AlgorithmContainer reportAlgoContainer = new AlgorithmContainer(); 
 	
-	/**
-	 * 
-	 */
-	private boolean needsProgramaticSorting = false; 
-	
-	
     /**
      * default constructor
      * @deprecated use FlatReport.Builder() instead
@@ -148,13 +142,13 @@ public class FlatReport extends AbstractColumnBasedReport {
 //    	reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, getShowTotals()); 
 //    	reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
     	
-    	needsProgramaticSorting = !hasValuesSorted() || ReportUtils.isSortingInColumns(getGroupColumns(), getDataColumns()); 
+    	boolean needsProgramaticSorting = !hasValuesSorted() || ReportUtils.isSortingInColumns(getGroupColumns(), getDataColumns()); 
     	LOGGER.info("programatic sorting needed {} ", needsProgramaticSorting); 
     	
     	if(needsProgramaticSorting){
     		reportAlgoContainer.addAlgo(configSortingAlgo()); 
     	}
-    	reportAlgoContainer.addAlgo(configReportAlgo()); 
+    	reportAlgoContainer.addAlgo(configReportAlgo(needsProgramaticSorting)); 
     }
     
     /**
@@ -180,10 +174,10 @@ public class FlatReport extends AbstractColumnBasedReport {
      * configures the report algorithm
      * @return
      */
-    private Algorithm configReportAlgo(){
+    private Algorithm configReportAlgo(boolean needsSorting){
     	MultiStepAlgo reportAlgo = new LoopThroughReportInputAlgo();
     	
-    	if(!needsProgramaticSorting){
+    	if(!needsSorting){
     		reportAlgo.addInitStep(new ConfigReportIOInitStep()); 
     	}else{
     		reportAlgo.addInitStep(new ConfigMultiExternalFilesInputInitStep()); 

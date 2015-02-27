@@ -27,7 +27,7 @@ public class IntermedReportExtractTotalsDataInitStep extends FlatReportExtractTo
      * @param algoContext
      * @return
      */
-    @Override public List<DataColumn> getDataColumns(){
+    @Override public List<DataColumn> getDataColumns(Map<IOKeys, Object> inputParams){
     	return (List<DataColumn>)getAlgoContext().get(ContextKeys.INTERNAL_DATA_COLS); 
 	}
 }

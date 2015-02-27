@@ -26,12 +26,12 @@ public interface AlgorithmInitStep {
      * @param algoInput		the input parameters 	
      * @param algoContext   the context of the report
      */
-    public void init(Map<IOKeys, Object> algoInput, AlgoContext algoContext);
+    public Map<IOKeys, Object> init(Map<IOKeys, Object> algoInput, AlgoContext algoContext);
     
     /**
      * 
      * @return
      */
-    public Map<IOKeys, Object> getResultsMap(); 
+//    public Map<IOKeys, Object> getResultsMap(); 
     
 }

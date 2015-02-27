@@ -4,6 +4,7 @@
  */
 package net.sf.reportengine.core.algorithm;
 
+import java.util.EnumMap;
 import java.util.Map;
 
 import net.sf.reportengine.util.IOKeys;
@@ -15,7 +16,10 @@ import net.sf.reportengine.util.IOKeys;
  * @author dragos balan (dragos dot balan at gmail dot com)
  */
 public interface Algorithm {
-    
+	
+	
+	public final Map<IOKeys, Object> EMPTY_READ_ONLY_PARAMS_MAP = new EnumMap<IOKeys, Object>(IOKeys.class); //TODO make it read only
+   
 //    /**
 //     * sets the input of the report.
 //     * @param input	
