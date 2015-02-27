@@ -8,7 +8,6 @@ import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.steps.AbstractInitStep;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
@@ -43,16 +42,17 @@ public abstract class AbstractReportInitStep extends AbstractInitStep {
      * {@link #getDataColumnsLength()}
      * @return
      */
-    public List<DataColumn> getDataColumns(){
-    	return (List<DataColumn>)getAlgoInput().get(IOKeys.DATA_COLS); 
+    public List<DataColumn> getDataColumns(Map<IOKeys, Object> inputParams){
+    	return (List<DataColumn>)inputParams.get(IOKeys.DATA_COLS); 
     }
     
     /**
      * 
      * @return
      */
-    public int getDataColumnsLength(){
-    	return getDataColumns() != null ? getDataColumns().size() : 0; 
+    public int getDataColumnsLength(Map<IOKeys, Object> inputParams){
+    	List<DataColumn> dataCols = getDataColumns(inputParams); 
+    	return dataCols != null ? dataCols.size() : 0; 
     }
     
     
@@ -63,23 +63,24 @@ public abstract class AbstractReportInitStep extends AbstractInitStep {
      * 
      * @return
      */
-    public List<GroupColumn> getGroupColumns(){
-    	return (List<GroupColumn>)getAlgoInput().get(IOKeys.GROUP_COLS); 
+    public List<GroupColumn> getGroupColumns(Map<IOKeys, Object> inputParams){
+    	return (List<GroupColumn>)inputParams.get(IOKeys.GROUP_COLS); 
     }
     
-    public int getGroupColumnsLength(){
-    	return getGroupColumns() != null ? getGroupColumns().size() : 0; 
+    public int getGroupColumnsLength(Map<IOKeys, Object> inputParams){
+    	List<GroupColumn> groupColumns = getGroupColumns(inputParams); 
+    	return groupColumns != null ? groupColumns.size() : 0; 
     }
     
-    public Boolean getShowTotals(){
-    	return (Boolean)getAlgoInput().get(IOKeys.SHOW_TOTALS); 
+    public Boolean getShowTotals(Map<IOKeys, Object> inputParams){
+    	return (Boolean)inputParams.get(IOKeys.SHOW_TOTALS); 
     }
     
-    public Boolean getShowGrandTotal(){
-    	return (Boolean)getAlgoInput().get(IOKeys.SHOW_GRAND_TOTAL); 
+    public Boolean getShowGrandTotal(Map<IOKeys, Object> inputParams){
+    	return (Boolean)inputParams.get(IOKeys.SHOW_GRAND_TOTAL); 
     }
     
-    public String getReportTitle(){
-    	return (String)getAlgoInput().get(IOKeys.REPORT_TITLE); 
+    public String getReportTitle(Map<IOKeys, Object> inputParams){
+    	return (String)inputParams.get(IOKeys.REPORT_TITLE); 
     }
 }

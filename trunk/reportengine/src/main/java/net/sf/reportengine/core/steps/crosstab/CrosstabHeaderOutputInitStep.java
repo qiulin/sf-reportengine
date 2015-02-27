@@ -6,6 +6,7 @@ package net.sf.reportengine.core.steps.crosstab;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
@@ -13,6 +14,7 @@ import net.sf.reportengine.config.SecondProcessDataColumn;
 import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
 import net.sf.reportengine.core.algorithm.AlgoContext;
+import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.steps.AbstractCrosstabInitStep;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
@@ -41,22 +43,25 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep{
 	/**
 	 * 
 	 */
-	@Override protected void executeInit() {
-		outputTitle(getReportTitle(), 
-					getDataColumnsLength() + getGroupColumnsLength(), 
+	@Override protected Map<IOKeys, Object>  executeInit(Map<IOKeys, Object> inputParams) {
+		outputTitle(getReportTitle(inputParams), 
+					getDataColumnsLength(inputParams) + getGroupColumnsLength(inputParams), 
 					getReportOutput());
 		outputHeaderRows(	getReportOutput(), 
 							getCrosstabMetadata(), 
-							getDataColumns(), 
-							getGroupColumns()); 
+							getDataColumns(inputParams), 
+							getGroupColumns(inputParams),
+							getCrosstabData(inputParams)); 
+		
+		return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
 	}
 	
 	
-	@Override public List<DataColumn> getDataColumns(){
+	@Override public List<DataColumn> getDataColumns(Map<IOKeys, Object> inputParams){
 		return (List<DataColumn>)getAlgoContext().get(ContextKeys.INTERNAL_DATA_COLS); 
 	}
 	
-	@Override public List<GroupColumn> getGroupColumns(){
+	@Override public List<GroupColumn> getGroupColumns(Map<IOKeys, Object> inputParams){
 		return (List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS); 
 	}
 	
@@ -83,7 +88,8 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep{
 	private void outputHeaderRows(	ReportOutput reportOutput, 
 									CtMetadata ctMetadata, 
 									List<DataColumn> dataCols, 
-									List<GroupColumn> groupCols){
+									List<GroupColumn> groupCols, 
+									CrosstabData ctData){
 		//loop through all header rows
 		for (int currHeaderRow = 0; currHeaderRow < ctMetadata.getHeaderRowsCount(); currHeaderRow++) {
 			reportOutput.startHeaderRow(new RowProps(currHeaderRow)); 
@@ -115,7 +121,7 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep{
 													reportOutput, 
 													ctMetadata, 
 													currHeaderRow, 
-													getCrosstabData().getCalculator().getLabel());
+													ctData.getCalculator().getLabel());
 						currentColumn++;
 					}else{
 						if(currentDataColumn instanceof SecondProcessDataColumnFromOriginalDataColumn){

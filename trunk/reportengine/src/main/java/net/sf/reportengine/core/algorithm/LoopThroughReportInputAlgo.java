@@ -4,6 +4,7 @@
  */
 package net.sf.reportengine.core.algorithm;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,43 +48,48 @@ public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
     /**
      * implementation for net.sf.reportengine.core.IReportEngine.execute();
      */
-    public Map<IOKeys, Object> execute(Map<IOKeys, Object> input) {
+    public Map<IOKeys, Object> execute(Map<IOKeys, Object> inputParams) {
     	LOGGER.trace("algorithm executing one iteration ");
         
+    	Map<IOKeys, Object> result = new EnumMap<IOKeys, Object>(IOKeys.class); 
+    	
         //execution of the init steps
-        executeInitSteps();
+        result.putAll(executeInitSteps(inputParams));
             
-        executeMainSteps();
+        executeMainSteps(inputParams);
         
         //calling the exit for all registered steps
-        executeExitSteps();
+        result.putAll(executeExitSteps(inputParams));
         
-        //TODO comeback here and see how we add and get results from steps
-        return extractResultsFromSteps(); 
+        result.putAll(extractResultsFromSteps());
+        return result; 
     } 
     
     /**
      * execution of init method for each init step
      */
-    protected void executeInitSteps() {
+    protected Map<IOKeys, Object> executeInitSteps(Map<IOKeys, Object> inputParams) {
     	List<AlgorithmInitStep> initSteps = getInitSteps();
     	
+    	Map<IOKeys, Object> result = new EnumMap<IOKeys, Object>(IOKeys.class);
+    	
         for(AlgorithmInitStep initStep: initSteps){
-            initStep.init(getInput(), getContext());
+            result.putAll(initStep.init(inputParams, getContext()));
         } 
+        return result; 
     } 
     
     /**
      * 2. for each input row of data executes the execute method
      * 3. calls the exit method for each main step
      */
-    protected void executeMainSteps() {
+    protected void executeMainSteps(Map<IOKeys, Object> inputParams) {
     	List<AlgorithmMainStep> mainSteps = getMainSteps();
     	ReportInput reportInput = (ReportInput)getContext().get(ContextKeys.LOCAL_REPORT_INPUT);
     	
     	//call init for each step
         for(AlgorithmMainStep mainStep: mainSteps){
-            mainStep.init(getInput(), getContext());
+            mainStep.init(inputParams, getContext());
         } 
         
         //iteration through input data (row by row)
@@ -107,11 +113,15 @@ public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
     /**
      * calls the exit method
      */
-    protected void executeExitSteps(){
+    protected Map<IOKeys, Object> executeExitSteps(Map<IOKeys, Object> inputParams){
     	List<AlgorithmExitStep> exitSteps = getExitSteps();
+    	
+    	Map<IOKeys, Object> result = new EnumMap<IOKeys, Object>(IOKeys.class); 
     	for(AlgorithmExitStep exitStep: exitSteps){
-    	   exitStep.exit(getInput(), getContext());
-    	}    
+    		result.putAll(exitStep.exit(inputParams, getContext()));
+    	}
+    	
+    	return result; 
     } 
     
     /**
@@ -121,23 +131,12 @@ public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
     private Map<IOKeys, Object> extractResultsFromSteps(){
     	Map<IOKeys, Object> result = new HashMap<IOKeys, Object>(); 
     	
-    	for(AlgorithmInitStep step: getInitSteps()){
-    		if(step.getResultsMap() != null){
-    			result.putAll(step.getResultsMap()); 
-    		}
-    	}
-    	
     	for (AlgorithmMainStep step : getMainSteps()) {
 			if(step.getResultsMap() != null){
 				result.putAll(step.getResultsMap()); 
 			}
 		}
     	
-    	for(AlgorithmExitStep step: getExitSteps()){
-    		if(step.getResultsMap() != null){
-    			result.putAll(step.getResultsMap()); 
-    		}
-    	}
     	return result; 
     }
 }

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.steps.AbstractReportInitStep;
 import net.sf.reportengine.in.ColumnMetadata;
 import net.sf.reportengine.in.ColumnPreferences;
@@ -34,10 +35,10 @@ public class AutodetectConfigInitStep extends AbstractReportInitStep {
 	/**
 	 * 
 	 */
-	@Override protected void executeInit() {
-		Map<IOKeys, Object> algoInput = getAlgoInput(); 
+	@Override protected Map<IOKeys, Object>  executeInit(Map<IOKeys, Object> inputParams) {
+		//Map<IOKeys, Object> algoInput = getAlgoInput(); 
 		ReportInput input = getReportInput(); //(ReportInput)algoInput.get(IOKeys.REPORT_INPUT); 
-		Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)algoInput.get(IOKeys.USER_COLUMN_PREFERENCES);
+		Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)inputParams.get(IOKeys.USER_COLUMN_PREFERENCES);
 		
 		LOGGER.info("Autodetecting the columns based on user preferences and input metadata"); 
 		
@@ -56,12 +57,14 @@ public class AutodetectConfigInitStep extends AbstractReportInitStep {
 		//}
 		LOGGER.debug("group columns detected : {}", groupColumns); 
 		
-		algoInput.put(IOKeys.DATA_COLS, dataColumns) ;
-		algoInput.put(IOKeys.GROUP_COLS, groupColumns); 
+		inputParams.put(IOKeys.DATA_COLS, dataColumns) ; //TODO: this is not correct : this step should be transformed into an algorithm
+		inputParams.put(IOKeys.GROUP_COLS, groupColumns); //and the values should be transferred as output values from the algo
 		
 		boolean reportHasCalculators = ReportUtils.atLeastOneDataColumHasCalculators(dataColumns);
 		
-		algoInput.put(IOKeys.SHOW_TOTALS, reportHasCalculators); 
-		algoInput.put(IOKeys.SHOW_GRAND_TOTAL, reportHasCalculators);
+		inputParams.put(IOKeys.SHOW_TOTALS, reportHasCalculators); 
+		inputParams.put(IOKeys.SHOW_GRAND_TOTAL, reportHasCalculators);
+		
+		return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
 	}
 }

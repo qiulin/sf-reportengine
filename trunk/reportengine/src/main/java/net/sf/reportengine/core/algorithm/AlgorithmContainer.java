@@ -67,8 +67,8 @@ public class AlgorithmContainer implements Algorithm {
 			
 			if(algoIterator.hasNext()){
 				//transform this algo's output in next algo's input
-				//input.putAll(result);
-				input = result;
+				input.putAll(result);
+				//input = result;
 			}
 		}
 		

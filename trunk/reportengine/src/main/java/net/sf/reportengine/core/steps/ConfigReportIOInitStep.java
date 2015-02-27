@@ -3,6 +3,9 @@
  */
 package net.sf.reportengine.core.steps;
 
+import java.util.Map;
+
+import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.ContextKeys;
@@ -19,16 +22,18 @@ public class ConfigReportIOInitStep extends AbstractReportInitStep {
 	 * @see net.sf.reportengine.core.algorithm.steps.AbstractInitStep#executeInit()
 	 */
 	@Override
-	protected void executeInit() {
-		getAlgoContext().set(ContextKeys.LOCAL_REPORT_INPUT, configReportInput()); 
-		getAlgoContext().set(ContextKeys.LOCAL_REPORT_OUTPUT, configReportOutput()); 
+	protected Map<IOKeys, Object> executeInit(Map<IOKeys, Object> inputParams) {
+		getAlgoContext().set(ContextKeys.LOCAL_REPORT_INPUT, configReportInput(inputParams)); 
+		getAlgoContext().set(ContextKeys.LOCAL_REPORT_OUTPUT, configReportOutput(inputParams)); 
+		
+		return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
 	}
 	
-	protected ReportInput configReportInput(){
-		return (ReportInput)getAlgoInput().get(IOKeys.REPORT_INPUT); 
+	protected ReportInput configReportInput(Map<IOKeys, Object> inputParams){
+		return (ReportInput)inputParams.get(IOKeys.REPORT_INPUT); 
 	}
 	
-	protected ReportOutput configReportOutput(){
-		return (ReportOutput)getAlgoInput().get(IOKeys.REPORT_OUTPUT); 
+	protected ReportOutput configReportOutput(Map<IOKeys, Object> inputParams){
+		return (ReportOutput)inputParams.get(IOKeys.REPORT_OUTPUT); 
 	}
 }

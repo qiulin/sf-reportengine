@@ -5,6 +5,7 @@ package net.sf.reportengine.core.steps.crosstab;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.DataColumn;
@@ -13,10 +14,12 @@ import net.sf.reportengine.config.SecondProcessDataColumn;
 import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessGroupColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
+import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.steps.AbstractCrosstabInitStep;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
+import net.sf.reportengine.util.IOKeys;
 
 /**
  * @author dragos balan
@@ -28,17 +31,19 @@ public class ConfigCrosstabColumnsInitStep extends AbstractCrosstabInitStep {
 	 * @see net.sf.reportengine.core.algorithm.steps.AbstractInitStep#executeInit()
 	 */
 	@Override
-	protected void executeInit() {
+	protected Map<IOKeys, Object> executeInit(Map<IOKeys, Object> inputParams) {
 		
 		List<DataColumn> newDataCols = constructDataColumnsForSecondProcess(getCrosstabMetadata(), 
-																			getDataColumns(),
-																			getCrosstabData(), 
-																			getShowTotals(), 
-																			getShowGrandTotal());
+																			getDataColumns(inputParams),
+																			getCrosstabData(inputParams), 
+																			getShowTotals(inputParams), 
+																			getShowGrandTotal(inputParams));
 		getAlgoContext().set(ContextKeys.INTERNAL_DATA_COLS, newDataCols); 
 		
-		List<GroupColumn> newGroupCols = constructGroupColumnsForSecondProcess(getGroupColumns()); 
+		List<GroupColumn> newGroupCols = constructGroupColumnsForSecondProcess(getGroupColumns(inputParams)); 
 		getAlgoContext().set(ContextKeys.INTERNAL_GROUP_COLS, newGroupCols); 
+		
+		return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
 	}
 
 	/**

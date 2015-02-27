@@ -3,6 +3,9 @@
  */
 package net.sf.reportengine.core.steps.crosstab;
 
+import java.util.Map;
+
+import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.steps.AbstractInitStep;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
@@ -19,11 +22,12 @@ public class GenerateCrosstabMetadataInitStep extends AbstractInitStep {
 	 * @see net.sf.reportengine.core.algorithm.steps.AbstractInitStep#executeInit()
 	 */
 	@Override
-	protected void executeInit() {
+	protected Map<IOKeys, Object> executeInit(Map<IOKeys, Object> inputParams) {
 		DistinctValuesHolder distinctValuesHolder = 
-				(DistinctValuesHolder)getAlgoInput().get(IOKeys.DISTINCT_VALUES_HOLDER); 
+				(DistinctValuesHolder)inputParams.get(IOKeys.DISTINCT_VALUES_HOLDER); 
 		
 		getAlgoContext().set(ContextKeys.CROSSTAB_METADATA, new CtMetadata(distinctValuesHolder)); 
+		return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
 	}
 
 }

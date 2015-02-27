@@ -3,6 +3,8 @@
  */
 package net.sf.reportengine.core.steps;
 
+import java.util.Map;
+
 import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
@@ -18,7 +20,7 @@ public abstract class AbstractCrosstabInitStep extends AbstractReportInitStep {
 		return (CtMetadata)getAlgoContext().get(ContextKeys.CROSSTAB_METADATA);
 	}
 	
-	public CrosstabData getCrosstabData(){
-		 return (CrosstabData)getAlgoInput().get(IOKeys.CROSSTAB_DATA); 
+	public CrosstabData getCrosstabData(Map<IOKeys, Object> inputParams){
+		 return (CrosstabData)inputParams.get(IOKeys.CROSSTAB_DATA); 
 	 }
 }
