@@ -47,7 +47,7 @@ public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
     /**
      * implementation for net.sf.reportengine.core.IReportEngine.execute();
      */
-    public void execute() {
+    public Map<IOKeys, Object> execute(Map<IOKeys, Object> input) {
     	LOGGER.trace("algorithm executing one iteration ");
         
         //execution of the init steps
@@ -58,7 +58,8 @@ public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
         //calling the exit for all registered steps
         executeExitSteps();
         
-        setResultMap(extractResultsFromSteps()); 
+        //TODO comeback here and see how we add and get results from steps
+        return extractResultsFromSteps(); 
     } 
     
     /**

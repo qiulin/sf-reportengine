@@ -7,6 +7,7 @@ import static net.sf.reportengine.util.UserRequestedBoolean.FALSE_NOT_REQUESTED_
 import static net.sf.reportengine.util.UserRequestedBoolean.FALSE_REQUESTED_BY_USER;
 import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_REQUESTED_BY_USER;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,9 +36,9 @@ import net.sf.reportengine.core.steps.autodetect.AutodetectTotalsCalculatorStep;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
-import net.sf.reportengine.util.UserRequestedBoolean;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
+import net.sf.reportengine.util.UserRequestedBoolean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,13 +104,13 @@ public class AutoconfigFlatReport extends AbstractReport {
     @Override protected void config(){
     	LOGGER.trace("configuring the autodetect flat report"); 
     	
-    	//preparing the context of the report algorithm 
-    	reportAlgoContainer.addIn(IOKeys.REPORT_TITLE, getTitle()); 
-    	reportAlgoContainer.addIn(IOKeys.REPORT_INPUT, getIn());
-    	reportAlgoContainer.addIn(IOKeys.REPORT_OUTPUT, getOut());
-    	reportAlgoContainer.addIn(IOKeys.USER_COLUMN_PREFERENCES, userColumnPrefs); 
-    	reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, getShowTotals()); 
-    	reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
+//    	//preparing the context of the report algorithm 
+//    	reportAlgoContainer.addIn(IOKeys.REPORT_TITLE, getTitle()); 
+//    	reportAlgoContainer.addIn(IOKeys.REPORT_INPUT, getIn());
+//    	reportAlgoContainer.addIn(IOKeys.REPORT_OUTPUT, getOut());
+//    	reportAlgoContainer.addIn(IOKeys.USER_COLUMN_PREFERENCES, userColumnPrefs); 
+//    	reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, getShowTotals()); 
+//    	reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
     	
     	needsProgramaticSorting = !hasValuesSorted() || ReportUtils.isSortingInPreferences(userColumnPrefs); 
     	//reportAlgoContainer.addIn(IOKeys.HAS_VALUES_ORDERED, !needsProgramaticSorting); 
@@ -217,7 +218,17 @@ public class AutoconfigFlatReport extends AbstractReport {
 	@Override public void execute() {
 		validate(); 
 		config(); 
-		reportAlgoContainer.execute(); 
+		
+		Map<IOKeys, Object> inputParams = new EnumMap<IOKeys, Object>(IOKeys.class); 
+    	inputParams.put(IOKeys.REPORT_TITLE, getTitle()); 
+    	inputParams.put(IOKeys.REPORT_INPUT, getIn());
+    	inputParams.put(IOKeys.REPORT_OUTPUT, getOut());
+    	inputParams.put(IOKeys.USER_COLUMN_PREFERENCES, userColumnPrefs); 
+    	inputParams.put(IOKeys.SHOW_TOTALS, getShowTotals()); 
+    	inputParams.put(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
+		
+    	Map<IOKeys, Object> result = reportAlgoContainer.execute(inputParams); 
+    	LOGGER.debug("algorithm ended with with the following result {}", result);
 	}
 	
 	public static class Builder {

@@ -3,6 +3,7 @@
  */
 package net.sf.reportengine.core.algorithm;
 
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -82,8 +83,8 @@ public class TestOneIterationAlgorithm {
 	public void setUp() throws Exception {
 		classUnderTest = new LoopThroughReportInputAlgo();
 		
-		classUnderTest.addIn(IOKeys.REPORT_INPUT, testInput); 
-		classUnderTest.addIn(IOKeys.REPORT_OUTPUT, testOut); 
+//		classUnderTest.addIn(IOKeys.REPORT_INPUT, testInput); 
+//		classUnderTest.addIn(IOKeys.REPORT_OUTPUT, testOut); 
 		
 		classUnderTest.addInitStep(testInitStep);
 		classUnderTest.addMainStep(testMainStep);
@@ -95,7 +96,11 @@ public class TestOneIterationAlgorithm {
 	 */
 	@Test
 	public void testExecuteAlgorithm() {
-		classUnderTest.execute();
+		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+		mockAlgoInput.put(IOKeys.REPORT_INPUT, testInput); 
+		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, testOut); 
+		
+		classUnderTest.execute(mockAlgoInput);
 		Assert.assertEquals(Integer.valueOf(1), (Integer)classUnderTest.getContext().get(ContextKeys.DATA_ROW_COUNT));
 		Assert.assertEquals(2, classUnderTest.getContext().get(ContextKeys.NEW_GROUPING_LEVEL));
 	}

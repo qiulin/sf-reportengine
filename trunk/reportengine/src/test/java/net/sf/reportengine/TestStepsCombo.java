@@ -191,15 +191,17 @@ public class TestStepsCombo  {
 			ReportOutput mockOutput = new HtmlOutput("target/intermediateReport2x2x1xT.html");  
 			
 			MultiStepAlgo algo = new LoopThroughReportInputAlgo(); 
-			algo.addIn(IOKeys.REPORT_INPUT, CtScenario2x2x1With1G1D.INPUT);
+			
+			Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
+			mockAlgoInput.put(IOKeys.REPORT_INPUT, CtScenario2x2x1With1G1D.INPUT);
 			//this output doesn't count because an internal output is built inside
-			algo.addIn(IOKeys.REPORT_OUTPUT, mockOutput);
-			algo.addIn(IOKeys.GROUP_COLS, CtScenario2x2x1With1G1D.GROUPING_COLUMNS);
-			algo.addIn(IOKeys.DATA_COLS, CtScenario2x2x1With1G1D.DATA_COLUMNS); 
-			algo.addIn(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario2x2x1With1G1D.HEADER_ROWS); 
-			algo.addIn(IOKeys.CROSSTAB_DATA, CtScenario2x2x1With1G1D.CROSSTAB_DATA); 
-			algo.addIn(IOKeys.SHOW_GRAND_TOTAL, true); 
-			algo.addIn(IOKeys.SHOW_TOTALS, true); 
+			mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
+			mockAlgoInput.put(IOKeys.GROUP_COLS, CtScenario2x2x1With1G1D.GROUPING_COLUMNS);
+			mockAlgoInput.put(IOKeys.DATA_COLS, CtScenario2x2x1With1G1D.DATA_COLUMNS); 
+			mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario2x2x1With1G1D.HEADER_ROWS); 
+			mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario2x2x1With1G1D.CROSSTAB_DATA); 
+			mockAlgoInput.put(IOKeys.SHOW_GRAND_TOTAL, true); 
+			mockAlgoInput.put(IOKeys.SHOW_TOTALS, true); 
 			//classUnderTest.setShowDataRows(true); 
 			
 			algo.addInitStep(new ConfigIntermedColsInitStep()); 
@@ -228,13 +230,14 @@ public class TestStepsCombo  {
 	    	algo.addExitStep(new EndReportExitStep()); 
 	    	algo.addExitStep(new CloseReportIOExitStep()); 
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
-			algo.execute();
+	    	
+			Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
 			
 			DistinctValuesHolder metadata = 
-					(DistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
+					(DistinctValuesHolder)result.get(IOKeys.DISTINCT_VALUES_HOLDER); 
 			assertNotNull(metadata);
 			
-			File intermedOutput = (File)algo.getResult(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
+			File intermedOutput = (File)result.get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
 			assertNotNull(intermedOutput); 
 			
 			//checking the output
@@ -259,15 +262,17 @@ public class TestStepsCombo  {
 			ReportOutput mockOutput = new HtmlOutput("target/intermediateReport1x3x1xT.html");  
 			
 			MultiStepAlgo algo = new LoopThroughReportInputAlgo(); 
-			algo.addIn(IOKeys.REPORT_INPUT, CtScenario1x3x1.INPUT);
+			
+			Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
+			mockAlgoInput.put(IOKeys.REPORT_INPUT, CtScenario1x3x1.INPUT);
 			//this output doesn't count because an internal output is built inside
-			algo.addIn(IOKeys.REPORT_OUTPUT, mockOutput);
-			algo.addIn(IOKeys.GROUP_COLS, CtScenario1x3x1.GROUP_COLUMNS);
-			algo.addIn(IOKeys.DATA_COLS, CtScenario1x3x1.DATA_COLUMNS); 
-			algo.addIn(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS); 
-			algo.addIn(IOKeys.CROSSTAB_DATA, CtScenario1x3x1.CROSSTAB_DATA); 
-			algo.addIn(IOKeys.SHOW_GRAND_TOTAL, true); 
-			algo.addIn(IOKeys.SHOW_TOTALS, true); 
+			mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
+			mockAlgoInput.put(IOKeys.GROUP_COLS, CtScenario1x3x1.GROUP_COLUMNS);
+			mockAlgoInput.put(IOKeys.DATA_COLS, CtScenario1x3x1.DATA_COLUMNS); 
+			mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS); 
+			mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario1x3x1.CROSSTAB_DATA); 
+			mockAlgoInput.put(IOKeys.SHOW_GRAND_TOTAL, true); 
+			mockAlgoInput.put(IOKeys.SHOW_TOTALS, true); 
 			
 			//init steps
 			algo.addInitStep(new ConfigIntermedColsInitStep()); 
@@ -287,13 +292,14 @@ public class TestStepsCombo  {
 	    	algo.addExitStep(new EndReportExitStep()); 
 	    	algo.addExitStep(new CloseReportIOExitStep()); 
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
-			algo.execute();
+	    	
+			Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
 			
 			DistinctValuesHolder metadata = 
-					(DistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
+					(DistinctValuesHolder)result.get(IOKeys.DISTINCT_VALUES_HOLDER); 
 			assertNotNull(metadata);
 			
-			File intermedOutput = (File)algo.getResult(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
+			File intermedOutput = (File)result.get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
 			assertNotNull(intermedOutput); 
 			
 			//checking the output
@@ -319,15 +325,17 @@ public class TestStepsCombo  {
 			ReportOutput mockOutput = new HtmlOutput("target/intermediateReport1x3x1xNoTotals.html");  
 			
 			MultiStepAlgo algo = new LoopThroughReportInputAlgo(); 
-			algo.addIn(IOKeys.REPORT_INPUT, CtScenario1x3x1.INPUT);
+			Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+			
+			mockAlgoInput.put(IOKeys.REPORT_INPUT, CtScenario1x3x1.INPUT);
 			//this output doesn't count because an internal output is built inside
-			algo.addIn(IOKeys.REPORT_OUTPUT, mockOutput);
-			algo.addIn(IOKeys.GROUP_COLS, CtScenario1x3x1.GROUP_COLUMNS);
-			algo.addIn(IOKeys.DATA_COLS, CtScenario1x3x1.DATA_COLUMNS); 
-			algo.addIn(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS); 
-			algo.addIn(IOKeys.CROSSTAB_DATA, CtScenario1x3x1.CROSSTAB_DATA); 
-			algo.addIn(IOKeys.SHOW_GRAND_TOTAL, false); 
-			algo.addIn(IOKeys.SHOW_TOTALS, false); 
+			mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
+			mockAlgoInput.put(IOKeys.GROUP_COLS, CtScenario1x3x1.GROUP_COLUMNS);
+			mockAlgoInput.put(IOKeys.DATA_COLS, CtScenario1x3x1.DATA_COLUMNS); 
+			mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS); 
+			mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario1x3x1.CROSSTAB_DATA); 
+			mockAlgoInput.put(IOKeys.SHOW_GRAND_TOTAL, false); 
+			mockAlgoInput.put(IOKeys.SHOW_TOTALS, false); 
 			
 			//init steps
 			algo.addInitStep(new ConfigIntermedColsInitStep()); 
@@ -347,13 +355,13 @@ public class TestStepsCombo  {
 	    	algo.addExitStep(new EndReportExitStep()); 
 	    	algo.addExitStep(new CloseReportIOExitStep()); 
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
-			algo.execute();
+			Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
 			
 			DistinctValuesHolder metadata = 
-					(DistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
+					(DistinctValuesHolder)result.get(IOKeys.DISTINCT_VALUES_HOLDER); 
 			assertNotNull(metadata);
 			
-			File intermedOutput = (File)algo.getResult(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
+			File intermedOutput = (File)result.get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
 			assertNotNull(intermedOutput); 
 			
 			//checking the output
@@ -379,15 +387,16 @@ public class TestStepsCombo  {
 			ReportOutput mockOutput = new HtmlOutput("target/intermediateReport1x1x1xT.html");  
 			
 			MultiStepAlgo algo = new LoopThroughReportInputAlgo(); 
-			algo.addIn(IOKeys.REPORT_INPUT, CtScenario1x1x1.INPUT);
+			Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+			mockAlgoInput.put(IOKeys.REPORT_INPUT, CtScenario1x1x1.INPUT);
 			//this output doesn't count because an internal output is built inside
-			algo.addIn(IOKeys.REPORT_OUTPUT, mockOutput);
-			algo.addIn(IOKeys.GROUP_COLS, CtScenario1x1x1.GROUP_COLUMNS);
-			algo.addIn(IOKeys.DATA_COLS, CtScenario1x1x1.DATA_COLUMNS); 
-			algo.addIn(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x1x1.ROW_HEADERS); 
-			algo.addIn(IOKeys.CROSSTAB_DATA, CtScenario1x1x1.CROSSTAB_DATA_WITH_TOTALS); 
-			algo.addIn(IOKeys.SHOW_GRAND_TOTAL, true); 
-			algo.addIn(IOKeys.SHOW_TOTALS, true); 
+			mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
+			mockAlgoInput.put(IOKeys.GROUP_COLS, CtScenario1x1x1.GROUP_COLUMNS);
+			mockAlgoInput.put(IOKeys.DATA_COLS, CtScenario1x1x1.DATA_COLUMNS); 
+			mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x1x1.ROW_HEADERS); 
+			mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario1x1x1.CROSSTAB_DATA_WITH_TOTALS); 
+			mockAlgoInput.put(IOKeys.SHOW_GRAND_TOTAL, true); 
+			mockAlgoInput.put(IOKeys.SHOW_TOTALS, true); 
 			
 			//init steps
 			algo.addInitStep(new ConfigIntermedColsInitStep()); 
@@ -407,13 +416,13 @@ public class TestStepsCombo  {
 	    	algo.addExitStep(new EndReportExitStep()); 
 	    	algo.addExitStep(new CloseReportIOExitStep()); 
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
-			algo.execute();
+			Map<IOKeys,Object> result = algo.execute(mockAlgoInput);
 			
 			DistinctValuesHolder metadata = 
-					(DistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
+					(DistinctValuesHolder)result.get(IOKeys.DISTINCT_VALUES_HOLDER); 
 			assertNotNull(metadata);
 			
-			File intermedOutput = (File)algo.getResult(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
+			File intermedOutput = (File)result.get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
 			assertNotNull(intermedOutput); 
 			
 			//checking the output
@@ -438,15 +447,16 @@ public class TestStepsCombo  {
 			ReportOutput mockOutput = new HtmlOutput("target/intermediateReport4x3x1xT.html");  
 			
 			MultiStepAlgo algo = new LoopThroughReportInputAlgo(); 
-			algo.addIn(IOKeys.REPORT_INPUT, CtScenario4x3x1.INPUT);
+			Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+			mockAlgoInput.put(IOKeys.REPORT_INPUT, CtScenario4x3x1.INPUT);
 			//this output doesn't count because an internal output is built inside
-			algo.addIn(IOKeys.REPORT_OUTPUT, mockOutput);
-			algo.addIn(IOKeys.GROUP_COLS, CtScenario4x3x1.GROUP_COLUMNS);
-			algo.addIn(IOKeys.DATA_COLS, CtScenario4x3x1.DATA_COLUMNS); 
-			algo.addIn(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario4x3x1.HEADER_ROWS); 
-			algo.addIn(IOKeys.CROSSTAB_DATA, CtScenario4x3x1.CROSSTAB_DATA); 
-			algo.addIn(IOKeys.SHOW_GRAND_TOTAL, true); 
-			algo.addIn(IOKeys.SHOW_TOTALS, true); 
+			mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
+			mockAlgoInput.put(IOKeys.GROUP_COLS, CtScenario4x3x1.GROUP_COLUMNS);
+			mockAlgoInput.put(IOKeys.DATA_COLS, CtScenario4x3x1.DATA_COLUMNS); 
+			mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario4x3x1.HEADER_ROWS); 
+			mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario4x3x1.CROSSTAB_DATA); 
+			mockAlgoInput.put(IOKeys.SHOW_GRAND_TOTAL, true); 
+			mockAlgoInput.put(IOKeys.SHOW_TOTALS, true); 
 			
 			//init steps
 			algo.addInitStep(new ConfigIntermedColsInitStep()); 
@@ -466,13 +476,13 @@ public class TestStepsCombo  {
 	    	algo.addExitStep(new EndReportExitStep()); 
 	    	algo.addExitStep(new CloseReportIOExitStep()); 
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
-			algo.execute();
+			Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
 			
 			DistinctValuesHolder metadata = 
-					(DistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
+					(DistinctValuesHolder)result.get(IOKeys.DISTINCT_VALUES_HOLDER); 
 			assertNotNull(metadata);
 			
-			File intermedOutput = (File)algo.getResult(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
+			File intermedOutput = (File)result.get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
 			assertNotNull(intermedOutput); 
 			
 			//checking the output
@@ -495,15 +505,17 @@ public class TestStepsCombo  {
 	@Test
 	public void testExecuteScenario4x3x1xNoTotalsForIntermediateReport() throws Exception{
 			MultiStepAlgo algo = new LoopThroughReportInputAlgo(); 
-			algo.addIn(IOKeys.REPORT_INPUT, CtScenario4x3x1.INPUT);
+			
+			Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+			mockAlgoInput.put(IOKeys.REPORT_INPUT, CtScenario4x3x1.INPUT);
 			//this output doesn't count because an internal output is built inside
-			algo.addIn(IOKeys.REPORT_OUTPUT, new HtmlOutput("target/intermediateReport4x3x1xNoTotals.html"));
-			algo.addIn(IOKeys.GROUP_COLS, CtScenario4x3x1.GROUP_COLUMNS);
-			algo.addIn(IOKeys.DATA_COLS, CtScenario4x3x1.DATA_COLUMNS); 
-			algo.addIn(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario4x3x1.HEADER_ROWS); 
-			algo.addIn(IOKeys.CROSSTAB_DATA, CtScenario4x3x1.CROSSTAB_DATA); 
-			algo.addIn(IOKeys.SHOW_GRAND_TOTAL, false); 
-			algo.addIn(IOKeys.SHOW_TOTALS, false); 
+			mockAlgoInput.put(IOKeys.REPORT_OUTPUT, new HtmlOutput("target/intermediateReport4x3x1xNoTotals.html"));
+			mockAlgoInput.put(IOKeys.GROUP_COLS, CtScenario4x3x1.GROUP_COLUMNS);
+			mockAlgoInput.put(IOKeys.DATA_COLS, CtScenario4x3x1.DATA_COLUMNS); 
+			mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario4x3x1.HEADER_ROWS); 
+			mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario4x3x1.CROSSTAB_DATA); 
+			mockAlgoInput.put(IOKeys.SHOW_GRAND_TOTAL, false); 
+			mockAlgoInput.put(IOKeys.SHOW_TOTALS, false); 
 			
 			//init steps
 			algo.addInitStep(new ConfigIntermedColsInitStep()); 
@@ -523,13 +535,13 @@ public class TestStepsCombo  {
 	    	algo.addExitStep(new EndReportExitStep()); 
 	    	algo.addExitStep(new CloseReportIOExitStep());
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
-			algo.execute();
+			Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
 			
 			DistinctValuesHolder metadata = 
-					(DistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
+					(DistinctValuesHolder)result.get(IOKeys.DISTINCT_VALUES_HOLDER); 
 			assertNotNull(metadata);
 			
-			File intermedOutput = (File)algo.getResult(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
+			File intermedOutput = (File)result.get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
 			assertNotNull(intermedOutput); 
 			
 			//checking the output
@@ -552,15 +564,17 @@ public class TestStepsCombo  {
 	@Test
 	public void testExecuteScenario2x2x1With0G2DxNoTotalsForIntermediateReport() throws Exception{
 			MultiStepAlgo algo = new LoopThroughReportInputAlgo(); 
-			algo.addIn(IOKeys.REPORT_INPUT, CtScenario2x2x1With0G2D.INPUT);
+			
+			Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+			mockAlgoInput.put(IOKeys.REPORT_INPUT, CtScenario2x2x1With0G2D.INPUT);
 			//this output doesn't count because an internal output is built inside
-			algo.addIn(IOKeys.REPORT_OUTPUT, new CellPropsArrayOutput());
-			algo.addIn(IOKeys.GROUP_COLS, CtScenario2x2x1With0G2D.GROUPING_COLUMNS);
-			algo.addIn(IOKeys.DATA_COLS, CtScenario2x2x1With0G2D.DATA_COLUMNS); 
-			algo.addIn(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario2x2x1With0G2D.HEADER_ROWS); 
-			algo.addIn(IOKeys.CROSSTAB_DATA, CtScenario2x2x1With0G2D.CROSSTAB_DATA); 
-			algo.addIn(IOKeys.SHOW_GRAND_TOTAL, false); 
-			algo.addIn(IOKeys.SHOW_TOTALS, false); 
+			mockAlgoInput.put(IOKeys.REPORT_OUTPUT, new CellPropsArrayOutput());
+			mockAlgoInput.put(IOKeys.GROUP_COLS, CtScenario2x2x1With0G2D.GROUPING_COLUMNS);
+			mockAlgoInput.put(IOKeys.DATA_COLS, CtScenario2x2x1With0G2D.DATA_COLUMNS); 
+			mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario2x2x1With0G2D.HEADER_ROWS); 
+			mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario2x2x1With0G2D.CROSSTAB_DATA); 
+			mockAlgoInput.put(IOKeys.SHOW_GRAND_TOTAL, false); 
+			mockAlgoInput.put(IOKeys.SHOW_TOTALS, false); 
 			
 			//init steps
 			algo.addInitStep(new ConfigIntermedColsInitStep()); 
@@ -580,13 +594,13 @@ public class TestStepsCombo  {
 	    	algo.addExitStep(new EndReportExitStep()); 
 	    	algo.addExitStep(new CloseReportIOExitStep()); 
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
-			algo.execute();
+	    	Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
 			
 			DistinctValuesHolder metadata = 
-					(DistinctValuesHolder)algo.getResult(IOKeys.DISTINCT_VALUES_HOLDER); 
+					(DistinctValuesHolder)result.get(IOKeys.DISTINCT_VALUES_HOLDER); 
 			assertNotNull(metadata);
 			
-			File intermedOutput = (File)algo.getResult(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
+			File intermedOutput = (File)result.get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
 			assertNotNull(intermedOutput); 
 			
 			//checking the output
@@ -611,20 +625,21 @@ public class TestStepsCombo  {
 		ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut2x2x1xT.html");  
 		
 		MultiStepAlgo algo = new LoopThroughReportInputAlgo(); 
-		algo.addIn(IOKeys.REPORT_INPUT, null);//it doesn't matter, will be replaced
-		algo.addIn(IOKeys.REPORT_OUTPUT, mockOutput);
-		algo.addIn(IOKeys.GROUP_COLS, CtScenario2x2x1With1G1D.GROUPING_COLUMNS);
-		algo.addIn(IOKeys.DATA_COLS, CtScenario2x2x1With1G1D.DATA_COLUMNS); 
-		algo.addIn(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario2x2x1With1G1D.HEADER_ROWS); 
-		algo.addIn(IOKeys.CROSSTAB_DATA, CtScenario2x2x1With1G1D.CROSSTAB_DATA); 
-		algo.addIn(IOKeys.SHOW_GRAND_TOTAL, true); 
-		algo.addIn(IOKeys.SHOW_TOTALS, true); 
+		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+		mockAlgoInput.put(IOKeys.REPORT_INPUT, null);//it doesn't matter, will be replaced
+		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
+		mockAlgoInput.put(IOKeys.GROUP_COLS, CtScenario2x2x1With1G1D.GROUPING_COLUMNS);
+		mockAlgoInput.put(IOKeys.DATA_COLS, CtScenario2x2x1With1G1D.DATA_COLUMNS); 
+		mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario2x2x1With1G1D.HEADER_ROWS); 
+		mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario2x2x1With1G1D.CROSSTAB_DATA); 
+		mockAlgoInput.put(IOKeys.SHOW_GRAND_TOTAL, true); 
+		mockAlgoInput.put(IOKeys.SHOW_TOTALS, true); 
 		
 		//mock values which usually come from the previous algorithm
 		File fileFromPrevAlgo = new File("./src/test/resources/TestIntermediateInput2x2x1xT.rep"); 
 		assertNotNull(fileFromPrevAlgo); 
-		algo.addIn(IOKeys.INTERMEDIATE_OUTPUT_FILE, fileFromPrevAlgo); 
-		algo.addIn(IOKeys.DISTINCT_VALUES_HOLDER, CtScenario2x2x1With1G1D.MOCK_DISTINCT_VALUES_HOLDER); 
+		mockAlgoInput.put(IOKeys.INTERMEDIATE_OUTPUT_FILE, fileFromPrevAlgo); 
+		mockAlgoInput.put(IOKeys.DISTINCT_VALUES_HOLDER, CtScenario2x2x1With1G1D.MOCK_DISTINCT_VALUES_HOLDER); 
 		
 		
 		//adding steps to the algorithm
@@ -649,7 +664,7 @@ public class TestStepsCombo  {
         algo.addExitStep(new EndReportExitStep()); //uses original output
         algo.addExitStep(new CloseReportIOExitStep()); 
         
-        algo.execute();
+        Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
         
 	}
 	
@@ -658,20 +673,21 @@ public class TestStepsCombo  {
 		ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut2x2x1With0G2D.html");  
 		
 		MultiStepAlgo algo = new LoopThroughReportInputAlgo(); 
-		algo.addIn(IOKeys.REPORT_INPUT, null);//it doesn't matter, will be replaced
-		algo.addIn(IOKeys.REPORT_OUTPUT, mockOutput);
-		algo.addIn(IOKeys.GROUP_COLS, CtScenario2x2x1With0G2D.GROUPING_COLUMNS);
-		algo.addIn(IOKeys.DATA_COLS, CtScenario2x2x1With0G2D.DATA_COLUMNS); 
-		algo.addIn(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario2x2x1With0G2D.HEADER_ROWS); 
-		algo.addIn(IOKeys.CROSSTAB_DATA, CtScenario2x2x1With0G2D.CROSSTAB_DATA); 
-		algo.addIn(IOKeys.SHOW_GRAND_TOTAL, false); 
-		algo.addIn(IOKeys.SHOW_TOTALS, false); 
+		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+		mockAlgoInput.put(IOKeys.REPORT_INPUT, null);//it doesn't matter, will be replaced
+		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
+		mockAlgoInput.put(IOKeys.GROUP_COLS, CtScenario2x2x1With0G2D.GROUPING_COLUMNS);
+		mockAlgoInput.put(IOKeys.DATA_COLS, CtScenario2x2x1With0G2D.DATA_COLUMNS); 
+		mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario2x2x1With0G2D.HEADER_ROWS); 
+		mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario2x2x1With0G2D.CROSSTAB_DATA); 
+		mockAlgoInput.put(IOKeys.SHOW_GRAND_TOTAL, false); 
+		mockAlgoInput.put(IOKeys.SHOW_TOTALS, false); 
 		
 		//mock values which usually come from the previous algorithm
 		File fileFromPrevAlgo = new File("./src/test/resources/TestIntermediateInput2x2x1With0G2D.rep"); 
 		assertNotNull(fileFromPrevAlgo); 
-		algo.addIn(IOKeys.INTERMEDIATE_OUTPUT_FILE, fileFromPrevAlgo); 
-		algo.addIn(IOKeys.DISTINCT_VALUES_HOLDER, CtScenario2x2x1With0G2D.MOCK_DISTINCT_VALUES_HOLDER); 
+		mockAlgoInput.put(IOKeys.INTERMEDIATE_OUTPUT_FILE, fileFromPrevAlgo); 
+		mockAlgoInput.put(IOKeys.DISTINCT_VALUES_HOLDER, CtScenario2x2x1With0G2D.MOCK_DISTINCT_VALUES_HOLDER); 
 		
 		//adding steps to the algorithm
 		algo.addInitStep(new GenerateCrosstabMetadataInitStep()); 
@@ -695,7 +711,7 @@ public class TestStepsCombo  {
         algo.addExitStep(new EndReportExitStep()); //uses original output
         algo.addExitStep(new CloseReportIOExitStep()); 
         
-        algo.execute();
+        Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
         
 	}
 	
@@ -704,20 +720,21 @@ public class TestStepsCombo  {
 		ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut1x3x1xT.html");  
 		
 		MultiStepAlgo algo = new LoopThroughReportInputAlgo(); 
-		algo.addIn(IOKeys.REPORT_INPUT, null);//it doesn't matter, will be replaced
-		algo.addIn(IOKeys.REPORT_OUTPUT, mockOutput);
-		algo.addIn(IOKeys.GROUP_COLS, CtScenario1x3x1.GROUP_COLUMNS);
-		algo.addIn(IOKeys.DATA_COLS, CtScenario1x3x1.DATA_COLUMNS); 
-		algo.addIn(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS); 
-		algo.addIn(IOKeys.CROSSTAB_DATA, CtScenario1x3x1.CROSSTAB_DATA); 
-		algo.addIn(IOKeys.SHOW_GRAND_TOTAL, true); 
-		algo.addIn(IOKeys.SHOW_TOTALS, true); 
+		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+		mockAlgoInput.put(IOKeys.REPORT_INPUT, null);//it doesn't matter, will be replaced
+		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
+		mockAlgoInput.put(IOKeys.GROUP_COLS, CtScenario1x3x1.GROUP_COLUMNS);
+		mockAlgoInput.put(IOKeys.DATA_COLS, CtScenario1x3x1.DATA_COLUMNS); 
+		mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS); 
+		mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario1x3x1.CROSSTAB_DATA); 
+		mockAlgoInput.put(IOKeys.SHOW_GRAND_TOTAL, true); 
+		mockAlgoInput.put(IOKeys.SHOW_TOTALS, true); 
 		
 		//mock values which usually come from the previous algorithm
 		File fileFromPrevAlgo = new File("./src/test/resources/TestIntermediateInput1x3x1xT.rep"); 
 		assertNotNull(fileFromPrevAlgo); 
-		algo.addIn(IOKeys.INTERMEDIATE_OUTPUT_FILE, fileFromPrevAlgo); 
-		algo.addIn(IOKeys.DISTINCT_VALUES_HOLDER, CtScenario1x3x1.MOCK_DISTINCT_VALUES_HOLDER); 
+		mockAlgoInput.put(IOKeys.INTERMEDIATE_OUTPUT_FILE, fileFromPrevAlgo); 
+		mockAlgoInput.put(IOKeys.DISTINCT_VALUES_HOLDER, CtScenario1x3x1.MOCK_DISTINCT_VALUES_HOLDER); 
 		
 		//adding steps to the algorithm
 		algo.addInitStep(new GenerateCrosstabMetadataInitStep()); 
@@ -741,7 +758,7 @@ public class TestStepsCombo  {
         algo.addExitStep(new EndReportExitStep()); //uses original output
         algo.addExitStep(new CloseReportIOExitStep()); 
         
-        algo.execute();
+        Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
         
 	}
 	
@@ -750,20 +767,21 @@ public class TestStepsCombo  {
 		ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut1x3x1.html");  
 		
 		MultiStepAlgo algo = new LoopThroughReportInputAlgo(); 
-		algo.addIn(IOKeys.REPORT_INPUT, null);//it doesn't matter, will be replaced
-		algo.addIn(IOKeys.REPORT_OUTPUT, mockOutput);
-		algo.addIn(IOKeys.GROUP_COLS, CtScenario1x3x1.GROUP_COLUMNS);
-		algo.addIn(IOKeys.DATA_COLS, CtScenario1x3x1.DATA_COLUMNS); 
-		algo.addIn(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS); 
-		algo.addIn(IOKeys.CROSSTAB_DATA, CtScenario1x3x1.CROSSTAB_DATA); 
-		algo.addIn(IOKeys.SHOW_GRAND_TOTAL, false); 
-		algo.addIn(IOKeys.SHOW_TOTALS, false); 
+		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+		mockAlgoInput.put(IOKeys.REPORT_INPUT, null);//it doesn't matter, will be replaced
+		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
+		mockAlgoInput.put(IOKeys.GROUP_COLS, CtScenario1x3x1.GROUP_COLUMNS);
+		mockAlgoInput.put(IOKeys.DATA_COLS, CtScenario1x3x1.DATA_COLUMNS); 
+		mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS); 
+		mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario1x3x1.CROSSTAB_DATA); 
+		mockAlgoInput.put(IOKeys.SHOW_GRAND_TOTAL, false); 
+		mockAlgoInput.put(IOKeys.SHOW_TOTALS, false); 
 		
 		//mock values which usually come from the previous algorithm
 		File fileFromPrevAlgo = new File("./src/test/resources/TestIntermediateInput1x3x1.rep"); 
 		assertNotNull(fileFromPrevAlgo); 
-		algo.addIn(IOKeys.INTERMEDIATE_OUTPUT_FILE, fileFromPrevAlgo); 
-		algo.addIn(IOKeys.DISTINCT_VALUES_HOLDER, CtScenario1x3x1.MOCK_DISTINCT_VALUES_HOLDER); 
+		mockAlgoInput.put(IOKeys.INTERMEDIATE_OUTPUT_FILE, fileFromPrevAlgo); 
+		mockAlgoInput.put(IOKeys.DISTINCT_VALUES_HOLDER, CtScenario1x3x1.MOCK_DISTINCT_VALUES_HOLDER); 
 		
 		//adding steps to the algorithm
 		algo.addInitStep(new GenerateCrosstabMetadataInitStep()); 
@@ -787,6 +805,6 @@ public class TestStepsCombo  {
         algo.addExitStep(new EndReportExitStep()); //uses original output
         algo.addExitStep(new CloseReportIOExitStep()); 
         
-        algo.execute();
+        Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
 	}
 }

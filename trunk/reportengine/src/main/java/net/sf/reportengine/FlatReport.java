@@ -9,7 +9,9 @@ import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_NOT_REQUESTED_B
 import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_REQUESTED_BY_USER;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
@@ -137,14 +139,14 @@ public class FlatReport extends AbstractColumnBasedReport {
     @Override protected void config(){
     	LOGGER.trace("configuring flat report"); 
     	
-    	//preparing the context of the report reportAlgo 
-    	reportAlgoContainer.addIn(IOKeys.REPORT_TITLE, getTitle()); 
-    	reportAlgoContainer.addIn(IOKeys.REPORT_INPUT, getIn());
-    	reportAlgoContainer.addIn(IOKeys.REPORT_OUTPUT, getOut());
-    	reportAlgoContainer.addIn(IOKeys.DATA_COLS, getDataColumns()); 
-    	reportAlgoContainer.addIn(IOKeys.GROUP_COLS, getGroupColumns()); 
-    	reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, getShowTotals()); 
-    	reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
+//    	//preparing the context of the report reportAlgo 
+//    	reportAlgoContainer.addIn(IOKeys.REPORT_TITLE, getTitle()); 
+//    	reportAlgoContainer.addIn(IOKeys.REPORT_INPUT, getIn());
+//    	reportAlgoContainer.addIn(IOKeys.REPORT_OUTPUT, getOut());
+//    	reportAlgoContainer.addIn(IOKeys.DATA_COLS, getDataColumns()); 
+//    	reportAlgoContainer.addIn(IOKeys.GROUP_COLS, getGroupColumns()); 
+//    	reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, getShowTotals()); 
+//    	reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
     	
     	needsProgramaticSorting = !hasValuesSorted() || ReportUtils.isSortingInColumns(getGroupColumns(), getDataColumns()); 
     	LOGGER.info("programatic sorting needed {} ", needsProgramaticSorting); 
@@ -249,7 +251,19 @@ public class FlatReport extends AbstractColumnBasedReport {
     @Override public void execute(){
     	validate(); 
         config();
-        reportAlgoContainer.execute(); 
+        
+        //preparing the context of the report reportAlgo 
+        Map<IOKeys, Object> inputParams = new EnumMap<IOKeys, Object>(IOKeys.class);	
+    	inputParams.put(IOKeys.REPORT_TITLE, getTitle()); 
+    	inputParams.put(IOKeys.REPORT_INPUT, getIn());
+    	inputParams.put(IOKeys.REPORT_OUTPUT, getOut());
+    	inputParams.put(IOKeys.DATA_COLS, getDataColumns()); 
+    	inputParams.put(IOKeys.GROUP_COLS, getGroupColumns()); 
+    	inputParams.put(IOKeys.SHOW_TOTALS, getShowTotals()); 
+    	inputParams.put(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
+    	
+    	Map<IOKeys, Object> result = reportAlgoContainer.execute(inputParams); 
+    	LOGGER.debug("flat report ended with result {}", result);
     }
     
     /**
