@@ -16,34 +16,37 @@ import net.sf.reportengine.util.IOKeys;
  */
 public interface Algorithm {
     
-    /**
-     * sets the input of the report.
-     * @param input	
-     */     
-    public void setIn(Map<IOKeys, Object> input);
+//    /**
+//     * sets the input of the report.
+//     * @param input	
+//     */     
+//    public void setIn(Map<IOKeys, Object> input);
+//    
+//    /**
+//     * 
+//     * @param input
+//     */
+//    public void addIn(IOKeys key, Object value); 
     
     /**
+     * executes the algorithm based on the input and returns the output
      * 
-     * @param input
+     * @param input 	 the input parameter map
+     * @return an output parameter map
      */
-    public void addIn(IOKeys key, Object value); 
+    public Map<IOKeys, Object> execute(Map<IOKeys, Object> input);
     
-    /**
-     * executes the report and displays it
-     */
-    public void execute();
-    
-    /**
-     * sets the output of the report
-     * @param out
-     */
-    public Map<IOKeys, Object> getResultMap();
-    
-    /**
-     * 
-     * @param name
-     * @return
-     */
-    public Object getResult(IOKeys key); 
+//    /**
+//     * sets the output of the report
+//     * @param out
+//     */
+//    public Map<IOKeys, Object> getResultMap();
+//    
+//    /**
+//     * 
+//     * @param name
+//     * @return
+//     */
+//    public Object getResult(IOKeys key); 
     
 }

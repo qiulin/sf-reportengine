@@ -18,7 +18,9 @@ import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_NOT_REQUESTED_B
 import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_REQUESTED_BY_USER;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.CrosstabHeaderRow;
@@ -60,6 +62,7 @@ import net.sf.reportengine.core.steps.intermed.IntermedTotalsCalculatorStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsOutputStep;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
+import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
 import net.sf.reportengine.util.UserRequestedBoolean;
 
@@ -215,20 +218,20 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	protected void config() {
 		LOGGER.trace("configuring crosstab report ..."); 
 		
-		reportAlgoContainer.addIn(REPORT_TITLE, getTitle()); 
-		
-		//setting the input/output
-		reportAlgoContainer.addIn(REPORT_INPUT, getIn());
-		reportAlgoContainer.addIn(REPORT_OUTPUT, getOut());
-		
-		//context keys specific to a flat report
-		reportAlgoContainer.addIn(DATA_COLS, getDataColumns()); 
-		reportAlgoContainer.addIn(GROUP_COLS, getGroupColumns()); 
-		reportAlgoContainer.addIn(CROSSTAB_HEADER_ROWS, crosstabHeaderRowsAsList); 
-		reportAlgoContainer.addIn(CROSSTAB_DATA, crosstabData); 
-		
-		reportAlgoContainer.addIn(SHOW_TOTALS, Boolean.valueOf(getShowTotals())); 
-		reportAlgoContainer.addIn(SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
+//		reportAlgoContainer.addIn(REPORT_TITLE, getTitle()); 
+//		
+//		//setting the input/output
+//		reportAlgoContainer.addIn(REPORT_INPUT, getIn());
+//		reportAlgoContainer.addIn(REPORT_OUTPUT, getOut());
+//		
+//		//context keys specific to a flat report
+//		reportAlgoContainer.addIn(DATA_COLS, getDataColumns()); 
+//		reportAlgoContainer.addIn(GROUP_COLS, getGroupColumns()); 
+//		reportAlgoContainer.addIn(CROSSTAB_HEADER_ROWS, crosstabHeaderRowsAsList); 
+//		reportAlgoContainer.addIn(CROSSTAB_DATA, crosstabData); 
+//		
+//		reportAlgoContainer.addIn(SHOW_TOTALS, Boolean.valueOf(getShowTotals())); 
+//		reportAlgoContainer.addIn(SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
 		
 		needsProgramaticSorting = 
 					!hasValuesSorted() 
@@ -421,9 +424,24 @@ public class CrossTabReport extends AbstractColumnBasedReport{
     	//configuration of the first report
         config();
         
+        Map<IOKeys, Object> inputParams = new EnumMap<IOKeys, Object>(IOKeys.class);
+        inputParams.put(REPORT_TITLE, getTitle()); 
+		
+		//setting the input/output
+        inputParams.put(REPORT_INPUT, getIn());
+        inputParams.put(REPORT_OUTPUT, getOut());
+		
+		//context keys specific to a flat report
+        inputParams.put(DATA_COLS, getDataColumns()); 
+        inputParams.put(GROUP_COLS, getGroupColumns()); 
+        inputParams.put(CROSSTAB_HEADER_ROWS, crosstabHeaderRowsAsList); 
+        inputParams.put(CROSSTAB_DATA, crosstabData); 
+		
+        inputParams.put(SHOW_TOTALS, Boolean.valueOf(getShowTotals())); 
+        inputParams.put(SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
         
-        reportAlgoContainer.execute(); 
-         
+        Map<IOKeys, Object> result = reportAlgoContainer.execute(inputParams); 
+        LOGGER.debug("crosstab report ended with {}", result); 
     }
     
 public static class Builder {
