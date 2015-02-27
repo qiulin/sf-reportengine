@@ -1,13 +1,11 @@
 package net.sf.reportengine.components;
 
-import java.io.FileWriter;
 import java.io.IOException;
 
-import net.sf.reportengine.out.neo.DefaultReportOutput;
-import net.sf.reportengine.out.neo.NewReportOutput;
+import net.sf.reportengine.out.neo.TestImplForReportOutput;
 
 import org.junit.Test;
-import org.junit.internal.runners.statements.Fail;
+import static org.junit.Assert.assertEquals;
 
 public class TestReportTitleComponent {
 	
@@ -15,11 +13,13 @@ public class TestReportTitleComponent {
 	
 	@Test
 	public void testOutputNewReportOutput() throws IOException {
-		NewReportOutput testOut;
-		testOut = new DefaultReportOutput(new FileWriter("./testTitleReportComponent"));
-	
+		TestImplForReportOutput testOutput = new TestImplForReportOutput(); 
 		componentUnderTest = new ReportTitle("unit test title");
-		componentUnderTest.output(testOut);
+		componentUnderTest.output(testOutput);
+		
+		testOutput.close();
+		
+		assertEquals("title", testOutput.getString()); 
 	}
 
 }

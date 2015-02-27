@@ -1,9 +1,8 @@
-/**
- * 
- */
 package net.sf.reportengine.out.neo;
 
+
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 
 import net.sf.reportengine.out.ReportOutputException;
@@ -15,12 +14,12 @@ import freemarker.template.DefaultObjectWrapper;
  * @author dragos balan
  *
  */
-public class DefaultReportOutput implements NewReportOutput {
+public class TestImplForReportOutput implements NewReportOutput {
 	
 	/**
 	 * the default class path  for freemarker templates
 	 */
-	public final static String DEFAULT_HTML_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/freemarker/html"; 
+	public final static String DEFAULT_TEMPLATES_CLASS_PATH = "/freemarker"; 
 	
 	/**
 	 * the freemarker configuration
@@ -30,22 +29,20 @@ public class DefaultReportOutput implements NewReportOutput {
 	/**
 	 * the output writer
 	 */
-	private final Writer writer; 
+	private final Writer writer = new StringWriter(); 
 	
 	
 
 	/**
 	 * 
 	 */
-	public DefaultReportOutput(Writer writer){
-		
-		this.writer = writer;
+	public TestImplForReportOutput(){
 		
 		fmConfig= new Configuration(); 
 		fmConfig.setObjectWrapper(new DefaultObjectWrapper()); 
 		fmConfig.setTemplateLoader(
 				new ClassTemplateLoader(getClass(), 
-										DEFAULT_HTML_TEMPLATES_CLASS_PATH)); 
+										DEFAULT_TEMPLATES_CLASS_PATH)); 
 	}
 	
 	/* (non-Javadoc)
@@ -75,5 +72,8 @@ public class DefaultReportOutput implements NewReportOutput {
 	public Configuration getFmConfig(){
 		return fmConfig; 
 	}
-
+	
+	public String getString(){
+		return ((StringWriter)writer).getBuffer().toString(); 
+	}
 }
