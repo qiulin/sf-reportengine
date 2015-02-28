@@ -45,15 +45,15 @@ public abstract class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
     
     
     public Map<IOKeys, Object> execute(Map<IOKeys, Object> inputParams) {
-    	LOGGER.trace("opening report input");
+    	LOGGER.debug("opening report input");
     	ReportInput reportInput = buildReportInput(inputParams); 
     	reportInput.open(); 
     	
-    	LOGGER.trace("start looping algorithm");
+    	LOGGER.debug("start looping algorithm");
         Map<IOKeys, Object> result = new EnumMap<IOKeys, Object>(IOKeys.class); 
     	
         //execution of the init steps
-        result.putAll(executeInitSteps(inputParams));
+        executeInitSteps(inputParams);
             
         executeMainSteps(inputParams, reportInput);
         
@@ -62,7 +62,7 @@ public abstract class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
         
         result.putAll(extractResultsFromSteps());
         
-        LOGGER.trace("closing algorithm input");
+        LOGGER.debug("end loop. Closing algorithm input...");
         reportInput.close(); 
         
         return result; 
@@ -72,15 +72,16 @@ public abstract class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
     /**
      * execution of init method for each init step
      */
-    protected Map<IOKeys, Object> executeInitSteps(Map<IOKeys, Object> inputParams) {
+    protected void executeInitSteps(Map<IOKeys, Object> inputParams) {
     	List<AlgorithmInitStep> initSteps = getInitSteps();
     	
-    	Map<IOKeys, Object> result = new EnumMap<IOKeys, Object>(IOKeys.class);
+    	//Map<IOKeys, Object> result = new EnumMap<IOKeys, Object>(IOKeys.class);
     	
         for(AlgorithmInitStep initStep: initSteps){
-            result.putAll(initStep.init(inputParams, getContext()));
+            //result.putAll(initStep.init(inputParams, getContext()));
+        	initStep.init(inputParams, getContext()); 
         } 
-        return result; 
+        //return result; 
     } 
     
     /**
@@ -101,7 +102,8 @@ public abstract class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
         	
             //get the current data row 
             List<Object> currentRow = reportInput.nextRow();
-                
+            LOGGER.trace("executing algo steps for input row {}", currentRow);
+            
             //then we pass the dataRow through all the report steps
             for(AlgorithmMainStep algoStep: mainSteps){
             	algoStep.execute(new NewRowEvent(currentRow));

@@ -22,12 +22,11 @@ public class GenerateCrosstabMetadataInitStep extends AbstractInitStep {
 	 * @see net.sf.reportengine.core.algorithm.steps.AbstractInitStep#executeInit()
 	 */
 	@Override
-	protected Map<IOKeys, Object> executeInit(Map<IOKeys, Object> inputParams) {
+	protected void executeInit(Map<IOKeys, Object> inputParams) {
 		DistinctValuesHolder distinctValuesHolder = 
 				(DistinctValuesHolder)inputParams.get(IOKeys.DISTINCT_VALUES_HOLDER); 
 		
 		getAlgoContext().set(ContextKeys.CROSSTAB_METADATA, new CtMetadata(distinctValuesHolder)); 
-		return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
 	}
 
 }

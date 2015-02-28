@@ -20,9 +20,8 @@ public class ConfigReportOutputInitStep extends AbstractReportInitStep {
 	 * @see net.sf.reportengine.core.algorithm.steps.AbstractInitStep#executeInit(java.util.Map)
 	 */
 	@Override
-	protected Map<IOKeys, Object> executeInit(Map<IOKeys, Object> inputParams) {
+	protected void executeInit(Map<IOKeys, Object> inputParams) {
 		getAlgoContext().set(ContextKeys.LOCAL_REPORT_OUTPUT, (ReportOutput)inputParams.get(IOKeys.REPORT_OUTPUT)); 
-		return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP;
 	}
 
 }

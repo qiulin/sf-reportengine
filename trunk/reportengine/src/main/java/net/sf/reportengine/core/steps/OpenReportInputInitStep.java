@@ -19,9 +19,7 @@ public class OpenReportInputInitStep extends AbstractReportInitStep {
 	 * @see net.sf.reportengine.core.algorithm.steps.AbstractInitStep#executeInit()
 	 */
 	@Override
-	protected Map<IOKeys, Object> executeInit(Map<IOKeys, Object> inputParams) {
-		//((ReportInput)getAlgoInput().get(IOKeys.REPORT_INPUT)).open();
+	protected void executeInit(Map<IOKeys, Object> inputParams) {
 		getReportInput().open(); 
-		return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
 	}
 }

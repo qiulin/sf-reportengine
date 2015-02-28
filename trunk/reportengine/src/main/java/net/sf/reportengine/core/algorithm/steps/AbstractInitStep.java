@@ -22,15 +22,15 @@ public abstract class AbstractInitStep implements AlgorithmInitStep {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(java.util.Map, net.sf.reportengine.core.algorithm.AlgoContext)
 	 */
-	public Map<IOKeys, Object> init(Map<IOKeys, Object> algoInput, AlgoContext algoContext) {
+	public void init(Map<IOKeys, Object> algoInput, AlgoContext algoContext) {
 		this.algoContext = algoContext; 
-		return executeInit(algoInput); 
+		executeInit(algoInput); 
 	}
 	
 	/**
 	 * call this method for the needed processing 
 	 */
-	protected abstract Map<IOKeys, Object> executeInit(Map<IOKeys, Object> inputParams); 
+	protected abstract void executeInit(Map<IOKeys, Object> inputParams); 
 	
 	/**
 	 * 

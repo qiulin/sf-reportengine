@@ -5,7 +5,6 @@ package net.sf.reportengine;
 
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.VertAlign;
-import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
 import net.sf.reportengine.in.SqlInput;
 import net.sf.reportengine.out.HtmlOutput;
@@ -48,18 +47,18 @@ public class TestAutoconfigFlatReport {
 	
 	@Test
 	public void testAutodetectFromDatabase(){
-		AutoconfigFlatReport flatReport = new AutoconfigFlatReport(); 
-		flatReport.setTitle("autoconfig report from sql"); 
+		AutoconfigFlatReport autoconfigReport = new AutoconfigFlatReport(); 
+		autoconfigReport.setTitle("autoconfig report from sql"); 
 		SqlInput input = new SqlInput(); 
 		input.setDbUser("SA");
 		input.setDbPassword("");
 		input.setDbDriverClass("org.hsqldb.jdbcDriver");
 		input.setDbConnString("jdbc:hsqldb:file:./src/test/resources/databases/testdb");
 		input.setSqlStatement("select id, country, region, city, sex, religion, value from testreport t order by id");
-		flatReport.setIn(input); 
-		flatReport.setOut(new HtmlOutput("./target/AutodetectFromSql.html")); 
+		autoconfigReport.setIn(input); 
+		autoconfigReport.setOut(new HtmlOutput("./target/AutodetectFromSql.html")); 
 		
-		flatReport.execute();
+		autoconfigReport.execute();
 	}
 	
 	@Test

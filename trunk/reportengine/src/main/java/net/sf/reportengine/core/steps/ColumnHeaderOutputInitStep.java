@@ -37,7 +37,7 @@ public class ColumnHeaderOutputInitStep extends AbstractReportInitStep{
     /**
      * 
      */
-    @Override protected  Map<IOKeys, Object> executeInit(Map<IOKeys, Object> inputParams){
+    @Override protected  void executeInit(Map<IOKeys, Object> inputParams){
     	LOGGER.trace("initializing the column header step: output title and column headers");
     	
     	int outputColumnsCnt = getDataColumnsLength(inputParams) + getGroupColumnsLength(inputParams); 
@@ -75,7 +75,5 @@ public class ColumnHeaderOutputInitStep extends AbstractReportInitStep{
         }
         
         output.endHeaderRow();
-        
-        return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
     }
 }

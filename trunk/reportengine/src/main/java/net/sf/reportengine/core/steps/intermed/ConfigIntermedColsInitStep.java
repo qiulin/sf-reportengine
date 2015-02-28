@@ -36,7 +36,7 @@ public class ConfigIntermedColsInitStep extends AbstractReportInitStep{
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigIntermedColsInitStep.class);
 	
 	
-	@Override protected Map<IOKeys, Object> executeInit(Map<IOKeys, Object> inputParams) {
+	@Override protected void executeInit(Map<IOKeys, Object> inputParams) {
 		List<DataColumn> originalCtDataCols = getDataColumns(inputParams); 
 		List<GroupColumn> originalCtGroupingCols = getGroupColumns(inputParams); 
 		List<CrosstabHeaderRow> originalCtHeaderRows = 
@@ -51,8 +51,6 @@ public class ConfigIntermedColsInitStep extends AbstractReportInitStep{
 		CrosstabData originalCtData = (CrosstabData)inputParams.get(IOKeys.CROSSTAB_DATA); 
 		getAlgoContext().set(ContextKeys.INTERNAL_DATA_COLS, 
 				transformCrosstabDataIntoDataColumns(originalCtData));
-		
-		return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
 	}
 	
 	/**
