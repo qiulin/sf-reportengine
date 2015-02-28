@@ -8,6 +8,7 @@ import static net.sf.reportengine.util.UserRequestedBoolean.FALSE_REQUESTED_BY_U
 import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_NOT_REQUESTED_BY_USER;
 import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_REQUESTED_BY_USER;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -24,9 +25,11 @@ import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.steps.CloseReportIOExitStep;
 import net.sf.reportengine.core.steps.CloseReportInputExitStep;
+import net.sf.reportengine.core.steps.CloseReportOutputExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.ConfigMultiExternalFilesInputInitStep;
 import net.sf.reportengine.core.steps.ConfigReportIOInitStep;
+import net.sf.reportengine.core.steps.ConfigReportOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.ExternalSortPreparationStep;
@@ -34,11 +37,14 @@ import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.GroupLevelDetectorStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
+import net.sf.reportengine.core.steps.NewRowComparator;
 import net.sf.reportengine.core.steps.OpenReportIOInitStep;
 import net.sf.reportengine.core.steps.OpenReportInputInitStep;
+import net.sf.reportengine.core.steps.OpenReportOutputInitStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
+import net.sf.reportengine.in.MultipleExternalSortedFilesInput;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.IOKeys;
@@ -156,17 +162,23 @@ public class FlatReport extends AbstractColumnBasedReport {
      * @return
      */
     private Algorithm configSortingAlgo(){
-    	MultiStepAlgo sortingAlgo = new LoopThroughReportInputAlgo(); 
+    	MultiStepAlgo sortingAlgo = new LoopThroughReportInputAlgo(){
+    		@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
+    			return (ReportInput)inputParams.get(IOKeys.REPORT_INPUT); 
+    		}
+    	};
     	
     	//init steps
-    	sortingAlgo.addInitStep(new ConfigReportIOInitStep()); 
-    	sortingAlgo.addInitStep(new OpenReportInputInitStep()); 
+    	//sortingAlgo.addInitStep(new ConfigReportIOInitStep()); 
+    	sortingAlgo.addInitStep(new ConfigReportOutputInitStep());
+    	
+    	//sortingAlgo.addInitStep(new OpenReportInputInitStep()); 
     	
     	//main steps
     	sortingAlgo.addMainStep(new ExternalSortPreparationStep()); 
     	
     	//exit steps
-    	sortingAlgo.addExitStep(new CloseReportInputExitStep()); 
+    	//sortingAlgo.addExitStep(new CloseReportInputExitStep()); 
     	return sortingAlgo; 
     }
     
@@ -174,15 +186,34 @@ public class FlatReport extends AbstractColumnBasedReport {
      * configures the report algorithm
      * @return
      */
-    private Algorithm configReportAlgo(boolean needsSorting){
-    	MultiStepAlgo reportAlgo = new LoopThroughReportInputAlgo();
+    private Algorithm configReportAlgo(final boolean hasBeenPreviouslySorted){
+    	MultiStepAlgo reportAlgo = new LoopThroughReportInputAlgo(){
+    		@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
+    			if(hasBeenPreviouslySorted){
+    				//if the input has been previously sorted
+    				//then the sorting algorithm ( the previous) has created external sorted files
+    				//which will serve as input from this point on
+    				return new MultipleExternalSortedFilesInput(
+							(List<File>)inputParams.get(IOKeys.SORTED_FILES), 
+							new NewRowComparator(
+									(List<GroupColumn>)inputParams.get(IOKeys.GROUP_COLS), 
+									(List<DataColumn>)inputParams.get(IOKeys.DATA_COLS)));
+    			}else{
+    				return (ReportInput)inputParams.get(IOKeys.REPORT_INPUT);
+    			}
+    		}
+    	};
     	
-    	if(!needsSorting){
-    		reportAlgo.addInitStep(new ConfigReportIOInitStep()); 
-    	}else{
-    		reportAlgo.addInitStep(new ConfigMultiExternalFilesInputInitStep()); 
-    	}
-    	reportAlgo.addInitStep(new OpenReportIOInitStep()); 
+//    	if(!needsSorting){
+//    		reportAlgo.addInitStep(new ConfigReportIOInitStep()); 
+//    	}else{
+//    		reportAlgo.addInitStep(new ConfigMultiExternalFilesInputInitStep()); 
+//    	}
+    	reportAlgo.addInitStep(new ConfigReportOutputInitStep());
+    	
+    	//reportAlgo.addInitStep(new OpenReportIOInitStep()); 
+    	reportAlgo.addInitStep(new OpenReportOutputInitStep()); 
+    	
     	reportAlgo.addInitStep(new InitReportDataInitStep()); 
     	reportAlgo.addInitStep(new FlatReportExtractTotalsDataInitStep());//TODO: only when report has totals
     	reportAlgo.addInitStep(new StartReportInitStep()); 
@@ -205,7 +236,8 @@ public class FlatReport extends AbstractColumnBasedReport {
         }
         
         reportAlgo.addExitStep(new EndReportExitStep()); 
-        reportAlgo.addExitStep(new CloseReportIOExitStep()); 
+        //reportAlgo.addExitStep(new CloseReportIOExitStep()); 
+        reportAlgo.addExitStep(new CloseReportOutputExitStep());
         
         return reportAlgo; 
     }

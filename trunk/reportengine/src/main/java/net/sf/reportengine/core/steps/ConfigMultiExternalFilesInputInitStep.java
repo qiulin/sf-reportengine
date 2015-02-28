@@ -25,40 +25,33 @@ import org.slf4j.LoggerFactory;
  */
 public class ConfigMultiExternalFilesInputInitStep extends ConfigReportIOInitStep{
 	
-	/**
-	 * the one and only logger
-	 */
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ConfigMultiExternalFilesInputInitStep.class);
 	
 	@Override protected ReportInput configReportInput(Map<IOKeys, Object> inputParams){
 		ReportInput result = null; 
-		try {
+//		try {
 			//if the report doesn't have the values ordered 
 			//then the sorting algorithm has created external sorted files
 			//which will serve as input from this point on
 			
-			//if(!(Boolean)getAlgoInput().get(IOKeys.HAS_VALUES_ORDERED)){
+			
 				
-				List<File> externalSortedFiles = (List<File>)inputParams.get(IOKeys.SORTED_FILES); 
-				if(externalSortedFiles != null && !externalSortedFiles.isEmpty()){
-					List<InputStream> externalSortedStreams = new ArrayList<InputStream>(); 
-					for (File file : externalSortedFiles) {
-						externalSortedStreams.add(new FileInputStream(file));
-					}
+//				List<File> externalSortedFiles = (List<File>)inputParams.get(IOKeys.SORTED_FILES); 
+//				if(externalSortedFiles != null && !externalSortedFiles.isEmpty()){
+//					List<InputStream> externalSortedStreams = new ArrayList<InputStream>(); 
+//					for (File file : externalSortedFiles) {
+//						externalSortedStreams.add(new FileInputStream(file));
+//					}
 					
 					result = new MultipleExternalSortedFilesInput(
-									externalSortedStreams, 
+									(List<File>)inputParams.get(IOKeys.SORTED_FILES), 
 									new NewRowComparator(getGroupColumns(inputParams), getDataColumns(inputParams)));
-				}else{
-					LOGGER.error("No external sorted files found. The report is missconfigured."); 
-				}
-			//}else{
-			//	result = super.configReportInput();  
-			//}
-		} catch (FileNotFoundException e) {
-			throw new ReportEngineRuntimeException(e); 
-		}
+//				}else{
+//					LOGGER.error("No external sorted files found. The report is missconfigured."); 
+//				}
+			
+//		} catch (FileNotFoundException e) {
+//			throw new ReportEngineRuntimeException(e); 
+//		}
 		
 		return result;
 	}

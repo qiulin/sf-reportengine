@@ -3,6 +3,9 @@
  */
 package net.sf.reportengine.in;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -22,28 +25,44 @@ public class MultipleExternalSortedFilesInput implements ReportInput {
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(MultipleExternalSortedFilesInput.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MultipleExternalSortedFilesInput.class);
+	
 	/**
 	 * 
 	 */
 	private PriorityQueue<RowsDataFileBuffer> externalFilesQueue; 
 	
-	/**
-	 * 
-	 * @param externalSortedFiles
-	 */
-	public MultipleExternalSortedFilesInput(List<InputStream> externalSortedStreams, 
-									NewRowComparator newRowComparator){
-		LOGGER.info("building input from {} external sorted files", externalSortedStreams.size()); 
-		externalFilesQueue = new PriorityQueue<RowsDataFileBuffer>(
-									externalSortedStreams.size(), 
-									new RowsDataFileBufferComparator(newRowComparator));
+	
+	public MultipleExternalSortedFilesInput(List<File> externalSortedFiles, 
+											NewRowComparator newRowComparator){
 		
-		for (InputStream is : externalSortedStreams) {
-			this.externalFilesQueue.add(new RowsDataFileBuffer(is)); 
+		LOGGER.info("building input from {} external sorted files", externalSortedFiles.size()); 
+		
+		try{
+			externalFilesQueue = new PriorityQueue<RowsDataFileBuffer>(	externalSortedFiles.size(), 
+																		new RowsDataFileBufferComparator(newRowComparator));
+	
+			for (File file : externalSortedFiles) {
+				//LOGGER.info("searching for external file "+file.getAbsolutePath());
+				this.externalFilesQueue.add(new RowsDataFileBuffer(new FileInputStream(file))); 
+			}
+		}catch(FileNotFoundException fnfExc){
+			throw new ReportInputException("One external file could not be found :", fnfExc); 
 		}
 	}
+	
+	
+//	public MultipleExternalSortedFilesInput(List<InputStream> externalSortedStreams, 
+//									NewRowComparator newRowComparator){
+//		LOGGER.info("building input from {} external sorted files", externalSortedStreams.size()); 
+//		externalFilesQueue = new PriorityQueue<RowsDataFileBuffer>(
+//									externalSortedStreams.size(), 
+//									new RowsDataFileBufferComparator(newRowComparator));
+//		
+//		for (InputStream is : externalSortedStreams) {
+//			this.externalFilesQueue.add(new RowsDataFileBuffer(is)); 
+//		}
+//	}
 	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.in.ReportInput#open()
@@ -57,8 +76,7 @@ public class MultipleExternalSortedFilesInput implements ReportInput {
 	 * @see net.sf.reportengine.in.ReportInput#close()
 	 */
 	public void close() {
-		
-
+		//TODO: move the close of the fileinput streams here
 	}
 
 	/* (non-Javadoc)
