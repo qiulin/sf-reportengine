@@ -43,7 +43,7 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep{
 	/**
 	 * 
 	 */
-	@Override protected Map<IOKeys, Object>  executeInit(Map<IOKeys, Object> inputParams) {
+	@Override protected void  executeInit(Map<IOKeys, Object> inputParams) {
 		outputTitle(getReportTitle(inputParams), 
 					getDataColumnsLength(inputParams) + getGroupColumnsLength(inputParams), 
 					getReportOutput());
@@ -52,8 +52,6 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep{
 							getDataColumns(inputParams), 
 							getGroupColumns(inputParams),
 							getCrosstabData(inputParams)); 
-		
-		return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
 	}
 	
 	

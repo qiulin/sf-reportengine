@@ -5,17 +5,17 @@
 package net.sf.reportengine.core.steps;
 
 import java.util.List;
-import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
-import net.sf.reportengine.util.IOKeys;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -24,7 +24,15 @@ import net.sf.reportengine.util.IOKeys;
  * @author dragos balan (dragos dot balan at gmail dot com)
  */
 public class DataRowsOutputStep extends AbstractReportStep {
-    
+	
+	/**
+	 * the one and only logger
+	 */
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataRowsOutputStep.class);
+	
+    /**
+     * 
+     */
 	private int finalReportGroupCount = -1;
 	private List<GroupColumn> groupCols = null;
 	private List<DataColumn> dataColumns = null; 	
@@ -70,6 +78,7 @@ public class DataRowsOutputStep extends AbstractReportStep {
 							.vertAlign(currentGrpCol.getVertAlign())
 							.rowNumber(getDataRowCount()); 
 			getReportOutput().outputDataCell(cellPropsBuilder.build()); 
+			
 		}
 		
 		//then handle the data columns
@@ -78,6 +87,7 @@ public class DataRowsOutputStep extends AbstractReportStep {
 			cellPropsBuilder = new CellProps.Builder(dataColumn.getFormattedValue(valueForCurrentColumn))
 				.horizAlign(dataColumn.getHorizAlign())
 				.vertAlign(dataColumn.getVertAlign()); 
+			
 			getReportOutput().outputDataCell(cellPropsBuilder.build()); 
 		}
     	

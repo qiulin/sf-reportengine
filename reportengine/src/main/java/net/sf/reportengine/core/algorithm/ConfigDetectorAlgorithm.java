@@ -20,12 +20,17 @@ import net.sf.reportengine.util.ReportUtils;
  *
  */
 public class ConfigDetectorAlgorithm implements Algorithm {
+	
+	
 
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.algorithm.Algorithm#execute(java.util.Map)
 	 */
 	public Map<IOKeys, Object> execute(Map<IOKeys, Object> inputParams) {
 		ReportInput input = (ReportInput)inputParams.get(IOKeys.REPORT_INPUT); 
+		input.open(); //TODO: THIS IS NOT OK, we open the input in this algorithm ( => open a connection to the DB) 
+		//and then we open it again in the next algorithm ( to loop through the rows)
+		
 		Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)inputParams.get(IOKeys.USER_COLUMN_PREFERENCES);
 		
 //		LOGGER.info("Autodetecting the columns based on user preferences and input metadata"); 
@@ -56,6 +61,8 @@ public class ConfigDetectorAlgorithm implements Algorithm {
 		result.put(IOKeys.SHOW_TOTALS, reportHasCalculators); 
 		result.put(IOKeys.SHOW_GRAND_TOTAL, reportHasCalculators);
 		
+		
+		input.close();
 		return result; 
 	}
 

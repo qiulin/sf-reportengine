@@ -45,12 +45,11 @@ public class FlatReportExtractTotalsDataInitStep extends AbstractReportInitStep 
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)
 	 */
-	@Override protected Map<IOKeys, Object> executeInit(Map<IOKeys, Object> inputParams) {
+	@Override protected void executeInit(Map<IOKeys, Object> inputParams) {
 		calculatorsDistributionInDataColumnsArray = 
 				extractDistributionOfCalculatorsAcrossColumns(getDataColumns(inputParams)); 
 		getAlgoContext().set(	ContextKeys.DISTRIBUTION_OF_CALCULATORS, 
 								calculatorsDistributionInDataColumnsArray);
-		return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
 	}
 	
 	/**

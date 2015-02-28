@@ -34,10 +34,9 @@ public class TestOneIterationAlgorithm {
 	private CellPropsArrayOutput testOut = new CellPropsArrayOutput();
 	
 	private AlgorithmInitStep testInitStep = new AlgorithmInitStep(){
-		public Map<IOKeys, Object> init(Map<IOKeys, Object> algoInput, AlgoContext context){
+		public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
 			context.set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(0));
 			context.set(ContextKeys.LOCAL_REPORT_INPUT, algoInput.get(IOKeys.REPORT_INPUT)); 
-			return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
 		}
 
 //		public Map<IOKeys, Object> getResultsMap() {

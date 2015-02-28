@@ -219,6 +219,7 @@ public class SqlInput extends AbstractReportInput {
             if(managedDbConnection && dbConnection != null && !dbConnection.isClosed()){
             	LOGGER.info("closing internally managed db connection .. "); 
                 dbConnection.close();
+                dbConnection = null; //so that a new connection is created if the input is opened for a second time
             }else{
             	LOGGER.info("external db connection not closed."); 
             }

@@ -35,7 +35,7 @@ public class AutodetectConfigInitStep extends AbstractReportInitStep {
 	/**
 	 * 
 	 */
-	@Override protected Map<IOKeys, Object>  executeInit(Map<IOKeys, Object> inputParams) {
+	@Override protected void executeInit(Map<IOKeys, Object> inputParams) {
 		//Map<IOKeys, Object> algoInput = getAlgoInput(); 
 		ReportInput input = getReportInput(); //(ReportInput)algoInput.get(IOKeys.REPORT_INPUT); 
 		Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)inputParams.get(IOKeys.USER_COLUMN_PREFERENCES);
@@ -64,7 +64,5 @@ public class AutodetectConfigInitStep extends AbstractReportInitStep {
 		
 		inputParams.put(IOKeys.SHOW_TOTALS, reportHasCalculators); 
 		inputParams.put(IOKeys.SHOW_GRAND_TOTAL, reportHasCalculators);
-		
-		return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
 	}
 }

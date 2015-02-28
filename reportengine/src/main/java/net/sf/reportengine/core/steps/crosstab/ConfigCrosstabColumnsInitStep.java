@@ -31,7 +31,7 @@ public class ConfigCrosstabColumnsInitStep extends AbstractCrosstabInitStep {
 	 * @see net.sf.reportengine.core.algorithm.steps.AbstractInitStep#executeInit()
 	 */
 	@Override
-	protected Map<IOKeys, Object> executeInit(Map<IOKeys, Object> inputParams) {
+	protected void executeInit(Map<IOKeys, Object> inputParams) {
 		
 		List<DataColumn> newDataCols = constructDataColumnsForSecondProcess(getCrosstabMetadata(), 
 																			getDataColumns(inputParams),
@@ -42,8 +42,6 @@ public class ConfigCrosstabColumnsInitStep extends AbstractCrosstabInitStep {
 		
 		List<GroupColumn> newGroupCols = constructGroupColumnsForSecondProcess(getGroupColumns(inputParams)); 
 		getAlgoContext().set(ContextKeys.INTERNAL_GROUP_COLS, newGroupCols); 
-		
-		return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
 	}
 
 	/**
