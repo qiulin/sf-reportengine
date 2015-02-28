@@ -204,6 +204,11 @@ public final class ReportIoUtils {
 		return ClassLoader.getSystemResourceAsStream(classPath); 
 	}
 	
+	
+	public static File createFileFromClassPath(String classPath){
+		return new File(ReportIoUtils.class.getResource(classPath).getFile()); 
+	}
+	
 	/**
 	 * 
 	 * @param filePath	the full path to the file

@@ -20,18 +20,6 @@ public interface Algorithm {
 	
 	public final Map<IOKeys, Object> EMPTY_READ_ONLY_PARAMS_MAP = new EnumMap<IOKeys, Object>(IOKeys.class); //TODO make it read only
    
-//    /**
-//     * sets the input of the report.
-//     * @param input	
-//     */     
-//    public void setIn(Map<IOKeys, Object> input);
-//    
-//    /**
-//     * 
-//     * @param input
-//     */
-//    public void addIn(IOKeys key, Object value); 
-    
     /**
      * executes the algorithm based on the input and returns the output
      * 
@@ -39,18 +27,5 @@ public interface Algorithm {
      * @return an output parameter map
      */
     public Map<IOKeys, Object> execute(Map<IOKeys, Object> input);
-    
-//    /**
-//     * sets the output of the report
-//     * @param out
-//     */
-//    public Map<IOKeys, Object> getResultMap();
-//    
-//    /**
-//     * 
-//     * @param name
-//     * @return
-//     */
-//    public Object getResult(IOKeys key); 
     
 }

@@ -3,9 +3,12 @@
  */
 package net.sf.reportengine.in;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import java.io.InputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +28,15 @@ import org.junit.Test;
  */
 public class TestMultipleExternalSortedFilesInput {
 	
-	private List<InputStream> testFiles; 
+	private List<File> testFiles; 
 	private NewRowComparator testComparator; 
 	
 	
 	@Before
 	public void setUp(){
-		testFiles = new ArrayList<InputStream>(); 
-		testFiles.add(ReportIoUtils.createInputStreamFromClassPath("ExternalSortedAndSerializedFile1.tmp"));
-		testFiles.add(ReportIoUtils.createInputStreamFromClassPath("ExternalSortedAndSerializedFile2.tmp"));
+		testFiles = new ArrayList<File>(); 
+		testFiles.add(ReportIoUtils.createFileFromClassPath("/ExternalSortedAndSerializedFile1.tmp"));
+		testFiles.add(ReportIoUtils.createFileFromClassPath("/ExternalSortedAndSerializedFile2.tmp"));
 		
 		testComparator = new NewRowComparator(Scenario1.GROUPING_COLUMNS_WITH_SORTING, Scenario1.DATA_COLUMNS); 
 	}
@@ -114,7 +117,7 @@ public class TestMultipleExternalSortedFilesInput {
 	 */
 	@Ignore
 	public void caca() throws Exception{
-		ObjectInputStream is = new ObjectInputStream(testFiles.get(0));
+		ObjectInputStream is = new ObjectInputStream(new FileInputStream(testFiles.get(0)));
 		NewRowEventWrapper obj = (NewRowEventWrapper)is.readObject();
 		System.out.println(obj);
 		obj = (NewRowEventWrapper)is.readObject();
@@ -125,7 +128,7 @@ public class TestMultipleExternalSortedFilesInput {
 		System.out.println(obj);
 		
 		
-		is = new ObjectInputStream(testFiles.get(1));
+		is = new ObjectInputStream(new FileInputStream(testFiles.get(1)));
 		obj = (NewRowEventWrapper)is.readObject();
 		System.out.println(obj);
 		obj = (NewRowEventWrapper)is.readObject();

@@ -17,6 +17,7 @@ import static net.sf.reportengine.util.UserRequestedBoolean.FALSE_REQUESTED_BY_U
 import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_NOT_REQUESTED_BY_USER;
 import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_REQUESTED_BY_USER;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -33,26 +34,24 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
+import net.sf.reportengine.core.algorithm.DefaultLoopThroughReportInputAlgo;
 import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
-import net.sf.reportengine.core.steps.CloseReportIOExitStep;
-import net.sf.reportengine.core.steps.CloseReportInputExitStep;
-import net.sf.reportengine.core.steps.ConfigMultiExternalFilesInputForIntermReportInitStep;
-import net.sf.reportengine.core.steps.ConfigReportIOInitStep;
+import net.sf.reportengine.core.steps.CloseReportOutputExitStep;
+import net.sf.reportengine.core.steps.ConfigReportOutputInitStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.ExternalSortPreparationStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
-import net.sf.reportengine.core.steps.OpenReportIOInitStep;
-import net.sf.reportengine.core.steps.OpenReportInputInitStep;
+import net.sf.reportengine.core.steps.NewRowComparator;
+import net.sf.reportengine.core.steps.OpenReportOutputInitStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.crosstab.ConfigCrosstabColumnsInitStep;
-import net.sf.reportengine.core.steps.crosstab.ConfigCrosstabIOInitStep;
 import net.sf.reportengine.core.steps.crosstab.CrosstabHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.crosstab.DistinctValuesDetectorStep;
 import net.sf.reportengine.core.steps.crosstab.GenerateCrosstabMetadataInitStep;
 import net.sf.reportengine.core.steps.crosstab.IntermedRowMangerStep;
 import net.sf.reportengine.core.steps.intermed.ConfigIntermedColsInitStep;
-import net.sf.reportengine.core.steps.intermed.ConfigIntermedIOInitStep;
+import net.sf.reportengine.core.steps.intermed.ConfigIntermedReportOutputInitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedDataRowsOutputStep;
 import net.sf.reportengine.core.steps.intermed.IntermedGroupLevelDetectorStep;
 import net.sf.reportengine.core.steps.intermed.IntermedPreviousRowManagerStep;
@@ -60,6 +59,8 @@ import net.sf.reportengine.core.steps.intermed.IntermedReportExtractTotalsDataIn
 import net.sf.reportengine.core.steps.intermed.IntermedSetResultsExitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsCalculatorStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsOutputStep;
+import net.sf.reportengine.in.IntermediateCrosstabReportInput;
+import net.sf.reportengine.in.MultipleExternalSortedFilesInput;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.IOKeys;
@@ -244,7 +245,7 @@ public class CrossTabReport extends AbstractColumnBasedReport{
     		reportAlgoContainer.addAlgo(configSortingAlgo()); 
     	}
 		
-		reportAlgoContainer.addAlgo(configFirstReport()); 
+		reportAlgoContainer.addAlgo(configFirstReport(needsProgramaticSorting)); 
 		reportAlgoContainer.addAlgo(configSecondReport()); 
 	}
 			
@@ -256,19 +257,37 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	 *  
 	 * @return	the intermediate algorithm
 	 */
-	private Algorithm configFirstReport(){
+	private Algorithm configFirstReport(final boolean hasBeenPreviouslySorted){
 		
-		MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(); 
+		MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(){
+			@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
+				if(hasBeenPreviouslySorted){
+					//if the input has been previously sorted
+    				//then the sorting algorithm (the previous) has created external sorted files
+    				//which will serve as input from this point on
+    				return new MultipleExternalSortedFilesInput(
+							(List<File>)inputParams.get(IOKeys.SORTED_FILES), 
+							new NewRowComparator(
+									(List<GroupColumn>)inputParams.get(IOKeys.GROUP_COLS), 
+									(List<DataColumn>)inputParams.get(IOKeys.DATA_COLS)));
+				}else{
+					return (ReportInput)inputParams.get(IOKeys.REPORT_INPUT); 
+				}
+			}
+		};
 		
 		//initial steps 
 		algorithm.addInitStep(new ConfigIntermedColsInitStep()); 
 		
-		if(!needsProgramaticSorting){
-			algorithm.addInitStep(new ConfigIntermedIOInitStep());
-		}else{
-			algorithm.addInitStep(new ConfigMultiExternalFilesInputForIntermReportInitStep()); 
-		}
-		algorithm.addInitStep(new OpenReportIOInitStep()); 
+//		if(!needsProgramaticSorting){
+//			algorithm.addInitStep(new ConfigIntermedIOInitStep());
+//		}else{
+//			algorithm.addInitStep(new ConfigMultiExternalFilesInputForIntermReportInitStep()); 
+//		}
+		algorithm.addInitStep(new ConfigIntermedReportOutputInitStep());
+		
+		//algorithm.addInitStep(new OpenReportIOInitStep());
+		algorithm.addInitStep(new OpenReportOutputInitStep());
 		
 		//TODO: only when totals add the step below
 		algorithm.addInitStep(new IntermedReportExtractTotalsDataInitStep());
@@ -298,7 +317,10 @@ public class CrossTabReport extends AbstractColumnBasedReport{
     	//}
     	
     	algorithm.addExitStep(new EndReportExitStep()); 
-    	algorithm.addExitStep(new CloseReportIOExitStep()); 
+    	
+    	//algorithm.addExitStep(new CloseReportIOExitStep()); 
+    	algorithm.addExitStep(new CloseReportOutputExitStep());
+    	
 		algorithm.addExitStep(new IntermedSetResultsExitStep()); 
 		
 		return algorithm; 
@@ -311,13 +333,23 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	 * 3. outputting into the user defined output
 	 */
 	private Algorithm configSecondReport(){
-		MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(); 
+		MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(){
+			@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
+				File previousAlgoSerializedOutput = (File)inputParams.get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
+				return new IntermediateCrosstabReportInput(previousAlgoSerializedOutput); 
+			}
+		};
 		
 		//adding steps to the algorithm
 		algorithm.addInitStep(new GenerateCrosstabMetadataInitStep()); 
 		algorithm.addInitStep(new ConfigCrosstabColumnsInitStep());
-		algorithm.addInitStep(new ConfigCrosstabIOInitStep());
-		algorithm.addInitStep(new OpenReportIOInitStep()); 
+		
+		//algorithm.addInitStep(new ConfigCrosstabIOInitStep());
+		algorithm.addInitStep(new ConfigReportOutputInitStep());
+		
+		//algorithm.addInitStep(new OpenReportIOInitStep()); 
+		algorithm.addInitStep(new OpenReportOutputInitStep());
+		
     	algorithm.addInitStep(new InitReportDataInitStep()); 
     	
     	algorithm.addInitStep(new IntermedReportExtractTotalsDataInitStep());
@@ -339,7 +371,8 @@ public class CrossTabReport extends AbstractColumnBasedReport{
         }
         
         algorithm.addExitStep(new EndReportExitStep()); 
-        algorithm.addExitStep(new CloseReportIOExitStep()); 
+        //algorithm.addExitStep(new CloseReportIOExitStep()); 
+        algorithm.addExitStep(new CloseReportOutputExitStep()); 
         
         return algorithm; 
 	}
@@ -350,23 +383,24 @@ public class CrossTabReport extends AbstractColumnBasedReport{
      * @return
      */
     private Algorithm configSortingAlgo(){
-    	MultiStepAlgo sortingAlgo = new LoopThroughReportInputAlgo(); 
+    	
+    	//TODO: improve here (this sorting algo doesn't have multiple steps)
+    	MultiStepAlgo sortingAlgo = new DefaultLoopThroughReportInputAlgo();
     	
     	//init steps
-    	sortingAlgo.addInitStep(new ConfigReportIOInitStep()); 
-    	sortingAlgo.addInitStep(new OpenReportInputInitStep()); 
+    	//sortingAlgo.addInitStep(new ConfigReportIOInitStep()); 
+    	//sortingAlgo.addInitStep(new ConfigReportOutputInitStep());
+    	
+    	//sortingAlgo.addInitStep(new OpenReportInputInitStep()); 
     	
     	//main steps
     	sortingAlgo.addMainStep(new ExternalSortPreparationStep()); 
-    	
-    	//exit steps
-    	sortingAlgo.addExitStep(new CloseReportInputExitStep());
     	
     	return sortingAlgo; 
     }
 	
 	/**
-	 * getter method for crosstable header rows
+	 * getter method for cross table header rows
 	 * @return	a list of header rows
 	 */
 	public List<CrosstabHeaderRow> getCrosstabHeaderRows() {

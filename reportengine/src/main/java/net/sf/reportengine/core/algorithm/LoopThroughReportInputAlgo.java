@@ -13,7 +13,6 @@ import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
 import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
@@ -21,49 +20,54 @@ import org.slf4j.LoggerFactory;
 
 /**
  * <p>
- * This is a basic implementation for <code>IReportEngine</code>
- * and its main purpose it's to make things simpler for the classes 
- * derived from it
+ * This multi step algorithm performs the following operations : 
+ *  1. opens the input
+ *  2. loops through the reportInput and executes the algorithm steps
+ *  3. closes the input
  * </p>
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2 
  */
-public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
+public abstract class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
     
 	/**
 	 * the one and only logger
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(LoopThroughReportInputAlgo.class);	
     
+	/**
+	 * builds the report input from the input parameters
+	 * 
+	 * @param inputParams the map of input parameters
+	 * @return	the input stream which will be looped
+	 */
+	protected abstract ReportInput buildReportInput(Map<IOKeys, Object> inputParams); 
     
-    /**
-     * constructor
-     * @param context   the report context
-     */
-    public LoopThroughReportInputAlgo(){
-        super();
-    }    
     
-    
-    /**
-     * implementation for net.sf.reportengine.core.IReportEngine.execute();
-     */
     public Map<IOKeys, Object> execute(Map<IOKeys, Object> inputParams) {
-    	LOGGER.trace("algorithm executing one iteration ");
-        
-    	Map<IOKeys, Object> result = new EnumMap<IOKeys, Object>(IOKeys.class); 
+    	LOGGER.trace("opening report input");
+    	ReportInput reportInput = buildReportInput(inputParams); 
+    	reportInput.open(); 
+    	
+    	LOGGER.trace("start looping algorithm");
+        Map<IOKeys, Object> result = new EnumMap<IOKeys, Object>(IOKeys.class); 
     	
         //execution of the init steps
         result.putAll(executeInitSteps(inputParams));
             
-        executeMainSteps(inputParams);
+        executeMainSteps(inputParams, reportInput);
         
         //calling the exit for all registered steps
         result.putAll(executeExitSteps(inputParams));
         
         result.putAll(extractResultsFromSteps());
+        
+        LOGGER.trace("closing algorithm input");
+        reportInput.close(); 
+        
         return result; 
     } 
+    
     
     /**
      * execution of init method for each init step
@@ -83,9 +87,9 @@ public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
      * 2. for each input row of data executes the execute method
      * 3. calls the exit method for each main step
      */
-    protected void executeMainSteps(Map<IOKeys, Object> inputParams) {
+    protected void executeMainSteps(Map<IOKeys, Object> inputParams, ReportInput reportInput) {
     	List<AlgorithmMainStep> mainSteps = getMainSteps();
-    	ReportInput reportInput = (ReportInput)getContext().get(ContextKeys.LOCAL_REPORT_INPUT);
+    	//ReportInput reportInput = (ReportInput)getContext().get(ContextKeys.LOCAL_REPORT_INPUT);
     	
     	//call init for each step
         for(AlgorithmMainStep mainStep: mainSteps){
@@ -139,4 +143,8 @@ public class LoopThroughReportInputAlgo extends AbstractMultiStepAlgo {
     	
     	return result; 
     }
+    
+//    private ReportInput getReportInput(Map<IOKeys, Object> inputParams){
+//    	return (ReportInput)inputParams.get(reportInputParamKey);
+//    }
 }

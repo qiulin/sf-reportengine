@@ -7,33 +7,38 @@ import static net.sf.reportengine.util.UserRequestedBoolean.FALSE_NOT_REQUESTED_
 import static net.sf.reportengine.util.UserRequestedBoolean.FALSE_REQUESTED_BY_USER;
 import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_REQUESTED_BY_USER;
 
+import java.io.File;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
+import net.sf.reportengine.core.algorithm.ConfigDetectorAlgorithm;
+import net.sf.reportengine.core.algorithm.DefaultLoopThroughReportInputAlgo;
 import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
-import net.sf.reportengine.core.steps.CloseReportIOExitStep;
-import net.sf.reportengine.core.steps.CloseReportInputExitStep;
+import net.sf.reportengine.core.steps.CloseReportOutputExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
-import net.sf.reportengine.core.steps.ConfigMultiExternalFilesInputInitStep;
-import net.sf.reportengine.core.steps.ConfigReportIOInitStep;
+import net.sf.reportengine.core.steps.ConfigReportOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.ExternalSortPreparationStep;
 import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
 import net.sf.reportengine.core.steps.GroupLevelDetectorStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
-import net.sf.reportengine.core.steps.OpenReportIOInitStep;
-import net.sf.reportengine.core.steps.OpenReportInputInitStep;
+import net.sf.reportengine.core.steps.NewRowComparator;
+import net.sf.reportengine.core.steps.OpenReportOutputInitStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectFlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectPreviousRowManagerStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectTotalsCalculatorStep;
 import net.sf.reportengine.in.ColumnPreferences;
+import net.sf.reportengine.in.MultipleExternalSortedFilesInput;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.IOKeys;
@@ -67,8 +72,6 @@ public class AutoconfigFlatReport extends AbstractReport {
 	 */
 	private AlgorithmContainer reportAlgoContainer = new AlgorithmContainer(); 
     
-	
-	private boolean needsProgramaticSorting = false; 
 	
     /**
      * default constructor
@@ -112,30 +115,33 @@ public class AutoconfigFlatReport extends AbstractReport {
 //    	reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, getShowTotals()); 
 //    	reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
     	
-    	needsProgramaticSorting = !hasValuesSorted() || ReportUtils.isSortingInPreferences(userColumnPrefs); 
-    	//reportAlgoContainer.addIn(IOKeys.HAS_VALUES_ORDERED, !needsProgramaticSorting); 
-    	
+    	boolean needsProgramaticSorting = !hasValuesSorted() || ReportUtils.isSortingInPreferences(userColumnPrefs); 
+    	reportAlgoContainer.addAlgo(new ConfigDetectorAlgorithm());
+    	    	
     	if(needsProgramaticSorting){
-    		reportAlgoContainer.addAlgo(configSortingAlgo()); 
+    		reportAlgoContainer.addAlgo(configSortingAlgo(getIn())); 
     	}
     	
-    	reportAlgoContainer.addAlgo(configReportAlgo()); 
+    	reportAlgoContainer.addAlgo(configReportAlgo(needsProgramaticSorting)); 
     }
     
     /**
      * 
      * @return
      */
-    private Algorithm configSortingAlgo(){
-    	MultiStepAlgo sortingAlgo = new LoopThroughReportInputAlgo(); 
+    private Algorithm configSortingAlgo(ReportInput sortingAlgoReportInput){
+    	//TODO: improve here (this sorting algo doesn't have multiple steps)
+    	MultiStepAlgo sortingAlgo = new DefaultLoopThroughReportInputAlgo(); 
     	
-    	sortingAlgo.addInitStep(new ConfigReportIOInitStep()); 
-    	sortingAlgo.addInitStep(new OpenReportInputInitStep());
-    	sortingAlgo.addInitStep(new AutodetectConfigInitStep()); 
+    	//sortingAlgo.addInitStep(new ConfigReportIOInitStep()); 
+    	//sortingAlgo.addInitStep(new ConfigReportOutputInitStep());
+    	
+    	//sortingAlgo.addInitStep(new OpenReportInputInitStep());
+    	//sortingAlgo.addInitStep(new AutodetectConfigInitStep()); 
     	
     	sortingAlgo.addMainStep(new ExternalSortPreparationStep()); 
     	
-    	sortingAlgo.addExitStep(new CloseReportInputExitStep()); 
+    	//sortingAlgo.addExitStep(new CloseReportInputExitStep()); 
     	return sortingAlgo; 
     }
     
@@ -143,23 +149,42 @@ public class AutoconfigFlatReport extends AbstractReport {
      * 
      * @return
      */
-    private Algorithm configReportAlgo(){
-    	MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(); 
+    private Algorithm configReportAlgo(final boolean inputHasBeenPreviouslySorted){
+    	MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(){
+    		@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
+    			if(inputHasBeenPreviouslySorted){
+    				//if the input has been previously sorted
+    				//then the sorting algorithm ( the previous) has created external sorted files
+    				//which will serve as input from this point on
+    				return new MultipleExternalSortedFilesInput(
+							(List<File>)inputParams.get(IOKeys.SORTED_FILES), 
+							new NewRowComparator(
+									(List<GroupColumn>)inputParams.get(IOKeys.GROUP_COLS), 
+									(List<DataColumn>)inputParams.get(IOKeys.DATA_COLS)));
+    			}else{
+    				return (ReportInput)inputParams.get(IOKeys.REPORT_INPUT);
+    			}
+    		}
+    	};
+    	
     	//the initial steps
-    	if(!needsProgramaticSorting){
-    		algorithm.addInitStep(new ConfigReportIOInitStep()); 
-    	}else{
-    		algorithm.addInitStep(new ConfigMultiExternalFilesInputInitStep()); 
-    	}
-    	//algorithm.addInitStep(new ConfigMultiExternalFilesInputInitStep()); 
-		algorithm.addInitStep(new OpenReportIOInitStep()); 
+//    	if(!inputHasBeenPreviouslySorted){
+//    		algorithm.addInitStep(new ConfigReportIOInitStep()); 
+//    	}else{
+//    		algorithm.addInitStep(new ConfigMultiExternalFilesInputInitStep()); 
+//    	}
+    	algorithm.addInitStep(new ConfigReportOutputInitStep());
+    	
+		//algorithm.addInitStep(new OpenReportIOInitStep()); 
+    	algorithm.addInitStep(new OpenReportOutputInitStep());
+    	
     	algorithm.addInitStep(new InitReportDataInitStep()); 
-    	if(!needsProgramaticSorting){
-    		//if the report has values already sorted 
-    		//then the configuration has not been detected using 
-    		//the previous algorithm
-    		algorithm.addInitStep(new AutodetectConfigInitStep()); 
-    	}
+//    	if(!inputHasBeenPreviouslySorted){
+//    		//if the report has values already sorted 
+//    		//then the configuration has not been detected using 
+//    		//the previous algorithm
+//    		algorithm.addInitStep(new AutodetectConfigInitStep()); 
+//    	}
     	algorithm.addInitStep(new FlatReportExtractTotalsDataInitStep());
     	algorithm.addInitStep(new StartReportInitStep()); 
     	algorithm.addInitStep(new ColumnHeaderOutputInitStep());
@@ -176,7 +201,9 @@ public class AutoconfigFlatReport extends AbstractReport {
         
         //exit steps
         algorithm.addExitStep(new EndReportExitStep()); 
-        algorithm.addExitStep(new CloseReportIOExitStep()); 
+        
+        //algorithm.addExitStep(new CloseReportIOExitStep()); 
+    	algorithm.addExitStep(new CloseReportOutputExitStep());
     	
     	return algorithm; 
     }
