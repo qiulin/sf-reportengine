@@ -9,6 +9,9 @@ package net.sf.reportengine.util;
  */
 public enum IOKeys {
 	
+	NO_KEY, 
+	TEST_KEY, 
+	
 	REPORT_TITLE, 
 	
 	REPORT_INPUT, 

@@ -4,6 +4,7 @@
  */
 package net.sf.reportengine.core.steps;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.reportengine.config.DataColumn;
@@ -62,7 +63,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     /**
      * 
      */
-    private int[] distribOfCalculatorsInDataColsArray; 
+    private ArrayList<Integer> distribOfCalculatorsInDataColsArray; 
     
     /**
      * the label of the calculators with whitespaces between
@@ -196,7 +197,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     	for (int i = 0; i < dataCols.size(); i++) {
 			DataColumn column = dataCols.get(i);
 			if(column.getCalculator() != null){
-				int calculatorIndex = distribOfCalculatorsInDataColsArray[i];
+				int calculatorIndex = distribOfCalculatorsInDataColsArray.get(i).intValue();
 				Object calculatorResult = calcResultForCurrentGrpLevel[calculatorIndex].getResult();
 				
 				//format the computed value 

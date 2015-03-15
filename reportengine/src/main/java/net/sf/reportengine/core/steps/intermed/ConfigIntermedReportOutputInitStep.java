@@ -1,17 +1,17 @@
 package net.sf.reportengine.core.steps.intermed;
 
-import java.util.Map;
-
 import net.sf.reportengine.core.algorithm.steps.AbstractInitStep;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
 
-public class ConfigIntermedReportOutputInitStep extends AbstractInitStep {
+public class ConfigIntermedReportOutputInitStep extends AbstractInitStep<IntermediateCrosstabOutput> {
 
-	@Override
-	protected void executeInit(Map<IOKeys, Object> inputParams) {
-		getAlgoContext().set(ContextKeys.LOCAL_REPORT_OUTPUT, new IntermediateCrosstabOutput()); 
+	public StepResult<IntermediateCrosstabOutput> init(StepInput stepInput) {
+		IntermediateCrosstabOutput intermCrosstabOutput = new IntermediateCrosstabOutput(); 
+		//getAlgoContext().set(ContextKeys.LOCAL_REPORT_OUTPUT, intermCrosstabOutput); 
+		return new StepResult<IntermediateCrosstabOutput>(ContextKeys.LOCAL_REPORT_OUTPUT, intermCrosstabOutput); 
 	}
 
 }

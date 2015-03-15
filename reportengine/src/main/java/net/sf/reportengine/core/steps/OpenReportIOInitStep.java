@@ -3,20 +3,17 @@
  */
 package net.sf.reportengine.core.steps;
 
-import java.util.Map;
-
-import net.sf.reportengine.core.algorithm.Algorithm;
-import net.sf.reportengine.util.IOKeys;
 
 
 /**
  * @author dragos balan
  *
  */
-public class OpenReportIOInitStep extends AbstractReportInitStep {
+public class OpenReportIOInitStep extends AbstractReportInitStep<String> {
 
-	@Override protected void executeInit(Map<IOKeys, Object> inputParams) {
-		getReportInput().open(); 
-		getReportOutput().open();
+	public StepResult<String> init(StepInput stepInput) {
+		getReportInput(stepInput).open(); 
+		getReportOutput(stepInput).open();
+		return StepResult.NO_RESULT; 
 	}
 }

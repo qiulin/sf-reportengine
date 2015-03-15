@@ -12,14 +12,14 @@ import net.sf.reportengine.util.ContextKeys;
  * @author dragos balan
  *
  */
-public abstract class AbstractReportExitStep extends AbstractExitStep {
+public abstract class AbstractReportExitStep<T> extends AbstractExitStep<T> {
 
-	protected ReportInput getReportInput(){
-		return (ReportInput)getAlgoContext().get(ContextKeys.LOCAL_REPORT_INPUT); 
+	protected ReportInput getReportInput(StepInput stepInput){
+		return (ReportInput)stepInput.getContextParam(ContextKeys.LOCAL_REPORT_INPUT); 
 	}
 	
-	protected ReportOutput getReportOutput(){
-		return (ReportOutput)getAlgoContext().get(ContextKeys.LOCAL_REPORT_OUTPUT); 
+	protected ReportOutput getReportOutput(StepInput stepInput){
+		return (ReportOutput)stepInput.getContextParam(ContextKeys.LOCAL_REPORT_OUTPUT); 
 	}
 	
 }

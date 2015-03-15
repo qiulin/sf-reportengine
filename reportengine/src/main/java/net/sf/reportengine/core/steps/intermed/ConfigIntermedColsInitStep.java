@@ -11,13 +11,12 @@ import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.config.HorizAlign;
-import net.sf.reportengine.config.SortType;
-import net.sf.reportengine.config.VertAlign;
-import net.sf.reportengine.core.algorithm.Algorithm;
-import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.calc.GroupCalculator;
 import net.sf.reportengine.core.steps.AbstractReportInitStep;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
+import net.sf.reportengine.core.steps.intermed.ConstrIntermedDataColsInitStep.IntermDataColumnFromCrosstabData;
+import net.sf.reportengine.core.steps.intermed.ConstrIntermedGrpColsInitStep.IntermGroupColFromCtDataCol;
+import net.sf.reportengine.core.steps.intermed.ConstrIntermedGrpColsInitStep.IntermGroupColFromHeaderRow;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
@@ -27,30 +26,32 @@ import org.slf4j.LoggerFactory;
 /**
  * @author dragos balan
  *
+ * @deprecated replace this with ConstrIntermedDataColsInitStep and ConstrIntermedGrpColsInitStep
  */
-public class ConfigIntermedColsInitStep extends AbstractReportInitStep{
-	
-	/**
-	 * the one and only logger
-	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigIntermedColsInitStep.class);
+public class ConfigIntermedColsInitStep extends AbstractReportInitStep<List<GroupColumn>>{
 	
 	
-	@Override protected void executeInit(Map<IOKeys, Object> inputParams) {
-		List<DataColumn> originalCtDataCols = getDataColumns(inputParams); 
-		List<GroupColumn> originalCtGroupingCols = getGroupColumns(inputParams); 
+	
+	public StepResult<List<GroupColumn>> init(StepInput stepInput) {
+		List<DataColumn> originalCtDataCols = getDataColumns(stepInput); 
+		List<GroupColumn> originalCtGroupingCols = getGroupColumns(stepInput); 
 		List<CrosstabHeaderRow> originalCtHeaderRows = 
-				(List<CrosstabHeaderRow>)inputParams.get(IOKeys.CROSSTAB_HEADER_ROWS);
+				(List<CrosstabHeaderRow>)stepInput.getAlgoInput(IOKeys.CROSSTAB_HEADER_ROWS);
 		
-		getAlgoContext().set(ContextKeys.INTERNAL_GROUP_COLS, 
-				transformGroupingCrosstabConfigInFlatReportConfig(
-											originalCtGroupingCols, 
-											originalCtDataCols, 
-											originalCtHeaderRows));		
 		
-		CrosstabData originalCtData = (CrosstabData)inputParams.get(IOKeys.CROSSTAB_DATA); 
-		getAlgoContext().set(ContextKeys.INTERNAL_DATA_COLS, 
-				transformCrosstabDataIntoDataColumns(originalCtData));
+		List<GroupColumn> newGroupCols = transformGroupingCrosstabConfigInFlatReportConfig(
+					originalCtGroupingCols, 
+					originalCtDataCols, 
+					originalCtHeaderRows); 
+		
+		//getAlgoContext().set(ContextKeys.INTERNAL_GROUP_COLS, newGroupCols);		
+		
+		CrosstabData originalCtData = (CrosstabData)stepInput.getAlgoInput(IOKeys.CROSSTAB_DATA); 
+		//getAlgoContext().set(ContextKeys.INTERNAL_DATA_COLS, 
+		//		transformCrosstabDataIntoDataColumns(originalCtData));
+		
+		return new StepResult<List<GroupColumn>>(ContextKeys.INTERNAL_GROUP_COLS, newGroupCols); 
+		//this is just to comply with the return type ( normally it should return two values)
 	}
 	
 	/**
@@ -83,10 +84,10 @@ public class ConfigIntermedColsInitStep extends AbstractReportInitStep{
 		int originalGroupColsLength = originalCtGroupingCols != null ? originalCtGroupingCols.size(): 0;
 		int originalDataColsLength = originalCtDataCols != null ? originalCtDataCols.size() : 0 ; 
 		
-		LOGGER.debug("transforming grouping crosstab config into flat intermediary report: ");
-		LOGGER.debug("origCtGroupingCols={}", originalCtGroupingCols);
-		LOGGER.debug("originalCtDataRows={}", originalCtDataCols);
-		LOGGER.debug("originalCtHeaderRows={}",originalCtHeaderRows);
+//		LOGGER.debug("transforming grouping crosstab config into flat intermediary report: ");
+//		LOGGER.debug("origCtGroupingCols={}", originalCtGroupingCols);
+//		LOGGER.debug("originalCtDataRows={}", originalCtDataCols);
+//		LOGGER.debug("originalCtHeaderRows={}",originalCtHeaderRows);
 		
 		int intermedGroupColsLength = originalGroupColsLength + originalDataColsLength + originalCtHeaderRows.size() -1;
 		List<GroupColumn> result = new ArrayList<GroupColumn>(intermedGroupColsLength);
@@ -118,161 +119,7 @@ public class ConfigIntermedColsInitStep extends AbstractReportInitStep{
 		return result; 
 	}
 	
-	static class IntermDataColumnFromCrosstabData implements DataColumn{
-		
-		/**
-		 * the original cross tab data on which this data column is based
-		 */
-		private CrosstabData crosstabData;
-		
-		/**
-		 * 
-		 * @param crosstabData
-		 */
-		public IntermDataColumnFromCrosstabData(CrosstabData crosstabData){
-			this.crosstabData = crosstabData; 
-		}
-		
-		public String getHeader() {
-			return "CrosstabDataColumn"; //normally this should never be called (except when debugging reports)
-		}
-
-		public String getFormattedValue(Object value) {
-			return crosstabData.getFormattedValue(value);
-		}
-		
-		public String getFormattedTotal(Object value){
-			return crosstabData.getFormattedTotal(value); 
-		}
-
-		public Object getValue(NewRowEvent newRowEvent) {
-			return crosstabData.getValue(newRowEvent);
-		}
-
-		public GroupCalculator getCalculator() {
-			return crosstabData.getCalculator();
-		}
-
-		public HorizAlign getHorizAlign() {
-			return crosstabData.getHorizAlign(); 
-		}
-		
-		public VertAlign getVertAlign() {
-			return crosstabData.getVertAlign(); 
-		}
-		
-		public int getSortLevel() {
-			return NO_SORTING; 
-		}
-
-		public SortType getSortType() {
-			return SortType.ASC; 
-		}
-	}
-	
-	static class IntermGroupColFromCtDataCol implements GroupColumn{
-		
-		private DataColumn dataColumn; 
-		private int groupingLevel; 
-		
-		public IntermGroupColFromCtDataCol(DataColumn dataColumn, int groupLevel){
-			this.dataColumn = dataColumn; 
-			this.groupingLevel = groupLevel; 
-		}
-		
-		public String getFormattedValue(Object object) {
-			return dataColumn.getFormattedValue(object); 
-		}
-
-		public int getGroupingLevel() {
-			return groupingLevel;
-		}
-
-		public String getHeader() {
-			return dataColumn.getHeader(); 
-		}
-
-		public Object getValue(NewRowEvent newRowEvent) {
-			return dataColumn.getValue(newRowEvent);
-		}
-
-		public HorizAlign getHorizAlign() {
-			return dataColumn.getHorizAlign(); 
-		}
-		
-		public VertAlign getVertAlign(){
-			return dataColumn.getVertAlign(); 
-		}
-		
-		public boolean showDuplicates(){
-			return false; //TODO: check if this is used
-		}
-		
-		public SortType getSortType() {
-			return SortType.ASC; 
-		}
-		
-	}
-	
-	static class IntermGroupColFromHeaderRow implements GroupColumn {
-
-		private CrosstabHeaderRow headerRow; 
-	
-		private int groupingLevel = -1; 
-	
-		public IntermGroupColFromHeaderRow(CrosstabHeaderRow headerRow, int groupingLevel){
-			this.headerRow = headerRow; 
-			this.groupingLevel = groupingLevel;
-		}
-	
-		/* (non-Javadoc)
-		 * @see net.sf.reportengine.config.GroupColumn#getHeader()
-		 */
-		public String getHeader() {
-			return "not used";
-		}
 	
 	
-		/* (non-Javadoc)
-		 * @see net.sf.reportengine.config.GroupColumn#getGroupingLevel()
-		 */
-		public int getGroupingLevel() {
-			return groupingLevel;
-		}
 	
-		/* (non-Javadoc)
-		 * @see net.sf.reportengine.config.GroupColumn#getValue(net.sf.reportengine.core.algorithm.NewRowEvent)
-		 */
-		public Object getValue(NewRowEvent newRowEvent) {
-			return headerRow.getValue(newRowEvent);
-		}
-	
-		/* (non-Javadoc)
-		 * @see net.sf.reportengine.config.GroupColumn#getFormattedValue(java.lang.Object)
-		 */
-		public String getFormattedValue(Object object) {
-			String result = "";
-			if(object != null){
-				result = object.toString();
-				//TODO: come back here and return a formatted value
-			}
-			return result; 
-		}
-
-		public HorizAlign getHorizAlign() {
-			return HorizAlign.CENTER; //TODO: check if this is used
-		}
-		
-		public VertAlign getVertAlign(){
-			return VertAlign.MIDDLE; //TODO: check if this is used
-		}
-		
-		public boolean showDuplicates(){
-			return false; //this is not used
-		}
-		
-		public SortType getSortType() {
-			return SortType.ASC; 
-		}
-	}
 }

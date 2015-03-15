@@ -3,24 +3,16 @@
  */
 package net.sf.reportengine.core.steps;
 
-import java.util.Map;
-
-import net.sf.reportengine.core.algorithm.Algorithm;
-import net.sf.reportengine.util.IOKeys;
 
 /**
- * @author balan
+ * @author dragos balan
  *
  */
-public class CloseReportOutputExitStep extends AbstractReportExitStep {
+public class CloseReportOutputExitStep extends AbstractReportExitStep<String> {
 
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.algorithm.steps.AbstractExitStep#executeExit(java.util.Map)
-	 */
-	@Override
-	protected Map<IOKeys, Object> executeExit(Map<IOKeys, Object> algoInput) {
-		getReportOutput().close(); 
-		return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
+	public StepResult<String> exit(StepInput stepInput) {
+		getReportOutput(stepInput).close(); 
+		return StepResult.NO_RESULT; 
 	}
 
 }

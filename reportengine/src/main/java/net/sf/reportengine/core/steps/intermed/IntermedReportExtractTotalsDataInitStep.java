@@ -4,12 +4,11 @@
 package net.sf.reportengine.core.steps.intermed;
 
 import java.util.List;
-import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
+import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
 
 /**
  * @author dragos balan
@@ -22,11 +21,10 @@ public class IntermedReportExtractTotalsDataInitStep extends FlatReportExtractTo
      * following methods: 
      * {@link #getDataColumnsLength()}
      * 
-     * @param algoInput
-     * @param algoContext
+     * @param stepInput
      * @return
      */
-    @Override public List<DataColumn> getDataColumns(Map<IOKeys, Object> inputParams){
-    	return (List<DataColumn>)getAlgoContext().get(ContextKeys.INTERNAL_DATA_COLS); 
+    @Override public List<DataColumn> getDataColumns(StepInput stepInput){
+    	return (List<DataColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_DATA_COLS); 
 	}
 }

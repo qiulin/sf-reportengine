@@ -3,10 +3,8 @@
  */
 package net.sf.reportengine.core.algorithm.steps;
 
-import java.util.Map;
-
-import net.sf.reportengine.core.algorithm.AlgoContext;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 
 /**
  * <p>
@@ -14,16 +12,13 @@ import net.sf.reportengine.util.IOKeys;
  * </p>
  * @author dragos balan (dragos.balan@gmail.com)
  */
-public interface AlgorithmExitStep {
+public interface AlgorithmExitStep<T> {
     
     /**
      * called when finishing the algorithm execution
-     */
-    public Map<IOKeys, Object> exit(Map<IOKeys,Object> algoInput, AlgoContext context);
-    
-    /**
      * 
-     * @return
+     * @param stepInput the input 
      */
-//    public Map<IOKeys, Object> getResultsMap(); 
+    public StepResult<T> exit(StepInput stepInput);
+    
 }

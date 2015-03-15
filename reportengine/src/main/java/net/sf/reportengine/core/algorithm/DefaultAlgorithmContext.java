@@ -6,6 +6,7 @@ package net.sf.reportengine.core.algorithm;
 
 import java.util.EnumMap;
 
+import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.util.ContextKeys;
 
 /**
@@ -41,5 +42,12 @@ public class DefaultAlgorithmContext implements AlgoContext{
      */
     public void set(ContextKeys key, Object value){
         contextData.put(key,value);
+    }
+    
+    /**
+     * 
+     */
+    public void add(StepResult stepResult){
+    	contextData.put(stepResult.getKey(), stepResult.getValue()); 
     }
 }

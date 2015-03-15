@@ -34,17 +34,12 @@ public abstract class AbstractMultiStepAlgo extends AbstractAlgo implements Mult
     private List<AlgorithmExitStep> exitSteps = new LinkedList<AlgorithmExitStep>();;
     
     /**
-     * the context of the report (holding important values)
-     */
-    private AlgoContext algorithmContext = new DefaultAlgorithmContext();
-    
-    
-    /**
      * default empty 
      */
     public AbstractMultiStepAlgo(){
     	
     }
+    
     
     /**
      * adds a new step to the algorithm
@@ -80,9 +75,5 @@ public abstract class AbstractMultiStepAlgo extends AbstractAlgo implements Mult
     
     public List<AlgorithmMainStep> getMainSteps(){
     	return mainSteps;
-    }
-    
-    public AlgoContext getContext(){
-    	return algorithmContext; 
     }
 }

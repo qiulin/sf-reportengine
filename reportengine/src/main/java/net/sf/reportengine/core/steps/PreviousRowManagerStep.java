@@ -9,7 +9,6 @@ import java.util.List;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.util.ContextKeys;
 
 import org.slf4j.Logger;

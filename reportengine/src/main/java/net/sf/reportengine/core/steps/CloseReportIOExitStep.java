@@ -13,24 +13,15 @@ import net.sf.reportengine.util.IOKeys;
  * @author dragos balan
  *
  */
-public class CloseReportIOExitStep extends AbstractReportExitStep {
+public class CloseReportIOExitStep extends AbstractReportExitStep<String> {
 	
 	/**
 	 * 
 	 */
-	protected Map<IOKeys, Object> executeExit(Map<IOKeys, Object> algoInput){
-		getReportOutput().close(); 
-		getReportInput().close(); 
-		return Algorithm.EMPTY_READ_ONLY_PARAMS_MAP; 
+	public StepResult<String> exit(StepInput stepInput){
+		getReportOutput(stepInput).close(); 
+		getReportInput(stepInput).close(); 
+		return StepResult.NO_RESULT; 
 	}
 	
-//	protected ReportOutput getReportOutput(		Map<IOKeys, Object> algoInput, 
-//												AlgoContext algoContext){
-//		return (ReportOutput)algoInput.get(IOKeys.REPORT_OUTPUT); 
-//	}
-//	
-//	protected ReportInput getReportInput(	Map<IOKeys, Object> algoInput, 
-//											AlgoContext algoContext){
-//		return (ReportInput)algoInput.get(IOKeys.REPORT_INPUT); 
-//	}
 }

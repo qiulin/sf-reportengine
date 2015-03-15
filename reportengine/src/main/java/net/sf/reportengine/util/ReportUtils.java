@@ -66,7 +66,7 @@ public final class ReportUtils {
      */
     public static List<DataColumn> dataColsFromMetadataAndUserPrefs(	List<ColumnMetadata> colMetadataList,
     																	Map<String, ColumnPreferences> userPrefs){
-    	
+    	//TODO: this method should be inlined in the caller class
     	LOGGER.debug("processing metadata {} and preferences {}", colMetadataList, userPrefs); 
     	List<DataColumn> resultDataColumns = new ArrayList<DataColumn>(); 
     	

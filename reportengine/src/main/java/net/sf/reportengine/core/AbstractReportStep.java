@@ -4,6 +4,7 @@
  */
 package net.sf.reportengine.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.reportengine.config.DataColumn;
@@ -58,8 +59,8 @@ public abstract class AbstractReportStep extends AbstractAlgoMainStep{
      * getter for the distribution of calculators in data columns array 
      * @return
      */
-    public int[] getCalculatorDistributionInColumnDataArray(){
-    	return (int[])getAlgoContext().get(ContextKeys.DISTRIBUTION_OF_CALCULATORS);
+    public ArrayList<Integer> getCalculatorDistributionInColumnDataArray(){
+    	return (ArrayList<Integer>)getAlgoContext().get(ContextKeys.DISTRIBUTION_OF_CALCULATORS);
     }
     
     

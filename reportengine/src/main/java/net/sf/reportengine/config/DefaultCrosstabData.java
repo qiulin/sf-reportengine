@@ -113,6 +113,19 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 		this.inputColumnIndex = inputColumnIndex;
 	}
 	
+	
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "DefaultCrosstabData [inputColumnIndex=" + inputColumnIndex
+				+ "]";
+	}
+
+
+
 	public static class Builder{
 		private int columnIndex; 
 		private HorizAlign hAlign = HorizAlign.CENTER; 
@@ -154,5 +167,6 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 		public DefaultCrosstabData build(){
 			return new DefaultCrosstabData(this); 
 		}
+
 	}
 }

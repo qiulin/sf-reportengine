@@ -19,7 +19,7 @@ import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
 import net.sf.reportengine.core.algorithm.ConfigDetectorAlgorithm;
 import net.sf.reportengine.core.algorithm.DefaultLoopThroughReportInputAlgo;
-import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
+import net.sf.reportengine.core.algorithm.OpenLoopCloseInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.steps.CloseReportOutputExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
@@ -150,7 +150,7 @@ public class AutoconfigFlatReport extends AbstractReport {
      * @return
      */
     private Algorithm configReportAlgo(final boolean inputHasBeenPreviouslySorted){
-    	MultiStepAlgo algorithm = new LoopThroughReportInputAlgo(){
+    	MultiStepAlgo algorithm = new OpenLoopCloseInputAlgo(){
     		@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
     			if(inputHasBeenPreviouslySorted){
     				//if the input has been previously sorted
@@ -257,6 +257,7 @@ public class AutoconfigFlatReport extends AbstractReport {
     	Map<IOKeys, Object> result = reportAlgoContainer.execute(inputParams); 
     	LOGGER.debug("algorithm ended with with the following result {}", result);
 	}
+	
 	
 	public static class Builder {
     	
