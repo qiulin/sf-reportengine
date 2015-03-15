@@ -4,11 +4,12 @@
 package net.sf.reportengine.core.algorithm;
 
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map;
 
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.CellPropsArrayOutput;
@@ -33,16 +34,12 @@ public class TestOneIterationAlgorithm {
 	
 	private CellPropsArrayOutput testOut = new CellPropsArrayOutput();
 	
-	private AlgorithmInitStep testInitStep = new AlgorithmInitStep(){
-		public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
-			context.set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(0));
-			context.set(ContextKeys.LOCAL_REPORT_INPUT, algoInput.get(IOKeys.REPORT_INPUT)); 
+	private AlgorithmInitStep testInitStep = new AlgorithmInitStep<Integer>(){
+		public StepResult<Integer> init(StepInput stepInput){
+			//context.set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(0));
+			//context.set(ContextKeys.LOCAL_REPORT_INPUT, algoInput.get(IOKeys.REPORT_INPUT)); 
+			return new StepResult<Integer>(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(0), IOKeys.TEST_KEY); 
 		}
-
-//		public Map<IOKeys, Object> getResultsMap() {
-//			return null;
-//		}
-		
 	};
 	
 	private AlgorithmMainStep testMainStep = new AlgorithmMainStep(){
@@ -73,7 +70,7 @@ public class TestOneIterationAlgorithm {
 		}
 	};
 	
-	private LoopThroughReportInputAlgo classUnderTest = null;
+	private OpenLoopCloseInputAlgo classUnderTest = null;
 	
 	
 	/* (non-Javadoc)
@@ -92,7 +89,7 @@ public class TestOneIterationAlgorithm {
 
 
 	/**
-	 * Test method for {@link net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo#execute()}.
+	 * Test method for {@link net.sf.reportengine.core.algorithm.OpenLoopCloseInputAlgo#execute()}.
 	 */
 	@Test
 	public void testExecuteAlgorithm() {
@@ -100,8 +97,8 @@ public class TestOneIterationAlgorithm {
 		mockAlgoInput.put(IOKeys.REPORT_INPUT, testInput); 
 		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, testOut); 
 		
-		classUnderTest.execute(mockAlgoInput);
-		Assert.assertEquals(Integer.valueOf(1), (Integer)classUnderTest.getContext().get(ContextKeys.DATA_ROW_COUNT));
-		Assert.assertEquals(2, classUnderTest.getContext().get(ContextKeys.NEW_GROUPING_LEVEL));
+		Map<IOKeys, Object> algoResult = classUnderTest.execute(mockAlgoInput);
+		Assert.assertEquals(Integer.valueOf(0), (Integer)algoResult.get(IOKeys.TEST_KEY));
+		//TODO: Assert.assertEquals(2, classUnderTest.getContext().get(ContextKeys.NEW_GROUPING_LEVEL));
 	}
 }

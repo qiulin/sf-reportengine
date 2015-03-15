@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class ColumnHeaderOutputInitStep extends AbstractReportInitStep{
+public class ColumnHeaderOutputInitStep extends AbstractReportInitStep<String>{
     
 	/**
 	 * the one and only logger
@@ -37,22 +37,22 @@ public class ColumnHeaderOutputInitStep extends AbstractReportInitStep{
     /**
      * 
      */
-    @Override protected  void executeInit(Map<IOKeys, Object> inputParams){
+    public  StepResult<String> init(StepInput input){
     	LOGGER.trace("initializing the column header step: output title and column headers");
     	
-    	int outputColumnsCnt = getDataColumnsLength(inputParams) + getGroupColumnsLength(inputParams); 
+    	int outputColumnsCnt = getDataColumnsLength(input) + getGroupColumnsLength(input); 
     	
     	//output the title
-    	ReportOutput output = getReportOutput();
-        if(getReportTitle(inputParams) != null){
-        	output.outputTitle(new TitleProps(getReportTitle(inputParams), outputColumnsCnt));
+    	ReportOutput output = getReportOutput(input);
+        if(getReportTitle(input) != null){
+        	output.outputTitle(new TitleProps(getReportTitle(input), outputColumnsCnt));
         }
         
         //output the report column headers
         final int rowNumber = 0;
         output.startHeaderRow(new RowProps(rowNumber));
         CellProps cellProps = null;
-        List<GroupColumn> groupCols = getGroupColumns(inputParams); 
+        List<GroupColumn> groupCols = getGroupColumns(input); 
         if(groupCols != null){
 	        for (GroupColumn groupColumn : groupCols) {
 				cellProps = new CellProps.Builder(groupColumn.getHeader())
@@ -64,7 +64,7 @@ public class ColumnHeaderOutputInitStep extends AbstractReportInitStep{
 			}
         }
         
-        List<DataColumn> dataCols = getDataColumns(inputParams); 
+        List<DataColumn> dataCols = getDataColumns(input); 
         for (DataColumn dataColumn: dataCols) {
             cellProps = new CellProps.Builder(dataColumn.getHeader())
             						.colspan(1)
@@ -75,5 +75,7 @@ public class ColumnHeaderOutputInitStep extends AbstractReportInitStep{
         }
         
         output.endHeaderRow();
+        
+        return StepResult.NO_RESULT; 
     }
 }

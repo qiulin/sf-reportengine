@@ -3,6 +3,7 @@
  */
 package net.sf.reportengine.core.steps;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
@@ -10,9 +11,8 @@ import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.AlgoContext;
-import net.sf.reportengine.core.calc.GroupCalculators;
+import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.calc.AvgGroupCalculator;
 import net.sf.reportengine.core.calc.CountGroupCalculator;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
@@ -52,18 +52,19 @@ public class TestFlatReportExtractDataInitStep {
 		//reportContext.set(ContextKeys.DATA_COLUMNS, TEST_DATA_COLUMNS); 
 		mockAlgoInput.put(IOKeys.DATA_COLS, TEST_DATA_COLUMNS);
 		
-		classUnderTest.init(mockAlgoInput, reportContext); 
+		StepResult stepResult = classUnderTest.init(new StepInput(mockAlgoInput, reportContext)); 
+		reportContext.set(stepResult.getKey(), stepResult.getValue());
 		
-		int[] result = (int[])reportContext.get(ContextKeys.DISTRIBUTION_OF_CALCULATORS);
+		ArrayList<Integer> result = (ArrayList<Integer>)reportContext.get(ContextKeys.DISTRIBUTION_OF_CALCULATORS);
 		Assert.assertNotNull(result);
-		Assert.assertEquals(TEST_DATA_COLUMNS.size(), result.length);
+		Assert.assertEquals(TEST_DATA_COLUMNS.size(), result.size());
 		
 		
-		Assert.assertEquals(FlatReportExtractTotalsDataInitStep.NO_CALCULATOR_ON_THIS_POSITION, result[0]); 
-		Assert.assertEquals(0, result[1]);
-		Assert.assertEquals(1, result[2]);
-		Assert.assertEquals(FlatReportExtractTotalsDataInitStep.NO_CALCULATOR_ON_THIS_POSITION, result[3]);
-		Assert.assertEquals(FlatReportExtractTotalsDataInitStep.NO_CALCULATOR_ON_THIS_POSITION, result[4]);
-		Assert.assertEquals(2, result[5]);
+		Assert.assertEquals(FlatReportExtractTotalsDataInitStep.NO_CALCULATOR_ON_THIS_POSITION, result.get(0)); 
+		Assert.assertEquals(Integer.valueOf(0), result.get(1));
+		Assert.assertEquals(Integer.valueOf(1), result.get(2));
+		Assert.assertEquals(FlatReportExtractTotalsDataInitStep.NO_CALCULATOR_ON_THIS_POSITION, result.get(3));
+		Assert.assertEquals(FlatReportExtractTotalsDataInitStep.NO_CALCULATOR_ON_THIS_POSITION, result.get(4));
+		Assert.assertEquals(Integer.valueOf(2), result.get(5));
 	}
 }

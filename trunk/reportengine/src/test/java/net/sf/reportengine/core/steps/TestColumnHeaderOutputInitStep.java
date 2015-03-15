@@ -6,8 +6,8 @@ package net.sf.reportengine.core.steps;
 import java.util.EnumMap;
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.AlgoContext;
+import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.util.ContextKeys;
@@ -39,7 +39,7 @@ public class TestColumnHeaderOutputInitStep  {
 		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS) ;
 		
 		ColumnHeaderOutputInitStep classUnderTest = new ColumnHeaderOutputInitStep(); 
-		classUnderTest.init(mockAlgoInput, mockContext);
+		classUnderTest.init(new StepInput(mockAlgoInput, mockContext));
 		
 		Assert.assertTrue(MatrixUtils.compareMatrices(Scenario1.EXPECTED_REPORT_COLUMNS_HEADER, 
 												mockOutput.getHeaderCellMatrix()));

@@ -15,6 +15,8 @@ import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep;
+import net.sf.reportengine.core.steps.autodetect.ConstrDataColsFromMetadataAndUserPrefsInitStep;
+import net.sf.reportengine.core.steps.autodetect.ConstrGroupColsFromMetadataAndUserPrefsInitStep;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.scenarios.AutodetectConfigurationScenario;
 import net.sf.reportengine.util.ContextKeys;
@@ -67,16 +69,19 @@ public class TestAutodetectColumnsInitStep {
 		mockAlgoInput.put(IOKeys.USER_COLUMN_PREFERENCES, userPrefs); 
 		
 		//the class/method under test
-		new AutodetectConfigInitStep().init(mockAlgoInput, reportContext); 
+		//new AutodetectConfigInitStep().init(new StepInput(mockAlgoInput, reportContext)); 
+		StepResult stepResult1 = new ConstrDataColsFromMetadataAndUserPrefsInitStep().init(new StepInput(mockAlgoInput, reportContext));
+		reportContext.add(stepResult1);
+		StepResult stepResult2 = new ConstrGroupColsFromMetadataAndUserPrefsInitStep().init(new StepInput(mockAlgoInput, reportContext)); 
 		
 		//test the result
-		List<DataColumn> dataCols = (List<DataColumn>)mockAlgoInput.get(IOKeys.DATA_COLS);
+		List<DataColumn> dataCols = (List<DataColumn>)stepResult1.getValue(); //(IOKeys.DATA_COLS);
 		Assert.assertNotNull(dataCols);
 		Assert.assertEquals(2, dataCols.size()); 
 		Assert.assertEquals("Header Data Col 1", dataCols.get(0).getHeader());
 		Assert.assertEquals("Header Data Col 2", dataCols.get(1).getHeader()); 
 		
-		Assert.assertNull(mockAlgoInput.get(IOKeys.GROUP_COLS)); 
+		Assert.assertNull(stepResult2.getValue()); //mockAlgoInput.get(IOKeys.GROUP_COLS 
 	}
 	
 	
@@ -99,16 +104,19 @@ public class TestAutodetectColumnsInitStep {
 		mockAlgoInput.put(IOKeys.USER_COLUMN_PREFERENCES, userPrefs); 
 		
 		//the class/method under test
-		new AutodetectConfigInitStep().init(mockAlgoInput, reportContext); 
+		//new AutodetectConfigInitStep().init(new StepInput(mockAlgoInput, reportContext)); 
+		StepResult stepResult1 = new ConstrDataColsFromMetadataAndUserPrefsInitStep().init(new StepInput(mockAlgoInput, reportContext)); 
+		reportContext.add(stepResult1);
+		StepResult stepResult2 = new ConstrGroupColsFromMetadataAndUserPrefsInitStep().init(new StepInput(mockAlgoInput, reportContext)); 
 		
 		//test the result
-		List<DataColumn> dataCols = (List<DataColumn>)mockAlgoInput.get(IOKeys.DATA_COLS);
+		List<DataColumn> dataCols = (List<DataColumn>)stepResult1.getValue();//.get(IOKeys.DATA_COLS);
 		Assert.assertNotNull(dataCols);
 		Assert.assertEquals(2, dataCols.size()); 
 		Assert.assertEquals("Header Data Col 1", dataCols.get(0).getHeader());
 		Assert.assertEquals("col2label", dataCols.get(1).getHeader()); 
 		
-		Assert.assertNull(mockAlgoInput.get(IOKeys.GROUP_COLS));
+		Assert.assertNull(stepResult2.getValue());//mockAlgoInput.get(IOKeys.GROUP_COLS));
 	}
 	
 	/**
@@ -116,7 +124,7 @@ public class TestAutodetectColumnsInitStep {
 	 */
 	@Test
 	public void testInit_LessPreferencesThanMetadata() {
-		AutodetectConfigInitStep classUnderTest = new AutodetectConfigInitStep();
+		//AutodetectConfigInitStep classUnderTest = new AutodetectConfigInitStep();
 		
 		//set up report context
 		ColumnPreferences column1Prefs = new ColumnPreferences(); 
@@ -127,16 +135,19 @@ public class TestAutodetectColumnsInitStep {
 		
 		mockAlgoInput.put(IOKeys.USER_COLUMN_PREFERENCES, userPrefs); 
 		
-		classUnderTest.init(mockAlgoInput, reportContext); 
+		//new AutodetectConfigInitStep().init(new StepInput(mockAlgoInput, reportContext)); 
+		StepResult stepResult1 = new ConstrDataColsFromMetadataAndUserPrefsInitStep().init(new StepInput(mockAlgoInput, reportContext)); 
+		reportContext.add(stepResult1);
+		StepResult stepResult2 = new ConstrGroupColsFromMetadataAndUserPrefsInitStep().init(new StepInput(mockAlgoInput, reportContext)); 
 		
 		//test the result
-		List<DataColumn> dataCols = (List<DataColumn>)mockAlgoInput.get(IOKeys.DATA_COLS);
+		List<DataColumn> dataCols = (List<DataColumn>)stepResult1.getValue();//mockAlgoInput.get(IOKeys.DATA_COLS);
 		Assert.assertNotNull(dataCols);
 		Assert.assertEquals(2, dataCols.size()); 
 		Assert.assertEquals("col1label", dataCols.get(0).getHeader()); 
 		Assert.assertEquals("Second Column Prefs", dataCols.get(1).getHeader()); 
 		
-		Assert.assertNull(mockAlgoInput.get(IOKeys.GROUP_COLS)); 
+		Assert.assertNull(stepResult2.getValue()); //mockAlgoInput.get(IOKeys.GROUP_COLS)); 
 	}
 	
 	/**
@@ -158,14 +169,17 @@ public class TestAutodetectColumnsInitStep {
 		mockAlgoInput.put(IOKeys.USER_COLUMN_PREFERENCES, userPrefs); 
 		
 		//the class/method under test
-		new AutodetectConfigInitStep().init(mockAlgoInput, reportContext); 
+		//new AutodetectConfigInitStep().init(new StepInput(mockAlgoInput, reportContext)); 
+		StepResult stepResult1 = new ConstrDataColsFromMetadataAndUserPrefsInitStep().init(new StepInput(mockAlgoInput, reportContext)); 
+		reportContext.add(stepResult1);
+		StepResult stepResult2 = new ConstrGroupColsFromMetadataAndUserPrefsInitStep().init(new StepInput(mockAlgoInput, reportContext)); 
 		
 		//test the result
-		List<DataColumn> dataCols = (List<DataColumn>)mockAlgoInput.get(IOKeys.DATA_COLS);
+		List<DataColumn> dataCols = (List<DataColumn>)stepResult1.getValue(); //mockAlgoInput.get(IOKeys.DATA_COLS);
 		Assert.assertNotNull(dataCols);
 		Assert.assertEquals(0, dataCols.size()); 
 		 
-		List<GroupColumn>groupCols = (List<GroupColumn>)mockAlgoInput.get(IOKeys.GROUP_COLS); 
+		List<GroupColumn>groupCols = (List<GroupColumn>)stepResult2.getValue(); //mockAlgoInput.get(IOKeys.GROUP_COLS); 
 		Assert.assertNotNull(groupCols);
 		Assert.assertEquals(2, groupCols.size());
 		Assert.assertEquals("Header Group Col 1", groupCols.get(0).getHeader());
@@ -188,15 +202,18 @@ public class TestAutodetectColumnsInitStep {
 		mockAlgoInput.put(IOKeys.USER_COLUMN_PREFERENCES, userPrefs);  
 		
 		//the class/method under test
-		new AutodetectConfigInitStep().init(mockAlgoInput, reportContext); 
+		//new AutodetectConfigInitStep().init(new StepInput(mockAlgoInput, reportContext)); 
+		StepResult stepResult1 = new ConstrDataColsFromMetadataAndUserPrefsInitStep().init(new StepInput(mockAlgoInput, reportContext)); 
+		reportContext.add(stepResult1);
+		StepResult stepResult2 = new ConstrGroupColsFromMetadataAndUserPrefsInitStep().init(new StepInput(mockAlgoInput, reportContext)); 
 		
 		//test the result
-		List<DataColumn> dataCols = (List<DataColumn>)mockAlgoInput.get(IOKeys.DATA_COLS);
+		List<DataColumn> dataCols = (List<DataColumn>)stepResult1.getValue();  //mockAlgoInput.get(IOKeys.DATA_COLS);
 		Assert.assertNotNull(dataCols);
 		Assert.assertEquals(1, dataCols.size()); 
 		Assert.assertEquals("col1label", dataCols.get(0).getHeader());
 		
-		List<GroupColumn>groupCols = (List<GroupColumn>)mockAlgoInput.get(IOKeys.GROUP_COLS); 
+		List<GroupColumn> groupCols = (List<GroupColumn>)stepResult2.getValue(); //mockAlgoInput.get(IOKeys.GROUP_COLS); 
 		Assert.assertNotNull(groupCols);
 		Assert.assertEquals(1, groupCols.size());
 		Assert.assertEquals("Header Group Col 2", groupCols.get(0).getHeader());

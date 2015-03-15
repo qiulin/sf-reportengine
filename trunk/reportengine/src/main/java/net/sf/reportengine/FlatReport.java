@@ -21,7 +21,7 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
-import net.sf.reportengine.core.algorithm.LoopThroughReportInputAlgo;
+import net.sf.reportengine.core.algorithm.OpenLoopCloseInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.steps.CloseReportOutputExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
@@ -156,7 +156,7 @@ public class FlatReport extends AbstractColumnBasedReport {
      * @return
      */
     private Algorithm configSortingAlgo(){
-    	MultiStepAlgo sortingAlgo = new LoopThroughReportInputAlgo(){
+    	MultiStepAlgo sortingAlgo = new OpenLoopCloseInputAlgo(){
     		@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
     			return (ReportInput)inputParams.get(IOKeys.REPORT_INPUT); 
     		}
@@ -181,7 +181,7 @@ public class FlatReport extends AbstractColumnBasedReport {
      * @return
      */
     private Algorithm configReportAlgo(final boolean hasBeenPreviouslySorted){
-    	MultiStepAlgo reportAlgo = new LoopThroughReportInputAlgo(){
+    	MultiStepAlgo reportAlgo = new OpenLoopCloseInputAlgo(){
     		@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
     			if(hasBeenPreviouslySorted){
     				//if the input has been previously sorted

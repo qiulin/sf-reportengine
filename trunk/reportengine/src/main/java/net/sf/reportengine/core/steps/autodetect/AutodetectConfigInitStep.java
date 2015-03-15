@@ -8,8 +8,9 @@ import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.steps.AbstractReportInitStep;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.in.ColumnMetadata;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.in.ReportInput;
@@ -24,8 +25,12 @@ import org.slf4j.LoggerFactory;
  * 
  * @author dragos balan
  * @since 0.8
+ * 
+ * @deprecated replace this with ConstrDataColsFromMetadataAndUserPrefsInitStep and 
+ * 	ConstrGroupColsFromMetadataAndUserPrefsInitStep and 
+ *  some other step for Show_totals and show_grand_total
  */
-public class AutodetectConfigInitStep extends AbstractReportInitStep {
+public class AutodetectConfigInitStep extends AbstractReportInitStep<String> {
 	
 	/**
 	 * the one and only logger
@@ -35,10 +40,10 @@ public class AutodetectConfigInitStep extends AbstractReportInitStep {
 	/**
 	 * 
 	 */
-	@Override protected void executeInit(Map<IOKeys, Object> inputParams) {
+	public StepResult<String> init(StepInput stepInput) {
 		//Map<IOKeys, Object> algoInput = getAlgoInput(); 
-		ReportInput input = getReportInput(); //(ReportInput)algoInput.get(IOKeys.REPORT_INPUT); 
-		Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)inputParams.get(IOKeys.USER_COLUMN_PREFERENCES);
+		ReportInput input = getReportInput(stepInput); //(ReportInput)algoInput.get(IOKeys.REPORT_INPUT); 
+		Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)stepInput.getAlgoInput(IOKeys.USER_COLUMN_PREFERENCES);
 		
 		LOGGER.info("Autodetecting the columns based on user preferences and input metadata"); 
 		
@@ -57,12 +62,14 @@ public class AutodetectConfigInitStep extends AbstractReportInitStep {
 		//}
 		LOGGER.debug("group columns detected : {}", groupColumns); 
 		
-		inputParams.put(IOKeys.DATA_COLS, dataColumns) ; //TODO: this is not correct : this step should be transformed into an algorithm
-		inputParams.put(IOKeys.GROUP_COLS, groupColumns); //and the values should be transferred as output values from the algo
+		//inputParams.put(IOKeys.DATA_COLS, dataColumns) ; //TODO: come back here. When the ConfigDetectorAlgorithm will be removed, this line should be enabled
+		//inputParams.put(IOKeys.GROUP_COLS, groupColumns); //TODO: come back here. When the ConfigDetectorAlgorithm will be removed, this line should be enabled
 		
 		boolean reportHasCalculators = ReportUtils.atLeastOneDataColumHasCalculators(dataColumns);
 		
-		inputParams.put(IOKeys.SHOW_TOTALS, reportHasCalculators); 
-		inputParams.put(IOKeys.SHOW_GRAND_TOTAL, reportHasCalculators);
+		//inputParams.put(IOKeys.SHOW_TOTALS, reportHasCalculators); //TODO: come back here. When the ConfigDetectorAlgorithm will be removed, this line should be enabled
+		//inputParams.put(IOKeys.SHOW_GRAND_TOTAL, reportHasCalculators);//TODO: come back here. When the ConfigDetectorAlgorithm will be removed, this line should be enabled
+		
+		return StepResult.NO_RESULT; //just for compilation purposes. This class needs to be split
 	}
 }

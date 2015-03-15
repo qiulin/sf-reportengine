@@ -13,9 +13,9 @@ import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.SecondProcessDataColumn;
 import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
-import net.sf.reportengine.core.algorithm.AlgoContext;
-import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.steps.AbstractCrosstabInitStep;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan
  * @since 0.4
  */
-public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep{
+public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep<String>{
 	
 	/**
 	 * the one and only logger
@@ -43,24 +43,27 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep{
 	/**
 	 * 
 	 */
-	@Override protected void  executeInit(Map<IOKeys, Object> inputParams) {
-		outputTitle(getReportTitle(inputParams), 
-					getDataColumnsLength(inputParams) + getGroupColumnsLength(inputParams), 
-					getReportOutput());
-		outputHeaderRows(	getReportOutput(), 
-							getCrosstabMetadata(), 
-							getDataColumns(inputParams), 
-							getGroupColumns(inputParams),
-							getCrosstabData(inputParams)); 
+	public StepResult<String> init(StepInput stepInput){
+		outputTitle(getReportTitle(stepInput), 
+					getDataColumnsLength(stepInput) + getGroupColumnsLength(stepInput), 
+					getReportOutput(stepInput));
+		outputHeaderRows(	getReportOutput(stepInput), 
+							getCrosstabMetadata(stepInput), 
+							getDataColumns(stepInput), 
+							getGroupColumns(stepInput),
+							getCrosstabData(stepInput)); 
+		return StepResult.NO_RESULT; 
 	}
 	
 	
-	@Override public List<DataColumn> getDataColumns(Map<IOKeys, Object> inputParams){
-		return (List<DataColumn>)getAlgoContext().get(ContextKeys.INTERNAL_DATA_COLS); 
+	@Override 
+	public List<DataColumn> getDataColumns(StepInput stepInput){
+		return (List<DataColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_DATA_COLS); 
 	}
 	
-	@Override public List<GroupColumn> getGroupColumns(Map<IOKeys, Object> inputParams){
-		return (List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS); 
+	@Override 
+	public List<GroupColumn> getGroupColumns(StepInput stepInput){
+		return (List<GroupColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_GROUP_COLS); 
 	}
 	
 	/**

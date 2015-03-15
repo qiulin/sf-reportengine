@@ -4,6 +4,7 @@
 package net.sf.reportengine.scenarios;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,10 +13,10 @@ import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.calc.CalcIntermResult;
-import net.sf.reportengine.core.calc.DefaultCalcIntermResult;
-import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.calc.CountGroupCalculator;
+import net.sf.reportengine.core.calc.DefaultCalcIntermResult;
 import net.sf.reportengine.core.calc.GroupCalculator;
+import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
 import net.sf.reportengine.in.ArrayReportInput;
 import net.sf.reportengine.in.ReportInput;
@@ -85,7 +86,10 @@ public class Scenario1 {
 		new DefaultDataColumn.Builder(5).header("col 5").useCalculator(new SumGroupCalculator()).build()
 	});
 	
-	public static final int[] DISTRIBUTION_OF_CALCULATOR_IN_DATA_ROW_ARRAY = new int[]{-1,0,1};  
+	public static final ArrayList<Integer> DISTRIBUTION_OF_CALCULATOR_IN_DATA_ROW_ARRAY = new ArrayList<Integer>(Arrays.asList(
+				Integer.valueOf(-1),
+				Integer.valueOf(0),
+				Integer.valueOf(1)));  
 	
 	public static final int ROW_1_AGG_LEVEL = -1;
 	public static final int ROW_2_AGG_LEVEL = -1;

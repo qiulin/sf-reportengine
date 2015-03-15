@@ -3,53 +3,56 @@
  */
 package net.sf.reportengine.core.steps;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.sf.reportengine.config.DataColumn;
-import net.sf.reportengine.core.algorithm.Algorithm;
-import net.sf.reportengine.core.calc.GroupCalculator;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
 
 /**
  * extracts some useful data to be used by the next steps in the report. 
  * 
  * 1.The distribution of calculators among data columns
  * 
+ * this step constructs the distribution of calculators array which keeps track of the distribution of calculators in the dataColumns array. 
+ * For example: We have a report with 6 data columns but only 3 of them have calculators (let's say the 2nd and the 4th and the 5th) 
+ * In order to be able to retrieve the right calculator value for a given dataColumn index ( as set in the configuration of the report)
+ * we will fill this array with 
+ * 
+ * array index:		0				1		2				3		4		5
+ * array value: 	NO_CALCULATOR	0		NO_CALCULATOR	1		2		NO_CALCULATOR
+ * 
+ * Next time when we have the data column index and we need the result of the calculator (in a specific row of the matrix)
+ * we will call  calculatorsDistributionInDataColumnsArray[dataColumIndex] and we will get the index of the column in the calculator matrix
+     
+ * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public class FlatReportExtractTotalsDataInitStep extends AbstractReportInitStep {
+public class FlatReportExtractTotalsDataInitStep extends AbstractReportInitStep<ArrayList<Integer>> {
+	
+	/**
+	 * the one and only logger
+	 */
+	private static final Logger LOGGER = LoggerFactory.getLogger(FlatReportExtractTotalsDataInitStep.class);
 	
 	/**
 	 * 
 	 */
-	public final static int NO_CALCULATOR_ON_THIS_POSITION = -1; 
+	public final static Integer NO_CALCULATOR_ON_THIS_POSITION = Integer.valueOf(-1); 
 	
-	/**
-     * this array keeps track of the distribution of calculators in the dataColumns array. 
-     * For example: We have a report with 6 data columns but only 3 of them have calculators (let's say the 2nd and the 4th and the 5th) 
-     * In order to be able to retrieve the right calculator value for a given dataColumn index ( as set in the configuration of the report)
-     * we will fill this array with 
-     * 
-     * array index:		0				1		2				3		4		5
-     * array value: 	NO_CALCULATOR	0		NO_CALCULATOR	1		2		NO_CALCULATOR
-     * 
-     * Next time when we have the data column index and we need the result of the calculator (in a specific row of the matrix)
-     * we will call  calculatorsDistributionInDataColumnsArray[dataColumIndex] and we will get the index of the column in the calculator matrix
-     */
-    private int[] calculatorsDistributionInDataColumnsArray; 
 	
     
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep#init(net.sf.reportengine.core.algorithm.IAlgorithmContext)
-	 */
-	@Override protected void executeInit(Map<IOKeys, Object> inputParams) {
-		calculatorsDistributionInDataColumnsArray = 
-				extractDistributionOfCalculatorsAcrossColumns(getDataColumns(inputParams)); 
-		getAlgoContext().set(	ContextKeys.DISTRIBUTION_OF_CALCULATORS, 
-								calculatorsDistributionInDataColumnsArray);
+	
+    
+	public StepResult<ArrayList<Integer>> init(StepInput stepInput) {
+		ArrayList<Integer> calculatorsDistributionInDataColumnsArray = 
+				extractDistributionOfCalculatorsAcrossColumns(getDataColumns(stepInput)); 
+		//getAlgoContext().set(	ContextKeys.DISTRIBUTION_OF_CALCULATORS, calculatorsDistributionInDataColumnsArray);
+		return new StepResult<ArrayList<Integer>>(ContextKeys.DISTRIBUTION_OF_CALCULATORS, calculatorsDistributionInDataColumnsArray); 
 	}
 	
 	/**
@@ -57,9 +60,8 @@ public class FlatReportExtractTotalsDataInitStep extends AbstractReportInitStep 
 	 * @param dataCols
 	 * @return
 	 */
-	private int[] extractDistributionOfCalculatorsAcrossColumns(List<DataColumn> dataCols){
-		int[] result = new int[dataCols.size()];
-    	
+	private ArrayList<Integer> extractDistributionOfCalculatorsAcrossColumns(List<DataColumn> dataCols){
+		ArrayList<Integer> result = new ArrayList<Integer>(dataCols.size());
     	int columnWithCalculatorsCount = 0;
     	
     	//for each data column 
@@ -68,11 +70,11 @@ public class FlatReportExtractTotalsDataInitStep extends AbstractReportInitStep 
     		//check if there's a group calculator attached to this column
     		if(dataCols.get(i).getCalculator() != null){
     			//if there is a group calculator
-    			result[i] = columnWithCalculatorsCount; 
+    			result.add(i, Integer.valueOf(columnWithCalculatorsCount)); 
     			columnWithCalculatorsCount++;
     		}else{
     			//if no calculator is assigned to this column
-    			result[i] = NO_CALCULATOR_ON_THIS_POSITION; 
+    			result.add(i, NO_CALCULATOR_ON_THIS_POSITION); 
     		}
     	}
 		return result; 

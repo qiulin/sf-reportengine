@@ -11,6 +11,19 @@ package net.sf.reportengine.util;
  */
 public enum ContextKeys {
 	
+	/**
+	 * this key will not be taken into accound ( it's used for NO_RESULT steps)
+	 */
+	NO_KEY,
+	
+	/**
+	 * this key is used in unit tests or in step results which are strictly destined 
+	 * to the next algorithm ( so the IOKeys is the most important)
+	 */
+	SKIP_CONTEXT_KEY, 
+	
+	
+	
 	CROSSTAB_METADATA, 
 	
 	INTERNAL_GROUP_COLS, 
@@ -35,6 +48,4 @@ public enum ContextKeys {
 	
 	LOCAL_REPORT_INPUT, 
 	LOCAL_REPORT_OUTPUT
-	
-	
 }

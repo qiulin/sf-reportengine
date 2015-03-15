@@ -4,7 +4,6 @@
 package net.sf.reportengine.core.steps;
 
 import java.util.List;
-import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
@@ -18,22 +17,22 @@ import net.sf.reportengine.util.IOKeys;
  * @author dragos balan
  *
  */
-public abstract class AbstractReportInitStep extends AbstractInitStep {
+public abstract class AbstractReportInitStep<U> extends AbstractInitStep<U> {
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public ReportInput getReportInput(){
-		return (ReportInput)getAlgoContext().get(ContextKeys.LOCAL_REPORT_INPUT); 
+	public ReportInput getReportInput(StepInput stepInput){
+		return (ReportInput)stepInput.getContextParam(ContextKeys.LOCAL_REPORT_INPUT); 
 	}
 	
 	/**
      * getter for the output of the report
      * @return
      */
-    public ReportOutput getReportOutput(){
-    	return (ReportOutput)getAlgoContext().get(ContextKeys.LOCAL_REPORT_OUTPUT); 
+    public ReportOutput getReportOutput(StepInput stepInput){
+    	return (ReportOutput)stepInput.getContextParam(ContextKeys.LOCAL_REPORT_OUTPUT); 
     }
     
     /**
@@ -42,16 +41,16 @@ public abstract class AbstractReportInitStep extends AbstractInitStep {
      * {@link #getDataColumnsLength()}
      * @return
      */
-    public List<DataColumn> getDataColumns(Map<IOKeys, Object> inputParams){
-    	return (List<DataColumn>)inputParams.get(IOKeys.DATA_COLS); 
+    public List<DataColumn> getDataColumns(StepInput stepInput){
+    	return (List<DataColumn>)stepInput.getAlgoInput(IOKeys.DATA_COLS); 
     }
     
     /**
      * 
      * @return
      */
-    public int getDataColumnsLength(Map<IOKeys, Object> inputParams){
-    	List<DataColumn> dataCols = getDataColumns(inputParams); 
+    public int getDataColumnsLength(StepInput stepInput){
+    	List<DataColumn> dataCols = getDataColumns(stepInput); 
     	return dataCols != null ? dataCols.size() : 0; 
     }
     
@@ -63,24 +62,24 @@ public abstract class AbstractReportInitStep extends AbstractInitStep {
      * 
      * @return
      */
-    public List<GroupColumn> getGroupColumns(Map<IOKeys, Object> inputParams){
-    	return (List<GroupColumn>)inputParams.get(IOKeys.GROUP_COLS); 
+    public List<GroupColumn> getGroupColumns(StepInput stepInput){
+    	return (List<GroupColumn>)stepInput.getAlgoInput(IOKeys.GROUP_COLS); 
     }
     
-    public int getGroupColumnsLength(Map<IOKeys, Object> inputParams){
-    	List<GroupColumn> groupColumns = getGroupColumns(inputParams); 
+    public int getGroupColumnsLength(StepInput stepInput){
+    	List<GroupColumn> groupColumns = getGroupColumns(stepInput); 
     	return groupColumns != null ? groupColumns.size() : 0; 
     }
     
-    public Boolean getShowTotals(Map<IOKeys, Object> inputParams){
-    	return (Boolean)inputParams.get(IOKeys.SHOW_TOTALS); 
+    public Boolean getShowTotals(StepInput stepInput){
+    	return (Boolean)stepInput.getAlgoInput(IOKeys.SHOW_TOTALS); 
     }
     
-    public Boolean getShowGrandTotal(Map<IOKeys, Object> inputParams){
-    	return (Boolean)inputParams.get(IOKeys.SHOW_GRAND_TOTAL); 
+    public Boolean getShowGrandTotal(StepInput stepInput){
+    	return (Boolean)stepInput.getAlgoInput(IOKeys.SHOW_GRAND_TOTAL); 
     }
     
-    public String getReportTitle(Map<IOKeys, Object> inputParams){
-    	return (String)inputParams.get(IOKeys.REPORT_TITLE); 
+    public String getReportTitle(StepInput stepInput){
+    	return (String)stepInput.getAlgoInput(IOKeys.REPORT_TITLE); 
     }
 }

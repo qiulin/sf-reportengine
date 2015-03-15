@@ -4,21 +4,28 @@
  */
 package net.sf.reportengine.core.algorithm;
 
-import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.out.ReportOutput;
+import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.util.ContextKeys;
 
 
 /**
- * The algorithm context helps algorithm steps to share and store information 
+ * The algorithm context is a local-to-the-algorithm storage used for sharing information among algorithm steps. 
  *
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
 public interface AlgoContext {
     
+	/**
+	 * adds the result of a step into the context
+	 * 
+	 * @param stepResult
+	 */
+	public void add(StepResult stepResult);
+	
     /**
-     * registers the pair (key, object) in the report context
+     * adds the pair (key, object) in the report context
+     * 
      * @param key		the identifier of the given object
      * @param obj		the object to be registered
      */
@@ -30,29 +37,4 @@ public interface AlgoContext {
      * @return		the requested value
      */
     public Object get(ContextKeys key);
-    
-    
-//    /**
-//     * sets the input 
-//     * @param input
-//     */
-//    public void setInput(ReportInput input);
-//    
-//    /**
-//     * getter for input
-//     * @return  the input 
-//     */
-//    public ReportInput getInput();
-//    
-//    /**
-//     * setter for output
-//     * @param output
-//     */
-//    public void setOutput(ReportOutput output);
-//    
-//    /**
-//     * getter for output
-//     * @return  the output
-//     */
-//    public ReportOutput getOutput();
 }

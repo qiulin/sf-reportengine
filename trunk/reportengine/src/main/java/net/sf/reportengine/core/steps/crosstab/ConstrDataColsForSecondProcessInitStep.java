@@ -8,10 +8,8 @@ import java.util.List;
 
 import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.DataColumn;
-import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.SecondProcessDataColumn;
 import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
-import net.sf.reportengine.config.SecondProcessGroupColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
 import net.sf.reportengine.core.steps.AbstractCrosstabInitStep;
 import net.sf.reportengine.core.steps.StepInput;
@@ -20,43 +18,20 @@ import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
 
 /**
- * 
- * please replace this step with the two Constr* steps
+ * @author dragos balan
  *
- *@deprecated replaced by ConstrDataColsForSecondProcessInitStep and ConstrGrpColsForSecondProcessInitStep
  */
-public class ConfigCrosstabColumnsInitStep extends AbstractCrosstabInitStep<List<DataColumn>> {
+public class ConstrDataColsForSecondProcessInitStep extends AbstractCrosstabInitStep<List<DataColumn>>{
 
-
+	
 	public StepResult<List<DataColumn>> init(StepInput stepInput) {
 		List<DataColumn> newDataCols = constructDataColumnsForSecondProcess(getCrosstabMetadata(stepInput), 
-																			getDataColumns(stepInput),
-																			getCrosstabData(stepInput), 
-																			getShowTotals(stepInput), 
-																			getShowGrandTotal(stepInput));
-		//getAlgoContext().set(ContextKeys.INTERNAL_DATA_COLS, newDataCols); 
-		
-		List<GroupColumn> newGroupCols = constructGroupColumnsForSecondProcess(getGroupColumns(stepInput)); 
-		//getAlgoContext().set(ContextKeys.INTERNAL_GROUP_COLS, newGroupCols); 
-		
+				getDataColumns(stepInput),
+				getCrosstabData(stepInput), 
+				getShowTotals(stepInput), 
+				getShowGrandTotal(stepInput));
+		//getAlgoContext().set(ContextKeys.INTERNAL_DATA_COLS, newDataCols);
 		return new StepResult<List<DataColumn>>(ContextKeys.INTERNAL_DATA_COLS, newDataCols); 
-	}
-
-	/**
-	 * creates a list of group columns for the second report based on the original group columns
-	 * 
-	 * @param originalGroupCols
-	 * @return	a list of group columns necessary to the second processing
-	 */
-	protected List<GroupColumn> constructGroupColumnsForSecondProcess(List<GroupColumn> originalGroupCols){
-		List<GroupColumn> result = null; 
-		if(originalGroupCols != null && originalGroupCols.size() > 0){
-			result = new ArrayList<GroupColumn>(originalGroupCols.size());
-			for (GroupColumn originalGroupColumn : originalGroupCols) {
-				result.add(new SecondProcessGroupColumn(originalGroupColumn));
-			}
-		}
-		return result; 
 	}
 	
 	/**
@@ -146,4 +121,5 @@ public class ConfigCrosstabColumnsInitStep extends AbstractCrosstabInitStep<List
 
 		return resultDataColsList; 
 	}
+
 }
