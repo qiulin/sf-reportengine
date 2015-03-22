@@ -15,6 +15,7 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +54,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public class GroupLevelDetectorStep extends AbstractReportStep{
+public class GroupLevelDetectorStep extends AbstractReportStep<String, Integer, String>{
     
 	/**
 	 * the one and only logger
@@ -63,37 +64,32 @@ public class GroupLevelDetectorStep extends AbstractReportStep{
     /**
      * the aggregation level
      */
-	private int groupLevel = -1; 
+	private Integer groupLevel = Integer.valueOf(-1); 
 	
-    /**
-     * Recommended constructor
-     * @param aggregationColumns
-     */
-    public GroupLevelDetectorStep(){}
-    
     
 	/**
 	 * execute method
 	 */
-	public void execute(NewRowEvent newRowEvent) {
+	public StepResult<Integer> execute(NewRowEvent newRowEvent, StepInput stepInput) {
         
 		//first time we cannot make any comparison so the return level is zero
-		if(getPreviousRowOfGroupValues() == null){
+		if(getPreviousRowOfGroupValues(stepInput) == null){
 			//handle last row for grouping columns 
-			groupLevel = -1;
+			groupLevel = NumberUtils.INTEGER_MINUS_ONE;
 		}else{
-			groupLevel = checkLevelChangedInGroupingColumns(getGroupColumns(), 
-															getPreviousRowOfGroupValues(), 
+			groupLevel = checkLevelChangedInGroupingColumns(getGroupColumns(stepInput), 
+															getPreviousRowOfGroupValues(stepInput), 
 															newRowEvent); 
 			LOGGER.trace("For newRow={} the grouping level found is {}", newRowEvent, groupLevel);
 		}
 		
 		//set the result in context
-		getAlgoContext().set(ContextKeys.NEW_GROUPING_LEVEL, groupLevel);
+		//getAlgoContext().set(ContextKeys.NEW_GROUPING_LEVEL, groupLevel);
+		return new StepResult<Integer>(ContextKeys.NEW_GROUPING_LEVEL, groupLevel); 
 	}
     
     
-    private int checkLevelChangedInGroupingColumns(	List<GroupColumn> groupingColumns, 
+    private Integer checkLevelChangedInGroupingColumns(	List<GroupColumn> groupingColumns, 
     												Object[] lastRowOfGroupingValues, 
     												NewRowEvent newRowEvent){
 		boolean newGroupingLevelFound = false;
@@ -115,6 +111,16 @@ public class GroupLevelDetectorStep extends AbstractReportStep{
 				i++;
 			}           
 		}// end while
-		return newGroupingLevelFound ? i:-1; 
+		return newGroupingLevelFound ? Integer.valueOf(i) : NumberUtils.INTEGER_MINUS_ONE;  
     }
+
+
+	public StepResult<String> init(StepInput stepInput) {
+		return StepResult.NO_RESULT;
+	}
+
+
+	public StepResult<String> exit(StepInput stepInput) {
+		return StepResult.NO_RESULT;
+	}
 }

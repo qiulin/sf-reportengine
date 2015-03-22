@@ -18,7 +18,7 @@ import net.sf.reportengine.util.MatrixUtils;
 
 
 /**
- * @author Administrator
+ * @author dragos balan
  *
  */
 public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
@@ -42,7 +42,7 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 		//testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
 		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS);
 		
-		classUnderTest.init(mockAlgoInput, testReportContext);
+		classUnderTest.init(new StepInput(mockAlgoInput, testReportContext));
 		
 		
 		//first we check that previous data row is null
@@ -53,13 +53,16 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 			//first simulate the grouping level detector
 			testReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.AGG_LEVEL[i]);
 			NewRowEvent dataRowEvent = new NewRowEvent(Scenario1.RAW_DATA[i]);
-			classUnderTest.execute(dataRowEvent);
+			StepResult<Object[]> stepResult = classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, testReportContext));
 			
-			Object[] prevValues = (Object[])testReportContext.get(ContextKeys.LAST_GROUPING_VALUES);
-			assertNotNull(prevValues);
-			assertEquals(Scenario1.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
-			
-			assertTrue(Arrays.equals(Scenario1.PREVIOUS_GROUP_VALUES[i], prevValues));
+			if(stepResult != null){
+				Object[] prevValues = stepResult.getValue(); //(Object[])testReportContext.get(ContextKeys.LAST_GROUPING_VALUES);
+				assertNotNull(prevValues);
+				assertEquals(Scenario1.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
+				assertTrue(Arrays.equals(Scenario1.PREVIOUS_GROUP_VALUES[i], prevValues));
+				
+				testReportContext.set(ContextKeys.LAST_GROUPING_VALUES, stepResult.getValue());
+			}
 		}
 	}
 	
@@ -70,7 +73,7 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 		
 		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario2.GROUPING_COLUMNS);
 		//testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario2.GROUPING_COLUMNS);
-		classUnderTest.init(mockAlgoInput, testReportContext);
+		classUnderTest.init(new StepInput(mockAlgoInput, testReportContext));
 		
 		
 		//first we check that previous data row is null
@@ -81,13 +84,17 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 			//first simulate the grouping level detector
 			testReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario2.AGG_LEVEL[i]);
 			NewRowEvent dataRowEvent = new NewRowEvent(Scenario2.RAW_INPUT[i]);
-			classUnderTest.execute(dataRowEvent);
+			StepResult<Object[]> stepResult = classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, testReportContext));
 			
-			Object[] prevValues = (Object[])testReportContext.get(ContextKeys.LAST_GROUPING_VALUES);
-			assertNotNull(prevValues);
-			assertEquals(Scenario2.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
-			
-			assertTrue(MatrixUtils.compareMatricesAsStrings(new Object[][]{Scenario2.PREVIOUS_GROUP_VALUES[i]}, new Object[][]{prevValues}));
+			if(stepResult != null){
+				Object[] prevValues = stepResult.getValue(); //(Object[])testReportContext.get(ContextKeys.LAST_GROUPING_VALUES);
+				assertNotNull(prevValues);
+				assertEquals(Scenario2.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
+				
+				assertTrue(MatrixUtils.compareMatricesAsStrings(new Object[][]{Scenario2.PREVIOUS_GROUP_VALUES[i]}, new Object[][]{prevValues}));
+				
+				testReportContext.set(ContextKeys.LAST_GROUPING_VALUES, stepResult.getValue());
+			}
 		}
 	}
 
@@ -100,7 +107,7 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 		mockAlgoInput.put(IOKeys.GROUP_COLS, CalculatedColumnsScenario.GROUP_COLUMNS);
 		
 		//testReportContext.set(ContextKeys.GROUP_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
-		classUnderTest.init(mockAlgoInput, testReportContext);
+		classUnderTest.init(new StepInput(mockAlgoInput, testReportContext));
 		
 		
 		//first we check that previous data row is null
@@ -111,16 +118,17 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 			//first simulate the grouping level detector
 			testReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, CalculatedColumnsScenario.AGG_LEVEL[i]);
 			NewRowEvent dataRowEvent = new NewRowEvent(CalculatedColumnsScenario.RAW_DATA[i]);
-			classUnderTest.execute(dataRowEvent);
+			StepResult<Object[]> stepResult = classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, testReportContext));
 			
-			Object[] prevValues = (Object[])testReportContext.get(ContextKeys.LAST_GROUPING_VALUES);
-			assertNotNull(prevValues);
-			assertEquals(CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
-			
-			System.out.println("expected : "+Arrays.toString(CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i]));
-			System.out.println(" get : "+Arrays.toString(prevValues));
-			
-			assertTrue(Arrays.equals(CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i], prevValues));
+			if(stepResult != null){
+				Object[] prevValues = stepResult.getValue(); //(Object[])testReportContext.get(ContextKeys.LAST_GROUPING_VALUES);
+				assertNotNull(prevValues);
+				assertEquals(CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
+				
+				assertTrue(Arrays.equals(CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i], prevValues));
+				
+				testReportContext.set(ContextKeys.LAST_GROUPING_VALUES, stepResult.getValue());
+			}
 		}
 	}
 

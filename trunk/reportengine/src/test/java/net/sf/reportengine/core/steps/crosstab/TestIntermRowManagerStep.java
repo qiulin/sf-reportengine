@@ -15,6 +15,7 @@ import java.util.Map;
 import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.scenarios.Scenario1;
@@ -30,7 +31,7 @@ import org.junit.Test;
 public class TestIntermRowManagerStep {
 
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.IntermedRowMangerStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.IntermedRowMangerStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent, StepInput)}.
 	 */
 	@Test
 	public void testExecute() {
@@ -52,11 +53,12 @@ public class TestIntermRowManagerStep {
 		mockReportOutput.open(); 
 		
 		IntermedRowMangerStep classUnderTest = new IntermedRowMangerStep(); 
-		classUnderTest.init(mockInput, context); 
+		classUnderTest.init(new StepInput(mockInput, context)); 
 		
-		classUnderTest.execute(new NewRowEvent(Arrays.asList(new Object[]{"2", "3", "4", "5", "6", "7"}))); 
+		classUnderTest.execute(	new NewRowEvent(Arrays.asList(new Object[]{"2", "3", "4", "5", "6", "7"})), 
+								new StepInput(mockInput, context)); 
 		
-		classUnderTest.exit(); 
+		classUnderTest.exit(new StepInput(mockInput, context)); 
 		
 		mockReportOutput.close(); 
 		

@@ -29,12 +29,14 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 		//testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
 		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS);
 		
-		classUnderTest.init(mockAlgoInput, testReportContext);
+		classUnderTest.init(new StepInput(mockAlgoInput, testReportContext));
 		
 		for(int i=0; i<Scenario1.RAW_DATA.length; i++){
 			NewRowEvent dataRowEvent = new NewRowEvent(Scenario1.RAW_DATA[i]);
-			classUnderTest.execute(dataRowEvent);
-			assertEquals(testReportContext.get(ContextKeys.NEW_GROUPING_LEVEL), Scenario1.AGG_LEVEL[i]);
+			StepResult<Integer> stepResult = classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, testReportContext));
+			
+			assertNotNull(stepResult);
+			assertEquals(Scenario1.AGG_LEVEL[i], stepResult.getValue()); //testReportContext.get(ContextKeys.NEW_GROUPING_LEVEL)
 			
 			testReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[i]);
 		}
@@ -47,12 +49,14 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 		
 		//testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario2.GROUPING_COLUMNS);
 		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario2.GROUPING_COLUMNS);
-		classUnderTest.init(mockAlgoInput, testReportContext);
+		classUnderTest.init(new StepInput(mockAlgoInput, testReportContext));
 		
 		for(int i=0; i<Scenario2.RAW_INPUT.length; i++){
 			NewRowEvent dataRowEvent = new NewRowEvent(Scenario2.RAW_INPUT[i]);
-			classUnderTest.execute(dataRowEvent);
-			assertEquals(testReportContext.get(ContextKeys.NEW_GROUPING_LEVEL), Scenario2.AGG_LEVEL[i]);
+			StepResult<Integer> stepResult = classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, testReportContext));
+			
+			assertNotNull(stepResult);
+			assertEquals(Scenario2.AGG_LEVEL[i], stepResult.getValue()); //testReportContext.get(ContextKeys.NEW_GROUPING_LEVEL)
 			
 			testReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario2.PREVIOUS_GROUP_VALUES[i]);
 		}
@@ -70,13 +74,15 @@ public class TestGroupingLevelDetector extends ReportAlgorithmStepTC {
 		//testReportContext.set(ContextKeys.DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
 		//testReportContext.set(ContextKeys.GROUP_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
 		
-		classUnderTest.init(mockAlgoInput, testReportContext);
+		classUnderTest.init(new StepInput(mockAlgoInput, testReportContext));
 		
 		for(int i=0; i<Scenario2.RAW_INPUT.length; i++){
 			NewRowEvent dataRowEvent = new NewRowEvent(CalculatedColumnsScenario.RAW_DATA[i]);
 			//testReportContext.set(ContextKeys.COMPUTED_CELL_VALUES, CalculatedColumnsScenario.COMPUTED_VALUES[i]);
-			classUnderTest.execute(dataRowEvent);
-			assertEquals(testReportContext.get(ContextKeys.NEW_GROUPING_LEVEL), CalculatedColumnsScenario.AGG_LEVEL[i]);
+			StepResult<Integer> stepResult = classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, testReportContext));
+			
+			assertNotNull(stepResult);
+			assertEquals(CalculatedColumnsScenario.AGG_LEVEL[i], stepResult.getValue()); //testReportContext.get(ContextKeys.NEW_GROUPING_LEVEL)
 			
 			testReportContext.set(ContextKeys.LAST_GROUPING_VALUES, CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i]);
 		}

@@ -9,6 +9,8 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.CalcIntermResult;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
@@ -27,13 +29,12 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public class IntermedRowMangerStep extends AbstractCrosstabStep {
+public class IntermedRowMangerStep extends AbstractCrosstabStep<IntermediateReportRow,String,String> {
 	
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(IntermedRowMangerStep.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(IntermedRowMangerStep.class);
 	
 	/**
 	 * this is an intermediate line containing values ( plus values meta-data like position of the value relative to headerrows values). 
@@ -47,21 +48,20 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 	/**
 	 * 
 	 */
-	@Override
-	protected void executeInit(){
-		getAlgoContext().set(ContextKeys.INTERMEDIATE_ROW, intermediateRow);
+	public StepResult<IntermediateReportRow> init(StepInput stepInput){
+		return new StepResult<IntermediateReportRow>(ContextKeys.INTERMEDIATE_ROW, intermediateRow);
 	}
 	
 //	@Override public ReportOutput getReportOutput(){
 //		return (ReportOutput)getAlgoContext().get(ContextKeys.INTERMEDIATE_OUTPUT); 
 //	}
 	
-	private int getIntermGroupColsLength(){
-		return ((List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS)).size(); 
+	private int getIntermGroupColsLength(StepInput stepInput){
+		return ((List<GroupColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_GROUP_COLS)).size(); 
 	}
 	
-	private int getIntermDataColsLength(){
-		return ((List<DataColumn>)getAlgoContext().get(ContextKeys.INTERNAL_DATA_COLS)).size(); 
+	private int getIntermDataColsLength(StepInput stepInput){
+		return ((List<DataColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_DATA_COLS)).size(); 
 	}
 	
 	/**
@@ -69,8 +69,8 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
      * @param level		the aggregation level
      * @return
      */
-    @Override public int computeCalcRowNumberForAggLevel(int level){
-    	return getIntermGroupColsLength() - level -1;
+    @Override public int computeCalcRowNumberForAggLevel(StepInput stepInput, int level){
+    	return getIntermGroupColsLength(stepInput) - level -1;
     }
     
     /**
@@ -78,87 +78,93 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
      * @param calcRowNumber
      * @return
      */
-    @Override public int computeAggLevelForCalcRowNumber(int calcRowNumber){
-    	return getIntermGroupColsLength() - calcRowNumber - 1;
+    @Override public int computeAggLevelForCalcRowNumber(StepInput stepInput, int calcRowNumber){
+    	return getIntermGroupColsLength(stepInput) - calcRowNumber - 1;
     }
 	
 	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.AbstractReportStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
-	public void execute(NewRowEvent rowEvent) {
+	public StepResult<String> execute(NewRowEvent rowEvent, StepInput stepInput) {
 		//TODO: try to simplify this class (it is pretty complex as compared to the other step classes)
-		int groupingLevel = getGroupingLevel(); 
+		int groupingLevel = getGroupingLevel(stepInput); 
 		
 		if(groupingLevel >= 0){
 			//if grouping level changed
 			
-			CalcIntermResult[][] calcResults = getCalcIntermResultsMatrix(); 
-			int originalGroupColsLength = getGroupColumnsCount();//getOriginalCrosstabGroupingColsLength();  
-			int originalDataColsLength = getDataColumnsLength(); //getOriginalCrosstabDataColsLength();
+			CalcIntermResult[][] calcResults = getCalcIntermResultsMatrix(stepInput); 
+			int originalGroupColsLength = getGroupColumnsCount(stepInput);//getOriginalCrosstabGroupingColsLength();  
+			int originalDataColsLength = getDataColumnsLength(stepInput); //getOriginalCrosstabDataColsLength();
 			
 			if(groupingLevel < originalGroupColsLength + originalDataColsLength){
 				//this is a change in the original group so...
 				
 				//First we update all remaining totals (if the report contains totals)
-				if(getShowTotals() || getShowGrandTotal()){
+				if(getShowTotals(stepInput) || getShowGrandTotal(stepInput)){
 					//we don't need all totals. From the groupingColumns we take only the first one
-					updateIntermediateTotals(	originalGroupColsLength+originalDataColsLength-1, 
-												getIntermGroupColsLength(), //getGroupColumnsLength() , 
+					updateIntermediateTotals(	stepInput, 
+												originalGroupColsLength+originalDataColsLength-1, 
+												getIntermGroupColsLength(stepInput), //getGroupColumnsLength() , 
 												calcResults);
 				}
 				//Second: we display the intermediate row
-				addOriginalGroupAndDataColumnsInfoToIntermRow(intermediateRow);
-				writeIntermediateRow(intermediateRow);
+				addOriginalGroupAndDataColumnsInfoToIntermRow(stepInput, intermediateRow);
+				writeIntermediateRow(stepInput, intermediateRow);
 				
 				//Third: reset the array
 				intermediateRow.emptyRow(); 
 			}else{
 				//if grouping level changed for the crosstabHeaderRows 
 				
-				if(getShowTotals() || getShowGrandTotal()){
-					updateIntermediateTotals(	groupingLevel, 				//from the current grouping level 
-												getIntermGroupColsLength(), //to the last intermediate grouping col
+				if(getShowTotals(stepInput) || getShowGrandTotal(stepInput)){
+					updateIntermediateTotals(	stepInput, 
+												groupingLevel, 				//from the current grouping level 
+												getIntermGroupColsLength(stepInput), //to the last intermediate grouping col
 												calcResults);
 				}
 			}
 		}
 		//and finally for each row we add new constructed data 
-		intermediateRow.addIntermComputedData(getIntermediateCrosstabDataInfo());
+		intermediateRow.addIntermComputedData(getIntermediateCrosstabDataInfo(stepInput));
+		return StepResult.NO_RESULT; 
 	}
 	
 	
 	/**
 	 * 
 	 */
-	public void exit(){
-		if(getShowTotals() || getShowGrandTotal()){
-			int originalGroupingColsLength = getGroupColumnsCount(); //getOriginalCrosstabGroupingColsLength();  
-			int originalDataColsLength = getDataColumnsLength(); //getOriginalCrosstabDataColsLength(); 
-			updateIntermediateTotals(	originalGroupingColsLength + originalDataColsLength-1, //from the last original grouping col
-										getIntermGroupColsLength(),//getGroupColumnsLength() ,  //to the last intermediate grouping col (containing also the headers)
-										getCalcIntermResultsMatrix());
+	public StepResult<String> exit(StepInput stepInput){
+		if(getShowTotals(stepInput) || getShowGrandTotal(stepInput)){
+			int originalGroupingColsLength = getGroupColumnsCount(stepInput); //getOriginalCrosstabGroupingColsLength();  
+			int originalDataColsLength = getDataColumnsLength(stepInput); //getOriginalCrosstabDataColsLength(); 
+			updateIntermediateTotals(	stepInput, 
+										originalGroupingColsLength + originalDataColsLength-1, //from the last original grouping col
+										getIntermGroupColsLength(stepInput),//getGroupColumnsLength() ,  //to the last intermediate grouping col (containing also the headers)
+										getCalcIntermResultsMatrix(stepInput));
 		}
 		
 		intermediateRow.setLast(true); 
-		addOriginalGroupAndDataColumnsInfoToIntermRow(intermediateRow);
-		writeIntermediateRow(intermediateRow); 
+		addOriginalGroupAndDataColumnsInfoToIntermRow(stepInput, intermediateRow);
+		writeIntermediateRow(stepInput, intermediateRow); 
 		intermediateRow = null;//clean up
+		return StepResult.NO_RESULT; 
 	}
 	
 	
-	private void updateIntermediateTotals(	int levelFrom, 
+	private void updateIntermediateTotals(	StepInput stepInput, 
+											int levelFrom, 
 											int levelTo, 
 											CalcIntermResult[][] calcResults){
 		int calculatorMatrixRow = -1;
 		Object calculatorResult = null; 
 		//int tmpLevelFrom = getOriginalCrosstabGroupingColsLength()+ getOriginalCrosstabDataColsLength();
-		int tmpLevelFrom = getGroupColumnsCount()+ getDataColumnsLength(); 
+		int tmpLevelFrom = getGroupColumnsCount(stepInput)+ getDataColumnsLength(stepInput); 
 		
 		for (int tempGrpLevel = levelFrom; tempGrpLevel < levelTo; tempGrpLevel++) {
-			calculatorMatrixRow = computeCalcRowNumberForAggLevel(tempGrpLevel); //getGroupingColumnsLength() - tempGrpLevel -1; 
-			Object[] totalStrings = getTotalStringForGroupingLevelAndPredecessors(tmpLevelFrom, tempGrpLevel);
-			int[] position = getPositionOfTotal(tmpLevelFrom, tempGrpLevel);
+			calculatorMatrixRow = computeCalcRowNumberForAggLevel(stepInput, tempGrpLevel); //getGroupingColumnsLength() - tempGrpLevel -1; 
+			Object[] totalStrings = getTotalStringForGroupingLevelAndPredecessors(stepInput, tmpLevelFrom, tempGrpLevel);
+			int[] position = getPositionOfTotal(stepInput, tmpLevelFrom, tempGrpLevel);
 			
 			//our intermediate report has only one column containing calculators 
 			//(the column containing crosstab data) therefore we have only one column 
@@ -171,22 +177,22 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 	}
 	
 	
-	private void addOriginalGroupAndDataColumnsInfoToIntermRow(IntermediateReportRow intermediateRow){
+	private void addOriginalGroupAndDataColumnsInfoToIntermRow(StepInput stepInput, IntermediateReportRow intermediateRow){
 		if(ReportUtils.DEBUG){
-			getReportOutput().startDataRow(new RowProps());
-			getReportOutput().outputDataCell(new CellProps.Builder("Intermediate row:").build());
+			getReportOutput(stepInput).startDataRow(new RowProps());
+			getReportOutput(stepInput).outputDataCell(new CellProps.Builder("Intermediate row:").build());
 		}
 		
-		Integer originalGroupingValuesLength = getGroupColumnsCount(); //getOriginalCrosstabGroupingColsLength();
-		Integer originalDataValuesLength = getDataColumnsLength(); //getOriginalCrosstabDataColsLength(); 
-		Object[] previousGroupValues = getPreviousRowOfGroupValues(); 
+		Integer originalGroupingValuesLength = getGroupColumnsCount(stepInput); //getOriginalCrosstabGroupingColsLength();
+		Integer originalDataValuesLength = getDataColumnsLength(stepInput); //getOriginalCrosstabDataColsLength(); 
+		Object[] previousGroupValues = getPreviousRowOfGroupValues(stepInput); 
 		
 		LOGGER.debug("first: adding {} grouping values to intermediate row ", originalGroupingValuesLength); 
 		//although we have more values in the previous grouping values we display only the original ones
 		//because they are further needed in the second iteration
 		for (int i=0; i<originalGroupingValuesLength; i++) {
 			if(ReportUtils.DEBUG){
-				getReportOutput().outputDataCell(new CellProps.Builder(previousGroupValues[i]).build());
+				getReportOutput(stepInput).outputDataCell(new CellProps.Builder(previousGroupValues[i]).build());
 			}
 			intermediateRow.addOrigGroupValue(previousGroupValues[i]);
 		}
@@ -198,19 +204,19 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep {
 		
 		if(ReportUtils.DEBUG){
 			for (IntermediateDataInfo element : intermediateRow.getIntermComputedDataList().getDataList()) {
-				getReportOutput().outputDataCell(new CellProps.Builder(element.toString()).build());
+				getReportOutput(stepInput).outputDataCell(new CellProps.Builder(element.toString()).build());
 			}
 		
 			for (IntermediateTotalInfo totalInfo : intermediateRow.getIntermComputedTotalsList().getTotalsDataList()) {
-				getReportOutput().outputDataCell(new CellProps.Builder(totalInfo.toString()).build());
+				getReportOutput(stepInput).outputDataCell(new CellProps.Builder(totalInfo.toString()).build());
 			}
-			getReportOutput().endDataRow(); 
+			getReportOutput(stepInput).endDataRow(); 
 		}
 	}
 	
 	
-	private void writeIntermediateRow(IntermediateReportRow intermediateRow){
-		ReportOutput output = getReportOutput(); 
+	private void writeIntermediateRow(StepInput stepInput, IntermediateReportRow intermediateRow){
+		ReportOutput output = getReportOutput(stepInput); 
 		output.startDataRow(new RowProps()); 
 		output.outputDataCell(new CellProps.Builder(intermediateRow)
 							.colspan(4) /*this is not taken into account except when debug*/

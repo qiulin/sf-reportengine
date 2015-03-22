@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  *
  */
-public class PreviousRowManagerStep extends AbstractReportStep {
+public class PreviousRowManagerStep extends AbstractReportStep<String, Object[], String> {
 	
 	/**
 	 * the one and only logger
@@ -38,22 +38,26 @@ public class PreviousRowManagerStep extends AbstractReportStep {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.AbstractReportStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
-	public void execute(NewRowEvent rowEvent) {
+	public StepResult<Object[]> execute(NewRowEvent rowEvent, StepInput stepInput) {
 		
+		StepResult<Object[]> result = null; 
 		//first pass : initialize the last column values
 		if(previousRowOfGroupingColumnValues == null){
-			previousRowOfGroupingColumnValues = new Object[getGroupColumnsCount()];
-			copyGroupingValuesToPrevRowOfGrpValues(getGroupColumns(), rowEvent);
+			previousRowOfGroupingColumnValues = new Object[getGroupColumnsCount(stepInput)];
+			copyGroupingValuesToPrevRowOfGrpValues(getGroupColumns(stepInput), rowEvent);
 			
-			getAlgoContext().set(ContextKeys.LAST_GROUPING_VALUES, previousRowOfGroupingColumnValues);
+			//getAlgoContext().set(ContextKeys.LAST_GROUPING_VALUES, previousRowOfGroupingColumnValues);
+			result = new StepResult(ContextKeys.LAST_GROUPING_VALUES, previousRowOfGroupingColumnValues); 
 		}else{
-			if(getGroupingLevel() > -1){
-				copyGroupingValuesToPrevRowOfGrpValues(getGroupColumns(), rowEvent);
+			if(getGroupingLevel(stepInput) > -1){
+				copyGroupingValuesToPrevRowOfGrpValues(getGroupColumns(stepInput), rowEvent);
 			}
 		}
 		
 		//cache the previous grouping level
     	LOGGER.trace("previousRowOfGroupingValues {}", Arrays.toString(previousRowOfGroupingColumnValues));
+    	return result; 
+    	
 	}
 	
 	/**
@@ -67,4 +71,12 @@ public class PreviousRowManagerStep extends AbstractReportStep {
     		previousRowOfGroupingColumnValues[i] = groupingCols.get(i).getValue(newRowEvent);
     	}    	
     }
+
+	public StepResult<String> init(StepInput stepInput) {
+		return StepResult.NO_RESULT;
+	}
+
+	public StepResult<String> exit(StepInput stepInput) {
+		return StepResult.NO_RESULT;
+	}
 }

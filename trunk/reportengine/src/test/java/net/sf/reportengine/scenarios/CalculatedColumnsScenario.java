@@ -95,7 +95,7 @@ public class CalculatedColumnsScenario {
 		 new Object[]{"0",4, "4", "6", 		"a","b","c", "0b"}
 	};
 	
-	public final static int[] AGG_LEVEL = new int[]{
+	public final static Integer[] AGG_LEVEL = new Integer[]{
 			-1,
 			-1, 
 			0,

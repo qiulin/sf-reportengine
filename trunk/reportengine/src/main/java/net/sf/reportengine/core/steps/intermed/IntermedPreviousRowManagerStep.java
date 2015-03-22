@@ -8,6 +8,8 @@ import java.util.List;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.util.ContextKeys;
 
 /**
@@ -16,18 +18,23 @@ import net.sf.reportengine.util.ContextKeys;
  */
 public class IntermedPreviousRowManagerStep extends PreviousRowManagerStep {
 	
-	@Override 
-	public List<GroupColumn> getGroupColumns(){
-		return (List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS); 
+	/**
+	 * 
+	 */
+	public List<GroupColumn> getGroupColumns(StepInput stepInput){
+		return (List<GroupColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_GROUP_COLS); 
 	}
 	
 	/**
 	 * executes the super only if the report has group columns
 	 */
-	@Override 
-	public void execute(NewRowEvent newRow){
-		if(getGroupColumnsCount() > 0 ){
-			super.execute(newRow); 
+	@Override
+	public StepResult<Object[]> execute(NewRowEvent newRow, StepInput stepInput){
+		StepResult<Object[]> stepResult = null; 
+		if(getGroupColumnsCount(stepInput) > 0 ){
+			stepResult = super.execute(newRow, stepInput); 
 		}
+		
+		return stepResult; 
 	}
 }

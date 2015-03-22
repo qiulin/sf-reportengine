@@ -16,6 +16,7 @@ import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.MatrixUtils;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.junit.Test;
 
 /**
@@ -32,63 +33,63 @@ public class TestDataRowsOutputStep {
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		
 		reportContext.set(ContextKeys.LOCAL_REPORT_INPUT, Scenario1.INPUT);
-		
 		reportContext.set(ContextKeys.LOCAL_REPORT_OUTPUT, Scenario1.OUTPUT); 
 		
 		mockAlgoInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
 		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
 		
 		reportContext.set(ContextKeys.DATA_ROW_COUNT, 0); 
-		classUnderTest.init(mockAlgoInput, reportContext); 
-		
-		Assert.assertNotNull(reportContext.get(ContextKeys.DATA_ROW_COUNT));
-		Assert.assertEquals(0, reportContext.get(ContextKeys.DATA_ROW_COUNT));
-		
+		classUnderTest.init(new StepInput(mockAlgoInput, reportContext)); 
 		
 		NewRowEvent dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_1);
 		reportContext.set(ContextKeys.FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_1);
-		classUnderTest.execute(dataRowEvent);
+		StepResult<Integer> stepResult = classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, reportContext));
 		
-		Assert.assertNotNull(reportContext.get(ContextKeys.DATA_ROW_COUNT));
-		Assert.assertEquals(1, reportContext.get(ContextKeys.DATA_ROW_COUNT));
+		Assert.assertNotNull(stepResult);
+		Assert.assertEquals(NumberUtils.INTEGER_ONE, stepResult.getValue()); //(ContextKeys.DATA_ROW_COUNT));
+		reportContext.set(ContextKeys.DATA_ROW_COUNT, stepResult.getValue());
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_2);
 		reportContext.set(ContextKeys.FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_2);
-		classUnderTest.execute(dataRowEvent);
+		stepResult = classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, reportContext));
 		
-		Assert.assertNotNull(reportContext.get(ContextKeys.DATA_ROW_COUNT));
-		Assert.assertEquals(2, reportContext.get(ContextKeys.DATA_ROW_COUNT));
+		Assert.assertNotNull(stepResult);
+		Assert.assertEquals(Integer.valueOf(2), stepResult.getValue());
+		reportContext.set(ContextKeys.DATA_ROW_COUNT, stepResult.getValue());
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_3);
 		reportContext.set(ContextKeys.FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_3);
-		classUnderTest.execute(dataRowEvent);
+		stepResult = classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, reportContext));
 		
-		Assert.assertNotNull(reportContext.get(ContextKeys.DATA_ROW_COUNT));
-		Assert.assertEquals(3, reportContext.get(ContextKeys.DATA_ROW_COUNT));
+		Assert.assertNotNull(stepResult);
+		Assert.assertEquals(Integer.valueOf(3), stepResult.getValue());
+		reportContext.set(ContextKeys.DATA_ROW_COUNT, stepResult.getValue());
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_4);
 		reportContext.set(ContextKeys.FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_4);
-		classUnderTest.execute(dataRowEvent);
+		stepResult = classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, reportContext));
 		
-		Assert.assertNotNull(reportContext.get(ContextKeys.DATA_ROW_COUNT));
-		Assert.assertEquals(4, reportContext.get(ContextKeys.DATA_ROW_COUNT));
+		Assert.assertNotNull(stepResult);
+		Assert.assertEquals(Integer.valueOf(4), stepResult.getValue());
+		reportContext.set(ContextKeys.DATA_ROW_COUNT, stepResult.getValue());
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_5);
 		reportContext.set(ContextKeys.FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_5);
-		classUnderTest.execute(dataRowEvent);
+		stepResult = classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, reportContext));
 		
-		Assert.assertNotNull(reportContext.get(ContextKeys.DATA_ROW_COUNT));
-		Assert.assertEquals(5, reportContext.get(ContextKeys.DATA_ROW_COUNT));
+		Assert.assertNotNull(stepResult);
+		Assert.assertEquals(Integer.valueOf(5), stepResult.getValue());
+		reportContext.set(ContextKeys.DATA_ROW_COUNT, stepResult.getValue());
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_6);
 		reportContext.set(ContextKeys.FORMATTED_CELL_VALUES, Scenario1.ROW_OF_DATA_6);
-		classUnderTest.execute(dataRowEvent);
+		stepResult = classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, reportContext));
 		
-		Assert.assertNotNull(reportContext.get(ContextKeys.DATA_ROW_COUNT));
-		Assert.assertEquals(6, reportContext.get(ContextKeys.DATA_ROW_COUNT));
+		Assert.assertNotNull(stepResult);
+		Assert.assertEquals(Integer.valueOf(6), stepResult.getValue());
+		reportContext.set(ContextKeys.DATA_ROW_COUNT, stepResult.getValue());
 		
 		CellProps[][] resultCellMatrix = Scenario1.OUTPUT.getDataCellMatrix();
 		Assert.assertTrue(MatrixUtils.compareMatrices(Scenario1.EXPECTED_OUTPUT_DATA, resultCellMatrix));
 	}
-
 }

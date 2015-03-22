@@ -3,14 +3,12 @@
  */
 package net.sf.reportengine.core.steps.crosstab;
 
-import java.util.Map;
-
-import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
-import net.sf.reportengine.util.IOKeys;
 
 /**
  * This is used only for debug 
@@ -18,31 +16,25 @@ import net.sf.reportengine.util.IOKeys;
  * @author dragos balan 
  * 
  */
-public class IntermediateRowDisplayStep extends AbstractCrosstabStep {
+public class IntermediateRowDisplayStep extends AbstractCrosstabStep<String, String, String> {
 	
 	
-	
-	public IntermediateRowDisplayStep(){
-		
+	public StepResult<String> init(StepInput stepInput){
+		return StepResult.NO_RESULT; 
 	}
 	
-	
-	public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
-		super.init(algoInput, context);
-		
-	}
 	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.AbstractReportStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
-	public void execute(NewRowEvent newRowEvent) {
-		int groupingLevel = getGroupingLevel(); 
+	public StepResult<String> execute(NewRowEvent newRowEvent, StepInput stepInput) {
+		int groupingLevel = getGroupingLevel(stepInput); 
 		
 		if(groupingLevel >= 0){
 			//if grouping level changed
-			if(groupingLevel < getGroupColumns().size()){
+			if(groupingLevel < getGroupColumns(stepInput).size()){
 				//if grouping level changed for the GROUPING COLUMNS
-				displayIntermediateDebugInfo(getIntermediateRow());
+				displayIntermediateDebugInfo(stepInput, getIntermediateRow(stepInput));
 			}else{
 				//if grouping level changed for the crosstabHeaderRows 
 				
@@ -51,15 +43,18 @@ public class IntermediateRowDisplayStep extends AbstractCrosstabStep {
 			//grouping level not changed
 			
 		}
+		
+		return StepResult.NO_RESULT; 
 	}
 	
 	
-	public void exit(){
-		displayIntermediateDebugInfo(getIntermediateRow());
+	public StepResult<String> exit(StepInput stepInput){
+		displayIntermediateDebugInfo(stepInput, getIntermediateRow(stepInput));
+		return StepResult.NO_RESULT; 
 	}
 	
-	private void displayIntermediateDebugInfo(IntermediateReportRow intermediateRow){
-		ReportOutput output = getReportOutput(); 
+	private void displayIntermediateDebugInfo(StepInput stepInput, IntermediateReportRow intermediateRow){
+		ReportOutput output = getReportOutput(stepInput); 
 		
 		output.startDataRow(new RowProps());
 		output.outputDataCell(new CellProps.Builder("Intermediate row:").build());

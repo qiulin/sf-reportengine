@@ -5,14 +5,11 @@ package net.sf.reportengine.core.steps;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.PriorityQueue;
 
 import net.sf.reportengine.core.AbstractReportStep;
-import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +18,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan
  *
  */
-public class InMemorySortStep extends AbstractReportStep {
+public class InMemorySortStep extends AbstractReportStep<String, String, List<NewRowEvent>> {
 	
 	/**
 	 * the one and only logger
@@ -31,26 +28,23 @@ public class InMemorySortStep extends AbstractReportStep {
 	private PriorityQueue<NewRowEvent> inMemoryResult ; 
 	
 	
-	public InMemorySortStep(){
-		
-	}
-	
-	@Override 
-	protected void executeInit(){
+	public StepResult<String> init(StepInput stepInput){
 		inMemoryResult = new PriorityQueue<NewRowEvent>(
 								100, 
-								new NewRowComparator(	getGroupColumns(), 
-														getDataColumns())); 
+								new NewRowComparator(	getGroupColumns(stepInput), 
+														getDataColumns(stepInput))); 
+		return StepResult.NO_RESULT; 
 	}
 	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.core.AbstractReportStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)
 	 */
-	public void execute(NewRowEvent rowEvent) {
-		inMemoryResult.offer(rowEvent); 
+	public StepResult<String> execute(NewRowEvent rowEvent, StepInput stepInput) {
+		inMemoryResult.offer(rowEvent);
+		return StepResult.NO_RESULT; 
 	}
 	
-	public void exit(){
+	public StepResult<List<NewRowEvent>> exit(StepInput stepInput){
 		List<NewRowEvent> arrayResult = new ArrayList<NewRowEvent>(inMemoryResult.size());
 		
 		while(!inMemoryResult.isEmpty()){
@@ -58,6 +52,7 @@ public class InMemorySortStep extends AbstractReportStep {
 		}
 		
 		//the result is ready for writing
-		getAlgoContext().set(ContextKeys.IN_MEM_SORTED_RESULT, arrayResult); 
+		//getAlgoContext().set(ContextKeys.IN_MEM_SORTED_RESULT, arrayResult); 
+		return new StepResult<List<NewRowEvent>>(ContextKeys.IN_MEM_SORTED_RESULT, arrayResult); 
 	}
 }

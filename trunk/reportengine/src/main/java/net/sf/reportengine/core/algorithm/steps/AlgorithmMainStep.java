@@ -3,11 +3,9 @@
  */
 package net.sf.reportengine.core.algorithm.steps;
 
-import java.util.Map;
-
-import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 
 /**
  * <p>
@@ -18,7 +16,7 @@ import net.sf.reportengine.util.IOKeys;
  * </p>
  * @author dragos balan (dragos.balan@gmail.com)
  */
-public interface AlgorithmMainStep {
+public interface AlgorithmMainStep<T,U, V> {
     
     
 	/**
@@ -26,26 +24,26 @@ public interface AlgorithmMainStep {
      * and represents the construction step where you can define the keys and 
      * values used inside the execute method.
      * <b>Warning: this is the only place where you can add keys to the report context
+	 * @param stepInput TODO
      *  
-     * @param algoInput		the input parameters 	
-     * @param algoContext   the context of the report
+     * @return TODO
      */
-    public void init(Map<IOKeys, Object> algoInput, AlgoContext algoContext);
+    public StepResult<T> init(StepInput stepInput);
 	
     /**
      * callback method called for each row
      * @param newRowEvent
+     * @param stepInput TODO
+     * @return TODO
      */
-    public void execute(NewRowEvent newRowEvent);
+    public StepResult<U> execute(NewRowEvent newRowEvent, StepInput stepInput);
+    
     
     /**
      * called when finishing the algorithm execution
      */
-    public void exit();
+    public StepResult<V> exit(StepInput stepInput);
     
-    /**
-     * 
-     */
-    public Map<IOKeys, Object> getResultsMap(); 
+   
     
 }
