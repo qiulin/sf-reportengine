@@ -96,7 +96,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep<String,Intege
      * execute 
      */
     public StepResult<Integer> execute(NewRowEvent rowEvent, StepInput stepInput) {
-    	Integer currentDataRowNumber = getDataRowCount(stepInput); 
+    	int currentDataRowNumber = getDataRowCount(stepInput).intValue(); 
         int groupLevel = getGroupingLevel(stepInput);
         
         //when non simple data row 
@@ -106,26 +106,26 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep<String,Intege
         	//called inside outputTotalRowsFromTo. One of them should be deleted.
         	
         	//output totals from level 0 to current grouping level
-        	outputTotalRowsFromTo(stepInput, 0, totalRowEnd, currentDataRowNumber.intValue());
+        	outputTotalRowsFromTo(stepInput, 0, totalRowEnd, currentDataRowNumber);
         	currentDataRowNumber = currentDataRowNumber + totalRowEnd+1;//the count from 0 to totalRowEnd is totalRowEnd+1 
         }else{
         	LOGGER.trace("not displaying totals because current level is {}", groupLevel);
         }
-        return new StepResult<Integer>(ContextKeys.DATA_ROW_COUNT, currentDataRowNumber); 
+        return new StepResult<Integer>(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(currentDataRowNumber)); 
      }
 
     /**
      * exit displays the last totals in the calculator matrix buffer and the grand total
      */
     public StepResult<Integer> exit(StepInput stepInput) {
-    	Integer dataRowCountResult = getDataRowCount(stepInput); 
+    	int localDataRowNbr = getDataRowCount(stepInput).intValue(); 
         CalcIntermResult[][] calcIntermResults = getCalcIntermResultsMatrix(stepInput);
         
         if(groupCols != null && getShowTotals(stepInput)){
         	//calculators.length-2 because for levelCalculators.length-1 is a separate call
         	//(a call for Grand total see below)
-        	outputTotalRowsFromTo(stepInput, 0, calcIntermResults.length-2, dataRowCountResult.intValue());
-        	dataRowCountResult = dataRowCountResult + calcIntermResults.length-1;
+        	outputTotalRowsFromTo(stepInput, 0, calcIntermResults.length-2, localDataRowNbr);
+        	localDataRowNbr = localDataRowNbr + calcIntermResults.length-1;
         	//length-1 because we output from 0 to length-2 (included)
         }
         
@@ -135,10 +135,10 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep<String,Intege
         	outputTotalsRow(stepInput, 
         					GRAND_TOTAL_GROUPING_LEVEL, 
         					calcIntermResults[calcIntermResults.length-1], 
-        					dataRowCountResult.intValue());	
-        	dataRowCountResult = dataRowCountResult +1; 
+        					localDataRowNbr);	
+        	localDataRowNbr = localDataRowNbr +1; 
         }
-        return new StepResult<Integer>(ContextKeys.DATA_ROW_COUNT, dataRowCountResult); 
+        return new StepResult<Integer>(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(localDataRowNbr)); 
     }
     
     /**
