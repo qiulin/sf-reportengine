@@ -16,6 +16,7 @@ import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,37 +37,26 @@ public class TestOneIterationAlgorithm {
 	
 	private AlgorithmInitStep testInitStep = new AlgorithmInitStep<Integer>(){
 		public StepResult<Integer> init(StepInput stepInput){
-			//context.set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(0));
-			//context.set(ContextKeys.LOCAL_REPORT_INPUT, algoInput.get(IOKeys.REPORT_INPUT)); 
 			return new StepResult<Integer>(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(0), IOKeys.TEST_KEY); 
 		}
 	};
 	
-	private AlgorithmMainStep testMainStep = new AlgorithmMainStep(){
-		private AlgoContext context = null;
-		private Map<IOKeys, Object> algoInput = null; 
+	private AlgorithmMainStep testMainStep = new AlgorithmMainStep<Integer, Integer, String>(){
 		
-		public void init(Map<IOKeys, Object> algoInput, AlgoContext context){
-			this.context = context;
-			this.algoInput = algoInput; 
-			
-			//this.context.set("isInitCalledOnMainStep", true);
-			this.context.set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(1));
-			
-			//this.context.set("executionCount", new Integer(0));
-			this.context.set(ContextKeys.NEW_GROUPING_LEVEL, new Integer(0));
-			
+		public StepResult<Integer> init(StepInput stepInput){
+			//this.context.set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(1));
+			//this.context.set(ContextKeys.NEW_GROUPING_LEVEL, new Integer(0));
+			return new StepResult(ContextKeys.NO_KEY, NumberUtils.INTEGER_ZERO);
 		}
 		
-		public void execute(NewRowEvent dataRowEvent){
-			Integer executionCounts = (Integer)context.get(ContextKeys.NEW_GROUPING_LEVEL);
-			context.set(ContextKeys.NEW_GROUPING_LEVEL, executionCounts+1);
+		public StepResult<Integer> execute(NewRowEvent dataRowEvent, StepInput stepInput){
+			Integer executionCounts = (Integer)stepInput.getContextParam(ContextKeys.NO_KEY);
+			//context.set(ContextKeys.NEW_GROUPING_LEVEL, executionCounts+1);
+			return new StepResult<Integer>(ContextKeys.NO_KEY, executionCounts+1, IOKeys.TEST_KEY); 
 		}
 		
-		public void exit(){}
-		
-		public Map<IOKeys, Object> getResultsMap(){
-			return null; 
+		public StepResult<String> exit(StepInput stepInput){
+			return StepResult.NO_RESULT; 
 		}
 	};
 	
@@ -79,9 +69,6 @@ public class TestOneIterationAlgorithm {
 	@Before
 	public void setUp() throws Exception {
 		classUnderTest = new DefaultLoopThroughReportInputAlgo();
-		
-//		classUnderTest.addIn(IOKeys.REPORT_INPUT, testInput); 
-//		classUnderTest.addIn(IOKeys.REPORT_OUTPUT, testOut); 
 		
 		classUnderTest.addInitStep(testInitStep);
 		classUnderTest.addMainStep(testMainStep);
@@ -98,7 +85,6 @@ public class TestOneIterationAlgorithm {
 		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, testOut); 
 		
 		Map<IOKeys, Object> algoResult = classUnderTest.execute(mockAlgoInput);
-		Assert.assertEquals(Integer.valueOf(0), (Integer)algoResult.get(IOKeys.TEST_KEY));
-		//TODO: Assert.assertEquals(2, classUnderTest.getContext().get(ContextKeys.NEW_GROUPING_LEVEL));
+		Assert.assertEquals(Integer.valueOf(2), (Integer)algoResult.get(IOKeys.TEST_KEY));
 	}
 }

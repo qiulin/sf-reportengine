@@ -34,19 +34,19 @@ public class TestExternalSortStep {
 		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS_WITH_SORTING); 
 		
 		ExternalSortPreparationStep classUnderTest = new ExternalSortPreparationStep(MAX_ROWS_IN_MEMORY); 
-		classUnderTest.init(mockAlgoInput, mockContext); 
+		StepResult<List<File>> initStepResult = classUnderTest.init(new StepInput(mockAlgoInput, mockContext)); 
 		
-		classUnderTest.execute(new NewRowEvent(Scenario1.ROW_OF_DATA_1));
-		classUnderTest.execute(new NewRowEvent(Scenario1.ROW_OF_DATA_2));
-		classUnderTest.execute(new NewRowEvent(Scenario1.ROW_OF_DATA_3));
-		classUnderTest.execute(new NewRowEvent(Scenario1.ROW_OF_DATA_4));
+		classUnderTest.execute(new NewRowEvent(Scenario1.ROW_OF_DATA_1), new StepInput(mockAlgoInput, mockContext));
+		classUnderTest.execute(new NewRowEvent(Scenario1.ROW_OF_DATA_2), new StepInput(mockAlgoInput, mockContext));
+		classUnderTest.execute(new NewRowEvent(Scenario1.ROW_OF_DATA_3), new StepInput(mockAlgoInput, mockContext));
+		classUnderTest.execute(new NewRowEvent(Scenario1.ROW_OF_DATA_4), new StepInput(mockAlgoInput, mockContext));
 		
-		classUnderTest.execute(new NewRowEvent(Scenario1.ROW_OF_DATA_5));
-		classUnderTest.execute(new NewRowEvent(Scenario1.ROW_OF_DATA_6));
+		classUnderTest.execute(new NewRowEvent(Scenario1.ROW_OF_DATA_5), new StepInput(mockAlgoInput, mockContext));
+		classUnderTest.execute(new NewRowEvent(Scenario1.ROW_OF_DATA_6), new StepInput(mockAlgoInput, mockContext));
 		
-		classUnderTest.exit(); 
+		classUnderTest.exit(new StepInput(mockAlgoInput, mockContext)); 
 		
-		List<File> filesResultedFromExternalSorting = (List<File>)mockContext.get(ContextKeys.SORTED_FILES); 
+		List<File> filesResultedFromExternalSorting = initStepResult.getValue();//(List<File>)mockContext.get(ContextKeys.SORTED_FILES); 
 		assertNotNull(filesResultedFromExternalSorting); 
 		assertEquals(2, filesResultedFromExternalSorting.size());
 		

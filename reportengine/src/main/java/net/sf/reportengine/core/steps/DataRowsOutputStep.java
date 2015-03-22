@@ -13,6 +13,7 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
+import net.sf.reportengine.util.ContextKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ import org.slf4j.LoggerFactory;
  * </p>
  * @author dragos balan (dragos dot balan at gmail dot com)
  */
-public class DataRowsOutputStep extends AbstractReportStep {
+public class DataRowsOutputStep extends AbstractReportStep<String,Integer,String> {
 	
 	/**
 	 * the one and only logger
@@ -41,20 +42,21 @@ public class DataRowsOutputStep extends AbstractReportStep {
 	/**
 	 * this step's init method
 	 */
-	public void executeInit(){
-		groupCols = getGroupColumns();
-		dataColumns = getDataColumns();
-		finalReportGroupCount = getGroupColumnsCount(); 
+	public StepResult<String> init(StepInput stepInput){
+		groupCols = getGroupColumns(stepInput);
+		dataColumns = getDataColumns(stepInput);
+		finalReportGroupCount = getGroupColumnsCount(stepInput);
+		return StepResult.NO_RESULT; 
 	}
     
 	/**
      * Constructs a cell for each value and sends it to output
      */
-    public void execute(NewRowEvent newRowEvent) {
-    	Object[] previousRowGrpValues = getPreviousRowOfGroupValues();
+    public StepResult<Integer> execute(NewRowEvent newRowEvent, StepInput stepInput) {
+    	Object[] previousRowGrpValues = getPreviousRowOfGroupValues(stepInput);
 		
 		//start the row
-    	getReportOutput().startDataRow(new RowProps(getDataRowCount()));
+    	getReportOutput(stepInput).startDataRow(new RowProps(getDataRowCount(stepInput)));
 		
 		CellProps.Builder cellPropsBuilder = null;
 		
@@ -66,7 +68,7 @@ public class DataRowsOutputStep extends AbstractReportStep {
 			
 			if(	currentGrpCol.showDuplicates() 
 				|| previousRowGrpValues == null    //it's too early and we don't have prevGroupValues set
-				|| getGroupingLevel() > -1 			//immediately after a total row
+				|| getGroupingLevel(stepInput) > -1 			//immediately after a total row
 				|| !valueForCurrentColumn.equals(previousRowGrpValues[i])//if this value is different from the prev
 				){
 				cellPropsBuilder = new CellProps.Builder(
@@ -76,8 +78,8 @@ public class DataRowsOutputStep extends AbstractReportStep {
 			}
 			cellPropsBuilder.horizAlign(currentGrpCol.getHorizAlign())
 							.vertAlign(currentGrpCol.getVertAlign())
-							.rowNumber(getDataRowCount()); 
-			getReportOutput().outputDataCell(cellPropsBuilder.build()); 
+							.rowNumber(getDataRowCount(stepInput)); 
+			getReportOutput(stepInput).outputDataCell(cellPropsBuilder.build()); 
 			
 		}
 		
@@ -88,12 +90,17 @@ public class DataRowsOutputStep extends AbstractReportStep {
 				.horizAlign(dataColumn.getHorizAlign())
 				.vertAlign(dataColumn.getVertAlign()); 
 			
-			getReportOutput().outputDataCell(cellPropsBuilder.build()); 
+			getReportOutput(stepInput).outputDataCell(cellPropsBuilder.build()); 
 		}
     	
 		//end row
-		getReportOutput().endDataRow();
+		getReportOutput(stepInput).endDataRow();
 		
-		incrementDataRowNbr();
+		//incrementDataRowNbr(stepInput);
+		return new StepResult(ContextKeys.DATA_ROW_COUNT, getDataRowCount(stepInput)+1); 
+    }
+    
+    public StepResult<String> exit(StepInput stepInput){
+    	return StepResult.NO_RESULT; 
     }
 }

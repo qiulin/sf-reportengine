@@ -17,6 +17,7 @@ import net.sf.reportengine.core.calc.CalcIntermResult;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
+import net.sf.reportengine.util.ContextKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2
  */
-public class FlatReportTotalsOutputStep extends AbstractReportStep {
+public class FlatReportTotalsOutputStep extends AbstractReportStep<String,Integer,Integer> {
     
 	/**
 	 * the one and only logger
@@ -81,55 +82,63 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     /**
      * init method 
      */
-    @Override
-    protected void executeInit(){
-    	groupCols = getGroupColumns();
-    	dataCols = getDataColumns(); 
-    	distribOfCalculatorsInDataColsArray = getCalculatorDistributionInColumnDataArray(); 
-    	calcLabels = getLabelsForAllCalculators(); 
+    public StepResult<String> init(StepInput stepInput){
+    	groupCols = getGroupColumns(stepInput);
+    	dataCols = getDataColumns(stepInput); 
+    	distribOfCalculatorsInDataColsArray = getCalculatorDistributionInColumnDataArray(stepInput); 
+    	calcLabels = getLabelsForAllCalculators(stepInput); 
     	
     	LOGGER.trace("The FlatReportTotalsOutputStep has been initialized. The distribution array is null {}", (distribOfCalculatorsInDataColsArray == null));
+    	return StepResult.NO_RESULT; 
     }
     
     /**
      * execute 
      */
-    public void execute(NewRowEvent rowEvent) {
-        int groupLevel = getGroupingLevel();
+    public StepResult<Integer> execute(NewRowEvent rowEvent, StepInput stepInput) {
+    	Integer currentDataRowNumber = getDataRowCount(stepInput); 
+        int groupLevel = getGroupingLevel(stepInput);
         
         //when non simple data row 
-        if( groupLevel >= 0 && getShowTotals()){
-        	int totalRowEnd = computeCalcRowNumberForAggLevel(groupLevel);
+        if( groupLevel >= 0 && getShowTotals(stepInput)){
+        	int totalRowEnd = computeCalcRowNumberForAggLevel(stepInput, groupLevel);
         	//TODO: this operation is the opposite of computeAggLevelForCalcRowNumber which is 
         	//called inside outputTotalRowsFromTo. One of them should be deleted.
         	
         	//output totals from level 0 to current grouping level
-        	outputTotalRowsFromTo(0, totalRowEnd);            
+        	outputTotalRowsFromTo(stepInput, 0, totalRowEnd, currentDataRowNumber.intValue());
+        	currentDataRowNumber = currentDataRowNumber + totalRowEnd+1;//the count from 0 to totalRowEnd is totalRowEnd+1 
         }else{
         	LOGGER.trace("not displaying totals because current level is {}", groupLevel);
         }
+        return new StepResult<Integer>(ContextKeys.DATA_ROW_COUNT, currentDataRowNumber); 
      }
 
     /**
      * exit displays the last totals in the calculator matrix buffer and the grand total
      */
-    @Override
-    public void exit() {
-        CalcIntermResult[][] calcIntermResults = getCalcIntermResultsMatrix();
+    public StepResult<Integer> exit(StepInput stepInput) {
+    	Integer dataRowCountResult = getDataRowCount(stepInput); 
+        CalcIntermResult[][] calcIntermResults = getCalcIntermResultsMatrix(stepInput);
         
-        if(groupCols != null && getShowTotals()){
+        if(groupCols != null && getShowTotals(stepInput)){
         	//calculators.length-2 because for levelCalculators.length-1 is a separate call
         	//(a call for Grand total see below)
-        	outputTotalRowsFromTo(0, calcIntermResults.length-2);
+        	outputTotalRowsFromTo(stepInput, 0, calcIntermResults.length-2, dataRowCountResult.intValue());
+        	dataRowCountResult = dataRowCountResult + calcIntermResults.length-1;
+        	//length-1 because we output from 0 to length-2 (included)
         }
         
         //now the grand total
-        if(getShowGrandTotal()){
+        if(getShowGrandTotal(stepInput)){
         	//outputTotalsRow("Grand Total", calculators[calculators.length-1]);
-        	outputTotalsRow(GRAND_TOTAL_GROUPING_LEVEL, 
-        					calcIntermResults[calcIntermResults.length-1]
-        					);	
+        	outputTotalsRow(stepInput, 
+        					GRAND_TOTAL_GROUPING_LEVEL, 
+        					calcIntermResults[calcIntermResults.length-1], 
+        					dataRowCountResult.intValue());	
+        	dataRowCountResult = dataRowCountResult +1; 
         }
+        return new StepResult<Integer>(ContextKeys.DATA_ROW_COUNT, dataRowCountResult); 
     }
     
     /**
@@ -139,16 +148,16 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
      * @param rowStart		the first row to start outputting 
      * @param rowEnd  		the last row to output
      */
-    private void outputTotalRowsFromTo(int rowStart, int rowEnd){
+    private void outputTotalRowsFromTo(StepInput stepInput, int rowStart, int rowEnd, int dataRowNumber){
     	LOGGER.trace("output totals from {} to {}", rowStart, rowEnd);
-    	CalcIntermResult[][] calcResults = getCalcIntermResultsMatrix();
+    	CalcIntermResult[][] calcResults = getCalcIntermResultsMatrix(stepInput);
         for(int row = rowStart; row <= rowEnd ; row++){
         	//based on the row we can compute the aggregation level so that we can determine the 
         	// column to use from the previous data row
-        	int aggLevel = computeAggLevelForCalcRowNumber(row);
+        	int aggLevel = computeAggLevelForCalcRowNumber(stepInput, row);
         	
-        	outputTotalsRow(aggLevel, calcResults[row]);
-        	        	
+        	outputTotalsRow(stepInput, aggLevel, calcResults[row], dataRowNumber);
+        	dataRowNumber++;
         }
     }
     
@@ -157,19 +166,21 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
      * @param groupLevel
      * @param calcResultForCurrentGrpLevel
      */
-    private void outputTotalsRow(	int groupLevel, 
-    								CalcIntermResult[] calcResultForCurrentGrpLevel){
+    private void outputTotalsRow(	StepInput stepInput, 
+    								int groupLevel, 
+    								CalcIntermResult[] calcResultForCurrentGrpLevel, 
+    								int dataRowNumber){
     	
-    	ReportOutput output = getReportOutput();
-    	output.startDataRow(new RowProps(getDataRowCount()));
+    	ReportOutput output = getReportOutput(stepInput);
+    	output.startDataRow(new RowProps(dataRowNumber));
     	
     	if(	groupCols != null && groupCols.size() > 0){
     		//prepare and output the Total column
-    		String totalString = getTotalStringForGroupingLevel(calcLabels, groupLevel);
+    		String totalString = getTotalStringForGroupingLevel(stepInput, calcLabels, groupLevel);
     		output.outputDataCell(new CellProps.Builder(totalString)
     							.horizAlign(HorizAlign.LEFT)
     							.vertAlign(VertAlign.MIDDLE)
-    							.rowNumber(getDataRowCount())
+    							.rowNumber(dataRowNumber)
     							.build());
     		
     		if(groupCols.size() > 1){
@@ -185,7 +196,7 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
     			//this is to display an empty cell for every remaining group column
     			for(int i=1; i<groupCols.size(); i++){
     				output.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE)
-    													.rowNumber(getDataRowCount())
+    													.rowNumber(dataRowNumber)
     													.build()); 
     			}
     		}
@@ -206,21 +217,25 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep {
 				output.outputDataCell(new CellProps.Builder(formattedResult)
 									.horizAlign(dataCols.get(i).getHorizAlign())
 									.vertAlign(dataCols.get(i).getVertAlign())
-									.rowNumber(getDataRowCount())
+									.rowNumber(dataRowNumber)
 									.build());
 			}else{
 				//if the column doesn't have a calculator associated 
 				//then display an empty value (whitespace) with col span 1
 				output.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE)
-													.rowNumber(getDataRowCount())
+													.rowNumber(dataRowNumber)
 													.build());
 			}
 		}
     	output.endDataRow();
-    	incrementDataRowNbr(); 
     }
     
-    protected String getLabelsForAllCalculators(){
+    /**
+     * 
+     * @param stepInput
+     * @return
+     */
+    protected String getLabelsForAllCalculators(StepInput stepInput){
     	StringBuilder result = new StringBuilder(); 
     	for (DataColumn dataColumn : dataCols) {
 			if(dataColumn.getCalculator() != null){

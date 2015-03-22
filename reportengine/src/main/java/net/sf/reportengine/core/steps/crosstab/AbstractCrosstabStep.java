@@ -8,15 +8,16 @@ import java.util.List;
 import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.core.AbstractReportStep;
+import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.DefaultDistinctValuesHolder;
 import net.sf.reportengine.util.IOKeys;
 
 /**
- * @author Administrator
+ * @author dragos balan
  *
  */
-public abstract class AbstractCrosstabStep extends AbstractReportStep {
+public abstract class AbstractCrosstabStep<T,U,V> extends AbstractReportStep<T,U,V> {
 	
 	
 	/**
@@ -40,17 +41,17 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 //		return (Integer)getInput().get(IOKeys.ORIGINAL_CT_DATA_COLS_COUNT); 
 //	}
 		
-	public List<CrosstabHeaderRow> getCrosstabHeaderRows(){
-		return (List<CrosstabHeaderRow>)getAlgoInput().get(IOKeys.CROSSTAB_HEADER_ROWS); 
+	public List<CrosstabHeaderRow> getCrosstabHeaderRows(StepInput stepInput){
+		return (List<CrosstabHeaderRow>)stepInput.getAlgoInput(IOKeys.CROSSTAB_HEADER_ROWS); 
 	}
 	 
-	 public int getCrosstabHeaderRowsLength(){
-		 return getCrosstabHeaderRows().size();
+	 public int getCrosstabHeaderRowsLength(StepInput stepInput){
+		 return getCrosstabHeaderRows(stepInput).size();
 	 }
 		
-	 public CrosstabData getCrosstabData(){
+	 public CrosstabData getCrosstabData(StepInput stepInput){
 		 //return (CrosstabData)getContext().get(ContextKeys.CROSSTAB_DATA); 
-		 return (CrosstabData)getAlgoInput().get(IOKeys.CROSSTAB_DATA); 
+		 return (CrosstabData)stepInput.getAlgoInput(IOKeys.CROSSTAB_DATA); 
 	 }
 	 
 //	 public int[] getDataRelativePositionToHeader(){
@@ -62,16 +63,16 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 	  * 
 	  * @return the crosstab metadata of the report
 	  */
-	 public DefaultDistinctValuesHolder getDistinctValuesHolder(){
-		 return (DefaultDistinctValuesHolder)getAlgoContext().get(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER); 
+	 public DefaultDistinctValuesHolder getDistinctValuesHolder(StepInput stepInput){
+		 return (DefaultDistinctValuesHolder)stepInput.getContextParam(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER); 
 	 }
 	 
-	 public IntermediateDataInfo getIntermediateCrosstabDataInfo(){
-		 return (IntermediateDataInfo)getAlgoContext().get(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO);
+	 public IntermediateDataInfo getIntermediateCrosstabDataInfo(StepInput stepInput){
+		 return (IntermediateDataInfo)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO);
 	 }
 	 
-	 public IntermediateReportRow getIntermediateRow(){
-		 return (IntermediateReportRow)getAlgoContext().get(ContextKeys.INTERMEDIATE_ROW); 
+	 public IntermediateReportRow getIntermediateRow(StepInput stepInput){
+		 return (IntermediateReportRow)stepInput.getContextParam(ContextKeys.INTERMEDIATE_ROW); 
 	 }
 	 
 	 public boolean getShowTotalsInHeader(){
@@ -100,12 +101,12 @@ public abstract class AbstractCrosstabStep extends AbstractReportStep {
 //	    }
 	    
 	    
-	    public int[] getPositionOfTotal(int from, int groupingLevel) {
+	    public int[] getPositionOfTotal(StepInput stepInput, int from, int groupingLevel) {
 	    	int[] result = null; 
 	    	if(groupingLevel >= from){
 	    		result = new int[groupingLevel-from+1];
-	    		DefaultDistinctValuesHolder ctMetadata = getDistinctValuesHolder(); 
-	    		Object[] prevDataRow = getPreviousRowOfGroupValues(); 
+	    		DefaultDistinctValuesHolder ctMetadata = getDistinctValuesHolder(stepInput); 
+	    		Object[] prevDataRow = getPreviousRowOfGroupValues(stepInput); 
 	    		if(prevDataRow != null){
 	    			for(int i=from; i < groupingLevel+1; i++){
 	    				result[i-from] = ctMetadata.getIndexFor(i-from, prevDataRow[i]);

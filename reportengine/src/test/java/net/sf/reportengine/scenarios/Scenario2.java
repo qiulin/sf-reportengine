@@ -63,7 +63,7 @@ public class Scenario2 {
 	
 	public static final int[] AGG_COLUMNS_INDEX = new int[]{0,2,4};
 	
-	public final static int[] AGG_LEVEL = new int[]{
+	public final static Integer[] AGG_LEVEL = new Integer[]{
 		-1, 
 		-1,
 		 0,

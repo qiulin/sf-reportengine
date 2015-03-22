@@ -4,14 +4,12 @@
 package net.sf.reportengine.core.steps.intermed;
 
 import java.util.List;
-import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
+import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
 
 /**
  * 
@@ -33,8 +31,8 @@ public class IntermedDataRowsOutputStep extends DataRowsOutputStep {
      * @param algoContext
      * @return
      */
-    @Override public List<DataColumn> getDataColumns(){
-    	return (List<DataColumn>)getAlgoContext().get(ContextKeys.INTERNAL_DATA_COLS); 
+    @Override public List<DataColumn> getDataColumns(StepInput stepInput){
+    	return (List<DataColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_DATA_COLS); 
 	}
     
     /**
@@ -48,7 +46,7 @@ public class IntermedDataRowsOutputStep extends DataRowsOutputStep {
      * @param algoContext
      * @return
      */
-    @Override public List<GroupColumn> getGroupColumns(){
-    	return (List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS); 
+    @Override public List<GroupColumn> getGroupColumns(StepInput stepInput){
+    	return (List<GroupColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_GROUP_COLS); 
 	}
 }

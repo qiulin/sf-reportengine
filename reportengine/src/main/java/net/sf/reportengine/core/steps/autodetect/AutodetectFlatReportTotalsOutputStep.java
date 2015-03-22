@@ -5,6 +5,8 @@ package net.sf.reportengine.core.steps.autodetect;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 
 /**
  * @author dragos balan
@@ -15,15 +17,18 @@ public class AutodetectFlatReportTotalsOutputStep extends FlatReportTotalsOutput
 	private boolean hasTotals = false; 
 	
 	@Override 
-	protected void executeInit(){
-		super.executeInit(); 
-		hasTotals = getShowTotals() || getShowGrandTotal(); 
+	public StepResult<String> init(StepInput stepInput){
+		super.init(stepInput); 
+		hasTotals = getShowTotals(stepInput) || getShowGrandTotal(stepInput); 
+		return StepResult.NO_RESULT; 
 	}
 	
 	@Override 
-	public void execute(NewRowEvent newRowEvent){
+	public StepResult<Integer> execute(NewRowEvent newRowEvent, StepInput stepInput){
+		StepResult<Integer> stepResult = null;
 		if(hasTotals){
-			super.execute(newRowEvent); 
+			stepResult = super.execute(newRowEvent, stepInput); 
 		}
+		return stepResult; 
 	}
 }

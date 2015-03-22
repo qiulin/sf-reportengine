@@ -28,7 +28,7 @@ public class TestTotalsOutputStep  {
 	
 
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.FlatReportTotalsOutputStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.FlatReportTotalsOutputStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent, StepInput)}.
 	 */
 	@Test
 	public void testExecuteScenario1() {
@@ -49,49 +49,48 @@ public class TestTotalsOutputStep  {
         mockReportContext.set(ContextKeys.LOCAL_REPORT_INPUT, Scenario1.INPUT); 
         //mockAlgoInput.put(IOKeys.REPORT_INPUT, Scenario1.INPUT); 
         
-		classUnderTest.init(mockAlgoInput, mockReportContext);
+		classUnderTest.init(new StepInput(mockAlgoInput, mockReportContext));
 		
 		NewRowEvent dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_1);
 		
     	//simulate the level detector
 		mockReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.ROW_1_AGG_LEVEL);
 		mockReportContext.set(ContextKeys.CALC_INTERM_RESULTS, null);
-    	classUnderTest.execute(dataRowEvent);
+    	classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, mockReportContext));
     	mockReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[0]);
 		
     	dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_2);
     	mockReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.ROW_2_AGG_LEVEL);
     	mockReportContext.set(ContextKeys.CALC_INTERM_RESULTS, Scenario1.ROW_1_CALCULATORS_RESULTS);
-		classUnderTest.execute(dataRowEvent);
+		classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, mockReportContext));
 		mockReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[1]);
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_3);
 		mockReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.ROW_3_AGG_LEVEL);
 		mockReportContext.set(ContextKeys.CALC_INTERM_RESULTS, Scenario1.ROW_2_CALCULATORS_RESULTS);
-		classUnderTest.execute(dataRowEvent);
+		classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, mockReportContext));
 		mockReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[2]);
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_4);
 		mockReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.ROW_4_AGG_LEVEL);
 		mockReportContext.set(ContextKeys.CALC_INTERM_RESULTS, Scenario1.ROW_3_CALCULATORS_RESULTS);
-		classUnderTest.execute(dataRowEvent);
+		classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, mockReportContext));
 		mockReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[3]);
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_5);
 		mockReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.ROW_5_AGG_LEVEL);
 		mockReportContext.set(ContextKeys.CALC_INTERM_RESULTS, Scenario1.ROW_4_CALCULATORS_RESULTS);
-		classUnderTest.execute(dataRowEvent);
+		classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, mockReportContext));
 		mockReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[4]);
-		
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_6);
 		mockReportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.ROW_6_AGG_LEVEL);
 		mockReportContext.set(ContextKeys.CALC_INTERM_RESULTS, Scenario1.ROW_5_CALCULATORS_RESULTS);
-		classUnderTest.execute(dataRowEvent);
+		classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, mockReportContext));
 		mockReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[5]);
 		
 		mockReportContext.set(ContextKeys.CALC_INTERM_RESULTS, Scenario1.ROW_6_CALCULATORS_RESULTS);
-		classUnderTest.exit();
+		classUnderTest.exit(new StepInput(mockAlgoInput, mockReportContext));
 		
 		CellProps[][] resultCellMatrix = mockOutput.getDataCellMatrix();
 		Assert.assertTrue(MatrixUtils.compareMatrices(Scenario1.OUTPUT_TOTALS, resultCellMatrix));

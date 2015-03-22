@@ -5,6 +5,8 @@ import java.util.Map;
 import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.util.IOKeys;
 
 /**
@@ -26,14 +28,17 @@ public class AutodetectPreviousRowManagerStep extends PreviousRowManagerStep{
 	 * 
 	 */
 	@Override
-	protected void executeInit(){
-		reportHasGroups = getGroupColumns() != null && getGroupColumns().size() > 0;
+	public StepResult<String> init(StepInput stepInput){
+		reportHasGroups = getGroupColumns(stepInput) != null && getGroupColumns(stepInput).size() > 0;
+		return StepResult.NO_RESULT; 
 	}
 	
 	@Override 
-	public void execute(NewRowEvent rowEvent) {
+	public StepResult<Object[]> execute(NewRowEvent rowEvent, StepInput stepInput) {
+		StepResult<Object[]> stepResult = null; 
 		if(reportHasGroups){
-			super.execute(rowEvent);
+			stepResult = super.execute(rowEvent, stepInput);
 		}
+		return stepResult; 
 	}
 }

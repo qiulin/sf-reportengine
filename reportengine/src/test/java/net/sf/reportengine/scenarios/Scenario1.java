@@ -98,7 +98,7 @@ public class Scenario1 {
 	public static final int ROW_5_AGG_LEVEL = -1;
 	public static final int ROW_6_AGG_LEVEL = 0;
 	
-	public static final int[] AGG_LEVEL = new int[]{
+	public static final Integer[] AGG_LEVEL = new Integer[]{
 		ROW_1_AGG_LEVEL,
 		ROW_2_AGG_LEVEL,
 		ROW_3_AGG_LEVEL,

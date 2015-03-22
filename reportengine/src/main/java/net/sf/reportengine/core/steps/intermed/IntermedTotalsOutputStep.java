@@ -4,12 +4,11 @@
 package net.sf.reportengine.core.steps.intermed;
 
 import java.util.List;
-import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
+import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
@@ -28,8 +27,8 @@ public class IntermedTotalsOutputStep extends FlatReportTotalsOutputStep {
      * 
      * @return
      */
-    @Override public List<DataColumn> getDataColumns(){
-    	return (List<DataColumn>)getAlgoContext().get(ContextKeys.INTERNAL_DATA_COLS); 
+    @Override public List<DataColumn> getDataColumns(StepInput stepInput){
+    	return (List<DataColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_DATA_COLS); 
 	}
     
     /**
@@ -42,19 +41,19 @@ public class IntermedTotalsOutputStep extends FlatReportTotalsOutputStep {
      * 
      * @return
      */
-    @Override public List<GroupColumn> getGroupColumns(){
-    	return (List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS); 
+    @Override public List<GroupColumn> getGroupColumns(StepInput stepInput){
+    	return (List<GroupColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_GROUP_COLS); 
 	}
     
     
-    public List<DataColumn> getInitialDataColumns(){
-    	return (List<DataColumn>)getAlgoInput().get(IOKeys.DATA_COLS); 
+    public List<DataColumn> getInitialDataColumns(StepInput stepInput){
+    	return (List<DataColumn>)stepInput.getAlgoInput(IOKeys.DATA_COLS); 
     }
     
     @Override
-    protected String getLabelsForAllCalculators(){
+    protected String getLabelsForAllCalculators(StepInput stepInput){
     	StringBuilder result = new StringBuilder(); 
-    	for (DataColumn dataColumn : getInitialDataColumns()) {
+    	for (DataColumn dataColumn : getInitialDataColumns(stepInput)) {
 			if(dataColumn.getCalculator() != null){
 				result.append(dataColumn.getCalculator().getLabel()).append(" ") ;
 			}

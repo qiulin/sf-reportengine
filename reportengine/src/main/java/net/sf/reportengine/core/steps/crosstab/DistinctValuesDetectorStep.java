@@ -4,6 +4,8 @@ import java.util.List;
 
 import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.DefaultDistinctValuesHolder;
 import net.sf.reportengine.util.DistinctValuesHolder;
@@ -34,7 +36,7 @@ import net.sf.reportengine.util.IOKeys;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public class DistinctValuesDetectorStep extends AbstractCrosstabStep {
+public class DistinctValuesDetectorStep extends AbstractCrosstabStep<DistinctValuesHolder, IntermediateDataInfo, String> {
 	
 	
 	/**
@@ -43,24 +45,21 @@ public class DistinctValuesDetectorStep extends AbstractCrosstabStep {
 	private DistinctValuesHolder distinctValuesHolder = null; 
 	
 	
-	/**
-     * default implementation for AlgorithmInitStep.init() method
-     * which only sets the algorithm context  
-     * 
-     */
-	@Override
-    protected void executeInit(){
-        List<CrosstabHeaderRow> headerRows = getCrosstabHeaderRows();
+    public StepResult<DistinctValuesHolder> init(StepInput stepInput){
+        List<CrosstabHeaderRow> headerRows = getCrosstabHeaderRows(stepInput);
         distinctValuesHolder = new DefaultDistinctValuesHolder(headerRows);
-        getAlgoContext().set(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER, distinctValuesHolder);
-        addResult(IOKeys.DISTINCT_VALUES_HOLDER, distinctValuesHolder); 
+        //getAlgoContext().set(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER, distinctValuesHolder);
+        //addResult(IOKeys.DISTINCT_VALUES_HOLDER, distinctValuesHolder); 
+        return new StepResult<DistinctValuesHolder>(	ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER, 
+        													distinctValuesHolder, 
+        													IOKeys.DISTINCT_VALUES_HOLDER); 
     }
 	
 	/**
 	 * 
 	 */
-	public void execute(NewRowEvent newRowEvent) {
-		List<CrosstabHeaderRow> headerRows = getCrosstabHeaderRows();
+	public StepResult<IntermediateDataInfo> execute(NewRowEvent newRowEvent, StepInput stepInput) {
+		List<CrosstabHeaderRow> headerRows = getCrosstabHeaderRows(stepInput);
 		
 		//first we take care of the distinct values that might occur 
 		int indexAfterInsertion = -1; 
@@ -71,15 +70,23 @@ public class DistinctValuesDetectorStep extends AbstractCrosstabStep {
 			
 			//add value even if it's not a different value we call this method 
 			//for getting the index of the value in the distinct values array
-			indexAfterInsertion = distinctValuesHolder.addValueIfNotExist(i, 
-										headerRow.getValue(newRowEvent));
+			indexAfterInsertion = distinctValuesHolder.addValueIfNotExist(i, headerRow.getValue(newRowEvent));
 			
 			//once we have the position we add it in the relative position array
 			currDataValueRelativePositionToHeaderValues[i] = indexAfterInsertion; 
 		}
 		
-		getAlgoContext().set(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO, 
-						new IntermediateDataInfo(getCrosstabData().getValue(newRowEvent), 
-												currDataValueRelativePositionToHeaderValues)); 
+		IntermediateDataInfo intermDataInfo = new IntermediateDataInfo(getCrosstabData(stepInput).getValue(newRowEvent), 
+																		currDataValueRelativePositionToHeaderValues); 
+//		getAlgoContext().set(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO, 
+//						new IntermediateDataInfo(getCrosstabData(stepInput).getValue(newRowEvent), 
+//												currDataValueRelativePositionToHeaderValues)); 
+		return new StepResult<IntermediateDataInfo>(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO, intermDataInfo); 
 	}
+	
+	public StepResult<String> exit(StepInput stepInput) {
+		return StepResult.NO_RESULT;
+	}
+	
+	
 }

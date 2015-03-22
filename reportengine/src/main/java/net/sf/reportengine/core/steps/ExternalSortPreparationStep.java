@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan
  *
  */
-public class ExternalSortPreparationStep extends AbstractReportStep{
+public class ExternalSortPreparationStep extends AbstractReportStep<List<File>, String, String>{
 	
 	/**
 	 * the one and only logger
@@ -75,16 +75,16 @@ public class ExternalSortPreparationStep extends AbstractReportStep{
 	/**
 	 * 
 	 */
-	@Override 
-	protected void executeInit(){
-		COMPARATOR = new NewRowComparator(getGroupColumns(), getDataColumns()); 
-		addResult(IOKeys.SORTED_FILES, sortedFiles); 
+	public StepResult<List<File>> init(StepInput stepInput){
+		COMPARATOR = new NewRowComparator(getGroupColumns(stepInput), getDataColumns(stepInput)); 
+		//addResult(IOKeys.SORTED_FILES, sortedFiles); 
+		return new StepResult<List<File>>(ContextKeys.SKIP_CONTEXT_KEY, sortedFiles, IOKeys.SORTED_FILES); 
 	}
 	
 	/**
 	 * 
 	 */
-	public void execute(NewRowEvent newRow){
+	public StepResult<String> execute(NewRowEvent newRow, StepInput stepInput){
 		try{
 			if(tempValuesHolderList.size() >= maxRowsInMemory){ 
 				LOGGER.info("in memory list of rows has reached the maximum allowed {} items ", tempValuesHolderList.size());
@@ -98,13 +98,13 @@ public class ExternalSortPreparationStep extends AbstractReportStep{
 		}catch(IOException ioExc){
 			throw new ReportEngineRuntimeException(ioExc); 
 		}
+		return StepResult.NO_RESULT; 
 	}
 	
 	/**
 	 * 
 	 */
-	@Override 
-	public void exit(){
+	public StepResult<String> exit(StepInput stepInput){
 		try{
 			if(!tempValuesHolderList.isEmpty()){
 				//first sorting in-memory list
@@ -115,10 +115,14 @@ public class ExternalSortPreparationStep extends AbstractReportStep{
 			throw new ReportEngineRuntimeException(ioExc); 
 		}
 		
-		getAlgoContext().set(ContextKeys.SORTED_FILES, sortedFiles); 
-		
 		tempValuesHolderList.clear();
 		tempValuesHolderList = null; 
+		
+		//getAlgoContext().set(ContextKeys.SORTED_FILES, sortedFiles); 
+		
+		//it seems that Context.SORTED_FILES and IOKeys.SORTED_FILES represent the same thing
+		//return new StepResult<List<File>>(ContextKeys.SORTED_FILES,  sortedFiles); 
+		return StepResult.NO_RESULT; 
 	}
 	
 	/**

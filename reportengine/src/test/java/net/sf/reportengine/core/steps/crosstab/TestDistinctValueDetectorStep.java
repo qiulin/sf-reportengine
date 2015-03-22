@@ -9,6 +9,8 @@ import java.util.Map;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.steps.ReportAlgorithmStepTC;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
@@ -21,6 +23,9 @@ import net.sf.reportengine.util.IOKeys;
  */
 public class TestDistinctValueDetectorStep extends ReportAlgorithmStepTC {
 	
+	/**
+	 * 
+	 */
 	private DistinctValuesDetectorStep classUnderTest = null; 
 	
 	/* (non-Javadoc)
@@ -32,7 +37,7 @@ public class TestDistinctValueDetectorStep extends ReportAlgorithmStepTC {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.DistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.DistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent, StepInput)}.
 	 */
 	public void testExecuteCtScenario1() {
 		AlgoContext reportContext = getTestContext(); 
@@ -43,21 +48,23 @@ public class TestDistinctValueDetectorStep extends ReportAlgorithmStepTC {
 		mockAlgoInput.put(	IOKeys.CROSSTAB_DATA, 
 							CtScenario2x2x1With1G1D.CROSSTAB_DATA);
 		
-		classUnderTest.init(mockAlgoInput, reportContext);
-		assertNotNull(classUnderTest.getCrosstabHeaderRows());
+		classUnderTest.init(new StepInput(mockAlgoInput, reportContext));
+		assertNotNull(classUnderTest.getCrosstabHeaderRows(new StepInput(mockAlgoInput, reportContext)));
 		
 		for (int i = 0; i < CtScenario2x2x1With1G1D.RAW_INPUT.length; i++) {
 			
-			classUnderTest.execute(new NewRowEvent(CtScenario2x2x1With1G1D.RAW_INPUT[i]));
+			StepResult<IntermediateDataInfo> stepResult = classUnderTest.execute(
+																			new NewRowEvent(CtScenario2x2x1With1G1D.RAW_INPUT[i]), 
+																			new StepInput(mockAlgoInput, reportContext));
 			
-			IntermediateDataInfo intermediateDataInfo = (IntermediateDataInfo)reportContext.get(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO);
+			IntermediateDataInfo intermediateDataInfo = stepResult.getValue(); //(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO);
 			assertNotNull(intermediateDataInfo);
-			assertEquals(CtScenario2x2x1With1G1D.INTERMEDIATE_DATA_INFO[i]  ,intermediateDataInfo); 
+			assertEquals(CtScenario2x2x1With1G1D.INTERMEDIATE_DATA_INFO[i], intermediateDataInfo); 
 		}
 	}
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.DistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.DistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent, StepInput)}.
 	 */
 	public void testExecuteCtScenario1x3x1() {
 		AlgoContext reportContext = getTestContext(); 
@@ -66,22 +73,22 @@ public class TestDistinctValueDetectorStep extends ReportAlgorithmStepTC {
 		mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS);
 		mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario1x3x1.CROSSTAB_DATA);
 		
-		classUnderTest.init(mockAlgoInput, reportContext);
-		assertNotNull(classUnderTest.getCrosstabHeaderRows());
+		classUnderTest.init(new StepInput(mockAlgoInput, reportContext));
+		assertNotNull(classUnderTest.getCrosstabHeaderRows(new StepInput(mockAlgoInput, reportContext)));
 		
 		for (int i = 0; i < CtScenario1x3x1.RAW_INPUT.length; i++) {
 			
-			classUnderTest.execute(new NewRowEvent(CtScenario1x3x1.RAW_INPUT[i]));
+			StepResult<IntermediateDataInfo> stepResult = classUnderTest.execute(new NewRowEvent(CtScenario1x3x1.RAW_INPUT[i]), new StepInput(mockAlgoInput, reportContext));
 			
-			IntermediateDataInfo intermediateDataInfo = (IntermediateDataInfo)reportContext.get(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO);
+			IntermediateDataInfo intermediateDataInfo = stepResult.getValue(); //.get(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO);
 			assertNotNull(intermediateDataInfo);
-			assertEquals(CtScenario1x3x1.INTERMEDIATE_DATA_INFO[i]  ,intermediateDataInfo); 
+			assertEquals(CtScenario1x3x1.INTERMEDIATE_DATA_INFO[i], intermediateDataInfo); 
 		}
 	}
 	
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.DistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)}.
+	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.DistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent, StepInput)}.
 	 */
 	public void testExecuteCtScenario1x1x1() {
 		AlgoContext reportContext = getTestContext(); 
@@ -90,16 +97,16 @@ public class TestDistinctValueDetectorStep extends ReportAlgorithmStepTC {
 		mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x1x1.ROW_HEADERS);
 		mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario1x1x1.CROSSTAB_DATA_NO_TOTALS);
 		
-		classUnderTest.init(mockAlgoInput, reportContext);
-		assertNotNull(classUnderTest.getCrosstabHeaderRows());
+		classUnderTest.init(new StepInput(mockAlgoInput, reportContext));
+		assertNotNull(classUnderTest.getCrosstabHeaderRows(new StepInput(mockAlgoInput, reportContext)));
 		
 		for (int i = 0; i < CtScenario1x1x1.RAW_INPUT.length; i++) {
 			
-			classUnderTest.execute(new NewRowEvent(CtScenario1x1x1.RAW_INPUT[i]));
+			StepResult<IntermediateDataInfo> stepResult =  classUnderTest.execute(new NewRowEvent(CtScenario1x1x1.RAW_INPUT[i]), new StepInput(mockAlgoInput, reportContext));
 			
-			IntermediateDataInfo intermediateDataInfo = (IntermediateDataInfo)reportContext.get(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO);
+			IntermediateDataInfo intermediateDataInfo = stepResult.getValue(); //.get(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO);
 			assertNotNull(intermediateDataInfo);
-			assertEquals(CtScenario1x1x1.INTERMEDIATE_DATA_INFO[i]  ,intermediateDataInfo); 
+			assertEquals(CtScenario1x1x1.INTERMEDIATE_DATA_INFO[i], intermediateDataInfo); 
 		}
 	}
 }

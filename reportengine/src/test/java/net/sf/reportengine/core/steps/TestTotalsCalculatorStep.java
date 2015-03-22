@@ -50,17 +50,17 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     	
     	reportContext.set(ContextKeys.NEW_GROUPING_LEVEL, Scenario1.AGG_COLUMNS_INDEX);
         
-    	
-        classUnderTest.init(mockAlgoInput, reportContext);      
+    	StepResult<CalcIntermResult[][]> initStepResult = classUnderTest.init(new StepInput(mockAlgoInput, reportContext)); 
+    	reportContext.set(ContextKeys.CALC_INTERM_RESULTS, initStepResult.getValue());
     	   	
     	//simulate the level detector
     	setAggLevel(Scenario1.ROW_1_AGG_LEVEL);
     	
     	NewRowEvent dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_1);
     	//reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_1);
-		classUnderTest.execute(dataRowEvent);
+		classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, reportContext));
 		
-		CalcIntermResult[][] calcResults = (CalcIntermResult[][])reportContext.get(ContextKeys.CALC_INTERM_RESULTS);
+		CalcIntermResult[][] calcResults = initStepResult.getValue(); //(CalcIntermResult[][])reportContext.get(ContextKeys.CALC_INTERM_RESULTS);
 		assertNotNull(calcResults);
 		assertEquals(calcResults.length, Scenario1.AGG_COLUMNS_INDEX.length + 1 /* for Grand total*/);
 		
@@ -71,7 +71,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
 		
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_2);
 		//reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_2);
-		classUnderTest.execute(dataRowEvent);
+		classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, reportContext));
 		
 		assertEqualsCalculatorResults(Scenario1.ROW_2_CALCULATORS_RESULTS);
 		
@@ -79,7 +79,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
 		setAggLevel(Scenario1.ROW_3_AGG_LEVEL);
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_3);
 		//reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_3);
-		classUnderTest.execute(dataRowEvent);
+		classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, reportContext));
 		
 		assertEqualsCalculatorResults(Scenario1.ROW_3_CALCULATORS_RESULTS);
 		
@@ -87,7 +87,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
 		setAggLevel(Scenario1.ROW_4_AGG_LEVEL);
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_4);
 		//reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_4);
-		classUnderTest.execute(dataRowEvent);
+		classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, reportContext));
 		
 		assertEqualsCalculatorResults(Scenario1.ROW_4_CALCULATORS_RESULTS);
 		
@@ -95,7 +95,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
 		setAggLevel(Scenario1.ROW_5_AGG_LEVEL);
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_5);
 		//reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_5);
-		classUnderTest.execute(dataRowEvent);
+		classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, reportContext));
 		
 		assertEqualsCalculatorResults(Scenario1.ROW_5_CALCULATORS_RESULTS);
 		
@@ -103,7 +103,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
 		setAggLevel(Scenario1.ROW_6_AGG_LEVEL);
 		//reportContext.set(ContextKeys.COMPUTED_CELL_VALUES, Scenario1.ROW_OF_DATA_6);
 		dataRowEvent = new NewRowEvent(Scenario1.ROW_OF_DATA_6);
-		classUnderTest.execute(dataRowEvent);
+		classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, reportContext));
 		
 		assertEqualsCalculatorResults(Scenario1.ROW_6_CALCULATORS_RESULTS);
     }   
@@ -120,7 +120,8 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     	mockAlgoInput.put(IOKeys.DATA_COLS, Scenario2.DATA_COLUMNS); 
     	mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario2.GROUPING_COLUMNS);
     	
-        classUnderTest.init(mockAlgoInput, reportContext);      
+    	StepResult<CalcIntermResult[][]> initStepResult = classUnderTest.init(new StepInput(mockAlgoInput, reportContext)); 
+    	reportContext.set(ContextKeys.CALC_INTERM_RESULTS, initStepResult.getValue());
     	 
         for(int i=0; i<CalculatedColumnsScenario.RAW_DATA.length; i++){
         	//simulate the level detector and all other preceeding steps
@@ -129,7 +130,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
         	
         	//call execute
         	NewRowEvent dataRowEvent = new NewRowEvent(Scenario2.RAW_INPUT[i]);
-    		classUnderTest.execute(dataRowEvent);
+    		classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, reportContext));
         }
         
         assertEqualsCalculatorResults(Scenario2.CALCULATORS_RESULTS);
@@ -145,7 +146,8 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
     	mockAlgoInput.put(IOKeys.DATA_COLS, CalculatedColumnsScenario.DATA_COLUMNS); 
     	mockAlgoInput.put(IOKeys.GROUP_COLS, CalculatedColumnsScenario.GROUP_COLUMNS);
     	
-        classUnderTest.init(mockAlgoInput, reportContext);      
+    	StepResult<CalcIntermResult[][]> initStepResult = classUnderTest.init(new StepInput(mockAlgoInput, reportContext)); 
+    	reportContext.set(ContextKeys.CALC_INTERM_RESULTS, initStepResult.getValue());     
     	 
         for(int i=0; i<CalculatedColumnsScenario.RAW_DATA.length; i++){
         	//simulate the level detector and all other preceeding steps
@@ -154,7 +156,7 @@ public class TestTotalsCalculatorStep extends ReportAlgorithmStepTC {
         	
         	//call execute
         	NewRowEvent dataRowEvent = new NewRowEvent(CalculatedColumnsScenario.RAW_DATA[i]);
-    		classUnderTest.execute(dataRowEvent);
+    		classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, reportContext));
         }
         
         assertEqualsCalculatorResults(CalculatedColumnsScenario.CALCULATORS_RESULTS);

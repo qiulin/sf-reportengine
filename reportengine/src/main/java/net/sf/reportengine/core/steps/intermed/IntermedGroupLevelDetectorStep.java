@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.steps.GroupLevelDetectorStep;
+import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.util.ContextKeys;
 
 /**
@@ -25,7 +26,7 @@ public class IntermedGroupLevelDetectorStep extends GroupLevelDetectorStep {
      * 
      * @return
      */
-	@Override public List<GroupColumn> getGroupColumns(){
-		return (List<GroupColumn>)getAlgoContext().get(ContextKeys.INTERNAL_GROUP_COLS);
+	@Override public List<GroupColumn> getGroupColumns(StepInput stepInput){
+		return (List<GroupColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_GROUP_COLS);
 	}
 }
