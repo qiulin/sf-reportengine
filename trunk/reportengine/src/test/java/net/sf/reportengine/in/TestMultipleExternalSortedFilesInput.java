@@ -42,12 +42,12 @@ public class TestMultipleExternalSortedFilesInput {
 	}
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.in.MultipleExternalSortedFilesInput#nextRow()}.
+	 * Test method for {@link net.sf.reportengine.in.MultipleExternalSortedFilesTableInput#nextRow()}.
 	 */
 	@Test
 	public void testNextRow() {
-		MultipleExternalSortedFilesInput classUnderTest = 
-				new MultipleExternalSortedFilesInput(testFiles, testComparator);
+		MultipleExternalSortedFilesTableInput classUnderTest = 
+				new MultipleExternalSortedFilesTableInput(testFiles, testComparator);
 		
 		List<Object> newRow = classUnderTest.nextRow(); 
 		assertNotNull(newRow); 
@@ -81,12 +81,12 @@ public class TestMultipleExternalSortedFilesInput {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.in.MultipleExternalSortedFilesInput#hasMoreRows()}.
+	 * Test method for {@link net.sf.reportengine.in.MultipleExternalSortedFilesTableInput#hasMoreRows()}.
 	 */
 	@Test
 	public void testHasMoreRows() {
-		MultipleExternalSortedFilesInput classUnderTest = 
-				new MultipleExternalSortedFilesInput(testFiles, testComparator);
+		MultipleExternalSortedFilesTableInput classUnderTest = 
+				new MultipleExternalSortedFilesTableInput(testFiles, testComparator);
 		
 		assertTrue(classUnderTest.hasMoreRows());
 		classUnderTest.nextRow(); 

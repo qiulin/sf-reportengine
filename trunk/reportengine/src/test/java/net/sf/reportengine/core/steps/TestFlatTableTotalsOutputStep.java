@@ -37,8 +37,9 @@ public class TestFlatTableTotalsOutputStep  {
         mockAlgoInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
         mockAlgoInput.put(IOKeys.SHOW_GRAND_TOTAL, Scenario1.SHOW_GRAND_TOTAL); 
         mockAlgoInput.put(IOKeys.SHOW_TOTALS, true); 
+        mockAlgoInput.put(IOKeys.NEW_REPORT_OUTPUT, mockOutput); 
         
-        mockReportContext.set(ContextKeys.NEW_LOCAL_REPORT_OUTPUT, mockOutput); 
+        //mockReportContext.set(ContextKeys.NEW_LOCAL_REPORT_OUTPUT, mockOutput); 
         mockReportContext.set(ContextKeys.DISTRIBUTION_OF_CALCULATORS, Scenario1.DISTRIBUTION_OF_CALCULATOR_IN_DATA_ROW_ARRAY); 
         mockReportContext.set(ContextKeys.DATA_ROW_COUNT, 0); 
         mockReportContext.set(ContextKeys.LOCAL_REPORT_INPUT, Scenario1.INPUT); 

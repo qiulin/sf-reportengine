@@ -10,8 +10,8 @@ import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
-import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.in.ArrayReportInput;
+import net.sf.reportengine.in.TableInput;
+import net.sf.reportengine.in.ArrayTableInput;
 
 /**
  * @author Administrator
@@ -32,7 +32,7 @@ public final class NoGroupsScenario {
 		new String[]{"0","a","4","b","6","c"}
 	};
 	
-	public final static ReportInput INPUT = new ArrayReportInput(RAW_INPUT);
+	public final static TableInput INPUT = new ArrayTableInput(RAW_INPUT);
 	
 	public static final List<GroupColumn> GROUPING_COLUMNS = null; 
 			

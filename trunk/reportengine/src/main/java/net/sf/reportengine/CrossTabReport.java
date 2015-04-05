@@ -63,9 +63,9 @@ import net.sf.reportengine.core.steps.intermed.IntermedReportExtractTotalsDataIn
 import net.sf.reportengine.core.steps.intermed.IntermedSetResultsExitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsCalculatorStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsOutputStep;
-import net.sf.reportengine.in.IntermediateCrosstabReportInput;
-import net.sf.reportengine.in.MultipleExternalSortedFilesInput;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.IntermediateCrosstabReportTableInput;
+import net.sf.reportengine.in.MultipleExternalSortedFilesTableInput;
+import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
@@ -113,7 +113,7 @@ import org.slf4j.LoggerFactory;
  * </pre>
  * </p>
  * 
- * @see ReportInput
+ * @see TableInput
  * @see ReportOutput
  * @see CrosstabHeaderRow
  * @see DataColumn
@@ -264,18 +264,18 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	private Algorithm configFirstReport(final boolean hasBeenPreviouslySorted){
 		
 		MultiStepAlgo algorithm = new OpenLoopCloseInputAlgo(){
-			@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
+			@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
 				if(hasBeenPreviouslySorted){
 					//if the input has been previously sorted
     				//then the sorting algorithm (the previous) has created external sorted files
     				//which will serve as input from this point on
-    				return new MultipleExternalSortedFilesInput(
+    				return new MultipleExternalSortedFilesTableInput(
 							(List<File>)inputParams.get(IOKeys.SORTED_FILES), 
 							new NewRowComparator(
 									(List<GroupColumn>)inputParams.get(IOKeys.GROUP_COLS), 
 									(List<DataColumn>)inputParams.get(IOKeys.DATA_COLS)));
 				}else{
-					return (ReportInput)inputParams.get(IOKeys.REPORT_INPUT); 
+					return (TableInput)inputParams.get(IOKeys.REPORT_INPUT); 
 				}
 			}
 		};
@@ -340,9 +340,9 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	 */
 	private Algorithm configSecondReport(){
 		MultiStepAlgo algorithm = new OpenLoopCloseInputAlgo(){
-			@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
+			@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
 				File previousAlgoSerializedOutput = (File)inputParams.get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
-				return new IntermediateCrosstabReportInput(previousAlgoSerializedOutput); 
+				return new IntermediateCrosstabReportTableInput(previousAlgoSerializedOutput); 
 			}
 		};
 		
@@ -496,7 +496,7 @@ public static class Builder {
     	private boolean showDataRows = true; 
     	private boolean valuesSorted = true; 
     	
-    	private ReportInput reportInput = null; 
+    	private TableInput reportInput = null; 
     	private ReportOutput reportOutput = null;
     	
     	private List<DataColumn> dataColumns = new ArrayList<DataColumn>(); 
@@ -545,7 +545,7 @@ public static class Builder {
     		return this; 
     	}
     	
-    	public Builder input(ReportInput input){
+    	public Builder input(TableInput input){
     		this.reportInput = input; 
     		return this; 
     	}

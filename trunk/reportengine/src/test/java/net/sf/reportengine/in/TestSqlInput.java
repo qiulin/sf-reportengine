@@ -63,7 +63,7 @@ public class TestSqlInput extends TestCase {
 
     
     public void testNextAndHasMore(){
-    	SqlInput dataProvider = new SqlInput(testConnection);
+    	SqlTableInput dataProvider = new SqlTableInput(testConnection);
     	dataProvider.setSqlStatement("select id, country, region, city, sex, religion, value from testreport t order by id");
     	
         int currentRow = 0;
@@ -102,9 +102,9 @@ public class TestSqlInput extends TestCase {
     }
     
     public void testNonQuery(){
-    	SqlInput dataProvider = null; 
+    	SqlTableInput dataProvider = null; 
     	try{
-    		dataProvider = new SqlInput(); 
+    		dataProvider = new SqlTableInput(); 
     		dataProvider.setDbConnString("jdbc:hsqldb:mem:testdb");
     		dataProvider.setDbDriverClass("org.hsqldb.jdbcDriver");
     		dataProvider.setDbUser("sa");
@@ -123,7 +123,7 @@ public class TestSqlInput extends TestCase {
     }
    
     public void testReadMetadata(){
-    	SqlInput dataProvider = new SqlInput();
+    	SqlTableInput dataProvider = new SqlTableInput();
     	dataProvider.setSqlStatement("select id, country, region, city, sex, religion, value from testreport t order by id");
     	dataProvider.setDbConnString("jdbc:hsqldb:mem:testdb");
 		dataProvider.setDbDriverClass("org.hsqldb.jdbcDriver");

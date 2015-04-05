@@ -13,7 +13,7 @@ import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
@@ -43,7 +43,7 @@ public abstract class OpenLoopCloseInputAlgo extends AbstractMultiStepAlgo {
 	 * @param inputParams the map of input parameters
 	 * @return	the input stream which will be looped
 	 */
-	protected abstract ReportInput buildReportInput(Map<IOKeys, Object> inputParams); 
+	protected abstract TableInput buildReportInput(Map<IOKeys, Object> inputParams); 
     
     /**
      * 
@@ -53,7 +53,7 @@ public abstract class OpenLoopCloseInputAlgo extends AbstractMultiStepAlgo {
     	AlgoContext context = new DefaultAlgorithmContext();
     	
     	LOGGER.debug("opening report input");
-    	ReportInput reportInput = buildReportInput(inputParams); 
+    	TableInput reportInput = buildReportInput(inputParams); 
     	reportInput.open(); 
     	
     	LOGGER.debug("start looping");

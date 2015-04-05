@@ -31,11 +31,10 @@ public class TestColumnHeaderOutputInitStep  {
 		TestImplForReportOutput mockOutput = new TestImplForReportOutput();  
 		mockOutput.open(); 
 		
-		mockContext.set(ContextKeys.NEW_LOCAL_REPORT_OUTPUT, mockOutput); 
-		
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);  
 		mockAlgoInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
 		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS) ;
+		mockAlgoInput.put(IOKeys.NEW_REPORT_OUTPUT, mockOutput); 
 		
 		NewColumnHeaderOutputInitStep classUnderTest = new NewColumnHeaderOutputInitStep(); 
 		classUnderTest.init(new StepInput(mockAlgoInput, mockContext));

@@ -4,7 +4,7 @@
 package net.sf.reportengine.components;
 
 import net.sf.reportengine.core.ConfigValidationException;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.TableInput;
 
 
 /**
@@ -16,7 +16,7 @@ public abstract class AbstractTable implements ReportComponent {
     /**
      * the input of the report
      */
-    private ReportInput input;
+    private final TableInput input;
     
     /**
      * whether the report will display totals or not 
@@ -48,8 +48,24 @@ public abstract class AbstractTable implements ReportComponent {
      * the sorting will slow the reporting process. 
      */
     private boolean valuesSorted = true; 
+     
     
-   
+    /**
+     * 
+     * @param input
+     * @param showTotals
+     * @param showGrandTotal
+     * @param showDataRows
+     * @param valuesSorted
+     */
+    public AbstractTable(TableInput input, boolean showTotals, boolean showGrandTotal, boolean showDataRows, boolean valuesSorted){
+    	this.input = input; 
+    	this.showTotals = showTotals; 
+    	this.showGrandTotal = showGrandTotal;
+    	this.showDataRows = showDataRows; 
+    	this.valuesSorted = valuesSorted; 
+    }
+    
     /**
      * use this method to configure your report
      */
@@ -68,14 +84,14 @@ public abstract class AbstractTable implements ReportComponent {
      * setter method for report input
      * @param in
      */
-    public void setIn(ReportInput in){
-    	this.input = in;
-    }
+//    public void setIn(ReportInput in){
+//    	this.input = in;
+//    }
     
 	/**
 	 * @return the input
 	 */
-	public ReportInput getIn() {
+	public TableInput getInput() {
 		return input;
 	}
 
@@ -84,9 +100,9 @@ public abstract class AbstractTable implements ReportComponent {
      * otherwise the default calculators (Count) will be shown
      * @param flag  true if you want to show the results of aggregation (sums, counts, max etc)
      */
-    public void setShowTotals(boolean flag){
-        this.showTotals = flag;
-    }
+//    public void setShowTotals(boolean flag){
+//        this.showTotals = flag;
+//    }
     
     /**
      * show totals getter
@@ -101,9 +117,9 @@ public abstract class AbstractTable implements ReportComponent {
      * setter for showDataRows
      * @param flag  true if you want to show data rows 
      */
-    public void setShowDataRows(boolean flag){
-        this.showDataRows = flag;
-    }
+//    public void setShowDataRows(boolean flag){
+//        this.showDataRows = flag;
+//    }
     
     /**
      * show data rows getter
@@ -125,9 +141,9 @@ public abstract class AbstractTable implements ReportComponent {
      * setter for showGrandTotal flag
      * @param flag
      */
-    public void setShowGrandTotal(boolean flag){
-    	this.showGrandTotal = flag;
-    }
+//    public void setShowGrandTotal(boolean flag){
+//    	this.showGrandTotal = flag;
+//    }
 
 	/**
 	 * @return the valuesSorted
@@ -141,7 +157,7 @@ public abstract class AbstractTable implements ReportComponent {
 	 * If you need sorting to be done by the reportengine then set this flag to false (of course therea's a big performance penalty) 
 	 * @param valuesSorted the valuesSorted to set
 	 */
-	public void setValuesSorted(boolean valuesAlreadySorted) {
-		this.valuesSorted = valuesAlreadySorted;
-	}
+//	public void setValuesSorted(boolean valuesAlreadySorted) {
+//		this.valuesSorted = valuesAlreadySorted;
+//	}
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.in.TableInput;
 
 /**
  * @author dragos balan
@@ -19,12 +20,28 @@ public abstract class AbstractColumnBasedTable extends AbstractTable {
 	/**
      * the data columns
      */
-    private List<DataColumn> dataColsAsList = new ArrayList<DataColumn>();; 
+    private List<DataColumn> dataColsAsList = new ArrayList<DataColumn>();
     
     /**
      * grouping columns
      */
     private List<GroupColumn> groupColsAsList = new ArrayList<GroupColumn>(); 
+    
+    /**
+     * 
+     * @param input
+     * @param dataCols
+     * @param groupCols
+     * @param showTotals
+     * @param showGrandTotal
+     * @param showDataRows
+     * @param valuesSorted
+     */
+    public AbstractColumnBasedTable(TableInput input, List<DataColumn> dataCols, List<GroupColumn> groupCols, boolean showTotals, boolean showGrandTotal, boolean showDataRows, boolean valuesSorted){
+    	super(input, showTotals, showGrandTotal, showDataRows, valuesSorted); 
+    	this.dataColsAsList = dataCols; 
+    	this.groupColsAsList = groupCols; 
+    }
     
     /**
 	 * getter for data colums of this report
@@ -38,17 +55,17 @@ public abstract class AbstractColumnBasedTable extends AbstractTable {
 	 * setter for the list of data columns 
 	 * @param dataColsList
 	 */
-	public void setDataColumns(List<DataColumn> dataColsList){
-		this.dataColsAsList = dataColsList; 
-	}
+//	public void setDataColumns(List<DataColumn> dataColsList){
+//		this.dataColsAsList = dataColsList; 
+//	}
 	
 	/**
 	 * adds a data column to the existing list
 	 * @param newColumn
 	 */
-	public void addDataColumn(DataColumn newColumn){
-		this.dataColsAsList.add(newColumn); 
-	}
+//	public void addDataColumn(DataColumn newColumn){
+//		this.dataColsAsList.add(newColumn); 
+//	}
 	
 	/**
 	 * getter for the list of group columns
@@ -65,9 +82,9 @@ public abstract class AbstractColumnBasedTable extends AbstractTable {
 	 * 
 	 * @param groupColsList the new list of group columns
 	 */
-	public void setGroupColumns(List<GroupColumn> groupColsList){
-		this.groupColsAsList = groupColsList;
-	}
+//	public void setGroupColumns(List<GroupColumn> groupColsList){
+//		this.groupColsAsList = groupColsList;
+//	}
 	
 	/**
 	 * adds a new group column to the list of the existing columns. 
@@ -75,8 +92,8 @@ public abstract class AbstractColumnBasedTable extends AbstractTable {
 	 * 
 	 * @param newGroupCol the new group column
 	 */
-	public void addGroupColumn(GroupColumn newGroupCol){
-		this.groupColsAsList.add(newGroupCol); 
-	}
+//	public void addGroupColumn(GroupColumn newGroupCol){
+//		this.groupColsAsList.add(newGroupCol); 
+//	}
 
 }

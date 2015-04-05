@@ -10,7 +10,7 @@ import java.util.Map;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.algorithm.steps.AbstractInitStep;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.TitleProps;
 import net.sf.reportengine.out.neo.NewReportOutput;
@@ -27,8 +27,8 @@ public abstract class AbstractReportInitStep<U> extends AbstractInitStep<U> {
 	 * 
 	 * @return
 	 */
-	public ReportInput getReportInput(StepInput stepInput){
-		return (ReportInput)stepInput.getContextParam(ContextKeys.LOCAL_REPORT_INPUT); 
+	public TableInput getReportInput(StepInput stepInput){
+		return (TableInput)stepInput.getContextParam(ContextKeys.LOCAL_REPORT_INPUT); 
 	}
 	
 	/**

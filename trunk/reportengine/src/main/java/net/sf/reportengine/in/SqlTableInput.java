@@ -42,12 +42,12 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class SqlInput extends AbstractReportInput {
+public class SqlTableInput extends AbstractTableInput {
 	
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(SqlInput.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SqlTableInput.class);
 	
     /**
      * the sql query
@@ -113,7 +113,7 @@ public class SqlInput extends AbstractReportInput {
      * You have to add some more properties like dbUser, dbPassword, sqlStatement or you can 
      * provide your own connection and use the <source>QueryDataProvider(Connection conn)</source>
      */
-    public SqlInput(){}
+    public SqlTableInput(){}
     
     
     /**
@@ -123,7 +123,7 @@ public class SqlInput extends AbstractReportInput {
      * 
      * @param conn      the connection provided 
      */
-    public SqlInput(Connection conn){
+    public SqlTableInput(Connection conn){
         this(conn, false);  
     }
     
@@ -135,7 +135,7 @@ public class SqlInput extends AbstractReportInput {
      * @param conn      the connection provided 
      * @param managedConnection 	if true the connection will be managed (close) by this class
      */
-    public SqlInput(Connection conn, boolean managedConnection){
+    public SqlTableInput(Connection conn, boolean managedConnection){
         this.dbConnection = conn;
         this.managedDbConnection = managedConnection; 
     }
@@ -148,7 +148,7 @@ public class SqlInput extends AbstractReportInput {
      * @param dbUser            the database user
      * @param dbPassword        database password
      */
-    public SqlInput(	String dbConnString, 
+    public SqlTableInput(	String dbConnString, 
                       	String driverClass, 
                         String dbUser, 
                         String dbPassword){

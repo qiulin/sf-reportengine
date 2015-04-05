@@ -20,7 +20,7 @@ import net.sf.reportengine.util.ReportIoUtils;
  */
 public class TestIntermediateReportInput extends TestCase {
 	
-	private IntermediateCrosstabReportInput classUnderTest = null; 
+	private IntermediateCrosstabReportTableInput classUnderTest = null; 
 	
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
@@ -35,7 +35,7 @@ public class TestIntermediateReportInput extends TestCase {
 		
 		assertNotNull(intermInput);
 		
-		classUnderTest = new IntermediateCrosstabReportInput(intermInput);
+		classUnderTest = new IntermediateCrosstabReportTableInput(intermInput);
 		
 		classUnderTest.open(); 
 		
@@ -113,7 +113,7 @@ public class TestIntermediateReportInput extends TestCase {
 		
 		assertNotNull(intermInput);
 		
-		classUnderTest = new IntermediateCrosstabReportInput(intermInput);
+		classUnderTest = new IntermediateCrosstabReportTableInput(intermInput);
 		
 		classUnderTest.open(); 
 		

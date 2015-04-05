@@ -19,7 +19,7 @@ public class TestMemoryReportInput extends TestCase {
 			new String[]{"x","y","z","t"}
 	};
 	
-	private ArrayReportInput classUnderTest = null;
+	private ArrayTableInput classUnderTest = null;
 	
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
@@ -27,7 +27,7 @@ public class TestMemoryReportInput extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		classUnderTest = new ArrayReportInput(DATA);
+		classUnderTest = new ArrayTableInput(DATA);
 	}
 
 	/* (non-Javadoc)
@@ -38,7 +38,7 @@ public class TestMemoryReportInput extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.in.ArrayReportInput#hasMoreRows()}.
+	 * Test method for {@link net.sf.reportengine.in.ArrayTableInput#hasMoreRows()}.
 	 */
 	public void testHasMoreRows() {
 		classUnderTest.open();

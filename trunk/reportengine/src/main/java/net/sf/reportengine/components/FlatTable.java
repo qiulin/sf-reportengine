@@ -33,8 +33,8 @@ import net.sf.reportengine.core.steps.neo.FlatTableTotalsOutputStep;
 import net.sf.reportengine.core.steps.neo.NewColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.neo.NewDataRowsOutputStep;
 import net.sf.reportengine.core.steps.neo.StartTableInitStep;
-import net.sf.reportengine.in.MultipleExternalSortedFilesInput;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.MultipleExternalSortedFilesTableInput;
+import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.neo.NewReportOutput;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
@@ -67,13 +67,13 @@ public class FlatTable extends AbstractColumnBasedTable {
      * @param builder
      */
     private FlatTable(Builder builder){
-    	this.setShowDataRows(builder.showDataRows); 
-    	this.setShowGrandTotal(builder.showGrandTotal.getValue()); 
-    	this.setShowTotals(builder.showTotals.getValue());
-    	this.setValuesSorted(builder.valuesSorted); 
-    	this.setIn(builder.reportInput); 
-    	this.setDataColumns(builder.dataColumns); 
-    	this.setGroupColumns(builder.groupColumns); 
+    	super(	builder.reportInput, 
+    			builder.dataColumns, 
+    			builder.groupColumns, 
+    			builder.showTotals.getValue(), 
+    			builder.showGrandTotal.getValue(), 
+    			builder.showDataRows, 
+    			builder.valuesSorted); 
     }
     
     /**
@@ -97,8 +97,8 @@ public class FlatTable extends AbstractColumnBasedTable {
      */
     private Algorithm configSortingAlgo(){
     	MultiStepAlgo sortingAlgo = new OpenLoopCloseInputAlgo(){
-    		@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
-    			return (ReportInput)inputParams.get(IOKeys.REPORT_INPUT); 
+    		@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
+    			return (TableInput)inputParams.get(IOKeys.REPORT_INPUT); 
     		}
     	};
     	
@@ -119,18 +119,18 @@ public class FlatTable extends AbstractColumnBasedTable {
     private Algorithm configReportAlgo(final boolean hasBeenPreviouslySorted){
     	MultiStepAlgo reportAlgo = new OpenLoopCloseInputAlgo(){
     		@Override 
-    		protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
+    		protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
     			if(hasBeenPreviouslySorted){
     				//if the input has been previously sorted
     				//then the sorting algorithm ( the previous) has created external sorted files
     				//which will serve as input from this point on
-    				return new MultipleExternalSortedFilesInput(
+    				return new MultipleExternalSortedFilesTableInput(
 							(List<File>)inputParams.get(IOKeys.SORTED_FILES), 
 							new NewRowComparator(
 									(List<GroupColumn>)inputParams.get(IOKeys.GROUP_COLS), 
 									(List<DataColumn>)inputParams.get(IOKeys.DATA_COLS)));
     			}else{
-    				return (ReportInput)inputParams.get(IOKeys.REPORT_INPUT);
+    				return (TableInput)inputParams.get(IOKeys.REPORT_INPUT);
     			}
     		}
     	};
@@ -212,7 +212,7 @@ public class FlatTable extends AbstractColumnBasedTable {
         //preparing the context of the report reportAlgo 
         Map<IOKeys, Object> inputParams = new EnumMap<IOKeys, Object>(IOKeys.class);	
     	inputParams.put(IOKeys.REPORT_TITLE, "report title should not be used"); 
-    	inputParams.put(IOKeys.REPORT_INPUT, getIn());
+    	inputParams.put(IOKeys.REPORT_INPUT, getInput());
     	inputParams.put(IOKeys.NEW_REPORT_OUTPUT, reportOutput);
     	inputParams.put(IOKeys.DATA_COLS, getDataColumns()); 
     	inputParams.put(IOKeys.GROUP_COLS, getGroupColumns()); 
@@ -237,7 +237,7 @@ public class FlatTable extends AbstractColumnBasedTable {
     	private boolean showDataRows = true; 
     	private boolean valuesSorted = true; 
     	
-    	private ReportInput reportInput = null; 
+    	private TableInput reportInput = null; 
     	
     	private List<DataColumn> dataColumns = new ArrayList<DataColumn>(); 
     	private List<GroupColumn> groupColumns = new ArrayList<GroupColumn>();
@@ -278,7 +278,7 @@ public class FlatTable extends AbstractColumnBasedTable {
     		return this; 
     	}
     	
-    	public Builder input(ReportInput input){
+    	public Builder input(TableInput input){
     		this.reportInput = input; 
     		return this; 
     	}

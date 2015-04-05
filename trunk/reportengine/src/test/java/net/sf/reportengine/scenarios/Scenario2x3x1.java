@@ -12,8 +12,8 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
-import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.in.TextInput;
+import net.sf.reportengine.in.TableInput;
+import net.sf.reportengine.in.TextTableInput;
 
 /**
  * @author dragos
@@ -21,7 +21,7 @@ import net.sf.reportengine.in.TextInput;
  */
 public class Scenario2x3x1 {
 	
-	public static final ReportInput INPUT = new TextInput(Scenario2x3x1.class.getClassLoader().getResourceAsStream("2x3x1.txt"),",");
+	public static final TableInput INPUT = new TextTableInput(Scenario2x3x1.class.getClassLoader().getResourceAsStream("2x3x1.txt"),",");
 	
 	public static final List<GroupColumn> GROUP_COLUMNS = Arrays.asList(
 		new GroupColumn[]{

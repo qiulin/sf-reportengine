@@ -6,7 +6,7 @@ package net.sf.reportengine;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
-import net.sf.reportengine.in.SqlInput;
+import net.sf.reportengine.in.SqlTableInput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.scenarios.AutodetectConfigurationScenario;
 
@@ -49,7 +49,7 @@ public class TestAutoconfigFlatReport {
 	public void testAutodetectFromDatabase(){
 		AutoconfigFlatReport autoconfigReport = new AutoconfigFlatReport(); 
 		autoconfigReport.setTitle("autoconfig report from sql"); 
-		SqlInput input = new SqlInput(); 
+		SqlTableInput input = new SqlTableInput(); 
 		input.setDbUser("SA");
 		input.setDbPassword("");
 		input.setDbDriverClass("org.hsqldb.jdbcDriver");
@@ -64,7 +64,7 @@ public class TestAutoconfigFlatReport {
 	@Test
 	public void testAutodetectFromDatabaseWithUserPrefs(){
 		AutoconfigFlatReport flatReport = new AutoconfigFlatReport(); 
-		SqlInput input = new SqlInput(); 
+		SqlTableInput input = new SqlTableInput(); 
 		input.setDbUser("SA");
 		input.setDbPassword("");
 		input.setDbDriverClass("org.hsqldb.jdbcDriver");
@@ -84,7 +84,7 @@ public class TestAutoconfigFlatReport {
 	@Test
 	public void testAutodetectFromDatabaseWithNoDeclaredOrderButSortedInternally(){
 		AutoconfigFlatReport flatReport = new AutoconfigFlatReport(); 
-		SqlInput input = new SqlInput(); 
+		SqlTableInput input = new SqlTableInput(); 
 		input.setDbUser("SA");
 		input.setDbPassword("");
 		input.setDbDriverClass("org.hsqldb.jdbcDriver");
@@ -110,7 +110,7 @@ public class TestAutoconfigFlatReport {
 					.title("Report with programatic ordering for non-grouping columns")
 					.sortValues()
 					.build(); 
-		SqlInput input = new SqlInput(); 
+		SqlTableInput input = new SqlTableInput(); 
 		input.setDbUser("SA");
 		input.setDbPassword("");
 		input.setDbDriverClass("org.hsqldb.jdbcDriver");

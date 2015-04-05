@@ -35,8 +35,8 @@ import net.sf.reportengine.core.steps.intermed.IntermedReportExtractTotalsDataIn
 import net.sf.reportengine.core.steps.intermed.IntermedSetResultsExitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsCalculatorStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsOutputStep;
-import net.sf.reportengine.in.IntermediateCrosstabReportInput;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.IntermediateCrosstabReportTableInput;
+import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.ReportOutput;
@@ -122,9 +122,9 @@ public class TestStepsCombo  {
 			assertNotNull(intermedOutput); 
 			
 			//checking the output
-			IntermediateCrosstabReportInput actualOutputReader = new IntermediateCrosstabReportInput(new FileInputStream(intermedOutput));
-			IntermediateCrosstabReportInput expectedOutputReader = 
-					new IntermediateCrosstabReportInput(
+			IntermediateCrosstabReportTableInput actualOutputReader = new IntermediateCrosstabReportTableInput(new FileInputStream(intermedOutput));
+			IntermediateCrosstabReportTableInput expectedOutputReader = 
+					new IntermediateCrosstabReportTableInput(
 							ReportIoUtils.createInputStreamFromClassPath("TestIntermediateInput2x2x1xT.rep"));
 			
 			actualOutputReader.open(); 
@@ -186,9 +186,9 @@ public class TestStepsCombo  {
 			assertNotNull(intermedOutput); 
 			
 			//checking the output
-			IntermediateCrosstabReportInput actualOutputReader = new IntermediateCrosstabReportInput(new FileInputStream(intermedOutput));
-			IntermediateCrosstabReportInput expectedOutputReader = 
-					new IntermediateCrosstabReportInput(
+			IntermediateCrosstabReportTableInput actualOutputReader = new IntermediateCrosstabReportTableInput(new FileInputStream(intermedOutput));
+			IntermediateCrosstabReportTableInput expectedOutputReader = 
+					new IntermediateCrosstabReportTableInput(
 							ReportIoUtils.createInputStreamFromClassPath("TestIntermediateInput1x3x1xT.rep"));
 			
 			actualOutputReader.open(); 
@@ -250,9 +250,9 @@ public class TestStepsCombo  {
 			assertNotNull(intermedOutput); 
 			
 			//checking the output
-			IntermediateCrosstabReportInput actualOutputReader = new IntermediateCrosstabReportInput(new FileInputStream(intermedOutput));
-			IntermediateCrosstabReportInput expectedOutputReader = 
-					new IntermediateCrosstabReportInput(
+			IntermediateCrosstabReportTableInput actualOutputReader = new IntermediateCrosstabReportTableInput(new FileInputStream(intermedOutput));
+			IntermediateCrosstabReportTableInput expectedOutputReader = 
+					new IntermediateCrosstabReportTableInput(
 							ReportIoUtils.createInputStreamFromClassPath("TestIntermediateInput1x3x1.rep"));
 			
 			actualOutputReader.open(); 
@@ -319,9 +319,9 @@ public class TestStepsCombo  {
 			assertNotNull(intermedOutput); 
 			
 			//checking the output
-			IntermediateCrosstabReportInput actualOutputReader = new IntermediateCrosstabReportInput(new FileInputStream(intermedOutput));
-			IntermediateCrosstabReportInput expectedOutputReader = 
-					new IntermediateCrosstabReportInput(
+			IntermediateCrosstabReportTableInput actualOutputReader = new IntermediateCrosstabReportTableInput(new FileInputStream(intermedOutput));
+			IntermediateCrosstabReportTableInput expectedOutputReader = 
+					new IntermediateCrosstabReportTableInput(
 							ReportIoUtils.createInputStreamFromClassPath("TestIntermediateInput1x1x1xT.rep"));
 			
 			actualOutputReader.open(); 
@@ -381,9 +381,9 @@ public class TestStepsCombo  {
 			assertNotNull(intermedOutput); 
 			
 			//checking the output
-			IntermediateCrosstabReportInput actualOutputReader = new IntermediateCrosstabReportInput(new FileInputStream(intermedOutput));
-			IntermediateCrosstabReportInput expectedOutputReader = 
-					new IntermediateCrosstabReportInput(
+			IntermediateCrosstabReportTableInput actualOutputReader = new IntermediateCrosstabReportTableInput(new FileInputStream(intermedOutput));
+			IntermediateCrosstabReportTableInput expectedOutputReader = 
+					new IntermediateCrosstabReportTableInput(
 							ReportIoUtils.createInputStreamFromClassPath("TestIntermediateInput4x3x1xT.rep"));
 			
 			actualOutputReader.open(); 
@@ -442,9 +442,9 @@ public class TestStepsCombo  {
 			assertNotNull(intermedOutput); 
 			
 			//checking the output
-			IntermediateCrosstabReportInput actualOutputReader = new IntermediateCrosstabReportInput(new FileInputStream(intermedOutput));
-			IntermediateCrosstabReportInput expectedOutputReader = 
-					new IntermediateCrosstabReportInput(
+			IntermediateCrosstabReportTableInput actualOutputReader = new IntermediateCrosstabReportTableInput(new FileInputStream(intermedOutput));
+			IntermediateCrosstabReportTableInput expectedOutputReader = 
+					new IntermediateCrosstabReportTableInput(
 							ReportIoUtils.createInputStreamFromClassPath("TestIntermediateInput4x3x1.rep"));
 			
 			actualOutputReader.open(); 
@@ -503,9 +503,9 @@ public class TestStepsCombo  {
 			assertNotNull(intermedOutput); 
 			
 			//checking the output
-			IntermediateCrosstabReportInput actualOutputReader = new IntermediateCrosstabReportInput(new FileInputStream(intermedOutput));
-			IntermediateCrosstabReportInput expectedOutputReader = 
-					new IntermediateCrosstabReportInput(
+			IntermediateCrosstabReportTableInput actualOutputReader = new IntermediateCrosstabReportTableInput(new FileInputStream(intermedOutput));
+			IntermediateCrosstabReportTableInput expectedOutputReader = 
+					new IntermediateCrosstabReportTableInput(
 							ReportIoUtils.createInputStreamFromClassPath("TestIntermediateInput2x2x1With0G2D.rep"));
 			
 			actualOutputReader.open(); 
@@ -524,9 +524,9 @@ public class TestStepsCombo  {
 		ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut2x2x1xT.html");  
 		
 		MultiStepAlgo algo = new OpenLoopCloseInputAlgo(){
-			@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
+			@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
 				File previousAlgoSerializedOutput = (File)inputParams.get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
-				return new IntermediateCrosstabReportInput(previousAlgoSerializedOutput);
+				return new IntermediateCrosstabReportTableInput(previousAlgoSerializedOutput);
 			}
 		}; 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
@@ -584,9 +584,9 @@ public class TestStepsCombo  {
 		ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut2x2x1With0G2D.html");  
 		
 		MultiStepAlgo algo = new OpenLoopCloseInputAlgo(){
-			@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
+			@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
 				File previousAlgoSerializedOutput = (File)inputParams.get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
-				return new IntermediateCrosstabReportInput(previousAlgoSerializedOutput);
+				return new IntermediateCrosstabReportTableInput(previousAlgoSerializedOutput);
 			}
 		};  
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
@@ -638,9 +638,9 @@ public class TestStepsCombo  {
 		ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut1x3x1xT.html");  
 		
 		MultiStepAlgo algo = new OpenLoopCloseInputAlgo(){
-			@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
+			@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
 				File previousAlgoSerializedOutput = (File)inputParams.get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
-				return new IntermediateCrosstabReportInput(previousAlgoSerializedOutput);
+				return new IntermediateCrosstabReportTableInput(previousAlgoSerializedOutput);
 			}
 		}; 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
@@ -692,9 +692,9 @@ public class TestStepsCombo  {
 		ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut1x3x1.html");  
 		
 		MultiStepAlgo algo = new OpenLoopCloseInputAlgo(){
-			@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
+			@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
 				File previousAlgoSerializedOutput = (File)inputParams.get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
-				return new IntermediateCrosstabReportInput(previousAlgoSerializedOutput);
+				return new IntermediateCrosstabReportTableInput(previousAlgoSerializedOutput);
 			}
 		}; 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);

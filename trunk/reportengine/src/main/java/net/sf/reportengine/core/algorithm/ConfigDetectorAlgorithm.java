@@ -11,7 +11,7 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.in.ColumnMetadata;
 import net.sf.reportengine.in.ColumnPreferences;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
 
@@ -27,7 +27,7 @@ public class ConfigDetectorAlgorithm implements Algorithm {
 	 * @see net.sf.reportengine.core.algorithm.Algorithm#execute(java.util.Map)
 	 */
 	public Map<IOKeys, Object> execute(Map<IOKeys, Object> inputParams) {
-		ReportInput input = (ReportInput)inputParams.get(IOKeys.REPORT_INPUT); 
+		TableInput input = (TableInput)inputParams.get(IOKeys.REPORT_INPUT); 
 		input.open(); //TODO: THIS IS NOT OK, we open the input in this algorithm ( => open a connection to the DB) 
 		//and then we open it again in the next algorithm ( to loop through the rows)
 		

@@ -6,7 +6,7 @@ package net.sf.reportengine.util;
 import java.io.InputStream;
 import java.util.List;
 
-import net.sf.reportengine.in.IntermediateCrosstabReportInput;
+import net.sf.reportengine.in.IntermediateCrosstabReportTableInput;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.Html5Output;
 import net.sf.reportengine.out.ReportProps;
@@ -22,7 +22,7 @@ public class IntermedCrosstabViewer {
 	 * we take advantage of the existing input to get access 
 	 * to each line of the intermediate report
 	 */
-	private final IntermediateCrosstabReportInput intermCtInput; 
+	private final IntermediateCrosstabReportTableInput intermCtInput; 
 	
 	/**
 	 * we take advantage of the extisting outputs
@@ -35,7 +35,7 @@ public class IntermedCrosstabViewer {
 	 * @param outputFilePath
 	 */
 	public IntermedCrosstabViewer(InputStream input, String outputFilePath){
-		intermCtInput = new IntermediateCrosstabReportInput(input);
+		intermCtInput = new IntermediateCrosstabReportTableInput(input);
 		output = new Html5Output(outputFilePath); 
 	}
 	
