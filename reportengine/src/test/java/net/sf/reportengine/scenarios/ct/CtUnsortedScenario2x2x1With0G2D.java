@@ -12,8 +12,8 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
-import net.sf.reportengine.in.ArrayReportInput;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.ArrayTableInput;
+import net.sf.reportengine.in.TableInput;
 
 /**
  * in this scenario the data columns have sortLevel set. The report doesn't need any other configuration
@@ -41,7 +41,7 @@ public class CtUnsortedScenario2x2x1With0G2D {
 
     }; 
 	
-	public final static ReportInput INPUT = new ArrayReportInput(RAW_INPUT);
+	public final static TableInput INPUT = new ArrayTableInput(RAW_INPUT);
 	
 	public static final List<GroupColumn> GROUPING_COLUMNS = null; 
 	

@@ -18,8 +18,8 @@ import net.sf.reportengine.core.calc.CalcIntermResult;
 import net.sf.reportengine.core.calc.DefaultCalcIntermResult;
 import net.sf.reportengine.core.calc.CountGroupCalculator;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
-import net.sf.reportengine.in.ArrayReportInput;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.ArrayTableInput;
+import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 
@@ -146,6 +146,6 @@ public class ScenarioSort {
 		}
 	};
 	
-	public final static ReportInput INPUT = new ArrayReportInput(RAW_DATA);
+	public final static TableInput INPUT = new ArrayTableInput(RAW_DATA);
 	public static CellPropsArrayOutput OUTPUT = new CellPropsArrayOutput();
 }

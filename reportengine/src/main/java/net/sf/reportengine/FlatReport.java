@@ -38,8 +38,8 @@ import net.sf.reportengine.core.steps.OpenReportOutputInitStep;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
-import net.sf.reportengine.in.MultipleExternalSortedFilesInput;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.MultipleExternalSortedFilesTableInput;
+import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
@@ -80,7 +80,7 @@ import org.slf4j.LoggerFactory;
  * </pre>
  * </p>
  * 
- * @see ReportInput
+ * @see TableInput
  * @see ReportOutput
  * @see DataColumn
  * @see GroupColumn
@@ -157,8 +157,8 @@ public class FlatReport extends AbstractColumnBasedReport {
      */
     private Algorithm configSortingAlgo(){
     	MultiStepAlgo sortingAlgo = new OpenLoopCloseInputAlgo(){
-    		@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
-    			return (ReportInput)inputParams.get(IOKeys.REPORT_INPUT); 
+    		@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
+    			return (TableInput)inputParams.get(IOKeys.REPORT_INPUT); 
     		}
     	};
     	
@@ -182,18 +182,18 @@ public class FlatReport extends AbstractColumnBasedReport {
      */
     private Algorithm configReportAlgo(final boolean hasBeenPreviouslySorted){
     	MultiStepAlgo reportAlgo = new OpenLoopCloseInputAlgo(){
-    		@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
+    		@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
     			if(hasBeenPreviouslySorted){
     				//if the input has been previously sorted
     				//then the sorting algorithm ( the previous) has created external sorted files
     				//which will serve as input from this point on
-    				return new MultipleExternalSortedFilesInput(
+    				return new MultipleExternalSortedFilesTableInput(
 							(List<File>)inputParams.get(IOKeys.SORTED_FILES), 
 							new NewRowComparator(
 									(List<GroupColumn>)inputParams.get(IOKeys.GROUP_COLS), 
 									(List<DataColumn>)inputParams.get(IOKeys.DATA_COLS)));
     			}else{
-    				return (ReportInput)inputParams.get(IOKeys.REPORT_INPUT);
+    				return (TableInput)inputParams.get(IOKeys.REPORT_INPUT);
     			}
     		}
     	};
@@ -301,7 +301,7 @@ public class FlatReport extends AbstractColumnBasedReport {
     	private boolean showDataRows = true; 
     	private boolean valuesSorted = true; 
     	
-    	private ReportInput reportInput = null; 
+    	private TableInput reportInput = null; 
     	private ReportOutput reportOutput = null;
     	
     	private List<DataColumn> dataColumns = new ArrayList<DataColumn>(); 
@@ -348,7 +348,7 @@ public class FlatReport extends AbstractColumnBasedReport {
     		return this; 
     	}
     	
-    	public Builder input(ReportInput input){
+    	public Builder input(TableInput input){
     		this.reportInput = input; 
     		return this; 
     	}

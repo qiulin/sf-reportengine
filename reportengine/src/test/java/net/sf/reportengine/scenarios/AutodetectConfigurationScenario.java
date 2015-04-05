@@ -10,7 +10,7 @@ import java.util.List;
 
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.in.ColumnMetadata;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.TableInput;
 
 import org.mockito.Mockito;
 
@@ -24,7 +24,7 @@ public class AutodetectConfigurationScenario {
 			Arrays.asList(	new ColumnMetadata("col1", "col1label", HorizAlign.CENTER), 
 							new ColumnMetadata("col2", "col2label", HorizAlign.LEFT));
 	
-	public static ReportInput INPUT = Mockito.mock(ReportInput.class); 
+	public static TableInput INPUT = Mockito.mock(TableInput.class); 
 	
 	public static void initScenario(){
 		

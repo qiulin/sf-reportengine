@@ -16,8 +16,8 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ReportContent;
 import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
-import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.in.ArrayReportInput;
+import net.sf.reportengine.in.TableInput;
+import net.sf.reportengine.in.ArrayTableInput;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.util.CrossTabCoefficients;
 
@@ -65,7 +65,7 @@ public class CtScenario1x1x1 {
 	public static final CrosstabData CROSSTAB_DATA_NO_TOTALS = new DefaultCrosstabData(2);
 	
 	
-	public final static ReportInput INPUT = new ArrayReportInput(RAW_INPUT);
+	public final static TableInput INPUT = new ArrayTableInput(RAW_INPUT);
     
 	
 	public final static int[] AGG_LEVEL = new int[]{

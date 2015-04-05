@@ -1,10 +1,13 @@
 package net.sf.reportengine;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 
+import net.sf.reportengine.components.FlatTable;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.in.TextInput;
+import net.sf.reportengine.in.TableInput;
+import net.sf.reportengine.in.TextTableInput;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.ExcelOutput;
 import net.sf.reportengine.out.Html5Output;
@@ -13,6 +16,8 @@ import net.sf.reportengine.out.PdfOutput;
 import net.sf.reportengine.out.PngOutput;
 import net.sf.reportengine.out.StaxReportOutput;
 import net.sf.reportengine.out.XsltOutput;
+import net.sf.reportengine.out.neo.DefaultReportOutput;
+import net.sf.reportengine.out.neo.NewReportOutput;
 import net.sf.reportengine.scenarios.NoGroupsScenario;
 import net.sf.reportengine.scenarios.OhlcComputationScenario;
 import net.sf.reportengine.scenarios.Scenario1;
@@ -27,66 +32,61 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TestFlatReport {
+public class TestFlatTable {
 	
 	@Test
-	public void testExecuteReportWithoutGroupColumns(){
+	public void testExecuteReportWithoutGroupColumns() throws IOException{
 		//this report has no grouping columns but it has a grand total at the end
 		//because the data columns have group calculators added
-		FlatReport report = new FlatReport.Builder()
-					.title("This report has no grouping columns but it has a grand total at the end")
+		
+		NewReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/FlatTableWithoutGroupColumns.html")); 
+		reportOutput.open(); 
+		FlatTable flatTable = new FlatTable.Builder()
 					.input(Scenario1.INPUT)
-					.output(new Html5Output("./target/ReportWithoutGroupColumns.html"))
 					.dataColumns(Scenario1.DATA_COLUMNS)
-					//.showDataRows(true) - this is by default
 				.build();
 		
 		//test the computed values
-		Assert.assertTrue(report.getShowDataRows());
-		Assert.assertTrue(report.getShowTotals());
-		Assert.assertTrue(report.getShowGrandTotal());
-		Assert.assertNotNull(report.getTitle());
+		Assert.assertTrue(flatTable.getShowDataRows());
+		Assert.assertTrue(flatTable.getShowTotals());
+		Assert.assertTrue(flatTable.getShowGrandTotal());
 		
 		//execute the report
-		report.execute();
+		flatTable.output(reportOutput);
+		reportOutput.close(); 
 		
 		//TODO: test the output here
 	}
 	
 	
 	@Test
-	public void testExecuteScenario1(){
+	public void testExecuteScenario1() throws IOException{
+		
 		//test of a simple report with 3 grouping columns and 3 data columns 
 		//the grouping columns don't require any sorting
 		
-		OutputDispatcher outputDispatcher = new OutputDispatcher(); 
-		CellPropsArrayOutput testOut = new CellPropsArrayOutput();
-		outputDispatcher.registerOutput(testOut); 
-		outputDispatcher.registerOutput(new Html5Output("./target/Scenario1.html")); 
-		
-		FlatReport flatReport = new FlatReport.Builder()
+		NewReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/FlatTableScenario1.html")); 
+		reportOutput.open();
+		FlatTable flatTable = new FlatTable.Builder()
 									.input(Scenario1.INPUT)
-									.output(outputDispatcher)
 									.dataColumns(Scenario1.DATA_COLUMNS)
 									.groupColumns(Scenario1.GROUPING_COLUMNS)
-									//.showTotals(true)
-									//.showDataRows(true)
-									//.showGrandTotal(true)
 									.build();
 		
 		//check the default values
-		Assert.assertTrue(flatReport.getShowTotals());
-		Assert.assertTrue(flatReport.getShowGrandTotal());
-		Assert.assertTrue(flatReport.getShowDataRows());
-		Assert.assertNull(flatReport.getTitle());
+		Assert.assertTrue(flatTable.getShowTotals());
+		Assert.assertTrue(flatTable.getShowGrandTotal());
+		Assert.assertTrue(flatTable.getShowDataRows());
 		
 		//execute the report
-		flatReport.execute();
+		flatTable.output(reportOutput);
+		reportOutput.close(); 
 		
-		//test the output	
-		Assert.assertTrue(MatrixUtils.compareMatrices(
-										testOut.getDataCellMatrix(), 
-										Scenario1.EXPECTED_OUTPUT_UNSORTED));
+		//@TODO: test the output
+//		Assert.assertTrue(MatrixUtils.compareMatrices(
+//										testOut.getDataCellMatrix(), 
+//										Scenario1.EXPECTED_OUTPUT_UNSORTED));
+		
 	}
 	
 	@Test
@@ -130,7 +130,7 @@ public class TestFlatReport {
 		InputStream testStream = ReportIoUtils.createInputStreamFromClassPath("EURUSD_2007-2009_FirstHours.txt");
 		Assert.assertNotNull(testStream);
 		
-		TextInput in = new TextInput(testStream,"\t");
+		TextTableInput in = new TextTableInput(testStream,"\t");
 		
 		OutputDispatcher output = new OutputDispatcher();
 		output.registerOutput(new Html5Output("target/testFlatReportOHLC.html"));
@@ -153,7 +153,7 @@ public class TestFlatReport {
 	public void testExecute2x3x1(){
 		FlatReport flatReport = new FlatReport();	
     	InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("2x3x1.txt");
-    	TextInput input = new TextInput(inputStream);
+    	TextTableInput input = new TextTableInput(inputStream);
     	
     	flatReport.setGroupColumns(Scenario2x3x1.GROUP_COLUMNS);
         flatReport.setDataColumns(Scenario2x3x1.DATA_COLUMNS);
@@ -208,7 +208,7 @@ public class TestFlatReport {
 		
 		flatReport.setTitle("Sîne klâwen durh die wolken sint geslagen");
 		
-		ReportInput reportInput = new TextInput(inputStream, ",", "UTF-8"); 
+		TableInput reportInput = new TextTableInput(inputStream, ",", "UTF-8"); 
 		flatReport.setIn(reportInput); 
 		
 		flatReport.addDataColumn(new DefaultDataColumn(0)); 
@@ -229,7 +229,7 @@ public class TestFlatReport {
 		
 		flatReport.setTitle("Sîne klâwen durh die wolken sint geslagen");
 		
-		ReportInput reportInput = new TextInput(inputStream, ",", "UTF-8"); 
+		TableInput reportInput = new TextTableInput(inputStream, ",", "UTF-8"); 
 		flatReport.setIn(reportInput); 
 		
 		flatReport.addDataColumn(new DefaultDataColumn(0)); 

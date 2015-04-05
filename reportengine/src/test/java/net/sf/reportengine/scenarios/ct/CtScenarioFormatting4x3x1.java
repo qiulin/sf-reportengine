@@ -17,8 +17,8 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.calc.GroupCalculators;
-import net.sf.reportengine.in.ArrayReportInput;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.ArrayTableInput;
+import net.sf.reportengine.in.TableInput;
 
 /**
  * @author dragos balan
@@ -96,5 +96,5 @@ public class CtScenarioFormatting4x3x1 {
 														.valuesFormatter("%s $")
 														.build();
 	
-	public final static ReportInput INPUT = new ArrayReportInput(RAW_INPUT);
+	public final static TableInput INPUT = new ArrayTableInput(RAW_INPUT);
 }

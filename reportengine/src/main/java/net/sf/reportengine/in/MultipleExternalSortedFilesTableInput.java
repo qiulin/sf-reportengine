@@ -20,12 +20,12 @@ import org.slf4j.LoggerFactory;
  * @author dragos
  *
  */
-public class MultipleExternalSortedFilesInput implements ReportInput {
+public class MultipleExternalSortedFilesTableInput implements TableInput {
 	
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(MultipleExternalSortedFilesInput.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MultipleExternalSortedFilesTableInput.class);
 	
 	/**
 	 * 
@@ -33,7 +33,7 @@ public class MultipleExternalSortedFilesInput implements ReportInput {
 	private PriorityQueue<RowsDataFileBuffer> externalFilesQueue; 
 	
 	
-	public MultipleExternalSortedFilesInput(List<File> externalSortedFiles, 
+	public MultipleExternalSortedFilesTableInput(List<File> externalSortedFiles, 
 											NewRowComparator newRowComparator){
 		
 		LOGGER.info("building input from {} external sorted files", externalSortedFiles.size()); 

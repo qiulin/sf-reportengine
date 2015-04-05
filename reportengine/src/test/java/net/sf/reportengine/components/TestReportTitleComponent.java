@@ -9,6 +9,7 @@ import net.sf.reportengine.out.neo.DefaultReportOutput;
 import net.sf.reportengine.out.neo.NewReportOutput;
 import net.sf.reportengine.out.neo.TestImplForReportOutput;
 
+import org.apache.commons.lang.SystemUtils;
 import org.junit.Test;
 
 public class TestReportTitleComponent {
@@ -22,7 +23,7 @@ public class TestReportTitleComponent {
 		testOutput.open();
 		componentUnderTest.output(testOutput);
 		testOutput.close();
-		assertEquals("title", testOutput.getBuffer()); 
+		assertEquals("title"+SystemUtils.LINE_SEPARATOR, testOutput.getBuffer()); 
 	}
 	
 	

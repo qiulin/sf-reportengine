@@ -14,7 +14,7 @@ import java.util.List;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public class ArrayReportInput extends AbstractReportInput {
+public class ArrayTableInput extends AbstractTableInput {
 	
 	/**
 	 * the data to be returned row by row
@@ -30,7 +30,7 @@ public class ArrayReportInput extends AbstractReportInput {
 	 * 
 	 * @param data
 	 */
-	public ArrayReportInput(Object[][] data){
+	public ArrayTableInput(Object[][] data){
 		this.data = data;
 	}
 	

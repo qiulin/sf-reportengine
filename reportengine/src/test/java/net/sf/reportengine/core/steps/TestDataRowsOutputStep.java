@@ -35,10 +35,11 @@ public class TestDataRowsOutputStep {
 		TestImplForReportOutput mockOutput = new TestImplForReportOutput(); 
 		
 		reportContext.set(ContextKeys.LOCAL_REPORT_INPUT, Scenario1.INPUT);
-		reportContext.set(ContextKeys.NEW_LOCAL_REPORT_OUTPUT, mockOutput); 
+		//reportContext.set(ContextKeys.NEW_LOCAL_REPORT_OUTPUT, mockOutput); 
 		
 		mockAlgoInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
 		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
+		mockAlgoInput.put(IOKeys.NEW_REPORT_OUTPUT, mockOutput); 
 		
 		reportContext.set(ContextKeys.DATA_ROW_COUNT, 0); 
 		classUnderTest.init(new StepInput(mockAlgoInput, reportContext)); 

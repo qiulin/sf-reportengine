@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class TextInput extends AbstractReportInput{
+public class TextTableInput extends AbstractTableInput{
     
 	/**
 	 * the message for cases when no writer is set
@@ -41,7 +41,7 @@ public class TextInput extends AbstractReportInput{
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(TextInput.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TextTableInput.class);
 	
     /**
      * the default separator
@@ -72,7 +72,7 @@ public class TextInput extends AbstractReportInput{
      * empty text imput constructor. 
      * Please use one of the {@link #setInputReader(Reader)}
      */
-    public TextInput(){
+    public TextTableInput(){
     	
     }
     
@@ -82,7 +82,7 @@ public class TextInput extends AbstractReportInput{
      * @param filePath      the path name of the file containing data
      * @throws FileNotFoundException
      */
-    public TextInput(String filePath){
+    public TextTableInput(String filePath){
 		this(filePath, DEFAULT_SEPARATOR);
 	}
 	
@@ -92,7 +92,7 @@ public class TextInput extends AbstractReportInput{
      * @param filePath	path and filename
      * @param separator	data-separator
      */
-    public TextInput(String filePath, String separator){
+    public TextTableInput(String filePath, String separator){
     	this(filePath, separator, ReportIoUtils.UTF8_ENCODING);
     }
     
@@ -106,7 +106,7 @@ public class TextInput extends AbstractReportInput{
      * 
      * @throws FileNotFoundException 
      */
-	public TextInput(String filePath, String separator, String encoding){
+	public TextTableInput(String filePath, String separator, String encoding){
 		this(filePath, separator, encoding, false); 
 	}
 	
@@ -121,7 +121,7 @@ public class TextInput extends AbstractReportInput{
      * @param firstLineIsHeader specifies whether the first line contains the column headers or not
      * 
      */
-	public TextInput(	String filePath, 
+	public TextTableInput(	String filePath, 
 						String separator, 
 						String encoding, 
 						boolean firstLineIsHeader){
@@ -136,7 +136,7 @@ public class TextInput extends AbstractReportInput{
 	 * 
 	 * @param is	the input stream
 	 */
-	public TextInput(InputStream is){
+	public TextTableInput(InputStream is){
 		this(is, DEFAULT_SEPARATOR);
 	}
 	
@@ -148,7 +148,7 @@ public class TextInput extends AbstractReportInput{
 	 * @param separator		data-separator
 	 * @throws UnsupportedEncodingException
 	 */
-	public TextInput(InputStream is, String separator){
+	public TextTableInput(InputStream is, String separator){
 		this(is, separator, ReportIoUtils.UTF8_ENCODING);
 	}
 	
@@ -160,7 +160,7 @@ public class TextInput extends AbstractReportInput{
 	 * @param encoding		the encoding 
 	 * @throws UnsupportedEncodingException
 	 */
-	public TextInput(	InputStream is, 
+	public TextTableInput(	InputStream is, 
 						String separator, 
 						String encoding){
 		this(is, separator, encoding, false); 
@@ -176,7 +176,7 @@ public class TextInput extends AbstractReportInput{
 	 * @param encoding 		this flag specifies whether or not the first line contains the column headers
 	 * @throws UnsupportedEncodingException
 	 */
-	public TextInput(	InputStream is, 
+	public TextTableInput(	InputStream is, 
 						String separator, 
 						String encoding, 
 						boolean firstLineIsHeader){
@@ -194,7 +194,7 @@ public class TextInput extends AbstractReportInput{
 	 * 
 	 * @param inReader	the reader
 	 */
-	public TextInput(Reader inReader){
+	public TextTableInput(Reader inReader){
 		this(inReader, DEFAULT_SEPARATOR);
 	}
 	
@@ -206,7 +206,7 @@ public class TextInput extends AbstractReportInput{
 	 * @param inReader		the reader
 	 * @param separator		the separator used to identify data/columns
 	 */
-	public TextInput(Reader reader, String separator){
+	public TextTableInput(Reader reader, String separator){
 		this(reader, separator, false); 
 	}
 	
@@ -218,7 +218,7 @@ public class TextInput extends AbstractReportInput{
 	 * @param separator		the separator used to identify data/columns
 	 * @param firstLineIsHeaderFlag	this flag specifies if the first line contains the column headers
 	 */
-	public TextInput(	Reader inReader, 
+	public TextTableInput(	Reader inReader, 
 						String separator, 
 						boolean firstLineIsHeaderFlag){
 		setInputReader(inReader); 

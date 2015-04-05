@@ -18,12 +18,12 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public abstract class AbstractReportInput implements ReportInput {
+public abstract class AbstractTableInput implements TableInput {
 	
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractReportInput.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTableInput.class);
 	
     /**
      * default header for columns

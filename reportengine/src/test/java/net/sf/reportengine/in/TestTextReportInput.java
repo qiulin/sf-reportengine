@@ -46,7 +46,7 @@ public class TestTextReportInput extends TestCase {
            {"Asia","South","Thailand","Females","over 61","25"},
     };
     
-    private TextInput classUnderTest;
+    private TextTableInput classUnderTest;
 
     protected void setUp() throws Exception {
         super.setUp();
@@ -57,7 +57,7 @@ public class TestTextReportInput extends TestCase {
      */
     public void testNextRow(){
         try {
-            classUnderTest = new TextInput();
+            classUnderTest = new TextTableInput();
             classUnderTest.setInputReader(ReportIoUtils.createReaderFromClassPath(TEST_FILE));
             classUnderTest.setSeparator(",");
             
@@ -84,7 +84,7 @@ public class TestTextReportInput extends TestCase {
     public void testHasMoreRows() {
         int rowsCount = 0;
         try{
-            classUnderTest = new TextInput(ReportIoUtils.createReaderFromClassPath(TEST_FILE));
+            classUnderTest = new TextTableInput(ReportIoUtils.createReaderFromClassPath(TEST_FILE));
             classUnderTest.open();
             while(classUnderTest.hasMoreRows()){
                 classUnderTest.nextRow();
@@ -109,7 +109,7 @@ public class TestTextReportInput extends TestCase {
     public void testGetColumnsCount1() {
         int result = -1;
         try {
-            classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath((TEST_FILE)));
+            classUnderTest = new TextTableInput(ReportIoUtils.createInputStreamFromClassPath((TEST_FILE)));
             classUnderTest.open();
             result = classUnderTest.getColumnMetadata().size();
         } catch (Throwable e) {
@@ -127,7 +127,7 @@ public class TestTextReportInput extends TestCase {
     public void testGetColumnsCount2() {
         
         try {
-            classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath(TEST_FILE));
+            classUnderTest = new TextTableInput(ReportIoUtils.createInputStreamFromClassPath(TEST_FILE));
             classUnderTest.open();
             classUnderTest.nextRow();
             classUnderTest.nextRow();
@@ -152,7 +152,7 @@ public class TestTextReportInput extends TestCase {
     
     public void testFirstRow(){
         try {
-            classUnderTest = new TextInput();
+            classUnderTest = new TextTableInput();
             classUnderTest.setInputReader(ReportIoUtils.createReaderFromClassPath(TEST_FILE));
             
             classUnderTest.open();
@@ -179,7 +179,7 @@ public class TestTextReportInput extends TestCase {
     
     public void testExceptionNonExistentFile(){
         try {
-            classUnderTest = new TextInput("inexistent.txt");
+            classUnderTest = new TextTableInput("inexistent.txt");
             classUnderTest.open();
             fail("an exception should have been thrown by the method above");
         } catch (ReportInputException e) {
@@ -190,11 +190,11 @@ public class TestTextReportInput extends TestCase {
     
     public void testExceptionNoWriterSet(){
         try {
-            classUnderTest = new TextInput();
+            classUnderTest = new TextTableInput();
             classUnderTest.open();
             fail("an exception should have been thrown by the method above");
         } catch (ReportInputException e) {
-        	assertEquals(TextInput.NO_WRITER_SET_ERROR_MESSAGE, e.getMessage());
+        	assertEquals(TextTableInput.NO_WRITER_SET_ERROR_MESSAGE, e.getMessage());
         }                
     }
     
@@ -204,7 +204,7 @@ public class TestTextReportInput extends TestCase {
     public void testHasMoreRowsOnEmptyFile(){
         boolean hasMoreRows = true;
         try {
-            classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath("empty.txt"));
+            classUnderTest = new TextTableInput(ReportIoUtils.createInputStreamFromClassPath("empty.txt"));
             classUnderTest.open();
             hasMoreRows = classUnderTest.hasMoreRows();
         } catch (ReportInputException e) {
@@ -224,7 +224,7 @@ public class TestTextReportInput extends TestCase {
     public void testNextRowOnEmptyFile(){
         List<Object> nextRow = null;
         try {
-            classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath("empty.txt"));
+            classUnderTest = new TextTableInput(ReportIoUtils.createInputStreamFromClassPath("empty.txt"));
             classUnderTest.open();
             nextRow = classUnderTest.nextRow();
         } catch (ReportInputException e) {
@@ -245,7 +245,7 @@ public class TestTextReportInput extends TestCase {
         List<Object> nextRow = null;
         boolean hasMoreRows = true;
         try {
-            classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath("empty.txt"));
+            classUnderTest = new TextTableInput(ReportIoUtils.createInputStreamFromClassPath("empty.txt"));
             classUnderTest.open();
             //classUnderTest.first();
             
@@ -266,7 +266,7 @@ public class TestTextReportInput extends TestCase {
     
     public void testUtf8Characters(){
     	int linesCount = 0;
-    	classUnderTest = new TextInput(ReportIoUtils.createInputStreamFromClassPath("Utf8Input.txt"), ",", "UTF-8");
+    	classUnderTest = new TextTableInput(ReportIoUtils.createInputStreamFromClassPath("Utf8Input.txt"), ",", "UTF-8");
     	classUnderTest.open(); 
     	List<Object> row = null; 
     	while(classUnderTest.hasMoreRows()){
@@ -294,7 +294,7 @@ public class TestTextReportInput extends TestCase {
     public void testSkipFirstLines(){
     	int rowsCount = 0;
     	InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("2x3x1WithColumnHeaders.txt");
-    	classUnderTest = new TextInput(inputStream); 
+    	classUnderTest = new TextTableInput(inputStream); 
     	classUnderTest.setFirstLineHeader(true);
     	classUnderTest.open(); 
     	

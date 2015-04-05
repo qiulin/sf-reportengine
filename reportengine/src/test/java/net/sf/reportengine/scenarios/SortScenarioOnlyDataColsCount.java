@@ -12,8 +12,8 @@ import net.sf.reportengine.config.SortType;
 import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.calc.CountGroupCalculator;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
-import net.sf.reportengine.in.ArrayReportInput;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.ArrayTableInput;
+import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 
 public class SortScenarioOnlyDataColsCount {
@@ -47,6 +47,6 @@ public class SortScenarioOnlyDataColsCount {
 			new DefaultDataColumn("desc sorted with sorting level 0", 5, new SumGroupCalculator(), null, HorizAlign.CENTER, VertAlign.MIDDLE, 0, SortType.DESC) //higher order priority
 	});
 	
-	public final static ReportInput INPUT = new ArrayReportInput(RAW_DATA);
+	public final static TableInput INPUT = new ArrayTableInput(RAW_DATA);
 	public static CellPropsArrayOutput OUTPUT = new CellPropsArrayOutput();
 }

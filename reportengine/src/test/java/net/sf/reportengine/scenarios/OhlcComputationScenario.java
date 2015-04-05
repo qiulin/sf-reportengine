@@ -16,8 +16,8 @@ import net.sf.reportengine.core.calc.LastGroupCalculator;
 import net.sf.reportengine.core.calc.MaxGroupCalculator;
 import net.sf.reportengine.core.calc.MinGroupCalculator;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
-import net.sf.reportengine.in.ReportInput;
-import net.sf.reportengine.in.TextInput;
+import net.sf.reportengine.in.TableInput;
+import net.sf.reportengine.in.TextTableInput;
 import net.sf.reportengine.util.ReportIoUtils;
 
 /**
@@ -26,7 +26,7 @@ import net.sf.reportengine.util.ReportIoUtils;
  */
 public class OhlcComputationScenario {
 	
-	public static final ReportInput INPUT = new TextInput(ReportIoUtils.createInputStreamFromClassPath("2010-1MIN-DATA.tsv"), "\t");
+	public static final TableInput INPUT = new TextTableInput(ReportIoUtils.createInputStreamFromClassPath("2010-1MIN-DATA.tsv"), "\t");
 	
 	public static final List<DataColumn> DATA_COLUMNS = Arrays.asList(
 	new DataColumn[]{

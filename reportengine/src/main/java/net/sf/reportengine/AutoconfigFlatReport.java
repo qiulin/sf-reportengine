@@ -37,8 +37,8 @@ import net.sf.reportengine.core.steps.autodetect.AutodetectFlatReportTotalsOutpu
 import net.sf.reportengine.core.steps.autodetect.AutodetectPreviousRowManagerStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectTotalsCalculatorStep;
 import net.sf.reportengine.in.ColumnPreferences;
-import net.sf.reportengine.in.MultipleExternalSortedFilesInput;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.MultipleExternalSortedFilesTableInput;
+import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
@@ -120,7 +120,7 @@ public class AutoconfigFlatReport extends AbstractReport {
      * 
      * @return
      */
-    private Algorithm configSortingAlgo(ReportInput sortingAlgoReportInput){
+    private Algorithm configSortingAlgo(TableInput sortingAlgoReportInput){
     	//TODO: improve here (this sorting algo doesn't have multiple steps)
     	MultiStepAlgo sortingAlgo = new DefaultLoopThroughReportInputAlgo(); 
     	
@@ -142,18 +142,18 @@ public class AutoconfigFlatReport extends AbstractReport {
      */
     private Algorithm configReportAlgo(final boolean inputHasBeenPreviouslySorted){
     	MultiStepAlgo algorithm = new OpenLoopCloseInputAlgo(){
-    		@Override protected ReportInput buildReportInput(Map<IOKeys, Object> inputParams){
+    		@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
     			if(inputHasBeenPreviouslySorted){
     				//if the input has been previously sorted
     				//then the sorting algorithm ( the previous) has created external sorted files
     				//which will serve as input from this point on
-    				return new MultipleExternalSortedFilesInput(
+    				return new MultipleExternalSortedFilesTableInput(
 							(List<File>)inputParams.get(IOKeys.SORTED_FILES), 
 							new NewRowComparator(
 									(List<GroupColumn>)inputParams.get(IOKeys.GROUP_COLS), 
 									(List<DataColumn>)inputParams.get(IOKeys.DATA_COLS)));
     			}else{
-    				return (ReportInput)inputParams.get(IOKeys.REPORT_INPUT);
+    				return (TableInput)inputParams.get(IOKeys.REPORT_INPUT);
     			}
     		}
     	};
@@ -260,7 +260,7 @@ public class AutoconfigFlatReport extends AbstractReport {
     	private boolean showDataRows = true; 
     	private boolean valuesSorted = true; 
     	
-    	private ReportInput reportInput = null; 
+    	private TableInput reportInput = null; 
     	private ReportOutput reportOutput = null;
     	
     	public Builder() {
@@ -304,7 +304,7 @@ public class AutoconfigFlatReport extends AbstractReport {
     		return this; 
     	}
     	
-    	public Builder input(ReportInput input){
+    	public Builder input(TableInput input){
     		this.reportInput = input; 
     		return this; 
     	}

@@ -5,7 +5,7 @@
 package net.sf.reportengine;
 
 import net.sf.reportengine.core.ConfigValidationException;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.ReportOutput;
 
 
@@ -46,7 +46,7 @@ abstract class AbstractReport {
     /**
      * the input of the report
      */
-    private ReportInput input;
+    private TableInput input;
     
     /**
      * the output of the report
@@ -130,7 +130,7 @@ abstract class AbstractReport {
      * setter method for report input
      * @param in
      */
-    public void setIn(ReportInput in){
+    public void setIn(TableInput in){
     	this.input = in;
     }
     
@@ -145,7 +145,7 @@ abstract class AbstractReport {
 	/**
 	 * @return the input
 	 */
-	public ReportInput getIn() {
+	public TableInput getIn() {
 		return input;
 	}
 

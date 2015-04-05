@@ -14,7 +14,7 @@ import java.util.List;
  * @author dragos balan (dragos dot balan at gmail.com)
  * @since 0.2
  */
-public interface ReportInput {
+public interface TableInput {
 	
 	/**
      * prepares the input for reading. 

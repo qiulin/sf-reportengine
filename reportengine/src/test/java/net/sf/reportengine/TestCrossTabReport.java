@@ -13,7 +13,7 @@ import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.calc.CountGroupCalculator;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
-import net.sf.reportengine.in.TextInput;
+import net.sf.reportengine.in.TextTableInput;
 import net.sf.reportengine.out.ExcelOutput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.OutputDispatcher;
@@ -173,7 +173,7 @@ public class TestCrossTabReport extends TestCase {
 	public void testExecute3x2x1xT(){
 		new CrossTabReport.Builder() 
 			.title("Pivot table 3x2x1xT. Please observe the strange behaviour on Count Rows. <br/>It's due to using two different group calculators (one for crosstabData and a different one for dataColumn") 
-			.input(new TextInput(ReportIoUtils.createInputStreamFromClassPath("3x2x1.txt"), ","))
+			.input(new TextTableInput(ReportIoUtils.createInputStreamFromClassPath("3x2x1.txt"), ","))
 			.output(new HtmlOutput("target/CrosstabReport3x2x1xT.html"))
 			.addGroupColumn(new DefaultGroupColumn.Builder(0).header("Country").build())
 			.addGroupColumn(new DefaultGroupColumn.Builder(1).header("Region").build())
@@ -194,7 +194,7 @@ public class TestCrossTabReport extends TestCase {
 	//TODO
 	public void testExecute3x2x1xTHavingNoGroupColumns(){
 		CrossTabReport classUnderTest = new CrossTabReport(); 
-		classUnderTest.setIn(new TextInput(ReportIoUtils.createInputStreamFromClassPath("3x2x1.txt"), ",")); 
+		classUnderTest.setIn(new TextTableInput(ReportIoUtils.createInputStreamFromClassPath("3x2x1.txt"), ",")); 
 		classUnderTest.setOut(new HtmlOutput("target/CrosstabReport3x2x1xTxNoGroupColumns.html"));
 		
 		classUnderTest.addDataColumn(new DefaultDataColumn("Country", 0)); 

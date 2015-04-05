@@ -32,12 +32,12 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public class IntermediateCrosstabReportInput extends AbstractReportInput {
+public class IntermediateCrosstabReportTableInput extends AbstractTableInput {
 	
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(IntermediateCrosstabReportInput.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(IntermediateCrosstabReportTableInput.class);
 	
 	/**
 	 * input containing serialized intermediate objects
@@ -53,7 +53,7 @@ public class IntermediateCrosstabReportInput extends AbstractReportInput {
 	 * 
 	 * @param input
 	 */
-	public IntermediateCrosstabReportInput(InputStream input){
+	public IntermediateCrosstabReportTableInput(InputStream input){
 		try {
 			this.intermCtLinesInputStream = new ObjectInputStream(input);
 		} catch (IOException e) {
@@ -65,7 +65,7 @@ public class IntermediateCrosstabReportInput extends AbstractReportInput {
 	 * 
 	 * @param input
 	 */
-	public IntermediateCrosstabReportInput(File input){
+	public IntermediateCrosstabReportTableInput(File input){
 		try{
 			this.intermCtLinesInputStream = new ObjectInputStream(new FileInputStream(input)); 
 		}catch(FileNotFoundException fnfExc){

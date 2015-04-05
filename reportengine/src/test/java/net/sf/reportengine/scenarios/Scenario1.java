@@ -18,8 +18,8 @@ import net.sf.reportengine.core.calc.DefaultCalcIntermResult;
 import net.sf.reportengine.core.calc.GroupCalculator;
 import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
-import net.sf.reportengine.in.ArrayReportInput;
-import net.sf.reportengine.in.ReportInput;
+import net.sf.reportengine.in.ArrayTableInput;
+import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 
@@ -153,7 +153,7 @@ public class Scenario1 {
     	new CalcIntermResult[]{new DefaultCalcIntermResult<Integer>(Integer.valueOf(6)),new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(14))}
 	};
 	
-    public final static ReportInput INPUT = new ArrayReportInput(RAW_DATA);
+    public final static TableInput INPUT = new ArrayTableInput(RAW_DATA);
     
 	public final static CellProps[][] OUTPUT_TOTALS = new CellProps[][]{
 			//displayed on row 3
