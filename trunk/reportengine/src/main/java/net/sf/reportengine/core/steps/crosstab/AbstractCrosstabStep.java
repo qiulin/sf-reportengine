@@ -19,28 +19,6 @@ import net.sf.reportengine.util.IOKeys;
  */
 public abstract class AbstractCrosstabStep<T,U,V> extends AbstractReportStep<T,U,V> {
 	
-	
-	/**
-	 * returns the original set of grouping columns. This is just to differentiate between getGroupingColumns
-	 * and getOriginalGroupingColumns. The getGroupingColumns returns the current group columns which may contain 
-	 * runtime added groups (like in intermediate reports where I build groups out of row headers). 
-	 * 
-	 * getOriginalGroupingColumns returns what the user has set as group columns in the crosstab report
-	 * 
-	 * @return
-	 */
-//	public GroupColumn[] getOriginalCrosstabGroupingColumns(){
-//		return (GroupColumn[])getContext().get(CrossTabReport.CONTEXT_KEY_CROSSTAB_GROUP_COLS);
-//	}
-	
-//	public Integer getOriginalCrosstabGroupingColsLength(){
-//		return (Integer)getInput().get(IOKeys.ORIGINAL_CT_GROUP_COLS_COUNT); 
-//	}
-//	
-//	public int getOriginalCrosstabDataColsLength(){
-//		return (Integer)getInput().get(IOKeys.ORIGINAL_CT_DATA_COLS_COUNT); 
-//	}
-		
 	public List<CrosstabHeaderRow> getCrosstabHeaderRows(StepInput stepInput){
 		return (List<CrosstabHeaderRow>)stepInput.getAlgoInput(IOKeys.CROSSTAB_HEADER_ROWS); 
 	}
@@ -50,19 +28,9 @@ public abstract class AbstractCrosstabStep<T,U,V> extends AbstractReportStep<T,U
 	 }
 		
 	 public CrosstabData getCrosstabData(StepInput stepInput){
-		 //return (CrosstabData)getContext().get(ContextKeys.CROSSTAB_DATA); 
 		 return (CrosstabData)stepInput.getAlgoInput(IOKeys.CROSSTAB_DATA); 
 	 }
 	 
-//	 public int[] getDataRelativePositionToHeader(){
-//		 return (int[])getContext().get(DistinctValuesDetectorStep.CONTEXT_KEY_CROSSTAB_RELATIVE_POSITION);
-//	 }
-	 
-	 /**
-	  * getter for CROSSTAB_METADATA 
-	  * 
-	  * @return the crosstab metadata of the report
-	  */
 	 public DefaultDistinctValuesHolder getDistinctValuesHolder(StepInput stepInput){
 		 return (DefaultDistinctValuesHolder)stepInput.getContextParam(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER); 
 	 }
@@ -80,41 +48,20 @@ public abstract class AbstractCrosstabStep<T,U,V> extends AbstractReportStep<T,U
 	 }
 	
 	 
-	 	/**
-	     * 
-	     * @param from
-	     * @param to
-	     * @return
-	     */
-//	    public Object[] getPreviousGroupingValues(int groupingLevel) {
-//	    	Object[] result = null;
-//	    	int originalGroupingColsLength = getOriginalCrosstabGroupingColsLength();
-//	    	if(groupingLevel > originalGroupingColsLength){
-//	    		int resultLength = groupingLevel - originalGroupingColsLength; 
-//	    		result = new Object[resultLength];
-//	    		Object[] prevDataRow = getPreviousRowOfGroupingValues(); 
-//	    		System.arraycopy(prevDataRow, originalGroupingColsLength, result, 0, resultLength); 
-//	    	}else{
-//	    		//throw new IllegalArgumentException("Request for previous grouping values from "+from+" to "+to+" cannot be fulfilled");
-//	    	}
-//	    	return result; 
-//	    }
-	    
-	    
-	    public int[] getPositionOfTotal(StepInput stepInput, int from, int groupingLevel) {
-	    	int[] result = null; 
-	    	if(groupingLevel >= from){
-	    		result = new int[groupingLevel-from+1];
-	    		DefaultDistinctValuesHolder ctMetadata = getDistinctValuesHolder(stepInput); 
-	    		Object[] prevDataRow = getPreviousRowOfGroupValues(stepInput); 
-	    		if(prevDataRow != null){
-	    			for(int i=from; i < groupingLevel+1; i++){
-	    				result[i-from] = ctMetadata.getIndexFor(i-from, prevDataRow[i]);
-	    			}
-	    		}else{
-	    			throw new IllegalArgumentException("Cannot determine the previous grouping values"); 
-	    		}
-	    	}
-			return result;
-	    }
+	 public int[] getPositionOfTotal(StepInput stepInput, int from, int groupingLevel) {
+    	int[] result = null; 
+    	if(groupingLevel >= from){
+    		result = new int[groupingLevel-from+1];
+    		DefaultDistinctValuesHolder ctMetadata = getDistinctValuesHolder(stepInput); 
+    		Object[] prevDataRow = getPreviousRowOfGroupValues(stepInput); 
+    		if(prevDataRow != null){
+    			for(int i=from; i < groupingLevel+1; i++){
+    				result[i-from] = ctMetadata.getIndexFor(i-from, prevDataRow[i]);
+    			}
+    		}else{
+    			throw new IllegalArgumentException("Cannot determine the previous grouping values"); 
+    		}
+    	}
+		return result;
+	 }
 }

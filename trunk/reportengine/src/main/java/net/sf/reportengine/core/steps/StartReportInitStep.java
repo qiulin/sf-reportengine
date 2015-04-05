@@ -7,7 +7,7 @@ import net.sf.reportengine.out.ReportProps;
 
 /**
  * @author dragos balan
- *
+ * @deprecated the flat table no longer needs a start report
  */
 public class StartReportInitStep extends AbstractReportInitStep<String> {
 	

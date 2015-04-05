@@ -18,6 +18,8 @@ public enum IOKeys {
 	
 	REPORT_OUTPUT,
 	
+	NEW_REPORT_OUTPUT, 
+	
 	DATA_COLS, 
 	
 	GROUP_COLS,

@@ -52,10 +52,6 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep<IntermediateRepo
 		return new StepResult<IntermediateReportRow>(ContextKeys.INTERMEDIATE_ROW, intermediateRow);
 	}
 	
-//	@Override public ReportOutput getReportOutput(){
-//		return (ReportOutput)getAlgoContext().get(ContextKeys.INTERMEDIATE_OUTPUT); 
-//	}
-	
 	private int getIntermGroupColsLength(StepInput stepInput){
 		return ((List<GroupColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_GROUP_COLS)).size(); 
 	}
@@ -69,7 +65,8 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep<IntermediateRepo
      * @param level		the aggregation level
      * @return
      */
-    @Override public int computeCalcRowNumberForAggLevel(StepInput stepInput, int level){
+    @Override 
+    public int computeCalcRowNumberForAggLevel(StepInput stepInput, int level){
     	return getIntermGroupColsLength(stepInput) - level -1;
     }
     
@@ -78,7 +75,8 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep<IntermediateRepo
      * @param calcRowNumber
      * @return
      */
-    @Override public int computeAggLevelForCalcRowNumber(StepInput stepInput, int calcRowNumber){
+    @Override 
+    public int computeAggLevelForCalcRowNumber(StepInput stepInput, int calcRowNumber){
     	return getIntermGroupColsLength(stepInput) - calcRowNumber - 1;
     }
 	
@@ -119,7 +117,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep<IntermediateRepo
 				
 				if(getShowTotals(stepInput) || getShowGrandTotal(stepInput)){
 					updateIntermediateTotals(	stepInput, 
-												groupingLevel, 				//from the current grouping level 
+												groupingLevel, 						//from the current grouping level 
 												getIntermGroupColsLength(stepInput), //to the last intermediate grouping col
 												calcResults);
 				}

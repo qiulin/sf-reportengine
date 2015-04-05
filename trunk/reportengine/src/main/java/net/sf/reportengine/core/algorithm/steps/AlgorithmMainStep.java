@@ -43,7 +43,4 @@ public interface AlgorithmMainStep<T,U, V> {
      * called when finishing the algorithm execution
      */
     public StepResult<V> exit(StepInput stepInput);
-    
-   
-    
 }

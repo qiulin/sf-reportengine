@@ -7,7 +7,7 @@ package net.sf.reportengine.core.steps;
 
 /**
  * @author dragos balan
- *
+ * @deprecated the flat table no longer needs a end report exit step
  */
 public class EndReportExitStep extends AbstractReportExitStep<String> {
 

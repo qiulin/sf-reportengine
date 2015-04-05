@@ -1,8 +1,4 @@
-/*
- * Created on 24.09.2005
- * Author : dragos balan 
- */
-package net.sf.reportengine.core.steps;
+package net.sf.reportengine.core.steps.neo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +7,10 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.VertAlign;
-import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.CalcIntermResult;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
@@ -22,29 +19,12 @@ import net.sf.reportengine.util.ContextKeys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-/**
- * this step is responsible with outputting totals on y axis (normal totals) 
- * 
- * a		b	15	16	17
- * a		b	8	4	3
- * Total b		23	20	20
- * Total a		45	56	78
- * Grand Total	345	456	789
- * 
- * Please keep in mind that this step IS AND SHOULD BE CALLED BEFORE computing the new totals 
- * for the current row
- * 
- * @author dragos balan (dragos.balan@gmail.com)
- * @since 0.2
- * @deprecated use FlatTableTotalsOutputStep instead
- */
-public class FlatReportTotalsOutputStep extends AbstractReportStep<String,Integer,Integer> {
-    
+public class FlatTableTotalsOutputStep extends AbstractOutputStep <String,Integer,Integer>{
+	
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(FlatReportTotalsOutputStep.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FlatTableTotalsOutputStep.class);
 	
 	/**
 	 * "Grand " label. To be used in front of Total, Average, Count etc. 
@@ -164,17 +144,26 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep<String,Intege
     								CalcIntermResult[] calcResultForCurrentGrpLevel, 
     								int dataRowNumber){
     	
-    	ReportOutput output = getReportOutput(stepInput);
-    	output.startDataRow(new RowProps(dataRowNumber));
+    	//ReportOutput output = getReportOutput(stepInput);
+    	//output.startDataRow(new RowProps(dataRowNumber));
+    	outputOneValue(	stepInput, 
+    					NewDataRowsOutputStep.START_DATA_ROW_TEMPLATE, 
+    					NewDataRowsOutputStep.DATA_ROW_MODEL_NAME, 
+    					new RowProps(dataRowNumber)); 
     	
     	if(	groupCols != null && groupCols.size() > 0){
     		//prepare and output the Total column
     		String totalString = getTotalStringForGroupingLevel(stepInput, calcLabels, groupLevel);
-    		output.outputDataCell(new CellProps.Builder(totalString)
-    							.horizAlign(HorizAlign.LEFT)
-    							.vertAlign(VertAlign.MIDDLE)
-    							.rowNumber(dataRowNumber)
-    							.build());
+    		CellProps cellProps = new CellProps.Builder(totalString)
+									.horizAlign(HorizAlign.LEFT)
+									.vertAlign(VertAlign.MIDDLE)
+									.rowNumber(dataRowNumber)
+									.build();
+    		//output.outputDataCell(cellProps);
+    		outputOneValue(	stepInput, 
+    						NewDataRowsOutputStep.DATA_CELL_TEMPLATE, 
+    						NewDataRowsOutputStep.DATA_CELL_MODEL_NAME, 
+    						cellProps);
     		
     		if(groupCols.size() > 1){
     			//for all other grouping columns put white spaces 
@@ -188,9 +177,14 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep<String,Intege
     			
     			//this is to display an empty cell for every remaining group column
     			for(int i=1; i<groupCols.size(); i++){
-    				output.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE)
-    													.rowNumber(dataRowNumber)
-    													.build()); 
+    				CellProps whitespaceCellProps = new CellProps.Builder(ReportOutput.WHITESPACE)
+												.rowNumber(dataRowNumber)
+												.build();
+    				//output.outputDataCell(whitespaceCellProps); 
+    				outputOneValue(	stepInput, 
+    								NewDataRowsOutputStep.DATA_CELL_TEMPLATE, 
+    								NewDataRowsOutputStep.DATA_CELL_MODEL_NAME, 
+    								whitespaceCellProps); 
     			}
     		}
         }
@@ -206,21 +200,31 @@ public class FlatReportTotalsOutputStep extends AbstractReportStep<String,Intege
 				
 				//format the computed value 
 				formattedResult = dataCols.get(i).getFormattedTotal(calculatorResult); 
-				
-				output.outputDataCell(new CellProps.Builder(formattedResult)
-									.horizAlign(dataCols.get(i).getHorizAlign())
-									.vertAlign(dataCols.get(i).getVertAlign())
-									.rowNumber(dataRowNumber)
-									.build());
+				CellProps dataCellProps = new CellProps.Builder(formattedResult)
+												.horizAlign(dataCols.get(i).getHorizAlign())
+												.vertAlign(dataCols.get(i).getVertAlign())
+												.rowNumber(dataRowNumber)
+												.build();
+				//output.outputDataCell(dataCellProps);
+				outputOneValue(	stepInput, 
+								NewDataRowsOutputStep.DATA_CELL_TEMPLATE, 
+								NewDataRowsOutputStep.DATA_CELL_MODEL_NAME, 
+								dataCellProps); 
 			}else{
 				//if the column doesn't have a calculator associated 
 				//then display an empty value (whitespace) with col span 1
-				output.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE)
-													.rowNumber(dataRowNumber)
-													.build());
+				CellProps whitespaceCellProps = new CellProps.Builder(ReportOutput.WHITESPACE)
+														.rowNumber(dataRowNumber)
+														.build();
+				//output.outputDataCell(whitespaceCellProps);
+				outputOneValue(	stepInput, 
+								NewDataRowsOutputStep.DATA_CELL_TEMPLATE, 
+								NewDataRowsOutputStep.DATA_CELL_MODEL_NAME, 
+								whitespaceCellProps); 
 			}
 		}
-    	output.endDataRow();
+    	//output.endDataRow();
+    	outputNoValue(stepInput, NewDataRowsOutputStep.END_DATA_ROW_TEMPLATE);
     }
     
     /**

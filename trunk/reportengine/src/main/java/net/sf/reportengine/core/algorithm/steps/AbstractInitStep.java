@@ -3,11 +3,6 @@
  */
 package net.sf.reportengine.core.algorithm.steps;
 
-import java.util.Map;
-
-import net.sf.reportengine.core.algorithm.AlgoContext;
-import net.sf.reportengine.core.steps.StepResult;
-import net.sf.reportengine.util.IOKeys;
 
 /**
  * @author dragos balan
