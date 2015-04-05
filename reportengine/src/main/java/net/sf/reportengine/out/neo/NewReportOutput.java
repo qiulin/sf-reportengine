@@ -1,8 +1,7 @@
 package net.sf.reportengine.out.neo;
 
-import java.io.Writer;
-
-import freemarker.template.Configuration;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -11,13 +10,21 @@ import freemarker.template.Configuration;
  * @author dragos balan
  *
  */
-public interface NewReportOutput {
+public abstract class NewReportOutput {
 	
-	public void open();
+	public abstract void open();
 	
-	public void close(); 
+	public abstract void close(); 
 	
-	public Writer getWriter();
+	public abstract void output(String templateName, Map rootModel);
 	
-	public Configuration getFmConfig(); 
+	public <T> void output(String templateName, String modelName, T value){
+		Map<String, T> model = new HashMap<String, T>(1); 
+		model.put(modelName, value); 
+		output(templateName, model); 
+	}
+	
+	public void output(String templateName){
+		output(templateName, null); 
+	}
 }

@@ -4,17 +4,19 @@ package net.sf.reportengine.out.neo;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Map;
 
 import net.sf.reportengine.out.ReportOutputException;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.TemplateException;
 
 /**
  * @author dragos balan
  *
  */
-public class TestImplForReportOutput implements NewReportOutput {
+public class TestImplForReportOutput extends NewReportOutput {
 	
 	/**
 	 * the default class path  for freemarker templates
@@ -65,15 +67,17 @@ public class TestImplForReportOutput implements NewReportOutput {
 
 	}
 	
-	public Writer getWriter() {
-		return writer;
-	}
-	
-	public Configuration getFmConfig(){
-		return fmConfig; 
-	}
-	
-	public String getString(){
+	public String getBuffer(){
 		return ((StringWriter)writer).getBuffer().toString(); 
+	}
+
+	public void output(String templateName, Map rootModel) {
+		try {
+			fmConfig.getTemplate(templateName).process(rootModel, writer);
+		} catch (TemplateException e) {
+			throw new ReportOutputException(e); 
+		} catch (IOException e) {
+			throw new ReportOutputException(e); 
+		}
 	}
 }

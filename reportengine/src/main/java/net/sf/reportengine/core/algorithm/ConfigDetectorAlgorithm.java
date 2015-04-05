@@ -33,13 +33,11 @@ public class ConfigDetectorAlgorithm implements Algorithm {
 		
 		Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)inputParams.get(IOKeys.USER_COLUMN_PREFERENCES);
 		
-//		LOGGER.info("Autodetecting the columns based on user preferences and input metadata"); 
 		
 		List<ColumnMetadata> colMetadata = input.getColumnMetadata(); 
 		
 		//construct data columns
 		List<DataColumn> dataColumns = ReportUtils.dataColsFromMetadataAndUserPrefs(colMetadata, colPrefs); 
-//		LOGGER.debug("data columns detected : {}", dataColumns); 
 		
 		List<GroupColumn> groupColumns = null; 
 		if(dataColumns !=  null && dataColumns.size() < colMetadata.size()){
@@ -48,12 +46,10 @@ public class ConfigDetectorAlgorithm implements Algorithm {
 		}//else{
 			//no group column. All configured columns are data columns
 		//}
-//		LOGGER.debug("group columns detected : {}", groupColumns); 
 		
 		
 		Map<IOKeys, Object> result = new EnumMap<IOKeys, Object>(IOKeys.class); 
-		
-		result.put(IOKeys.DATA_COLS, dataColumns) ; 
+		result.put(IOKeys.DATA_COLS, dataColumns); 
 		result.put(IOKeys.GROUP_COLS, groupColumns);
 		
 		boolean reportHasCalculators = ReportUtils.atLeastOneDataColumHasCalculators(dataColumns);
@@ -65,5 +61,4 @@ public class ConfigDetectorAlgorithm implements Algorithm {
 		input.close();
 		return result; 
 	}
-
 }

@@ -5,22 +5,24 @@ package net.sf.reportengine.out.neo;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Map;
 
 import net.sf.reportengine.out.ReportOutputException;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.TemplateException;
 
 /**
  * @author dragos balan
  *
  */
-public class DefaultReportOutput implements NewReportOutput {
+public class DefaultReportOutput extends NewReportOutput {
 	
 	/**
 	 * the default class path  for freemarker templates
 	 */
-	public final static String DEFAULT_HTML_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/freemarker/html"; 
+	public final static String DEFAULT_HTML_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/neo/html"; 
 	
 	/**
 	 * the freemarker configuration
@@ -33,19 +35,21 @@ public class DefaultReportOutput implements NewReportOutput {
 	private final Writer writer; 
 	
 	
+	public DefaultReportOutput(Writer writer){
+		this(writer, DEFAULT_HTML_TEMPLATES_CLASS_PATH); 
+	}
 
 	/**
 	 * 
 	 */
-	public DefaultReportOutput(Writer writer){
+	public DefaultReportOutput(Writer writer, String formatClassPath){
 		
 		this.writer = writer;
 		
 		fmConfig= new Configuration(); 
 		fmConfig.setObjectWrapper(new DefaultObjectWrapper()); 
 		fmConfig.setTemplateLoader(
-				new ClassTemplateLoader(getClass(), 
-										DEFAULT_HTML_TEMPLATES_CLASS_PATH)); 
+				new ClassTemplateLoader(getClass(), formatClassPath)); 
 	}
 	
 	/* (non-Javadoc)
@@ -67,13 +71,15 @@ public class DefaultReportOutput implements NewReportOutput {
 		}
 
 	}
-	
-	public Writer getWriter() {
-		return writer;
-	}
-	
-	public Configuration getFmConfig(){
-		return fmConfig; 
-	}
 
+	public void output(String templateName, Map rootModel) {
+		try {
+			fmConfig.getTemplate(templateName).process(rootModel, writer);
+		} catch (TemplateException e) {
+			throw new ReportOutputException(e); 
+		} catch (IOException e) {
+			throw new ReportOutputException(e); 
+		}
+	}
+	
 }

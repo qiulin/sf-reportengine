@@ -3,13 +3,17 @@
  */
 package net.sf.reportengine.core.steps;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.algorithm.steps.AbstractInitStep;
 import net.sf.reportengine.in.ReportInput;
 import net.sf.reportengine.out.ReportOutput;
+import net.sf.reportengine.out.TitleProps;
+import net.sf.reportengine.out.neo.NewReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 

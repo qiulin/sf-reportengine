@@ -19,8 +19,8 @@ import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
 import net.sf.reportengine.core.algorithm.ConfigDetectorAlgorithm;
 import net.sf.reportengine.core.algorithm.DefaultLoopThroughReportInputAlgo;
-import net.sf.reportengine.core.algorithm.OpenLoopCloseInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
+import net.sf.reportengine.core.algorithm.OpenLoopCloseInputAlgo;
 import net.sf.reportengine.core.steps.CloseReportOutputExitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.ConfigReportOutputInitStep;
@@ -33,7 +33,6 @@ import net.sf.reportengine.core.steps.InitReportDataInitStep;
 import net.sf.reportengine.core.steps.NewRowComparator;
 import net.sf.reportengine.core.steps.OpenReportOutputInitStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
-import net.sf.reportengine.core.steps.autodetect.AutodetectConfigInitStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectFlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectPreviousRowManagerStep;
 import net.sf.reportengine.core.steps.autodetect.AutodetectTotalsCalculatorStep;
@@ -106,14 +105,6 @@ public class AutoconfigFlatReport extends AbstractReport {
      */
     @Override protected void config(){
     	LOGGER.trace("configuring the autodetect flat report"); 
-    	
-//    	//preparing the context of the report algorithm 
-//    	reportAlgoContainer.addIn(IOKeys.REPORT_TITLE, getTitle()); 
-//    	reportAlgoContainer.addIn(IOKeys.REPORT_INPUT, getIn());
-//    	reportAlgoContainer.addIn(IOKeys.REPORT_OUTPUT, getOut());
-//    	reportAlgoContainer.addIn(IOKeys.USER_COLUMN_PREFERENCES, userColumnPrefs); 
-//    	reportAlgoContainer.addIn(IOKeys.SHOW_TOTALS, getShowTotals()); 
-//    	reportAlgoContainer.addIn(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
     	
     	boolean needsProgramaticSorting = !hasValuesSorted() || ReportUtils.isSortingInPreferences(userColumnPrefs); 
     	reportAlgoContainer.addAlgo(new ConfigDetectorAlgorithm());

@@ -1,15 +1,15 @@
-/*
- * Created on 30.08.2005
- * Author : dragos balan 
+/**
+ * 
  */
-package net.sf.reportengine.core.steps;
+package net.sf.reportengine.core.steps.neo;
 
 import java.util.List;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
@@ -19,18 +19,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <p>
- *  Output step used mainly on Flat reports
- * </p>
- * @author dragos balan (dragos dot balan at gmail dot com)
- * @deprecated
+ * @author dragos balan
+ *
  */
-public class DataRowsOutputStep extends AbstractReportStep<String,Integer,String> {
+public class NewDataRowsOutputStep extends AbstractOutputStep<String,Integer,String> {
+	
+	
 	
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(DataRowsOutputStep.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(NewDataRowsOutputStep.class);
+	
+	
+	public static final String DATA_CELL_TEMPLATE = "dataCell.ftl";
+	public static final String DATA_CELL_MODEL_NAME = "cellProps";
+	
+
+	public static final String START_DATA_ROW_TEMPLATE = "startDataRow.ftl";
+	public static final String DATA_ROW_MODEL_NAME = "rowProps";
+	public static final String END_DATA_ROW_TEMPLATE = "endDataRow.ftl";
+	
 	
     /**
      * 
@@ -57,7 +66,8 @@ public class DataRowsOutputStep extends AbstractReportStep<String,Integer,String
     	Object[] previousRowGrpValues = getPreviousRowOfGroupValues(stepInput);
 		
 		//start the row
-    	getReportOutput(stepInput).startDataRow(new RowProps(getDataRowCount(stepInput)));
+    	//getReportOutput(stepInput).startDataRow(new RowProps(getDataRowCount(stepInput)));
+    	outputOneValue(stepInput, START_DATA_ROW_TEMPLATE, DATA_ROW_MODEL_NAME, new RowProps(getDataRowCount(stepInput)));
 		
 		CellProps.Builder cellPropsBuilder = null;
 		
@@ -80,8 +90,8 @@ public class DataRowsOutputStep extends AbstractReportStep<String,Integer,String
 			cellPropsBuilder.horizAlign(currentGrpCol.getHorizAlign())
 							.vertAlign(currentGrpCol.getVertAlign())
 							.rowNumber(getDataRowCount(stepInput)); 
-			getReportOutput(stepInput).outputDataCell(cellPropsBuilder.build()); 
-			
+			//getReportOutput(stepInput).outputDataCell(cellPropsBuilder.build()); 
+			outputOneValue(stepInput, DATA_CELL_TEMPLATE, DATA_CELL_MODEL_NAME, cellPropsBuilder.build()); 
 		}
 		
 		//then handle the data columns
@@ -91,11 +101,13 @@ public class DataRowsOutputStep extends AbstractReportStep<String,Integer,String
 				.horizAlign(dataColumn.getHorizAlign())
 				.vertAlign(dataColumn.getVertAlign()); 
 			
-			getReportOutput(stepInput).outputDataCell(cellPropsBuilder.build()); 
+			//getReportOutput(stepInput).outputDataCell(cellPropsBuilder.build()); 
+			outputOneValue(stepInput, DATA_CELL_TEMPLATE, DATA_CELL_MODEL_NAME, cellPropsBuilder.build());
 		}
     	
 		//end row
-		getReportOutput(stepInput).endDataRow();
+		//getReportOutput(stepInput).endDataRow();
+		outputNoValue(stepInput, END_DATA_ROW_TEMPLATE);
 		
 		//incrementDataRowNbr(stepInput);
 		return new StepResult(ContextKeys.DATA_ROW_COUNT, getDataRowCount(stepInput)+1); 
@@ -104,4 +116,5 @@ public class DataRowsOutputStep extends AbstractReportStep<String,Integer,String
     public StepResult<String> exit(StepInput stepInput){
     	return StepResult.NO_RESULT; 
     }
+
 }

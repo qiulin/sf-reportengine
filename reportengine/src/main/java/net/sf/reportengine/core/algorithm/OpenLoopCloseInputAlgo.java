@@ -45,7 +45,9 @@ public abstract class OpenLoopCloseInputAlgo extends AbstractMultiStepAlgo {
 	 */
 	protected abstract ReportInput buildReportInput(Map<IOKeys, Object> inputParams); 
     
-    
+    /**
+     * 
+     */
     public Map<IOKeys, Object> execute(Map<IOKeys, Object> inputParams) {
     	LOGGER.debug("creating the context");
     	AlgoContext context = new DefaultAlgorithmContext();

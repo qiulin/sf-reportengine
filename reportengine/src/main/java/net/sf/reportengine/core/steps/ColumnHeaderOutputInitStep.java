@@ -5,17 +5,14 @@
 package net.sf.reportengine.core.steps;
 
 import java.util.List;
-import java.util.Map;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
-import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.out.TitleProps;
-import net.sf.reportengine.util.IOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +22,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
+ * @deprecated
  */
 public class ColumnHeaderOutputInitStep extends AbstractReportInitStep<String>{
     
