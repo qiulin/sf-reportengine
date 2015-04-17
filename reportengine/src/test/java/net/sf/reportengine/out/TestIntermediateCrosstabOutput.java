@@ -24,12 +24,7 @@ public class TestIntermediateCrosstabOutput {
 		
 		IntermediateCrosstabOutput classUnderTest = new IntermediateCrosstabOutput(); 
 		classUnderTest.open(); 
-		classUnderTest.startReport(new ReportProps()); 
-		classUnderTest.startDataRow(new RowProps(0)); 
-		classUnderTest.outputDataCell(new CellProps.Builder(mockRow).build()); 
-		classUnderTest.endDataRow(); 
-		
-		classUnderTest.endReport(); 
+		classUnderTest.writeIntermRow(mockRow); 
 		classUnderTest.close(); 
 	}
 }

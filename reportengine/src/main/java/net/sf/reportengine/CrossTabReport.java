@@ -35,8 +35,10 @@ import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
 import net.sf.reportengine.core.algorithm.DefaultLoopThroughReportInputAlgo;
-import net.sf.reportengine.core.algorithm.OpenLoopCloseInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
+import net.sf.reportengine.core.algorithm.OpenLoopCloseInputAlgo;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.steps.CloseReportOutputExitStep;
 import net.sf.reportengine.core.steps.ConfigReportOutputInitStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
@@ -45,14 +47,14 @@ import net.sf.reportengine.core.steps.InitReportDataInitStep;
 import net.sf.reportengine.core.steps.NewRowComparator;
 import net.sf.reportengine.core.steps.OpenReportOutputInitStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
-import net.sf.reportengine.core.steps.crosstab.ConfigCrosstabColumnsInitStep;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.core.steps.crosstab.ConstrDataColsForSecondProcessInitStep;
 import net.sf.reportengine.core.steps.crosstab.ConstrGrpColsForSecondProcessInitStep;
 import net.sf.reportengine.core.steps.crosstab.CrosstabHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.crosstab.DistinctValuesDetectorStep;
 import net.sf.reportengine.core.steps.crosstab.GenerateCrosstabMetadataInitStep;
 import net.sf.reportengine.core.steps.crosstab.IntermedRowMangerStep;
-import net.sf.reportengine.core.steps.intermed.ConfigIntermedColsInitStep;
 import net.sf.reportengine.core.steps.intermed.ConfigIntermedReportOutputInitStep;
 import net.sf.reportengine.core.steps.intermed.ConstrIntermedDataColsInitStep;
 import net.sf.reportengine.core.steps.intermed.ConstrIntermedGrpColsInitStep;
@@ -66,7 +68,9 @@ import net.sf.reportengine.core.steps.intermed.IntermedTotalsOutputStep;
 import net.sf.reportengine.in.IntermediateCrosstabReportTableInput;
 import net.sf.reportengine.in.MultipleExternalSortedFilesTableInput;
 import net.sf.reportengine.in.TableInput;
+import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.out.ReportOutput;
+import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
 import net.sf.reportengine.util.UserRequestedBoolean;
@@ -292,12 +296,15 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 //		}
 		algorithm.addInitStep(new ConfigIntermedReportOutputInitStep());
 		
-		//algorithm.addInitStep(new OpenReportIOInitStep());
-		algorithm.addInitStep(new OpenReportOutputInitStep());
+		algorithm.addInitStep(new AlgorithmInitStep<String>() {
+    		public StepResult<String> init(StepInput stepInput){
+    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).open();
+    			return StepResult.NO_RESULT; 
+    		}
+		});
 		
 		//TODO: only when totals add the step below
 		algorithm.addInitStep(new IntermedReportExtractTotalsDataInitStep());
-		algorithm.addInitStep(new StartReportInitStep()); 
     	//only for debug
     	//algorithm.addInitStep(new ColumnHeaderOutputInitStep("Intermediate report"));
         
@@ -322,10 +329,12 @@ public class CrossTabReport extends AbstractColumnBasedReport{
     		algorithm.addMainStep(new IntermedPreviousRowManagerStep());
     	//}
     	
-    	algorithm.addExitStep(new EndReportExitStep()); 
-    	
-    	//algorithm.addExitStep(new CloseReportIOExitStep()); 
-    	algorithm.addExitStep(new CloseReportOutputExitStep());
+    	algorithm.addExitStep(new AlgorithmExitStep<String>() {
+    		public StepResult<String> exit(StepInput stepInput){
+    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).close();
+    			return StepResult.NO_RESULT; 
+    		}
+		});
     	
 		algorithm.addExitStep(new IntermedSetResultsExitStep()); 
 		

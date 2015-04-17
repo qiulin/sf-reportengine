@@ -12,7 +12,7 @@ import net.sf.reportengine.core.calc.CalcIntermResult;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.ReportOutput;
+import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.ReportUtils;
@@ -214,13 +214,7 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep<IntermediateRepo
 	
 	
 	private void writeIntermediateRow(StepInput stepInput, IntermediateReportRow intermediateRow){
-		ReportOutput output = getReportOutput(stepInput); 
-		output.startDataRow(new RowProps()); 
-		output.outputDataCell(new CellProps.Builder(intermediateRow)
-							.colspan(4) /*this is not taken into account except when debug*/
-							.build()); 
-		output.endDataRow(); 
+		IntermediateCrosstabOutput output = getIntermCrosstabOutput(stepInput); 
+		output.writeIntermRow(intermediateRow); 
 	}
-	
-	
 }

@@ -9,6 +9,7 @@ import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.DefaultDistinctValuesHolder;
 import net.sf.reportengine.util.IOKeys;
@@ -64,4 +65,13 @@ public abstract class AbstractCrosstabStep<T,U,V> extends AbstractReportStep<T,U
     	}
 		return result;
 	 }
+	 
+	 /**
+	     * 
+	     * @param stepInput
+	     * @return
+	     */
+	    public IntermediateCrosstabOutput getIntermCrosstabOutput(StepInput stepInput){
+	    	return (IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT); 
+	    }
 }

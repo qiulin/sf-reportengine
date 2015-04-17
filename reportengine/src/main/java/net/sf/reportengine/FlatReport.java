@@ -89,6 +89,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author dragos balan
  * @since 0.2
+ * @deprecated
  */
 public class FlatReport extends AbstractColumnBasedReport {
     
@@ -96,8 +97,8 @@ public class FlatReport extends AbstractColumnBasedReport {
 	 * the one and only logger
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(FlatReport.class);
-    
-	/**
+	
+	/*
 	 *  the container for two potential algorithms : 
 	 *   1. the sorting algorithm 
 	 *   2. the reporting algorithm

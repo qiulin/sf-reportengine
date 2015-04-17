@@ -47,8 +47,8 @@ public class TestIntermRowManagerStep {
 		context.set(ContextKeys.NEW_GROUPING_LEVEL, Integer.valueOf(1)); 
 		context.set(ContextKeys.LAST_GROUPING_VALUES, new String[]{"1", "2", "3", "4", "5", "6"}); 
 		
-		ReportOutput mockReportOutput = new IntermediateCrosstabOutput(); 
-		context.set(ContextKeys.LOCAL_REPORT_OUTPUT, mockReportOutput);
+		IntermediateCrosstabOutput mockReportOutput = new IntermediateCrosstabOutput(); 
+		context.set(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT, mockReportOutput);
 		
 		mockReportOutput.open(); 
 		
