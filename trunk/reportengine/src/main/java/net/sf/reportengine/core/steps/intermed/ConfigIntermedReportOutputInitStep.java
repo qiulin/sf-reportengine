@@ -11,7 +11,7 @@ public class ConfigIntermedReportOutputInitStep extends AbstractInitStep<Interme
 	public StepResult<IntermediateCrosstabOutput> init(StepInput stepInput) {
 		IntermediateCrosstabOutput intermCrosstabOutput = new IntermediateCrosstabOutput(); 
 		//getAlgoContext().set(ContextKeys.LOCAL_REPORT_OUTPUT, intermCrosstabOutput); 
-		return new StepResult<IntermediateCrosstabOutput>(ContextKeys.LOCAL_REPORT_OUTPUT, intermCrosstabOutput); 
+		return new StepResult<IntermediateCrosstabOutput>(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT, intermCrosstabOutput); 
 	}
 
 }

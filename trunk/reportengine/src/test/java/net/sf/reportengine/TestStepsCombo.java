@@ -13,12 +13,16 @@ import java.util.Map;
 import net.sf.reportengine.core.algorithm.DefaultLoopThroughReportInputAlgo;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.algorithm.OpenLoopCloseInputAlgo;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
+import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.steps.CloseReportOutputExitStep;
 import net.sf.reportengine.core.steps.ConfigReportOutputInitStep;
 import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
 import net.sf.reportengine.core.steps.OpenReportOutputInitStep;
 import net.sf.reportengine.core.steps.StartReportInitStep;
+import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.core.steps.crosstab.ConstrDataColsForSecondProcessInitStep;
 import net.sf.reportengine.core.steps.crosstab.ConstrGrpColsForSecondProcessInitStep;
 import net.sf.reportengine.core.steps.crosstab.CrosstabHeaderOutputInitStep;
@@ -39,12 +43,14 @@ import net.sf.reportengine.in.IntermediateCrosstabReportTableInput;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.HtmlOutput;
+import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With0G2D;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
 import net.sf.reportengine.scenarios.ct.CtScenario4x3x1;
+import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.DistinctValuesHolder;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportIoUtils;
@@ -86,9 +92,13 @@ public class TestStepsCombo  {
 			algo.addInitStep(new ConfigIntermedReportOutputInitStep());
 			
 			//algo.addInitStep(new OpenReportIOInitStep());
-			algo.addInitStep(new OpenReportOutputInitStep()); 
+			algo.addInitStep(new AlgorithmInitStep<String>() {
+	    		public StepResult<String> init(StepInput stepInput){
+	    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).open();
+	    			return StepResult.NO_RESULT; 
+	    		}
+			});
 			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
-			algo.addInitStep(new StartReportInitStep()); 
 			
 	    	//only for debug
 	    	//algorithm.addInitStep(new ColumnHeaderOutputInitStep("Intermediate report"));
@@ -107,9 +117,12 @@ public class TestStepsCombo  {
 	    	//only for debug 
 	    	//algorithm.addMainStep(new DataRowsOutputStep());
 	    	algo.addMainStep(new IntermedPreviousRowManagerStep());
-	    	algo.addExitStep(new EndReportExitStep()); 
-	    	//algo.addExitStep(new CloseReportIOExitStep());
-	    	algo.addExitStep(new CloseReportOutputExitStep());
+	    	algo.addExitStep(new AlgorithmExitStep<String>() {
+	    		public StepResult<String> exit(StepInput stepInput){
+	    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).close();
+	    			return StepResult.NO_RESULT; 
+	    		}
+			});
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 	    	
 			Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
@@ -160,9 +173,13 @@ public class TestStepsCombo  {
 			algo.addInitStep(new ConstrIntermedDataColsInitStep());
 			algo.addInitStep(new ConstrIntermedGrpColsInitStep());
 			algo.addInitStep(new ConfigIntermedReportOutputInitStep()); 
-			algo.addInitStep(new OpenReportOutputInitStep()); 
+			algo.addInitStep(new AlgorithmInitStep<String>() {
+	    		public StepResult<String> init(StepInput stepInput){
+	    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).open();
+	    			return StepResult.NO_RESULT; 
+	    		}
+			});
 			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
-			algo.addInitStep(new StartReportInitStep()); 
 	        
 	    	//main steps
 			algo.addMainStep(new DistinctValuesDetectorStep());
@@ -172,8 +189,12 @@ public class TestStepsCombo  {
 	    	algo.addMainStep(new IntermedPreviousRowManagerStep());
 	    	
 	    	//exit steps
-	    	algo.addExitStep(new EndReportExitStep()); 
-	    	algo.addExitStep(new CloseReportOutputExitStep()); 
+	    	algo.addExitStep(new AlgorithmExitStep<String>() {
+	    		public StepResult<String> exit(StepInput stepInput){
+	    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).close();
+	    			return StepResult.NO_RESULT; 
+	    		}
+			}); 
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 	    	
 			Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
@@ -225,9 +246,13 @@ public class TestStepsCombo  {
 			algo.addInitStep(new ConstrIntermedDataColsInitStep());
 			algo.addInitStep(new ConstrIntermedGrpColsInitStep());
 			algo.addInitStep(new ConfigIntermedReportOutputInitStep());
-			algo.addInitStep(new OpenReportOutputInitStep());
+			algo.addInitStep(new AlgorithmInitStep<String>() {
+	    		public StepResult<String> init(StepInput stepInput){
+	    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).open();
+	    			return StepResult.NO_RESULT; 
+	    		}
+			});
 			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
-			algo.addInitStep(new StartReportInitStep()); 
 	        
 	    	//main steps
 			algo.addMainStep(new DistinctValuesDetectorStep());
@@ -237,8 +262,12 @@ public class TestStepsCombo  {
 	    	algo.addMainStep(new IntermedPreviousRowManagerStep());
 	    	
 	    	//exit steps
-	    	algo.addExitStep(new EndReportExitStep()); 
-	    	algo.addExitStep(new CloseReportOutputExitStep()); 
+	    	algo.addExitStep(new AlgorithmExitStep<String>() {
+	    		public StepResult<String> exit(StepInput stepInput){
+	    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).close();
+	    			return StepResult.NO_RESULT; 
+	    		}
+			});
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
 			
@@ -290,11 +319,13 @@ public class TestStepsCombo  {
 			//algo.addInitStep(new ConfigIntermedIOInitStep()); 
 			algo.addInitStep(new ConfigIntermedReportOutputInitStep()); 
 			
-			//algo.addInitStep(new OpenReportIOInitStep()); 
-			algo.addInitStep(new OpenReportOutputInitStep()); 
-			
+			algo.addInitStep(new AlgorithmInitStep<String>() {
+	    		public StepResult<String> init(StepInput stepInput){
+	    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).open();
+	    			return StepResult.NO_RESULT; 
+	    		}
+			});
 			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
-			algo.addInitStep(new StartReportInitStep()); 
 	        
 	    	//main steps
 			algo.addMainStep(new DistinctValuesDetectorStep());
@@ -304,9 +335,12 @@ public class TestStepsCombo  {
 	    	algo.addMainStep(new IntermedPreviousRowManagerStep());
 	    	
 	    	//exit steps
-	    	algo.addExitStep(new EndReportExitStep()); 
-	    	//algo.addExitStep(new CloseReportIOExitStep()); 
-	    	algo.addExitStep(new CloseReportOutputExitStep());
+	    	algo.addExitStep(new AlgorithmExitStep<String>() {
+	    		public StepResult<String> exit(StepInput stepInput){
+	    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).close();
+	    			return StepResult.NO_RESULT; 
+	    		}
+			});
 	    	
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			Map<IOKeys,Object> result = algo.execute(mockAlgoInput);
@@ -356,9 +390,13 @@ public class TestStepsCombo  {
 			algo.addInitStep(new ConstrIntermedDataColsInitStep());
 			algo.addInitStep(new ConstrIntermedGrpColsInitStep());
 			algo.addInitStep(new ConfigIntermedReportOutputInitStep());
-			algo.addInitStep(new OpenReportOutputInitStep()); 
+			algo.addInitStep(new AlgorithmInitStep<String>() {
+	    		public StepResult<String> init(StepInput stepInput){
+	    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).open();
+	    			return StepResult.NO_RESULT; 
+	    		}
+			});
 			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
-			algo.addInitStep(new StartReportInitStep()); 
 	        
 	    	//main steps
 			algo.addMainStep(new DistinctValuesDetectorStep());
@@ -368,8 +406,12 @@ public class TestStepsCombo  {
 	    	algo.addMainStep(new IntermedPreviousRowManagerStep());
 	    	
 	    	//exit steps
-	    	algo.addExitStep(new EndReportExitStep()); 
-	    	algo.addExitStep(new CloseReportOutputExitStep()); 
+	    	algo.addExitStep(new AlgorithmExitStep<String>() {
+	    		public StepResult<String> exit(StepInput stepInput){
+	    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).close();
+	    			return StepResult.NO_RESULT; 
+	    		}
+			}); 
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
 			
@@ -417,9 +459,13 @@ public class TestStepsCombo  {
 			algo.addInitStep(new ConstrIntermedDataColsInitStep());
 			algo.addInitStep(new ConstrIntermedGrpColsInitStep());
 			algo.addInitStep(new ConfigIntermedReportOutputInitStep());
-			algo.addInitStep(new OpenReportOutputInitStep()); 
+			algo.addInitStep(new AlgorithmInitStep<String>() {
+	    		public StepResult<String> init(StepInput stepInput){
+	    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).open();
+	    			return StepResult.NO_RESULT; 
+	    		}
+			});
 			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
-			algo.addInitStep(new StartReportInitStep()); 
 	        
 	    	//main steps
 			algo.addMainStep(new DistinctValuesDetectorStep());
@@ -429,8 +475,12 @@ public class TestStepsCombo  {
 	    	algo.addMainStep(new IntermedPreviousRowManagerStep());
 	    	
 	    	//exit steps
-	    	algo.addExitStep(new EndReportExitStep()); 
-	    	algo.addExitStep(new CloseReportOutputExitStep());
+	    	algo.addExitStep(new AlgorithmExitStep<String>() {
+	    		public StepResult<String> exit(StepInput stepInput){
+	    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).close();
+	    			return StepResult.NO_RESULT; 
+	    		}
+			});
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 			Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
 			
@@ -478,9 +528,13 @@ public class TestStepsCombo  {
 			algo.addInitStep(new ConstrIntermedDataColsInitStep());
 			algo.addInitStep(new ConstrIntermedGrpColsInitStep());
 			algo.addInitStep(new ConfigIntermedReportOutputInitStep());
-			algo.addInitStep(new OpenReportOutputInitStep()); 
+			algo.addInitStep(new AlgorithmInitStep<String>() {
+	    		public StepResult<String> init(StepInput stepInput){
+	    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).open();
+	    			return StepResult.NO_RESULT; 
+	    		}
+			}); 
 			algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());//TODO: only when totals
-			algo.addInitStep(new StartReportInitStep()); 
 	        
 	    	//main steps
 			algo.addMainStep(new DistinctValuesDetectorStep());
@@ -490,8 +544,12 @@ public class TestStepsCombo  {
 	    	algo.addMainStep(new IntermedPreviousRowManagerStep());
 	    	
 	    	//exit steps
-	    	algo.addExitStep(new EndReportExitStep()); 
-	    	algo.addExitStep(new CloseReportOutputExitStep()); 
+	    	algo.addExitStep(new AlgorithmExitStep<String>() {
+	    		public StepResult<String> exit(StepInput stepInput){
+	    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).close();
+	    			return StepResult.NO_RESULT; 
+	    		}
+			}); 
 	    	algo.addExitStep(new IntermedSetResultsExitStep()); 
 	    	Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
 			

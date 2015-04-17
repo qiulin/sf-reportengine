@@ -18,11 +18,11 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This is for internal use only. 
- * This is a special type of output because it serializes the provided data into a temporary file. 
+ * This is a special type of output because it serializes IntermediateRow(s) data into a temporary file. 
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  */
-public class IntermediateCrosstabOutput implements ReportOutput {
+public class IntermediateCrosstabOutput {
 	
 	/**
 	 * the one and only logger
@@ -53,74 +53,52 @@ public class IntermediateCrosstabOutput implements ReportOutput {
 		}
 	}
 	
-	/**
-	 * empty implementation
-	 */
-	public void startReport(ReportProps props){}
 	
-	/**
-	 * empty implementation
-	 */
-	public void endReport(){}
-	
-	/**
-	 * empty implementation
-	 */
-	public void startHeaderRow(RowProps props){}
-	
-	/**
-	 * empty implementation
-	 */
-	public void outputHeaderCell(CellProps props){}
-	
-	/**
-	 * empty implementation
-	 */
-	public void endHeaderRow(){}
-	
-	/**
-	 * empty implementation
-	 */
-	public void outputTitle(TitleProps titleProps){}
-	
-	/**
-	 * empty implementation
-	 */
-	public void startDataRow(RowProps rowProperties) {}
-	
-	/**
-	 * resets the object output stream
-	 */
-	public void endDataRow() {
+	public void writeIntermRow(IntermediateReportRow row){
+		//serialize
 		try {
+			LOGGER.debug("writting object to intermediate object stream {}", row);
+			objectOutputStream.writeObject(row);
 			objectOutputStream.reset();
 		} catch (IOException e) {
 			throw new ReportEngineRuntimeException(e);
-		} 
-	}
-
-	/**
-	 * serializes the values provided ( IntermediateReportRow )
-	 */
-	public void outputDataCell(CellProps cellProps) {
-		//TODO: check if open
-		Object value = cellProps.getValue();
-		
-		//TODO: see if you can fix the check below and get rid of the instanceof
-		if(value instanceof IntermediateReportRow){
-			IntermediateReportRow intermediateRow = (IntermediateReportRow)value; 
-			//serialize
-			try {
-				LOGGER.debug("writting object to intermediate object stream {}", intermediateRow);
-				objectOutputStream.writeObject(intermediateRow);
-			} catch (IOException e) {
-				throw new ReportEngineRuntimeException(e);
-			}
-		}else{
-			throw new IllegalArgumentException("The intermediate crosstab output works only with IntermediateReportRow.");
 		}
 	}
 	
+	
+//	/**
+//	 * resets the object output stream
+//	 */
+//	public void endDataRow() {
+//		try {
+//			objectOutputStream.reset();
+//		} catch (IOException e) {
+//			throw new ReportEngineRuntimeException(e);
+//		} 
+//	}
+
+//	/**
+//	 * serializes the values provided ( IntermediateReportRow )
+//	 */
+//	public void outputDataCell(CellProps cellProps) {
+//		//TODO: check if open
+//		Object value = cellProps.getValue();
+//		
+//		//TODO: see if you can fix the check below and get rid of the instanceof
+//		if(value instanceof IntermediateReportRow){
+//			IntermediateReportRow intermediateRow = (IntermediateReportRow)value; 
+//			//serialize
+//			try {
+//				LOGGER.debug("writting object to intermediate object stream {}", intermediateRow);
+//				objectOutputStream.writeObject(intermediateRow);
+//			} catch (IOException e) {
+//				throw new ReportEngineRuntimeException(e);
+//			}
+//		}else{
+//			throw new IllegalArgumentException("The intermediate crosstab output works only with IntermediateReportRow.");
+//		}
+//	}
+//	
 
 	/**
 	 * flushes the object output stream and then closes it
@@ -129,7 +107,7 @@ public class IntermediateCrosstabOutput implements ReportOutput {
 		try {
 			objectOutputStream.flush();
 			objectOutputStream.close(); 
-			LOGGER.info("IntermediateCrosstabReport closed"); 
+			LOGGER.info("IntermediateCrosstab Output closed"); 
 		} catch (IOException e) {
 			throw new ReportEngineRuntimeException(e); 
 		} 
