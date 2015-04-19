@@ -44,10 +44,59 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author dragos balan
+ * <p>
+ * This is a normal tabular report (don't get confused by its name) whose layout will look like: 
+ * <table>
+ * 	<tr><td><b>column 1</b></td><td><b>column 2</b></td><td><b>column 3</b></td></tr>
+ * 	<tr><td>data 11</td><td>data 12</td><td>data 13</td></tr>
+ *  <tr><td>data 21</td><td>data 22</td><td>data 23</td><tr>
+ *  <tr><td>data 31</td><td>data 32</td><td>data 33</td><tr>
+ * </table>
  *
+ * Any flat report needs at least the following elements configured: 
+ * <ul>
+ * 	<li>input</li>
+ * 	<li>column configuration</li> 
+ * </ul>
+ * Usually the flat table is used as one component of a report: 
+ * {@code
+ * FlatTable flatTable = new FlatTable.Builder()
+ *    .input(new TextInput("./inputData/expenses.csv",","))
+ *    .addDataColumn(new DefaultDataColumn.Builder(0).header("Country").build())
+ *    .addDataColumn(new DefaultDataColumn.Builder(1).header("City").build())
+ *    .addDataColumn(new DefaultDataColumn.Builder(2).header("Population").build())
+ *    .build();
+ *    
+ * Report report = new Report(new DefaultReportOutput(new FileWriter("/tmp/report.html")));
+ * report.add(flatTable); 
+ * report.execute(); 
+ *}
+ * 
+ * but it can be used also as a stand alone component
+ * <pre>
+ * {@code
+ * 	ReportOutput reportOutput = new DefaultReportOutput(new FileWriter("/tmp/testFlatTable.html"))
+ *  reportOutput.open(); 
+ * 	FlatTable flatTable = new FlatTable.Builder()
+ *    .input(new TextInput("./inputData/expenses.csv",","))
+ *    .addDataColumn(new DefaultDataColumn.Builder(0).header("Country").build())
+ *    .addDataColumn(new DefaultDataColumn.Builder(1).header("City").build())
+ *    .addDataColumn(new DefaultDataColumn.Builder(2).header("Population").build())
+ *    .build();
+ * 	flatTable.output(reportOutput); 
+ *  reportOuptut.close(); 
+ *}
+ * </pre>
+ * </p>
+ * 
+ * @see TableInput
+ * @see NewReportOutput
+ * @see DataColumn
+ * @see GroupColumn
+ * 
+ * @author dragos balan
  */
-public class FlatTable extends AbstractColumnBasedTable {
+public final class FlatTable extends AbstractColumnBasedTable {
 	
 	/**
 	 * the one and only logger
@@ -63,8 +112,9 @@ public class FlatTable extends AbstractColumnBasedTable {
 	
     
     /**
+     * the one and only constructor based on a builder
      * 
-     * @param builder
+     * @param builder	the helper builder for this class
      */
     private FlatTable(Builder builder){
     	super(	builder.reportInput, 
@@ -216,9 +266,7 @@ public class FlatTable extends AbstractColumnBasedTable {
 	
 
 	/**
-     * 
-     * 
-     *
+     * The builder that helps construct the FlatTable instances
      */
     public static class Builder {
     	

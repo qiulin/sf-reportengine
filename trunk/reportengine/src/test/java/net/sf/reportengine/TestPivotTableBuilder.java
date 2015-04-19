@@ -2,16 +2,17 @@ package net.sf.reportengine;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import net.sf.reportengine.components.PivotTable;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
 
 import org.junit.Test;
 
-public class TestCrosstabReportBuilder {
+public class TestPivotTableBuilder {
 
 	@Test
 	public void testShowTotalsSetManually() {
-		CrossTabReport report = new CrossTabReport.Builder() 
+		PivotTable table = new PivotTable.Builder() 
 		
 		//manually setting show totals to false and adding a column with a calculator 
 		//shoud result in no showing of totals in the end 
@@ -19,35 +20,35 @@ public class TestCrosstabReportBuilder {
 			.addDataColumn(new DefaultDataColumn("", 0, GroupCalculators.AVG))
 			.build(); 
 		
-		assertFalse(report.getShowTotals()); 
-		assertTrue(report.getShowGrandTotal()); 
+		assertFalse(table.getShowTotals()); 
+		assertTrue(table.getShowGrandTotal()); 
 	}
 	
 	
 	@Test
 	public void testShowTotalsNotSetManuallyWithCalculators() {
-		CrossTabReport report = new CrossTabReport.Builder() 
+		PivotTable table = new PivotTable.Builder() 
 			
 			//because we add a column having a calculator 
 			//the Builder should set the showTotals to true
 			.addDataColumn(new DefaultDataColumn("", 0, GroupCalculators.AVG))
 			.build(); 
 		
-		assertTrue(report.getShowTotals()); 
-		assertTrue(report.getShowGrandTotal()); 
+		assertTrue(table.getShowTotals()); 
+		assertTrue(table.getShowGrandTotal()); 
 	}
 	
 	@Test
 	public void testShowTotalsNotSetManuallyAndNoCalculators() {
-		CrossTabReport report = new CrossTabReport.Builder() 
+		PivotTable table = new PivotTable.Builder() 
 			
 			//because we add a column having a calculator 
 			//the Builder should set the showTotals to true
 			.addDataColumn(new DefaultDataColumn("", 0))
 			.build(); 
 		
-		assertFalse(report.getShowTotals()); 
-		assertFalse(report.getShowGrandTotal()); 
+		assertFalse(table.getShowTotals()); 
+		assertFalse(table.getShowGrandTotal()); 
 	}
 
 }
