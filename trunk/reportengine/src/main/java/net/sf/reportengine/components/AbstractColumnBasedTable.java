@@ -51,21 +51,6 @@ public abstract class AbstractColumnBasedTable extends AbstractTable {
 		return dataColsAsList; 
 	}
 
-	/**
-	 * setter for the list of data columns 
-	 * @param dataColsList
-	 */
-//	public void setDataColumns(List<DataColumn> dataColsList){
-//		this.dataColsAsList = dataColsList; 
-//	}
-	
-	/**
-	 * adds a data column to the existing list
-	 * @param newColumn
-	 */
-//	public void addDataColumn(DataColumn newColumn){
-//		this.dataColsAsList.add(newColumn); 
-//	}
 	
 	/**
 	 * getter for the list of group columns
@@ -75,25 +60,4 @@ public abstract class AbstractColumnBasedTable extends AbstractTable {
 		return groupColsAsList; 
 	}
 	
-	/**
-	 * sets the given columns lists. 
-	 * Please note that you cannot use {@link #setGroupColumns(List)} after {@link #addGroupColumn(GroupColumn)}
-	 * because it will override the existing columns. 
-	 * 
-	 * @param groupColsList the new list of group columns
-	 */
-//	public void setGroupColumns(List<GroupColumn> groupColsList){
-//		this.groupColsAsList = groupColsList;
-//	}
-	
-	/**
-	 * adds a new group column to the list of the existing columns. 
-	 * Please note that your column is added at the end of the existing list
-	 * 
-	 * @param newGroupCol the new group column
-	 */
-//	public void addGroupColumn(GroupColumn newGroupCol){
-//		this.groupColsAsList.add(newGroupCol); 
-//	}
-
 }

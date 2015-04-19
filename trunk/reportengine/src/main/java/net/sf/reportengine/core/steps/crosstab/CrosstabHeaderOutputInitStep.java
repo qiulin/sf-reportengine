@@ -4,7 +4,6 @@
 package net.sf.reportengine.core.steps.crosstab;
 
 import java.util.List;
-import java.util.Map;
 
 import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.DataColumn;
@@ -13,13 +12,14 @@ import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.SecondProcessDataColumn;
 import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
-import net.sf.reportengine.core.steps.AbstractCrosstabInitStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
+import net.sf.reportengine.core.steps.neo.AbstractOutputInitStep;
+import net.sf.reportengine.core.steps.neo.NewColumnHeaderOutputInitStep;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
-import net.sf.reportengine.out.TitleProps;
+import net.sf.reportengine.out.neo.NewReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
 import net.sf.reportengine.util.IOKeys;
@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan
  * @since 0.4
  */
-public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep<String>{
+public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>{
 	
 	/**
 	 * the one and only logger
@@ -44,10 +44,10 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep<Strin
 	 * 
 	 */
 	public StepResult<String> init(StepInput stepInput){
-		outputTitle(getReportTitle(stepInput), 
-					getDataColumnsLength(stepInput) + getGroupColumnsLength(stepInput), 
-					getReportOutput(stepInput));
-		outputHeaderRows(	getReportOutput(stepInput), 
+//		outputTitle(getReportTitle(stepInput), 
+//					getDataColumnsLength(stepInput) + getGroupColumnsLength(stepInput), 
+//					getReportOutput(stepInput));
+		outputHeaderRows(	stepInput, 
 							getCrosstabMetadata(stepInput), 
 							getDataColumns(stepInput), 
 							getGroupColumns(stepInput),
@@ -55,6 +55,13 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep<Strin
 		return StepResult.NO_RESULT; 
 	}
 	
+	protected CtMetadata getCrosstabMetadata(StepInput stepInput){
+		return (CtMetadata)stepInput.getContextParam(ContextKeys.CROSSTAB_METADATA);
+	}
+	
+	public CrosstabData getCrosstabData(StepInput stepInput){
+		 return (CrosstabData)stepInput.getAlgoInput(IOKeys.CROSSTAB_DATA); 
+	}
 	
 	@Override 
 	public List<DataColumn> getDataColumns(StepInput stepInput){
@@ -71,13 +78,13 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep<Strin
 	 * @param title
 	 * @param reportOutput
 	 */
-	private void outputTitle(	String reportTitle, 
-								int colspan,  
-								ReportOutput reportOutput){
-		if(reportTitle != null){
-        	reportOutput.outputTitle(new TitleProps(reportTitle, colspan));
-        }
-	}
+//	private void outputTitle(	String reportTitle, 
+//								int colspan,  
+//								ReportOutput reportOutput){
+//		if(reportTitle != null){
+//        	reportOutput.outputTitle(new TitleProps(reportTitle, colspan));
+//        }
+//	}
 	
 	/**
 	 * 
@@ -86,20 +93,21 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep<Strin
 	 * @param dataCols
 	 * @param groupCols
 	 */
-	private void outputHeaderRows(	ReportOutput reportOutput, 
+	private void outputHeaderRows(	StepInput stepInput, 
 									CtMetadata ctMetadata, 
 									List<DataColumn> dataCols, 
 									List<GroupColumn> groupCols, 
 									CrosstabData ctData){
 		//loop through all header rows
 		for (int currHeaderRow = 0; currHeaderRow < ctMetadata.getHeaderRowsCount(); currHeaderRow++) {
-			reportOutput.startHeaderRow(new RowProps(currHeaderRow)); 
-			
+			//reportOutput.startHeaderRow(new RowProps(currHeaderRow)); 
+			 outputOneValue(stepInput, NewColumnHeaderOutputInitStep.START_HEADER_ROW_TEMPLATE, NewColumnHeaderOutputInitStep.START_HEADER_MODEL_NAME, new RowProps(currHeaderRow));
+			 
 			boolean isLastHeaderRow = currHeaderRow == ctMetadata.getHeaderRowsCount()-1; 
 			
 			//1. handle grouping columns header first 
-			displayHeaderForGroupingCols(	groupCols, 
-											reportOutput,
+			displayHeaderForGroupingCols(	stepInput, 
+											groupCols, 
 											isLastHeaderRow, 
 											currHeaderRow);
 			
@@ -110,24 +118,24 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep<Strin
 				
 				//if this column is a column created during 
 				if(currentDataColumn instanceof SecondProcessDataColumn){
-					int colspan = displayDataColumnHeader(	(SecondProcessDataColumn)currentDataColumn,
-															reportOutput,
+					int colspan = displayDataColumnHeader(	stepInput,
+															(SecondProcessDataColumn)currentDataColumn,
 															ctMetadata, 
 															currHeaderRow, 
 															isLastHeaderRow);
 					currentColumn += colspan; 
 				}else{
 					if(currentDataColumn instanceof SecondProcessTotalColumn){
-						displayHeaderForTotalColumn((SecondProcessTotalColumn)currentDataColumn,
-													reportOutput, 
+						displayHeaderForTotalColumn(stepInput,
+													(SecondProcessTotalColumn)currentDataColumn,
 													ctMetadata, 
 													currHeaderRow, 
 													ctData.getCalculator().getLabel());
 						currentColumn++;
 					}else{
 						if(currentDataColumn instanceof SecondProcessDataColumnFromOriginalDataColumn){
-							displayHeaderForOriginalDataColumn(	currentDataColumn, 
-																reportOutput,
+							displayHeaderForOriginalDataColumn(	stepInput,
+																currentDataColumn, 
 																isLastHeaderRow, 
 																currHeaderRow);
 							currentColumn++; 
@@ -138,7 +146,9 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep<Strin
 					}
 				}
 			}//end while 
-			reportOutput.endHeaderRow(); 
+			
+			//reportOutput.endHeaderRow(); 
+			outputNoValue(stepInput, NewColumnHeaderOutputInitStep.END_HEADER_ROW_TEMPLATE); 
 		}
 	}
 
@@ -148,8 +158,8 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep<Strin
 	 * @param reportOutput
 	 * @param isLastHeaderRow
 	 */
-	private void displayHeaderForGroupingCols(	List<GroupColumn> groupCols,
-												ReportOutput reportOutput, 
+	private void displayHeaderForGroupingCols(	StepInput stepInput, 
+												List<GroupColumn> groupCols,
 												boolean isLastHeaderRow,
 												int rowNumber) {
 		//if last header row write the normal column headers
@@ -158,16 +168,16 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep<Strin
 				//for group columns only the last header row will contain something 
 				// the first will be empty	
 				for (int i = 0; i < groupCols.size(); i++) {
-					reportOutput.outputHeaderCell(new CellProps.Builder(groupCols.get(i).getHeader())
-												.colspan(1)
-												.horizAlign(HorizAlign.CENTER)
-												.rowNumber(rowNumber)
-												.build()); 
+					CellProps cellProps = new CellProps.Builder(groupCols.get(i).getHeader()).colspan(1).horizAlign(HorizAlign.CENTER).rowNumber(rowNumber).build();
+					//reportOutput.outputHeaderCell(cellProps);
+					outputOneValue(stepInput, NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, NewColumnHeaderOutputInitStep.HEADER_CELL_MODEL_NAME, cellProps); 
 				}
 			}else{
 				//first header rows will contain only spaces (for group headers):
 				for (int i = 0; i < groupCols.size(); i++) {
-					reportOutput.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(rowNumber).build()); 
+					CellProps cellProps = new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(rowNumber).build();
+					//reportOutput.outputDataCell(cellProps); 
+					outputOneValue(stepInput, NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, NewColumnHeaderOutputInitStep.HEADER_CELL_MODEL_NAME, cellProps); 
 				}
 			}
 		}else{
@@ -181,21 +191,20 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep<Strin
 	 * @param reportOutput
 	 * @param isLastHeaderRow
 	 */
-	private void displayHeaderForOriginalDataColumn(	DataColumn currentDataColumn, 
-														ReportOutput reportOutput,
+	private void displayHeaderForOriginalDataColumn(	StepInput stepInput,
+														DataColumn currentDataColumn, 
 														boolean isLastHeaderRow, 
 														int rowNumber) {
 		//only on the last header row we display the header values for the original data columns
 		if(isLastHeaderRow){
-			SecondProcessDataColumnFromOriginalDataColumn originalDataColumn = (SecondProcessDataColumnFromOriginalDataColumn)currentDataColumn; 
-			reportOutput.outputHeaderCell(new CellProps.Builder(originalDataColumn.getHeader())
-											.colspan(1)
-											.horizAlign(HorizAlign.CENTER)
-											.rowNumber(rowNumber)
-											.build()); 
+			SecondProcessDataColumnFromOriginalDataColumn originalDataColumn = (SecondProcessDataColumnFromOriginalDataColumn)currentDataColumn;
+			CellProps cellProps = new CellProps.Builder(originalDataColumn.getHeader()).colspan(1).horizAlign(HorizAlign.CENTER).rowNumber(rowNumber).build();
+			//reportOutput.outputHeaderCell(cellProps); 
+			outputOneValue(stepInput, NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, NewColumnHeaderOutputInitStep.HEADER_CELL_MODEL_NAME, cellProps);
 		}else{
 			//first header rows will contain empty cells
-			reportOutput.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(rowNumber).build());
+			//reportOutput.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(rowNumber).build());
+			outputOneValue(stepInput, NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, NewColumnHeaderOutputInitStep.HEADER_CELL_MODEL_NAME, new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(rowNumber).build());
 		}
 	}
 
@@ -207,8 +216,8 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep<Strin
 	 * @param ctMetadata
 	 * @param currHeaderRow
 	 */
-	private void displayHeaderForTotalColumn(	SecondProcessTotalColumn secondProcessTotalCol,
-												ReportOutput reportOutput, 
+	private void displayHeaderForTotalColumn(	StepInput stepInput, 
+												SecondProcessTotalColumn secondProcessTotalCol,
 												CtMetadata ctMetadata, 
 												int currHeaderRow, 
 												String totalLabel) {
@@ -217,31 +226,29 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep<Strin
 		if(position != null){
 			if(currHeaderRow < position.length){
 				Object value = ctMetadata.getDistincValueFor(currHeaderRow, position[currHeaderRow]);
-				reportOutput.outputHeaderCell(new CellProps.Builder(value)
-											.colspan(1)
-											.horizAlign(secondProcessTotalCol.getHorizAlign())
-											.rowNumber(currHeaderRow)
-											.build());
+				CellProps cellProps = new CellProps.Builder(value).colspan(1).horizAlign(secondProcessTotalCol.getHorizAlign()).rowNumber(currHeaderRow).build();
+				//reportOutput.outputHeaderCell(cellProps);
+				outputOneValue(stepInput, NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, NewColumnHeaderOutputInitStep.HEADER_CELL_MODEL_NAME, cellProps); 
 			}else{
 				//if there's no position for this header row then this is a hard-coded "TOTAL" 
 				if(currHeaderRow == position.length){
-					reportOutput.outputHeaderCell(new CellProps.Builder(totalLabel)
-												.horizAlign(HorizAlign.CENTER)
-												.rowNumber(currHeaderRow)
-												.build());
+					CellProps cellProps = new CellProps.Builder(totalLabel).horizAlign(HorizAlign.CENTER).rowNumber(currHeaderRow).build();
+					//reportOutput.outputHeaderCell(cellProps);
+					outputOneValue(stepInput, NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, NewColumnHeaderOutputInitStep.HEADER_CELL_MODEL_NAME, cellProps);
 				}else{
-					reportOutput.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(currHeaderRow).build());
+					//reportOutput.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(currHeaderRow).build());
+					outputOneValue(stepInput, NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, NewColumnHeaderOutputInitStep.HEADER_CELL_MODEL_NAME, new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(currHeaderRow).build());
 				}
 			}
 		}else{
 			//the only data column that has null positions is the grand total column
 			if(currHeaderRow == 0){
-				reportOutput.outputHeaderCell(new CellProps.Builder("Grand "+totalLabel)
-											.horizAlign(HorizAlign.LEFT)
-											.rowNumber(currHeaderRow)
-											.build());
+				CellProps cellProps = new CellProps.Builder("Grand "+totalLabel).horizAlign(HorizAlign.LEFT).rowNumber(currHeaderRow).build();
+				//reportOutput.outputHeaderCell(cellProps);
+				outputOneValue(stepInput, NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, NewColumnHeaderOutputInitStep.HEADER_CELL_MODEL_NAME, cellProps);
 			}else{
-				reportOutput.outputDataCell(CellProps.EMPTY_CELL);
+				//reportOutput.outputDataCell(CellProps.EMPTY_CELL);
+				outputOneValue(stepInput, NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, NewColumnHeaderOutputInitStep.HEADER_CELL_MODEL_NAME, CellProps.EMPTY_CELL);
 			}
 		}
 	}
@@ -257,8 +264,8 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep<Strin
 	 * 
 	 * @return	the colspan
 	 */
-	private int displayDataColumnHeader(SecondProcessDataColumn secondProcDataColumn,
-										ReportOutput reportOutput,
+	private int displayDataColumnHeader(StepInput stepInput, 
+										SecondProcessDataColumn secondProcDataColumn,
 										CtMetadata ctMetadata, 
 										int currHeaderRow, 
 										boolean isLastHeaderRow ) {
@@ -269,11 +276,9 @@ public class CrosstabHeaderOutputInitStep extends AbstractCrosstabInitStep<Strin
 		}
 		
 		Object value = ctMetadata.getDistincValueFor(currHeaderRow, secondProcDataColumn.getPosition()[currHeaderRow]);
-		reportOutput.outputHeaderCell(new CellProps.Builder(value)
-									.colspan(colspan)
-									.horizAlign(secondProcDataColumn.getHorizAlign())
-									.rowNumber(currHeaderRow)
-									.build());
+		CellProps cellProps = new CellProps.Builder(value).colspan(colspan).horizAlign(secondProcDataColumn.getHorizAlign()).rowNumber(currHeaderRow).build(); 
+		//reportOutput.outputHeaderCell(cellProps);
+		outputOneValue(stepInput, NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, NewColumnHeaderOutputInitStep.HEADER_CELL_MODEL_NAME, cellProps);
 		return colspan;
 	}
 }

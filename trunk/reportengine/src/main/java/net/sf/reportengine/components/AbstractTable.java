@@ -80,14 +80,6 @@ public abstract class AbstractTable implements ReportComponent {
     }
     
     
-    /**
-     * setter method for report input
-     * @param in
-     */
-//    public void setIn(ReportInput in){
-//    	this.input = in;
-//    }
-    
 	/**
 	 * @return the input
 	 */
@@ -95,15 +87,6 @@ public abstract class AbstractTable implements ReportComponent {
 		return input;
 	}
 
-	/**
-     * Usually when setting totals you should also set some calculators 
-     * otherwise the default calculators (Count) will be shown
-     * @param flag  true if you want to show the results of aggregation (sums, counts, max etc)
-     */
-//    public void setShowTotals(boolean flag){
-//        this.showTotals = flag;
-//    }
-    
     /**
      * show totals getter
      * @return  true if this report has to show totals
@@ -111,15 +94,6 @@ public abstract class AbstractTable implements ReportComponent {
     public boolean getShowTotals(){
         return showTotals;
     }
-    
-    
-    /**
-     * setter for showDataRows
-     * @param flag  true if you want to show data rows 
-     */
-//    public void setShowDataRows(boolean flag){
-//        this.showDataRows = flag;
-//    }
     
     /**
      * show data rows getter
@@ -137,14 +111,6 @@ public abstract class AbstractTable implements ReportComponent {
     	return showGrandTotal;
     }
     
-    /**
-     * setter for showGrandTotal flag
-     * @param flag
-     */
-//    public void setShowGrandTotal(boolean flag){
-//    	this.showGrandTotal = flag;
-//    }
-
 	/**
 	 * @return the valuesSorted
 	 */
@@ -152,12 +118,4 @@ public abstract class AbstractTable implements ReportComponent {
 		return valuesSorted;
 	}
 
-	/**
-	 * Tells the report if your input already has the values sorted. 
-	 * If you need sorting to be done by the reportengine then set this flag to false (of course therea's a big performance penalty) 
-	 * @param valuesSorted the valuesSorted to set
-	 */
-//	public void setValuesSorted(boolean valuesAlreadySorted) {
-//		this.valuesSorted = valuesAlreadySorted;
-//	}
 }
