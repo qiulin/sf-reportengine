@@ -7,8 +7,8 @@ import static net.sf.reportengine.util.IOKeys.CROSSTAB_DATA;
 import static net.sf.reportengine.util.IOKeys.CROSSTAB_HEADER_ROWS;
 import static net.sf.reportengine.util.IOKeys.DATA_COLS;
 import static net.sf.reportengine.util.IOKeys.GROUP_COLS;
-import static net.sf.reportengine.util.IOKeys.REPORT_INPUT;
 import static net.sf.reportengine.util.IOKeys.NEW_REPORT_OUTPUT;
+import static net.sf.reportengine.util.IOKeys.REPORT_INPUT;
 import static net.sf.reportengine.util.IOKeys.SHOW_GRAND_TOTAL;
 import static net.sf.reportengine.util.IOKeys.SHOW_TOTALS;
 import static net.sf.reportengine.util.UserRequestedBoolean.FALSE_NOT_REQUESTED_BY_USER;
@@ -71,8 +71,69 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author dragos balan
+ * <p>
+ *  This is the main class to be used for Cross tab reports (or Pivot tables).
+ *  The layout of pivot tables will look like: <br/>
+ *  <table border="1">
+ *  	<tr><td>&nbsp;</td><td>&nbsp;</td>						<td colspan="4" align="center"><b>Row header 1</b></td></tr>
+ *  	<tr><td><b>Column 1</b></td><td><b>Column 2</b></td>	<td colspan="4" align="center"><b>Row header 2</b></td></tr>
+ *  	<tr><td>value 1</td><td>value 2</td>					<td>ct data 11</td><td>ct data 12</td><td>ct data 13</td><td>ct data 14</td></tr>
+ *  	<tr><td>value 3</td><td>value 4</td>					<td>ct data 21</td><td>ct data 22</td><td>ct data 23</td><td>ct data 24</td></tr>
+ *  	<tr><td>value 5</td><td>value 6</td>					<td>ct data 31</td><td>ct data 32</td><td>ct data 33</td><td>ct data 34</td></tr>
+ *  </table><br/>
+ *  where the values from Row header 1, Row header 2, etc. are taken from the input 
+ *  
+ * <p>
+ * Each pivot table report needs at least the following elements configured: 
+ * <ul>
+ * 	<li>input</li>
+ * 	<li>data columns configuration</li>
+ *  <li>row headers configuration</li> 
+ *  <li>crosstab data</li>
+ * </ul>
+ * </p>
+ * Normally, the pivot table is used as a component of a report 
+ * 
+ * <pre>
+ * {@code
+ * 	PivotTabl pivotTable = new PivotTable.Builder()
+ *		.input(new TextInput("./inputData/expenses.csv", ","))
+ *		.addDataColumn(new DefaultDataColumn("Month", 0))
+ *		.addHeaderRow(new DefaultCrosstabHeaderRow(1))
+ *		.crosstabData(new DefaultCrosstabData(2))
+ *		.build();
  *
+ *  Report report = new Report(new DefaultReportOutput(new FileWriter("/tmp/testPivot.html"))); 
+ *  report.add(pivotTable); 
+ *  report.execute(); 
+ * }
+ * </pre>
+ * 
+ * but it can also be used as a stand alone component:
+ * <pre>
+ * {@code
+ *  ReportOutput reportOutput = new DefaultReportOutput(new FileWriter("/tmp/testPivot.html"))
+ *  reportOutput.open(); 
+ * 	PivotTable pivotTable = new PivotTable.Builder()
+ *		.input(new TextInput("./inputData/expenses.csv", ","))
+ *		.addDataColumn(new DefaultDataColumn("Month", 0))
+ *		.addHeaderRow(new DefaultCrosstabHeaderRow(1))
+ *		.crosstabData(new DefaultCrosstabData(2))
+ *		.build();
+ * 	pivotTable.output(reportOutput);
+ *  reportOutput.close(); 
+ * }
+ * </pre>
+ * </p>
+ * 
+ * @see TableInput
+ * @see NewReportOutput
+ * @see CrosstabHeaderRow
+ * @see DataColumn
+ * @see GroupColumn
+ * @see CrosstabData
+ * 
+ * @author dragos balan
  */
 public class PivotTable extends AbstractColumnBasedTable{
 	

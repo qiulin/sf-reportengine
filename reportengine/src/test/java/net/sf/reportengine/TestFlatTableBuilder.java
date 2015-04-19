@@ -2,17 +2,17 @@ package net.sf.reportengine;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import net.sf.reportengine.components.FlatTable;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.calc.AvgGroupCalculator;
 
 import org.junit.Test;
 
-public class TestFlatReportBuilder {
+public class TestFlatTableBuilder {
 
 	@Test
 	public void testShowTotalsSetManually() {
-		FlatReport report = new FlatReport.Builder() 
+		FlatTable report = new FlatTable.Builder() 
 		
 		//manually setting show totals to false and adding a column with a calculator 
 		//shoud result in no showing of totals in the end 
@@ -27,7 +27,7 @@ public class TestFlatReportBuilder {
 	
 	@Test
 	public void testShowTotalsNotSetManuallyWithCalculators() {
-		FlatReport report = new FlatReport.Builder() 
+		FlatTable report = new FlatTable.Builder() 
 			
 			//because we add a column having a calculator 
 			//the Builder should set the showTotals to true
@@ -40,8 +40,8 @@ public class TestFlatReportBuilder {
 	
 	@Test
 	public void testShowTotalsNotSetManuallyAndNoCalculators() {
-		FlatReport report = new FlatReport.Builder() 
-			
+		FlatTable report = new FlatTable.Builder()
+		
 			//because we add a column having a calculator 
 			//the Builder should set the showTotals to true
 			.addDataColumn(new DefaultDataColumn("", 0))
