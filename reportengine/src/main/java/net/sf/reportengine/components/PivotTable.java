@@ -1,15 +1,14 @@
 /**
  * 
  */
-package net.sf.reportengine;
+package net.sf.reportengine.components;
 
 import static net.sf.reportengine.util.IOKeys.CROSSTAB_DATA;
 import static net.sf.reportengine.util.IOKeys.CROSSTAB_HEADER_ROWS;
 import static net.sf.reportengine.util.IOKeys.DATA_COLS;
 import static net.sf.reportengine.util.IOKeys.GROUP_COLS;
 import static net.sf.reportengine.util.IOKeys.REPORT_INPUT;
-import static net.sf.reportengine.util.IOKeys.REPORT_OUTPUT;
-import static net.sf.reportengine.util.IOKeys.REPORT_TITLE;
+import static net.sf.reportengine.util.IOKeys.NEW_REPORT_OUTPUT;
 import static net.sf.reportengine.util.IOKeys.SHOW_GRAND_TOTAL;
 import static net.sf.reportengine.util.IOKeys.SHOW_TOTALS;
 import static net.sf.reportengine.util.UserRequestedBoolean.FALSE_NOT_REQUESTED_BY_USER;
@@ -26,10 +25,6 @@ import java.util.Map;
 import net.sf.reportengine.config.CrosstabData;
 import net.sf.reportengine.config.CrosstabHeaderRow;
 import net.sf.reportengine.config.DataColumn;
-import net.sf.reportengine.config.DefaultCrosstabData;
-import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
-import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.Algorithm;
@@ -39,14 +34,9 @@ import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.algorithm.OpenLoopCloseInputAlgo;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
-import net.sf.reportengine.core.steps.CloseReportOutputExitStep;
-import net.sf.reportengine.core.steps.ConfigReportOutputInitStep;
-import net.sf.reportengine.core.steps.EndReportExitStep;
 import net.sf.reportengine.core.steps.ExternalSortPreparationStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
 import net.sf.reportengine.core.steps.NewRowComparator;
-import net.sf.reportengine.core.steps.OpenReportOutputInitStep;
-import net.sf.reportengine.core.steps.StartReportInitStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.core.steps.crosstab.ConstrDataColsForSecondProcessInitStep;
@@ -65,11 +55,13 @@ import net.sf.reportengine.core.steps.intermed.IntermedReportExtractTotalsDataIn
 import net.sf.reportengine.core.steps.intermed.IntermedSetResultsExitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsCalculatorStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsOutputStep;
+import net.sf.reportengine.core.steps.neo.EndTableExitStep;
+import net.sf.reportengine.core.steps.neo.StartTableInitStep;
 import net.sf.reportengine.in.IntermediateCrosstabReportTableInput;
 import net.sf.reportengine.in.MultipleExternalSortedFilesTableInput;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
-import net.sf.reportengine.out.ReportOutput;
+import net.sf.reportengine.out.neo.NewReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
@@ -79,65 +71,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <p>
- *  This is the main class to be used for Cross tab reports (or Pivot tables).
- *  The layout of pivot tables will look like: <br/>
- *  <table border="1">
- *  	<tr><td>&nbsp;</td><td>&nbsp;</td>						<td colspan="4" align="center"><b>Row header 1</b></td></tr>
- *  	<tr><td><b>Column 1</b></td><td><b>Column 2</b></td>	<td colspan="4" align="center"><b>Row header 2</b></td></tr>
- *  	<tr><td>value 1</td><td>value 2</td>					<td>ct data 11</td><td>ct data 12</td><td>ct data 13</td><td>ct data 14</td></tr>
- *  	<tr><td>value 3</td><td>value 4</td>					<td>ct data 21</td><td>ct data 22</td><td>ct data 23</td><td>ct data 24</td></tr>
- *  	<tr><td>value 5</td><td>value 6</td>					<td>ct data 31</td><td>ct data 32</td><td>ct data 33</td><td>ct data 34</td></tr>
- *  </table><br/>
- *  where the values from Row header 1, Row header 2, etc. are taken from the input 
- *  
- * <p>
- * Each pivot table report needs at least five elements configured: 
- * <ul>
- * 	<li>input</li>
- * 	<li>data columns configuration</li>
- *  <li>row headers configuration</li> 
- *  <li>crosstab data</li>
- * 	<li>output</li>
- * </ul>
- * </p>
- * A simple pivot table report example is: 
- * <pre>
- * {@code
- * CrossTabReport crosstabReport = new CrossTabReport.Builder()
- *		.input(new TextInput("./inputData/expenses.csv", ","))
- *		.output(new Html5Output("./output/expensesPivot.html"))
- *		.addDataColumn(new DefaultDataColumn("Month", 0))
- *		.addHeaderRow(new DefaultCrosstabHeaderRow(1))
- *		.crosstabData(new DefaultCrosstabData(2))
- *		.build();
- *		
- * crosstabReport.execute();
- * }
- * </pre>
- * </p>
- * 
- * @see TableInput
- * @see ReportOutput
- * @see CrosstabHeaderRow
- * @see DataColumn
- * @see GroupColumn
- * @see CrosstabData
- * 
- * @see DefaultDataColumn
- * @see DefaultGroupColumn
- * @see DefaultCrosstabHeaderRow
- * @see DefaultCrosstabData
- * 
- * @author dragos balan (dragos dot balan at gmail dot com)
- * @since 0.2 
+ * @author dragos balan
+ *
  */
-public class CrossTabReport extends AbstractColumnBasedReport{
+public class PivotTable extends AbstractColumnBasedTable{
+	
 	
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(CrossTabReport.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PivotTable.class);
 	
 	/**
 	 *  the container for potential algorithms : 
@@ -160,45 +103,42 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 	 */
 	private boolean needsProgramaticSorting = false;
 	
-	/**
-	 * constructs a new crosstab report
-	 */
-	public CrossTabReport(){}
 	
 	/**
 	 * constructs a crosstab report based on the builder values 
 	 * @param builder
 	 */
-	public CrossTabReport(Builder builder){
-		this.setShowDataRows(builder.showDataRows); 
-    	this.setShowGrandTotal(builder.showGrandTotal.getValue()); 
-    	this.setShowTotals(builder.showTotals.getValue());
-    	this.setValuesSorted(builder.valuesSorted); 
-    	this.setTitle(builder.reportTitle); 
-    	this.setIn(builder.reportInput); 
-    	this.setOut(builder.reportOutput); 
-    	this.setDataColumns(builder.dataColumns); 
-    	this.setGroupColumns(builder.groupColumns); 
-    	this.setCrosstabData(builder.crosstabData); 
-    	this.setHeaderRows(builder.headerRows); 
+	public PivotTable(Builder builder){
+		
+		super(	builder.reportInput, 
+				builder.dataColumns, 
+				builder.groupColumns, 
+				builder.showTotals.getValue(), 
+				builder.showGrandTotal.getValue(), 
+				builder.showDataRows, 
+				builder.valuesSorted);
+		this.crosstabData = builder.crosstabData; 
+		this.crosstabHeaderRowsAsList = builder.headerRows; 
 	}
+	
 	
 	/**
 	 * validates the configuration 
 	 */
-	@Override protected void validate(){
-		LOGGER.trace("validating crosstab configuration ..."); 
+	@Override 
+	protected void validate(){
+		LOGGER.trace("validating pivot table configuration..."); 
 		//input/output verification
 		super.validate(); 
         
         //crosstab data existence check
         CrosstabData ctData = getCrosstabData(); 
-        if(getCrosstabData() == null){
+        if(ctData == null){
 			throw new ConfigValidationException("Crosstab reports need crosstab data configured"); 
 		}
 		
         //crosstab header validation
-        List<CrosstabHeaderRow> ctHeader = getCrosstabHeaderRows(); 
+        List<CrosstabHeaderRow> ctHeader = getHeaderRows(); 
 		if(ctHeader == null || ctHeader.size() == 0){
 			throw new ConfigValidationException("Crosstab reports need header rows configured");
 		}
@@ -217,6 +157,7 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 			throw new ConfigValidationException("Please configure a GroupCalculator to CrosstabData to display totals");
 		}
 	}
+	
 	
 	/**
 	 * configures the first intermediate report. 
@@ -238,19 +179,42 @@ public class CrossTabReport extends AbstractColumnBasedReport{
     		reportAlgoContainer.addAlgo(configSortingAlgo()); 
     	}
 		
-		reportAlgoContainer.addAlgo(configFirstReport(needsProgramaticSorting)); 
-		reportAlgoContainer.addAlgo(configSecondReport()); 
+		reportAlgoContainer.addAlgo(configIntermeAlgo(needsProgramaticSorting)); 
+		reportAlgoContainer.addAlgo(configSecondAlgo()); 
 	}
-			
+	
+	
+	/**
+     * configures the sorting algorithm
+     * 
+     * @return
+     */
+    private Algorithm configSortingAlgo(){
+    	
+    	//TODO: improve here (this sorting algo doesn't have multiple steps)
+    	MultiStepAlgo sortingAlgo = new DefaultLoopThroughReportInputAlgo();
+    	
+    	//init steps
+    	//sortingAlgo.addInitStep(new ConfigReportIOInitStep()); 
+    	//sortingAlgo.addInitStep(new ConfigReportOutputInitStep());
+    	
+    	//sortingAlgo.addInitStep(new OpenReportInputInitStep()); 
+    	
+    	//main steps
+    	sortingAlgo.addMainStep(new ExternalSortPreparationStep()); 
+    	
+    	return sortingAlgo; 
+    }
+	
 	/**
 	 * configures the first algorithm responsible for : 
 	 * 	1. discovering the distinct values for the header 
-	 *  2. arranging the initial crosstab data into rows for the second report
+	 *  2. arranging the initial crosstab data into rows for the second iteration
 	 *  3. computing totals on the crosstab data.
 	 *  
 	 * @return	the intermediate algorithm
 	 */
-	private Algorithm configFirstReport(final boolean hasBeenPreviouslySorted){
+	private Algorithm configIntermeAlgo(final boolean hasBeenPreviouslySorted){
 		
 		MultiStepAlgo algorithm = new OpenLoopCloseInputAlgo(){
 			@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
@@ -326,13 +290,14 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 		return algorithm; 
 	}
 	
+	
 	/**
-	 * the second report is in charge of: 
-	 * 1. getting the input from the first report's output
+	 * the second algorithm is in charge of: 
+	 * 1. getting the input from the intermediate algo 
 	 * 2. computing the totals on data rows 
-	 * 3. outputting into the user defined output
+	 * 3. outputting to the output
 	 */
-	private Algorithm configSecondReport(){
+	private Algorithm configSecondAlgo(){
 		MultiStepAlgo algorithm = new OpenLoopCloseInputAlgo(){
 			@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
 				File previousAlgoSerializedOutput = (File)inputParams.get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
@@ -342,21 +307,19 @@ public class CrossTabReport extends AbstractColumnBasedReport{
 		
 		//adding steps to the algorithm
 		algorithm.addInitStep(new GenerateCrosstabMetadataInitStep()); 
-		//algorithm.addInitStep(new ConfigCrosstabColumnsInitStep());
 		algorithm.addInitStep(new ConstrDataColsForSecondProcessInitStep());
 		algorithm.addInitStep(new ConstrGrpColsForSecondProcessInitStep()); 
 		
-		//algorithm.addInitStep(new ConfigCrosstabIOInitStep());
-		algorithm.addInitStep(new ConfigReportOutputInitStep());
+		//algorithm.addInitStep(new ConfigReportOutputInitStep());
 		
-		//algorithm.addInitStep(new OpenReportIOInitStep()); 
-		algorithm.addInitStep(new OpenReportOutputInitStep());
+		//algorithm.addInitStep(new OpenReportOutputInitStep());
 		
     	algorithm.addInitStep(new InitReportDataInitStep()); 
     	
     	algorithm.addInitStep(new IntermedReportExtractTotalsDataInitStep());
     	
-    	algorithm.addInitStep(new StartReportInitStep()); 
+    	//algorithm.addInitStep(new StartReportInitStep()); 
+    	algorithm.addInitStep(new StartTableInitStep());
     	algorithm.addInitStep(new CrosstabHeaderOutputInitStep());
     	
     	algorithm.addMainStep(new IntermedGroupLevelDetectorStep());
@@ -372,100 +335,25 @@ public class CrossTabReport extends AbstractColumnBasedReport{
         	algorithm.addMainStep(new IntermedPreviousRowManagerStep());
         }
         
-        algorithm.addExitStep(new EndReportExitStep()); 
-        //algorithm.addExitStep(new CloseReportIOExitStep()); 
-        algorithm.addExitStep(new CloseReportOutputExitStep()); 
+        //algorithm.addExitStep(new EndReportExitStep());
+        algorithm.addExitStep(new EndTableExitStep()); 
         
         return algorithm; 
 	}
 	
 	
-	/**
-     * 
-     * @return
-     */
-    private Algorithm configSortingAlgo(){
-    	
-    	//TODO: improve here (this sorting algo doesn't have multiple steps)
-    	MultiStepAlgo sortingAlgo = new DefaultLoopThroughReportInputAlgo();
-    	
-    	//init steps
-    	//sortingAlgo.addInitStep(new ConfigReportIOInitStep()); 
-    	//sortingAlgo.addInitStep(new ConfigReportOutputInitStep());
-    	
-    	//sortingAlgo.addInitStep(new OpenReportInputInitStep()); 
-    	
-    	//main steps
-    	sortingAlgo.addMainStep(new ExternalSortPreparationStep()); 
-    	
-    	return sortingAlgo; 
-    }
-	
-	/**
-	 * getter method for cross table header rows
-	 * @return	a list of header rows
-	 */
-	public List<CrosstabHeaderRow> getCrosstabHeaderRows() {
-		return crosstabHeaderRowsAsList; 
-	}
-	
-	/**
-	 * setter for the header rows of the crosstab report
-	 * @param crosstabHeaderRowsList	
-	 */
-	public void setHeaderRows(List<CrosstabHeaderRow> crosstabHeaderRowsList) {
-		this.crosstabHeaderRowsAsList = crosstabHeaderRowsList; 
-	}
-	
-	/**
-	 * adds a new header row at the end of the existing header rows list
-	 * @param newHeaderRow
-	 */
-	public void addHeaderRow(CrosstabHeaderRow newHeaderRow){
-		this.crosstabHeaderRowsAsList.add(newHeaderRow);
-	}
-	
-	/**
-	 * getter for crosstab data
-	 * @return	the crosstab data
-	 */
-	public CrosstabData getCrosstabData() {
-		return crosstabData;
-	}
-
-	/**
-	 * setter for crosstab data
-	 * @param crosstabData
-	 */
-	public void setCrosstabData(CrosstabData crosstabData) {
-		this.crosstabData = crosstabData;
-	}
-	
-	
-	/**
-     * Call this method for execution of the report<br> 
-     * Behind the scenes, this method does the following :<br>
-     * <ul>
-     *  <li>validates the configuration</li>
-     *  <li>configures the report(s)</li>
-     *  <li>opens the output - output.open()</li>
-     *  <li>runs each algorithm execute() method</li>
-     *  <li>closes the output - output.close()</li>
-     * </ul>
-     */
-    @Override public void execute(){
-    	//validation of the configuration
+	public void output(NewReportOutput reportOutput) {
+		//validation of the configuration
     	validate(); 
     	
     	//configuration of the first report
         config();
         
         Map<IOKeys, Object> inputParams = new EnumMap<IOKeys, Object>(IOKeys.class);
-        inputParams.put(REPORT_TITLE, getTitle()); 
 		
 		//setting the input/output
-        inputParams.put(REPORT_INPUT, getIn());
-        inputParams.put(REPORT_OUTPUT, getOut());
+        inputParams.put(REPORT_INPUT, getInput());
+        inputParams.put(NEW_REPORT_OUTPUT, reportOutput);
 		
 		//context keys specific to a flat report
         inputParams.put(DATA_COLS, getDataColumns()); 
@@ -477,12 +365,28 @@ public class CrossTabReport extends AbstractColumnBasedReport{
         inputParams.put(SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
         
         Map<IOKeys, Object> result = reportAlgoContainer.execute(inputParams); 
-        LOGGER.debug("crosstab report ended with {}", result); 
-    }
-    
-public static class Builder {
+        LOGGER.debug("pivot table output ended with {}", result); 
+	}
+
+	
+	/**
+	 * getter method for cross table header rows
+	 * @return	a list of header rows
+	 */
+	public List<CrosstabHeaderRow> getHeaderRows() {
+		return crosstabHeaderRowsAsList; 
+	}
+	
+	/**
+	 * getter for crosstab data
+	 * @return	the crosstab data
+	 */
+	public CrosstabData getCrosstabData() {
+		return crosstabData;
+	}
+	
+	public static class Builder {
     	
-    	private String reportTitle = null; 
     	
     	private UserRequestedBoolean showTotals = FALSE_NOT_REQUESTED_BY_USER; 
     	private UserRequestedBoolean showGrandTotal = FALSE_NOT_REQUESTED_BY_USER; 
@@ -491,7 +395,6 @@ public static class Builder {
     	private boolean valuesSorted = true; 
     	
     	private TableInput reportInput = null; 
-    	private ReportOutput reportOutput = null;
     	
     	private List<DataColumn> dataColumns = new ArrayList<DataColumn>(); 
     	private List<GroupColumn> groupColumns = new ArrayList<GroupColumn>();
@@ -500,11 +403,6 @@ public static class Builder {
     	
     	public Builder() {
     		
-    	}
-    	
-    	public Builder title(String title){
-    		this.reportTitle = title; 
-    		return this; 
     	}
     	
     	public Builder showTotals(boolean show){
@@ -541,11 +439,6 @@ public static class Builder {
     	
     	public Builder input(TableInput input){
     		this.reportInput = input; 
-    		return this; 
-    	}
-    	
-    	public Builder output(ReportOutput output){
-    		this.reportOutput = output; 
     		return this; 
     	}
     	
@@ -600,8 +493,8 @@ public static class Builder {
     		return this; 
     	}
     	
-    	public CrossTabReport build(){
-    		return new CrossTabReport(this); 
+    	public PivotTable build(){
+    		return new PivotTable(this); 
     	}
     }
 }

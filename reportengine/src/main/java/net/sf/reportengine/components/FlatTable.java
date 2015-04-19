@@ -79,7 +79,8 @@ public class FlatTable extends AbstractColumnBasedTable {
     /**
      * reportAlgo configuration 
      */
-    @Override protected void config(){
+    @Override 
+    protected void config(){
     	LOGGER.trace("configuring flat report"); 
     	
     	boolean needsProgramaticSorting = !hasValuesSorted() || ReportUtils.isSortingInColumns(getGroupColumns(), getDataColumns()); 
@@ -135,15 +136,7 @@ public class FlatTable extends AbstractColumnBasedTable {
     		}
     	};
     	
-//    	if(!needsSorting){
-//    		reportAlgo.addInitStep(new ConfigReportIOInitStep()); 
-//    	}else{
-//    		reportAlgo.addInitStep(new ConfigMultiExternalFilesInputInitStep()); 
-//    	}
-    	reportAlgo.addInitStep(new ConfigReportOutputInitStep());
-    	
-    	//no longer needed
-    	//reportAlgo.addInitStep(new OpenReportOutputInitStep()); 
+    	reportAlgo.addInitStep(new ConfigReportOutputInitStep());//TODO: do we need this here ? the NEW_REPORT_OUTPUT is in place
     	
     	reportAlgo.addInitStep(new InitReportDataInitStep()); 
     	reportAlgo.addInitStep(new FlatReportExtractTotalsDataInitStep());//TODO: only when report has totals
@@ -167,7 +160,6 @@ public class FlatTable extends AbstractColumnBasedTable {
         }
         
         reportAlgo.addExitStep(new EndTableExitStep()); 
-        //reportAlgo.addExitStep(new CloseReportOutputExitStep());
         
         return reportAlgo; 
     }

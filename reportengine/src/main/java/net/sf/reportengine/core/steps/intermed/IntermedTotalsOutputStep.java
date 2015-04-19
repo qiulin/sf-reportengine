@@ -7,16 +7,18 @@ import java.util.List;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.StepInput;
+import net.sf.reportengine.core.steps.neo.FlatTableTotalsOutputStep;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
 /**
+ * displays the intermediate totals
+ * 
  * @author dragos balan
  *
  */
-public class IntermedTotalsOutputStep extends FlatReportTotalsOutputStep {
+public class IntermedTotalsOutputStep extends FlatTableTotalsOutputStep {
 	
 	
 	/**
@@ -41,7 +43,8 @@ public class IntermedTotalsOutputStep extends FlatReportTotalsOutputStep {
      * 
      * @return
      */
-    @Override public List<GroupColumn> getGroupColumns(StepInput stepInput){
+    @Override 
+    public List<GroupColumn> getGroupColumns(StepInput stepInput){
     	return (List<GroupColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_GROUP_COLS); 
 	}
     

@@ -7,6 +7,8 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -39,12 +41,16 @@ import net.sf.reportengine.core.steps.intermed.IntermedReportExtractTotalsDataIn
 import net.sf.reportengine.core.steps.intermed.IntermedSetResultsExitStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsCalculatorStep;
 import net.sf.reportengine.core.steps.intermed.IntermedTotalsOutputStep;
+import net.sf.reportengine.core.steps.neo.EndTableExitStep;
+import net.sf.reportengine.core.steps.neo.StartTableInitStep;
 import net.sf.reportengine.in.IntermediateCrosstabReportTableInput;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.out.ReportOutput;
+import net.sf.reportengine.out.neo.DefaultReportOutput;
+import net.sf.reportengine.out.neo.NewReportOutput;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With0G2D;
@@ -578,8 +584,10 @@ public class TestStepsCombo  {
 	}
 	
 	@Test
-	public void testExecuteScenario2x2x1xTWith1G1DForSecondReport(){
-		ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut2x2x1xT.html");  
+	public void testExecuteScenario2x2x1xTWith1G1DForSecondReport()  throws IOException{
+		//ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut2x2x1xT.html"); 
+		NewReportOutput mockOutput = new DefaultReportOutput(new FileWriter("target/SecondProcessorOut2x2x1xT.html")); 
+		mockOutput.open(); 
 		
 		MultiStepAlgo algo = new OpenLoopCloseInputAlgo(){
 			@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
@@ -589,7 +597,7 @@ public class TestStepsCombo  {
 		}; 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		mockAlgoInput.put(IOKeys.REPORT_INPUT, null);//it doesn't matter, will be replaced
-		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
+		mockAlgoInput.put(IOKeys.NEW_REPORT_OUTPUT, mockOutput);
 		mockAlgoInput.put(IOKeys.GROUP_COLS, CtScenario2x2x1With1G1D.GROUPING_COLUMNS);
 		mockAlgoInput.put(IOKeys.DATA_COLS, CtScenario2x2x1With1G1D.DATA_COLUMNS); 
 		mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario2x2x1With1G1D.HEADER_ROWS); 
@@ -606,40 +614,36 @@ public class TestStepsCombo  {
 		
 		//adding steps to the algorithm
 		algo.addInitStep(new GenerateCrosstabMetadataInitStep()); 
-		//algo.addInitStep(new ConfigCrosstabColumnsInitStep()); 
-				algo.addInitStep(new ConstrDataColsForSecondProcessInitStep());
-				algo.addInitStep(new ConstrGrpColsForSecondProcessInitStep());; 
-		//algo.addInitStep(new ConfigCrosstabIOInitStep()); 
-		algo.addInitStep(new ConfigReportOutputInitStep());
-		
-		//algo.addInitStep(new OpenReportIOInitStep()); 
-		algo.addInitStep(new OpenReportOutputInitStep()); 
+		algo.addInitStep(new ConstrDataColsForSecondProcessInitStep());
+		algo.addInitStep(new ConstrGrpColsForSecondProcessInitStep());; 
+		//algo.addInitStep(new ConfigReportOutputInitStep());
 		
     	algo.addInitStep(new InitReportDataInitStep()); 
-    	
     	algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());
-    	
-    	algo.addInitStep(new StartReportInitStep()); 
+    	algo.addInitStep(new StartTableInitStep()); 
     	algo.addInitStep(new CrosstabHeaderOutputInitStep());
     	
-    	//algorithm.addMainStep(new ComputeColumnValuesStep());
+    	//main steps
     	algo.addMainStep(new IntermedGroupLevelDetectorStep());
     	algo.addMainStep(new IntermedTotalsOutputStep());
     	algo.addMainStep(new IntermedTotalsCalculatorStep());//this uses the internal data
     	algo.addMainStep(new IntermedDataRowsOutputStep());
         algo.addMainStep(new IntermedPreviousRowManagerStep());//uses internal data
         
-        algo.addExitStep(new EndReportExitStep()); //uses original output
-        //algo.addExitStep(new CloseReportIOExitStep()); 
-        algo.addExitStep(new CloseReportOutputExitStep()); 
+        //exit steps
+        algo.addExitStep(new EndTableExitStep()); 
+        //algo.addExitStep(new CloseReportOutputExitStep()); 
         
         Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
         
+        mockOutput.close(); 
 	}
 	
 	@Test
-	public void testExecuteScenario2x2x1xNoTotalsWith0G2DForSecondReport(){
-		ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut2x2x1With0G2D.html");  
+	public void testExecuteScenario2x2x1xNoTotalsWith0G2DForSecondReport() throws IOException{
+		//ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut2x2x1With0G2D.html");  
+		NewReportOutput mockOutput = new DefaultReportOutput(new FileWriter("target/SecondProcessorOut2x2x1With0G2D.html")); 
+		mockOutput.open();
 		
 		MultiStepAlgo algo = new OpenLoopCloseInputAlgo(){
 			@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
@@ -649,7 +653,7 @@ public class TestStepsCombo  {
 		};  
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		mockAlgoInput.put(IOKeys.REPORT_INPUT, null);//it doesn't matter, will be replaced
-		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
+		mockAlgoInput.put(IOKeys.NEW_REPORT_OUTPUT, mockOutput);
 		mockAlgoInput.put(IOKeys.GROUP_COLS, CtScenario2x2x1With0G2D.GROUPING_COLUMNS);
 		mockAlgoInput.put(IOKeys.DATA_COLS, CtScenario2x2x1With0G2D.DATA_COLUMNS); 
 		mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario2x2x1With0G2D.HEADER_ROWS); 
@@ -665,35 +669,35 @@ public class TestStepsCombo  {
 		
 		//adding steps to the algorithm
 		algo.addInitStep(new GenerateCrosstabMetadataInitStep()); 
-		//algo.addInitStep(new ConfigCrosstabColumnsInitStep()); 
-				algo.addInitStep(new ConstrDataColsForSecondProcessInitStep());
-				algo.addInitStep(new ConstrGrpColsForSecondProcessInitStep()); 
+		algo.addInitStep(new ConstrDataColsForSecondProcessInitStep());
+		algo.addInitStep(new ConstrGrpColsForSecondProcessInitStep()); 
 		algo.addInitStep(new ConfigReportOutputInitStep()); 
-		algo.addInitStep(new OpenReportOutputInitStep());
+		//algo.addInitStep(new OpenReportOutputInitStep());
     	algo.addInitStep(new InitReportDataInitStep()); 
-    	
     	algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());
-    	
-    	algo.addInitStep(new StartReportInitStep()); 
+    	algo.addInitStep(new StartTableInitStep()); 
     	algo.addInitStep(new CrosstabHeaderOutputInitStep());
     	
-    	//algorithm.addMainStep(new ComputeColumnValuesStep());
+    	//main steps
     	algo.addMainStep(new IntermedGroupLevelDetectorStep());
     	algo.addMainStep(new IntermedTotalsOutputStep());
     	algo.addMainStep(new IntermedTotalsCalculatorStep());//this uses the internal data
     	algo.addMainStep(new IntermedDataRowsOutputStep());
         algo.addMainStep(new IntermedPreviousRowManagerStep());//uses internal data
         
-        algo.addExitStep(new EndReportExitStep()); //uses original output
-        algo.addExitStep(new CloseReportOutputExitStep()); 
+        //exit steps
+        algo.addExitStep(new EndTableExitStep()); //uses original output
+        //algo.addExitStep(new CloseReportOutputExitStep()); 
         
         Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
-        
+        mockOutput.close();
 	}
 	
 	@Test
-	public void testExecuteScenario1x3x1xTForSecondReport(){
-		ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut1x3x1xT.html");  
+	public void testExecuteScenario1x3x1xTForSecondReport() throws IOException{
+		//ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut1x3x1xT.html");  
+		NewReportOutput mockOutput = new DefaultReportOutput(new FileWriter("target/SecondProcessorOut1x3x1xT.html")); 
+		mockOutput.open();
 		
 		MultiStepAlgo algo = new OpenLoopCloseInputAlgo(){
 			@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
@@ -703,7 +707,7 @@ public class TestStepsCombo  {
 		}; 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		mockAlgoInput.put(IOKeys.REPORT_INPUT, null);//it doesn't matter, will be replaced
-		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
+		mockAlgoInput.put(IOKeys.NEW_REPORT_OUTPUT, mockOutput);
 		mockAlgoInput.put(IOKeys.GROUP_COLS, CtScenario1x3x1.GROUP_COLUMNS);
 		mockAlgoInput.put(IOKeys.DATA_COLS, CtScenario1x3x1.DATA_COLUMNS); 
 		mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS); 
@@ -719,35 +723,35 @@ public class TestStepsCombo  {
 		
 		//adding steps to the algorithm
 		algo.addInitStep(new GenerateCrosstabMetadataInitStep()); 
-		//algo.addInitStep(new ConfigCrosstabColumnsInitStep()); 
 		algo.addInitStep(new ConstrDataColsForSecondProcessInitStep());
 		algo.addInitStep(new ConstrGrpColsForSecondProcessInitStep());
 		algo.addInitStep(new ConfigReportOutputInitStep()); 
-		algo.addInitStep(new OpenReportOutputInitStep()); 
+		//algo.addInitStep(new OpenReportOutputInitStep()); 
     	algo.addInitStep(new InitReportDataInitStep()); 
-    	
     	algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());
-    	
-    	algo.addInitStep(new StartReportInitStep()); 
+    	algo.addInitStep(new StartTableInitStep()); 
     	algo.addInitStep(new CrosstabHeaderOutputInitStep());
     	
-    	//algorithm.addMainStep(new ComputeColumnValuesStep());
+    	//main steps
     	algo.addMainStep(new IntermedGroupLevelDetectorStep());
     	algo.addMainStep(new IntermedTotalsOutputStep());
     	algo.addMainStep(new IntermedTotalsCalculatorStep());//this uses the internal data
     	algo.addMainStep(new IntermedDataRowsOutputStep());
         algo.addMainStep(new IntermedPreviousRowManagerStep());//uses internal data
         
-        algo.addExitStep(new EndReportExitStep()); //uses original output
-        algo.addExitStep(new CloseReportOutputExitStep()); 
+        algo.addExitStep(new EndTableExitStep()); //uses original output
+        //algo.addExitStep(new CloseReportOutputExitStep()); 
         
         Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
-        
+        mockOutput.close(); 
 	}
 	
 	@Test
-	public void testExecuteScenario1x3x1xNoTotalsForSecondReport(){
-		ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut1x3x1.html");  
+	public void testExecuteScenario1x3x1xNoTotalsForSecondReport() throws IOException{
+		//ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut1x3x1.html");  
+		NewReportOutput mockOutput = new DefaultReportOutput(new FileWriter("target/SecondProcessorOut1x3x1.html")); 
+		mockOutput.open();
+		
 		
 		MultiStepAlgo algo = new OpenLoopCloseInputAlgo(){
 			@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
@@ -757,7 +761,7 @@ public class TestStepsCombo  {
 		}; 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		mockAlgoInput.put(IOKeys.REPORT_INPUT, null);//it doesn't matter, will be replaced
-		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
+		mockAlgoInput.put(IOKeys.NEW_REPORT_OUTPUT, mockOutput);
 		mockAlgoInput.put(IOKeys.GROUP_COLS, CtScenario1x3x1.GROUP_COLUMNS);
 		mockAlgoInput.put(IOKeys.DATA_COLS, CtScenario1x3x1.DATA_COLUMNS); 
 		mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS); 
@@ -773,28 +777,29 @@ public class TestStepsCombo  {
 		
 		//adding steps to the algorithm
 		algo.addInitStep(new GenerateCrosstabMetadataInitStep()); 
-		//algo.addInitStep(new ConfigCrosstabColumnsInitStep()); 
 		algo.addInitStep(new ConstrDataColsForSecondProcessInitStep());
 		algo.addInitStep(new ConstrGrpColsForSecondProcessInitStep());
 		algo.addInitStep(new ConfigReportOutputInitStep()); 
-		algo.addInitStep(new OpenReportOutputInitStep()); 
+		//algo.addInitStep(new OpenReportOutputInitStep()); 
     	algo.addInitStep(new InitReportDataInitStep()); 
     	
     	algo.addInitStep(new IntermedReportExtractTotalsDataInitStep());
     	
-    	algo.addInitStep(new StartReportInitStep()); 
+    	algo.addInitStep(new StartTableInitStep()); 
     	algo.addInitStep(new CrosstabHeaderOutputInitStep());
     	
-    	//algorithm.addMainStep(new ComputeColumnValuesStep());
+    	//main steps
     	algo.addMainStep(new IntermedGroupLevelDetectorStep());
     	algo.addMainStep(new IntermedTotalsOutputStep());
     	algo.addMainStep(new IntermedTotalsCalculatorStep());
     	algo.addMainStep(new IntermedDataRowsOutputStep());
         algo.addMainStep(new IntermedPreviousRowManagerStep());
         
-        algo.addExitStep(new EndReportExitStep()); //uses original output
-        algo.addExitStep(new CloseReportOutputExitStep()); 
+        //exit steps
+        algo.addExitStep(new EndTableExitStep());
+        //algo.addExitStep(new CloseReportOutputExitStep()); 
         
         Map<IOKeys, Object> result = algo.execute(mockAlgoInput);
+        mockOutput.close();
 	}
 }
