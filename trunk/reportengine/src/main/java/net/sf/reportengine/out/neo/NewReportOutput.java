@@ -16,6 +16,8 @@ public abstract class NewReportOutput {
 	
 	public abstract void close(); 
 	
+	public abstract OutputFormat getFormat(); 
+	
 	public abstract void output(String templateName, Map rootModel);
 	
 	public <T> void output(String templateName, String modelName, T value){

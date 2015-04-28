@@ -80,4 +80,9 @@ public class TestImplForReportOutput extends NewReportOutput {
 			throw new ReportOutputException(e); 
 		}
 	}
+
+	@Override
+	public OutputFormat getFormat() {
+		return null;
+	}
 }
