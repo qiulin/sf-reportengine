@@ -6,8 +6,8 @@ import java.io.IOException;
 import net.sf.reportengine.components.FlatTable;
 import net.sf.reportengine.components.HorizontalLine;
 import net.sf.reportengine.components.ReportTitle;
-import net.sf.reportengine.out.Html5Output;
 import net.sf.reportengine.out.neo.DefaultReportOutput;
+import net.sf.reportengine.out.neo.FoOutputFormat;
 import net.sf.reportengine.out.neo.NewReportOutput;
 import net.sf.reportengine.out.neo.TestImplForReportOutput;
 import net.sf.reportengine.scenarios.Scenario1;
@@ -16,7 +16,6 @@ import net.sf.reportengine.scenarios.ScenarioFormatedValues;
 import org.apache.commons.lang.SystemUtils;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestReport {
@@ -26,7 +25,7 @@ public class TestReport {
 	}
 
 	@Test
-	public void testTwoComponents() throws IOException {
+	public void testTwoComponentsAndHtmlOutput() throws IOException {
 		TestImplForReportOutput mockOutput = new TestImplForReportOutput();//new FileWriter("./target/TestReport.html") 
 		Report report = new Report(mockOutput); 
 		report.add(new ReportTitle("this is the report title "));
@@ -71,6 +70,24 @@ public class TestReport {
 		"end table"+SystemUtils.LINE_SEPARATOR+
 		"end report", 
 		mockOutput.getBuffer());
+	}
+	
+	@Test
+	public void testTwoComponentsAndFoOutput() throws IOException {
+		NewReportOutput mockOutput = new DefaultReportOutput(	new FileWriter("./target/TestTwoComponents.fo"), 
+																new FoOutputFormat());
+		Report report = new Report(mockOutput); 
+		report.add(new ReportTitle("this is the report title "));
+		report.add(new HorizontalLine()); 
+		report.add(new FlatTable.Builder()
+					.input(Scenario1.INPUT)
+					.dataColumns(Scenario1.DATA_COLUMNS)
+					.build());
+		report.execute(); 
+		
+		//System.out.println(mockOutput.getBuffer());
+		
+		
 	}
 	
 	@Test

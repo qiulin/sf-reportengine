@@ -20,9 +20,9 @@ import freemarker.template.TemplateException;
 public class DefaultReportOutput extends NewReportOutput {
 	
 	/**
-	 * the default class path  for freemarker templates
+	 * the output format
 	 */
-	public final static String DEFAULT_HTML_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/neo/html"; 
+	private final OutputFormat format; 
 	
 	/**
 	 * the freemarker configuration
@@ -34,22 +34,26 @@ public class DefaultReportOutput extends NewReportOutput {
 	 */
 	private final Writer writer; 
 	
-	
+	/**
+	 * 
+	 * @param writer
+	 */
 	public DefaultReportOutput(Writer writer){
-		this(writer, DEFAULT_HTML_TEMPLATES_CLASS_PATH); 
+		this(writer, new HtmlOutputFormat()); 
 	}
 
 	/**
 	 * 
 	 */
-	public DefaultReportOutput(Writer writer, String formatClassPath){
+	public DefaultReportOutput(Writer writer, OutputFormat outFormat){
 		
 		this.writer = writer;
+		this.format = outFormat; 
 		
 		fmConfig= new Configuration(); 
 		fmConfig.setObjectWrapper(new DefaultObjectWrapper()); 
 		fmConfig.setTemplateLoader(
-				new ClassTemplateLoader(getClass(), formatClassPath)); 
+				new ClassTemplateLoader(getClass(), format.getFormatTemplateClasspath())); 
 	}
 	
 	/* (non-Javadoc)
@@ -80,6 +84,11 @@ public class DefaultReportOutput extends NewReportOutput {
 		} catch (IOException e) {
 			throw new ReportOutputException(e); 
 		}
+	}
+
+	@Override
+	public OutputFormat getFormat() {
+		return format;
 	}
 	
 }
