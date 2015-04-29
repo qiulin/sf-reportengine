@@ -3,6 +3,7 @@ package net.sf.reportengine;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import net.sf.reportengine.components.EmptyLine;
 import net.sf.reportengine.components.FlatTable;
 import net.sf.reportengine.components.HorizontalLine;
 import net.sf.reportengine.components.ReportTitle;
@@ -75,7 +76,7 @@ public class TestReport {
 	@Test
 	public void testTwoComponentsAndFoOutput() throws IOException {
 		NewReportOutput mockOutput = new DefaultReportOutput(	new FileWriter("./target/TestTwoComponents.fo"), 
-																new FoOutputFormat());
+																new FoOutputFormat("A3"));
 		Report report = new Report(mockOutput); 
 		report.add(new ReportTitle("this is the report title "));
 		report.add(new HorizontalLine()); 
@@ -110,7 +111,7 @@ public class TestReport {
 	}
 	
 	@Test
-	public void testMemoryLeaks() throws IOException {
+	public void testMemoryLeaksOutputHtml() throws IOException {
 		Report report = new Report(new DefaultReportOutput(new FileWriter("./target/TestMemoryLeaks.html"))); 
 		
 		//add 1000 flat tables
@@ -127,5 +128,25 @@ public class TestReport {
 		
 		report.execute(); 
 	}
-
+	
+	
+	@Test
+	public void testMemoryLeaksOutputFo() throws IOException {
+		Report report = new Report(new DefaultReportOutput(new FileWriter("./target/TestMemoryLeaks.fo"), new FoOutputFormat())); 
+		
+		//add 1000 flat tables
+		for(int i=0;i<1000;i++){
+			
+			report.add(new FlatTable.Builder()
+				.input(ScenarioFormatedValues.INPUT)
+				.showTotals(true)
+				.showGrandTotal(true)
+				.groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
+				.dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
+				.build()); 
+			report.add(new EmptyLine());
+		}
+		
+		report.execute(); 
+	}
 }

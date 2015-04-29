@@ -27,7 +27,7 @@
 		</fo:layout-master-set>
       
       
-      	<fo:page-sequence master-reference="A4">
+      	<fo:page-sequence master-reference="${reportProps.format.pageSize}">
       		<fo:flow flow-name="xsl-region-body">
 				<#-- this is for later use
 				<fo:block 	font-family="ArialUnicodeMS" 
