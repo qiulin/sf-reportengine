@@ -4,6 +4,8 @@
  */
 package net.sf.reportengine.out;
 
+import net.sf.reportengine.out.neo.OutputFormat;
+
 
 /**
  * 
@@ -11,5 +13,18 @@ package net.sf.reportengine.out;
  * @since 0.9
  */
 public class ReportProps {
-
+	
+	private final OutputFormat format; 
+	
+	public ReportProps(){
+		this(null); 
+	}
+	
+	public ReportProps(OutputFormat outputFormat){
+		this.format = outputFormat; 
+	}
+	
+	public OutputFormat getFormat(){
+		return format; 
+	}
 }

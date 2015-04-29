@@ -47,7 +47,7 @@ public class Report {
 	 */
 	public void execute(){
 		reportOutput.open();
-		reportOutput.output(START_REPORT_TEMPLATE, REPORT_MODEL_NAME, new ReportProps()); 
+		reportOutput.output(START_REPORT_TEMPLATE, REPORT_MODEL_NAME, new ReportProps(reportOutput.getFormat())); 
 		for (ReportComponent reportComponent : components) {
 			reportComponent.output(reportOutput);
 		}
