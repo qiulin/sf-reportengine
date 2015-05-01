@@ -8,6 +8,7 @@ import net.sf.reportengine.components.FlatTable;
 import net.sf.reportengine.components.HorizontalLine;
 import net.sf.reportengine.components.ReportTitle;
 import net.sf.reportengine.out.neo.DefaultReportOutput;
+import net.sf.reportengine.out.neo.ExcelXmlOutputFormat;
 import net.sf.reportengine.out.neo.FoOutputFormat;
 import net.sf.reportengine.out.neo.NewReportOutput;
 import net.sf.reportengine.out.neo.TestImplForReportOutput;
@@ -87,8 +88,21 @@ public class TestReport {
 		report.execute(); 
 		
 		//System.out.println(mockOutput.getBuffer());
-		
-		
+	}
+	
+	@Test
+	public void testTwoComponentsAndExcelXmlOutput() throws IOException {
+		NewReportOutput mockOutput = new DefaultReportOutput(	new FileWriter("./target/TestTwoComponents.xml"), 
+																new ExcelXmlOutputFormat());
+		Report report = new Report(mockOutput); 
+		report.add(new ReportTitle("this is the report title "));
+		report.add(new HorizontalLine()); 
+		report.add(new FlatTable.Builder()
+					.input(Scenario1.INPUT)
+					.dataColumns(Scenario1.DATA_COLUMNS)
+					.build());
+		report.add(new EmptyLine()); 
+		report.execute(); 
 	}
 	
 	@Test
