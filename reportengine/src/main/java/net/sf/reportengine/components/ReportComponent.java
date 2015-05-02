@@ -3,7 +3,7 @@
  */
 package net.sf.reportengine.components;
 
-import net.sf.reportengine.out.neo.NewReportOutput;
+import net.sf.reportengine.out.neo.AbstractReportOutput;
 
 
 /**
@@ -17,5 +17,5 @@ public interface ReportComponent {
 	 * 
 	 * @param out the output of the report
 	 */
-	public void output(NewReportOutput out); 
+	public void output(AbstractReportOutput out); 
 }

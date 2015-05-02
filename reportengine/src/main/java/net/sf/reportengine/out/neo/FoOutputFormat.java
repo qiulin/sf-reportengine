@@ -35,11 +35,8 @@ public class FoOutputFormat extends AbstractPrintOutputFormat {
 		return DEFAULT_FO_TEMPLATES_CLASS_PATH;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.neo.OutputFormat#needsPostProcessing()
-	 */
-	@Override
-	public boolean needsPostProcessing() {
-		return true; 
+	
+	public PostProcessor postProcessor() {
+		return null; 
 	}
 }

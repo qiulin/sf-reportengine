@@ -19,8 +19,8 @@ public abstract class AbstractOutputFormat implements OutputFormat {
 		return templateClassPath; 
 	}
 	
-	public boolean needsPostProcessing() {
-		return false;
+	public PostProcessor postProcessor() {
+		return null;
 	}
 	
 }

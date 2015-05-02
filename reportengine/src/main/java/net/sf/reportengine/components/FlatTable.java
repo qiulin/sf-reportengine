@@ -35,6 +35,7 @@ import net.sf.reportengine.core.steps.neo.NewDataRowsOutputStep;
 import net.sf.reportengine.core.steps.neo.StartTableInitStep;
 import net.sf.reportengine.in.MultipleExternalSortedFilesTableInput;
 import net.sf.reportengine.in.TableInput;
+import net.sf.reportengine.out.neo.AbstractReportOutput;
 import net.sf.reportengine.out.neo.NewReportOutput;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
@@ -247,7 +248,7 @@ public final class FlatTable extends AbstractColumnBasedTable {
      *  <li>closes the output - output.close()</li>
      * </ul>
      */
-    public void output(NewReportOutput reportOutput){
+    public void output(AbstractReportOutput reportOutput){
     	validate(); 
         config();
         

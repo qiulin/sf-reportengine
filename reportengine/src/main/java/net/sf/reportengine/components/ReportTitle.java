@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.reportengine.out.TitleProps;
-import net.sf.reportengine.out.neo.NewReportOutput;
+import net.sf.reportengine.out.neo.AbstractReportOutput;
 
 /**
  * @author dragos balan
@@ -38,7 +38,7 @@ public final class ReportTitle extends AbstractReportComponent {
 	/**
 	 * 
 	 */
-	public void output(NewReportOutput out){
+	public void output(AbstractReportOutput out){
 		Map<String, TitleProps> rootModel = new HashMap<String, TitleProps>(1);
 		rootModel.put(FM_ROOT_MODEL_NAME, new TitleProps(title, 2)); 
 		out.output(FM_TEMPLATE_NAME, rootModel); 

@@ -61,6 +61,7 @@ import net.sf.reportengine.in.IntermediateCrosstabReportTableInput;
 import net.sf.reportengine.in.MultipleExternalSortedFilesTableInput;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
+import net.sf.reportengine.out.neo.AbstractReportOutput;
 import net.sf.reportengine.out.neo.NewReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
@@ -403,7 +404,7 @@ public class PivotTable extends AbstractColumnBasedTable{
 	}
 	
 	
-	public void output(NewReportOutput reportOutput) {
+	public void output(AbstractReportOutput reportOutput) {
 		//validation of the configuration
     	validate(); 
     	

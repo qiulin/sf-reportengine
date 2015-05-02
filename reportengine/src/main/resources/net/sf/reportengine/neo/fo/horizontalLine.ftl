@@ -1,1 +1,0 @@
-<fo:block border-top-style="solid"></fo:block>

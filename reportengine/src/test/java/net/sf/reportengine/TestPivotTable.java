@@ -15,11 +15,7 @@ import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
 import net.sf.reportengine.in.TextTableInput;
-import net.sf.reportengine.out.ExcelOutput;
-import net.sf.reportengine.out.HtmlOutput;
-import net.sf.reportengine.out.OutputDispatcher;
-import net.sf.reportengine.out.PdfOutput;
-import net.sf.reportengine.out.StaxReportOutput;
+import net.sf.reportengine.out.neo.AbstractReportOutput;
 import net.sf.reportengine.out.neo.DefaultReportOutput;
 import net.sf.reportengine.out.neo.NewReportOutput;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
@@ -41,7 +37,7 @@ public class TestPivotTable extends TestCase {
 	
 	public void testExecute1x1x1xT() throws IOException{
 		
-		NewReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReport1x1x1xT.html")); 
+		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReport1x1x1xT.html")); 
 		reportOutput.open();
 		
 		PivotTable classUnderTest = new PivotTable.Builder()
@@ -61,7 +57,7 @@ public class TestPivotTable extends TestCase {
 	}
 	
 	public void testExecute1x1x1() throws IOException{
-		NewReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReport1x1x1.html")); 
+		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReport1x1x1.html")); 
 		reportOutput.open();
 		
 		
@@ -83,7 +79,7 @@ public class TestPivotTable extends TestCase {
 	}
 	
 	public void testExecute2x2x1xT() throws IOException{
-		NewReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReport2x2x1xT.html")); 
+		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReport2x2x1xT.html")); 
 		reportOutput.open();
 		
 		new PivotTable.Builder() 
@@ -103,7 +99,7 @@ public class TestPivotTable extends TestCase {
 	}
 	
 	public void testExecute2x2x1() throws IOException{
-		NewReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/CrosstabReport2x2x1.html")); 
+		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/CrosstabReport2x2x1.html")); 
 		reportOutput.open();
 		
 		new PivotTable.Builder() 
@@ -132,7 +128,7 @@ public class TestPivotTable extends TestCase {
 	
 	
 	public void testProgramaticSorting2x2x1() throws IOException{
-		NewReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/CtProgramaticallySorted2x2x1.html")); 
+		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/CtProgramaticallySorted2x2x1.html")); 
 		reportOutput.open();
 		
 		
@@ -156,7 +152,7 @@ public class TestPivotTable extends TestCase {
 	}
 	
 	public void testExecute1x3x1xT() throws IOException{
-		NewReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReport1x3x1xT.html")); 
+		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReport1x3x1xT.html")); 
 		reportOutput.open();
 		
 		
@@ -176,7 +172,7 @@ public class TestPivotTable extends TestCase {
 	}
 	
 	public void testExecute1x3x1() throws IOException{
-		NewReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReport1x3x1.html")); 
+		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReport1x3x1.html")); 
 		reportOutput.open();
 		
 		
@@ -196,7 +192,7 @@ public class TestPivotTable extends TestCase {
 	}
 	
 	public void testExecute3x2x1xT() throws IOException{
-		NewReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReport3x2x1xT.html")); 
+		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReport3x2x1xT.html")); 
 		reportOutput.open();
 		
 		new PivotTable.Builder() 
@@ -223,7 +219,7 @@ public class TestPivotTable extends TestCase {
 	
 	//TODO
 	public void testExecute3x2x1xTHavingNoGroupColumns() throws IOException{
-		NewReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReport3x2x1xTxNoGroupColumns.html")); 
+		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReport3x2x1xTxNoGroupColumns.html")); 
 		reportOutput.open();
 		
 		
@@ -249,7 +245,7 @@ public class TestPivotTable extends TestCase {
 	}
 	
 	public void testExecute2x2x1xTHavingNoGroupColumns() throws IOException{
-		NewReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReport2x2x1With0G2D.html")); 
+		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReport2x2x1With0G2D.html")); 
 		reportOutput.open();
 		
 		new PivotTable.Builder() 
@@ -270,7 +266,7 @@ public class TestPivotTable extends TestCase {
 	
 	
 	public void testProgramaticSortingFor2x2x1xTHavingNoGroups() throws IOException{
-		NewReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReportProgramaticallySorted2x2x1With0G2D.html")); 
+		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReportProgramaticallySorted2x2x1With0G2D.html")); 
 		reportOutput.open();
 		
 		new PivotTable.Builder() 
@@ -290,7 +286,7 @@ public class TestPivotTable extends TestCase {
 	
 	
 	public void testProgramaticSortingFor2x2x1xTHavingNoDataCols() throws IOException{
-		NewReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReportProgramaticallySorted2x2x1With2G0D.html")); 
+		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("target/CrosstabReportProgramaticallySorted2x2x1With2G0D.html")); 
 		reportOutput.open();
 		
 		new PivotTable.Builder() 
@@ -312,7 +308,7 @@ public class TestPivotTable extends TestCase {
 	
 	
 	public void testFormatting() throws IOException{
-		NewReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/testCrosstabFormatting.html")); 
+		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/testCrosstabFormatting.html")); 
 		reportOutput.open();
 		
 		new PivotTable.Builder()
