@@ -9,8 +9,8 @@ package net.sf.reportengine.out.neo;
  */
 public interface OutputFormat {
 	
-	public abstract String getFormatTemplateClasspath(); 
+	public String getFormatTemplateClasspath(); 
 	
-	public abstract boolean needsPostProcessing(); 
+	public PostProcessor postProcessor(); 
 	
 }

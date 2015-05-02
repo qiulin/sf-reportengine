@@ -11,7 +11,7 @@ import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.out.neo.DefaultReportOutput;
-import net.sf.reportengine.out.neo.TestImplForReportOutput;
+import net.sf.reportengine.out.neo.MockReportOutput;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
@@ -28,7 +28,7 @@ public class TestColumnHeaderOutputInitStep  {
 	public void testInitScenario1() {
 		AlgoContext mockContext = new DefaultAlgorithmContext(); 
 		
-		TestImplForReportOutput mockOutput = new TestImplForReportOutput();  
+		MockReportOutput mockOutput = new MockReportOutput();  
 		mockOutput.open(); 
 		
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);  

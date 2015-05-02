@@ -16,7 +16,7 @@ import freemarker.template.TemplateException;
  * @author dragos balan
  *
  */
-public class TestImplForReportOutput extends NewReportOutput {
+public class MockReportOutput extends AbstractReportOutput {
 	
 	/**
 	 * the default class path  for freemarker templates
@@ -38,8 +38,8 @@ public class TestImplForReportOutput extends NewReportOutput {
 	/**
 	 * 
 	 */
-	public TestImplForReportOutput(){
-		
+	public MockReportOutput(){
+		super(new HtmlOutputFormat());
 		fmConfig= new Configuration(); 
 		fmConfig.setObjectWrapper(new DefaultObjectWrapper()); 
 		fmConfig.setTemplateLoader(

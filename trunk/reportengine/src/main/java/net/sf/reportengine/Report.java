@@ -8,6 +8,7 @@ import java.util.List;
 
 import net.sf.reportengine.components.ReportComponent;
 import net.sf.reportengine.out.ReportProps;
+import net.sf.reportengine.out.neo.AbstractReportOutput;
 import net.sf.reportengine.out.neo.NewReportOutput;
 
 /**
@@ -26,10 +27,10 @@ public class Report {
 	
 	private List<ReportComponent> components = new ArrayList<ReportComponent>(); 
 	
-	private final NewReportOutput reportOutput; 
+	private final AbstractReportOutput reportOutput; 
 	
 	
-	public Report(NewReportOutput reportOutput){
+	public Report(AbstractReportOutput reportOutput){
 		this.reportOutput = reportOutput; 
 	}
 	

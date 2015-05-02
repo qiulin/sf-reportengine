@@ -17,12 +17,7 @@ import freemarker.template.TemplateException;
  * @author dragos balan
  *
  */
-public class DefaultReportOutput extends NewReportOutput {
-	
-	/**
-	 * the output format
-	 */
-	private final OutputFormat format; 
+public class DefaultReportOutput extends AbstractReportOutput {
 	
 	/**
 	 * the freemarker configuration
@@ -47,20 +42,19 @@ public class DefaultReportOutput extends NewReportOutput {
 	 */
 	public DefaultReportOutput(Writer writer, OutputFormat outFormat){
 		
+		super(outFormat); 
 		this.writer = writer;
-		this.format = outFormat; 
 		
 		fmConfig= new Configuration(); 
 		fmConfig.setObjectWrapper(new DefaultObjectWrapper()); 
 		fmConfig.setTemplateLoader(
-				new ClassTemplateLoader(getClass(), format.getFormatTemplateClasspath())); 
+				new ClassTemplateLoader(getClass(), getFormat().getFormatTemplateClasspath())); 
 	}
 	
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.out.neo.NewReportOutput#open()
 	 */
 	public void open() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -73,7 +67,6 @@ public class DefaultReportOutput extends NewReportOutput {
 		} catch (IOException e) {
 			throw new ReportOutputException(e); 
 		}
-
 	}
 
 	public void output(String templateName, Map rootModel) {
@@ -85,10 +78,4 @@ public class DefaultReportOutput extends NewReportOutput {
 			throw new ReportOutputException(e); 
 		}
 	}
-
-	@Override
-	public OutputFormat getFormat() {
-		return format;
-	}
-	
 }

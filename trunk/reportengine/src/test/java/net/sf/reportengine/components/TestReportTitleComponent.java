@@ -5,9 +5,9 @@ import static org.junit.Assert.assertEquals;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import net.sf.reportengine.out.neo.AbstractReportOutput;
 import net.sf.reportengine.out.neo.DefaultReportOutput;
-import net.sf.reportengine.out.neo.NewReportOutput;
-import net.sf.reportengine.out.neo.TestImplForReportOutput;
+import net.sf.reportengine.out.neo.MockReportOutput;
 
 import org.apache.commons.lang.SystemUtils;
 import org.junit.Test;
@@ -18,7 +18,7 @@ public class TestReportTitleComponent {
 	
 	@Test
 	public void testOutputNewReportOutput() {
-		TestImplForReportOutput testOutput = new TestImplForReportOutput(); 
+		MockReportOutput testOutput = new MockReportOutput(); 
 		componentUnderTest = new ReportTitle("unit test title");
 		testOutput.open();
 		componentUnderTest.output(testOutput);
@@ -29,7 +29,7 @@ public class TestReportTitleComponent {
 	
 	@Test
 	public void testOutputToDefaultOutput() throws IOException {
-		NewReportOutput testOutput = new DefaultReportOutput(new FileWriter("./target/TestReportTitleComponent.txt")); 
+		AbstractReportOutput testOutput = new DefaultReportOutput(new FileWriter("./target/TestReportTitleComponent.txt")); 
 		componentUnderTest = new ReportTitle("unit test title");
 		testOutput.open();
 		componentUnderTest.output(testOutput);
