@@ -13,6 +13,7 @@ import net.sf.reportengine.out.neo.ExcelXmlOutputFormat;
 import net.sf.reportengine.out.neo.FoOutputFormat;
 import net.sf.reportengine.out.neo.MockReportOutput;
 import net.sf.reportengine.out.neo.PdfOutputFormat;
+import net.sf.reportengine.out.neo.PngOutputFormat;
 import net.sf.reportengine.out.neo.PostProcessedByteReportOutput;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.ScenarioFormatedValues;
@@ -107,6 +108,20 @@ public class TestReport {
 	public void testTwoComponentsAndPdfOutput() throws IOException {
 		AbstractReportOutput mockOutput = new PostProcessedByteReportOutput(new FileOutputStream("./target/TestTwoComponents.pdf"), 
 																			new PdfOutputFormat());
+		Report report = new Report(mockOutput); 
+		report.add(new ReportTitle("this is the report title "));
+		report.add(new EmptyLine()); 
+		report.add(new FlatTable.Builder()
+					.input(Scenario1.INPUT)
+					.dataColumns(Scenario1.DATA_COLUMNS)
+					.build());
+		report.execute(); 
+	}
+	
+	@Test
+	public void testTwoComponentsAndPngOutput() throws IOException {
+		AbstractReportOutput mockOutput = new PostProcessedByteReportOutput(new FileOutputStream("./target/TestTwoComponents.png"), 
+																			new PngOutputFormat());
 		Report report = new Report(mockOutput); 
 		report.add(new ReportTitle("this is the report title "));
 		report.add(new EmptyLine()); 

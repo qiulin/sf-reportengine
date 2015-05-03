@@ -62,6 +62,9 @@ public class FopTransformerPostProcessor implements PostProcessor{
 		this(MimeConstants.MIME_PDF, buildDefaultConfiguration()); 
 	}
 	
+	public FopTransformerPostProcessor(String mimeType){
+		this(mimeType, buildDefaultConfiguration()); 
+	}
 	
 	public FopTransformerPostProcessor(String mimeType, Configuration fopConfig){
 		this.fopConfiguration = fopConfig; 
