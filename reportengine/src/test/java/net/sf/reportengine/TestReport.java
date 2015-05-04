@@ -32,13 +32,14 @@ public class TestReport {
 	@Test
 	public void testTwoComponentsAndHtmlOutput() throws IOException {
 		MockReportOutput mockOutput = new MockReportOutput();//new FileWriter("./target/TestReport.html") 
-		Report report = new Report(mockOutput); 
-		report.add(new ReportTitle("this is the report title "));
-		report.add(new FlatTable.Builder()
+		new Report.Builder(mockOutput)
+			.add(new ReportTitle("this is the report title "))
+			.add(new FlatTable.Builder()
 					.input(Scenario1.INPUT)
 					.dataColumns(Scenario1.DATA_COLUMNS)
-					.build());
-		report.execute(); 
+					.build())
+			.build()
+		.execute(); 
 		
 //		System.out.println(mockOutput.getBuffer());
 		
@@ -77,140 +78,135 @@ public class TestReport {
 	
 	@Test
 	public void testTwoComponentsAndFoOutput() throws IOException {
-		AbstractReportOutput mockOutput = new DefaultReportOutput(	new FileWriter("./target/TestTwoComponents.fo"), 
-																new FoOutputFormat("A3"));
-		Report report = new Report(mockOutput); 
-		report.add(new ReportTitle("this is the report title "));
-		report.add(new FlatTable.Builder()
+		new Report.Builder(new DefaultReportOutput(new FileWriter("./target/TestTwoComponents.fo"), new FoOutputFormat("A3")))
+			.add(new ReportTitle("this is the report title "))
+			.add(new FlatTable.Builder()
 					.input(Scenario1.INPUT)
 					.dataColumns(Scenario1.DATA_COLUMNS)
-					.build());
-		report.execute(); 
+					.build())
+			.build()
+		.execute(); 
 		
 		//System.out.println(mockOutput.getBuffer());
 	}
 	
 	@Test
 	public void testTwoComponentsAndExcelXmlOutput() throws IOException {
-		AbstractReportOutput mockOutput = new DefaultReportOutput(	new FileWriter("./target/TestTwoComponents.xml"), 
-																new ExcelXmlOutputFormat());
-		Report report = new Report(mockOutput); 
-		report.add(new ReportTitle("this is the report title "));
-		report.add(new FlatTable.Builder()
+		new Report.Builder(new DefaultReportOutput(new FileWriter("./target/TestTwoComponents.xml"), new ExcelXmlOutputFormat()))
+			.add(new ReportTitle("this is the report title"))
+			.add(new FlatTable.Builder()
 					.input(Scenario1.INPUT)
 					.dataColumns(Scenario1.DATA_COLUMNS)
-					.build());
-		report.add(new EmptyLine()); 
-		report.execute(); 
+					.build())
+			.add(new EmptyLine())
+			.build()
+		.execute(); 
 	}
 	
 	@Test
 	public void testTwoComponentsAndPdfOutput() throws IOException {
-		AbstractReportOutput mockOutput = new PostProcessedByteReportOutput(new FileOutputStream("./target/TestTwoComponents.pdf"), 
-																			new PdfOutputFormat());
-		Report report = new Report(mockOutput); 
-		report.add(new ReportTitle("this is the report title "));
-		report.add(new EmptyLine()); 
-		report.add(new FlatTable.Builder()
+		new Report.Builder(new PostProcessedByteReportOutput(new FileOutputStream("./target/TestTwoComponents.pdf"), new PdfOutputFormat())) 
+			.add(new ReportTitle("this is the report title "))
+			.add(new EmptyLine())
+			.add(new FlatTable.Builder()
 					.input(Scenario1.INPUT)
 					.dataColumns(Scenario1.DATA_COLUMNS)
-					.build());
-		report.execute(); 
+					.build())
+			.build()
+		.execute(); 
 	}
 	
 	@Test
 	public void testTwoComponentsAndPngOutput() throws IOException {
-		AbstractReportOutput mockOutput = new PostProcessedByteReportOutput(new FileOutputStream("./target/TestTwoComponents.png"), 
-																			new PngOutputFormat());
-		Report report = new Report(mockOutput); 
-		report.add(new ReportTitle("this is the report title "));
-		report.add(new EmptyLine()); 
-		report.add(new FlatTable.Builder()
+		new Report.Builder(new PostProcessedByteReportOutput(new FileOutputStream("./target/TestTwoComponents.png"), new PngOutputFormat())) 
+			.add(new ReportTitle("this is the report title "))
+			.add(new EmptyLine())
+			.add(new FlatTable.Builder()
 					.input(Scenario1.INPUT)
 					.dataColumns(Scenario1.DATA_COLUMNS)
-					.build());
-		report.execute(); 
+					.build())
+			.build()
+		.execute(); 
 	}
 	
 	@Test
 	public void testTwoTablesInSameReport() throws IOException{
-		Report report = new Report(new DefaultReportOutput(new FileWriter("./target/ReportWithMultipleTables.html"))); 
-		report.add(
+		new Report.Builder(new DefaultReportOutput(new FileWriter("./target/ReportWithMultipleTables.html"))) 
+			.add(new FlatTable.Builder()
+					.input(Scenario1.INPUT)
+					.dataColumns(Scenario1.DATA_COLUMNS)
+					.build())
+			.add(new EmptyLine())
+			.add(
 				new FlatTable.Builder()
 					.input(Scenario1.INPUT)
 					.dataColumns(Scenario1.DATA_COLUMNS)
-					.build());
-		
-		report.add(new EmptyLine()); 
-		
-		report.add(
-				new FlatTable.Builder()
-					.input(Scenario1.INPUT)
-					.dataColumns(Scenario1.DATA_COLUMNS)
-					.build());
-		report.execute(); 
+					.build())
+			.build()
+		.execute(); 
 	}
 	
 	@Test
 	public void testMemoryLeaksOutputHtml() throws IOException {
-		Report report = new Report(new DefaultReportOutput(new FileWriter("./target/TestMemoryLeaks.html"))); 
+		Report.Builder reportBuilder = new Report.Builder(new DefaultReportOutput(new FileWriter("./target/TestMemoryLeaks.html"))); 
 		
 		//add 1000 flat tables
 		for(int i=0;i<1000;i++){
 			
-			report.add(new FlatTable.Builder()
+			reportBuilder.add(new FlatTable.Builder()
 				.input(ScenarioFormatedValues.INPUT)
 				.showTotals(true)
 				.showGrandTotal(true)
 				.groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
 				.dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
 				.build()); 
+			reportBuilder.add(new EmptyLine());
 		}
 		
-		report.execute(); 
+		reportBuilder.build().execute(); 
 	}
 	
 	
 	@Test
 	public void testMemoryLeaksOutputFo() throws IOException {
-		Report report = new Report(new DefaultReportOutput(new FileWriter("./target/TestMemoryLeaks.fo"), new FoOutputFormat())); 
+		Report.Builder reportBuilder = new Report.Builder(new DefaultReportOutput(new FileWriter("./target/TestMemoryLeaks.fo"), new FoOutputFormat())); 
 		
 		//add 1000 flat tables
 		for(int i=0;i<1000;i++){
 			
-			report.add(new FlatTable.Builder()
+			reportBuilder.add(new FlatTable.Builder()
 				.input(ScenarioFormatedValues.INPUT)
 				.showTotals(true)
 				.showGrandTotal(true)
 				.groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
 				.dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
 				.build()); 
-			report.add(new EmptyLine());
+			reportBuilder.add(new EmptyLine());
 		}
 		
-		report.execute(); 
+		reportBuilder.build().execute(); 
 	}
 	
 	
 	@Test
 	public void testMemoryLeaksOutputPdf() throws IOException {
-		Report report = new Report(
+		Report.Builder reportBuilder = new Report.Builder(
 				new PostProcessedByteReportOutput(	new FileOutputStream("./target/TestMemoryLeaks.pdf"), 
 													new PdfOutputFormat())); 
 		
 		//add 1000 flat tables
 		for(int i=0;i<1000;i++){
 			
-			report.add(new FlatTable.Builder()
+			reportBuilder.add(new FlatTable.Builder()
 				.input(ScenarioFormatedValues.INPUT)
 				.showTotals(true)
 				.showGrandTotal(true)
 				.groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
 				.dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
 				.build()); 
-			report.add(new EmptyLine());
+			reportBuilder.add(new EmptyLine());
 		}
 		
-		report.execute(); 
+		reportBuilder.build().execute(); 
 	}
 }
