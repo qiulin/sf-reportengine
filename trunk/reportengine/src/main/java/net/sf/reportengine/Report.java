@@ -9,7 +9,6 @@ import java.util.List;
 import net.sf.reportengine.components.ReportComponent;
 import net.sf.reportengine.out.ReportProps;
 import net.sf.reportengine.out.neo.AbstractReportOutput;
-import net.sf.reportengine.out.neo.NewReportOutput;
 
 /**
  * Experimental. Don't use it !
@@ -30,18 +29,13 @@ public class Report {
 	private final AbstractReportOutput reportOutput; 
 	
 	
-	public Report(AbstractReportOutput reportOutput){
-		this.reportOutput = reportOutput; 
+	private Report(Builder builder){
+		this.reportOutput = builder.reportOutput;
+		this.components = builder.components; 
 	}
 	
 	
-	/**
-	 * adds a new component to the report
-	 * @param reportComponent	the component
-	 */
-	public void add(ReportComponent reportComponent){
-		components.add(reportComponent); 
-	}
+	
 	
 	/**
 	 * executes the report
@@ -54,5 +48,35 @@ public class Report {
 		}
 		reportOutput.output(END_REPORT_TEMPLATE);
 		reportOutput.close();
+	}
+	
+	public static class Builder {
+		
+		private List<ReportComponent> components = new ArrayList<ReportComponent>(); 
+		
+		private final AbstractReportOutput reportOutput;
+		
+		/**
+		 * 
+		 * @param output
+		 */
+		public Builder(AbstractReportOutput output){
+			this.reportOutput = output;
+		}
+		
+		
+		/**
+		 * adds a new component to the report
+		 * @param newComponent	the component
+		 */
+		public Builder add(ReportComponent newComponent){
+			components.add(newComponent); 
+			return this; 
+		}
+		
+		public Report build(){
+			return new Report(this); 
+		}
+		
 	}
 }
