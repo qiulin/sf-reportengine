@@ -11,11 +11,29 @@ import java.util.Map;
  */
 public interface NewReportOutput {
 	
+	/**
+	 * 
+	 */
 	public void open();
 	
+	/**
+	 * 
+	 */
 	public void close(); 
 	
+	/**
+	 * 
+	 * @param templateName
+	 * @param rootModel
+	 */
+	public void output(String templateName, Map rootModel);
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public OutputFormat getFormat(); 
 	
-	public void output(String templateName, Map rootModel);
+	
 }

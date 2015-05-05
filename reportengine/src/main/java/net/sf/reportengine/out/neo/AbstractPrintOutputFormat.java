@@ -11,8 +11,7 @@ public abstract class AbstractPrintOutputFormat extends AbstractOutputFormat {
 	
 	private String pageSize; 
 	
-	public AbstractPrintOutputFormat(String templateClassPath, String pageSize){
-		super(templateClassPath); 
+	public AbstractPrintOutputFormat(String pageSize){
 		this.pageSize = pageSize; 
 	}
 	

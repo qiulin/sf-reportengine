@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import net.sf.reportengine.out.neo.AbstractReportOutput;
-import net.sf.reportengine.out.neo.DefaultReportOutput;
+import net.sf.reportengine.out.neo.FreemarkerReportOutput;
 import net.sf.reportengine.out.neo.MockReportOutput;
 
 import org.apache.commons.lang.SystemUtils;
@@ -24,15 +24,5 @@ public class TestReportTitleComponent {
 		componentUnderTest.output(testOutput);
 		testOutput.close();
 		assertEquals("title"+SystemUtils.LINE_SEPARATOR, testOutput.getBuffer()); 
-	}
-	
-	
-	@Test
-	public void testOutputToDefaultOutput() throws IOException {
-		AbstractReportOutput testOutput = new DefaultReportOutput(new FileWriter("./target/TestReportTitleComponent.txt")); 
-		componentUnderTest = new ReportTitle("unit test title");
-		testOutput.open();
-		componentUnderTest.output(testOutput);
-		testOutput.close();
 	}
 }

@@ -45,7 +45,8 @@ import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.out.ReportOutput;
-import net.sf.reportengine.out.neo.DefaultReportOutput;
+import net.sf.reportengine.out.neo.FreemarkerReportOutput;
+import net.sf.reportengine.out.neo.HtmlReportOutput;
 import net.sf.reportengine.out.neo.NewReportOutput;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
@@ -582,7 +583,7 @@ public class TestStepsCombo  {
 	@Test
 	public void testExecuteScenario2x2x1xTWith1G1DForSecondReport()  throws IOException{
 		//ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut2x2x1xT.html"); 
-		NewReportOutput mockOutput = new DefaultReportOutput(new FileWriter("target/SecondProcessorOut2x2x1xT.html")); 
+		NewReportOutput mockOutput = new HtmlReportOutput(new FileWriter("target/SecondProcessorOut2x2x1xT.html")); 
 		mockOutput.open(); 
 		
 		MultiStepAlgo algo = new OpenLoopCloseInputAlgo(){
@@ -638,7 +639,7 @@ public class TestStepsCombo  {
 	@Test
 	public void testExecuteScenario2x2x1xNoTotalsWith0G2DForSecondReport() throws IOException{
 		//ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut2x2x1With0G2D.html");  
-		NewReportOutput mockOutput = new DefaultReportOutput(new FileWriter("target/SecondProcessorOut2x2x1With0G2D.html")); 
+		NewReportOutput mockOutput = new HtmlReportOutput(new FileWriter("target/SecondProcessorOut2x2x1With0G2D.html")); 
 		mockOutput.open();
 		
 		MultiStepAlgo algo = new OpenLoopCloseInputAlgo(){
@@ -692,7 +693,7 @@ public class TestStepsCombo  {
 	@Test
 	public void testExecuteScenario1x3x1xTForSecondReport() throws IOException{
 		//ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut1x3x1xT.html");  
-		NewReportOutput mockOutput = new DefaultReportOutput(new FileWriter("target/SecondProcessorOut1x3x1xT.html")); 
+		NewReportOutput mockOutput = new HtmlReportOutput(new FileWriter("target/SecondProcessorOut1x3x1xT.html")); 
 		mockOutput.open();
 		
 		MultiStepAlgo algo = new OpenLoopCloseInputAlgo(){
@@ -745,7 +746,7 @@ public class TestStepsCombo  {
 	@Test
 	public void testExecuteScenario1x3x1xNoTotalsForSecondReport() throws IOException{
 		//ReportOutput mockOutput = new HtmlOutput("target/SecondProcessorOut1x3x1.html");  
-		NewReportOutput mockOutput = new DefaultReportOutput(new FileWriter("target/SecondProcessorOut1x3x1.html")); 
+		NewReportOutput mockOutput = new HtmlReportOutput(new FileWriter("target/SecondProcessorOut1x3x1.html")); 
 		mockOutput.open();
 		
 		
