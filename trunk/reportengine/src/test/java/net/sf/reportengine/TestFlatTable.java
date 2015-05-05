@@ -13,8 +13,7 @@ import net.sf.reportengine.core.calc.SumGroupCalculator;
 import net.sf.reportengine.in.SqlTableInput;
 import net.sf.reportengine.in.TextTableInput;
 import net.sf.reportengine.out.neo.AbstractReportOutput;
-import net.sf.reportengine.out.neo.DefaultReportOutput;
-import net.sf.reportengine.out.neo.NewReportOutput;
+import net.sf.reportengine.out.neo.HtmlReportOutput;
 import net.sf.reportengine.scenarios.NoGroupsScenario;
 import net.sf.reportengine.scenarios.OhlcComputationScenario;
 import net.sf.reportengine.scenarios.Scenario1;
@@ -34,7 +33,7 @@ public class TestFlatTable {
 		//this report has no grouping columns but it has a grand total at the end
 		//because the data columns have group calculators added
 		
-		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/FlatTableWithoutGroupColumns.html")); 
+		AbstractReportOutput reportOutput = new HtmlReportOutput(new FileWriter("./target/FlatTableWithoutGroupColumns.html")); 
 		reportOutput.open(); 
 		FlatTable flatTable = new FlatTable.Builder()
 					.input(Scenario1.INPUT)
@@ -59,7 +58,7 @@ public class TestFlatTable {
 		//test of a simple report with 3 grouping columns and 3 data columns 
 		//the grouping columns don't require any sorting
 		
-		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/FlatTableScenario1.html")); 
+		AbstractReportOutput reportOutput = new HtmlReportOutput(new FileWriter("./target/FlatTableScenario1.html")); 
 		reportOutput.open();
 		FlatTable flatTable = new FlatTable.Builder()
 									.input(Scenario1.INPUT)
@@ -86,7 +85,7 @@ public class TestFlatTable {
 	
 	@Test
 	public void testExecuteScenarioOhlc() throws IOException{
-		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/TestFlatReportOHLC.html")); 
+		AbstractReportOutput reportOutput = new HtmlReportOutput(new FileWriter("./target/TestFlatReportOHLC.html")); 
 		reportOutput.open(); 
 		
 		InputStream testStream = ReportIoUtils.createInputStreamFromClassPath("EURUSD_2007-2009_FirstHours.txt");
@@ -107,7 +106,7 @@ public class TestFlatTable {
 	
 	@Test
 	public void testExecute2x3x1() throws IOException {
-		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/TestExecute2x3x1.html")); 
+		AbstractReportOutput reportOutput = new HtmlReportOutput(new FileWriter("./target/TestExecute2x3x1.html")); 
 		reportOutput.open(); 
 		
 		InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("2x3x1.txt");
@@ -128,7 +127,7 @@ public class TestFlatTable {
 	
 	@Test
 	public void testExecuteNoGroupingColumnsReport() throws IOException {
-		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/TestFlatReportNoGroupings.html")); 
+		AbstractReportOutput reportOutput = new HtmlReportOutput(new FileWriter("./target/TestFlatReportNoGroupings.html")); 
 		reportOutput.open(); 
 		
 		new FlatTable.Builder()	
@@ -146,7 +145,7 @@ public class TestFlatTable {
 	
 	@Test
 	public void testFlatReportUtf8PdfOutput() throws IOException {
-		AbstractReportOutput reportOutput = new DefaultReportOutput(ReportIoUtils.createWriterFromPath("./target/testUtf8Output.html")); 
+		AbstractReportOutput reportOutput = new HtmlReportOutput(ReportIoUtils.createWriterFromPath("./target/testUtf8Output.html")); 
 		reportOutput.open(); 
 		
 		InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("Utf8Input.txt");
@@ -168,7 +167,7 @@ public class TestFlatTable {
 	
 	@Test
 	public void testHugeReportHtmlOut() throws IOException {
-		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/testHugeReport.html")); 
+		AbstractReportOutput reportOutput = new HtmlReportOutput(new FileWriter("./target/testHugeReport.html")); 
 		reportOutput.open(); 
 		
 		new FlatTable.Builder()
@@ -184,7 +183,7 @@ public class TestFlatTable {
 	
 	@Test
 	public void testFlatReportWithFormattedValues() throws IOException {
-		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/testFormattedValues.html")); 
+		AbstractReportOutput reportOutput = new HtmlReportOutput(new FileWriter("./target/testFormattedValues.html")); 
 		reportOutput.open(); 
 		
 		
@@ -204,7 +203,7 @@ public class TestFlatTable {
 	
 	@Test
 	public void testExecuteWithSorting() throws IOException {
-		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/FlatTableSortedProgramatically.html")); 
+		AbstractReportOutput reportOutput = new HtmlReportOutput(new FileWriter("./target/FlatTableSortedProgramatically.html")); 
 		reportOutput.open(); 
 		
 		new FlatTable.Builder()
@@ -226,7 +225,7 @@ public class TestFlatTable {
 	
 	@Test
 	public void testExecuteWithSortingOnDataCols() throws IOException {
-		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/testSortingOnDataCols.html")); 
+		AbstractReportOutput reportOutput = new HtmlReportOutput(new FileWriter("./target/testSortingOnDataCols.html")); 
 		reportOutput.open(); 
 		
 		FlatTable flatReport = new FlatTable.Builder()
@@ -249,7 +248,7 @@ public class TestFlatTable {
 	
 	@Test
 	public void testSqlInput() throws IOException {
-		AbstractReportOutput reportOutput = new DefaultReportOutput(new FileWriter("./target/TestFlatTableWithSqlInput.html")); 
+		AbstractReportOutput reportOutput = new HtmlReportOutput(new FileWriter("./target/TestFlatTableWithSqlInput.html")); 
 		reportOutput.open(); 
 		
 		SqlTableInput input = new SqlTableInput(); 

@@ -9,8 +9,6 @@ package net.sf.reportengine.out.neo;
  */
 public interface OutputFormat {
 	
-	public String getFormatTemplateClasspath(); 
 	
-	public PostProcessor postProcessor(); 
 	
 }

@@ -13,19 +13,30 @@ import net.sf.reportengine.util.ReportIoUtils;
  * @author dragos balan
  *
  */
-public class PostProcessedByteReportOutput extends AbstractReportOutput {
+public class PostProcessedFoReportOutput extends AbstractReportOutput {
 	
 	private final OutputStream outStream; 
 	
-	private final DefaultReportOutput characterOutput; 
+	private final FreemarkerReportOutput characterOutput; 
 	
 	private final File tempFile; 
 	
-	public PostProcessedByteReportOutput(OutputStream outStream, OutputFormat outFormat){
+	private final PostProcessor postProcessor; 
+	
+	
+	/**
+	 * 
+	 * @param outStream
+	 * @param outFormat
+	 */
+	public PostProcessedFoReportOutput(	OutputStream outStream, 
+										FoOutputFormat outFormat, 
+										PostProcessor postProcessor){
 		super(outFormat);
 		this.outStream = outStream; 
 		this.tempFile = ReportIoUtils.createTempFile("report-fo"); 
-		this.characterOutput = new DefaultReportOutput(ReportIoUtils.createWriterFromFile(tempFile), outFormat);
+		this.characterOutput = new FoReportOutput(ReportIoUtils.createWriterFromFile(tempFile), outFormat);
+		this.postProcessor = postProcessor; 
 	}
 	
 
@@ -41,11 +52,7 @@ public class PostProcessedByteReportOutput extends AbstractReportOutput {
 	 */
 	public void close() {
 		characterOutput.close();
-		PostProcessor postProcessor = getFormat().postProcessor(); 
-		if(postProcessor != null){
-			postProcessor.process(tempFile, outStream);
-		}
-		
+		postProcessor.process(tempFile, outStream);
 	}
 
 	/* (non-Javadoc)

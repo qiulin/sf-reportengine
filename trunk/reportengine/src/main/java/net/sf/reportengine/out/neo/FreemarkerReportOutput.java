@@ -17,7 +17,7 @@ import freemarker.template.TemplateException;
  * @author dragos balan
  *
  */
-public class DefaultReportOutput extends AbstractReportOutput {
+public abstract class FreemarkerReportOutput extends AbstractReportOutput {
 	
 	/**
 	 * the freemarker configuration
@@ -29,18 +29,13 @@ public class DefaultReportOutput extends AbstractReportOutput {
 	 */
 	private final Writer writer; 
 	
-	/**
-	 * 
-	 * @param writer
-	 */
-	public DefaultReportOutput(Writer writer){
-		this(writer, new HtmlOutputFormat()); 
-	}
 
 	/**
 	 * 
+	 * @param writer
+	 * @param outFormat
 	 */
-	public DefaultReportOutput(Writer writer, OutputFormat outFormat){
+	public FreemarkerReportOutput(Writer writer, OutputFormat outFormat){
 		
 		super(outFormat); 
 		this.writer = writer;
@@ -48,7 +43,20 @@ public class DefaultReportOutput extends AbstractReportOutput {
 		fmConfig= new Configuration(); 
 		fmConfig.setObjectWrapper(new DefaultObjectWrapper()); 
 		fmConfig.setTemplateLoader(
-				new ClassTemplateLoader(getClass(), getFormat().getFormatTemplateClasspath())); 
+				new ClassTemplateLoader(getClass(), getTemplatesClasspath())); 
+	}
+	
+	/**
+	 * 
+	 */
+	public void output(String templateName, Map rootModel) {
+		try {
+			fmConfig.getTemplate(templateName).process(rootModel, writer);
+		} catch (TemplateException e) {
+			throw new ReportOutputException(e); 
+		} catch (IOException e) {
+			throw new ReportOutputException(e); 
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -68,14 +76,16 @@ public class DefaultReportOutput extends AbstractReportOutput {
 			throw new ReportOutputException(e); 
 		}
 	}
-
-	public void output(String templateName, Map rootModel) {
-		try {
-			fmConfig.getTemplate(templateName).process(rootModel, writer);
-		} catch (TemplateException e) {
-			throw new ReportOutputException(e); 
-		} catch (IOException e) {
-			throw new ReportOutputException(e); 
-		}
+	
+	
+	public abstract String getTemplatesClasspath();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	Writer getWriter(){
+		return writer;
 	}
+	
 }

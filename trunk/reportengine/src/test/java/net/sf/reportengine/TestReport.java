@@ -7,14 +7,17 @@ import java.io.IOException;
 import net.sf.reportengine.components.EmptyLine;
 import net.sf.reportengine.components.FlatTable;
 import net.sf.reportengine.components.ReportTitle;
-import net.sf.reportengine.out.neo.AbstractReportOutput;
-import net.sf.reportengine.out.neo.DefaultReportOutput;
 import net.sf.reportengine.out.neo.ExcelXmlOutputFormat;
+import net.sf.reportengine.out.neo.ExcelXmlReportOutput;
 import net.sf.reportengine.out.neo.FoOutputFormat;
+import net.sf.reportengine.out.neo.FoReportOutput;
+import net.sf.reportengine.out.neo.FreemarkerReportOutput;
+import net.sf.reportengine.out.neo.HtmlReportOutput;
 import net.sf.reportengine.out.neo.MockReportOutput;
 import net.sf.reportengine.out.neo.PdfOutputFormat;
-import net.sf.reportengine.out.neo.PngOutputFormat;
-import net.sf.reportengine.out.neo.PostProcessedByteReportOutput;
+import net.sf.reportengine.out.neo.PdfReportOutput;
+import net.sf.reportengine.out.neo.PngReportOutput;
+import net.sf.reportengine.out.neo.PostProcessedFoReportOutput;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.ScenarioFormatedValues;
 
@@ -40,8 +43,6 @@ public class TestReport {
 					.build())
 			.build()
 		.execute(); 
-		
-//		System.out.println(mockOutput.getBuffer());
 		
 		Assert.assertEquals(
 		"startReport"+SystemUtils.LINE_SEPARATOR+
@@ -78,7 +79,7 @@ public class TestReport {
 	
 	@Test
 	public void testTwoComponentsAndFoOutput() throws IOException {
-		new Report.Builder(new DefaultReportOutput(new FileWriter("./target/TestTwoComponents.fo"), new FoOutputFormat("A3")))
+		new Report.Builder(new FoReportOutput(new FileWriter("./target/TestTwoComponents.fo"), new FoOutputFormat("A3")))
 			.add(new ReportTitle("this is the report title "))
 			.add(new FlatTable.Builder()
 					.input(Scenario1.INPUT)
@@ -86,13 +87,11 @@ public class TestReport {
 					.build())
 			.build()
 		.execute(); 
-		
-		//System.out.println(mockOutput.getBuffer());
 	}
 	
 	@Test
 	public void testTwoComponentsAndExcelXmlOutput() throws IOException {
-		new Report.Builder(new DefaultReportOutput(new FileWriter("./target/TestTwoComponents.xml"), new ExcelXmlOutputFormat()))
+		new Report.Builder(new ExcelXmlReportOutput(new FileWriter("./target/TestTwoComponents.xml"), new ExcelXmlOutputFormat()))
 			.add(new ReportTitle("this is the report title"))
 			.add(new FlatTable.Builder()
 					.input(Scenario1.INPUT)
@@ -105,7 +104,7 @@ public class TestReport {
 	
 	@Test
 	public void testTwoComponentsAndPdfOutput() throws IOException {
-		new Report.Builder(new PostProcessedByteReportOutput(new FileOutputStream("./target/TestTwoComponents.pdf"), new PdfOutputFormat())) 
+		new Report.Builder(new PdfReportOutput(new FileOutputStream("./target/TestTwoComponents.pdf"))) 
 			.add(new ReportTitle("this is the report title "))
 			.add(new EmptyLine())
 			.add(new FlatTable.Builder()
@@ -118,7 +117,7 @@ public class TestReport {
 	
 	@Test
 	public void testTwoComponentsAndPngOutput() throws IOException {
-		new Report.Builder(new PostProcessedByteReportOutput(new FileOutputStream("./target/TestTwoComponents.png"), new PngOutputFormat())) 
+		new Report.Builder(new PngReportOutput(new FileOutputStream("./target/TestTwoComponents.png"))) 
 			.add(new ReportTitle("this is the report title "))
 			.add(new EmptyLine())
 			.add(new FlatTable.Builder()
@@ -131,7 +130,7 @@ public class TestReport {
 	
 	@Test
 	public void testTwoTablesInSameReport() throws IOException{
-		new Report.Builder(new DefaultReportOutput(new FileWriter("./target/ReportWithMultipleTables.html"))) 
+		new Report.Builder(new HtmlReportOutput(new FileWriter("./target/ReportWithMultipleTables.html"))) 
 			.add(new FlatTable.Builder()
 					.input(Scenario1.INPUT)
 					.dataColumns(Scenario1.DATA_COLUMNS)
@@ -148,7 +147,7 @@ public class TestReport {
 	
 	@Test
 	public void testMemoryLeaksOutputHtml() throws IOException {
-		Report.Builder reportBuilder = new Report.Builder(new DefaultReportOutput(new FileWriter("./target/TestMemoryLeaks.html"))); 
+		Report.Builder reportBuilder = new Report.Builder(new HtmlReportOutput(new FileWriter("./target/TestMemoryLeaks.html"))); 
 		
 		//add 1000 flat tables
 		for(int i=0;i<1000;i++){
@@ -169,7 +168,7 @@ public class TestReport {
 	
 	@Test
 	public void testMemoryLeaksOutputFo() throws IOException {
-		Report.Builder reportBuilder = new Report.Builder(new DefaultReportOutput(new FileWriter("./target/TestMemoryLeaks.fo"), new FoOutputFormat())); 
+		Report.Builder reportBuilder = new Report.Builder(new FoReportOutput(new FileWriter("./target/TestMemoryLeaks.fo"), new FoOutputFormat())); 
 		
 		//add 1000 flat tables
 		for(int i=0;i<1000;i++){
@@ -190,9 +189,28 @@ public class TestReport {
 	
 	@Test
 	public void testMemoryLeaksOutputPdf() throws IOException {
-		Report.Builder reportBuilder = new Report.Builder(
-				new PostProcessedByteReportOutput(	new FileOutputStream("./target/TestMemoryLeaks.pdf"), 
-													new PdfOutputFormat())); 
+		Report.Builder reportBuilder = new Report.Builder(new PdfReportOutput(new FileOutputStream("./target/TestMemoryLeaks.pdf"))); 
+		
+		//add 1000 flat tables
+		for(int i=0;i<1000;i++){
+			
+			reportBuilder.add(new FlatTable.Builder()
+				.input(ScenarioFormatedValues.INPUT)
+				.showTotals(true)
+				.showGrandTotal(true)
+				.groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
+				.dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
+				.build()); 
+			reportBuilder.add(new EmptyLine());
+		}
+		
+		reportBuilder.build().execute(); 
+	}
+	
+	
+	@Test
+	public void testMemoryLeaksOutputPng() throws IOException {
+		Report.Builder reportBuilder = new Report.Builder(new PngReportOutput(new FileOutputStream("./target/TestMemoryLeaks.png"))); 
 		
 		//add 1000 flat tables
 		for(int i=0;i<1000;i++){
