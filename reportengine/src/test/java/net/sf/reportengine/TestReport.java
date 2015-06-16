@@ -11,13 +11,10 @@ import net.sf.reportengine.out.neo.ExcelXmlOutputFormat;
 import net.sf.reportengine.out.neo.ExcelXmlReportOutput;
 import net.sf.reportengine.out.neo.FoOutputFormat;
 import net.sf.reportengine.out.neo.FoReportOutput;
-import net.sf.reportengine.out.neo.FreemarkerReportOutput;
 import net.sf.reportengine.out.neo.HtmlReportOutput;
 import net.sf.reportengine.out.neo.MockReportOutput;
-import net.sf.reportengine.out.neo.PdfOutputFormat;
 import net.sf.reportengine.out.neo.PdfReportOutput;
 import net.sf.reportengine.out.neo.PngReportOutput;
-import net.sf.reportengine.out.neo.PostProcessedFoReportOutput;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.ScenarioFormatedValues;
 
@@ -149,6 +146,7 @@ public class TestReport {
 	public void testMemoryLeaksOutputHtml() throws IOException {
 		Report.Builder reportBuilder = new Report.Builder(new HtmlReportOutput(new FileWriter("./target/TestMemoryLeaks.html"))); 
 		
+		reportBuilder.add(new ReportTitle("Testing the html output for memory leaks")); 
 		//add 1000 flat tables
 		for(int i=0;i<1000;i++){
 			
@@ -170,6 +168,7 @@ public class TestReport {
 	public void testMemoryLeaksOutputFo() throws IOException {
 		Report.Builder reportBuilder = new Report.Builder(new FoReportOutput(new FileWriter("./target/TestMemoryLeaks.fo"), new FoOutputFormat())); 
 		
+		reportBuilder.add(new ReportTitle("Testing the fo output for memory leaks")); 
 		//add 1000 flat tables
 		for(int i=0;i<1000;i++){
 			
@@ -191,6 +190,7 @@ public class TestReport {
 	public void testMemoryLeaksOutputPdf() throws IOException {
 		Report.Builder reportBuilder = new Report.Builder(new PdfReportOutput(new FileOutputStream("./target/TestMemoryLeaks.pdf"))); 
 		
+		reportBuilder.add(new ReportTitle("Testing the Pdf output for memory leaks")); 
 		//add 1000 flat tables
 		for(int i=0;i<1000;i++){
 			
@@ -210,8 +210,9 @@ public class TestReport {
 	
 	@Test
 	public void testMemoryLeaksOutputPng() throws IOException {
-		Report.Builder reportBuilder = new Report.Builder(new PngReportOutput(new FileOutputStream("./target/TestMemoryLeaks.png"))); 
+		Report.Builder reportBuilder = new Report.Builder(new PngReportOutput("./target/TestMemoryLeaks.png")); 
 		
+		reportBuilder.add(new ReportTitle("Testing the png output for memory leaks")); 
 		//add 1000 flat tables
 		for(int i=0;i<1000;i++){
 			
