@@ -23,9 +23,9 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.fop.apps.FOPException;
+import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
-import org.apache.fop.apps.MimeConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
@@ -53,18 +53,43 @@ public class FopTransformerPostProcessor implements PostProcessor{
 	private final Configuration fopConfiguration;
 	
 	/**
-	 * 
+	 * the mime type used in the transformation
 	 */
 	private final String mimeType; 
 	
+	/**
+	 * fop custom properties
+	 */
+	private final FopUserAgentProperties userAgentProperties;
 	
+	/**
+	 * 
+	 * @param mimeType
+	 */
 	public FopTransformerPostProcessor(String mimeType){
-		this(mimeType, buildDefaultConfiguration()); 
+		this(mimeType, null); 
 	}
 	
-	public FopTransformerPostProcessor(String mimeType, Configuration fopConfig){
+	/**
+	 * 
+	 * @param mimeType
+	 * @param fopConfig
+	 */
+	public FopTransformerPostProcessor(String mimeType, FopUserAgentProperties userAgentProperties){
+		this(mimeType, userAgentProperties, buildDefaultConfiguration());  
+	}
+	
+	
+	/**
+	 * 
+	 * @param mimeType
+	 * @param userAgentProperties 	the user agent custom properties for fop
+	 * @param fopConfig
+	 */
+	public FopTransformerPostProcessor(String mimeType, FopUserAgentProperties userAgentProperties, Configuration fopConfig){
 		this.fopConfiguration = fopConfig; 
 		this.mimeType = mimeType; 
+		this.userAgentProperties = userAgentProperties; 
 	}
 	
 	
@@ -78,6 +103,7 @@ public class FopTransformerPostProcessor implements PostProcessor{
 		Configuration configuration;
 		try {
 			configuration = configBuilder.build(ClassLoader.getSystemResourceAsStream(DEFAULT_FO_CONF_PATH));
+			
 		} catch (ConfigurationException e) {
 			throw new ReportOutputException(e); 
 		} catch (SAXException e) {
@@ -102,9 +128,21 @@ public class FopTransformerPostProcessor implements PostProcessor{
     			fopFactory.setUserConfig(fopConfiguration);
     		}
     		
-    		//unfortunately fop requires an outputStream 
-    		Fop fop = fopFactory.newFop(mimeType, outputStream);
-		
+    		//custom configuration for fop (e.g. author of the document, custom renderers etc)
+    		Fop fop = null; 
+    		if(userAgentProperties != null){
+    			FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
+    			foUserAgent.setAuthor(userAgentProperties.getAuthor());
+    			
+    			//this is useful when outputting PNG in multiple files (by default fop outputs only one file)
+    			//check src/java/org/apache/fop/render/bitmap/PNGRenderer.java
+    			foUserAgent.setOutputFile(new File(userAgentProperties.getFilePath()));
+    			
+    			fop = fopFactory.newFop(mimeType, foUserAgent, outputStream);
+    		}else{
+    			fop = fopFactory.newFop(mimeType, outputStream);
+    		}
+    		
 			TransformerFactory transformFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformFactory.newTransformer();
 			
