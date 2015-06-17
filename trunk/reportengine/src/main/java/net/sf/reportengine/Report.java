@@ -23,8 +23,7 @@ import net.sf.reportengine.out.ReportProps;
 import net.sf.reportengine.out.neo.AbstractReportOutput;
 
 /**
- * Experimental. Don't use it !
- * Report interface 
+ * This is the main report class. 
  * 
  * @author dragos balan
  * @since 0.13.0

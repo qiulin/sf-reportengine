@@ -37,6 +37,7 @@ import org.apache.commons.lang.SystemUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 public class TestReport {
 
@@ -157,7 +158,7 @@ public class TestReport {
 		.execute(); 
 	}
 	
-	@Test
+	@Ignore
 	public void testMemoryLeaksOutputHtml() throws IOException {
 		Report.Builder reportBuilder = new Report.Builder(new HtmlReportOutput(new FileWriter("./target/TestMemoryLeaks.html"))); 
 		
@@ -179,7 +180,7 @@ public class TestReport {
 	}
 	
 	
-	@Test
+	@Ignore
 	public void testMemoryLeaksOutputFo() throws IOException {
 		Report.Builder reportBuilder = new Report.Builder(new FoReportOutput(new FileWriter("./target/TestMemoryLeaks.fo"), new FoOutputFormat())); 
 		
@@ -201,7 +202,7 @@ public class TestReport {
 	}
 	
 	
-	@Test
+	@Ignore
 	public void testMemoryLeaksOutputPdf() throws IOException {
 		Report.Builder reportBuilder = new Report.Builder(new PdfReportOutput(new FileOutputStream("./target/TestMemoryLeaks.pdf"))); 
 		
@@ -223,7 +224,7 @@ public class TestReport {
 	}
 	
 	
-	@Test
+	@Ignore
 	public void testMemoryLeaksOutputPng() throws IOException {
 		Report.Builder reportBuilder = new Report.Builder(new PngReportOutput("./target/TestMemoryLeaks.png")); 
 		
