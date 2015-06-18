@@ -21,7 +21,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import net.sf.reportengine.out.neo.AbstractReportOutput;
-import net.sf.reportengine.out.neo.FreemarkerReportOutput;
+import net.sf.reportengine.out.neo.AbstractFreemarkerReportOutput;
 import net.sf.reportengine.out.neo.MockReportOutput;
 
 import org.apache.commons.lang.SystemUtils;

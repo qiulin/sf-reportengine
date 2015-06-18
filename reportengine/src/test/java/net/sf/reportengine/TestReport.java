@@ -92,7 +92,7 @@ public class TestReport {
 	
 	@Test
 	public void testTwoComponentsAndFoOutput() throws IOException {
-		new Report.Builder(new FoReportOutput(new FileWriter("./target/TestTwoComponents.fo"), new FoOutputFormat("A3")))
+		new Report.Builder(new FoReportOutput(new FileWriter("./target/TestTwoComponents.fo"),true, new FoOutputFormat("A3")))
 			.add(new ReportTitle("this is the report title "))
 			.add(new FlatTable.Builder()
 					.input(Scenario1.INPUT)
@@ -104,7 +104,7 @@ public class TestReport {
 	
 	@Test
 	public void testTwoComponentsAndExcelXmlOutput() throws IOException {
-		new Report.Builder(new ExcelXmlReportOutput(new FileWriter("./target/TestTwoComponents.xml"), new ExcelXmlOutputFormat()))
+		new Report.Builder(new ExcelXmlReportOutput(new FileWriter("./target/TestTwoComponents.xml"), true))
 			.add(new ReportTitle("this is the report title"))
 			.add(new FlatTable.Builder()
 					.input(Scenario1.INPUT)
@@ -182,7 +182,7 @@ public class TestReport {
 	
 	@Ignore
 	public void testMemoryLeaksOutputFo() throws IOException {
-		Report.Builder reportBuilder = new Report.Builder(new FoReportOutput(new FileWriter("./target/TestMemoryLeaks.fo"), new FoOutputFormat())); 
+		Report.Builder reportBuilder = new Report.Builder(new FoReportOutput(new FileWriter("./target/TestMemoryLeaks.fo"), true, new FoOutputFormat())); 
 		
 		reportBuilder.add(new ReportTitle("Testing the fo output for memory leaks")); 
 		//add 1000 flat tables

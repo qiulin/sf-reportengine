@@ -17,7 +17,7 @@ package net.sf.reportengine.out.neo;
 
 import java.io.Writer;
 
-public class FoReportOutput extends FreemarkerReportOutput {
+public class FoReportOutput extends AbstractFreemarkerReportOutput {
 	
 	/**
 	 * the default FO templates class path
@@ -26,11 +26,15 @@ public class FoReportOutput extends FreemarkerReportOutput {
 	
 	
 	public FoReportOutput(Writer writer){
-		this(writer, new FoOutputFormat()); 
+		this(writer, true, new FoOutputFormat()); 
 	}
 	
-	public FoReportOutput(Writer writer, FoOutputFormat outputFormat){
-		super(writer, outputFormat);
+	public FoReportOutput(Writer writer, boolean closeWriterWhenDone){
+		this(writer, closeWriterWhenDone, new FoOutputFormat()); 
+	}
+	
+	public FoReportOutput(Writer writer, boolean closeWriterWhenDone, FoOutputFormat outputFormat){
+		super(writer, closeWriterWhenDone, outputFormat);
 	}
 	
 	@Override

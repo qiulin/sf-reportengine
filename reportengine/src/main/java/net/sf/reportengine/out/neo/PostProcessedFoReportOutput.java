@@ -25,6 +25,7 @@ import java.util.Map;
 import net.sf.reportengine.util.ReportIoUtils;
 
 /**
+ * 
  * @author dragos balan
  *
  */
@@ -32,7 +33,7 @@ public class PostProcessedFoReportOutput extends AbstractReportOutput {
 	
 	private final OutputStream outStream; 
 	
-	private final FreemarkerReportOutput characterOutput; 
+	private final AbstractFreemarkerReportOutput foOutput; 
 	
 	private final File tempFile; 
 	
@@ -50,7 +51,7 @@ public class PostProcessedFoReportOutput extends AbstractReportOutput {
 		super(outFormat);
 		this.outStream = outStream; 
 		this.tempFile = ReportIoUtils.createTempFile("report-fo"); 
-		this.characterOutput = new FoReportOutput(ReportIoUtils.createWriterFromFile(tempFile), outFormat);
+		this.foOutput = new FoReportOutput(ReportIoUtils.createWriterFromFile(tempFile), true, outFormat);
 		this.postProcessor = postProcessor; 
 	}
 	
@@ -59,14 +60,14 @@ public class PostProcessedFoReportOutput extends AbstractReportOutput {
 	 * @see net.sf.reportengine.out.neo.NewReportOutput#open()
 	 */
 	public void open() {
-		characterOutput.open();
+		foOutput.open();
 	}
 
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.out.neo.NewReportOutput#close()
 	 */
 	public void close() {
-		characterOutput.close();
+		foOutput.close();
 		postProcessor.process(tempFile, outStream);
 	}
 
@@ -74,6 +75,6 @@ public class PostProcessedFoReportOutput extends AbstractReportOutput {
 	 * @see net.sf.reportengine.out.neo.NewReportOutput#output(java.lang.String, java.util.Map)
 	 */
 	public void output(String templateName, Map rootModel) {
-		characterOutput.output(templateName, rootModel);
+		foOutput.output(templateName, rootModel);
 	}
 }

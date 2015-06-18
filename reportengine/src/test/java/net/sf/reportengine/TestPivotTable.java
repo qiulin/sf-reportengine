@@ -31,7 +31,7 @@ import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
 import net.sf.reportengine.in.TextTableInput;
 import net.sf.reportengine.out.neo.AbstractReportOutput;
-import net.sf.reportengine.out.neo.FreemarkerReportOutput;
+import net.sf.reportengine.out.neo.AbstractFreemarkerReportOutput;
 import net.sf.reportengine.out.neo.HtmlReportOutput;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;

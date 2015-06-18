@@ -13,9 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * 
- */
 package net.sf.reportengine.out.neo;
 
 import java.io.Writer;
@@ -24,7 +21,7 @@ import java.io.Writer;
  * @author dragos balan
  *
  */
-public class HtmlReportOutput extends FreemarkerReportOutput {
+public class HtmlReportOutput extends AbstractFreemarkerReportOutput {
 	
 	/**
 	 * the default class path  for freemarker templates
@@ -33,11 +30,15 @@ public class HtmlReportOutput extends FreemarkerReportOutput {
 	
 	
 	public HtmlReportOutput(Writer writer){
-		this(writer, new HtmlOutputFormat()); 
+		this(writer, true, new HtmlOutputFormat()); 
 	}
 	
-	public HtmlReportOutput(Writer writer, HtmlOutputFormat outputFormat){
-		super(writer, outputFormat);
+	public HtmlReportOutput(Writer writer, boolean closeWriterWhenDone){
+		this(writer, closeWriterWhenDone, new HtmlOutputFormat()); 
+	}
+	
+	public HtmlReportOutput(Writer writer, boolean closeWriterWhenDone,  HtmlOutputFormat outputFormat){
+		super(writer, closeWriterWhenDone, outputFormat);
 	}
 
 	@Override
