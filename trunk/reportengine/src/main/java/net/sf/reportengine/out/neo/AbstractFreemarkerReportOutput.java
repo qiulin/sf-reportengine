@@ -13,9 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * 
- */
 package net.sf.reportengine.out.neo;
 
 import java.io.IOException;
@@ -29,10 +26,12 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.TemplateException;
 
 /**
+ * Abstract support for freemarker output. This is the base class used in all other non-abstract outputters. 
+ * 
  * @author dragos balan
  *
  */
-public abstract class FreemarkerReportOutput extends AbstractReportOutput {
+public abstract class AbstractFreemarkerReportOutput extends AbstractReportOutput {
 	
 	/**
 	 * the freemarker configuration
@@ -44,16 +43,24 @@ public abstract class FreemarkerReportOutput extends AbstractReportOutput {
 	 */
 	private final Writer writer; 
 	
+	/**
+	 * if true the writer will be closed when the output is done
+	 * if false the user of this class is responsible of closing the writer
+	 */
+	private final boolean closeWriterWhenOutputReady; 
+	
 
 	/**
 	 * 
-	 * @param writer
-	 * @param outFormat
+	 * @param writer	the writer to which the output will be sent
+	 * @param closeWriterWhenDone	if true the writer will be closed when the output is done otherwise the user of this class is responsible of closing it
+	 * @param outFormat	the output format parameters 
 	 */
-	public FreemarkerReportOutput(Writer writer, OutputFormat outFormat){
+	public AbstractFreemarkerReportOutput(Writer writer, boolean closeWriterWhenDone, OutputFormat outFormat){
 		
 		super(outFormat); 
 		this.writer = writer;
+		this.closeWriterWhenOutputReady = closeWriterWhenDone; 
 		
 		fmConfig= new Configuration(); 
 		fmConfig.setObjectWrapper(new DefaultObjectWrapper()); 
@@ -86,7 +93,10 @@ public abstract class FreemarkerReportOutput extends AbstractReportOutput {
 	 */
 	public void close() {
 		try {
-			writer.close();
+			writer.flush(); 
+			if(closeWriterWhenOutputReady){
+				writer.close();
+			}
 		} catch (IOException e) {
 			throw new ReportOutputException(e); 
 		}

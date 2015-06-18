@@ -13,28 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * 
- */
 package net.sf.reportengine.out.neo;
 
 import java.io.Writer;
 
 /**
+ * Excel output for reports. 
+ * 
+ * 
  * @author dragos balan
  *
  */
-public class ExcelXmlReportOutput extends FreemarkerReportOutput {
+public class ExcelXmlReportOutput extends AbstractFreemarkerReportOutput {
 	
 	public static final String DEFAULT_EXCEL_XML_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/neo/excel/xml"; 
 	
 	
 	public ExcelXmlReportOutput(Writer writer){
-		this(writer, new ExcelXmlOutputFormat()); 
+		this(writer, true, new ExcelXmlOutputFormat()); 
 	}
 	
-	public ExcelXmlReportOutput(Writer writer, ExcelXmlOutputFormat outputFormat){
-		super(writer, outputFormat);
+	public ExcelXmlReportOutput(Writer writer, boolean closeWriterWhenDone){
+		this(writer, closeWriterWhenDone, new ExcelXmlOutputFormat()); 
+	}
+	
+	public ExcelXmlReportOutput(Writer writer, boolean closeWriterWhenDone, ExcelXmlOutputFormat outputFormat){
+		super(writer, closeWriterWhenDone, outputFormat);
 	}
 
 	@Override

@@ -60,7 +60,7 @@ import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.out.HtmlOutput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.out.ReportOutput;
-import net.sf.reportengine.out.neo.FreemarkerReportOutput;
+import net.sf.reportengine.out.neo.AbstractFreemarkerReportOutput;
 import net.sf.reportengine.out.neo.HtmlReportOutput;
 import net.sf.reportengine.out.neo.NewReportOutput;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;

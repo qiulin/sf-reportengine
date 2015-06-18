@@ -22,7 +22,7 @@ import java.io.StringWriter;
  * @author dragos balan
  *
  */
-public class MockReportOutput extends FreemarkerReportOutput {
+public class MockReportOutput extends AbstractFreemarkerReportOutput {
 	
 	/**
 	 * the default class path  for freemarker templates
@@ -33,7 +33,7 @@ public class MockReportOutput extends FreemarkerReportOutput {
 	 * 
 	 */
 	public MockReportOutput(){
-		super(new StringWriter(), new MockOutputFormat());
+		super(new StringWriter(), true, new MockOutputFormat());
 	}
 	
 	

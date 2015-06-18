@@ -20,7 +20,8 @@ import java.util.List;
 
 
 /**
- * <p>This is the top interface for report input.</p> 
+ * This is the top interface for report table input 
+ * It works for both FlatTable and PivotTable.
  * 
  * @author dragos balan (dragos dot balan at gmail.com)
  * @since 0.2

@@ -13,9 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- Date: 17-11-2004
- */
 package net.sf.reportengine.out;
 
 import java.io.Writer;
