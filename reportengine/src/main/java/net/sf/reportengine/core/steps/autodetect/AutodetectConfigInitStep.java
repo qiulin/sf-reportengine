@@ -27,6 +27,7 @@ import net.sf.reportengine.core.steps.AbstractReportInitStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.in.ColumnMetadata;
+import net.sf.reportengine.in.ColumnMetadataHolder;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.util.IOKeys;
@@ -62,7 +63,7 @@ public class AutodetectConfigInitStep extends AbstractReportInitStep<String> {
 		
 		LOGGER.info("Autodetecting the columns based on user preferences and input metadata"); 
 		
-		List<ColumnMetadata> colMetadata = input.getColumnMetadata(); 
+		List<ColumnMetadata> colMetadata = ((ColumnMetadataHolder)input).getColumnMetadata(); 
 		
 		//construct data columns
 		List<DataColumn> dataColumns = ReportUtils.dataColsFromMetadataAndUserPrefs(colMetadata, colPrefs); 

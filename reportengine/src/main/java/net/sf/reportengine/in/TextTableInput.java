@@ -196,7 +196,7 @@ public class TextTableInput extends AbstractTableInput{
 			setSeparator(separator);
 			setFirstLineHeader(firstLineIsHeader); 
 		}catch(UnsupportedEncodingException uee){
-			throw new ReportInputException(uee); 
+			throw new TableInputException(uee); 
 		}
 	}
 	
@@ -245,7 +245,7 @@ public class TextTableInput extends AbstractTableInput{
     public void open() {
     	super.open();
         try{
-        	if(reader == null) throw new ReportInputException(NO_WRITER_SET_ERROR_MESSAGE); 
+        	if(reader == null) throw new TableInputException(NO_WRITER_SET_ERROR_MESSAGE); 
         	
         	LOGGER.debug("first line is header ", firstLineIsHeader);
         	if(isFirstLineHeader()){
@@ -276,7 +276,7 @@ public class TextTableInput extends AbstractTableInput{
             	}
             }
         }catch(IOException ioExc){
-            throw new ReportInputException("IO Error occurred when opening the TextInput", ioExc);
+            throw new TableInputException("IO Error occurred when opening the TextInput", ioExc);
         }
     }
     
@@ -292,7 +292,7 @@ public class TextTableInput extends AbstractTableInput{
                 reader = null;
             }
         }catch(IOException exc){
-            throw new ReportInputException("An IO Error occured when closing the input reader !", exc);
+            throw new TableInputException("An IO Error occured when closing the input reader !", exc);
         }
     }
 	
@@ -320,7 +320,7 @@ public class TextTableInput extends AbstractTableInput{
                 nextRawDataRow = reader.readLine();
             }
         } catch (IOException e) {
-            throw new ReportInputException("IO Error occured while reading data !",e);
+            throw new TableInputException("IO Error occured while reading data !",e);
         }
         
         return result; 

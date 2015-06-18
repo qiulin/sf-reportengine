@@ -62,7 +62,7 @@ public class MultipleExternalSortedFilesTableInput implements TableInput {
 				this.externalFilesQueue.add(new RowsDataFileBuffer(new FileInputStream(file))); 
 			}
 		}catch(FileNotFoundException fnfExc){
-			throw new ReportInputException("One external file could not be found :", fnfExc); 
+			throw new TableInputException("One external file could not be found :", fnfExc); 
 		}
 	}
 	

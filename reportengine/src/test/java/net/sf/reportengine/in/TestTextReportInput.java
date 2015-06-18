@@ -101,7 +101,7 @@ public class TestTextReportInput extends TestCase {
                 classUnderTest.nextRow();
                 rowsCount ++;
             }
-        }catch(ReportInputException ioEx){
+        }catch(TableInputException ioEx){
             ioEx.printStackTrace();
             fail(ioEx.getMessage());
         }catch(Exception ex){
@@ -180,7 +180,7 @@ public class TestTextReportInput extends TestCase {
             List<Object> thirdRow = classUnderTest.nextRow();
             assertTrue(thirdRow.equals(Arrays.asList(EXPECTED_RESULT[2])));            
             
-        } catch (ReportInputException e) {
+        } catch (TableInputException e) {
             e.printStackTrace();
             fail(e.getMessage());
         }finally{
@@ -193,7 +193,7 @@ public class TestTextReportInput extends TestCase {
             classUnderTest = new TextTableInput("inexistent.txt");
             classUnderTest.open();
             fail("an exception should have been thrown by the method above");
-        } catch (ReportInputException e) {
+        } catch (TableInputException e) {
         	assertEquals(e.getCause().getClass(), FileNotFoundException.class);
         }                
     }
@@ -204,7 +204,7 @@ public class TestTextReportInput extends TestCase {
             classUnderTest = new TextTableInput();
             classUnderTest.open();
             fail("an exception should have been thrown by the method above");
-        } catch (ReportInputException e) {
+        } catch (TableInputException e) {
         	assertEquals(TextTableInput.NO_WRITER_SET_ERROR_MESSAGE, e.getMessage());
         }                
     }
@@ -218,7 +218,7 @@ public class TestTextReportInput extends TestCase {
             classUnderTest = new TextTableInput(ReportIoUtils.createInputStreamFromClassPath("empty.txt"));
             classUnderTest.open();
             hasMoreRows = classUnderTest.hasMoreRows();
-        } catch (ReportInputException e) {
+        } catch (TableInputException e) {
             e.printStackTrace();
             fail(e.getMessage()); 
         }finally{
@@ -238,7 +238,7 @@ public class TestTextReportInput extends TestCase {
             classUnderTest = new TextTableInput(ReportIoUtils.createInputStreamFromClassPath("empty.txt"));
             classUnderTest.open();
             nextRow = classUnderTest.nextRow();
-        } catch (ReportInputException e) {
+        } catch (TableInputException e) {
             e.printStackTrace();
             fail(e.getMessage()); 
         }finally{
@@ -266,7 +266,7 @@ public class TestTextReportInput extends TestCase {
             hasMoreRows = classUnderTest.hasMoreRows();
             assertFalse(hasMoreRows);
             
-        } catch (ReportInputException e) {
+        } catch (TableInputException e) {
             e.printStackTrace();
             fail("An error occured "+e.getMessage()); 
         }finally{

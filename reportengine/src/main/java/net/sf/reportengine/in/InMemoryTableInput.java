@@ -13,9 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * 
- */
 package net.sf.reportengine.in;
 
 import java.util.ArrayList;
@@ -29,7 +26,7 @@ import java.util.List;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public class ArrayTableInput extends AbstractTableInput {
+public class InMemoryTableInput extends AbstractTableInput {
 	
 	/**
 	 * the data to be returned row by row
@@ -45,14 +42,14 @@ public class ArrayTableInput extends AbstractTableInput {
 	 * 
 	 * @param data
 	 */
-	public ArrayTableInput(Object[][] data){
+	public InMemoryTableInput(Object[][] data){
 		this.data = data;
 	}
 	
 	/**
      * 
      */
-    public void open() throws ReportInputException{
+    public void open() throws TableInputException{
     	super.open(); 
     	setColumnMetadata(readMetadata());
     	currentRow = 0;

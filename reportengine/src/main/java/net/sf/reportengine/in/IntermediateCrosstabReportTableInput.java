@@ -72,7 +72,7 @@ public class IntermediateCrosstabReportTableInput extends AbstractTableInput {
 		try {
 			this.intermCtLinesInputStream = new ObjectInputStream(input);
 		} catch (IOException e) {
-			throw new ReportInputException(e); 
+			throw new TableInputException(e); 
 		} 
 	}
 	
@@ -84,9 +84,9 @@ public class IntermediateCrosstabReportTableInput extends AbstractTableInput {
 		try{
 			this.intermCtLinesInputStream = new ObjectInputStream(new FileInputStream(input)); 
 		}catch(FileNotFoundException fnfExc){
-			throw new ReportInputException(fnfExc); 
+			throw new TableInputException(fnfExc); 
 		} catch (IOException e) {
-			throw new ReportInputException(e); 
+			throw new TableInputException(e); 
 		}
 	}
 	
@@ -104,7 +104,7 @@ public class IntermediateCrosstabReportTableInput extends AbstractTableInput {
 		try {
 			intermCtLinesInputStream.close();
 		} catch (IOException e) {
-			throw new ReportInputException(e); 
+			throw new TableInputException(e); 
 		} 
 		
 		intermCtLinesInputStream = null; 

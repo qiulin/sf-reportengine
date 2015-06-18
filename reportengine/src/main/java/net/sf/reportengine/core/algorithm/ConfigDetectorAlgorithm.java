@@ -25,6 +25,7 @@ import java.util.Map;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.in.ColumnMetadata;
+import net.sf.reportengine.in.ColumnMetadataHolder;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.util.IOKeys;
@@ -49,7 +50,7 @@ public class ConfigDetectorAlgorithm implements Algorithm {
 		Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)inputParams.get(IOKeys.USER_COLUMN_PREFERENCES);
 		
 		
-		List<ColumnMetadata> colMetadata = input.getColumnMetadata(); 
+		List<ColumnMetadata> colMetadata = ((ColumnMetadataHolder)input).getColumnMetadata(); 
 		
 		//construct data columns
 		List<DataColumn> dataColumns = ReportUtils.dataColsFromMetadataAndUserPrefs(colMetadata, colPrefs); 
