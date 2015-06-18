@@ -65,7 +65,7 @@ class RowsDataFileBuffer {
 			objectInputStream = new ObjectInputStream(inputStream);
 			loadNext();
 		} catch (IOException e) {
-			throw new ReportInputException(e) ;
+			throw new TableInputException(e) ;
 		}
 	}
 	
@@ -89,9 +89,9 @@ class RowsDataFileBuffer {
 				buffer = null; 
 			}
 		} catch (ClassNotFoundException e) {
-			throw new ReportInputException(e); 
+			throw new TableInputException(e); 
 		} catch (IOException e){
-			throw new ReportInputException(e); 
+			throw new TableInputException(e); 
 		}
 	}
 	
@@ -103,7 +103,7 @@ class RowsDataFileBuffer {
 			objectInputStream.close();
 			buffer = null; 
 		}catch(IOException e){
-			throw new ReportInputException(e); 
+			throw new TableInputException(e); 
 		}
 	}
 	

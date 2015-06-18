@@ -53,13 +53,4 @@ public interface TableInput {
      * @return  true if the input has more rows to return
      */
     public boolean hasMoreRows();
-    
-    
-    /**
-     * <p>getter for columns metadata (column label/header, horizontal alignment, etc.)</p>
-     * This is an optional method. If your input doesn't contain any meta data then return an empty array. 
-     *  
-     * @return the column meta data if this input supports metadata otherwise an empty array
-     */
-    public List<ColumnMetadata> getColumnMetadata(); 
 }

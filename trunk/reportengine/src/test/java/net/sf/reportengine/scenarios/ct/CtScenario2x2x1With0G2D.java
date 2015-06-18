@@ -29,7 +29,7 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
-import net.sf.reportengine.in.ArrayTableInput;
+import net.sf.reportengine.in.InMemoryTableInput;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.util.DistinctValuesHolder;
 import net.sf.reportengine.util.MockDistinctValuesHolder;
@@ -54,7 +54,7 @@ public class CtScenario2x2x1With0G2D {
 		new Object[]{"West",	"France", 	"F",	"20",	30}
     }; 
 	
-	public final static TableInput INPUT = new ArrayTableInput(RAW_INPUT);
+	public final static TableInput INPUT = new InMemoryTableInput(RAW_INPUT);
 	
 	public static final List<GroupColumn> GROUPING_COLUMNS = null; 
 	

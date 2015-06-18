@@ -26,6 +26,7 @@ import net.sf.reportengine.core.steps.AbstractReportInitStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.in.ColumnMetadata;
+import net.sf.reportengine.in.ColumnMetadataHolder;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.util.ContextKeys;
@@ -42,7 +43,7 @@ public class ConstrDataColsFromMetadataAndUserPrefsInitStep extends AbstractRepo
 		TableInput input = getReportInput(stepInput); //(ReportInput)algoInput.get(IOKeys.REPORT_INPUT); 
 		Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)stepInput.getAlgoInput(IOKeys.USER_COLUMN_PREFERENCES);
 		
-		List<ColumnMetadata> colMetadata = input.getColumnMetadata(); 
+		List<ColumnMetadata> colMetadata = ((ColumnMetadataHolder)input).getColumnMetadata(); 
 		
 		//construct data columns
 		List<DataColumn> dataColumns = ReportUtils.dataColsFromMetadataAndUserPrefs(colMetadata, colPrefs); 

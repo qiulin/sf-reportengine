@@ -160,9 +160,9 @@ public class SqlTableInput extends AbstractTableInput {
      * @param dbPassword        database password
      */
     public SqlTableInput(	String dbConnString, 
-                      	String driverClass, 
-                        String dbUser, 
-                        String dbPassword){
+                      		String driverClass, 
+                      		String dbUser, 
+                      		String dbPassword){
         this.dbConnString = dbConnString;
         this.dbDriverClass = driverClass;
         this.dbUser = dbUser;
@@ -172,7 +172,7 @@ public class SqlTableInput extends AbstractTableInput {
     /**
      * initializes the connection 
      *
-     * @throws ReportInputException
+     * @throws TableInputException
      */
     private void initDBConnection() throws SQLException, ClassNotFoundException {
         Class.forName(dbDriverClass);
@@ -204,17 +204,17 @@ public class SqlTableInput extends AbstractTableInput {
 			hasMoreRows = resultSet.first();	            
 		} catch (SQLException e) {
 			closeDbConnection();
-			throw new ReportInputException(e); 
+			throw new TableInputException(e); 
 		} catch(ClassNotFoundException e){
 			closeDbConnection();
-			throw new ReportInputException("the driver class could not be found in classpath", e); 
+			throw new TableInputException("the driver class could not be found in classpath", e); 
 		}
     }
     
     /**
      * Closes the input meaning : "the reading session it's done !"
      */
-    public void close() throws ReportInputException {
+    public void close() throws TableInputException {
         closeDbConnection();
         super.close();
     }
@@ -235,14 +235,14 @@ public class SqlTableInput extends AbstractTableInput {
             	LOGGER.info("external db connection not closed."); 
             }
         } catch (SQLException e) {
-            throw new ReportInputException("SQL Error when closing Input ! See the cause !", e);            
+            throw new TableInputException("SQL Error when closing Input ! See the cause !", e);            
         }
 	}
     
     /**
      * returns the next row
      */
-    public List<Object> nextRow() throws ReportInputException {
+    public List<Object> nextRow() throws TableInputException {
         try {
             //a hidden verification if it's open
             if (hasMoreRows()) {
@@ -261,7 +261,7 @@ public class SqlTableInput extends AbstractTableInput {
             
         } catch (SQLException e) {
         	closeDbConnection();
-            throw new ReportInputException("An SQL Exception occured !", e);
+            throw new TableInputException("An SQL Exception occured !", e);
         }
         return nextRow;
     }
@@ -290,7 +290,7 @@ public class SqlTableInput extends AbstractTableInput {
      * reads the metadata from the result set for getting the 
      * column names, column types and other 
      * 
-     * @throws ReportInputException
+     * @throws TableInputException
      */
     private List<ColumnMetadata> readMetaData(ResultSet rs) throws SQLException{
     	LOGGER.info("reading input metadata..."); 

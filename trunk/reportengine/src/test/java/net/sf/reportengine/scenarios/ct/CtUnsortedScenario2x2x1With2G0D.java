@@ -30,7 +30,7 @@ import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.core.calc.GroupCalculators;
-import net.sf.reportengine.in.ArrayTableInput;
+import net.sf.reportengine.in.InMemoryTableInput;
 import net.sf.reportengine.in.TableInput;
 
 /**
@@ -65,7 +65,7 @@ public class CtUnsortedScenario2x2x1With2G0D {
 		new String[]{"East",	"Hungary", 	"F",	"50",	"300"}, 
     }; 
 	
-	public final static TableInput INPUT = new ArrayTableInput(RAW_INPUT);
+	public final static TableInput INPUT = new InMemoryTableInput(RAW_INPUT);
 	
 	public static final List<GroupColumn> GROUPING_COLUMNS = Arrays.asList(
 			new GroupColumn[]{

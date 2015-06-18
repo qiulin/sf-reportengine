@@ -31,7 +31,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
 import net.sf.reportengine.core.ReportEngineRuntimeException;
-import net.sf.reportengine.in.ReportInputException;
+import net.sf.reportengine.in.TableInputException;
 import net.sf.reportengine.out.ReportOutputException;
 
 import org.slf4j.Logger;
@@ -91,9 +91,9 @@ public final class ReportIoUtils {
 			return new InputStreamReader(	new FileInputStream(filePath), 
 											encoding);
 		}catch(FileNotFoundException fnf){
-			throw new ReportInputException(fnf);
+			throw new TableInputException(fnf);
 		}catch(UnsupportedEncodingException uee){
-			throw new ReportInputException(uee);
+			throw new TableInputException(uee);
 		}
 	}
 	
@@ -116,9 +116,9 @@ public final class ReportIoUtils {
 		try {
 			return new InputStreamReader(new FileInputStream(file), encoding);
 		} catch (UnsupportedEncodingException e) {
-			throw new ReportInputException(e); 
+			throw new TableInputException(e); 
 		} catch (FileNotFoundException e) {
-			throw new ReportInputException(e); 
+			throw new TableInputException(e); 
 		} 
 	}
 	

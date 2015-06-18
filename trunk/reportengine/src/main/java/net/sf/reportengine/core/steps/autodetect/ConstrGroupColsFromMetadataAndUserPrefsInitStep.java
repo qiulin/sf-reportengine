@@ -24,6 +24,7 @@ import net.sf.reportengine.core.steps.AbstractReportInitStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.in.ColumnMetadata;
+import net.sf.reportengine.in.ColumnMetadataHolder;
 import net.sf.reportengine.in.ColumnPreferences;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.util.ContextKeys;
@@ -33,11 +34,11 @@ import net.sf.reportengine.util.ReportUtils;
 public class ConstrGroupColsFromMetadataAndUserPrefsInitStep extends AbstractReportInitStep<List<GroupColumn>> {
 	
 	public StepResult<List<GroupColumn>> init(StepInput stepInput) {
-		//Map<IOKeys, Object> algoInput = getAlgoInput(); 
-		TableInput input = getReportInput(stepInput); //(ReportInput)algoInput.get(IOKeys.REPORT_INPUT); 
+		
+		TableInput input = getReportInput(stepInput); 
 		Map<String, ColumnPreferences> colPrefs = (Map<String, ColumnPreferences>)stepInput.getAlgoInput(IOKeys.USER_COLUMN_PREFERENCES);
 		
-		List<ColumnMetadata> colMetadata = input.getColumnMetadata(); 
+		List<ColumnMetadata> colMetadata = ((ColumnMetadataHolder)input).getColumnMetadata(); 
 		
 		//construct data columns
 		List<DataColumn> dataColumns = (List<DataColumn> )stepInput.getContextParam(ContextKeys.INTERNAL_DATA_COLS); 

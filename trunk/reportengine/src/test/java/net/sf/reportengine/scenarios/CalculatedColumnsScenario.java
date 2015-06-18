@@ -32,7 +32,7 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.CalcIntermResult;
 import net.sf.reportengine.core.calc.DefaultCalcIntermResult;
 import net.sf.reportengine.core.calc.GroupCalculators;
-import net.sf.reportengine.in.ArrayTableInput;
+import net.sf.reportengine.in.InMemoryTableInput;
 import net.sf.reportengine.in.TableInput;
 
 /**
@@ -69,7 +69,7 @@ public class CalculatedColumnsScenario {
 	
 	
 	
-	 public final static TableInput INPUT = new ArrayTableInput(RAW_DATA);
+	 public final static TableInput INPUT = new InMemoryTableInput(RAW_DATA);
 	    
 	public static final List<GroupColumn> GROUP_COLUMNS = Arrays.asList(new GroupColumn[]{
 		new DefaultGroupColumn("Zero or One", 0, 0), 

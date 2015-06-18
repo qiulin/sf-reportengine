@@ -25,7 +25,7 @@ import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
-import net.sf.reportengine.in.ArrayTableInput;
+import net.sf.reportengine.in.InMemoryTableInput;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.util.ContextKeys;
@@ -42,7 +42,7 @@ import org.junit.Test;
  */
 public class TestOneIterationAlgorithm {
 	
-	private TableInput testInput = new ArrayTableInput(
+	private TableInput testInput = new InMemoryTableInput(
 			new Object[][]{
 					new String[]{"1","2","3"},
 					new String[]{"4","5","6"}

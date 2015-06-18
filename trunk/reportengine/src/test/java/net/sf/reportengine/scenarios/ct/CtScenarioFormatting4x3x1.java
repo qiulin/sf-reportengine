@@ -32,7 +32,7 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.calc.GroupCalculators;
-import net.sf.reportengine.in.ArrayTableInput;
+import net.sf.reportengine.in.InMemoryTableInput;
 import net.sf.reportengine.in.TableInput;
 
 /**
@@ -111,5 +111,5 @@ public class CtScenarioFormatting4x3x1 {
 														.valuesFormatter("%s $")
 														.build();
 	
-	public final static TableInput INPUT = new ArrayTableInput(RAW_INPUT);
+	public final static TableInput INPUT = new InMemoryTableInput(RAW_INPUT);
 }

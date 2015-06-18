@@ -29,7 +29,7 @@ import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.calc.MaxGroupCalculator;
-import net.sf.reportengine.in.ArrayTableInput;
+import net.sf.reportengine.in.InMemoryTableInput;
 import net.sf.reportengine.in.TableInput;
 
 /**
@@ -45,7 +45,7 @@ public class ScenarioFormatedValues {
 	} 
 	
 	
-	public static final TableInput INPUT = new ArrayTableInput(new Object[][]{
+	public static final TableInput INPUT = new InMemoryTableInput(new Object[][]{
 			new Object[]{Integer.valueOf(0), "1000", 	Integer.valueOf(101), calendar.getTime()}, 
 			new Object[]{Integer.valueOf(1), "20000", 	Integer.valueOf(200), calendar.getTime()},
 			new Object[]{Integer.valueOf(2), "3000", 	Integer.valueOf(300), calendar.getTime()},
