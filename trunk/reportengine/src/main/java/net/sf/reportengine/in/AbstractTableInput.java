@@ -82,11 +82,11 @@ public abstract class AbstractTableInput implements TableInput {
     }
     
     
-    public List<ColumnMetadata> getColumnMetadata(){
-    	return columnMetadata; 
-    }
-    
-    protected void setColumnMetadata(List<ColumnMetadata> metadata){
-    	this.columnMetadata = metadata; 
-    }
+//    public List<ColumnMetadata> getColumnMetadata(){
+//    	return columnMetadata; 
+//    }
+//    
+//    protected void setColumnMetadata(List<ColumnMetadata> metadata){
+//    	this.columnMetadata = metadata; 
+//    }
 }

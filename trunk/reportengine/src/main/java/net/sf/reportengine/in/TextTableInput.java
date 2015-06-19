@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
-public class TextTableInput extends AbstractTableInput{
+public class TextTableInput extends AbstractTableInput implements ColumnMetadataHolder{
     
 	/**
 	 * the message for cases when no writer is set
@@ -78,6 +78,11 @@ public class TextTableInput extends AbstractTableInput{
      * the raw data (unparsed and un-split in columns)
      */
     private String nextRawDataRow;
+    
+    /**
+	 * the metadata
+	 */
+	private List<ColumnMetadata> columnMetadata;
 	
     /**
      * empty text imput constructor. 
@@ -172,8 +177,8 @@ public class TextTableInput extends AbstractTableInput{
 	 * @throws UnsupportedEncodingException
 	 */
 	public TextTableInput(	InputStream is, 
-						String separator, 
-						String encoding){
+							String separator, 
+							String encoding){
 		this(is, separator, encoding, false); 
 	}
 	
@@ -230,8 +235,8 @@ public class TextTableInput extends AbstractTableInput{
 	 * @param firstLineIsHeaderFlag	this flag specifies if the first line contains the column headers
 	 */
 	public TextTableInput(	Reader inReader, 
-						String separator, 
-						boolean firstLineIsHeaderFlag){
+							String separator, 
+							boolean firstLineIsHeaderFlag){
 		setInputReader(inReader); 
 		setSeparator(separator);
 		setFirstLineHeader(firstLineIsHeaderFlag);
@@ -252,7 +257,7 @@ public class TextTableInput extends AbstractTableInput{
         		String rawHeader = reader.readLine();
         		if(rawHeader != null){
         			List<String> headerArr = transformRawDataIntoList(rawHeader, separator);
-        			setColumnMetadata(extractMetadataFromHeaders(headerArr)); 
+        			columnMetadata = extractMetadataFromHeaders(headerArr); 
         		}else{
         			LOGGER.warn("Couldn't find the header while opening the input"); 
         		}
@@ -269,7 +274,7 @@ public class TextTableInput extends AbstractTableInput{
             	//if the metadata was not previously read then we construct an almost empty 
             	//metadata array
                 int columnsCount = new StringTokenizer(nextRawDataRow, separator).countTokens();
-                setColumnMetadata(createEmptyMetadata(columnsCount));
+                columnMetadata = createEmptyMetadata(columnsCount);
             }else{
             	if(nextRawDataRow == null){
             		LOGGER.warn("While opening the input we found no rows"); 
@@ -450,5 +455,12 @@ public class TextTableInput extends AbstractTableInput{
 	 */
 	public void setFilePath(String filePath) {
 		setInputReader(ReportIoUtils.createReaderFromPath(filePath));
+	}
+	
+	/**
+	 * 
+	 */
+	public List<ColumnMetadata> getColumnMetadata(){
+		return columnMetadata; 
 	}
 }
