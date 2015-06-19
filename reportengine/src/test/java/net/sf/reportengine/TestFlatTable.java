@@ -266,12 +266,12 @@ public class TestFlatTable {
 		AbstractReportOutput reportOutput = new HtmlReportOutput(new FileWriter("./target/TestFlatTableWithSqlInput.html")); 
 		reportOutput.open(); 
 		
-		SqlTableInput input = new SqlTableInput(); 
-		input.setDbUser("SA");
-		input.setDbPassword("");
-		input.setDbDriverClass("org.hsqldb.jdbcDriver");
-		input.setDbConnString("jdbc:hsqldb:file:./src/test/resources/databases/testdb");
-		input.setSqlStatement("select country, region, city, sex, religion, value from testreport t order by country, region, city");
+		SqlTableInput input = new SqlTableInput(
+				"jdbc:hsqldb:file:./src/test/resources/databases/testdb",
+				"org.hsqldb.jdbcDriver",
+				"SA",
+				"",
+				"select country, region, city, sex, religion, value from testreport t order by country, region, city");
 		
 		new FlatTable.Builder()
 			.input(input)

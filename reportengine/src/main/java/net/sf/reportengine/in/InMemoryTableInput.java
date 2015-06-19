@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.sound.midi.MetaEventListener;
+
 
 /**
  * Report Input implementation based on a 2 dimensional in memory array
@@ -26,12 +28,17 @@ import java.util.List;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3
  */
-public class InMemoryTableInput extends AbstractTableInput {
+public class InMemoryTableInput extends AbstractTableInput implements ColumnMetadataHolder{
 	
 	/**
 	 * the data to be returned row by row
 	 */
-	private Object[][] data;
+	private final Object[][] data;
+	
+	/**
+	 * the metadata
+	 */
+	private List<ColumnMetadata> columnMetadata;
 	
 	/**
 	 * the current row
@@ -51,7 +58,7 @@ public class InMemoryTableInput extends AbstractTableInput {
      */
     public void open() throws TableInputException{
     	super.open(); 
-    	setColumnMetadata(readMetadata());
+    	columnMetadata = readMetadata(); //TODO make it lazy
     	currentRow = 0;
     }
 
@@ -77,4 +84,9 @@ public class InMemoryTableInput extends AbstractTableInput {
 		
 		return result;
 	}
+	
+	public List<ColumnMetadata> getColumnMetadata(){
+		return columnMetadata; 
+	}
+	
 }

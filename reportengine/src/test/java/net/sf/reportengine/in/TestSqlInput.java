@@ -22,12 +22,15 @@ import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 
-import junit.framework.TestCase;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestSqlInput extends TestCase {
+public class TestSqlInput  {
     
-	
     private static final Object[][] EXPECTED_DATA = new Object[][]{
         new Object[]{1,"USA","EAST","New York","Males","Catholic",1001},
         new Object[]{2,"USA","EAST","New York","Males","Orthodox",2001},
@@ -39,9 +42,11 @@ public class TestSqlInput extends TestCase {
     
     private static Connection testConnection;
     
-    static{
-    	 try {
-    		 Class.forName("org.hsqldb.jdbcDriver");
+    
+    @BeforeClass
+    public static void oneTimeSetUp() throws Exception {
+    	try {
+   		 	Class.forName("org.hsqldb.jdbcDriver");
 		
 	         testConnection = DriverManager.getConnection("jdbc:hsqldb:mem:testdb","sa","");
 	         testConnection.setAutoCommit(false);
@@ -58,24 +63,18 @@ public class TestSqlInput extends TestCase {
 	         insertStatement.addBatch("INSERT INTO testreport VALUES(6,'USA','EAST','Chicago','Females','Muslim', 101)");
 	         insertStatement.executeBatch();
 	         
-    	} catch (ClassNotFoundException e) {
- 			e.printStackTrace();
- 		} catch (SQLException e) {
+   	} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
     }
-    
-    
-    
-    
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
 
-    
+    @Test
     public void testNextAndHasMore(){
-    	SqlTableInput dataProvider = new SqlTableInput(testConnection);
-    	dataProvider.setSqlStatement("select id, country, region, city, sex, religion, value from testreport t order by id");
+    	SqlConnectionBasedTableInput dataProvider = new SqlConnectionBasedTableInput(
+    			testConnection, 
+    			"select id, country, region, city, sex, religion, value from testreport t order by id");
     	
         int currentRow = 0;
         try {
@@ -101,52 +100,34 @@ public class TestSqlInput extends TestCase {
 			e.printStackTrace();
 			fail("error encountered while checking if db connection is closed"); 
 		}
-        
-        //closing manually the connection so that all other 
-        //methods can re-create a connection ( for some reason the 
-        //hsqldb doesn't accept more than one connection a a time)
-        try {
-			testConnection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 
     }
     
+    @Test
     public void testNonQuery(){
-    	SqlTableInput dataProvider = null; 
+    	SqlTableInput tableInput = null; 
     	try{
-    		dataProvider = new SqlTableInput(); 
-    		dataProvider.setDbConnString("jdbc:hsqldb:mem:testdb");
-    		dataProvider.setDbDriverClass("org.hsqldb.jdbcDriver");
-    		dataProvider.setDbUser("sa");
-    		dataProvider.setDbPassword("");
-    	
-    		dataProvider.setSqlStatement("INSERT INTO testreport VALUES(1,'USA','EAST','New York','Males','Catholic',1001)");
-    		dataProvider.open(); 
+    		tableInput = new SqlTableInput(
+    				"jdbc:hsqldb:mem:testdb",
+    				"org.hsqldb.jdbcDriver",
+    				"sa",
+    				"",
+    				"INSERT INTO testreport VALUES(1,'USA','EAST','New York','Males','Catholic',1001)");
+    		tableInput.open(); 
     		
     		fail("an error should have been thrown by the statement above"); 
-    	}catch(Throwable e){
+    	}catch(TableInputException e){
     		assertTrue(e.getCause() instanceof java.sql.SQLException);
     		assertEquals("statement does not generate a result set", e.getCause().getMessage()); 
     	}finally{
-    		dataProvider.close(); 
+    		tableInput.close(); 
     	}
     }
-   
-    public void testReadMetadata(){
-    	SqlTableInput dataProvider = new SqlTableInput();
-    	dataProvider.setSqlStatement("select id, country, region, city, sex, religion, value from testreport t order by id");
-    	dataProvider.setDbConnString("jdbc:hsqldb:mem:testdb");
-		dataProvider.setDbDriverClass("org.hsqldb.jdbcDriver");
-		dataProvider.setDbUser("sa");
-		dataProvider.setDbPassword("");
-    	dataProvider.open(); 
-    	
-    	assertNotNull(dataProvider.getColumnMetadata()); 
-    	assertEquals(7, dataProvider.getColumnMetadata().size());
-    	assertEquals("ID", dataProvider.getColumnMetadata().get(0).getColumnLabel());
-    	
-    	dataProvider.close(); 
-    }
-   
+    
+    @AfterClass
+	public static void oneTimeTearDown() throws Exception {
+		Statement createTable = testConnection.createStatement();
+        createTable.execute("DROP TABLE testreport");
+        
+        testConnection.close(); 
+	}
 }
