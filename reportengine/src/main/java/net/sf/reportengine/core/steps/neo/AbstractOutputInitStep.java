@@ -33,8 +33,8 @@ public abstract class AbstractOutputInitStep<U> extends AbstractReportInitStep<U
 	/**
 	 * 
 	 */
-	public <T> void  outputOneValue(StepInput stepInput, String templateName, String rootModelName, T value){
-		getNewReportOutput(stepInput).output(templateName, rootModelName, value); 
+	public <T> void  outputOneValue(StepInput stepInput, String templateName, T value){
+		getNewReportOutput(stepInput).output(templateName, value); 
 	}
 	
 	public void outputNoValue(StepInput stepInput, String templateName){

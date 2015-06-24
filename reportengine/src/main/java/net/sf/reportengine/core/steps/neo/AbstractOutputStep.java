@@ -18,9 +18,6 @@
  */
 package net.sf.reportengine.core.steps.neo;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.out.neo.NewReportOutput;
@@ -35,10 +32,8 @@ public abstract class AbstractOutputStep<T,U,V> extends AbstractReportStep<T,U,V
 	/**
 	 * 
 	 */
-	public <K> void  outputOneValue(StepInput stepInput, String templateName, String rootModelName, K value){
-		Map<String, K> rootModel = new HashMap<String, K>(1);
-		rootModel.put(rootModelName, value); 
-		getNewReportOutput(stepInput).output(templateName, rootModel); 
+	public <K> void  outputOneValue(StepInput stepInput, String templateName, K value){
+		getNewReportOutput(stepInput).output(templateName, value); 
 	}
 	
 	public void outputNoValue(StepInput stepInput, String templateName){

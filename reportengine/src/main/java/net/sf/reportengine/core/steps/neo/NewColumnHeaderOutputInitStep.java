@@ -44,13 +44,9 @@ public class NewColumnHeaderOutputInitStep extends AbstractOutputInitStep<String
 	
 	
 	public final static String START_HEADER_ROW_TEMPLATE = "startHeaderRow.ftl";
-	public final static String START_HEADER_MODEL_NAME = "rowProps"; 
-	
 	public final static String END_HEADER_ROW_TEMPLATE = "endHeaderRow.ftl";
-	
-	
 	public final static String HEADER_CELL_TEMPLATE = "headerCell.ftl";
-    public final static String HEADER_CELL_MODEL_NAME = "cellProps";  
+    
     /**
      * 
      */
@@ -69,7 +65,7 @@ public class NewColumnHeaderOutputInitStep extends AbstractOutputInitStep<String
         final int rowNumber = 0;
         //output.startHeaderRow(new RowProps(rowNumber));
         
-        outputOneValue(input, START_HEADER_ROW_TEMPLATE, START_HEADER_MODEL_NAME, new RowProps(rowNumber));
+        outputOneValue(input, START_HEADER_ROW_TEMPLATE, new RowProps(rowNumber));
         
         CellProps cellProps = null;
         List<GroupColumn> groupCols = getGroupColumns(input); 
@@ -81,7 +77,7 @@ public class NewColumnHeaderOutputInitStep extends AbstractOutputInitStep<String
 										.rowNumber(rowNumber)
 										.build();
 				//output.outputHeaderCell(cellProps);
-				outputOneValue(input, HEADER_CELL_TEMPLATE, HEADER_CELL_MODEL_NAME, cellProps); 
+				outputOneValue(input, HEADER_CELL_TEMPLATE, cellProps); 
 			}
         }
         
@@ -93,7 +89,7 @@ public class NewColumnHeaderOutputInitStep extends AbstractOutputInitStep<String
             						.rowNumber(rowNumber)
             						.build();
             //output.outputHeaderCell(cellProps);
-            outputOneValue(input, HEADER_CELL_TEMPLATE, HEADER_CELL_MODEL_NAME, cellProps);
+            outputOneValue(input, HEADER_CELL_TEMPLATE, cellProps);
         }
         
         //output.endHeaderRow();

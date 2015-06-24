@@ -18,11 +18,11 @@ package net.sf.reportengine;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 
 import net.sf.reportengine.components.EmptyLine;
 import net.sf.reportengine.components.FlatTable;
 import net.sf.reportengine.components.ReportTitle;
-import net.sf.reportengine.out.neo.ExcelXmlOutputFormat;
 import net.sf.reportengine.out.neo.ExcelXmlReportOutput;
 import net.sf.reportengine.out.neo.FoOutputFormat;
 import net.sf.reportengine.out.neo.FoReportOutput;
@@ -36,8 +36,8 @@ import net.sf.reportengine.scenarios.ScenarioFormatedValues;
 import org.apache.commons.lang.SystemUtils;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Test;
 
 public class TestReport {
 
@@ -46,10 +46,11 @@ public class TestReport {
 	}
 
 	@Test
-	public void testTwoComponentsAndHtmlOutput() throws IOException {
-		MockReportOutput mockOutput = new MockReportOutput();//new FileWriter("./target/TestReport.html") 
+	public void testTwoComponents() throws IOException {
+		StringWriter testWriter = new StringWriter(); 
+		MockReportOutput mockOutput = new MockReportOutput(testWriter);
 		new Report.Builder(mockOutput)
-			.add(new ReportTitle("this is the report title "))
+			.add(new ReportTitle("unit test"))
 			.add(new FlatTable.Builder()
 					.input(Scenario1.INPUT)
 					.dataColumns(Scenario1.DATA_COLUMNS)
@@ -59,35 +60,35 @@ public class TestReport {
 		
 		Assert.assertEquals(
 		"startReport"+SystemUtils.LINE_SEPARATOR+
-		"title"+SystemUtils.LINE_SEPARATOR+
+		"title unit test"+SystemUtils.LINE_SEPARATOR+
 		"start table"+SystemUtils.LINE_SEPARATOR+
 		"start header row"+SystemUtils.LINE_SEPARATOR+
-		"[HeaderCell cspan=1 value=col 3][HeaderCell cspan=1 value=col 4][HeaderCell cspan=1 value=col 5]"+SystemUtils.LINE_SEPARATOR+
+		"[HeaderCell cspan=1 value=col 3 hAlign=CENTER vAlign=MIDDLE][HeaderCell cspan=1 value=col 4 hAlign=CENTER vAlign=MIDDLE][HeaderCell cspan=1 value=col 5 hAlign=CENTER vAlign=MIDDLE]"+SystemUtils.LINE_SEPARATOR+
 		"end header row"+SystemUtils.LINE_SEPARATOR+
-		"startRow"+SystemUtils.LINE_SEPARATOR+
+		"startRow 0"+SystemUtils.LINE_SEPARATOR+
 		"[Cell cspan=1 value=4][Cell cspan=1 value=5][Cell cspan=1 value=6]"+SystemUtils.LINE_SEPARATOR+
 		"endRow"+SystemUtils.LINE_SEPARATOR+
-		"startRow"+SystemUtils.LINE_SEPARATOR+
+		"startRow 1"+SystemUtils.LINE_SEPARATOR+
 		"[Cell cspan=1 value=3][Cell cspan=1 value=3][Cell cspan=1 value=3]"+SystemUtils.LINE_SEPARATOR+
 		"endRow"+SystemUtils.LINE_SEPARATOR+
-		"startRow"+SystemUtils.LINE_SEPARATOR+
+		"startRow 2"+SystemUtils.LINE_SEPARATOR+
 		"[Cell cspan=1 value=2][Cell cspan=1 value=2][Cell cspan=1 value=2]"+SystemUtils.LINE_SEPARATOR+
 		"endRow"+SystemUtils.LINE_SEPARATOR+
-		"startRow"+SystemUtils.LINE_SEPARATOR+
+		"startRow 3"+SystemUtils.LINE_SEPARATOR+
 		"[Cell cspan=1 value=1][Cell cspan=1 value=1][Cell cspan=1 value=1]"+SystemUtils.LINE_SEPARATOR+
 		"endRow"+SystemUtils.LINE_SEPARATOR+
-		"startRow"+SystemUtils.LINE_SEPARATOR+
+		"startRow 4"+SystemUtils.LINE_SEPARATOR+
 		"[Cell cspan=1 value=1][Cell cspan=1 value=1][Cell cspan=1 value=1]"+SystemUtils.LINE_SEPARATOR+
 		"endRow"+SystemUtils.LINE_SEPARATOR+
-		"startRow"+SystemUtils.LINE_SEPARATOR+
+		"startRow 5"+SystemUtils.LINE_SEPARATOR+
 		"[Cell cspan=1 value=1][Cell cspan=1 value=7][Cell cspan=1 value=1]"+SystemUtils.LINE_SEPARATOR+
 		"endRow"+SystemUtils.LINE_SEPARATOR+
-		"startRow"+SystemUtils.LINE_SEPARATOR+
+		"startRow 6"+SystemUtils.LINE_SEPARATOR+
 		"[Cell cspan=1 value= ][Cell cspan=1 value=6][Cell cspan=1 value=14]"+SystemUtils.LINE_SEPARATOR+
 		"endRow"+SystemUtils.LINE_SEPARATOR+
 		"end table"+SystemUtils.LINE_SEPARATOR+
 		"end report", 
-		mockOutput.getBuffer());
+		testWriter.getBuffer().toString());
 	}
 	
 	@Test

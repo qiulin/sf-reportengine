@@ -31,12 +31,16 @@ import net.sf.reportengine.out.neo.AbstractReportOutput;
 public class Report {
 	
 	public final static String START_REPORT_TEMPLATE = "startReport.ftl";
-	public final static String REPORT_MODEL_NAME = "reportProps"; 
 	public final static String END_REPORT_TEMPLATE = "endReport.ftl";
 	
-	
+	/**
+	 * the list of the components of this report
+	 */
 	private List<ReportComponent> components = new ArrayList<ReportComponent>(); 
 	
+	/**
+	 * the report output
+	 */
 	private final AbstractReportOutput reportOutput; 
 	
 	
@@ -46,14 +50,12 @@ public class Report {
 	}
 	
 	
-	
-	
 	/**
 	 * executes the report
 	 */
 	public void execute(){
 		reportOutput.open();
-		reportOutput.output(START_REPORT_TEMPLATE, REPORT_MODEL_NAME, new ReportProps(reportOutput.getFormat())); 
+		reportOutput.output(START_REPORT_TEMPLATE, new ReportProps(reportOutput.getFormat())); 
 		for (ReportComponent reportComponent : components) {
 			reportComponent.output(reportOutput);
 		}

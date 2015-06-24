@@ -18,6 +18,7 @@
  */
 package net.sf.reportengine.core.steps;
 
+import java.io.StringWriter;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -47,7 +48,8 @@ public class TestDataRowsOutputStep {
 		AlgoContext reportContext = new DefaultAlgorithmContext(); 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		
-		MockReportOutput mockOutput = new MockReportOutput(); 
+		StringWriter testWriter = new StringWriter(); 
+		MockReportOutput mockOutput = new MockReportOutput(testWriter); 
 		
 		reportContext.set(ContextKeys.LOCAL_REPORT_INPUT, Scenario1.INPUT);
 		//reportContext.set(ContextKeys.NEW_LOCAL_REPORT_OUTPUT, mockOutput); 
@@ -109,6 +111,6 @@ public class TestDataRowsOutputStep {
 		
 		//CellProps[][] resultCellMatrix = Scenario1.OUTPUT.getDataCellMatrix();
 		//Assert.assertTrue(MatrixUtils.compareMatrices(Scenario1.EXPECTED_OUTPUT_DATA, resultCellMatrix));
-		System.out.println(mockOutput.getBuffer());
+		System.out.println(testWriter.getBuffer());
 	}
 }

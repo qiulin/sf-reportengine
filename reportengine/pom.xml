@@ -138,50 +138,50 @@
 			</plugin>
 			
 			<plugin>
-    			<groupId>com.mycila</groupId>
-    			<artifactId>license-maven-plugin</artifactId>
-    			<version>2.11</version>
-    			<configuration>
-        			<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>  
-        			<!--<header>${basedir}/license.txt</header>-->
-        			<properties>
-            			<owner>Dragos Balan</owner>
-            			<email>dragos.balan@gmail.com</email>
-        			</properties>
+				<groupId>com.mycila</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>2.11</version>
+				<configuration>
+					<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>  
+					<!--<header>${basedir}/license.txt</header>-->
+					<properties>
+					<owner>Dragos Balan</owner>
+					<email>dragos.balan@gmail.com</email>
+					</properties>
         			
-        			<!--  
-        			<keywords>
-        				<keyword>copyright</keyword>
-        				<keyword>license</keyword> 
-        				<keyword>Created</keyword>
-        				<keyword>
-        				</keyword>
-        			</keywords>
-        			--> 
-        			<excludes>
-            			<exclude>**/README</exclude>
-            			<exclude>src/test/resources/**</exclude>
-            			<exclude>src/main/resources/**</exclude>
-            			<exclude>**/*.xml</exclude>
-            			<exclude>**/*.txt</exclude>
-        			</excludes>
+					<!--  
+					<keywords>
+						<keyword>copyright</keyword>
+						<keyword>license</keyword> 
+						<keyword>Created</keyword>
+						<keyword>
+						</keyword>
+					</keywords>
+					--> 
+					<excludes>
+					<exclude>**/README</exclude>
+					<exclude>src/test/resources/**</exclude>
+					<exclude>src/main/resources/**</exclude>
+					<exclude>**/*.xml</exclude>
+					<exclude>**/*.txt</exclude>
+					</excludes>
         			
-        			<!--
-        			<skipExistingHeaders>true</skipExistingHeaders> 
-        			<validHeaders>
-        				<validHeader>${basedir}/test-license.txt</validHeader>
-        				<validHeader>${basedir}/caca-license.txt</validHeader>
-        			</validHeaders>
-        			-->
-        			<strictCheck>false</strictCheck>
-    			</configuration>
-    			<executions>
-        			<execution>
-            			<goals>
-                			<goal>check</goal>
-            			</goals>
-        			</execution>
-    			</executions>
+					<!--
+					<skipExistingHeaders>true</skipExistingHeaders> 
+					<validHeaders>
+						<validHeader>${basedir}/test-license.txt</validHeader>
+						<validHeader>${basedir}/caca-license.txt</validHeader>
+					</validHeaders>
+					-->
+					<strictCheck>false</strictCheck>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			
 		</plugins>

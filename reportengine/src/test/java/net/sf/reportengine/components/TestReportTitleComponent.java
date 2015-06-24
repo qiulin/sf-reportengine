@@ -17,11 +17,8 @@ package net.sf.reportengine.components;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.StringWriter;
 
-import net.sf.reportengine.out.neo.AbstractReportOutput;
-import net.sf.reportengine.out.neo.AbstractFreemarkerReportOutput;
 import net.sf.reportengine.out.neo.MockReportOutput;
 
 import org.apache.commons.lang.SystemUtils;
@@ -33,11 +30,12 @@ public class TestReportTitleComponent {
 	
 	@Test
 	public void testOutputNewReportOutput() {
-		MockReportOutput testOutput = new MockReportOutput(); 
-		componentUnderTest = new ReportTitle("unit test title");
+		StringWriter testWriter = new StringWriter(); 
+		MockReportOutput testOutput = new MockReportOutput(testWriter); 
+		componentUnderTest = new ReportTitle("unit test");
 		testOutput.open();
 		componentUnderTest.output(testOutput);
 		testOutput.close();
-		assertEquals("title"+SystemUtils.LINE_SEPARATOR, testOutput.getBuffer()); 
+		assertEquals("title unit test"+SystemUtils.LINE_SEPARATOR, testWriter.getBuffer().toString()); 
 	}
 }

@@ -163,7 +163,6 @@ public class FlatTableTotalsOutputStep extends AbstractOutputStep <String,Intege
     	//output.startDataRow(new RowProps(dataRowNumber));
     	outputOneValue(	stepInput, 
     					NewDataRowsOutputStep.START_DATA_ROW_TEMPLATE, 
-    					NewDataRowsOutputStep.DATA_ROW_MODEL_NAME, 
     					new RowProps(dataRowNumber)); 
     	
     	if(	groupCols != null && groupCols.size() > 0){
@@ -177,7 +176,6 @@ public class FlatTableTotalsOutputStep extends AbstractOutputStep <String,Intege
     		//output.outputDataCell(cellProps);
     		outputOneValue(	stepInput, 
     						NewDataRowsOutputStep.DATA_CELL_TEMPLATE, 
-    						NewDataRowsOutputStep.DATA_CELL_MODEL_NAME, 
     						cellProps);
     		
     		if(groupCols.size() > 1){
@@ -198,7 +196,6 @@ public class FlatTableTotalsOutputStep extends AbstractOutputStep <String,Intege
     				//output.outputDataCell(whitespaceCellProps); 
     				outputOneValue(	stepInput, 
     								NewDataRowsOutputStep.DATA_CELL_TEMPLATE, 
-    								NewDataRowsOutputStep.DATA_CELL_MODEL_NAME, 
     								whitespaceCellProps); 
     			}
     		}
@@ -223,7 +220,6 @@ public class FlatTableTotalsOutputStep extends AbstractOutputStep <String,Intege
 				//output.outputDataCell(dataCellProps);
 				outputOneValue(	stepInput, 
 								NewDataRowsOutputStep.DATA_CELL_TEMPLATE, 
-								NewDataRowsOutputStep.DATA_CELL_MODEL_NAME, 
 								dataCellProps); 
 			}else{
 				//if the column doesn't have a calculator associated 
@@ -234,7 +230,6 @@ public class FlatTableTotalsOutputStep extends AbstractOutputStep <String,Intege
 				//output.outputDataCell(whitespaceCellProps);
 				outputOneValue(	stepInput, 
 								NewDataRowsOutputStep.DATA_CELL_TEMPLATE, 
-								NewDataRowsOutputStep.DATA_CELL_MODEL_NAME, 
 								whitespaceCellProps); 
 			}
 		}

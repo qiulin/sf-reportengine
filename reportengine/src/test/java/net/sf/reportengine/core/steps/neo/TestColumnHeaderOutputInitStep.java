@@ -43,7 +43,8 @@ public class TestColumnHeaderOutputInitStep  {
 	public void testInitScenario1() {
 		AlgoContext mockContext = new DefaultAlgorithmContext(); 
 		
-		MockReportOutput mockOutput = new MockReportOutput();  
+		StringWriter testWriter = new StringWriter(); 
+		MockReportOutput mockOutput = new MockReportOutput(testWriter);  
 		mockOutput.open(); 
 		
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);  
@@ -55,7 +56,7 @@ public class TestColumnHeaderOutputInitStep  {
 		classUnderTest.init(new StepInput(mockAlgoInput, mockContext));
 		
 		mockOutput.close();
-		System.out.println(mockOutput.getBuffer());
+		System.out.println(testWriter.getBuffer());
 		
 //		Assert.assertTrue(MatrixUtils.compareMatrices(Scenario1.EXPECTED_REPORT_COLUMNS_HEADER, 
 //												mockOutput.getHeaderCellMatrix()));

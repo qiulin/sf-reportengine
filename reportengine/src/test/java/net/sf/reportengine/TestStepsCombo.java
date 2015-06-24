@@ -57,10 +57,9 @@ import net.sf.reportengine.core.steps.neo.StartTableInitStep;
 import net.sf.reportengine.in.IntermediateCrosstabReportTableInput;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.CellPropsArrayOutput;
-import net.sf.reportengine.out.HtmlOutput;
+import net.sf.reportengine.out.Html5Output;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.out.ReportOutput;
-import net.sf.reportengine.out.neo.AbstractFreemarkerReportOutput;
 import net.sf.reportengine.out.neo.HtmlReportOutput;
 import net.sf.reportengine.out.neo.NewReportOutput;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
@@ -86,7 +85,7 @@ public class TestStepsCombo  {
 	
 	@Test
 	public void testExecuteScenario2x2x1xTForIntermediateReport() throws Exception{
-			ReportOutput mockOutput = new HtmlOutput("target/intermediateReport2x2x1xT.html");  
+			ReportOutput mockOutput = new Html5Output("target/intermediateReport2x2x1xT.html");  
 			
 			MultiStepAlgo algo = new DefaultLoopThroughReportInputAlgo(); 
 			
@@ -171,7 +170,7 @@ public class TestStepsCombo  {
 	
 	@Test
 	public void testExecuteScenario1x3x1xTForIntermediateReport() throws Exception{
-			ReportOutput mockOutput = new HtmlOutput("target/intermediateReport1x3x1xT.html");  
+			ReportOutput mockOutput = new Html5Output("target/intermediateReport1x3x1xT.html");  
 			
 			MultiStepAlgo algo = new DefaultLoopThroughReportInputAlgo(); 
 			
@@ -244,7 +243,7 @@ public class TestStepsCombo  {
 	
 	@Test
 	public void testExecuteScenario1x3x1xNoTotalsForIntermediateReport() throws Exception{
-			ReportOutput mockOutput = new HtmlOutput("target/intermediateReport1x3x1xNoTotals.html");  
+			ReportOutput mockOutput = new Html5Output("target/intermediateReport1x3x1xNoTotals.html");  
 			
 			MultiStepAlgo algo = new DefaultLoopThroughReportInputAlgo(); 
 			Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
@@ -316,7 +315,7 @@ public class TestStepsCombo  {
 	
 	@Test
 	public void testExecuteScenario1x1x1xTForIntermediateReport() throws Exception{
-			ReportOutput mockOutput = new HtmlOutput("target/intermediateReport1x1x1xT.html");  
+			ReportOutput mockOutput = new Html5Output("target/intermediateReport1x1x1xT.html");  
 			
 			MultiStepAlgo algo = new DefaultLoopThroughReportInputAlgo(); 
 			Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
@@ -389,7 +388,7 @@ public class TestStepsCombo  {
 	
 	@Test
 	public void testExecuteScenario4x3x1xTForIntermediateReport() throws Exception{
-			ReportOutput mockOutput = new HtmlOutput("target/intermediateReport4x3x1xT.html");  
+			ReportOutput mockOutput = new Html5Output("target/intermediateReport4x3x1xT.html");  
 			
 			MultiStepAlgo algo = new DefaultLoopThroughReportInputAlgo(); 
 			Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
@@ -464,7 +463,7 @@ public class TestStepsCombo  {
 			Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 			mockAlgoInput.put(IOKeys.REPORT_INPUT, CtScenario4x3x1.INPUT);
 			//this output doesn't count because an internal output is built inside
-			mockAlgoInput.put(IOKeys.REPORT_OUTPUT, new HtmlOutput("target/intermediateReport4x3x1xNoTotals.html"));
+			mockAlgoInput.put(IOKeys.REPORT_OUTPUT, new Html5Output("target/intermediateReport4x3x1xNoTotals.html"));
 			mockAlgoInput.put(IOKeys.GROUP_COLS, CtScenario4x3x1.GROUP_COLUMNS);
 			mockAlgoInput.put(IOKeys.DATA_COLS, CtScenario4x3x1.DATA_COLUMNS); 
 			mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario4x3x1.HEADER_ROWS); 

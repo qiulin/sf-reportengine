@@ -1,7 +1,7 @@
 <Cell 
-	<#if cellProps.colspan gt 1>
-	ss:MergeAcross="${cellProps.colspan-1}"
+	<#if colspan gt 1>
+	ss:MergeAcross="${colspan-1}"
 	</#if>
 	ss:StyleID="headerCellStyle">
-	<Data ss:Type="String">${cellProps.value}</Data>
+	<Data ss:Type="String">${value}</Data>
 </Cell>

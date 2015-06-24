@@ -48,11 +48,7 @@ public class NewDataRowsOutputStep extends AbstractOutputStep<String,Integer,Str
 	
 	
 	public static final String DATA_CELL_TEMPLATE = "dataCell.ftl";
-	public static final String DATA_CELL_MODEL_NAME = "cellProps";
-	
-
 	public static final String START_DATA_ROW_TEMPLATE = "startDataRow.ftl";
-	public static final String DATA_ROW_MODEL_NAME = "rowProps";
 	public static final String END_DATA_ROW_TEMPLATE = "endDataRow.ftl";
 	
 	
@@ -82,7 +78,7 @@ public class NewDataRowsOutputStep extends AbstractOutputStep<String,Integer,Str
 		
 		//start the row
     	//getReportOutput(stepInput).startDataRow(new RowProps(getDataRowCount(stepInput)));
-    	outputOneValue(stepInput, START_DATA_ROW_TEMPLATE, DATA_ROW_MODEL_NAME, new RowProps(getDataRowCount(stepInput)));
+    	outputOneValue(stepInput, START_DATA_ROW_TEMPLATE, new RowProps(getDataRowCount(stepInput)));
 		
 		CellProps.Builder cellPropsBuilder = null;
 		
@@ -106,7 +102,7 @@ public class NewDataRowsOutputStep extends AbstractOutputStep<String,Integer,Str
 							.vertAlign(currentGrpCol.getVertAlign())
 							.rowNumber(getDataRowCount(stepInput)); 
 			//getReportOutput(stepInput).outputDataCell(cellPropsBuilder.build()); 
-			outputOneValue(stepInput, DATA_CELL_TEMPLATE, DATA_CELL_MODEL_NAME, cellPropsBuilder.build()); 
+			outputOneValue(stepInput, DATA_CELL_TEMPLATE, cellPropsBuilder.build()); 
 		}
 		
 		//then handle the data columns
@@ -117,7 +113,7 @@ public class NewDataRowsOutputStep extends AbstractOutputStep<String,Integer,Str
 				.vertAlign(dataColumn.getVertAlign()); 
 			
 			//getReportOutput(stepInput).outputDataCell(cellPropsBuilder.build()); 
-			outputOneValue(stepInput, DATA_CELL_TEMPLATE, DATA_CELL_MODEL_NAME, cellPropsBuilder.build());
+			outputOneValue(stepInput, DATA_CELL_TEMPLATE, cellPropsBuilder.build());
 		}
     	
 		//end row

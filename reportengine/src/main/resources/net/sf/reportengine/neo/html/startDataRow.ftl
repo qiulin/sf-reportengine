@@ -1,2 +1,2 @@
-<tr class="<#if rowProps.rowNumber % 2 == 0>even<#else>odd</#if>" >
+<tr class="<#if rowNumber % 2 == 0>even<#else>odd</#if>" >
 

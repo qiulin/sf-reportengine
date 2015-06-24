@@ -25,19 +25,19 @@ package net.sf.reportengine.out;
 public final class TitleProps {
 	
 	private final String title; 
-	private final int colspan; 
+//	private final int colspan; 
 	
-	public TitleProps(String title, int colspan){
+	public TitleProps(String title){
 		this.title = title; 
-		this.colspan = colspan ;
+//		this.colspan = colspan ;
 	}
 	
 	public String getTitle(){
 		return title; 
 	}
 	
-	public int getColspan(){
-		return colspan; 
-	}
+//	public int getColspan(){
+//		return colspan; 
+//	}
 	
 }

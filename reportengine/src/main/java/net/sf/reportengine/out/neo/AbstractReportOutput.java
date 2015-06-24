@@ -15,8 +15,7 @@
  */
 package net.sf.reportengine.out.neo;
 
-import java.util.HashMap;
-import java.util.Map;
+import freemarker.template.SimpleHash;
 
 /**
  * @author dragos balan
@@ -38,17 +37,18 @@ public abstract class AbstractReportOutput implements NewReportOutput {
 	}
 	
 	
-	/**
-	 * 
-	 * @param templateName
-	 * @param modelName
-	 * @param value
-	 */
-	public <T> void output(String templateName, String modelName, T value){
-		Map<String, T> model = new HashMap<String, T>(1); 
-		model.put(modelName, value); 
-		output(templateName, model); 
-	}
+//	/**
+//	 * 
+//	 * @param templateName
+//	 * @param modelName
+//	 * @param value
+//	 */
+//	public <T> void output(String templateName, String modelName, T value){
+//		//Map<String, T> model = new HashMap<String, T>(1); 
+//		SimpleHash hash = new SimpleHash(); 
+//		hash.put(modelName, value); 
+//		output(templateName, hash); 
+//	}
 	
 	/**
 	 * 
