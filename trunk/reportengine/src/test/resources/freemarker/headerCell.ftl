@@ -1,1 +1,1 @@
-[HeaderCell cspan=${cellProps.colspan} value=${cellProps.value}]
+[HeaderCell cspan=${colspan} value=${value} hAlign=${horizAlign} vAlign=${vertAlign}]

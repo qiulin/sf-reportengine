@@ -15,9 +15,6 @@
  */
 package net.sf.reportengine.components;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.reportengine.out.TitleProps;
 import net.sf.reportengine.out.neo.AbstractReportOutput;
 
@@ -30,13 +27,10 @@ public final class ReportTitle extends AbstractReportComponent {
 	
 	public static final String FM_TEMPLATE_NAME = "title.ftl";
 	
-	public static final String FM_ROOT_MODEL_NAME = "titleProps";
-	
-	
 	/**
 	 * the title
 	 */
-	public final String title; 
+	public final TitleProps titleProps; 
 	
 	
 	/**
@@ -44,15 +38,13 @@ public final class ReportTitle extends AbstractReportComponent {
 	 * @param title
 	 */
 	public ReportTitle(String title){
-		this.title = title; 
+		this.titleProps = new TitleProps(title); 
 	}
 	
 	/**
 	 * 
 	 */
 	public void output(AbstractReportOutput out){
-		Map<String, TitleProps> rootModel = new HashMap<String, TitleProps>(1);
-		rootModel.put(FM_ROOT_MODEL_NAME, new TitleProps(title, 2)); 
-		out.output(FM_TEMPLATE_NAME, rootModel); 
+		out.output(FM_TEMPLATE_NAME, titleProps); 
 	}
 }

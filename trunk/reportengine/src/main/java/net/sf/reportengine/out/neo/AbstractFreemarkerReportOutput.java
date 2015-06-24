@@ -17,7 +17,6 @@ package net.sf.reportengine.out.neo;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Map;
 
 import net.sf.reportengine.out.ReportOutputException;
 import freemarker.cache.ClassTemplateLoader;
@@ -71,9 +70,9 @@ public abstract class AbstractFreemarkerReportOutput extends AbstractReportOutpu
 	/**
 	 * 
 	 */
-	public void output(String templateName, Map rootModel) {
+	public <T> void output(String templateName, T model) {
 		try {
-			fmConfig.getTemplate(templateName).process(rootModel, writer);
+			fmConfig.getTemplate(templateName).process(model, writer);
 		} catch (TemplateException e) {
 			throw new ReportOutputException(e); 
 		} catch (IOException e) {
@@ -104,13 +103,5 @@ public abstract class AbstractFreemarkerReportOutput extends AbstractReportOutpu
 	
 	
 	public abstract String getTemplatesClasspath();
-	
-	/**
-	 * 
-	 * @return
-	 */
-	Writer getWriter(){
-		return writer;
-	}
 	
 }

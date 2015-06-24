@@ -1,4 +1,4 @@
-<fo:table-cell 	number-columns-spanned="${cellProps.colspan}"
+<fo:table-cell 	number-columns-spanned="${colspan}"
 				padding-left="3pt"
 				padding-right="3pt"
 				padding-top="1pt"
@@ -13,9 +13,9 @@
 								font-style="normal" 
 								font-weight="normal"
 								margin-left="10pt"
-								text-align="${cellProps.horizAlign.foCode}"
-								display-align="${cellProps.vertAlign.foCode}"
+								text-align="${horizAlign.foCode}"
+								display-align="${vertAlign.foCode}"
 								>
-						${cellProps.value}
+						${value}
 					</fo:block>
 </fo:table-cell>

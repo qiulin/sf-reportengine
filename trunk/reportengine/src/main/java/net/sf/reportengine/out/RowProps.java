@@ -15,7 +15,6 @@
  */
 package net.sf.reportengine.out;
 
-import net.sf.reportengine.core.ReportContent;
 
 /**
  * <p>properties of a report row</p>

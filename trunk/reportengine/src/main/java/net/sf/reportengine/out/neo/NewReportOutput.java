@@ -15,7 +15,6 @@
  */
 package net.sf.reportengine.out.neo;
 
-import java.util.Map;
 
 
 /**
@@ -39,9 +38,9 @@ public interface NewReportOutput {
 	/**
 	 * 
 	 * @param templateName
-	 * @param rootModel
+	 * @param model
 	 */
-	public void output(String templateName, Map rootModel);
+	public <T> void output(String templateName, T model);
 	
 	
 	/**

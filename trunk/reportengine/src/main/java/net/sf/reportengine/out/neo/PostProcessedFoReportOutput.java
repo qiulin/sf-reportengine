@@ -74,7 +74,7 @@ public class PostProcessedFoReportOutput extends AbstractReportOutput {
 	/* (non-Javadoc)
 	 * @see net.sf.reportengine.out.neo.NewReportOutput#output(java.lang.String, java.util.Map)
 	 */
-	public void output(String templateName, Map rootModel) {
-		foOutput.output(templateName, rootModel);
+	public void output(String templateName, Object model) {
+		foOutput.output(templateName, model);
 	}
 }

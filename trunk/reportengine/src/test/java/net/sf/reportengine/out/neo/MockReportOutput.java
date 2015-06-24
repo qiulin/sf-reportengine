@@ -16,7 +16,7 @@
 package net.sf.reportengine.out.neo;
 
 
-import java.io.StringWriter;
+import java.io.Writer;
 
 /**
  * @author dragos balan
@@ -29,26 +29,19 @@ public class MockReportOutput extends AbstractFreemarkerReportOutput {
 	 */
 	public final static String DEFAULT_TEMPLATES_CLASS_PATH = "/freemarker"; 
 	
+	
 	/**
 	 * 
 	 */
-	public MockReportOutput(){
-		super(new StringWriter(), true, new MockOutputFormat());
+	public MockReportOutput(Writer writer){
+		super(writer, true, new MockOutputFormat()); 
 	}
 	
 	
-	
-	public String getBuffer(){
-		return ((StringWriter)getWriter()).getBuffer().toString(); 
-	}
-
-	@Override
-	public OutputFormat getFormat() {
-		return null;
-	}
-
 	@Override
 	public String getTemplatesClasspath() {
 		return DEFAULT_TEMPLATES_CLASS_PATH;
-	}
+	} 
+	
+	
 }

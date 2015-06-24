@@ -18,6 +18,7 @@
  */
 package net.sf.reportengine.core.steps;
 
+import java.io.StringWriter;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -45,7 +46,9 @@ public class TestFlatTableTotalsOutputStep  {
 		FlatTableTotalsOutputStep classUnderTest = new FlatTableTotalsOutputStep();
 		AlgoContext mockReportContext = new DefaultAlgorithmContext(); 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
-		MockReportOutput mockOutput = new MockReportOutput(); 
+		
+		StringWriter testWriter = new StringWriter(); 
+		MockReportOutput mockOutput = new MockReportOutput(testWriter); 
 		
 		//mockAlgoInput.put(IOKeys.REPORT_OUTPUT, mockOutput);
         mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
@@ -103,7 +106,7 @@ public class TestFlatTableTotalsOutputStep  {
 		mockReportContext.set(ContextKeys.CALC_INTERM_RESULTS, Scenario1.ROW_6_CALCULATORS_RESULTS);
 		classUnderTest.exit(new StepInput(mockAlgoInput, mockReportContext));
 		
-		String result = mockOutput.getBuffer();
+		String result = testWriter.getBuffer().toString();
 		//Assert.assertTrue(MatrixUtils.compareMatrices(Scenario1.OUTPUT_TOTALS, resultCellMatrix));
 		System.out.println(result);
 	}
