@@ -27,7 +27,6 @@ import net.sf.reportengine.core.calc.CalcIntermResult;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.ContextKeys;
 
@@ -45,7 +44,6 @@ public class FlatTableTotalsOutputStep extends AbstractOutputStep <String,Intege
 	 * "Grand " label. To be used in front of Total, Average, Count etc. 
 	 */
 	public static final String GRAND_TOTAL_STRING = "Grand ";
-   
     
     /**
      * local copy of the group columns
@@ -190,7 +188,7 @@ public class FlatTableTotalsOutputStep extends AbstractOutputStep <String,Intege
     			
     			//this is to display an empty cell for every remaining group column
     			for(int i=1; i<groupCols.size(); i++){
-    				CellProps whitespaceCellProps = new CellProps.Builder(ReportOutput.WHITESPACE)
+    				CellProps whitespaceCellProps = new CellProps.Builder(CellProps.WHITESPACE)
 												.rowNumber(dataRowNumber)
 												.build();
     				//output.outputDataCell(whitespaceCellProps); 
@@ -224,7 +222,7 @@ public class FlatTableTotalsOutputStep extends AbstractOutputStep <String,Intege
 			}else{
 				//if the column doesn't have a calculator associated 
 				//then display an empty value (whitespace) with col span 1
-				CellProps whitespaceCellProps = new CellProps.Builder(ReportOutput.WHITESPACE)
+				CellProps whitespaceCellProps = new CellProps.Builder(CellProps.WHITESPACE)
 														.rowNumber(dataRowNumber)
 														.build();
 				//output.outputDataCell(whitespaceCellProps);

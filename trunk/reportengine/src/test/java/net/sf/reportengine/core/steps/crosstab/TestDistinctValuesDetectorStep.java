@@ -21,41 +21,39 @@ package net.sf.reportengine.core.steps.crosstab;
 import java.util.EnumMap;
 import java.util.Map;
 
-import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.AlgoContext;
-import net.sf.reportengine.core.steps.ReportAlgorithmStepTC;
+import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
+import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
-import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+
 /**
- * @author Administrator
+ * @author dragos balan
  *
  */
-public class TestDistinctValueDetectorStep extends ReportAlgorithmStepTC {
+public class TestDistinctValuesDetectorStep  {
 	
 	/**
 	 * 
 	 */
 	private DistinctValuesDetectorStep classUnderTest = null; 
 	
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		classUnderTest = new DistinctValuesDetectorStep(); 
 	}
 
-	/**
-	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.DistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent, StepInput)}.
-	 */
+	@Test
 	public void testExecuteCtScenario1() {
-		AlgoContext reportContext = getTestContext(); 
+		AlgoContext reportContext = new DefaultAlgorithmContext(); 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		
 		mockAlgoInput.put(	IOKeys.CROSSTAB_HEADER_ROWS, 
@@ -82,7 +80,7 @@ public class TestDistinctValueDetectorStep extends ReportAlgorithmStepTC {
 	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.DistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent, StepInput)}.
 	 */
 	public void testExecuteCtScenario1x3x1() {
-		AlgoContext reportContext = getTestContext(); 
+		AlgoContext reportContext = new DefaultAlgorithmContext();  
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		
 		mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS);
@@ -106,7 +104,7 @@ public class TestDistinctValueDetectorStep extends ReportAlgorithmStepTC {
 	 * Test method for {@link net.sf.reportengine.core.steps.crosstab.DistinctValuesDetectorStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent, StepInput)}.
 	 */
 	public void testExecuteCtScenario1x1x1() {
-		AlgoContext reportContext = getTestContext(); 
+		AlgoContext reportContext = new DefaultAlgorithmContext(); 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		
 		mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x1x1.ROW_HEADERS);

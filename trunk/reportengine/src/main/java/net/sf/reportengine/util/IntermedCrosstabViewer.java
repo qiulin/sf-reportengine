@@ -23,7 +23,7 @@ import java.util.List;
 
 import net.sf.reportengine.in.IntermediateCrosstabReportTableInput;
 import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.Html5Output;
+import net.sf.reportengine.out.neo.HtmlReportOutput;
 import net.sf.reportengine.out.ReportProps;
 import net.sf.reportengine.out.RowProps;
 
@@ -40,9 +40,9 @@ public class IntermedCrosstabViewer {
 	private final IntermediateCrosstabReportTableInput intermCtInput; 
 	
 	/**
-	 * we take advantage of the extisting outputs
+	 * we take advantage of the existing outputs
 	 */
-	private final Html5Output output ; 
+	private final HtmlReportOutput output ; 
 	
 	/**
 	 * 
@@ -51,7 +51,7 @@ public class IntermedCrosstabViewer {
 	 */
 	public IntermedCrosstabViewer(InputStream input, String outputFilePath){
 		intermCtInput = new IntermediateCrosstabReportTableInput(input);
-		output = new Html5Output(outputFilePath); 
+		output = new HtmlReportOutput(ReportIoUtils.createWriterFromPath(outputFilePath)); 
 	}
 	
 	/**
@@ -60,26 +60,42 @@ public class IntermedCrosstabViewer {
 	public void exportToHtml(){
 		intermCtInput.open(); 
 		output.open();
-		output.startReport(new ReportProps()); 
+		//output.startReport(new ReportProps()); 
+		output.output("startReport.ftl", new ReportProps());
+		output.output("startTable.ftl");
 		int rowNbr = 0;
 		while(intermCtInput.hasMoreRows()){
 			// we get a list with 4 objects
 			List<Object> intermLine = intermCtInput.nextRow(); 
-			output.startDataRow(new RowProps(rowNbr));
+			//output.startDataRow(new RowProps(rowNbr));
+			output.output("startDataRow.ftl", new RowProps(rowNbr));
+			
 			
 			// result[0] is an instance of IntermGroupValuesList
 			// result[1] is an instance of OriginalDataValueList
 			// result[2] is an instance of IntermComputedDataList
 			// result[3] an instance of IntermComputedTotalsList
-			output.outputDataCell(new CellProps.Builder(intermLine.get(0).toString()).build()); 
-			output.outputDataCell(new CellProps.Builder(intermLine.get(1).toString()).build()); 
-			output.outputDataCell(new CellProps.Builder(intermLine.get(2).toString()).build());
-			output.outputDataCell(new CellProps.Builder(intermLine.get(3).toString()).build());
 			
-			output.endDataRow(); 
+			//output.outputDataCell(new CellProps.Builder(intermLine.get(0).toString()).build()); 
+			output.output("dataCell.ftl", new CellProps.Builder(intermLine.get(0).toString()).build()); 
+			
+			//output.outputDataCell(new CellProps.Builder(intermLine.get(1).toString()).build()); 
+			output.output("dataCell.ftl", new CellProps.Builder(intermLine.get(1).toString()).build()); 
+			
+			//output.outputDataCell(new CellProps.Builder(intermLine.get(2).toString()).build());
+			output.output("dataCell.ftl", new CellProps.Builder(intermLine.get(2).toString()).build());
+			
+			//output.outputDataCell(new CellProps.Builder(intermLine.get(3).toString()).build());
+			output.output("dataCell.ftl", new CellProps.Builder(intermLine.get(3).toString()).build());
+			
+			//output.endDataRow();
+			output.output("endDataRow.ftl");
 			rowNbr++;
 		}
-		output.endReport(); 
+		
+		output.output("endTable.ftl");
+		//output.endReport(); 
+		output.output("endReport.ftl");
 		output.close(); 
 		intermCtInput.close(); 
 	}

@@ -26,11 +26,8 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.CalcIntermResult;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
-import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
-import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.ReportUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -191,10 +188,10 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep<IntermediateRepo
 	
 	
 	private void addOriginalGroupAndDataColumnsInfoToIntermRow(StepInput stepInput, IntermediateReportRow intermediateRow){
-		if(ReportUtils.DEBUG){
-			getReportOutput(stepInput).startDataRow(new RowProps());
-			getReportOutput(stepInput).outputDataCell(new CellProps.Builder("Intermediate row:").build());
-		}
+//		if(ReportUtils.DEBUG){
+//			getReportOutput(stepInput).startDataRow(new RowProps());
+//			getReportOutput(stepInput).outputDataCell(new CellProps.Builder("Intermediate row:").build());
+//		}
 		
 		Integer originalGroupingValuesLength = getGroupColumnsCount(stepInput); //getOriginalCrosstabGroupingColsLength();
 		Integer originalDataValuesLength = getDataColumnsLength(stepInput); //getOriginalCrosstabDataColsLength(); 
@@ -204,9 +201,9 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep<IntermediateRepo
 		//although we have more values in the previous grouping values we display only the original ones
 		//because they are further needed in the second iteration
 		for (int i=0; i<originalGroupingValuesLength; i++) {
-			if(ReportUtils.DEBUG){
-				getReportOutput(stepInput).outputDataCell(new CellProps.Builder(previousGroupValues[i]).build());
-			}
+//			if(ReportUtils.DEBUG){
+//				getReportOutput(stepInput).outputDataCell(new CellProps.Builder(previousGroupValues[i]).build());
+//			}
 			intermediateRow.addOrigGroupValue(previousGroupValues[i]);
 		}
 		LOGGER.debug("second: adding {} data values to intermediate row", originalDataValuesLength);
@@ -215,16 +212,16 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep<IntermediateRepo
 			intermediateRow.addOrigDataColValue(prevValue);
 		}
 		
-		if(ReportUtils.DEBUG){
-			for (IntermediateDataInfo element : intermediateRow.getIntermComputedDataList().getDataList()) {
-				getReportOutput(stepInput).outputDataCell(new CellProps.Builder(element.toString()).build());
-			}
-		
-			for (IntermediateTotalInfo totalInfo : intermediateRow.getIntermComputedTotalsList().getTotalsDataList()) {
-				getReportOutput(stepInput).outputDataCell(new CellProps.Builder(totalInfo.toString()).build());
-			}
-			getReportOutput(stepInput).endDataRow(); 
-		}
+//		if(ReportUtils.DEBUG){
+//			for (IntermediateDataInfo element : intermediateRow.getIntermComputedDataList().getDataList()) {
+//				getReportOutput(stepInput).outputDataCell(new CellProps.Builder(element.toString()).build());
+//			}
+//		
+//			for (IntermediateTotalInfo totalInfo : intermediateRow.getIntermComputedTotalsList().getTotalsDataList()) {
+//				getReportOutput(stepInput).outputDataCell(new CellProps.Builder(totalInfo.toString()).build());
+//			}
+//			getReportOutput(stepInput).endDataRow(); 
+//		}
 	}
 	
 	

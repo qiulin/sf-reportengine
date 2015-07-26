@@ -51,7 +51,7 @@ public class MaxGroupCalculator extends AbstractGroupCalculator<BigDecimal, Defa
 	 * returns a BigDecimal based on Double.MIN_VALUE
 	 */
 	public DefaultCalcIntermResult<BigDecimal> init() {
-		return new DefaultCalcIntermResult<BigDecimal>(new BigDecimal(Double.MIN_VALUE));
+		return new DefaultCalcIntermResult<BigDecimal>(BigDecimal.valueOf(Double.MIN_VALUE));
 	}
 	
 	/**

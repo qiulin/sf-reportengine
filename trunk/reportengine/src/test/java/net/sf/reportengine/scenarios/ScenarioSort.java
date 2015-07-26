@@ -30,13 +30,12 @@ import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.SortType;
 import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.calc.CalcIntermResult;
-import net.sf.reportengine.core.calc.DefaultCalcIntermResult;
 import net.sf.reportengine.core.calc.CountGroupCalculator;
+import net.sf.reportengine.core.calc.DefaultCalcIntermResult;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
 import net.sf.reportengine.in.InMemoryTableInput;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.CellPropsArrayOutput;
 
 import org.apache.commons.lang.math.NumberUtils;
 
@@ -153,14 +152,13 @@ public class ScenarioSort {
 		
 		new CellProps[]{
 				new CellProps.Builder("Grand Count Total ").build(),
-				CellProps.EMPTY_CELL,
-				CellProps.EMPTY_CELL,
-				CellProps.EMPTY_CELL,
+				CellProps.buildEmptyCell(),
+				CellProps.buildEmptyCell(),
+				CellProps.buildEmptyCell(),
 				new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[3][0].getResult()).build(),
 				new CellProps.Builder(""+ROW_6_CALCULATORS_RESULTS[3][1].getResult()).build()
 		}
 	};
 	
 	public final static TableInput INPUT = new InMemoryTableInput(RAW_DATA);
-	public static CellPropsArrayOutput OUTPUT = new CellPropsArrayOutput();
 }

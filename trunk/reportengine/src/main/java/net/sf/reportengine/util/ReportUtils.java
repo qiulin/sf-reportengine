@@ -50,7 +50,7 @@ public final class ReportUtils {
 	/**
 	 * debug flag
 	 */
-	public static boolean DEBUG = false;
+	public static final boolean DEBUG = false;
 	
 	/**
 	 * the private constructor
@@ -70,70 +70,6 @@ public final class ReportUtils {
     		}
     	}
     	return atLeastOneCalculator; 
-    }
-    
-    
-    /**
-     * 
-     * @param colMetadata
-     * @param userPrefs
-     * @return
-     */
-    public static List<DataColumn> dataColsFromMetadataAndUserPrefs(	List<ColumnMetadata> colMetadataList,
-    																	Map<String, ColumnPreferences> userPrefs){
-    	//TODO: this method should be inlined in the caller class
-    	LOGGER.debug("processing metadata {} and preferences {}", colMetadataList, userPrefs); 
-    	List<DataColumn> resultDataColumns = new ArrayList<DataColumn>(); 
-    	
-    	//walk through column metadata and check if there's any user preferences 
-		for (int colIndex = 0; colIndex < colMetadataList.size(); colIndex++) {
-			ColumnMetadata columnMetadata = colMetadataList.get(colIndex);
-			LOGGER.debug("searching user preferences for column {} with metadata {}", colIndex, columnMetadata); 
-			if(userPrefs.containsKey(columnMetadata.getColumnId())){
-				ColumnPreferences prefs = userPrefs.get(columnMetadata.getColumnId());
-				LOGGER.debug("user preferences found {}", prefs); 
-				if(!prefs.isGroup()){
-					resultDataColumns.add(createDataColumn(	colIndex, 
-															prefs, 
-															columnMetadata)); 
-				}
-			}else{
-				LOGGER.debug("no preferences found. Constructing data column only from metadata {}", columnMetadata); 
-				resultDataColumns.add(createDataColumn(colIndex, columnMetadata)); 
-			}
-		}//end for COLUMN_METADATA
-		
-		return resultDataColumns; 
-    }
-    
-    
-    /**
-     * 
-     * @param colMetadata
-     * @param userPrefs
-     * @return
-     */
-    public static List<GroupColumn> groupColsFromMetadataAndUserPrefs(List<ColumnMetadata> colMetadataList, 
-    																Map<String, ColumnPreferences> userPrefs){
-    	List<GroupColumn> result = new ArrayList<GroupColumn>(); 
-    	
-    	//walk through column metadata and check if there's any user preferences 
-		for (int colIndex = 0; colIndex < colMetadataList.size(); colIndex++) {
-			ColumnMetadata columnMetadata = colMetadataList.get(colIndex);
-			
-			if(userPrefs.containsKey(columnMetadata.getColumnId())){
-				ColumnPreferences prefs = userPrefs.get(columnMetadata.getColumnId());
-				if(prefs.isGroup()){
-					int groupLevel = result.size(); 
-					result.add(createGroupColumn(	colIndex, 
-												 	groupLevel, 
-												 	prefs, 
-												 	columnMetadata)); 
-				}
-			}
-		}//end for COLUMN_METADATA
-		
-		return result; 
     }
     
     /**
@@ -269,4 +205,5 @@ public final class ReportUtils {
 		
 		return valueAsBd; 
 	}
+	
 }

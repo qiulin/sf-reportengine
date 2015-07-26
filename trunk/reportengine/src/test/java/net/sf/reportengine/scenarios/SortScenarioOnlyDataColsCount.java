@@ -29,7 +29,6 @@ import net.sf.reportengine.core.calc.CountGroupCalculator;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
 import net.sf.reportengine.in.InMemoryTableInput;
 import net.sf.reportengine.in.TableInput;
-import net.sf.reportengine.out.CellPropsArrayOutput;
 
 public class SortScenarioOnlyDataColsCount {
 	
@@ -63,5 +62,4 @@ public class SortScenarioOnlyDataColsCount {
 	});
 	
 	public final static TableInput INPUT = new InMemoryTableInput(RAW_DATA);
-	public static CellPropsArrayOutput OUTPUT = new CellPropsArrayOutput();
 }

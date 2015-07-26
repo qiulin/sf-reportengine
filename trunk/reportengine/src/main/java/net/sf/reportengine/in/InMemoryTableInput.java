@@ -78,7 +78,7 @@ public class InMemoryTableInput extends AbstractTableInput implements ColumnMeta
 			int arrayLength = data[0].length; 
 			for (int i = 0; i < arrayLength; i++) {
 				String columnId = ""+i;
-				ColumnMetadata metadata = new ColumnMetadata(columnId, columnId);
+				result.add(new ColumnMetadata(columnId, columnId));
 			}
 		}
 		

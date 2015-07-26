@@ -17,7 +17,6 @@ package net.sf.reportengine.out;
 
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.VertAlign;
-import net.sf.reportengine.core.ReportContent;
 
 /**
  * immutable cell properties class. 
@@ -30,11 +29,8 @@ import net.sf.reportengine.core.ReportContent;
  */
 public final class CellProps {
 	
-	/**
-	 * empty cell having a colspan of 1 
-	 */
-	public static final CellProps EMPTY_CELL = new CellProps.Builder(ReportOutput.WHITESPACE).build(); 
-
+	public final static String WHITESPACE = " "; 
+	
 	/**
      * the column span
      */
@@ -157,6 +153,11 @@ public final class CellProps {
 		.append(", vAlign=").append(vertAlign) 
 		.append(", rowNbr=").append(rowNbr)
 		.append("]").toString(); 
+	}
+	
+	
+	public static CellProps buildEmptyCell(){
+		return new CellProps.Builder(WHITESPACE).build(); 
 	}
 	
 	/**

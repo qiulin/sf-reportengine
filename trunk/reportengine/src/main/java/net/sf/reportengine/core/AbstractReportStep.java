@@ -22,10 +22,8 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.algorithm.steps.AbstractAlgoMainStep;
 import net.sf.reportengine.core.calc.CalcIntermResult;
-import net.sf.reportengine.core.steps.FlatReportTotalsOutputStep;
 import net.sf.reportengine.core.steps.StepInput;
-import net.sf.reportengine.out.IntermediateCrosstabOutput;
-import net.sf.reportengine.out.ReportOutput;
+import net.sf.reportengine.core.steps.neo.FlatTableTotalsOutputStep;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
@@ -72,13 +70,13 @@ public abstract class AbstractReportStep<T, U, V> extends AbstractAlgoMainStep<T
     
     
     
-    /**
-     * getter for output dispatcher
-     * @return
-     */
-    public ReportOutput getReportOutput(StepInput stepInput){
-    	return (ReportOutput)stepInput.getContextParam(ContextKeys.LOCAL_REPORT_OUTPUT); 
-    }
+//    /**
+//     * getter for output dispatcher
+//     * @return
+//     */
+//    public ReportOutput getReportOutput(StepInput stepInput){
+//    	return (ReportOutput)stepInput.getContextParam(ContextKeys.LOCAL_REPORT_OUTPUT); 
+//    }
     
    
     
@@ -169,7 +167,7 @@ public abstract class AbstractReportStep<T, U, V> extends AbstractAlgoMainStep<T
     	String result = null;
 		
     	if(GRAND_TOTAL_GROUPING_LEVEL == groupingLevel){
-    		result = FlatReportTotalsOutputStep.GRAND_TOTAL_STRING + calculatorLabels;
+    		result = FlatTableTotalsOutputStep.GRAND_TOTAL_STRING + calculatorLabels;
     	}else{
     		Object[] prevGroupValuesRow = getPreviousRowOfGroupValues(stepInput); 
         	if(prevGroupValuesRow != null){
@@ -232,15 +230,6 @@ public abstract class AbstractReportStep<T, U, V> extends AbstractAlgoMainStep<T
      */
     public Integer getDataRowCount(StepInput stepInput){
     	return (Integer)stepInput.getContextParam(ContextKeys.DATA_ROW_COUNT); 
-    }
-    
-    /**
-     * @param stepInput TODO
-     * 
-     */
-    protected void incrementDataRowNbr(StepInput stepInput){
-    	Integer oldValue = getDataRowCount(stepInput); 
-    	//getAlgoContext().set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(oldValue.intValue()+1));
     }
     
     /**
