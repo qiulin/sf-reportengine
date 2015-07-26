@@ -32,9 +32,7 @@ import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.core.steps.neo.AbstractOutputInitStep;
 import net.sf.reportengine.core.steps.neo.NewColumnHeaderOutputInitStep;
 import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
-import net.sf.reportengine.out.neo.NewReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
 import net.sf.reportengine.util.IOKeys;
@@ -194,7 +192,7 @@ public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>
 			}else{
 				//first header rows will contain only spaces (for group headers):
 				for (int i = 0; i < groupCols.size(); i++) {
-					CellProps cellProps = new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(rowNumber).build();
+					CellProps cellProps = new CellProps.Builder(CellProps.WHITESPACE).rowNumber(rowNumber).build();
 					//reportOutput.outputDataCell(cellProps); 
 					outputOneValue(	stepInput, 
 									NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
@@ -229,7 +227,7 @@ public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>
 			//reportOutput.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(rowNumber).build());
 			outputOneValue(	stepInput, 
 							NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
-							new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(rowNumber).build());
+							new CellProps.Builder(CellProps.WHITESPACE).rowNumber(rowNumber).build());
 		}
 	}
 
@@ -268,7 +266,7 @@ public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>
 					//reportOutput.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(currHeaderRow).build());
 					outputOneValue(	stepInput, 
 									NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
-									new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(currHeaderRow).build());
+									new CellProps.Builder(CellProps.WHITESPACE).rowNumber(currHeaderRow).build());
 				}
 			}
 		}else{
@@ -283,7 +281,7 @@ public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>
 				//reportOutput.outputDataCell(CellProps.EMPTY_CELL);
 				outputOneValue(	stepInput, 
 								NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
-								CellProps.EMPTY_CELL);
+								CellProps.buildEmptyCell());
 			}
 		}
 	}

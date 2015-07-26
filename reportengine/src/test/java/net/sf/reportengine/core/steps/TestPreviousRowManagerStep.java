@@ -22,7 +22,12 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
 import net.sf.reportengine.core.algorithm.AlgoContext;
+import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.scenarios.CalculatedColumnsScenario;
 import net.sf.reportengine.scenarios.Scenario1;
@@ -36,22 +41,18 @@ import net.sf.reportengine.util.MatrixUtils;
  * @author dragos balan
  *
  */
-public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
+public class TestPreviousRowManagerStep{
 	
 	private PreviousRowManagerStep classUnderTest = null; 
 	
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	protected void setUp() throws Exception {
-		super.setUp();
-		
+	@Before
+	public void setUp() throws Exception {
 		classUnderTest = new PreviousRowManagerStep();
 	}
 	
-	
+	@Test
 	public void testExecuteScenario1() {
-		AlgoContext testReportContext = getTestContext();
+		AlgoContext testReportContext = new DefaultAlgorithmContext(); 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
 		
 		//testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
@@ -61,7 +62,7 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 		
 		
 		//first we check that previous data row is null
-		assertNull(testReportContext.get(ContextKeys.LAST_GROUPING_VALUES));
+		Assert.assertNull(testReportContext.get(ContextKeys.LAST_GROUPING_VALUES));
 		
 		for(int i=0; i<Scenario1.RAW_DATA.length; i++){
 			
@@ -72,18 +73,18 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 			
 			if(stepResult != null){
 				Object[] prevValues = stepResult.getValue(); //(Object[])testReportContext.get(ContextKeys.LAST_GROUPING_VALUES);
-				assertNotNull(prevValues);
-				assertEquals(Scenario1.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
-				assertTrue(Arrays.equals(Scenario1.PREVIOUS_GROUP_VALUES[i], prevValues));
+				Assert.assertNotNull(prevValues);
+				Assert.assertEquals(Scenario1.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
+				Assert.assertTrue(Arrays.equals(Scenario1.PREVIOUS_GROUP_VALUES[i], prevValues));
 				
 				testReportContext.set(ContextKeys.LAST_GROUPING_VALUES, stepResult.getValue());
 			}
 		}
 	}
 	
-	
+	@Test
 	public void testExecuteScenario2() {
-		AlgoContext testReportContext = getTestContext();
+		AlgoContext testReportContext = new DefaultAlgorithmContext(); 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
 		
 		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario2.GROUPING_COLUMNS);
@@ -92,7 +93,7 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 		
 		
 		//first we check that previous data row is null
-		assertNull(testReportContext.get(ContextKeys.LAST_GROUPING_VALUES));
+		Assert.assertNull(testReportContext.get(ContextKeys.LAST_GROUPING_VALUES));
 		
 		for(int i=0; i<Scenario2.RAW_INPUT.length; i++){
 			
@@ -103,10 +104,10 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 			
 			if(stepResult != null){
 				Object[] prevValues = stepResult.getValue(); //(Object[])testReportContext.get(ContextKeys.LAST_GROUPING_VALUES);
-				assertNotNull(prevValues);
-				assertEquals(Scenario2.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
+				Assert.assertNotNull(prevValues);
+				Assert.assertEquals(Scenario2.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
 				
-				assertTrue(MatrixUtils.compareMatricesAsStrings(new Object[][]{Scenario2.PREVIOUS_GROUP_VALUES[i]}, new Object[][]{prevValues}));
+				Assert.assertTrue(MatrixUtils.compareMatricesAsStrings(new Object[][]{Scenario2.PREVIOUS_GROUP_VALUES[i]}, new Object[][]{prevValues}));
 				
 				testReportContext.set(ContextKeys.LAST_GROUPING_VALUES, stepResult.getValue());
 			}
@@ -114,9 +115,9 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 	}
 
 	
-	
+	@Test
 	public void testExecuteCalculatedColumnsScenario() {
-		AlgoContext testReportContext = getTestContext();
+		AlgoContext testReportContext = new DefaultAlgorithmContext(); 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
 		
 		mockAlgoInput.put(IOKeys.GROUP_COLS, CalculatedColumnsScenario.GROUP_COLUMNS);
@@ -126,7 +127,7 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 		
 		
 		//first we check that previous data row is null
-		assertNull(testReportContext.get(ContextKeys.LAST_GROUPING_VALUES));
+		Assert.assertNull(testReportContext.get(ContextKeys.LAST_GROUPING_VALUES));
 		
 		for(int i=0; i<CalculatedColumnsScenario.RAW_DATA.length; i++){
 			
@@ -137,14 +138,13 @@ public class TestPreviousRowManagerStep extends ReportAlgorithmStepTC {
 			
 			if(stepResult != null){
 				Object[] prevValues = stepResult.getValue(); //(Object[])testReportContext.get(ContextKeys.LAST_GROUPING_VALUES);
-				assertNotNull(prevValues);
-				assertEquals(CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
+				Assert.assertNotNull(prevValues);
+				Assert.assertEquals(CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
 				
-				assertTrue(Arrays.equals(CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i], prevValues));
+				Assert.assertTrue(Arrays.equals(CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i], prevValues));
 				
 				testReportContext.set(ContextKeys.LAST_GROUPING_VALUES, stepResult.getValue());
 			}
 		}
 	}
-
 }

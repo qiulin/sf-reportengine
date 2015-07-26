@@ -26,7 +26,6 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.ContextKeys;
 
@@ -96,7 +95,7 @@ public class NewDataRowsOutputStep extends AbstractOutputStep<String,Integer,Str
 				cellPropsBuilder = new CellProps.Builder(
 						currentGrpCol.getFormattedValue(valueForCurrentColumn));
 			}else{
-				cellPropsBuilder = new CellProps.Builder(ReportOutput.WHITESPACE);
+				cellPropsBuilder = new CellProps.Builder(CellProps.WHITESPACE);
 			}
 			cellPropsBuilder.horizAlign(currentGrpCol.getHorizAlign())
 							.vertAlign(currentGrpCol.getVertAlign())

@@ -32,7 +32,6 @@ import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.algorithm.OpenLoopCloseInputAlgo;
-import net.sf.reportengine.core.steps.ConfigReportOutputInitStep;
 import net.sf.reportengine.core.steps.ExternalSortPreparationStep;
 import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
 import net.sf.reportengine.core.steps.GroupLevelDetectorStep;
@@ -166,9 +165,6 @@ public final class FlatTable extends AbstractColumnBasedTable {
     		}
     	};
     	
-    	//init steps
-    	sortingAlgo.addInitStep(new ConfigReportOutputInitStep());
-    	
     	//main steps
     	sortingAlgo.addMainStep(new ExternalSortPreparationStep()); 
     	
@@ -199,7 +195,6 @@ public final class FlatTable extends AbstractColumnBasedTable {
     		}
     	};
     	
-    	reportAlgo.addInitStep(new ConfigReportOutputInitStep());//TODO: do we need this here ? the NEW_REPORT_OUTPUT is in place
     	
     	reportAlgo.addInitStep(new InitReportDataInitStep()); 
     	reportAlgo.addInitStep(new FlatReportExtractTotalsDataInitStep());//TODO: only when report has totals

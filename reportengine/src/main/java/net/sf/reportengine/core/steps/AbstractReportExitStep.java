@@ -20,7 +20,6 @@ package net.sf.reportengine.core.steps;
 
 import net.sf.reportengine.core.algorithm.steps.AbstractExitStep;
 import net.sf.reportengine.in.TableInput;
-import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 
 /**
@@ -33,8 +32,8 @@ public abstract class AbstractReportExitStep<T> extends AbstractExitStep<T> {
 		return (TableInput)stepInput.getContextParam(ContextKeys.LOCAL_REPORT_INPUT); 
 	}
 	
-	protected ReportOutput getReportOutput(StepInput stepInput){
-		return (ReportOutput)stepInput.getContextParam(ContextKeys.LOCAL_REPORT_OUTPUT); 
-	}
+//	protected ReportOutput getReportOutput(StepInput stepInput){
+//		return (ReportOutput)stepInput.getContextParam(ContextKeys.LOCAL_REPORT_OUTPUT); 
+//	}
 	
 }

@@ -27,7 +27,6 @@ import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.in.InMemoryTableInput;
 import net.sf.reportengine.in.TableInput;
-import net.sf.reportengine.out.CellPropsArrayOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
@@ -37,7 +36,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author dragos
+ * @author dragos balan
  *
  */
 public class TestOneIterationAlgorithm {
@@ -47,8 +46,6 @@ public class TestOneIterationAlgorithm {
 					new String[]{"1","2","3"},
 					new String[]{"4","5","6"}
 			});
-	
-	private CellPropsArrayOutput testOut = new CellPropsArrayOutput();
 	
 	private AlgorithmInitStep testInitStep = new AlgorithmInitStep<Integer>(){
 		public StepResult<Integer> init(StepInput stepInput){
@@ -97,7 +94,7 @@ public class TestOneIterationAlgorithm {
 	public void testExecuteAlgorithm() {
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
 		mockAlgoInput.put(IOKeys.REPORT_INPUT, testInput); 
-		mockAlgoInput.put(IOKeys.REPORT_OUTPUT, testOut); 
+		//mockAlgoInput.put(IOKeys.REPORT_OUTPUT, testOut); 
 		
 		Map<IOKeys, Object> algoResult = classUnderTest.execute(mockAlgoInput);
 		Assert.assertEquals(Integer.valueOf(2), (Integer)algoResult.get(IOKeys.TEST_KEY));

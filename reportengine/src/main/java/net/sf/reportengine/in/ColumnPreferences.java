@@ -32,7 +32,7 @@ public class ColumnPreferences {
 	/**
 	 * 
 	 */
-	public static int DEFAULT_SORT_LEVEL = Integer.MAX_VALUE; 
+	public static final int DEFAULT_SORT_LEVEL = Integer.MAX_VALUE; 
 	
 	/**
 	 * the column header

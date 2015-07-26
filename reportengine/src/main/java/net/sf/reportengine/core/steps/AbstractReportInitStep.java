@@ -24,7 +24,6 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.algorithm.steps.AbstractInitStep;
 import net.sf.reportengine.in.TableInput;
-import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 
@@ -42,14 +41,6 @@ public abstract class AbstractReportInitStep<U> extends AbstractInitStep<U> {
 		return (TableInput)stepInput.getContextParam(ContextKeys.LOCAL_REPORT_INPUT); 
 	}
 	
-	/**
-     * getter for the output of the report
-     * @return
-     */
-    public ReportOutput getReportOutput(StepInput stepInput){
-    	return (ReportOutput)stepInput.getContextParam(ContextKeys.LOCAL_REPORT_OUTPUT); 
-    }
-    
     /**
      * ATTENTION : changing the implementation of this method will have effect on the 
      * following methods: 
