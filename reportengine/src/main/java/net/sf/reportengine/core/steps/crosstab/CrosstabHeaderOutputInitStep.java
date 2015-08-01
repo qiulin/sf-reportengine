@@ -27,10 +27,10 @@ import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.SecondProcessDataColumn;
 import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
 import net.sf.reportengine.config.SecondProcessTotalColumn;
+import net.sf.reportengine.core.steps.AbstractOutputInitStep;
+import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
-import net.sf.reportengine.core.steps.neo.AbstractOutputInitStep;
-import net.sf.reportengine.core.steps.neo.NewColumnHeaderOutputInitStep;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.ContextKeys;
@@ -115,7 +115,7 @@ public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>
 		for (int currHeaderRow = 0; currHeaderRow < ctMetadata.getHeaderRowsCount(); currHeaderRow++) {
 			//reportOutput.startHeaderRow(new RowProps(currHeaderRow)); 
 			 outputOneValue(stepInput, 
-					 		NewColumnHeaderOutputInitStep.START_HEADER_ROW_TEMPLATE, 
+					 		ColumnHeaderOutputInitStep.START_HEADER_ROW_TEMPLATE, 
 					 		new RowProps(currHeaderRow));
 			 
 			boolean isLastHeaderRow = currHeaderRow == ctMetadata.getHeaderRowsCount()-1; 
@@ -163,7 +163,7 @@ public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>
 			}//end while 
 			
 			//reportOutput.endHeaderRow(); 
-			outputNoValue(stepInput, NewColumnHeaderOutputInitStep.END_HEADER_ROW_TEMPLATE); 
+			outputNoValue(stepInput, ColumnHeaderOutputInitStep.END_HEADER_ROW_TEMPLATE); 
 		}
 	}
 
@@ -186,7 +186,7 @@ public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>
 					CellProps cellProps = new CellProps.Builder(groupCols.get(i).getHeader()).colspan(1).horizAlign(HorizAlign.CENTER).rowNumber(rowNumber).build();
 					//reportOutput.outputHeaderCell(cellProps);
 					outputOneValue(	stepInput, 
-									NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
+									ColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
 									cellProps); 
 				}
 			}else{
@@ -195,7 +195,7 @@ public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>
 					CellProps cellProps = new CellProps.Builder(CellProps.WHITESPACE).rowNumber(rowNumber).build();
 					//reportOutput.outputDataCell(cellProps); 
 					outputOneValue(	stepInput, 
-									NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
+									ColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
 									cellProps); 
 				}
 			}
@@ -220,13 +220,13 @@ public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>
 			CellProps cellProps = new CellProps.Builder(originalDataColumn.getHeader()).colspan(1).horizAlign(HorizAlign.CENTER).rowNumber(rowNumber).build();
 			//reportOutput.outputHeaderCell(cellProps); 
 			outputOneValue(	stepInput, 
-							NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
+							ColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
 							cellProps);
 		}else{
 			//first header rows will contain empty cells
 			//reportOutput.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(rowNumber).build());
 			outputOneValue(	stepInput, 
-							NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
+							ColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
 							new CellProps.Builder(CellProps.WHITESPACE).rowNumber(rowNumber).build());
 		}
 	}
@@ -252,7 +252,7 @@ public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>
 				CellProps cellProps = new CellProps.Builder(value).colspan(1).horizAlign(secondProcessTotalCol.getHorizAlign()).rowNumber(currHeaderRow).build();
 				//reportOutput.outputHeaderCell(cellProps);
 				outputOneValue(	stepInput, 
-								NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
+								ColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
 								cellProps); 
 			}else{
 				//if there's no position for this header row then this is a hard-coded "TOTAL" 
@@ -260,12 +260,12 @@ public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>
 					CellProps cellProps = new CellProps.Builder(totalLabel).horizAlign(HorizAlign.CENTER).rowNumber(currHeaderRow).build();
 					//reportOutput.outputHeaderCell(cellProps);
 					outputOneValue(	stepInput, 
-									NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
+									ColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
 									cellProps);
 				}else{
 					//reportOutput.outputDataCell(new CellProps.Builder(ReportOutput.WHITESPACE).rowNumber(currHeaderRow).build());
 					outputOneValue(	stepInput, 
-									NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
+									ColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
 									new CellProps.Builder(CellProps.WHITESPACE).rowNumber(currHeaderRow).build());
 				}
 			}
@@ -275,12 +275,12 @@ public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>
 				CellProps cellProps = new CellProps.Builder("Grand "+totalLabel).horizAlign(HorizAlign.LEFT).rowNumber(currHeaderRow).build();
 				//reportOutput.outputHeaderCell(cellProps);
 				outputOneValue(	stepInput, 
-								NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
+								ColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
 								cellProps);
 			}else{
 				//reportOutput.outputDataCell(CellProps.EMPTY_CELL);
 				outputOneValue(	stepInput, 
-								NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
+								ColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
 								CellProps.buildEmptyCell());
 			}
 		}
@@ -312,7 +312,7 @@ public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>
 		CellProps cellProps = new CellProps.Builder(value).colspan(colspan).horizAlign(secondProcDataColumn.getHorizAlign()).rowNumber(currHeaderRow).build(); 
 		//reportOutput.outputHeaderCell(cellProps);
 		outputOneValue(	stepInput, 
-						NewColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
+						ColumnHeaderOutputInitStep.HEADER_CELL_TEMPLATE, 
 						cellProps);
 		return colspan;
 	}
