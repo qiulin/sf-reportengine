@@ -17,8 +17,6 @@ package net.sf.reportengine.in;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -63,7 +61,9 @@ public class SqlTableInput extends AbstractTableInput implements ColumnMetadataH
      */
     private final String dbDriverClass;
     
-    
+    /**
+     * the sql statement
+     */
     private final String sqlStatement; 
     
     /**
@@ -101,16 +101,13 @@ public class SqlTableInput extends AbstractTableInput implements ColumnMetadataH
             Connection dbConnection = DriverManager.getConnection(dbConnString, dbUser, dbPassword);
             dbConnection.setAutoCommit(false);
             
-            
     		//executing the sql
     		connTableInput = new SqlConnectionBasedTableInput(dbConnection, sqlStatement, true); 
     		connTableInput.open();
     		
 		} catch (SQLException e) {
-			connTableInput.close();
 			throw new TableInputException(e); 
 		} catch(ClassNotFoundException e){
-			connTableInput.close();
 			throw new TableInputException("The driver class could not be found in classpath", e); 
 		}
     }
@@ -119,8 +116,13 @@ public class SqlTableInput extends AbstractTableInput implements ColumnMetadataH
      * Closes the input meaning : "the reading session it's done !"
      */
     public void close(){
-    	connTableInput.close();
-        super.close();
+    	try{
+    		if(connTableInput != null){
+    			connTableInput.close();
+    		}
+    	}finally{
+    		super.close();
+    	}
     }
     
     
@@ -183,4 +185,17 @@ public class SqlTableInput extends AbstractTableInput implements ColumnMetadataH
 	public List<ColumnMetadata> getColumnMetadata() {
 		return connTableInput.getColumnMetadata(); 
 	}
+	
+	/**
+	 * debug method which returns true if all sql resources have been released
+	 * @return true if all resources have been closed
+	 * @throws SQLException
+	 */
+	public boolean hasAllResourcesClosed() throws SQLException{
+    	boolean result = true;
+    	if(connTableInput != null){
+    		result = result && connTableInput.hasAllResourcesClosed(); 
+    	}
+    	return result; 
+    }
 }

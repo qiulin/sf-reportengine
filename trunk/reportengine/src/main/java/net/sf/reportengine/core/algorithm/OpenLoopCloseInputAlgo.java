@@ -60,61 +60,65 @@ public abstract class OpenLoopCloseInputAlgo extends AbstractMultiStepAlgo {
      * 
      */
     public Map<IOKeys, Object> execute(Map<IOKeys, Object> inputParams) {
+    	
+    	Map<IOKeys, Object> algoResult = new EnumMap<IOKeys, Object>(IOKeys.class); 
+    	
     	LOGGER.debug("creating the context");
     	AlgoContext context = new DefaultAlgorithmContext();
     	
-    	LOGGER.debug("opening report input");
-    	TableInput reportInput = buildReportInput(inputParams); 
-    	reportInput.open(); 
-    	
-    	LOGGER.debug("start looping");
-        Map<IOKeys, Object> algoResult = new EnumMap<IOKeys, Object>(IOKeys.class); 
-    	
-        StepResult stepResult = null; 
+    	TableInput reportInput = null; 
+    	try{
+	    	LOGGER.debug("opening report input");
+	    	reportInput = buildReportInput(inputParams); 
+	    	reportInput.open(); 
+	    	
+	    	LOGGER.debug("start looping");
+	        StepResult stepResult = null; 
+	        
+	        //execution of the init steps
+	        for(AlgorithmInitStep initStep: getInitSteps()){
+	        	stepResult = initStep.init(new StepInput(inputParams, context));
+	        	processStepResult(context, algoResult, stepResult);
+	        }
+	            
+	        //call init for each step
+	        for(AlgorithmMainStep mainStep: getMainSteps()){
+	            stepResult = mainStep.init(new StepInput(inputParams, context));
+	            processStepResult(context, algoResult, stepResult); 
+	        } 
+	        
+	        //iteration through input data (row by row)
+	        while(reportInput.hasMoreRows()){
+	        	
+	            //get the current data row 
+	            List<Object> currentRow = reportInput.nextRow();
+	            LOGGER.trace("executing algo steps for input row {}", currentRow);
+	            
+	            //then we pass the dataRow through all the report steps
+	            for(AlgorithmMainStep algoStep: getMainSteps()){
+	            	stepResult = algoStep.execute(new NewRowEvent(currentRow), new StepInput(inputParams, context));
+	            	processStepResult(context, algoResult, stepResult); 
+	            }
+	        }
+	        
+	        //call exit
+	        for(AlgorithmMainStep mainStep: getMainSteps()){
+	           stepResult = mainStep.exit(new StepInput(inputParams, context));
+	           processStepResult(context, algoResult, stepResult); 
+	        }
+	        
+	        //calling the exit for all registered steps
+	        for(AlgorithmExitStep exitStep: getExitSteps()){
+	        	stepResult = exitStep.exit(new StepInput(inputParams, context)); 
+	        	processStepResult(context, algoResult, stepResult);
+	        }
         
-        //execution of the init steps
-        for(AlgorithmInitStep initStep: getInitSteps()){
-        	stepResult = initStep.init(new StepInput(inputParams, context));
-        	processStepResult(context, algoResult, stepResult);
-        }
-            
-        //call init for each step
-        for(AlgorithmMainStep mainStep: getMainSteps()){
-            stepResult = mainStep.init(new StepInput(inputParams, context));
-            processStepResult(context, algoResult, stepResult); 
-        } 
-        
-        //iteration through input data (row by row)
-        while(reportInput.hasMoreRows()){
-        	
-            //get the current data row 
-            List<Object> currentRow = reportInput.nextRow();
-            LOGGER.trace("executing algo steps for input row {}", currentRow);
-            
-            //then we pass the dataRow through all the report steps
-            for(AlgorithmMainStep algoStep: getMainSteps()){
-            	stepResult = algoStep.execute(new NewRowEvent(currentRow), new StepInput(inputParams, context));
-            	processStepResult(context, algoResult, stepResult); 
-            }
-        }
-        
-        //call exit
-        for(AlgorithmMainStep mainStep: getMainSteps()){
-           stepResult = mainStep.exit(new StepInput(inputParams, context));
-           processStepResult(context, algoResult, stepResult); 
-        }
-        
-        //calling the exit for all registered steps
-        //result.putAll(executeExitSteps(inputParams, context));
-        for(AlgorithmExitStep exitStep: getExitSteps()){
-        	stepResult = exitStep.exit(new StepInput(inputParams, context)); 
-        	processStepResult(context, algoResult, stepResult);
-        }
-        
-//        result.putAll(extractResultsFromSteps());
-        
-        LOGGER.debug("end loop. Closing algorithm input...");
-        reportInput.close(); 
+    	}finally{
+    		LOGGER.debug("end loop. Closing algorithm input...");
+    		if(reportInput != null){
+    			reportInput.close(); 
+    		}
+    	}
         
         return algoResult; 
     }

@@ -89,7 +89,6 @@ public class JdbcResultsetTableInput extends AbstractTableInput implements Colum
 			
 			hasMoreRows = resultSet.first();
 		} catch (SQLException e) {
-			closeResultSet();
 			throw new TableInputException("Exception opening the report table input", e); 
 		}	            
 		
@@ -99,7 +98,14 @@ public class JdbcResultsetTableInput extends AbstractTableInput implements Colum
      * Closes the input meaning : "the reading session it's done !"
      */
     public void close() throws TableInputException {
-        closeResultSet();
+    	try {
+            if(resultSet != null ){
+                resultSet.close();
+            }            
+        } catch (SQLException e) {
+            throw new TableInputException("Exception closing the resultset", e);            
+        }
+    	
         super.close();
     }
     
@@ -121,7 +127,6 @@ public class JdbcResultsetTableInput extends AbstractTableInput implements Colum
             hasMoreRows = resultSet.next();
             
         } catch (SQLException e) {
-        	closeResultSet();
             throw new TableInputException("An SQL Exception occured !", e);
         }
         return nextRow;
@@ -190,17 +195,11 @@ public class JdbcResultsetTableInput extends AbstractTableInput implements Colum
     	return result; 
     }
     
-    /**
-     * closes the result set and the database connection
-     */
-	private void closeResultSet() {
-		try {
-            if(resultSet != null ){
-                resultSet.close();
-            }            
-        } catch (SQLException e) {
-            throw new TableInputException("Exception closing the resultset", e);            
-        }
-	}
-
+    boolean hasAllResourcesClosed() throws SQLException{
+    	boolean result = true;
+    	if(resultSet != null){
+    		result = resultSet.isClosed(); 
+    	}
+    	return result; 
+    }
 }
