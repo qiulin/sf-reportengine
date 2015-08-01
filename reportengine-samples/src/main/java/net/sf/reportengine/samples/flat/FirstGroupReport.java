@@ -3,12 +3,17 @@
  */
 package net.sf.reportengine.samples.flat;
 
-import net.sf.reportengine.FlatReport;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import net.sf.reportengine.Report;
+import net.sf.reportengine.components.FlatTable;
+import net.sf.reportengine.components.ReportTitle;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
-import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.Html5Output;
+import net.sf.reportengine.in.TextTableInput;
+import net.sf.reportengine.out.HtmlReportOutput;
 
 /**
  * The first report containing a group column. 
@@ -20,19 +25,23 @@ public class FirstGroupReport {
 
 	/**
 	 * @param args
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
-		FlatReport flatReport = new FlatReport.Builder()
-			.title("Mothly Expenses")
-			//.showGrandTotal(false)
-			.input(new TextInput("./inputData/expenses.csv",","))
-			.output(new Html5Output("./output/avgMonthlyExpensesUsingGroups.html"))
+	public static void main(String[] args) throws IOException {
+		
+		FlatTable flatTable = new FlatTable.Builder()
+			.input(new TextTableInput("./inputData/expenses.csv",","))
 			.addGroupColumn(new DefaultGroupColumn.Builder(0).header("Month").build())
 			.addDataColumn(new DefaultDataColumn.Builder(1).header("On What?").build())
 			.addDataColumn(new DefaultDataColumn.Builder(2).header("Amount").useCalculator(GroupCalculators.SUM).build())
 			.build();
 		
+		
 		//just to be visible
-		flatReport.execute();
+		new Report.Builder(new HtmlReportOutput(new FileWriter("./output/avgMonthlyExpensesUsingGroups.html")))
+			.add(new ReportTitle("Monthly Expenses"))
+			.add(flatTable)
+			.build()
+		.execute();
 	}
 }
