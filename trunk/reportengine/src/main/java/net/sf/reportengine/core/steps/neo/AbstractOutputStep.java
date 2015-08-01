@@ -20,7 +20,7 @@ package net.sf.reportengine.core.steps.neo;
 
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.steps.StepInput;
-import net.sf.reportengine.out.NewReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.IOKeys;
 
 /**
@@ -44,9 +44,9 @@ public abstract class AbstractOutputStep<T,U,V> extends AbstractReportStep<T,U,V
      * getter for the output of the report
      * @return
      */
-    public NewReportOutput getNewReportOutput(StepInput stepInput){
+    public ReportOutput getNewReportOutput(StepInput stepInput){
     	//return (NewReportOutput)stepInput.getContextParam(ContextKeys.NEW_LOCAL_REPORT_OUTPUT); 
-    	return (NewReportOutput)stepInput.getAlgoInput(IOKeys.NEW_REPORT_OUTPUT); 
+    	return (ReportOutput)stepInput.getAlgoInput(IOKeys.NEW_REPORT_OUTPUT); 
     }
 
 }

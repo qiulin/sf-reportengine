@@ -24,7 +24,7 @@ package net.sf.reportengine.out;
  * @author dragos balan
  *
  */
-public interface NewReportOutput {
+public interface ReportOutput {
 	
 	/**
 	 * 
