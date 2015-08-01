@@ -44,7 +44,12 @@ public class SqlConnectionBasedTableInput extends AbstractTableInput implements 
     /**
      * the sql statement
      */
-    private final String sqlStatement; 
+    private final String sqlStatement;
+    	
+    /**
+     * the jdbc statement
+     */
+    private PreparedStatement jdbcPrepStatement; 
    
     
     /**
@@ -69,15 +74,15 @@ public class SqlConnectionBasedTableInput extends AbstractTableInput implements 
      * Besides the connection you have to provide a query statement using <source>setSqlStatement(String)</source>
      * 
      * @param conn      the connection provided 
-     * @param sqlStmt	the sql statement 
+     * @param sqlStatement	the sql statement 
      * @param managedConnection 	if true the connection will be managed (close) by this class
      */
     public SqlConnectionBasedTableInput(Connection conn, 
-    									String sqlStmt, 
+    									String sqlStatement, 
     									boolean closeConnectionWhenDone){
         this.dbConnection = conn;
-        this.sqlStatement = sqlStmt; 
         this.closeConnectionWhenDone = closeConnectionWhenDone; 
+        this.sqlStatement = sqlStatement; 
     }
     
     
@@ -87,40 +92,50 @@ public class SqlConnectionBasedTableInput extends AbstractTableInput implements 
     public void open() {
     	super.open();
     	try {
-    		resultSetTableInput = new JdbcResultsetTableInput(executeSql()); 
+    		jdbcPrepStatement = dbConnection.prepareStatement(sqlStatement,   
+    			        ResultSet.TYPE_SCROLL_INSENSITIVE,
+    			        ResultSet.CONCUR_READ_ONLY);
+    		
+    		resultSetTableInput = new JdbcResultsetTableInput(jdbcPrepStatement.executeQuery()); 
     		resultSetTableInput.open();	            
 		} catch (SQLException e) {
-			closeDbConnection();
 			throw new TableInputException(e); 
 		}     
     }
     
     /**
-     * Closes the input meaning : "the reading session it's done !"
+     * Closes the input, releases the resources and signals that the reading session is done.
      */
     public void close(){
-    	if(resultSetTableInput != null){
-        	resultSetTableInput.close();
-        }
-        closeDbConnection();
+    	try{
+    		if(resultSetTableInput != null){
+    			resultSetTableInput.close();
+    		}
+    	}catch(Throwable e){
+    		LOGGER.error("error when closing the result set table input", e);
+    	}
+    	
+    	try {
+	    	if(jdbcPrepStatement != null){
+				jdbcPrepStatement.close();
+			}
+    	} catch (SQLException e) {
+			LOGGER.error("error when closing prepared statement", e);
+		}
+    	
+    	try{
+	        if(closeConnectionWhenDone && dbConnection != null && !dbConnection.isClosed()){
+	        	LOGGER.info("closing the db connection .. "); 
+	            dbConnection.close();
+	        }else{
+	        	LOGGER.info("external db connection not closed."); 
+	        }
+    	}catch(SQLException e){
+    		LOGGER.error("error when closing db connection", e);
+    	}
+    	
         super.close();
     }
-    
-    /**
-     * closes the result set and the database connection
-     */
-	private void closeDbConnection() {
-		try {
-            if(closeConnectionWhenDone && dbConnection != null && !dbConnection.isClosed()){
-            	LOGGER.info("closing the db connection .. "); 
-                dbConnection.close();
-            }else{
-            	LOGGER.info("external db connection not closed."); 
-            }
-        } catch (SQLException e) {
-            throw new TableInputException("SQL Error when closing Input ! See the cause !", e);            
-        }
-	}
     
     /**
      * returns the next row
@@ -134,22 +149,6 @@ public class SqlConnectionBasedTableInput extends AbstractTableInput implements 
      */
     public boolean hasMoreRows() {
         return resultSetTableInput.hasMoreRows(); 
-        
-    }
-    
-    /**
-     * 
-     * @return
-     * @throws SQLException
-     */
-    private ResultSet executeSql() throws SQLException{
-    	LOGGER.info("executing query {} ", sqlStatement);
-    	PreparedStatement stmt = dbConnection.prepareStatement(sqlStatement,   
-                ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY);
-
-		
-		return stmt.executeQuery();
     }
     
     /**
@@ -164,5 +163,19 @@ public class SqlConnectionBasedTableInput extends AbstractTableInput implements 
 		}
 		return result; 
 	}
+    
+    boolean hasAllResourcesClosed() throws SQLException{
+    	boolean result = true;
+    	if(resultSetTableInput!= null){
+    		result = resultSetTableInput.hasAllResourcesClosed(); 
+    	}
+    	if(jdbcPrepStatement != null){
+    		result = result && jdbcPrepStatement.isClosed(); 
+    	}
+    	if(closeConnectionWhenDone && dbConnection != null){
+    		result = result && dbConnection.isClosed(); 
+    	}
+    	return result; 
+    }
     
 }
