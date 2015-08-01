@@ -3,10 +3,16 @@
  */
 package net.sf.reportengine.samples.flat;
 
-import net.sf.reportengine.FlatReport;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import net.sf.reportengine.Report;
+import net.sf.reportengine.components.FlatTable;
+import net.sf.reportengine.components.ReportTitle;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.Html5Output;
+import net.sf.reportengine.in.TextTableInput;
+import net.sf.reportengine.out.HtmlReportOutput;
+
 
 /**
  * this is your first report having the following steps 
@@ -19,16 +25,22 @@ import net.sf.reportengine.out.Html5Output;
  */
 public class FirstReport {
 
-	public static void main(String[] args) {
-		FlatReport flatReport = new FlatReport.Builder()
-			.title("My first report")
-			.input(new TextInput("./inputData/expenses.csv",","))
-			.output(new Html5Output("./output/myFirstReport.html"))
+	public static void main(String[] args) throws IOException {
+		
+		FlatTable flatTable = new FlatTable.Builder()
+			.input(new TextTableInput("./inputData/expenses.csv",","))
 			.addDataColumn(new DefaultDataColumn.Builder(0).header("Month").build())
 			.addDataColumn(new DefaultDataColumn.Builder(1).header("Spent on").build())
 			.addDataColumn(new DefaultDataColumn.Builder(2).header("Amount").build())
 			.build();
 		
-		flatReport.execute();
+		//FileWriter is used just for demo
+		Report report = new Report.Builder(new HtmlReportOutput(new FileWriter("./output/myFirstReport.html")))
+				.add(new ReportTitle("My first report"))
+				.add(flatTable)
+				.build();
+		
+		report.execute(); 
+		 
 	}
 }

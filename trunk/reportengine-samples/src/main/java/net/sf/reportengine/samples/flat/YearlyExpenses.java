@@ -3,12 +3,17 @@
  */
 package net.sf.reportengine.samples.flat;
 
-import net.sf.reportengine.FlatReport;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import net.sf.reportengine.Report;
+import net.sf.reportengine.components.FlatTable;
+import net.sf.reportengine.components.ReportTitle;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
-import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.Html5Output;
+import net.sf.reportengine.in.TextTableInput;
+import net.sf.reportengine.out.HtmlReportOutput;
 
 /**
  * 
@@ -20,12 +25,10 @@ public class YearlyExpenses {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
-		new FlatReport.Builder()
-			.title("Yearly expenses report")
-			.input(new TextInput("./inputData/yearlyExpenses.txt","\t"))
-			.output(new Html5Output("./output/yearlyExpensesReport.html"))
+		FlatTable table = new FlatTable.Builder()
+			.input(new TextTableInput("./inputData/yearlyExpenses.txt","\t"))
 			
 			//groups configuration
 			.addGroupColumn(new DefaultGroupColumn.Builder(0)
@@ -47,6 +50,12 @@ public class YearlyExpenses {
 									.useCalculator(GroupCalculators.SUM, "%.2f")
 									.build())
 			
-			.build().execute();
+			.build(); 
+			
+		new Report.Builder(new HtmlReportOutput(new FileWriter("./output/yearlyExpensesReport.html")))
+			.add(new ReportTitle("Yearly expenses report"))
+			.add(table)
+			.build()
+		.execute();
 	}
 }

@@ -3,11 +3,16 @@
  */
 package net.sf.reportengine.samples.flat;
 
-import net.sf.reportengine.FlatReport;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import net.sf.reportengine.Report;
+import net.sf.reportengine.components.FlatTable;
+import net.sf.reportengine.components.ReportTitle;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.HorizAlign;
-import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.Html5Output;
+import net.sf.reportengine.in.TextTableInput;
+import net.sf.reportengine.out.HtmlReportOutput;
 
 /**
  * this report is the same as {@link FirstReport} only that 
@@ -19,11 +24,9 @@ import net.sf.reportengine.out.Html5Output;
  */
 public class ColumnsWithAlignmentReport {
 	
-	public static void main(String[] args) {
-		new FlatReport.Builder()
-			.title("Report with columns aligned programatically")
-			.input(new TextInput("./inputData/expenses.csv",","))
-			.output(new Html5Output("./output/myFormattedOutput.html"))
+	public static void main(String[] args) throws IOException{
+		FlatTable table = new FlatTable.Builder()
+			.input(new TextTableInput("./inputData/expenses.csv",","))
 			.addDataColumn(new DefaultDataColumn.Builder(0)
 									.header("Month")
 									.horizAlign(HorizAlign.LEFT)
@@ -37,6 +40,11 @@ public class ColumnsWithAlignmentReport {
 									.horizAlign(HorizAlign.RIGHT)
 									.build())
 			
+			.build(); 
+		
+		new Report.Builder(new HtmlReportOutput(new FileWriter("./output/myFormattedOutput.html")))
+			.add(new ReportTitle("Report with columns aligned programatically"))
+			.add(table)
 			.build()
 		.execute();
 	}
