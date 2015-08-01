@@ -16,20 +16,16 @@
 /**
  * 
  */
-package net.sf.reportengine.out.neo;
+package net.sf.reportengine.out;
 
-import org.apache.xmlgraphics.util.MimeConstants;
 
 /**
  * @author dragos balan
  *
  */
-public class PdfOutputFormat extends FoOutputFormat {
+public class ExcelXmlOutputFormat extends AbstractOutputFormat{
 	
-	private final PostProcessor fopPostProcessor = new FopTransformerPostProcessor(MimeConstants.MIME_PDF); 
 	
-	public PostProcessor postProcessor() {
-		return fopPostProcessor; 
-	}
+	
 	
 }

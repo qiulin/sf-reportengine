@@ -16,7 +16,7 @@
 /**
  * 
  */
-package net.sf.reportengine.out.neo;
+package net.sf.reportengine.out;
 
 /**
  * @author dragos balan

@@ -16,7 +16,7 @@
 /**
  * 
  */
-package net.sf.reportengine.out.neo;
+package net.sf.reportengine.out;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +31,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
-import net.sf.reportengine.out.ReportOutputException;
 import net.sf.reportengine.util.ReportIoUtils;
 
 import org.apache.avalon.framework.configuration.Configuration;

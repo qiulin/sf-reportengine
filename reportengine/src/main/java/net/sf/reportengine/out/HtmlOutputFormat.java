@@ -13,41 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sf.reportengine.out.neo;
+/**
+ * 
+ */
+package net.sf.reportengine.out;
 
 
 
 /**
- * the output of the report 
- * 
  * @author dragos balan
  *
  */
-public interface NewReportOutput {
-	
-	/**
-	 * 
-	 */
-	public void open();
-	
-	/**
-	 * 
-	 */
-	public void close(); 
-	
-	/**
-	 * 
-	 * @param templateName
-	 * @param model
-	 */
-	public <T> void output(String templateName, T model);
-	
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public OutputFormat getFormat(); 
+public class HtmlOutputFormat extends AbstractOutputFormat {
 	
 	
 }

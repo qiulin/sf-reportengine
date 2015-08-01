@@ -17,6 +17,8 @@ package net.sf.reportengine.out.neo;
 
 import java.io.IOException;
 
+import net.sf.reportengine.out.PdfOutputFormat;
+import net.sf.reportengine.out.PdfReportOutput;
 import net.sf.reportengine.out.ReportProps;
 import net.sf.reportengine.out.TitleProps;
 import net.sf.reportengine.util.ReportIoUtils;

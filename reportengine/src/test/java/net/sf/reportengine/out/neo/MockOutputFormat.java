@@ -18,6 +18,8 @@
  */
 package net.sf.reportengine.out.neo;
 
+import net.sf.reportengine.out.OutputFormat;
+
 /**
  * @author dragos balan
  *

@@ -15,7 +15,6 @@
  */
 package net.sf.reportengine.out;
 
-import net.sf.reportengine.out.neo.OutputFormat;
 
 
 /**

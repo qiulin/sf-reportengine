@@ -13,37 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sf.reportengine.out.neo;
+package net.sf.reportengine.out;
 
 import java.io.Writer;
 
-/**
- * Excel output for reports. 
- * 
- * 
- * @author dragos balan
- *
- */
-public class ExcelXmlReportOutput extends AbstractFreemarkerReportOutput {
+public class FoReportOutput extends AbstractFreemarkerReportOutput {
 	
-	public static final String DEFAULT_EXCEL_XML_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/neo/excel/xml"; 
+	/**
+	 * the default FO templates class path
+	 */
+	public final static String DEFAULT_FO_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/neo/fo";
 	
 	
-	public ExcelXmlReportOutput(Writer writer){
-		this(writer, true, new ExcelXmlOutputFormat()); 
+	public FoReportOutput(Writer writer){
+		this(writer, true, new FoOutputFormat()); 
 	}
 	
-	public ExcelXmlReportOutput(Writer writer, boolean closeWriterWhenDone){
-		this(writer, closeWriterWhenDone, new ExcelXmlOutputFormat()); 
+	public FoReportOutput(Writer writer, boolean closeWriterWhenDone){
+		this(writer, closeWriterWhenDone, new FoOutputFormat()); 
 	}
 	
-	public ExcelXmlReportOutput(Writer writer, boolean closeWriterWhenDone, ExcelXmlOutputFormat outputFormat){
+	public FoReportOutput(Writer writer, boolean closeWriterWhenDone, FoOutputFormat outputFormat){
 		super(writer, closeWriterWhenDone, outputFormat);
 	}
-
+	
 	@Override
 	public String getTemplatesClasspath() {
-		return DEFAULT_EXCEL_XML_TEMPLATES_CLASS_PATH;
+		return DEFAULT_FO_TEMPLATES_CLASS_PATH;
 	}
-	
+
 }

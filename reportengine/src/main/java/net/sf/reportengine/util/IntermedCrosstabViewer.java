@@ -23,7 +23,7 @@ import java.util.List;
 
 import net.sf.reportengine.in.IntermediateCrosstabReportTableInput;
 import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.neo.HtmlReportOutput;
+import net.sf.reportengine.out.HtmlReportOutput;
 import net.sf.reportengine.out.ReportProps;
 import net.sf.reportengine.out.RowProps;
 

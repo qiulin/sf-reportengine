@@ -19,6 +19,8 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 
+import net.sf.reportengine.out.ExcelXmlOutputFormat;
+import net.sf.reportengine.out.ExcelXmlReportOutput;
 import net.sf.reportengine.out.ReportProps;
 import net.sf.reportengine.out.TitleProps;
 import net.sf.reportengine.util.ReportIoUtils;
