@@ -74,7 +74,7 @@ import net.sf.reportengine.in.MultipleExternalSortedFilesTableInput;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.AbstractReportOutput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
-import net.sf.reportengine.out.NewReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 import net.sf.reportengine.util.ReportUtils;
@@ -140,7 +140,7 @@ import org.slf4j.LoggerFactory;
  * </p>
  * 
  * @see TableInput
- * @see NewReportOutput
+ * @see ReportOutput
  * @see CrosstabHeaderRow
  * @see DataColumn
  * @see GroupColumn

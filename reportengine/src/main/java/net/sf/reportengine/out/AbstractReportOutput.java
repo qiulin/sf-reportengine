@@ -21,7 +21,7 @@ import freemarker.template.SimpleHash;
  * @author dragos balan
  *
  */
-public abstract class AbstractReportOutput implements NewReportOutput {
+public abstract class AbstractReportOutput implements ReportOutput {
 	
 	/**
 	 * the output format
