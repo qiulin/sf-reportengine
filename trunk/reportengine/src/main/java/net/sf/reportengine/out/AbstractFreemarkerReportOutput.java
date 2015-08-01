@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sf.reportengine.out.neo;
+package net.sf.reportengine.out;
 
 import java.io.IOException;
 import java.io.Writer;
 
-import net.sf.reportengine.out.ReportOutputException;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;

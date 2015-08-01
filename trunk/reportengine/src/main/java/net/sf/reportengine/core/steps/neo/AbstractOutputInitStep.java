@@ -20,8 +20,8 @@ package net.sf.reportengine.core.steps.neo;
 
 import net.sf.reportengine.core.steps.AbstractReportInitStep;
 import net.sf.reportengine.core.steps.StepInput;
-import net.sf.reportengine.out.neo.AbstractReportOutput;
-import net.sf.reportengine.out.neo.NewReportOutput;
+import net.sf.reportengine.out.AbstractReportOutput;
+import net.sf.reportengine.out.NewReportOutput;
 import net.sf.reportengine.util.IOKeys;
 
 /**

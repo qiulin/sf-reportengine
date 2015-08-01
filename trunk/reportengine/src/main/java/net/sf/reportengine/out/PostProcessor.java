@@ -16,14 +16,16 @@
 /**
  * 
  */
-package net.sf.reportengine.out.neo;
+package net.sf.reportengine.out;
 
+import java.io.File;
+import java.io.OutputStream;
 
 /**
  * @author dragos balan
  *
  */
-public class HtmlOutputFormat extends AbstractOutputFormat {
+public interface PostProcessor {
 	
-	
+	public void process(File tempFile, OutputStream outStream); 
 }

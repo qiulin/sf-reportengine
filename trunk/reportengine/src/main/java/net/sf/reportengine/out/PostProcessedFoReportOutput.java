@@ -16,7 +16,7 @@
 /**
  * 
  */
-package net.sf.reportengine.out.neo;
+package net.sf.reportengine.out;
 
 import java.io.File;
 import java.io.OutputStream;

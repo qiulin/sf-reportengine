@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.reportengine.components.ReportComponent;
+import net.sf.reportengine.out.AbstractReportOutput;
 import net.sf.reportengine.out.ReportProps;
-import net.sf.reportengine.out.neo.AbstractReportOutput;
 
 /**
  * This is the main report class. 

@@ -15,8 +15,8 @@
  */
 package net.sf.reportengine.components;
 
+import net.sf.reportengine.out.AbstractReportOutput;
 import net.sf.reportengine.out.TitleProps;
-import net.sf.reportengine.out.neo.AbstractReportOutput;
 
 /**
  * @author dragos balan

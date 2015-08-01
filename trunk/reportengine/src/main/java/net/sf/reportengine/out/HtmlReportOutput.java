@@ -13,33 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sf.reportengine.out.neo;
+package net.sf.reportengine.out;
 
 import java.io.Writer;
 
-public class FoReportOutput extends AbstractFreemarkerReportOutput {
+/**
+ * @author dragos balan
+ *
+ */
+public class HtmlReportOutput extends AbstractFreemarkerReportOutput {
 	
 	/**
-	 * the default FO templates class path
+	 * the default class path  for freemarker templates
 	 */
-	public final static String DEFAULT_FO_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/neo/fo";
+	public final static String DEFAULT_HTML_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/neo/html"; 
 	
 	
-	public FoReportOutput(Writer writer){
-		this(writer, true, new FoOutputFormat()); 
+	public HtmlReportOutput(Writer writer){
+		this(writer, true, new HtmlOutputFormat()); 
 	}
 	
-	public FoReportOutput(Writer writer, boolean closeWriterWhenDone){
-		this(writer, closeWriterWhenDone, new FoOutputFormat()); 
+	public HtmlReportOutput(Writer writer, boolean closeWriterWhenDone){
+		this(writer, closeWriterWhenDone, new HtmlOutputFormat()); 
 	}
 	
-	public FoReportOutput(Writer writer, boolean closeWriterWhenDone, FoOutputFormat outputFormat){
+	public HtmlReportOutput(Writer writer, boolean closeWriterWhenDone,  HtmlOutputFormat outputFormat){
 		super(writer, closeWriterWhenDone, outputFormat);
 	}
-	
+
 	@Override
 	public String getTemplatesClasspath() {
-		return DEFAULT_FO_TEMPLATES_CLASS_PATH;
+		return DEFAULT_HTML_TEMPLATES_CLASS_PATH;
 	}
-
 }

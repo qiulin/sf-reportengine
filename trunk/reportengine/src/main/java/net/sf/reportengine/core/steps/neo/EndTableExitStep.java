@@ -21,7 +21,7 @@ package net.sf.reportengine.core.steps.neo;
 import net.sf.reportengine.core.steps.AbstractReportExitStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
-import net.sf.reportengine.out.neo.AbstractReportOutput;
+import net.sf.reportengine.out.AbstractReportOutput;
 import net.sf.reportengine.util.IOKeys;
 
 /**

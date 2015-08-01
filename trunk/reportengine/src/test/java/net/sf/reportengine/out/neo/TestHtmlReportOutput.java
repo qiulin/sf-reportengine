@@ -23,6 +23,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import net.sf.reportengine.out.HtmlReportOutput;
 import net.sf.reportengine.out.TitleProps;
 import net.sf.reportengine.util.ReportIoUtils;
 
@@ -44,7 +45,7 @@ public class TestHtmlReportOutput {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.out.neo.AbstractFreemarkerReportOutput#close()}.
+	 * Test method for {@link net.sf.reportengine.out.AbstractFreemarkerReportOutput#close()}.
 	 */
 	@Test
 	public void testCloseWriterException() {
@@ -64,7 +65,7 @@ public class TestHtmlReportOutput {
 	}
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.out.neo.AbstractFreemarkerReportOutput#close()}.
+	 * Test method for {@link net.sf.reportengine.out.AbstractFreemarkerReportOutput#close()}.
 	 */
 	@Test
 	public void testNonClosedWriter() throws IOException{

@@ -16,27 +16,20 @@
 /**
  * 
  */
-package net.sf.reportengine.out.neo;
+package net.sf.reportengine.out;
+
+import org.apache.xmlgraphics.util.MimeConstants;
 
 /**
  * @author dragos balan
  *
  */
-final class FopUserAgentProperties {
+public class PdfOutputFormat extends FoOutputFormat {
 	
-	private final String author; 
-	private final String filePath; 
+	private final PostProcessor fopPostProcessor = new FopTransformerPostProcessor(MimeConstants.MIME_PDF); 
 	
-	public FopUserAgentProperties(String author, String filePath){
-		this.author = author; 
-		this.filePath = filePath; 
+	public PostProcessor postProcessor() {
+		return fopPostProcessor; 
 	}
 	
-	public String getAuthor(){
-		return author; 
-	}
-	
-	public String getFilePath(){
-		return filePath; 
-	}
 }

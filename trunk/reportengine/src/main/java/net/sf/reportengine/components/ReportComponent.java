@@ -15,7 +15,7 @@
  */
 package net.sf.reportengine.components;
 
-import net.sf.reportengine.out.neo.AbstractReportOutput;
+import net.sf.reportengine.out.AbstractReportOutput;
 
 
 /**

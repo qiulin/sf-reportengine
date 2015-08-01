@@ -13,22 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.sf.reportengine.out;
+
+
+
+
 /**
+ * the output of the report 
  * 
- */
-package net.sf.reportengine.out.neo;
-
-import org.apache.xmlgraphics.util.MimeConstants;
-
-/**
  * @author dragos balan
  *
  */
-public class PngOutputFormat extends FoOutputFormat {
+public interface NewReportOutput {
 	
-	private final PostProcessor fopPostProcessor = new FopTransformerPostProcessor(MimeConstants.MIME_PNG); 
+	/**
+	 * 
+	 */
+	public void open();
 	
-	public PostProcessor postProcessor() {
-		return fopPostProcessor; 
-	}
+	/**
+	 * 
+	 */
+	public void close(); 
+	
+	/**
+	 * 
+	 * @param templateName
+	 * @param model
+	 */
+	public <T> void output(String templateName, T model);
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public OutputFormat getFormat(); 
+	
+	
 }

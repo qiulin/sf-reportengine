@@ -18,6 +18,8 @@ package net.sf.reportengine.out.neo;
 
 import java.io.Writer;
 
+import net.sf.reportengine.out.AbstractFreemarkerReportOutput;
+
 /**
  * @author dragos balan
  *

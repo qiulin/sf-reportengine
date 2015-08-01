@@ -16,22 +16,19 @@
 /**
  * 
  */
-package net.sf.reportengine.out.neo;
+package net.sf.reportengine.out;
+
+import org.apache.xmlgraphics.util.MimeConstants;
 
 /**
  * @author dragos balan
  *
  */
-public class FoOutputFormat extends AbstractPrintOutputFormat {
+public class PngOutputFormat extends FoOutputFormat {
 	
+	private final PostProcessor fopPostProcessor = new FopTransformerPostProcessor(MimeConstants.MIME_PNG); 
 	
-
-	public FoOutputFormat(){
-		this("A4"); 
+	public PostProcessor postProcessor() {
+		return fopPostProcessor; 
 	}
-	
-	public FoOutputFormat(String pageSize){
-		super(pageSize); 
-	}
-	
 }

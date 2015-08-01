@@ -16,15 +16,23 @@
 /**
  * 
  */
-package net.sf.reportengine.out.neo;
+package net.sf.reportengine.out;
+
 
 /**
  * @author dragos balan
  *
  */
-public class ExcelXmlOutputFormat extends AbstractOutputFormat{
+public class FoOutputFormat extends AbstractPrintOutputFormat {
 	
 	
+
+	public FoOutputFormat(){
+		this("A4"); 
+	}
 	
+	public FoOutputFormat(String pageSize){
+		super(pageSize); 
+	}
 	
 }

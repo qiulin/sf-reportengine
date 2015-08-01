@@ -16,22 +16,27 @@
 /**
  * 
  */
-package net.sf.reportengine.out.neo;
+package net.sf.reportengine.out;
 
 /**
  * @author dragos balan
  *
  */
-public abstract class AbstractPrintOutputFormat extends AbstractOutputFormat {
+final class FopUserAgentProperties {
 	
-	private String pageSize; 
+	private final String author; 
+	private final String filePath; 
 	
-	public AbstractPrintOutputFormat(String pageSize){
-		this.pageSize = pageSize; 
+	public FopUserAgentProperties(String author, String filePath){
+		this.author = author; 
+		this.filePath = filePath; 
 	}
 	
-	public String getPageSize(){
-		return pageSize; 
+	public String getAuthor(){
+		return author; 
 	}
 	
+	public String getFilePath(){
+		return filePath; 
+	}
 }
