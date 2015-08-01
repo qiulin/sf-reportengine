@@ -3,7 +3,7 @@
  */
 package net.sf.reportengine.samples.flat;
 
-import net.sf.reportengine.FlatReport;
+import net.sf.reportengine.Report;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -22,7 +22,7 @@ public class SpringConfiguredFlatReport {
 		
 		//load spring context from src/main/resources/application-context.xml
 		ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
-		FlatReport report = (FlatReport)context.getBean("expensesReport");
+		Report report = (Report)context.getBean("expensesReport");
 		report.execute();
 	}
 }
