@@ -270,6 +270,7 @@ public final class FlatTable extends AbstractColumnBasedTable {
     	inputParams.put(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
     	
     	Map<IOKeys, Object> result = reportAlgoContainer.execute(inputParams); 
+    	LOGGER.info("flat table output ended with {}", result);
     }
 	
 
