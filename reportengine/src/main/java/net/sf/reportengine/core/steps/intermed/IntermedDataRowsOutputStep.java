@@ -22,8 +22,8 @@ import java.util.List;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.StepInput;
-import net.sf.reportengine.core.steps.neo.NewDataRowsOutputStep;
 import net.sf.reportengine.util.ContextKeys;
 
 /**
@@ -34,7 +34,7 @@ import net.sf.reportengine.util.ContextKeys;
  * @author dragos balan
  *
  */
-public class IntermedDataRowsOutputStep extends NewDataRowsOutputStep {
+public class IntermedDataRowsOutputStep extends DataRowsOutputStep {
 	
 	/**
      * ATTENTION : changing the implementation of this method will have effect on the 

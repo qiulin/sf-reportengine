@@ -26,7 +26,6 @@ import java.util.TreeSet;
 import net.sf.reportengine.config.AbstractDataColumn;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
-import net.sf.reportengine.config.SortType;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 
 import org.slf4j.Logger;

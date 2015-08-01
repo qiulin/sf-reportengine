@@ -22,8 +22,8 @@ import java.util.List;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.core.steps.FlatTableTotalsOutputStep;
 import net.sf.reportengine.core.steps.StepInput;
-import net.sf.reportengine.core.steps.neo.FlatTableTotalsOutputStep;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.IOKeys;
 

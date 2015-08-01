@@ -32,18 +32,18 @@ import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
 import net.sf.reportengine.core.algorithm.MultiStepAlgo;
 import net.sf.reportengine.core.algorithm.OpenLoopCloseInputAlgo;
+import net.sf.reportengine.core.steps.EndTableExitStep;
 import net.sf.reportengine.core.steps.ExternalSortPreparationStep;
 import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
+import net.sf.reportengine.core.steps.FlatTableTotalsOutputStep;
 import net.sf.reportengine.core.steps.GroupLevelDetectorStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
+import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
+import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.NewRowComparator;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
+import net.sf.reportengine.core.steps.StartTableInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
-import net.sf.reportengine.core.steps.neo.EndTableExitStep;
-import net.sf.reportengine.core.steps.neo.FlatTableTotalsOutputStep;
-import net.sf.reportengine.core.steps.neo.NewColumnHeaderOutputInitStep;
-import net.sf.reportengine.core.steps.neo.NewDataRowsOutputStep;
-import net.sf.reportengine.core.steps.neo.StartTableInitStep;
 import net.sf.reportengine.in.MultipleExternalSortedFilesTableInput;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.AbstractReportOutput;
@@ -199,7 +199,7 @@ public final class FlatTable extends AbstractColumnBasedTable {
     	reportAlgo.addInitStep(new InitReportDataInitStep()); 
     	reportAlgo.addInitStep(new FlatReportExtractTotalsDataInitStep());//TODO: only when report has totals
     	reportAlgo.addInitStep(new StartTableInitStep()); 
-    	reportAlgo.addInitStep(new NewColumnHeaderOutputInitStep());
+    	reportAlgo.addInitStep(new ColumnHeaderOutputInitStep());
         
     	//then we add the main steps
     	reportAlgo.addMainStep(new GroupLevelDetectorStep());
@@ -210,7 +210,7 @@ public final class FlatTable extends AbstractColumnBasedTable {
         }
         
         if(getShowDataRows()){
-        	reportAlgo.addMainStep(new NewDataRowsOutputStep());
+        	reportAlgo.addMainStep(new DataRowsOutputStep());
         }
         
         if(getGroupColumns() != null && getGroupColumns().size() > 0){

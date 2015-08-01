@@ -26,7 +26,6 @@ import junit.framework.Assert;
 import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.steps.neo.NewDataRowsOutputStep;
 import net.sf.reportengine.out.neo.MockReportOutput;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.util.ContextKeys;
@@ -43,7 +42,7 @@ public class TestDataRowsOutputStep {
 	
 	@Test
 	public void testExecuteScenario1() {
-		NewDataRowsOutputStep classUnderTest = new NewDataRowsOutputStep();
+		DataRowsOutputStep classUnderTest = new DataRowsOutputStep();
 		
 		AlgoContext reportContext = new DefaultAlgorithmContext(); 
 		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);

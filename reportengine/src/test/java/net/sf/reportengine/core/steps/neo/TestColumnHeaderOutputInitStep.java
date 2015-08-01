@@ -24,6 +24,7 @@ import java.util.Map;
 
 import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
+import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.out.AbstractFreemarkerReportOutput;
 import net.sf.reportengine.out.neo.MockReportOutput;
@@ -52,7 +53,7 @@ public class TestColumnHeaderOutputInitStep  {
 		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS) ;
 		mockAlgoInput.put(IOKeys.NEW_REPORT_OUTPUT, mockOutput); 
 		
-		NewColumnHeaderOutputInitStep classUnderTest = new NewColumnHeaderOutputInitStep(); 
+		ColumnHeaderOutputInitStep classUnderTest = new ColumnHeaderOutputInitStep(); 
 		classUnderTest.init(new StepInput(mockAlgoInput, mockContext));
 		
 		mockOutput.close();
