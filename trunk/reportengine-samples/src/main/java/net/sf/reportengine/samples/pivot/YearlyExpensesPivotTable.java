@@ -3,14 +3,19 @@
  */
 package net.sf.reportengine.samples.pivot;
 
-import net.sf.reportengine.CrossTabReport;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import net.sf.reportengine.Report;
+import net.sf.reportengine.components.PivotTable;
+import net.sf.reportengine.components.ReportTitle;
 import net.sf.reportengine.config.DefaultCrosstabData;
 import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
-import net.sf.reportengine.in.TextInput;
-import net.sf.reportengine.out.Html5Output;
+import net.sf.reportengine.in.TextTableInput;
+import net.sf.reportengine.out.HtmlReportOutput;
 
 /**
  * 
@@ -19,11 +24,9 @@ import net.sf.reportengine.out.Html5Output;
  */
 public class YearlyExpensesPivotTable {
 
-	public static void main(String[] args) {
-		new CrossTabReport.Builder()
-			.title("Yearly expenses arranged as a pivot table")
-			.input(new TextInput("./inputData/yearlyExpenses.txt", "\t"))
-			.output(new Html5Output("./output/yearlyPivot.html"))
+	public static void main(String[] args) throws IOException {
+		PivotTable pivotTable = new PivotTable.Builder()
+			.input(new TextTableInput("./inputData/yearlyExpenses.txt", "\t"))
 			
 			.addGroupColumn(new DefaultGroupColumn("Year", 0, 0))
 			.addDataColumn(new DefaultDataColumn("Month", 1))
@@ -35,6 +38,11 @@ public class YearlyExpensesPivotTable {
 								.build())
 			.showGrandTotal()
 			.showTotals()
+			.build(); 
+		
+		new Report.Builder(new HtmlReportOutput(new FileWriter("./output/yearlyPivot.html")))
+			.add(new ReportTitle("Yearly expenses arranged as a pivot table"))
+			.add(pivotTable)
 			.build()
 		.execute();
 	}
