@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.StringWriter;
 
-import net.sf.reportengine.out.neo.MockReportOutput;
+import net.sf.reportengine.out.MockReportOutput;
 
 import org.apache.commons.lang.SystemUtils;
 import org.junit.Test;

@@ -27,9 +27,9 @@ import net.sf.reportengine.out.ExcelXmlReportOutput;
 import net.sf.reportengine.out.FoOutputFormat;
 import net.sf.reportengine.out.FoReportOutput;
 import net.sf.reportengine.out.HtmlReportOutput;
+import net.sf.reportengine.out.MockReportOutput;
 import net.sf.reportengine.out.PdfReportOutput;
 import net.sf.reportengine.out.PngReportOutput;
-import net.sf.reportengine.out.neo.MockReportOutput;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.ScenarioFormatedValues;
 

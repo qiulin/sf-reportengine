@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.sound.midi.MetaEventListener;
-
 
 /**
  * Report Input implementation based on a 2 dimensional in memory array
