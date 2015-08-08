@@ -21,10 +21,10 @@ package net.sf.reportengine.scenarios.ct;
 import java.util.Arrays;
 import java.util.List;
 
-import net.sf.reportengine.config.DefaultCrosstabData;
-import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
+import net.sf.reportengine.config.DefaultPivotData;
+import net.sf.reportengine.config.DefaultPivotHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.config.PivotHeaderRow;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
@@ -64,12 +64,12 @@ public class CtScenario2x2x1With0G2D {
 					new DefaultDataColumn("Country", 1)
 			});
 	
-	public static final List<CrosstabHeaderRow> HEADER_ROWS = Arrays.asList(new CrosstabHeaderRow[]{
-			new DefaultCrosstabHeaderRow(2, null), //Sex 
-			new DefaultCrosstabHeaderRow(3, null)   //Age
+	public static final List<PivotHeaderRow> HEADER_ROWS = Arrays.asList(new PivotHeaderRow[]{
+			new DefaultPivotHeaderRow(2, null), //Sex 
+			new DefaultPivotHeaderRow(3, null)   //Age
 		}); 
 		
-	public static final DefaultCrosstabData CROSSTAB_DATA = new DefaultCrosstabData(4, new SumGroupCalculator()); //the count column
+	public static final DefaultPivotData CROSSTAB_DATA = new DefaultPivotData(4, new SumGroupCalculator()); //the count column
 	
 	public static DistinctValuesHolder MOCK_DISTINCT_VALUES_HOLDER = new MockDistinctValuesHolder(new String[][]{
 			new String[]{"M", "F"}, 

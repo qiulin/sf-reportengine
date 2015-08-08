@@ -21,7 +21,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.sf.reportengine.config.CrosstabData;
+import net.sf.reportengine.config.PivotData;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.SortType;
@@ -45,7 +45,7 @@ public class ConstrIntermedDataColsInitStep extends AbstractReportInitStep<List<
 	
 	public StepResult<List<DataColumn>> init(StepInput input) {
 		
-		CrosstabData originalCtData = (CrosstabData)input.getAlgoInput(IOKeys.CROSSTAB_DATA); 
+		PivotData originalCtData = (PivotData)input.getAlgoInput(IOKeys.CROSSTAB_DATA); 
 		
 		List<DataColumn> dataColumns = transformCrosstabDataIntoDataColumns(originalCtData); 
 		LOGGER.debug("constructed intermediate data columns {}", dataColumns);
@@ -57,7 +57,7 @@ public class ConstrIntermedDataColsInitStep extends AbstractReportInitStep<List<
 	 * @param crosstabData
 	 * @return
 	 */
-	private List<DataColumn> transformCrosstabDataIntoDataColumns(CrosstabData crosstabData){
+	private List<DataColumn> transformCrosstabDataIntoDataColumns(PivotData crosstabData){
 		List<DataColumn> intermediateDataCols = new ArrayList<DataColumn>(1);
 		intermediateDataCols.add(new IntermDataColumnFromCrosstabData(crosstabData)); 
 		return intermediateDataCols; 
@@ -73,13 +73,13 @@ public class ConstrIntermedDataColsInitStep extends AbstractReportInitStep<List<
 		/**
 		 * the original cross tab data on which this data column is based
 		 */
-		private final CrosstabData crosstabData;
+		private final PivotData crosstabData;
 		
 		/**
 		 * 
 		 * @param crosstabData
 		 */
-		public IntermDataColumnFromCrosstabData(CrosstabData crosstabData){
+		public IntermDataColumnFromCrosstabData(PivotData crosstabData){
 			this.crosstabData = crosstabData; 
 		}
 		

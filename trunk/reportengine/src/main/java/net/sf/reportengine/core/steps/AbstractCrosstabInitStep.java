@@ -18,7 +18,7 @@
  */
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.config.CrosstabData;
+import net.sf.reportengine.config.PivotData;
 import net.sf.reportengine.util.ContextKeys;
 import net.sf.reportengine.util.CtMetadata;
 import net.sf.reportengine.util.IOKeys;
@@ -33,7 +33,7 @@ public abstract class AbstractCrosstabInitStep<U> extends AbstractReportInitStep
 		return (CtMetadata)stepInput.getContextParam(ContextKeys.CROSSTAB_METADATA);
 	}
 	
-	public CrosstabData getCrosstabData(StepInput stepInput){
-		 return (CrosstabData)stepInput.getAlgoInput(IOKeys.CROSSTAB_DATA); 
+	public PivotData getCrosstabData(StepInput stepInput){
+		 return (PivotData)stepInput.getAlgoInput(IOKeys.CROSSTAB_DATA); 
 	}
 }

@@ -23,7 +23,7 @@ import net.sf.reportengine.core.calc.GroupCalculator;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public abstract class AbstractCrosstabData implements CrosstabData {
+public abstract class AbstractPivotData implements PivotData {
 	
 	/**
 	 * 
@@ -56,7 +56,7 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	 * @param formatter
 	 * @param horizAlign
 	 */
-	public AbstractCrosstabData(GroupCalculator calc, 
+	public AbstractPivotData(GroupCalculator calc, 
 								String valuesFormatter, 
 								HorizAlign horizAlign){
 		this(calc, valuesFormatter, horizAlign, VertAlign.MIDDLE); 
@@ -69,7 +69,7 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	 * @param horizAlign
 	 * @param vertAlign
 	 */
-	public AbstractCrosstabData(GroupCalculator calc, 
+	public AbstractPivotData(GroupCalculator calc, 
 								String  valuesFormatter, 
 								HorizAlign horizAlign, 
 								VertAlign vertAlign){
@@ -84,7 +84,7 @@ public abstract class AbstractCrosstabData implements CrosstabData {
 	 * @param horizAlign
 	 * @param vertAlign
 	 */
-	public AbstractCrosstabData(GroupCalculator calc, 
+	public AbstractPivotData(GroupCalculator calc, 
 								String  valuesFormatter, 
 								String totalsFormatter, 
 								HorizAlign horizAlign, 

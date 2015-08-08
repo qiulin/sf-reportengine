@@ -26,7 +26,7 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public class DefaultCrosstabHeaderRow extends AbstractCrosstabHeaderRow {
+public class DefaultPivotHeaderRow extends AbstractPivotHeaderRow {
 
 	/**
 	 * 
@@ -37,7 +37,7 @@ public class DefaultCrosstabHeaderRow extends AbstractCrosstabHeaderRow {
 	 * 
 	 * @param inputColumnIndex
 	 */
-	public DefaultCrosstabHeaderRow(int inputColumnIndex){
+	public DefaultPivotHeaderRow(int inputColumnIndex){
 		this(inputColumnIndex, null);
 	}
 	
@@ -46,7 +46,7 @@ public class DefaultCrosstabHeaderRow extends AbstractCrosstabHeaderRow {
 	 * @param inputColumnIndex
 	 * @param formatter
 	 */
-	public DefaultCrosstabHeaderRow(int inputColumnIndex, 
+	public DefaultPivotHeaderRow(int inputColumnIndex, 
 									Format formatter){
 		super(formatter); 
 		setInputColumnIndex(inputColumnIndex);
@@ -56,7 +56,7 @@ public class DefaultCrosstabHeaderRow extends AbstractCrosstabHeaderRow {
 	 * 
 	 * @param builder
 	 */
-	private DefaultCrosstabHeaderRow(Builder builder){
+	private DefaultPivotHeaderRow(Builder builder){
 		super(builder.formatter); 
 		setInputColumnIndex(builder.columnIndex); 
 	}
@@ -88,8 +88,8 @@ public class DefaultCrosstabHeaderRow extends AbstractCrosstabHeaderRow {
 			return this; 
 		}
 		
-		public DefaultCrosstabHeaderRow build(){
-			return new DefaultCrosstabHeaderRow(this); 
+		public DefaultPivotHeaderRow build(){
+			return new DefaultPivotHeaderRow(this); 
 		}
 	}
 }

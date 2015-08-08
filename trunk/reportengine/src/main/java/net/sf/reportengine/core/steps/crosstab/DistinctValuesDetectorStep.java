@@ -17,7 +17,7 @@ package net.sf.reportengine.core.steps.crosstab;
 
 import java.util.List;
 
-import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.config.PivotHeaderRow;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
@@ -61,7 +61,7 @@ public class DistinctValuesDetectorStep extends AbstractCrosstabStep<DistinctVal
 	
 	
     public StepResult<DistinctValuesHolder> init(StepInput stepInput){
-        List<CrosstabHeaderRow> headerRows = getCrosstabHeaderRows(stepInput);
+        List<PivotHeaderRow> headerRows = getCrosstabHeaderRows(stepInput);
         distinctValuesHolder = new DefaultDistinctValuesHolder(headerRows);
         //getAlgoContext().set(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER, distinctValuesHolder);
         //addResult(IOKeys.DISTINCT_VALUES_HOLDER, distinctValuesHolder); 
@@ -74,14 +74,14 @@ public class DistinctValuesDetectorStep extends AbstractCrosstabStep<DistinctVal
 	 * 
 	 */
 	public StepResult<IntermediateDataInfo> execute(NewRowEvent newRowEvent, StepInput stepInput) {
-		List<CrosstabHeaderRow> headerRows = getCrosstabHeaderRows(stepInput);
+		List<PivotHeaderRow> headerRows = getCrosstabHeaderRows(stepInput);
 		
 		//first we take care of the distinct values that might occur 
 		int indexAfterInsertion = -1; 
 		int[] currDataValueRelativePositionToHeaderValues = new int[headerRows.size()]; 
 		
 		for (int i = 0; i < headerRows.size(); i++) {
-			CrosstabHeaderRow headerRow = headerRows.get(i);
+			PivotHeaderRow headerRow = headerRows.get(i);
 			
 			//add value even if it's not a different value we call this method 
 			//for getting the index of the value in the distinct values array

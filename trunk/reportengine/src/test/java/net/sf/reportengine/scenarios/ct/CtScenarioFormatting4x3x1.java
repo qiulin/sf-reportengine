@@ -21,11 +21,11 @@ package net.sf.reportengine.scenarios.ct;
 import java.util.Arrays;
 import java.util.List;
 
-import net.sf.reportengine.config.CrosstabData;
-import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.config.PivotData;
+import net.sf.reportengine.config.PivotHeaderRow;
 import net.sf.reportengine.config.DataColumn;
-import net.sf.reportengine.config.DefaultCrosstabData;
-import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
+import net.sf.reportengine.config.DefaultPivotData;
+import net.sf.reportengine.config.DefaultPivotHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.config.GroupColumn;
@@ -97,14 +97,14 @@ public class CtScenarioFormatting4x3x1 {
 						.build()
 	});
 	
-	public final static List<CrosstabHeaderRow> HEADER_ROWS = Arrays.asList(
-			new CrosstabHeaderRow[]{
-		new DefaultCrosstabHeaderRow(4), 	//Region inside country
-		new DefaultCrosstabHeaderRow(5),	//Sex
-		new DefaultCrosstabHeaderRow(6)		//Age
+	public final static List<PivotHeaderRow> HEADER_ROWS = Arrays.asList(
+			new PivotHeaderRow[]{
+		new DefaultPivotHeaderRow(4), 	//Region inside country
+		new DefaultPivotHeaderRow(5),	//Sex
+		new DefaultPivotHeaderRow(6)		//Age
 	}); 
 	
-	public final static CrosstabData CROSSTAB_DATA = new DefaultCrosstabData.Builder(7)
+	public final static PivotData CROSSTAB_DATA = new DefaultPivotData.Builder(7)
 														.useCalculator(GroupCalculators.SUM, "%f $")
 														.horizAlign(HorizAlign.RIGHT)
 														.vertAlign(VertAlign.TOP)

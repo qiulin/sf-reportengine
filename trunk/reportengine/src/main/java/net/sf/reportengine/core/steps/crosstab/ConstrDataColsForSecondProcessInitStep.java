@@ -21,7 +21,7 @@ package net.sf.reportengine.core.steps.crosstab;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.reportengine.config.CrosstabData;
+import net.sf.reportengine.config.PivotData;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.SecondProcessDataColumn;
 import net.sf.reportengine.config.SecondProcessDataColumnFromOriginalDataColumn;
@@ -64,7 +64,7 @@ public class ConstrDataColsForSecondProcessInitStep extends AbstractCrosstabInit
 	 */
 	protected List<DataColumn> constructDataColumnsForSecondProcess(	CtMetadata crosstabMetadata, 
 																		List<DataColumn> originalDataColumns,
-																		CrosstabData originalCtData, 
+																		PivotData originalCtData, 
 																		boolean hasTotals, 
 																		boolean hasGrandTotal){
 		int dataColsCount = crosstabMetadata.getDataColumnCount(); 

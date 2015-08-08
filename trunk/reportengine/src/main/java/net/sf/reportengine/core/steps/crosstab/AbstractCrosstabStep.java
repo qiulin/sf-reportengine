@@ -20,8 +20,8 @@ package net.sf.reportengine.core.steps.crosstab;
 
 import java.util.List;
 
-import net.sf.reportengine.config.CrosstabData;
-import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.config.PivotData;
+import net.sf.reportengine.config.PivotHeaderRow;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
@@ -35,16 +35,16 @@ import net.sf.reportengine.util.IOKeys;
  */
 public abstract class AbstractCrosstabStep<T,U,V> extends AbstractReportStep<T,U,V> {
 	
-	public List<CrosstabHeaderRow> getCrosstabHeaderRows(StepInput stepInput){
-		return (List<CrosstabHeaderRow>)stepInput.getAlgoInput(IOKeys.CROSSTAB_HEADER_ROWS); 
+	public List<PivotHeaderRow> getCrosstabHeaderRows(StepInput stepInput){
+		return (List<PivotHeaderRow>)stepInput.getAlgoInput(IOKeys.CROSSTAB_HEADER_ROWS); 
 	}
 	 
 	 public int getCrosstabHeaderRowsLength(StepInput stepInput){
 		 return getCrosstabHeaderRows(stepInput).size();
 	 }
 		
-	 public CrosstabData getCrosstabData(StepInput stepInput){
-		 return (CrosstabData)stepInput.getAlgoInput(IOKeys.CROSSTAB_DATA); 
+	 public PivotData getCrosstabData(StepInput stepInput){
+		 return (PivotData)stepInput.getAlgoInput(IOKeys.CROSSTAB_DATA); 
 	 }
 	 
 	 public DefaultDistinctValuesHolder getDistinctValuesHolder(StepInput stepInput){

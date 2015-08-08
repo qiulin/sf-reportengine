@@ -42,7 +42,7 @@ public class SecondProcessDataColumn implements DataColumn{
 	/**
 	 * original crosstab data
 	 */
-	private CrosstabData originalCtData; 
+	private PivotData originalCtData; 
 	
 	/**
 	 * 
@@ -51,7 +51,7 @@ public class SecondProcessDataColumn implements DataColumn{
 	 * @param formatter
 	 */
 	public SecondProcessDataColumn(	int[] positionRelativeToHeader, 	
-									CrosstabData crosstabData) {
+									PivotData crosstabData) {
 		//normally we don't need the column header
 		this.positionRelativeToHeader = positionRelativeToHeader;
 		this.originalCtData = crosstabData; 

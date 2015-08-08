@@ -20,7 +20,7 @@ package net.sf.reportengine.core.steps.crosstab;
 
 import java.util.List;
 
-import net.sf.reportengine.config.CrosstabData;
+import net.sf.reportengine.config.PivotData;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
@@ -72,8 +72,8 @@ public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>
 		return (CtMetadata)stepInput.getContextParam(ContextKeys.CROSSTAB_METADATA);
 	}
 	
-	public CrosstabData getCrosstabData(StepInput stepInput){
-		 return (CrosstabData)stepInput.getAlgoInput(IOKeys.CROSSTAB_DATA); 
+	public PivotData getCrosstabData(StepInput stepInput){
+		 return (PivotData)stepInput.getAlgoInput(IOKeys.CROSSTAB_DATA); 
 	}
 	
 	@Override 
@@ -110,7 +110,7 @@ public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>
 									CtMetadata ctMetadata, 
 									List<DataColumn> dataCols, 
 									List<GroupColumn> groupCols, 
-									CrosstabData ctData){
+									PivotData ctData){
 		//loop through all header rows
 		for (int currHeaderRow = 0; currHeaderRow < ctMetadata.getHeaderRowsCount(); currHeaderRow++) {
 			//reportOutput.startHeaderRow(new RowProps(currHeaderRow)); 

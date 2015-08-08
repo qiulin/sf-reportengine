@@ -21,7 +21,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.config.PivotHeaderRow;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
@@ -47,8 +47,8 @@ public class ConstrIntermedGrpColsInitStep extends AbstractReportInitStep<List<G
 	public StepResult<List<GroupColumn>> init(StepInput input) {
 		List<DataColumn> originalCtDataCols = getDataColumns(input); 
 		List<GroupColumn> originalCtGroupingCols = getGroupColumns(input); 
-		List<CrosstabHeaderRow> originalCtHeaderRows = 
-				(List<CrosstabHeaderRow>)input.getAlgoInput(IOKeys.CROSSTAB_HEADER_ROWS);
+		List<PivotHeaderRow> originalCtHeaderRows = 
+				(List<PivotHeaderRow>)input.getAlgoInput(IOKeys.CROSSTAB_HEADER_ROWS);
 		
 		
 		List<GroupColumn> newGroupCols = transformGroupingCrosstabConfigInFlatReportConfig(
@@ -73,7 +73,7 @@ public class ConstrIntermedGrpColsInitStep extends AbstractReportInitStep<List<G
 	 */
 	List<GroupColumn> transformGroupingCrosstabConfigInFlatReportConfig(	List<? extends GroupColumn> originalCtGroupingCols, 
 																			List<? extends DataColumn> originalCtDataCols, 
-																			List<? extends CrosstabHeaderRow> originalCtHeaderRows){
+																			List<? extends PivotHeaderRow> originalCtHeaderRows){
 		
 		int originalGroupColsLength = originalCtGroupingCols != null ? originalCtGroupingCols.size(): 0;
 		int originalDataColsLength = originalCtDataCols != null ? originalCtDataCols.size() : 0 ; 
@@ -168,11 +168,11 @@ public class ConstrIntermedGrpColsInitStep extends AbstractReportInitStep<List<G
 	 */
 	static class IntermGroupColFromHeaderRow implements GroupColumn {
 
-		private CrosstabHeaderRow headerRow; 
+		private PivotHeaderRow headerRow; 
 	
 		private int groupingLevel = -1; 
 	
-		public IntermGroupColFromHeaderRow(CrosstabHeaderRow headerRow, int groupingLevel){
+		public IntermGroupColFromHeaderRow(PivotHeaderRow headerRow, int groupingLevel){
 			this.headerRow = headerRow; 
 			this.groupingLevel = groupingLevel;
 		}

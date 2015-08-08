@@ -21,7 +21,7 @@ package net.sf.reportengine.util;
 import java.util.HashMap;
 import java.util.List;
 
-import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.config.PivotHeaderRow;
 
 /**
  * holder class for all distinct values found while parsing the header rows  
@@ -52,7 +52,7 @@ public class DefaultDistinctValuesHolder implements DistinctValuesHolder{
 	 * 
 	 * @param headerRows
 	 */
-	public DefaultDistinctValuesHolder(List<CrosstabHeaderRow> headerRows){
+	public DefaultDistinctValuesHolder(List<PivotHeaderRow> headerRows){
 		distinctValuesMap = new HashMap<Integer, DistinctValuesRow>(headerRows.size()); 
 		for (int i = 0; i < headerRows.size(); i++) {
 			distinctValuesMap.put(i, new DistinctValuesRow());
