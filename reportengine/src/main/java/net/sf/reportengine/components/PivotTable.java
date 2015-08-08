@@ -34,8 +34,8 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.reportengine.config.CrosstabData;
-import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.config.PivotData;
+import net.sf.reportengine.config.PivotHeaderRow;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
@@ -141,10 +141,10 @@ import org.slf4j.LoggerFactory;
  * 
  * @see TableInput
  * @see ReportOutput
- * @see CrosstabHeaderRow
+ * @see PivotHeaderRow
  * @see DataColumn
  * @see GroupColumn
- * @see CrosstabData
+ * @see PivotData
  * 
  * @author dragos balan
  */
@@ -165,12 +165,12 @@ public class PivotTable extends AbstractColumnBasedTable{
 	/**
 	 * the crosstab header rows
 	 */
-	private List<CrosstabHeaderRow> crosstabHeaderRowsAsList = new ArrayList<CrosstabHeaderRow>(); 
+	private List<PivotHeaderRow> crosstabHeaderRowsAsList = new ArrayList<PivotHeaderRow>(); 
 	
 	/**
 	 * the crosstab data
 	 */
-	private CrosstabData crosstabData; 
+	private PivotData pivotData; 
 	
 	/**
 	 * whether or not this report needs programatic sorting
@@ -191,7 +191,7 @@ public class PivotTable extends AbstractColumnBasedTable{
 				builder.showGrandTotal.getValue(), 
 				builder.showDataRows, 
 				builder.valuesSorted);
-		this.crosstabData = builder.crosstabData; 
+		this.pivotData = builder.crosstabData; 
 		this.crosstabHeaderRowsAsList = builder.headerRows; 
 	}
 	
@@ -206,13 +206,13 @@ public class PivotTable extends AbstractColumnBasedTable{
 		super.validate(); 
         
         //crosstab data existence check
-        CrosstabData ctData = getCrosstabData(); 
+        PivotData ctData = getPivotData(); 
         if(ctData == null){
 			throw new ConfigValidationException("Crosstab reports need crosstab data configured"); 
 		}
 		
         //crosstab header validation
-        List<CrosstabHeaderRow> ctHeader = getHeaderRows(); 
+        List<PivotHeaderRow> ctHeader = getHeaderRows(); 
 		if(ctHeader == null || ctHeader.size() == 0){
 			throw new ConfigValidationException("Crosstab reports need header rows configured");
 		}
@@ -253,7 +253,7 @@ public class PivotTable extends AbstractColumnBasedTable{
     		reportAlgoContainer.addAlgo(configSortingAlgo()); 
     	}
 		
-		reportAlgoContainer.addAlgo(configIntermeAlgo(needsProgramaticSorting)); 
+		reportAlgoContainer.addAlgo(configIntermedAlgo(needsProgramaticSorting)); 
 		reportAlgoContainer.addAlgo(configSecondAlgo()); 
 	}
 	
@@ -288,7 +288,7 @@ public class PivotTable extends AbstractColumnBasedTable{
 	 *  
 	 * @return	the intermediate algorithm
 	 */
-	private Algorithm configIntermeAlgo(final boolean hasBeenPreviouslySorted){
+	private Algorithm configIntermedAlgo(final boolean hasBeenPreviouslySorted){
 		
 		MultiStepAlgo algorithm = new OpenLoopCloseInputAlgo(){
 			@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
@@ -433,7 +433,7 @@ public class PivotTable extends AbstractColumnBasedTable{
         inputParams.put(DATA_COLS, getDataColumns()); 
         inputParams.put(GROUP_COLS, getGroupColumns()); 
         inputParams.put(CROSSTAB_HEADER_ROWS, crosstabHeaderRowsAsList); 
-        inputParams.put(CROSSTAB_DATA, crosstabData); 
+        inputParams.put(CROSSTAB_DATA, pivotData); 
 		
         inputParams.put(SHOW_TOTALS, Boolean.valueOf(getShowTotals())); 
         inputParams.put(SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
@@ -447,7 +447,7 @@ public class PivotTable extends AbstractColumnBasedTable{
 	 * getter method for cross table header rows
 	 * @return	a list of header rows
 	 */
-	public List<CrosstabHeaderRow> getHeaderRows() {
+	public List<PivotHeaderRow> getHeaderRows() {
 		return crosstabHeaderRowsAsList; 
 	}
 	
@@ -455,8 +455,8 @@ public class PivotTable extends AbstractColumnBasedTable{
 	 * getter for crosstab data
 	 * @return	the crosstab data
 	 */
-	public CrosstabData getCrosstabData() {
-		return crosstabData;
+	public PivotData getPivotData() {
+		return pivotData;
 	}
 	
 	public static class Builder {
@@ -472,8 +472,8 @@ public class PivotTable extends AbstractColumnBasedTable{
     	
     	private List<DataColumn> dataColumns = new ArrayList<DataColumn>(); 
     	private List<GroupColumn> groupColumns = new ArrayList<GroupColumn>();
-    	private List<CrosstabHeaderRow> headerRows = new ArrayList<CrosstabHeaderRow>(); 
-    	private CrosstabData crosstabData = null; 
+    	private List<PivotHeaderRow> headerRows = new ArrayList<PivotHeaderRow>(); 
+    	private PivotData crosstabData = null; 
     	
     	public Builder() {
     		
@@ -552,17 +552,17 @@ public class PivotTable extends AbstractColumnBasedTable{
     		return this; 
     	}
     	
-    	public Builder headerRows(List<CrosstabHeaderRow> headerRows){
+    	public Builder headerRows(List<PivotHeaderRow> headerRows){
     		this.headerRows = headerRows; 
     		return this; 
     	}
     	
-    	public Builder addHeaderRow(CrosstabHeaderRow headerRow){
+    	public Builder addHeaderRow(PivotHeaderRow headerRow){
     		this.headerRows.add(headerRow);
     		return this; 
     	}
     	
-    	public Builder crosstabData(CrosstabData data){
+    	public Builder pivotData(PivotData data){
     		this.crosstabData = data; 
     		return this; 
     	}

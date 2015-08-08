@@ -21,11 +21,11 @@ package net.sf.reportengine.scenarios.ct;
 import java.util.Arrays;
 import java.util.List;
 
-import net.sf.reportengine.config.DefaultCrosstabData;
-import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
+import net.sf.reportengine.config.DefaultPivotData;
+import net.sf.reportengine.config.DefaultPivotHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
-import net.sf.reportengine.config.CrosstabData;
-import net.sf.reportengine.config.CrosstabHeaderRow;
+import net.sf.reportengine.config.PivotData;
+import net.sf.reportengine.config.PivotHeaderRow;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ReportContent;
@@ -71,13 +71,13 @@ public class CtScenario1x1x1 {
 					new DefaultDataColumn("Continent", 0)
 	});
 	
-	public static final List<CrosstabHeaderRow> ROW_HEADERS = Arrays.asList( 
-			new CrosstabHeaderRow[]{
-		new DefaultCrosstabHeaderRow(1)//Region - second column
+	public static final List<PivotHeaderRow> ROW_HEADERS = Arrays.asList( 
+			new PivotHeaderRow[]{
+		new DefaultPivotHeaderRow(1)//Region - second column
 	});
 	
-	public static final CrosstabData CROSSTAB_DATA_WITH_TOTALS = new DefaultCrosstabData(2, GroupCalculators.SUM);
-	public static final CrosstabData CROSSTAB_DATA_NO_TOTALS = new DefaultCrosstabData(2);
+	public static final PivotData CROSSTAB_DATA_WITH_TOTALS = new DefaultPivotData(2, GroupCalculators.SUM);
+	public static final PivotData CROSSTAB_DATA_NO_TOTALS = new DefaultPivotData(2);
 	
 	
 	public final static TableInput INPUT = new InMemoryTableInput(RAW_INPUT);

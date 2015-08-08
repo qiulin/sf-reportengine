@@ -24,7 +24,7 @@ import net.sf.reportengine.core.calc.GroupCalculator;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public interface CrosstabData {
+public interface PivotData {
 	
 	/**
 	 * 

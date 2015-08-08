@@ -23,7 +23,7 @@ import java.text.Format;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public abstract class AbstractCrosstabHeaderRow implements CrosstabHeaderRow {
+public abstract class AbstractPivotHeaderRow implements PivotHeaderRow {
 	
 	/**
 	 * the formatter of the value
@@ -35,7 +35,7 @@ public abstract class AbstractCrosstabHeaderRow implements CrosstabHeaderRow {
 	 * 
 	 * @param format			the formatter
 	 */
-	public AbstractCrosstabHeaderRow(Format format){
+	public AbstractPivotHeaderRow(Format format){
 		setFormatter(format);
 	}
 

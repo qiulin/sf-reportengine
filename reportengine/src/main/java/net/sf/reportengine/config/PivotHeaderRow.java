@@ -53,12 +53,12 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
  *</pre>
  *is the crosstab header row 
  * 
- * @see DefaultCrosstabHeaderRow
+ * @see DefaultPivotHeaderRow
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  *
  */
-public interface CrosstabHeaderRow {
+public interface PivotHeaderRow {
 	
 	/**
 	 * this method returns the value for the current data row (taken from newRowEvent)

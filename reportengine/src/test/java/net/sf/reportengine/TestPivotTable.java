@@ -23,8 +23,8 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 import net.sf.reportengine.components.PivotTable;
-import net.sf.reportengine.config.DefaultCrosstabData;
-import net.sf.reportengine.config.DefaultCrosstabHeaderRow;
+import net.sf.reportengine.config.DefaultPivotData;
+import net.sf.reportengine.config.DefaultPivotHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
 import net.sf.reportengine.core.calc.GroupCalculators;
@@ -61,7 +61,7 @@ public class TestPivotTable extends TestCase {
 											//.output(new HtmlOutput("target/CrosstabReport1x1x1xT.html"))
 											.groupColumns(CtScenario1x1x1.GROUP_COLUMNS)
 											.dataColumns(CtScenario1x1x1.DATA_COLUMNS)
-											.crosstabData(CtScenario1x1x1.CROSSTAB_DATA_WITH_TOTALS)
+											.pivotData(CtScenario1x1x1.CROSSTAB_DATA_WITH_TOTALS)
 											.headerRows(CtScenario1x1x1.ROW_HEADERS)
 											.showTotals(true)
 											.showGrandTotal(true)
@@ -82,7 +82,7 @@ public class TestPivotTable extends TestCase {
 			//.output(new HtmlOutput("target/CrosstabReport1x1x1.html"))
 			.groupColumns(CtScenario1x1x1.GROUP_COLUMNS)
 			.dataColumns(CtScenario1x1x1.DATA_COLUMNS)
-			.crosstabData(CtScenario1x1x1.CROSSTAB_DATA_NO_TOTALS)
+			.pivotData(CtScenario1x1x1.CROSSTAB_DATA_NO_TOTALS)
 			.headerRows(CtScenario1x1x1.ROW_HEADERS)
 			.showTotals(false) 
 			.showGrandTotal(false)
@@ -103,7 +103,7 @@ public class TestPivotTable extends TestCase {
 			//.output(new HtmlOutput("target/CrosstabReport2x2x1xT.html"))
 			.groupColumns(CtScenario2x2x1With1G1D.GROUPING_COLUMNS)
 			.dataColumns(CtScenario2x2x1With1G1D.DATA_COLUMNS) 
-			.crosstabData(CtScenario2x2x1With1G1D.CROSSTAB_DATA)
+			.pivotData(CtScenario2x2x1With1G1D.CROSSTAB_DATA)
 			.headerRows(CtScenario2x2x1With1G1D.HEADER_ROWS)
 			.showTotals()
 			.showGrandTotal()
@@ -130,7 +130,7 @@ public class TestPivotTable extends TestCase {
 		
 		.groupColumns(CtScenario2x2x1With1G1D.GROUPING_COLUMNS)
 		.dataColumns(CtScenario2x2x1With1G1D.DATA_COLUMNS)
-		.crosstabData(CtScenario2x2x1With1G1D.CROSSTAB_DATA) 
+		.pivotData(CtScenario2x2x1With1G1D.CROSSTAB_DATA) 
 		.headerRows(CtScenario2x2x1With1G1D.HEADER_ROWS) 
 		
 		.showTotals(false)
@@ -155,7 +155,7 @@ public class TestPivotTable extends TestCase {
 		
 		.groupColumns(CtUnsortedScenario2x2x1With1G1D.GROUPING_COLUMNS)
 		.dataColumns(CtUnsortedScenario2x2x1With1G1D.DATA_COLUMNS)
-		.crosstabData(CtUnsortedScenario2x2x1With1G1D.CROSSTAB_DATA)
+		.pivotData(CtUnsortedScenario2x2x1With1G1D.CROSSTAB_DATA)
 		.headerRows(CtUnsortedScenario2x2x1With1G1D.HEADER_ROWS)
 		
 		.showTotals(false)
@@ -176,7 +176,7 @@ public class TestPivotTable extends TestCase {
 		//classUnderTest.setOut(new HtmlOutput("target/CrosstabReport1x3x1xT.html"));
 		.groupColumns(CtScenario1x3x1.GROUP_COLUMNS)
 		.dataColumns(CtScenario1x3x1.DATA_COLUMNS)
-		.crosstabData(CtScenario1x3x1.CROSSTAB_DATA) 
+		.pivotData(CtScenario1x3x1.CROSSTAB_DATA) 
 		.headerRows(CtScenario1x3x1.HEADER_ROWS)
 		.showTotals(true)
 		.showGrandTotal(true)
@@ -196,7 +196,7 @@ public class TestPivotTable extends TestCase {
 		//classUnderTest.setOut(new HtmlOutput("target/CrosstabReport1x3x1.html"));
 		.groupColumns(CtScenario1x3x1.GROUP_COLUMNS)
 		.dataColumns(CtScenario1x3x1.DATA_COLUMNS)
-		.crosstabData(CtScenario1x3x1.CROSSTAB_DATA)
+		.pivotData(CtScenario1x3x1.CROSSTAB_DATA)
 		.headerRows(CtScenario1x3x1.HEADER_ROWS)
 		.showTotals(false)
 		.showGrandTotal(false)
@@ -219,10 +219,10 @@ public class TestPivotTable extends TestCase {
 		
 			.addDataColumn(new DefaultDataColumn("City", 2, GroupCalculators.COUNT))
 		
-			.addHeaderRow(new DefaultCrosstabHeaderRow(3))
-			.addHeaderRow(new DefaultCrosstabHeaderRow(4)) 
+			.addHeaderRow(new DefaultPivotHeaderRow(3))
+			.addHeaderRow(new DefaultPivotHeaderRow(4)) 
 		
-			.crosstabData(new DefaultCrosstabData(5, GroupCalculators.SUM)) 
+			.pivotData(new DefaultPivotData(5, GroupCalculators.SUM)) 
 		
 			.showTotals(true) 
 			.showGrandTotal(true)
@@ -246,10 +246,10 @@ public class TestPivotTable extends TestCase {
 		.addDataColumn(new DefaultDataColumn("Region", 1))
 		.addDataColumn(new DefaultDataColumn("City", 2))
 		
-		.addHeaderRow(new DefaultCrosstabHeaderRow(3))
-		.addHeaderRow(new DefaultCrosstabHeaderRow(4))
+		.addHeaderRow(new DefaultPivotHeaderRow(3))
+		.addHeaderRow(new DefaultPivotHeaderRow(4))
 		
-		.crosstabData(new DefaultCrosstabData(5, new SumGroupCalculator()))
+		.pivotData(new DefaultPivotData(5, new SumGroupCalculator()))
 		
 		.showTotals(false)
 		.showGrandTotal(false)
@@ -269,7 +269,7 @@ public class TestPivotTable extends TestCase {
 		
 		.dataColumns(CtScenario2x2x1With0G2D.DATA_COLUMNS)
 		.headerRows(CtScenario2x2x1With0G2D.HEADER_ROWS)
-		.crosstabData(CtScenario2x2x1With0G2D.CROSSTAB_DATA)
+		.pivotData(CtScenario2x2x1With0G2D.CROSSTAB_DATA)
 		
 		.showTotals(false)
 		.showGrandTotal(false)
@@ -290,7 +290,7 @@ public class TestPivotTable extends TestCase {
 			//.output(new HtmlOutput("target/CrosstabReportProgramaticallySorted2x2x1With0G2D.html"))
 			.dataColumns(CtUnsortedScenario2x2x1With0G2D.DATA_COLUMNS)
 			.headerRows(CtUnsortedScenario2x2x1With0G2D.HEADER_ROWS)
-			.crosstabData(CtUnsortedScenario2x2x1With0G2D.CROSSTAB_DATA)
+			.pivotData(CtUnsortedScenario2x2x1With0G2D.CROSSTAB_DATA)
 			.showTotals(false)
 			.showGrandTotal(false)
 			.build()
@@ -311,7 +311,7 @@ public class TestPivotTable extends TestCase {
 			.groupColumns(CtUnsortedScenario2x2x1With2G0D.GROUPING_COLUMNS)
 			//.dataColumns(CtUnsortedScenario2x2x1With2G0D.DATA_COLUMNS) /*dataCols is null*/
 			.headerRows(CtUnsortedScenario2x2x1With2G0D.HEADER_ROWS)
-			.crosstabData(CtUnsortedScenario2x2x1With2G0D.CROSSTAB_DATA)
+			.pivotData(CtUnsortedScenario2x2x1With2G0D.CROSSTAB_DATA)
 			//.showTotals(true)
 			//.showGrandTotal(true)
 			.sortValues()
@@ -333,7 +333,7 @@ public class TestPivotTable extends TestCase {
 			.dataColumns(CtScenarioFormatting4x3x1.DATA_COLUMNS)
 			.groupColumns(CtScenarioFormatting4x3x1.GROUP_COLUMNS)
 			.headerRows(CtScenarioFormatting4x3x1.HEADER_ROWS)
-			.crosstabData(CtScenarioFormatting4x3x1.CROSSTAB_DATA)
+			.pivotData(CtScenarioFormatting4x3x1.CROSSTAB_DATA)
 			.showTotals()
 			.showGrandTotal()
 			.build()

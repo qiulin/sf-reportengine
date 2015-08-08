@@ -24,7 +24,7 @@ import net.sf.reportengine.core.calc.GroupCalculator;
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.4
  */
-public class DefaultCrosstabData extends AbstractCrosstabData {
+public class DefaultPivotData extends AbstractPivotData {
 	
 	/**
 	 * 
@@ -35,7 +35,7 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	/**
 	 * 
 	 */
-	public DefaultCrosstabData(){
+	public DefaultPivotData(){
 		this(0); 
 	}
 	
@@ -43,7 +43,7 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	 * 
 	 * @param inputColumnIndex
 	 */
-	public DefaultCrosstabData(int inputColumnIndex){
+	public DefaultPivotData(int inputColumnIndex){
 		this(inputColumnIndex, null); 
 	}
 	
@@ -52,7 +52,7 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	 * @param inputColumnIndex
 	 * @param calcFactory
 	 */
-	public DefaultCrosstabData(int inputColumnIndex, GroupCalculator calc){
+	public DefaultPivotData(int inputColumnIndex, GroupCalculator calc){
 		this(inputColumnIndex, calc, null);
 	}
 	
@@ -62,7 +62,7 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	 * @param calcFactory
 	 * @param formatter
 	 */
-	public DefaultCrosstabData(	int inputColumIndex, 
+	public DefaultPivotData(	int inputColumIndex, 
 								GroupCalculator calc, 
 								String valuesFormatter){
 		this(inputColumIndex, calc, valuesFormatter, HorizAlign.CENTER);
@@ -75,7 +75,7 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	 * @param formatter
 	 * @param horizAlign
 	 */
-	public DefaultCrosstabData(	int inputColumnIndex, 
+	public DefaultPivotData(	int inputColumnIndex, 
 								GroupCalculator calc, 
 								String valuesFormatter, 
 								HorizAlign horizAlign){
@@ -91,7 +91,7 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	 * @param horizAlign
 	 * @param vertAlign
 	 */
-	public DefaultCrosstabData(	int inputColumIndex, 
+	public DefaultPivotData(	int inputColumIndex, 
 								GroupCalculator calc, 
 								String valuesFormatter, 
 								HorizAlign horizAlign, 
@@ -104,7 +104,7 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 	 * 
 	 * @param builder
 	 */
-	private DefaultCrosstabData(Builder builder){
+	private DefaultPivotData(Builder builder){
 		super(	builder.calculator, 
 				builder.valuesFormatter, 
 				builder.totalsFormatter, 
@@ -176,8 +176,8 @@ public class DefaultCrosstabData extends AbstractCrosstabData {
 			return this; 
 		}
 		
-		public DefaultCrosstabData build(){
-			return new DefaultCrosstabData(this); 
+		public DefaultPivotData build(){
+			return new DefaultPivotData(this); 
 		}
 
 	}
