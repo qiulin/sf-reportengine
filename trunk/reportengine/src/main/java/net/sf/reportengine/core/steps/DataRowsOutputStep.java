@@ -25,7 +25,7 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.RowProps;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.StepIOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,7 +118,7 @@ public class DataRowsOutputStep extends AbstractOutputStep<String,Integer,String
 		outputNoValue(stepInput, END_DATA_ROW_TEMPLATE);
 		
 		//incrementDataRowNbr(stepInput);
-		return new StepResult(ContextKeys.DATA_ROW_COUNT, getDataRowCount(stepInput)+1); 
+		return new StepResult(StepIOKeys.DATA_ROW_COUNT, getDataRowCount(stepInput)+1); 
     }
     
     public StepResult<String> exit(StepInput stepInput){

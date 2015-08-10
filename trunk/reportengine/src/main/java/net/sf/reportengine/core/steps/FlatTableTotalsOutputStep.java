@@ -26,7 +26,7 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.CalcIntermResult;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.RowProps;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.StepIOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,7 +95,7 @@ public class FlatTableTotalsOutputStep extends AbstractOutputStep <String,Intege
         }else{
         	LOGGER.trace("not displaying totals because current level is {}", groupLevel);
         }
-        return new StepResult<Integer>(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(currentDataRowNumber)); 
+        return new StepResult<Integer>(StepIOKeys.DATA_ROW_COUNT, Integer.valueOf(currentDataRowNumber)); 
      }
 
     /**
@@ -122,7 +122,7 @@ public class FlatTableTotalsOutputStep extends AbstractOutputStep <String,Intege
         					localDataRowNbr);	
         	localDataRowNbr = localDataRowNbr +1; 
         }
-        return new StepResult<Integer>(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(localDataRowNbr)); 
+        return new StepResult<Integer>(StepIOKeys.DATA_ROW_COUNT, Integer.valueOf(localDataRowNbr)); 
     }
     
     /**

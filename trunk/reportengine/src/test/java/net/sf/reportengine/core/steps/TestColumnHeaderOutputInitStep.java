@@ -29,8 +29,8 @@ import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.out.AbstractFreemarkerReportOutput;
 import net.sf.reportengine.out.MockReportOutput;
 import net.sf.reportengine.scenarios.Scenario1;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.StepIOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 import org.junit.Test;
 
@@ -48,10 +48,10 @@ public class TestColumnHeaderOutputInitStep  {
 		MockReportOutput mockOutput = new MockReportOutput(testWriter);  
 		mockOutput.open(); 
 		
-		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);  
-		mockAlgoInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
-		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS) ;
-		mockAlgoInput.put(IOKeys.NEW_REPORT_OUTPUT, mockOutput); 
+		Map<AlgoIOKeys, Object> mockAlgoInput = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);  
+		mockAlgoInput.put(AlgoIOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
+		mockAlgoInput.put(AlgoIOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS) ;
+		mockAlgoInput.put(AlgoIOKeys.NEW_REPORT_OUTPUT, mockOutput); 
 		
 		ColumnHeaderOutputInitStep classUnderTest = new ColumnHeaderOutputInitStep(); 
 		classUnderTest.init(new StepInput(mockAlgoInput, mockContext));

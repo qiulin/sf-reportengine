@@ -32,8 +32,8 @@ import net.sf.reportengine.core.steps.AbstractReportInitStep;
 import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.StepIOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 public class ConstrIntermedDataColsInitStep extends AbstractReportInitStep<List<DataColumn>>{
 	
@@ -45,11 +45,11 @@ public class ConstrIntermedDataColsInitStep extends AbstractReportInitStep<List<
 	
 	public StepResult<List<DataColumn>> init(StepInput input) {
 		
-		PivotData originalCtData = (PivotData)input.getAlgoInput(IOKeys.CROSSTAB_DATA); 
+		PivotData originalCtData = (PivotData)input.getAlgoInput(AlgoIOKeys.CROSSTAB_DATA); 
 		
 		List<DataColumn> dataColumns = transformCrosstabDataIntoDataColumns(originalCtData); 
 		LOGGER.debug("constructed intermediate data columns {}", dataColumns);
-		return new StepResult<List<DataColumn>>(ContextKeys.INTERNAL_DATA_COLS, dataColumns);
+		return new StepResult<List<DataColumn>>(StepIOKeys.INTERNAL_DATA_COLS, dataColumns);
 	}
 	
 	/**

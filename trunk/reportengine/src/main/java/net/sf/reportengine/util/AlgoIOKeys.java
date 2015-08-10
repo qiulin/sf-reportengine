@@ -22,16 +22,13 @@ package net.sf.reportengine.util;
  * @author dragos balan
  *
  */
-public enum IOKeys {
+public enum AlgoIOKeys {
 	
 	NO_KEY, 
+	
 	TEST_KEY, 
 	
-	REPORT_TITLE, 
-	
-	REPORT_INPUT, 
-	
-	REPORT_OUTPUT,
+	TABLE_INPUT, 
 	
 	NEW_REPORT_OUTPUT, 
 	

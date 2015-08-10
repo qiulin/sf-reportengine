@@ -18,7 +18,7 @@ package net.sf.reportengine.core.algorithm;
 import java.util.Map;
 
 import net.sf.reportengine.in.TableInput;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 
 /**
@@ -34,8 +34,8 @@ import net.sf.reportengine.util.IOKeys;
 public class DefaultLoopThroughReportInputAlgo extends OpenLoopCloseInputAlgo {
 
 	@Override
-	protected TableInput buildReportInput(Map<IOKeys, Object> inputParams) {
-		return (TableInput) inputParams.get(IOKeys.REPORT_INPUT); 
+	protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
+		return (TableInput) inputParams.get(AlgoIOKeys.TABLE_INPUT); 
 	}
 
 }

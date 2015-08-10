@@ -48,7 +48,7 @@ import net.sf.reportengine.in.MultipleExternalSortedFilesTableInput;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.AbstractReportOutput;
 import net.sf.reportengine.out.ReportOutput;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 import net.sf.reportengine.util.ReportUtils;
 import net.sf.reportengine.util.UserRequestedBoolean;
 
@@ -160,8 +160,8 @@ public final class FlatTable extends AbstractColumnBasedTable {
      */
     private Algorithm configSortingAlgo(){
     	MultiStepAlgo sortingAlgo = new OpenLoopCloseInputAlgo(){
-    		@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
-    			return (TableInput)inputParams.get(IOKeys.REPORT_INPUT); 
+    		@Override protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams){
+    			return (TableInput)inputParams.get(AlgoIOKeys.TABLE_INPUT); 
     		}
     	};
     	
@@ -179,18 +179,18 @@ public final class FlatTable extends AbstractColumnBasedTable {
     private Algorithm configReportAlgo(final boolean hasBeenPreviouslySorted){
     	MultiStepAlgo reportAlgo = new OpenLoopCloseInputAlgo(){
     		@Override 
-    		protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
+    		protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams){
     			if(hasBeenPreviouslySorted){
     				//if the input has been previously sorted
     				//then the sorting algorithm ( the previous) has created external sorted files
     				//which will serve as input from this point on
     				return new MultipleExternalSortedFilesTableInput(
-							(List<File>)inputParams.get(IOKeys.SORTED_FILES), 
+							(List<File>)inputParams.get(AlgoIOKeys.SORTED_FILES), 
 							new NewRowComparator(
-									(List<GroupColumn>)inputParams.get(IOKeys.GROUP_COLS), 
-									(List<DataColumn>)inputParams.get(IOKeys.DATA_COLS)));
+									(List<GroupColumn>)inputParams.get(AlgoIOKeys.GROUP_COLS), 
+									(List<DataColumn>)inputParams.get(AlgoIOKeys.DATA_COLS)));
     			}else{
-    				return (TableInput)inputParams.get(IOKeys.REPORT_INPUT);
+    				return (TableInput)inputParams.get(AlgoIOKeys.TABLE_INPUT);
     			}
     		}
     	};
@@ -260,17 +260,16 @@ public final class FlatTable extends AbstractColumnBasedTable {
         config();
         
         //preparing the context of the report reportAlgo 
-        Map<IOKeys, Object> inputParams = new EnumMap<IOKeys, Object>(IOKeys.class);	
-    	inputParams.put(IOKeys.REPORT_TITLE, "report title should not be used"); 
-    	inputParams.put(IOKeys.REPORT_INPUT, getInput());
-    	inputParams.put(IOKeys.NEW_REPORT_OUTPUT, reportOutput);
-    	inputParams.put(IOKeys.DATA_COLS, getDataColumns()); 
-    	inputParams.put(IOKeys.GROUP_COLS, getGroupColumns()); 
-    	inputParams.put(IOKeys.SHOW_TOTALS, getShowTotals()); 
-    	inputParams.put(IOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
+        Map<AlgoIOKeys, Object> inputParams = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);	
+    	inputParams.put(AlgoIOKeys.TABLE_INPUT, getInput());
+    	inputParams.put(AlgoIOKeys.NEW_REPORT_OUTPUT, reportOutput);
+    	inputParams.put(AlgoIOKeys.DATA_COLS, getDataColumns()); 
+    	inputParams.put(AlgoIOKeys.GROUP_COLS, getGroupColumns()); 
+    	inputParams.put(AlgoIOKeys.SHOW_TOTALS, getShowTotals()); 
+    	inputParams.put(AlgoIOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal()); 
     	
-    	Map<IOKeys, Object> result = reportAlgoContainer.execute(inputParams); 
-    	LOGGER.info("flat table output ended with {}", result);
+    	Map<AlgoIOKeys, Object> result = reportAlgoContainer.execute(inputParams); 
+    	LOGGER.info("flat table output ended with result {}", result);
     }
 	
 

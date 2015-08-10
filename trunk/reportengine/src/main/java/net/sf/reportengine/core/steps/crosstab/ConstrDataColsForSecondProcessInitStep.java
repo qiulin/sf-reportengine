@@ -29,7 +29,7 @@ import net.sf.reportengine.config.SecondProcessTotalColumn;
 import net.sf.reportengine.core.steps.AbstractCrosstabInitStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.StepIOKeys;
 import net.sf.reportengine.util.CtMetadata;
 
 /**
@@ -46,7 +46,7 @@ public class ConstrDataColsForSecondProcessInitStep extends AbstractCrosstabInit
 				getShowTotals(stepInput), 
 				getShowGrandTotal(stepInput));
 		//getAlgoContext().set(ContextKeys.INTERNAL_DATA_COLS, newDataCols);
-		return new StepResult<List<DataColumn>>(ContextKeys.INTERNAL_DATA_COLS, newDataCols); 
+		return new StepResult<List<DataColumn>>(StepIOKeys.INTERNAL_DATA_COLS, newDataCols); 
 	}
 	
 	/**

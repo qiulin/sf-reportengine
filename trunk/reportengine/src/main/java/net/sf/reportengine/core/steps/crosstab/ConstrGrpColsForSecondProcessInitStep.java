@@ -26,7 +26,7 @@ import net.sf.reportengine.config.SecondProcessGroupColumn;
 import net.sf.reportengine.core.steps.AbstractCrosstabInitStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.StepIOKeys;
 
 /**
  * @author dragos balan
@@ -39,7 +39,7 @@ public class ConstrGrpColsForSecondProcessInitStep extends AbstractCrosstabInitS
 		List<GroupColumn> newGroupCols = constructGroupColumnsForSecondProcess(getGroupColumns(stepInput)); 
 		//getAlgoContext().set(ContextKeys.INTERNAL_GROUP_COLS, newGroupCols); 
 		
-		return new StepResult<List<GroupColumn>>(ContextKeys.INTERNAL_GROUP_COLS, newGroupCols); 
+		return new StepResult<List<GroupColumn>>(StepIOKeys.INTERNAL_GROUP_COLS, newGroupCols); 
 	}
 
 	/**

@@ -25,9 +25,9 @@ import net.sf.reportengine.config.PivotHeaderRow;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.StepIOKeys;
 import net.sf.reportengine.util.DefaultDistinctValuesHolder;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 /**
  * @author dragos balan
@@ -36,7 +36,7 @@ import net.sf.reportengine.util.IOKeys;
 public abstract class AbstractCrosstabStep<T,U,V> extends AbstractReportStep<T,U,V> {
 	
 	public List<PivotHeaderRow> getCrosstabHeaderRows(StepInput stepInput){
-		return (List<PivotHeaderRow>)stepInput.getAlgoInput(IOKeys.CROSSTAB_HEADER_ROWS); 
+		return (List<PivotHeaderRow>)stepInput.getAlgoInput(AlgoIOKeys.CROSSTAB_HEADER_ROWS); 
 	}
 	 
 	 public int getCrosstabHeaderRowsLength(StepInput stepInput){
@@ -44,19 +44,19 @@ public abstract class AbstractCrosstabStep<T,U,V> extends AbstractReportStep<T,U
 	 }
 		
 	 public PivotData getCrosstabData(StepInput stepInput){
-		 return (PivotData)stepInput.getAlgoInput(IOKeys.CROSSTAB_DATA); 
+		 return (PivotData)stepInput.getAlgoInput(AlgoIOKeys.CROSSTAB_DATA); 
 	 }
 	 
 	 public DefaultDistinctValuesHolder getDistinctValuesHolder(StepInput stepInput){
-		 return (DefaultDistinctValuesHolder)stepInput.getContextParam(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER); 
+		 return (DefaultDistinctValuesHolder)stepInput.getContextParam(StepIOKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER); 
 	 }
 	 
 	 public IntermediateDataInfo getIntermediateCrosstabDataInfo(StepInput stepInput){
-		 return (IntermediateDataInfo)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO);
+		 return (IntermediateDataInfo)stepInput.getContextParam(StepIOKeys.INTERMEDIATE_CROSSTAB_DATA_INFO);
 	 }
 	 
 	 public IntermediateReportRow getIntermediateRow(StepInput stepInput){
-		 return (IntermediateReportRow)stepInput.getContextParam(ContextKeys.INTERMEDIATE_ROW); 
+		 return (IntermediateReportRow)stepInput.getContextParam(StepIOKeys.INTERMEDIATE_ROW); 
 	 }
 	 
 	 public boolean getShowTotalsInHeader(){
@@ -87,6 +87,6 @@ public abstract class AbstractCrosstabStep<T,U,V> extends AbstractReportStep<T,U
 	     * @return
 	     */
 	    public IntermediateCrosstabOutput getIntermCrosstabOutput(StepInput stepInput){
-	    	return (IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT); 
+	    	return (IntermediateCrosstabOutput)stepInput.getContextParam(StepIOKeys.INTERMEDIATE_CROSSTAB_OUTPUT); 
 	    }
 }

@@ -23,7 +23,7 @@ import java.util.List;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.steps.GroupLevelDetectorStep;
 import net.sf.reportengine.core.steps.StepInput;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.StepIOKeys;
 
 /**
  * @author dragos balan
@@ -42,6 +42,6 @@ public class IntermedGroupLevelDetectorStep extends GroupLevelDetectorStep {
      * @return
      */
 	@Override public List<GroupColumn> getGroupColumns(StepInput stepInput){
-		return (List<GroupColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_GROUP_COLS);
+		return (List<GroupColumn>)stepInput.getContextParam(StepIOKeys.INTERNAL_GROUP_COLS);
 	}
 }

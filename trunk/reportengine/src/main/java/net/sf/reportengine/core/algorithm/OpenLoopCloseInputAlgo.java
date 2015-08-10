@@ -25,8 +25,8 @@ import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.in.TableInput;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.StepIOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,9 +34,11 @@ import org.slf4j.LoggerFactory;
 /**
  * <p>
  * This multi step algorithm performs the following operations : 
- *  1. opens the input
- *  2. loops through the reportInput and executes the algorithm steps
- *  3. closes the input
+ *  1. transfer the algo input into the context
+ *  2. opens the input
+ *  3. loops through the reportInput and executes the algorithm steps
+ *  4. closes the input
+ *  5. transfer the context into algo output
  * </p>
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2 
@@ -54,14 +56,14 @@ public abstract class OpenLoopCloseInputAlgo extends AbstractMultiStepAlgo {
 	 * @param inputParams the map of input parameters
 	 * @return	the input stream which will be looped
 	 */
-	protected abstract TableInput buildReportInput(Map<IOKeys, Object> inputParams); 
+	protected abstract TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams); 
     
     /**
-     * 
+     * executes the report
      */
-    public Map<IOKeys, Object> execute(Map<IOKeys, Object> inputParams) {
+    public Map<AlgoIOKeys, Object> execute(Map<AlgoIOKeys, Object> inputParams) {
     	
-    	Map<IOKeys, Object> algoResult = new EnumMap<IOKeys, Object>(IOKeys.class); 
+    	Map<AlgoIOKeys, Object> algoResult = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class); 
     	
     	LOGGER.debug("creating the context");
     	AlgoContext context = new DefaultAlgorithmContext();
@@ -69,7 +71,7 @@ public abstract class OpenLoopCloseInputAlgo extends AbstractMultiStepAlgo {
     	TableInput reportInput = null; 
     	try{
 	    	LOGGER.debug("opening report input");
-	    	reportInput = buildReportInput(inputParams); 
+	    	reportInput = buildTableInput(inputParams); 
 	    	reportInput.open(); 
 	    	
 	    	LOGGER.debug("start looping");
@@ -125,82 +127,16 @@ public abstract class OpenLoopCloseInputAlgo extends AbstractMultiStepAlgo {
 
 
 	private void processStepResult(	AlgoContext context, 
-									Map<IOKeys, Object> result, 
+									Map<AlgoIOKeys, Object> result, 
 									StepResult stepResult) {
 		
 		if(stepResult !=null && !StepResult.NO_RESULT.equals(stepResult)){
-			if(!ContextKeys.SKIP_CONTEXT_KEY.equals(stepResult.getKey())){
+			if(!StepIOKeys.SKIP_CONTEXT_KEY.equals(stepResult.getKey())){
 				context.set(stepResult.getKey(), stepResult.getValue());
 			}
-			if(!IOKeys.NO_KEY.equals(stepResult.getIOKey())){
+			if(!AlgoIOKeys.NO_KEY.equals(stepResult.getIOKey())){
 				result.put(stepResult.getIOKey(), stepResult.getValue()); 
 			}
 		}
 	} 
-    
-    
-    /**
-     * 2. for each input row of data executes the execute method
-     * 3. calls the exit method for each main step
-     */
-//    protected void executeMainSteps(Map<IOKeys, Object> inputParams, ReportInput reportInput, AlgoContext context) {
-//    	List<AlgorithmMainStep> mainSteps = getMainSteps();
-//    	//ReportInput reportInput = (ReportInput)getContext().get(ContextKeys.LOCAL_REPORT_INPUT);
-//    	
-//    	//call init for each step
-//        for(AlgorithmMainStep mainStep: mainSteps){
-//            mainStep.init(null);
-//        } 
-//        
-//        //iteration through input data (row by row)
-//        while(reportInput.hasMoreRows()){
-//        	
-//            //get the current data row 
-//            List<Object> currentRow = reportInput.nextRow();
-//            LOGGER.trace("executing algo steps for input row {}", currentRow);
-//            
-//            //then we pass the dataRow through all the report steps
-//            for(AlgorithmMainStep algoStep: mainSteps){
-//            	algoStep.execute(new NewRowEvent(currentRow), null);
-//            }
-//        }
-//        
-//        //call exit
-//        for(AlgorithmMainStep mainStep: mainSteps){
-//           mainStep.exit();
-//        }
-//    }
-    
-    /**
-     * calls the exit method
-     */
-//    protected Map<IOKeys, Object> executeExitSteps(Map<IOKeys, Object> inputParams, AlgoContext context){
-//    	List<AlgorithmExitStep> exitSteps = getExitSteps();
-//    	
-//    	Map<IOKeys, Object> result = new EnumMap<IOKeys, Object>(IOKeys.class); 
-//    	for(AlgorithmExitStep exitStep: exitSteps){
-//    		result.putAll(exitStep.exit(null));
-//    	}
-//    	return result; 
-//    } 
-    
-    /**
-     * 
-     * @return
-     */
-//    private Map<IOKeys, Object> extractResultsFromSteps(){
-//    	Map<IOKeys, Object> result = new HashMap<IOKeys, Object>(); 
-//    	
-//    	for (AlgorithmMainStep step : getMainSteps()) {
-//			if(step.getResultsMap() != null){
-//				result.putAll(step.getResultsMap()); 
-//			}
-//		}
-//    	
-//    	return result; 
-//    }
-    
-//    private ReportInput getReportInput(Map<IOKeys, Object> inputParams){
-//    	return (ReportInput)inputParams.get(reportInputParamKey);
-//    }
 }

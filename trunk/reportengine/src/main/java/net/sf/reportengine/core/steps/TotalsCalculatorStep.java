@@ -19,7 +19,7 @@ import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.CalcIntermResult;
 import net.sf.reportengine.util.CalculatorIntermResultsMatrix;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.StepIOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +65,7 @@ public class TotalsCalculatorStep extends AbstractReportStep<CalcIntermResult[][
         calculatorMatrix.initAll();
         
         //getAlgoContext().set(ContextKeys.CALC_INTERM_RESULTS, calculatorMatrix.getIntermResultsMatrix());
-        return new StepResult(ContextKeys.CALC_INTERM_RESULTS, calculatorMatrix.getIntermResultsMatrix()); 
+        return new StepResult(StepIOKeys.CALC_INTERM_RESULTS, calculatorMatrix.getIntermResultsMatrix()); 
     }
     
     /**

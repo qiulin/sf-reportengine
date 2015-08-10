@@ -22,8 +22,8 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.AlgoContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.StepIOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
@@ -95,7 +95,7 @@ public class GroupLevelDetectorStep extends AbstractReportStep<String, Integer, 
 		
 		//set the result in context
 		//getAlgoContext().set(ContextKeys.NEW_GROUPING_LEVEL, groupLevel);
-		return new StepResult<Integer>(ContextKeys.NEW_GROUPING_LEVEL, groupLevel); 
+		return new StepResult<Integer>(StepIOKeys.NEW_GROUPING_LEVEL, groupLevel); 
 	}
     
     

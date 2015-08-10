@@ -21,10 +21,10 @@ import net.sf.reportengine.config.PivotHeaderRow;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.StepIOKeys;
 import net.sf.reportengine.util.DefaultDistinctValuesHolder;
 import net.sf.reportengine.util.DistinctValuesHolder;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 
 /**
@@ -65,9 +65,9 @@ public class DistinctValuesDetectorStep extends AbstractCrosstabStep<DistinctVal
         distinctValuesHolder = new DefaultDistinctValuesHolder(headerRows);
         //getAlgoContext().set(ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER, distinctValuesHolder);
         //addResult(IOKeys.DISTINCT_VALUES_HOLDER, distinctValuesHolder); 
-        return new StepResult<DistinctValuesHolder>(	ContextKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER, 
+        return new StepResult<DistinctValuesHolder>(	StepIOKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER, 
         													distinctValuesHolder, 
-        													IOKeys.DISTINCT_VALUES_HOLDER); 
+        													AlgoIOKeys.DISTINCT_VALUES_HOLDER); 
     }
 	
 	/**
@@ -96,7 +96,7 @@ public class DistinctValuesDetectorStep extends AbstractCrosstabStep<DistinctVal
 //		getAlgoContext().set(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO, 
 //						new IntermediateDataInfo(getCrosstabData(stepInput).getValue(newRowEvent), 
 //												currDataValueRelativePositionToHeaderValues)); 
-		return new StepResult<IntermediateDataInfo>(ContextKeys.INTERMEDIATE_CROSSTAB_DATA_INFO, intermDataInfo); 
+		return new StepResult<IntermediateDataInfo>(StepIOKeys.INTERMEDIATE_CROSSTAB_DATA_INFO, intermDataInfo); 
 	}
 	
 	public StepResult<String> exit(StepInput stepInput) {

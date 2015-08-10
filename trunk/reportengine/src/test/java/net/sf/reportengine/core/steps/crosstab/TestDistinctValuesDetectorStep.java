@@ -29,7 +29,7 @@ import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.scenarios.ct.CtScenario1x1x1;
 import net.sf.reportengine.scenarios.ct.CtScenario1x3x1;
 import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -54,11 +54,11 @@ public class TestDistinctValuesDetectorStep  {
 	@Test
 	public void testExecuteCtScenario1() {
 		AlgoContext reportContext = new DefaultAlgorithmContext(); 
-		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+		Map<AlgoIOKeys, Object> mockAlgoInput = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);
 		
-		mockAlgoInput.put(	IOKeys.CROSSTAB_HEADER_ROWS, 
+		mockAlgoInput.put(	AlgoIOKeys.CROSSTAB_HEADER_ROWS, 
 							CtScenario2x2x1With1G1D.HEADER_ROWS);
-		mockAlgoInput.put(	IOKeys.CROSSTAB_DATA, 
+		mockAlgoInput.put(	AlgoIOKeys.CROSSTAB_DATA, 
 							CtScenario2x2x1With1G1D.CROSSTAB_DATA);
 		
 		classUnderTest.init(new StepInput(mockAlgoInput, reportContext));
@@ -81,10 +81,10 @@ public class TestDistinctValuesDetectorStep  {
 	 */
 	public void testExecuteCtScenario1x3x1() {
 		AlgoContext reportContext = new DefaultAlgorithmContext();  
-		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+		Map<AlgoIOKeys, Object> mockAlgoInput = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);
 		
-		mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS);
-		mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario1x3x1.CROSSTAB_DATA);
+		mockAlgoInput.put(AlgoIOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x3x1.HEADER_ROWS);
+		mockAlgoInput.put(AlgoIOKeys.CROSSTAB_DATA, CtScenario1x3x1.CROSSTAB_DATA);
 		
 		classUnderTest.init(new StepInput(mockAlgoInput, reportContext));
 		assertNotNull(classUnderTest.getCrosstabHeaderRows(new StepInput(mockAlgoInput, reportContext)));
@@ -105,10 +105,10 @@ public class TestDistinctValuesDetectorStep  {
 	 */
 	public void testExecuteCtScenario1x1x1() {
 		AlgoContext reportContext = new DefaultAlgorithmContext(); 
-		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+		Map<AlgoIOKeys, Object> mockAlgoInput = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);
 		
-		mockAlgoInput.put(IOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x1x1.ROW_HEADERS);
-		mockAlgoInput.put(IOKeys.CROSSTAB_DATA, CtScenario1x1x1.CROSSTAB_DATA_NO_TOTALS);
+		mockAlgoInput.put(AlgoIOKeys.CROSSTAB_HEADER_ROWS, CtScenario1x1x1.ROW_HEADERS);
+		mockAlgoInput.put(AlgoIOKeys.CROSSTAB_DATA, CtScenario1x1x1.CROSSTAB_DATA_NO_TOTALS);
 		
 		classUnderTest.init(new StepInput(mockAlgoInput, reportContext));
 		assertNotNull(classUnderTest.getCrosstabHeaderRows(new StepInput(mockAlgoInput, reportContext)));

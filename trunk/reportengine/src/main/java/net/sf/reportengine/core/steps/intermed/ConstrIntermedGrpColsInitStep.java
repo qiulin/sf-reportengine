@@ -31,8 +31,8 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.AbstractReportInitStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.StepIOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 public class ConstrIntermedGrpColsInitStep extends AbstractReportInitStep<List<GroupColumn>>{
 	
@@ -48,7 +48,7 @@ public class ConstrIntermedGrpColsInitStep extends AbstractReportInitStep<List<G
 		List<DataColumn> originalCtDataCols = getDataColumns(input); 
 		List<GroupColumn> originalCtGroupingCols = getGroupColumns(input); 
 		List<PivotHeaderRow> originalCtHeaderRows = 
-				(List<PivotHeaderRow>)input.getAlgoInput(IOKeys.CROSSTAB_HEADER_ROWS);
+				(List<PivotHeaderRow>)input.getAlgoInput(AlgoIOKeys.CROSSTAB_HEADER_ROWS);
 		
 		
 		List<GroupColumn> newGroupCols = transformGroupingCrosstabConfigInFlatReportConfig(
@@ -56,7 +56,7 @@ public class ConstrIntermedGrpColsInitStep extends AbstractReportInitStep<List<G
 					originalCtDataCols, 
 					originalCtHeaderRows); 
 		
-		return new StepResult<List<GroupColumn>>(ContextKeys.INTERNAL_GROUP_COLS, newGroupCols);		
+		return new StepResult<List<GroupColumn>>(StepIOKeys.INTERNAL_GROUP_COLS, newGroupCols);		
 	}
 	
 	/**

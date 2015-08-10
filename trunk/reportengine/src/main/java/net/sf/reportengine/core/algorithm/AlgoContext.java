@@ -16,7 +16,7 @@
 package net.sf.reportengine.core.algorithm;
 
 import net.sf.reportengine.core.steps.StepResult;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.StepIOKeys;
 
 
 /**
@@ -40,12 +40,12 @@ public interface AlgoContext {
      * @param key		the identifier of the given object
      * @param obj		the object to be registered
      */
-    public void set(ContextKeys key, Object obj);
+    public void set(StepIOKeys key, Object obj);
     
     /**
      * gets a value from the context
      * @param key	the indentifier 
      * @return		the requested value
      */
-    public Object get(ContextKeys key);
+    public Object get(StepIOKeys key);
 }

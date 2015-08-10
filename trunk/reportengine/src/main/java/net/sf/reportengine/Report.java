@@ -20,7 +20,6 @@ import java.util.List;
 
 import net.sf.reportengine.components.ReportComponent;
 import net.sf.reportengine.out.AbstractReportOutput;
-import net.sf.reportengine.out.ReportProps;
 
 /**
  * This is the main report class. 
@@ -28,44 +27,19 @@ import net.sf.reportengine.out.ReportProps;
  * @author dragos balan
  * @since 0.13.0
  */
-public class Report {
-	
-	public final static String START_REPORT_TEMPLATE = "startReport.ftl";
-	public final static String END_REPORT_TEMPLATE = "endReport.ftl";
+public interface Report {
 	
 	/**
-	 * the list of the components of this report
+	 * 
 	 */
-	private List<ReportComponent> components = new ArrayList<ReportComponent>(); 
+	public void execute(); 
 	
 	/**
-	 * the report output
+	 * 
 	 */
-	private final AbstractReportOutput reportOutput; 
-	
-	
-	private Report(Builder builder){
-		this.reportOutput = builder.reportOutput;
-		this.components = builder.components; 
-	}
-	
-	
-	/**
-	 * executes the report
-	 */
-	public void execute(){
-		reportOutput.open();
-		reportOutput.output(START_REPORT_TEMPLATE, new ReportProps(reportOutput.getFormat())); 
-		for (ReportComponent reportComponent : components) {
-			reportComponent.output(reportOutput);
-		}
-		reportOutput.output(END_REPORT_TEMPLATE);
-		reportOutput.close();
-	}
-	
 	public static class Builder {
 		
-		private List<ReportComponent> components = new ArrayList<ReportComponent>(); 
+		private List<ReportComponent> components; 
 		
 		private final AbstractReportOutput reportOutput;
 		
@@ -75,6 +49,7 @@ public class Report {
 		 */
 		public Builder(AbstractReportOutput output){
 			this.reportOutput = output;
+			this.components = new ArrayList<ReportComponent>(); 
 		}
 		
 		
@@ -87,9 +62,16 @@ public class Report {
 			return this; 
 		}
 		
-		public Report build(){
-			return new Report(this); 
+		public AbstractReportOutput getOutput(){
+			return reportOutput; 
 		}
 		
+		public List<ReportComponent> getComponents(){
+			return components;
+		}
+		
+		public Report build(){
+			return new DefaultReport(this); 
+		}		
 	}
 }

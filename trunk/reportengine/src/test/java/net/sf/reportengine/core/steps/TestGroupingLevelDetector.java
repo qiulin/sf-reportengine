@@ -28,8 +28,8 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.scenarios.CalculatedColumnsScenario;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.Scenario2;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.StepIOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 public class TestGroupingLevelDetector{
 	
@@ -44,10 +44,10 @@ public class TestGroupingLevelDetector{
 	@Test
 	public void testExecuteScenario1() {
 		AlgoContext testReportContext = new DefaultAlgorithmContext(); 
-		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+		Map<AlgoIOKeys, Object> mockAlgoInput = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);
 		
 		//testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario1.GROUPING_COLUMNS);
-		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS);
+		mockAlgoInput.put(AlgoIOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS);
 		
 		classUnderTest.init(new StepInput(mockAlgoInput, testReportContext));
 		
@@ -58,17 +58,17 @@ public class TestGroupingLevelDetector{
 			Assert.assertNotNull(stepResult);
 			Assert.assertEquals(Scenario1.AGG_LEVEL[i], stepResult.getValue()); //testReportContext.get(ContextKeys.NEW_GROUPING_LEVEL)
 			
-			testReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[i]);
+			testReportContext.set(StepIOKeys.LAST_GROUPING_VALUES, Scenario1.PREVIOUS_GROUP_VALUES[i]);
 		}
 	}
 	
 	@Test
 	public void testExecuteScenario2() {
 		AlgoContext testReportContext = new DefaultAlgorithmContext(); 
-		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+		Map<AlgoIOKeys, Object> mockAlgoInput = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);
 		
 		//testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario2.GROUPING_COLUMNS);
-		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario2.GROUPING_COLUMNS);
+		mockAlgoInput.put(AlgoIOKeys.GROUP_COLS, Scenario2.GROUPING_COLUMNS);
 		classUnderTest.init(new StepInput(mockAlgoInput, testReportContext));
 		
 		for(int i=0; i<Scenario2.RAW_INPUT.length; i++){
@@ -78,7 +78,7 @@ public class TestGroupingLevelDetector{
 			Assert.assertNotNull(stepResult);
 			Assert.assertEquals(Scenario2.AGG_LEVEL[i], stepResult.getValue()); //testReportContext.get(ContextKeys.NEW_GROUPING_LEVEL)
 			
-			testReportContext.set(ContextKeys.LAST_GROUPING_VALUES, Scenario2.PREVIOUS_GROUP_VALUES[i]);
+			testReportContext.set(StepIOKeys.LAST_GROUPING_VALUES, Scenario2.PREVIOUS_GROUP_VALUES[i]);
 		}
 	}
 
@@ -86,10 +86,10 @@ public class TestGroupingLevelDetector{
 	@Test
 	public void testExecuteCalculatedColumnsScenario() {
 		AlgoContext testReportContext = new DefaultAlgorithmContext(); 
-		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
+		Map<AlgoIOKeys, Object> mockAlgoInput = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class); 
 		
-		mockAlgoInput.put(IOKeys.GROUP_COLS, CalculatedColumnsScenario.GROUP_COLUMNS);
-		mockAlgoInput.put(IOKeys.DATA_COLS, CalculatedColumnsScenario.DATA_COLUMNS);
+		mockAlgoInput.put(AlgoIOKeys.GROUP_COLS, CalculatedColumnsScenario.GROUP_COLUMNS);
+		mockAlgoInput.put(AlgoIOKeys.DATA_COLS, CalculatedColumnsScenario.DATA_COLUMNS);
 		
 		//testReportContext.set(ContextKeys.DATA_COLUMNS, CalculatedColumnsScenario.DATA_COLUMNS);
 		//testReportContext.set(ContextKeys.GROUP_COLUMNS, CalculatedColumnsScenario.GROUP_COLUMNS);
@@ -104,7 +104,7 @@ public class TestGroupingLevelDetector{
 			Assert.assertNotNull(stepResult);
 			Assert.assertEquals(CalculatedColumnsScenario.AGG_LEVEL[i], stepResult.getValue()); //testReportContext.get(ContextKeys.NEW_GROUPING_LEVEL)
 			
-			testReportContext.set(ContextKeys.LAST_GROUPING_VALUES, CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i]);
+			testReportContext.set(StepIOKeys.LAST_GROUPING_VALUES, CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i]);
 		}
 	}
 }

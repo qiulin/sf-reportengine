@@ -27,7 +27,7 @@ import net.sf.reportengine.core.calc.CalcIntermResult;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.StepIOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,15 +61,15 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep<IntermediateRepo
 	 * 
 	 */
 	public StepResult<IntermediateReportRow> init(StepInput stepInput){
-		return new StepResult<IntermediateReportRow>(ContextKeys.INTERMEDIATE_ROW, intermediateRow);
+		return new StepResult<IntermediateReportRow>(StepIOKeys.INTERMEDIATE_ROW, intermediateRow);
 	}
 	
 	private int getIntermGroupColsLength(StepInput stepInput){
-		return ((List<GroupColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_GROUP_COLS)).size(); 
+		return ((List<GroupColumn>)stepInput.getContextParam(StepIOKeys.INTERNAL_GROUP_COLS)).size(); 
 	}
 	
 	private int getIntermDataColsLength(StepInput stepInput){
-		return ((List<DataColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_DATA_COLS)).size(); 
+		return ((List<DataColumn>)stepInput.getContextParam(StepIOKeys.INTERNAL_DATA_COLS)).size(); 
 	}
 	
 	/**

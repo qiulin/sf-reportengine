@@ -30,8 +30,8 @@ import java.util.Map;
 import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.scenarios.Scenario1;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.StepIOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 import org.junit.Test;
 
@@ -43,10 +43,10 @@ public class TestExternalSortStep {
 	public void testExecute() throws Exception{
 		
 		DefaultAlgorithmContext mockContext = new DefaultAlgorithmContext(); 
-		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+		Map<AlgoIOKeys, Object> mockAlgoInput = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);
 		
-		mockAlgoInput.put(IOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
-		mockAlgoInput.put(IOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS_WITH_SORTING); 
+		mockAlgoInput.put(AlgoIOKeys.DATA_COLS, Scenario1.DATA_COLUMNS); 
+		mockAlgoInput.put(AlgoIOKeys.GROUP_COLS, Scenario1.GROUPING_COLUMNS_WITH_SORTING); 
 		
 		ExternalSortPreparationStep classUnderTest = new ExternalSortPreparationStep(MAX_ROWS_IN_MEMORY); 
 		StepResult<List<File>> initStepResult = classUnderTest.init(new StepInput(mockAlgoInput, mockContext)); 
