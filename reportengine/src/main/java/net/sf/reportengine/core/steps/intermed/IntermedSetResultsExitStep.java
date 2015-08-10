@@ -24,8 +24,8 @@ import net.sf.reportengine.core.steps.AbstractReportExitStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.StepIOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 /**
  * @author dragos balan
@@ -34,10 +34,10 @@ import net.sf.reportengine.util.IOKeys;
 public class IntermedSetResultsExitStep extends AbstractReportExitStep<File> {
 
 	public StepResult<File> exit(StepInput stepInput) {
-		IntermediateCrosstabOutput output = (IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT);  
-		StepResult<File> result = new StepResult<File>(ContextKeys.SKIP_CONTEXT_KEY, 
+		IntermediateCrosstabOutput output = (IntermediateCrosstabOutput)stepInput.getContextParam(StepIOKeys.INTERMEDIATE_CROSSTAB_OUTPUT);  
+		StepResult<File> result = new StepResult<File>(StepIOKeys.SKIP_CONTEXT_KEY, 
 						((IntermediateCrosstabOutput)output).getSerializedOutputFile(), 
-						IOKeys.INTERMEDIATE_OUTPUT_FILE); 
+						AlgoIOKeys.INTERMEDIATE_OUTPUT_FILE); 
 		return result; 
 	}
 }

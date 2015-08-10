@@ -18,10 +18,10 @@
  */
 package net.sf.reportengine.core.steps.crosstab;
 
-import static net.sf.reportengine.util.IOKeys.DATA_COLS;
-import static net.sf.reportengine.util.IOKeys.GROUP_COLS;
-import static net.sf.reportengine.util.IOKeys.SHOW_GRAND_TOTAL;
-import static net.sf.reportengine.util.IOKeys.SHOW_TOTALS;
+import static net.sf.reportengine.util.AlgoIOKeys.DATA_COLS;
+import static net.sf.reportengine.util.AlgoIOKeys.GROUP_COLS;
+import static net.sf.reportengine.util.AlgoIOKeys.SHOW_GRAND_TOTAL;
+import static net.sf.reportengine.util.AlgoIOKeys.SHOW_TOTALS;
 
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -33,8 +33,8 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.scenarios.Scenario1;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.StepIOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 import org.junit.Test;
 
@@ -50,7 +50,7 @@ public class TestIntermRowManagerStep {
 	@Test
 	public void testExecute() {
 		AlgoContext context = new DefaultAlgorithmContext();
-		Map<IOKeys, Object> mockInput = new EnumMap<IOKeys, Object>(IOKeys.class);
+		Map<AlgoIOKeys, Object> mockInput = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);
 		
 		mockInput.put(DATA_COLS, Scenario1.DATA_COLUMNS); 
 		mockInput.put(GROUP_COLS, Scenario1.GROUPING_COLUMNS); 
@@ -58,11 +58,11 @@ public class TestIntermRowManagerStep {
 		mockInput.put(SHOW_TOTALS, false); 
 		mockInput.put(SHOW_GRAND_TOTAL, false); 
 		
-		context.set(ContextKeys.NEW_GROUPING_LEVEL, Integer.valueOf(1)); 
-		context.set(ContextKeys.LAST_GROUPING_VALUES, new String[]{"1", "2", "3", "4", "5", "6"}); 
+		context.set(StepIOKeys.NEW_GROUPING_LEVEL, Integer.valueOf(1)); 
+		context.set(StepIOKeys.LAST_GROUPING_VALUES, new String[]{"1", "2", "3", "4", "5", "6"}); 
 		
 		IntermediateCrosstabOutput mockReportOutput = new IntermediateCrosstabOutput(); 
-		context.set(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT, mockReportOutput);
+		context.set(StepIOKeys.INTERMEDIATE_CROSSTAB_OUTPUT, mockReportOutput);
 		
 		mockReportOutput.open(); 
 		

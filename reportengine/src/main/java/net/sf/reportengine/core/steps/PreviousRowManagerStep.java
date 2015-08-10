@@ -24,7 +24,7 @@ import java.util.List;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.StepIOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +62,7 @@ public class PreviousRowManagerStep extends AbstractReportStep<String, Object[],
 			copyGroupingValuesToPrevRowOfGrpValues(getGroupColumns(stepInput), rowEvent);
 			
 			//getAlgoContext().set(ContextKeys.LAST_GROUPING_VALUES, previousRowOfGroupingColumnValues);
-			result = new StepResult(ContextKeys.LAST_GROUPING_VALUES, previousRowOfGroupingColumnValues); 
+			result = new StepResult(StepIOKeys.LAST_GROUPING_VALUES, previousRowOfGroupingColumnValues); 
 		}else{
 			if(getGroupingLevel(stepInput) > -1){
 				copyGroupingValuesToPrevRowOfGrpValues(getGroupColumns(stepInput), rowEvent);

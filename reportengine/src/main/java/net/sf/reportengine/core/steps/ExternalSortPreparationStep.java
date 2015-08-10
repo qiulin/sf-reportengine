@@ -29,8 +29,8 @@ import java.util.List;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.StepIOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 import net.sf.reportengine.util.ReportIoUtils;
 
 import org.slf4j.Logger;
@@ -93,7 +93,7 @@ public class ExternalSortPreparationStep extends AbstractReportStep<List<File>, 
 	public StepResult<List<File>> init(StepInput stepInput){
 		COMPARATOR = new NewRowComparator(getGroupColumns(stepInput), getDataColumns(stepInput)); 
 		//addResult(IOKeys.SORTED_FILES, sortedFiles); 
-		return new StepResult<List<File>>(ContextKeys.SKIP_CONTEXT_KEY, sortedFiles, IOKeys.SORTED_FILES); 
+		return new StepResult<List<File>>(StepIOKeys.SKIP_CONTEXT_KEY, sortedFiles, AlgoIOKeys.SORTED_FILES); 
 	}
 	
 	/**

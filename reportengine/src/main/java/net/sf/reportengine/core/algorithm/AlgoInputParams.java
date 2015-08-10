@@ -15,10 +15,10 @@
  */
 package net.sf.reportengine.core.algorithm;
 
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 public interface AlgoInputParams {
 	
-	public Object getParam(IOKeys key); 
+	public Object getParam(AlgoIOKeys key); 
 	
 }

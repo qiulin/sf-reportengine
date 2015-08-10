@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,18 +67,15 @@ public class AlgorithmContainer implements Algorithm {
 	 * calls the execute method of each algorithm and passes the results from one to the other 
 	 * until the end of the algorithm list is reached
 	 */
-	public Map<IOKeys, Object> execute(Map<IOKeys, Object> input){
+	public Map<AlgoIOKeys, Object> execute(Map<AlgoIOKeys, Object> input){
 		//Map<IOKeys, Object> input = initialInput; 
-		Map<IOKeys, Object> result = null; 
+		Map<AlgoIOKeys, Object> result = null; 
 		 
 		for (Iterator<Algorithm> algoIterator = algos.iterator(); algoIterator.hasNext(); ) {
 			Algorithm algo = algoIterator.next(); 
-			//algo.setIn(input);
 			
 			//execution of the algorithm
 			result = algo.execute(input); 
-			
-			//result = algo.getResultMap(); 
 			
 			if(algoIterator.hasNext()){
 				//transform this algo's output in next algo's input

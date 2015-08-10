@@ -24,8 +24,8 @@ import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.steps.FlatTableTotalsOutputStep;
 import net.sf.reportengine.core.steps.StepInput;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.StepIOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 /**
  * displays the intermediate totals
@@ -45,7 +45,7 @@ public class IntermedTotalsOutputStep extends FlatTableTotalsOutputStep {
      * @return
      */
     @Override public List<DataColumn> getDataColumns(StepInput stepInput){
-    	return (List<DataColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_DATA_COLS); 
+    	return (List<DataColumn>)stepInput.getContextParam(StepIOKeys.INTERNAL_DATA_COLS); 
 	}
     
     /**
@@ -60,12 +60,12 @@ public class IntermedTotalsOutputStep extends FlatTableTotalsOutputStep {
      */
     @Override 
     public List<GroupColumn> getGroupColumns(StepInput stepInput){
-    	return (List<GroupColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_GROUP_COLS); 
+    	return (List<GroupColumn>)stepInput.getContextParam(StepIOKeys.INTERNAL_GROUP_COLS); 
 	}
     
     
     public List<DataColumn> getInitialDataColumns(StepInput stepInput){
-    	return (List<DataColumn>)stepInput.getAlgoInput(IOKeys.DATA_COLS); 
+    	return (List<DataColumn>)stepInput.getAlgoInput(AlgoIOKeys.DATA_COLS); 
     }
     
     @Override

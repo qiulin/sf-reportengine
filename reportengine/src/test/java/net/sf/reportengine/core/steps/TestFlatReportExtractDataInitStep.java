@@ -31,8 +31,8 @@ import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
 import net.sf.reportengine.core.calc.AvgGroupCalculator;
 import net.sf.reportengine.core.calc.CountGroupCalculator;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.StepIOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -62,15 +62,15 @@ public class TestFlatReportExtractDataInitStep {
 		FlatReportExtractTotalsDataInitStep classUnderTest = new FlatReportExtractTotalsDataInitStep(); 
 		
 		AlgoContext reportContext = new DefaultAlgorithmContext(); 
-		Map<IOKeys, Object> mockAlgoInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
+		Map<AlgoIOKeys, Object> mockAlgoInput = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class); 
 		
 		//reportContext.set(ContextKeys.DATA_COLUMNS, TEST_DATA_COLUMNS); 
-		mockAlgoInput.put(IOKeys.DATA_COLS, TEST_DATA_COLUMNS);
+		mockAlgoInput.put(AlgoIOKeys.DATA_COLS, TEST_DATA_COLUMNS);
 		
 		StepResult stepResult = classUnderTest.init(new StepInput(mockAlgoInput, reportContext)); 
 		reportContext.set(stepResult.getKey(), stepResult.getValue());
 		
-		ArrayList<Integer> result = (ArrayList<Integer>)reportContext.get(ContextKeys.DISTRIBUTION_OF_CALCULATORS);
+		ArrayList<Integer> result = (ArrayList<Integer>)reportContext.get(StepIOKeys.DISTRIBUTION_OF_CALCULATORS);
 		Assert.assertNotNull(result);
 		Assert.assertEquals(TEST_DATA_COLUMNS.size(), result.size());
 		

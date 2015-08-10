@@ -20,7 +20,7 @@ package net.sf.reportengine.core.steps;
 
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.out.ReportOutput;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 /**
  * @author dragos balan
@@ -45,7 +45,7 @@ public abstract class AbstractOutputStep<T,U,V> extends AbstractReportStep<T,U,V
      */
     public ReportOutput getNewReportOutput(StepInput stepInput){
     	//return (NewReportOutput)stepInput.getContextParam(ContextKeys.NEW_LOCAL_REPORT_OUTPUT); 
-    	return (ReportOutput)stepInput.getAlgoInput(IOKeys.NEW_REPORT_OUTPUT); 
+    	return (ReportOutput)stepInput.getAlgoInput(AlgoIOKeys.NEW_REPORT_OUTPUT); 
     }
 
 }

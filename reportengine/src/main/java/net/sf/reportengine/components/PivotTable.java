@@ -15,14 +15,14 @@
  */
 package net.sf.reportengine.components;
 
-import static net.sf.reportengine.util.IOKeys.CROSSTAB_DATA;
-import static net.sf.reportengine.util.IOKeys.CROSSTAB_HEADER_ROWS;
-import static net.sf.reportengine.util.IOKeys.DATA_COLS;
-import static net.sf.reportengine.util.IOKeys.GROUP_COLS;
-import static net.sf.reportengine.util.IOKeys.NEW_REPORT_OUTPUT;
-import static net.sf.reportengine.util.IOKeys.REPORT_INPUT;
-import static net.sf.reportengine.util.IOKeys.SHOW_GRAND_TOTAL;
-import static net.sf.reportengine.util.IOKeys.SHOW_TOTALS;
+import static net.sf.reportengine.util.AlgoIOKeys.CROSSTAB_DATA;
+import static net.sf.reportengine.util.AlgoIOKeys.CROSSTAB_HEADER_ROWS;
+import static net.sf.reportengine.util.AlgoIOKeys.DATA_COLS;
+import static net.sf.reportengine.util.AlgoIOKeys.GROUP_COLS;
+import static net.sf.reportengine.util.AlgoIOKeys.NEW_REPORT_OUTPUT;
+import static net.sf.reportengine.util.AlgoIOKeys.TABLE_INPUT;
+import static net.sf.reportengine.util.AlgoIOKeys.SHOW_GRAND_TOTAL;
+import static net.sf.reportengine.util.AlgoIOKeys.SHOW_TOTALS;
 import static net.sf.reportengine.util.UserRequestedBoolean.FALSE_NOT_REQUESTED_BY_USER;
 import static net.sf.reportengine.util.UserRequestedBoolean.FALSE_REQUESTED_BY_USER;
 import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_NOT_REQUESTED_BY_USER;
@@ -75,8 +75,8 @@ import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.AbstractReportOutput;
 import net.sf.reportengine.out.IntermediateCrosstabOutput;
 import net.sf.reportengine.out.ReportOutput;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.StepIOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 import net.sf.reportengine.util.ReportUtils;
 import net.sf.reportengine.util.UserRequestedBoolean;
 
@@ -291,18 +291,18 @@ public class PivotTable extends AbstractColumnBasedTable{
 	private Algorithm configIntermedAlgo(final boolean hasBeenPreviouslySorted){
 		
 		MultiStepAlgo algorithm = new OpenLoopCloseInputAlgo(){
-			@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
+			@Override protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams){
 				if(hasBeenPreviouslySorted){
 					//if the input has been previously sorted
     				//then the sorting algorithm (the previous) has created external sorted files
     				//which will serve as input from this point on
     				return new MultipleExternalSortedFilesTableInput(
-							(List<File>)inputParams.get(IOKeys.SORTED_FILES), 
+							(List<File>)inputParams.get(AlgoIOKeys.SORTED_FILES), 
 							new NewRowComparator(
-									(List<GroupColumn>)inputParams.get(IOKeys.GROUP_COLS), 
-									(List<DataColumn>)inputParams.get(IOKeys.DATA_COLS)));
+									(List<GroupColumn>)inputParams.get(AlgoIOKeys.GROUP_COLS), 
+									(List<DataColumn>)inputParams.get(AlgoIOKeys.DATA_COLS)));
 				}else{
-					return (TableInput)inputParams.get(IOKeys.REPORT_INPUT); 
+					return (TableInput)inputParams.get(AlgoIOKeys.TABLE_INPUT); 
 				}
 			}
 		};
@@ -321,7 +321,7 @@ public class PivotTable extends AbstractColumnBasedTable{
 		
 		algorithm.addInitStep(new AlgorithmInitStep<String>() {
     		public StepResult<String> init(StepInput stepInput){
-    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).open();
+    			((IntermediateCrosstabOutput)stepInput.getContextParam(StepIOKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).open();
     			return StepResult.NO_RESULT; 
     		}
 		});
@@ -354,7 +354,7 @@ public class PivotTable extends AbstractColumnBasedTable{
     	
     	algorithm.addExitStep(new AlgorithmExitStep<String>() {
     		public StepResult<String> exit(StepInput stepInput){
-    			((IntermediateCrosstabOutput)stepInput.getContextParam(ContextKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).close();
+    			((IntermediateCrosstabOutput)stepInput.getContextParam(StepIOKeys.INTERMEDIATE_CROSSTAB_OUTPUT)).close();
     			return StepResult.NO_RESULT; 
     		}
 		});
@@ -373,8 +373,8 @@ public class PivotTable extends AbstractColumnBasedTable{
 	 */
 	private Algorithm configSecondAlgo(){
 		MultiStepAlgo algorithm = new OpenLoopCloseInputAlgo(){
-			@Override protected TableInput buildReportInput(Map<IOKeys, Object> inputParams){
-				File previousAlgoSerializedOutput = (File)inputParams.get(IOKeys.INTERMEDIATE_OUTPUT_FILE); 
+			@Override protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams){
+				File previousAlgoSerializedOutput = (File)inputParams.get(AlgoIOKeys.INTERMEDIATE_OUTPUT_FILE); 
 				return new IntermediateCrosstabReportTableInput(previousAlgoSerializedOutput); 
 			}
 		};
@@ -423,10 +423,10 @@ public class PivotTable extends AbstractColumnBasedTable{
     	//configuration of the first report
         config();
         
-        Map<IOKeys, Object> inputParams = new EnumMap<IOKeys, Object>(IOKeys.class);
+        Map<AlgoIOKeys, Object> inputParams = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);
 		
 		//setting the input/output
-        inputParams.put(REPORT_INPUT, getInput());
+        inputParams.put(TABLE_INPUT, getInput());
         inputParams.put(NEW_REPORT_OUTPUT, reportOutput);
 		
 		//context keys specific to a flat report
@@ -438,7 +438,7 @@ public class PivotTable extends AbstractColumnBasedTable{
         inputParams.put(SHOW_TOTALS, Boolean.valueOf(getShowTotals())); 
         inputParams.put(SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
         
-        Map<IOKeys, Object> result = reportAlgoContainer.execute(inputParams); 
+        Map<AlgoIOKeys, Object> result = reportAlgoContainer.execute(inputParams); 
         LOGGER.debug("pivot table output ended with {}", result); 
 	}
 

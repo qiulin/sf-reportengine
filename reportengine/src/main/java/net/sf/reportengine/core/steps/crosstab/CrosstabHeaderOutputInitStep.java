@@ -33,9 +33,9 @@ import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.RowProps;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.StepIOKeys;
 import net.sf.reportengine.util.CtMetadata;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,21 +69,21 @@ public class CrosstabHeaderOutputInitStep extends AbstractOutputInitStep<String>
 	}
 	
 	protected CtMetadata getCrosstabMetadata(StepInput stepInput){
-		return (CtMetadata)stepInput.getContextParam(ContextKeys.CROSSTAB_METADATA);
+		return (CtMetadata)stepInput.getContextParam(StepIOKeys.CROSSTAB_METADATA);
 	}
 	
 	public PivotData getCrosstabData(StepInput stepInput){
-		 return (PivotData)stepInput.getAlgoInput(IOKeys.CROSSTAB_DATA); 
+		 return (PivotData)stepInput.getAlgoInput(AlgoIOKeys.CROSSTAB_DATA); 
 	}
 	
 	@Override 
 	public List<DataColumn> getDataColumns(StepInput stepInput){
-		return (List<DataColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_DATA_COLS); 
+		return (List<DataColumn>)stepInput.getContextParam(StepIOKeys.INTERNAL_DATA_COLS); 
 	}
 	
 	@Override 
 	public List<GroupColumn> getGroupColumns(StepInput stepInput){
-		return (List<GroupColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_GROUP_COLS); 
+		return (List<GroupColumn>)stepInput.getContextParam(StepIOKeys.INTERNAL_GROUP_COLS); 
 	}
 	
 	/**

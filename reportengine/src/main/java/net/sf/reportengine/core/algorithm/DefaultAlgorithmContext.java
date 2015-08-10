@@ -18,7 +18,7 @@ package net.sf.reportengine.core.algorithm;
 import java.util.EnumMap;
 
 import net.sf.reportengine.core.steps.StepResult;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.StepIOKeys;
 
 /**
  * this class holds important values of the current algorithm. 
@@ -30,13 +30,13 @@ public class DefaultAlgorithmContext implements AlgoContext{
 	/**
      * an enumMap containing the context data
      */
-    private EnumMap<ContextKeys, Object> contextData;
+    private EnumMap<StepIOKeys, Object> contextData;
     
     /**
      * constructor of the class
      */
     public DefaultAlgorithmContext(){
-        contextData = new EnumMap<ContextKeys, Object>(ContextKeys.class);
+        contextData = new EnumMap<StepIOKeys, Object>(StepIOKeys.class);
     }
     
     /**
@@ -44,14 +44,14 @@ public class DefaultAlgorithmContext implements AlgoContext{
      * 
      * @return the object associated with the key
      */
-    public Object get(ContextKeys key){
+    public Object get(StepIOKeys key){
         return contextData.get(key);
     }
     
     /**
      * @see net.sf.reportengine.core.algorithm.AlgoContext#get(String)
      */
-    public void set(ContextKeys key, Object value){
+    public void set(StepIOKeys key, Object value){
         contextData.put(key,value);
     }
     

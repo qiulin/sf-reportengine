@@ -23,7 +23,7 @@ import java.util.List;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
 import net.sf.reportengine.core.steps.StepInput;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.StepIOKeys;
 
 /**
  * @author dragos balan
@@ -40,6 +40,6 @@ public class IntermedReportExtractTotalsDataInitStep extends FlatReportExtractTo
      * @return
      */
     @Override public List<DataColumn> getDataColumns(StepInput stepInput){
-    	return (List<DataColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_DATA_COLS); 
+    	return (List<DataColumn>)stepInput.getContextParam(StepIOKeys.INTERNAL_DATA_COLS); 
 	}
 }

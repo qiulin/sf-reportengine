@@ -18,8 +18,8 @@
  */
 package net.sf.reportengine.core.steps;
 
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.StepIOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 /**
  * This is the result of a algorithm step computation. There are two kinds of StepResults: 
@@ -33,22 +33,22 @@ import net.sf.reportengine.util.IOKeys;
 public final class StepResult<U> {
 	
 	
-	private final ContextKeys key; 
+	private final StepIOKeys key; 
 	private final U value; 
 	
-	private final IOKeys ioKey; 
+	private final AlgoIOKeys ioKey; 
 	
-	public StepResult(ContextKeys key, U value){
-		 this(key, value, IOKeys.NO_KEY); 
+	public StepResult(StepIOKeys key, U value){
+		 this(key, value, AlgoIOKeys.NO_KEY); 
 	}
 	
-	public StepResult(ContextKeys key, U value, IOKeys ioKey){
+	public StepResult(StepIOKeys key, U value, AlgoIOKeys ioKey){
 		this.key = key; 
 		this.value = value; 
 		this.ioKey = ioKey;
 	}
 	
-	public ContextKeys getKey(){
+	public StepIOKeys getKey(){
 		return key; 
 	}
 	
@@ -56,12 +56,12 @@ public final class StepResult<U> {
 		return value; 
 	}
 	
-	public IOKeys getIOKey(){
+	public AlgoIOKeys getIOKey(){
 		return ioKey; 
 	}
 	
 	
 
 
-	public static final StepResult<String> NO_RESULT = new StepResult<String>(ContextKeys.NO_KEY, ""); 
+	public static final StepResult<String> NO_RESULT = new StepResult<String>(StepIOKeys.NO_KEY, ""); 
 }

@@ -18,7 +18,7 @@ package net.sf.reportengine.core.algorithm;
 import java.util.EnumMap;
 import java.util.Map;
 
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 /**
  * <p>
@@ -29,7 +29,7 @@ import net.sf.reportengine.util.IOKeys;
 public interface Algorithm {
 	
 	
-	public final Map<IOKeys, Object> EMPTY_READ_ONLY_PARAMS_MAP = new EnumMap<IOKeys, Object>(IOKeys.class); //TODO make it read only
+	public final Map<AlgoIOKeys, Object> EMPTY_READ_ONLY_PARAMS_MAP = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class); //TODO make it read only
    
     /**
      * executes the algorithm based on the input and returns the output
@@ -37,6 +37,6 @@ public interface Algorithm {
      * @param input 	 the input parameter map
      * @return an output parameter map
      */
-    public Map<IOKeys, Object> execute(Map<IOKeys, Object> input);
+    public Map<AlgoIOKeys, Object> execute(Map<AlgoIOKeys, Object> input);
     
 }

@@ -24,8 +24,8 @@ import net.sf.reportengine.core.algorithm.steps.AbstractAlgoMainStep;
 import net.sf.reportengine.core.calc.CalcIntermResult;
 import net.sf.reportengine.core.steps.FlatTableTotalsOutputStep;
 import net.sf.reportengine.core.steps.StepInput;
-import net.sf.reportengine.util.ContextKeys;
-import net.sf.reportengine.util.IOKeys;
+import net.sf.reportengine.util.StepIOKeys;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 /**
  * <p>
@@ -47,7 +47,7 @@ public abstract class AbstractReportStep<T, U, V> extends AbstractAlgoMainStep<T
      * @return  the grouping level
      */
     public int getGroupingLevel(StepInput stepInput){
-    	return (Integer)stepInput.getContextParam(ContextKeys.NEW_GROUPING_LEVEL);
+    	return (Integer)stepInput.getContextParam(StepIOKeys.NEW_GROUPING_LEVEL);
     }
     
     
@@ -56,7 +56,7 @@ public abstract class AbstractReportStep<T, U, V> extends AbstractAlgoMainStep<T
      * @return
      */
     public CalcIntermResult[][] getCalcIntermResultsMatrix(StepInput stepInput){
-    	return (CalcIntermResult[][])stepInput.getContextParam(ContextKeys.CALC_INTERM_RESULTS);
+    	return (CalcIntermResult[][])stepInput.getContextParam(StepIOKeys.CALC_INTERM_RESULTS);
     }
     
     
@@ -65,20 +65,9 @@ public abstract class AbstractReportStep<T, U, V> extends AbstractAlgoMainStep<T
      * @return
      */
     public ArrayList<Integer> getCalculatorDistributionInColumnDataArray(StepInput stepInput){
-    	return (ArrayList<Integer>)stepInput.getContextParam(ContextKeys.DISTRIBUTION_OF_CALCULATORS);
+    	return (ArrayList<Integer>)stepInput.getContextParam(StepIOKeys.DISTRIBUTION_OF_CALCULATORS);
     }
     
-    
-    
-//    /**
-//     * getter for output dispatcher
-//     * @return
-//     */
-//    public ReportOutput getReportOutput(StepInput stepInput){
-//    	return (ReportOutput)stepInput.getContextParam(ContextKeys.LOCAL_REPORT_OUTPUT); 
-//    }
-    
-   
     
     /**
      * ATTENTION : changing the implementation of this method will have effect on the 
@@ -88,7 +77,7 @@ public abstract class AbstractReportStep<T, U, V> extends AbstractAlgoMainStep<T
      * @return
      */
     public List<DataColumn> getDataColumns(StepInput stepInput){
-    	return (List<DataColumn>)stepInput.getAlgoInput(IOKeys.DATA_COLS); 
+    	return (List<DataColumn>)stepInput.getAlgoInput(AlgoIOKeys.DATA_COLS); 
     }
     
     /**
@@ -110,7 +99,7 @@ public abstract class AbstractReportStep<T, U, V> extends AbstractAlgoMainStep<T
      * @return
      */
     public List<GroupColumn> getGroupColumns(StepInput stepInput){
-    	return (List<GroupColumn>)stepInput.getAlgoInput(IOKeys.GROUP_COLS); 
+    	return (List<GroupColumn>)stepInput.getAlgoInput(AlgoIOKeys.GROUP_COLS); 
     }
     
     public int getGroupColumnsCount(StepInput stepInput){
@@ -118,17 +107,12 @@ public abstract class AbstractReportStep<T, U, V> extends AbstractAlgoMainStep<T
     	return groupCols != null ? groupCols.size() : 0; 
     }
     
-	public String[] getFormattedCellValues(StepInput stepInput){
-    	return (String[])stepInput.getContextParam(ContextKeys.FORMATTED_CELL_VALUES);
-    }
-    
-    
     public boolean getShowGrandTotal(StepInput stepInput){
-    	return (Boolean)stepInput.getAlgoInput(IOKeys.SHOW_GRAND_TOTAL);
+    	return (Boolean)stepInput.getAlgoInput(AlgoIOKeys.SHOW_GRAND_TOTAL);
     }
     
     public boolean getShowTotals(StepInput stepInput){
-    	return (Boolean)stepInput.getAlgoInput(IOKeys.SHOW_TOTALS);
+    	return (Boolean)stepInput.getAlgoInput(AlgoIOKeys.SHOW_TOTALS);
     }
     
     /**
@@ -155,7 +139,7 @@ public abstract class AbstractReportStep<T, U, V> extends AbstractAlgoMainStep<T
      * @return
      */
     public Object[] getPreviousRowOfGroupValues(StepInput stepInput){
-    	return (Object[])stepInput.getContextParam(ContextKeys.LAST_GROUPING_VALUES);
+    	return (Object[])stepInput.getContextParam(StepIOKeys.LAST_GROUPING_VALUES);
     }
 	
     /**
@@ -229,14 +213,6 @@ public abstract class AbstractReportStep<T, U, V> extends AbstractAlgoMainStep<T
      * @return
      */
     public Integer getDataRowCount(StepInput stepInput){
-    	return (Integer)stepInput.getContextParam(ContextKeys.DATA_ROW_COUNT); 
-    }
-    
-    /**
-     * 
-     * @return
-     */
-    public String getReportTitle(StepInput stepInput){
-    	return (String)stepInput.getAlgoInput(IOKeys.REPORT_TITLE); 
+    	return (Integer)stepInput.getContextParam(StepIOKeys.DATA_ROW_COUNT); 
     }
 }

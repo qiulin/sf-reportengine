@@ -25,7 +25,7 @@ import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.StepIOKeys;
 
 /**
  * @author dragos balan
@@ -37,7 +37,7 @@ public class IntermedPreviousRowManagerStep extends PreviousRowManagerStep {
 	 * 
 	 */
 	public List<GroupColumn> getGroupColumns(StepInput stepInput){
-		return (List<GroupColumn>)stepInput.getContextParam(ContextKeys.INTERNAL_GROUP_COLS); 
+		return (List<GroupColumn>)stepInput.getContextParam(StepIOKeys.INTERNAL_GROUP_COLS); 
 	}
 	
 	/**

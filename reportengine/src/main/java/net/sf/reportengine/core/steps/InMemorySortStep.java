@@ -24,7 +24,7 @@ import java.util.PriorityQueue;
 
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.util.ContextKeys;
+import net.sf.reportengine.util.StepIOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,6 +68,6 @@ public class InMemorySortStep extends AbstractReportStep<String, String, List<Ne
 		
 		//the result is ready for writing
 		//getAlgoContext().set(ContextKeys.IN_MEM_SORTED_RESULT, arrayResult); 
-		return new StepResult<List<NewRowEvent>>(ContextKeys.IN_MEM_SORTED_RESULT, arrayResult); 
+		return new StepResult<List<NewRowEvent>>(StepIOKeys.IN_MEM_SORTED_RESULT, arrayResult); 
 	}
 }
