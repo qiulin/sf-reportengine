@@ -191,16 +191,30 @@
 	<reporting>
 		<plugins>
 			<plugin>
-			<groupId>org.codehaus.mojo</groupId>
-			<artifactId>findbugs-maven-plugin</artifactId>
-			<version>3.0.0</version>
-			<configuration>
-				<findbugsXmlOutput>true</findbugsXmlOutput>
-				<findbugsXmlOutputDirectory>target/site</findbugsXmlOutputDirectory>
-				<effort>Max</effort>
-				<threshold>Low</threshold>
-			</configuration>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<findbugsXmlOutput>true</findbugsXmlOutput>
+					<findbugsXmlOutputDirectory>target/site</findbugsXmlOutputDirectory>
+					<effort>Max</effort>
+					<threshold>Low</threshold>
+				</configuration>
 			</plugin>
+			
+			 <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.16</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>checkstyle</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			
 		</plugins>		
 	</reporting>
 	
