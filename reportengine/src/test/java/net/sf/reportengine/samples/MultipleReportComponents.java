@@ -18,13 +18,12 @@ package net.sf.reportengine.samples;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import net.sf.reportengine.Report;
+import net.sf.reportengine.ReportBuilder;
 import net.sf.reportengine.components.EmptyLine;
 import net.sf.reportengine.components.FlatTable;
 import net.sf.reportengine.components.ReportTitle;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.in.InMemoryTableInput;
-import net.sf.reportengine.in.TextTableInput;
 import net.sf.reportengine.out.HtmlReportOutput;
 
 /**
@@ -32,21 +31,26 @@ import net.sf.reportengine.out.HtmlReportOutput;
  *
  */
 public class MultipleReportComponents {
-	
-	public static void main(String[] args) throws IOException{
-		new Report.Builder(new HtmlReportOutput(new FileWriter("./target/MultipleComponents.html")))
-			.add(new ReportTitle("this is the title of the report (a report component)"))
-			.add(	new FlatTable.Builder()
-						.input(new InMemoryTableInput(new String[][]{new String[]{"First name", "Last Name", "age"}, 
-															 new String[]{"John", "Doe", "34"}, 
-															 new String[]{"Jane", "Doe", "32"}}))
+
+	public static void main(String[] args) throws IOException {
+		new ReportBuilder(new HtmlReportOutput(new FileWriter(
+				"./target/MultipleComponents.html")))
+				.add(new ReportTitle(
+						"this is the title of the report (a report component)"))
+				.add(new FlatTable.Builder()
+						.input(new InMemoryTableInput(
+								new String[][] {
+										new String[] { "First name",
+												"Last Name", "age" },
+										new String[] { "John", "Doe", "34" },
+										new String[] { "Jane", "Doe", "32" } }))
 						.addDataColumn(new DefaultDataColumn(0))
 						.addDataColumn(new DefaultDataColumn(1))
-						.addDataColumn(new DefaultDataColumn(2))
-					.build())
-			.add(new EmptyLine())
-			.add(new ReportTitle("this is a paragraph (another report component)"))
-			
-		.build().execute(); 
+						.addDataColumn(new DefaultDataColumn(2)).build())
+				.add(new EmptyLine())
+				.add(new ReportTitle(
+						"this is a paragraph (another report component)"))
+
+				.build().execute();
 	}
 }
