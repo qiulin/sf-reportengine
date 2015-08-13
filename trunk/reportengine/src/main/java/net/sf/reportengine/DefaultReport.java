@@ -13,37 +13,38 @@ import net.sf.reportengine.out.ReportProps;
  * @author dragos balan
  *
  */
-class DefaultReport implements Report{
-	
+final class DefaultReport implements Report {
+
 	public final static String START_REPORT_TEMPLATE = "startReport.ftl";
 	public final static String END_REPORT_TEMPLATE = "endReport.ftl";
-	
+
 	/**
 	 * the list of the components of this report
 	 */
-	private final List<ReportComponent> components; 
-	
+	private final List<ReportComponent> components;
+
 	/**
 	 * the report output
 	 */
 	private final AbstractReportOutput reportOutput;
-	
+
 	/**
 	 * 
 	 * @param builder
 	 */
-	DefaultReport(Builder builder){
-		this.reportOutput = builder.getOutput();
-		this.components = builder.getComponents(); 
+	DefaultReport(AbstractReportOutput reportOutput,
+			List<ReportComponent> components) {
+		this.reportOutput = reportOutput;
+		this.components = components;
 	}
-	
-	
+
 	/**
 	 * executes the report
 	 */
-	public void execute(){
+	public void execute() {
 		reportOutput.open();
-		reportOutput.output(START_REPORT_TEMPLATE, new ReportProps(reportOutput.getFormat())); 
+		reportOutput.output(START_REPORT_TEMPLATE,
+				new ReportProps(reportOutput.getFormat()));
 		for (ReportComponent reportComponent : components) {
 			reportComponent.output(reportOutput);
 		}

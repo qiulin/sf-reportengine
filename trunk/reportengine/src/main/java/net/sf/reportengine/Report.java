@@ -15,12 +15,6 @@
  */
 package net.sf.reportengine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.sf.reportengine.components.ReportComponent;
-import net.sf.reportengine.out.AbstractReportOutput;
-
 /**
  * <p>
  * This is the main report interface.
@@ -28,11 +22,16 @@ import net.sf.reportengine.out.AbstractReportOutput;
  * <p>
  * The usage is:<br/>
  * <code>
- * 	Report report = new Report.Builder(new HtmlReportOutput(new FileWriter("/temp/test.html"))).build(); 
+ * 	Report report = new ReportBuilder(new HtmlReportOutput(new FileWriter("/temp/test.html")))
+ * 						.add(...)
+ * 						.add(...)
+ * 						...
+ * 						.build(); 
  *  report.execute(); 
  * </code>
  * </p>
  * 
+ * @see ReportBuilder
  * @author dragos balan
  * @since 0.13.0
  */
@@ -43,51 +42,4 @@ public interface Report {
 	 */
 	public void execute();
 
-	/**
-	 * report builder
-	 */
-	public static class Builder {
-
-		/**
-		 * 
-		 */
-		private List<ReportComponent> components;
-
-		/**
-		 * 
-		 */
-		private final AbstractReportOutput reportOutput;
-
-		/**
-		 * 
-		 * @param output
-		 */
-		public Builder(AbstractReportOutput output) {
-			this.reportOutput = output;
-			this.components = new ArrayList<ReportComponent>();
-		}
-
-		/**
-		 * adds a new component to the report
-		 * 
-		 * @param newComponent
-		 *            the component
-		 */
-		public Builder add(ReportComponent newComponent) {
-			components.add(newComponent);
-			return this;
-		}
-
-		public AbstractReportOutput getOutput() {
-			return reportOutput;
-		}
-
-		public List<ReportComponent> getComponents() {
-			return components;
-		}
-
-		public Report build() {
-			return new DefaultReport(this);
-		}
-	}
 }
