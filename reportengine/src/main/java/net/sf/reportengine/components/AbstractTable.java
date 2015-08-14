@@ -22,7 +22,7 @@ import net.sf.reportengine.in.TableInput;
  * @author dragos balan
  *
  */
-public abstract class AbstractTable implements FlatTable {
+public abstract class AbstractTable {
 
     /**
      * the input of the report

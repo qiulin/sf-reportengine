@@ -54,7 +54,8 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan
  *
  */
-final class DefaultFlatTable extends AbstractColumnBasedTable {
+final class DefaultFlatTable extends AbstractColumnBasedTable implements
+                                                             FlatTable {
 
     /**
      * the one and only logger
@@ -81,7 +82,13 @@ final class DefaultFlatTable extends AbstractColumnBasedTable {
                      boolean showGrandTotal,
                      boolean showDataRows,
                      boolean valuesSorted) {
-        super(input, dataColumns, groupColumns, showTotals, showGrandTotal, showDataRows, valuesSorted);
+        super(input,
+              dataColumns,
+              groupColumns,
+              showTotals,
+              showGrandTotal,
+              showDataRows,
+              valuesSorted);
     }
 
     /**
@@ -138,7 +145,9 @@ final class DefaultFlatTable extends AbstractColumnBasedTable {
                     // then the sorting algorithm ( the previous) has created
                     // external sorted files
                     // which will serve as input from this point on
-                    return new MultipleExternalSortedFilesTableInput((List<File>) inputParams.get(AlgoIOKeys.SORTED_FILES), new NewRowComparator((List<GroupColumn>) inputParams.get(AlgoIOKeys.GROUP_COLS), (List<DataColumn>) inputParams.get(AlgoIOKeys.DATA_COLS)));
+                    return new MultipleExternalSortedFilesTableInput((List<File>) inputParams.get(AlgoIOKeys.SORTED_FILES),
+                                                                     new NewRowComparator((List<GroupColumn>) inputParams.get(AlgoIOKeys.GROUP_COLS),
+                                                                                          (List<DataColumn>) inputParams.get(AlgoIOKeys.DATA_COLS)));
                 } else {
                     return (TableInput) inputParams.get(AlgoIOKeys.TABLE_INPUT);
                 }
