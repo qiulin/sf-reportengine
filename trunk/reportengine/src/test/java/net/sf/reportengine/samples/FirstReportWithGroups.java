@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import net.sf.reportengine.ReportBuilder;
 import net.sf.reportengine.components.FlatTable;
+import net.sf.reportengine.components.FlatTableBuilder;
 import net.sf.reportengine.components.ReportTitle;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
@@ -23,28 +24,29 @@ import net.sf.reportengine.out.HtmlReportOutput;
  */
 public class FirstReportWithGroups {
 
-	public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
 
-		// constructing a flat table with 3 columns: first is declared as a
-		// group column
-		// the third contains the group calculator (in this case an SUM)
-		FlatTable flatTable = new FlatTable.Builder()
-				.input(new TextTableInput("./input/expenses.csv", ","))
-				.addGroupColumn(
-						new DefaultGroupColumn.Builder(0).header("Month")
-								.horizAlign(HorizAlign.LEFT).build())
-				.addDataColumn(
-						new DefaultDataColumn.Builder(1).header("On What?")
-								.build())
-				.addDataColumn(
-						new DefaultDataColumn.Builder(2).header("Amount")
-								.useCalculator(GroupCalculators.SUM)
-								.horizAlign(HorizAlign.RIGHT).build()).build();
+        // constructing a flat table with 3 columns: first is declared as a
+        // group column
+        // the third contains the group calculator (in this case an SUM)
+        FlatTable flatTable =
+            new FlatTableBuilder().input(new TextTableInput("./input/expenses.csv",
+                                                            ","))
+                                  .addGroupColumn(new DefaultGroupColumn.Builder(0).header("Month")
+                                                                                   .horizAlign(HorizAlign.LEFT)
+                                                                                   .build())
+                                  .addDataColumn(new DefaultDataColumn.Builder(1).header("On What?")
+                                                                                 .build())
+                                  .addDataColumn(new DefaultDataColumn.Builder(2).header("Amount")
+                                                                                 .useCalculator(GroupCalculators.SUM)
+                                                                                 .horizAlign(HorizAlign.RIGHT)
+                                                                                 .build())
+                                  .build();
 
-		// building and executing the report
-		new ReportBuilder(new HtmlReportOutput(new FileWriter(
-				"./target/MonthlyExpensesUsingGroups.html")))
-				.add(new ReportTitle("Monthly Expenses")).add(flatTable)
-				.build().execute();
-	}
+        // building and executing the report
+        new ReportBuilder(new HtmlReportOutput(new FileWriter("./target/MonthlyExpensesUsingGroups.html"))).add(new ReportTitle("Monthly Expenses"))
+                                                                                                           .add(flatTable)
+                                                                                                           .build()
+                                                                                                           .execute();
+    }
 }

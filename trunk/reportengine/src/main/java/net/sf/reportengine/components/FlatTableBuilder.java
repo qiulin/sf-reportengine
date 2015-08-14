@@ -1,0 +1,135 @@
+/**
+ * copyright 2015 dragos balan
+ */
+package net.sf.reportengine.components;
+
+import static net.sf.reportengine.util.UserRequestedBoolean.FALSE_REQUESTED_BY_USER;
+import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_NOT_REQUESTED_BY_USER;
+import static net.sf.reportengine.util.UserRequestedBoolean.TRUE_REQUESTED_BY_USER;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import net.sf.reportengine.config.DataColumn;
+import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.in.TableInput;
+import net.sf.reportengine.util.UserRequestedBoolean;
+
+/**
+ * @author dragos balan
+ * @since 0.13
+ *
+ */
+public class FlatTableBuilder {
+
+    private UserRequestedBoolean showTotals =
+        UserRequestedBoolean.FALSE_NOT_REQUESTED_BY_USER;
+
+    private UserRequestedBoolean showGrandTotal =
+        UserRequestedBoolean.FALSE_NOT_REQUESTED_BY_USER;
+
+    private boolean showDataRows = true;
+    private boolean valuesSorted = true;
+
+    private TableInput tableInput = null;
+
+    private List<DataColumn> dataColumns = new ArrayList<DataColumn>();
+    private List<GroupColumn> groupColumns = new ArrayList<GroupColumn>();
+
+    public FlatTableBuilder() {
+
+    }
+
+    public FlatTableBuilder showTotals(boolean show) {
+        this.showTotals =
+            show ? TRUE_REQUESTED_BY_USER : FALSE_REQUESTED_BY_USER;
+        return this;
+    }
+
+    public FlatTableBuilder showTotals() {
+        return showTotals(true);
+    }
+
+    public FlatTableBuilder showGrandTotal(boolean show) {
+        this.showGrandTotal =
+            show ? TRUE_REQUESTED_BY_USER : FALSE_REQUESTED_BY_USER;
+        return this;
+    }
+
+    public FlatTableBuilder showGrandTotal() {
+        return showGrandTotal(true);
+    }
+
+    public FlatTableBuilder showDataRows(boolean show) {
+        this.showDataRows = show;
+        return this;
+    }
+
+    public FlatTableBuilder showDataRows() {
+        return showDataRows(true);
+    }
+
+    public FlatTableBuilder sortValues() {
+        this.valuesSorted = false;
+        return this;
+    }
+
+    public FlatTableBuilder input(TableInput input) {
+        this.tableInput = input;
+        return this;
+    }
+
+    /**
+     * adds the data column to the internal list of data columns and checks if
+     * there is any calculator assigned to it. If there is a calculator then the
+     * showTotals is recomputed taking into account the groupCalculators and the
+     * user's choice
+     * 
+     * @param dataCol
+     */
+    private void internalAddDataColumn(DataColumn dataCol) {
+        this.dataColumns.add(dataCol);
+        if (dataCol.getCalculator() != null) {
+
+            // if the user didn't requested to show totals
+            if (!showTotals.isRequestedByUser()) {
+                this.showTotals = TRUE_NOT_REQUESTED_BY_USER;
+            }
+            // else ( the user requested a specific value for the
+            // showTotals)
+            // we keep that value
+
+            // if the user didn't requested to show the grand total
+            if (!showGrandTotal.isRequestedByUser()) {
+                this.showGrandTotal = TRUE_NOT_REQUESTED_BY_USER;
+            }
+            // else we keep the user value
+        }
+    }
+
+    public FlatTableBuilder addDataColumn(DataColumn dataCol) {
+        internalAddDataColumn(dataCol);
+        return this;
+    }
+
+    public FlatTableBuilder dataColumns(List<DataColumn> dataCols) {
+        for (DataColumn dataColumn : dataCols) {
+            internalAddDataColumn(dataColumn);
+        }
+        return this;
+    }
+
+    public FlatTableBuilder groupColumns(List<GroupColumn> groupCols) {
+        this.groupColumns = groupCols;
+        return this;
+    }
+
+    public FlatTableBuilder addGroupColumn(GroupColumn groupCol) {
+        this.groupColumns.add(groupCol);
+        return this;
+    }
+
+    public FlatTable build() {
+        return new DefaultFlatTable(tableInput, dataColumns, groupColumns, showTotals.getValue(), showGrandTotal.getValue(), showDataRows, valuesSorted);
+    }
+}
