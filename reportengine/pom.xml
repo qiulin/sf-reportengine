@@ -4,7 +4,7 @@
   <groupId>net.sf.reportengine</groupId>
   <artifactId>reportengine</artifactId>
   <packaging>jar</packaging>
-  <version>0.13.0-SNAPSHOT</version>
+  <version>0.13.0</version>
   
   <name>reportengine</name>
   <url>http://reportengine.sourceforge.net</url>
@@ -21,12 +21,6 @@
       <distribution>General</distribution>
     </license>
   </licenses>
-  
-  <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>7</version>
-  </parent>
     
    <scm>
 	<connection>scm:svn:https://svn.code.sf.net/p/reportengine/code/tags/reportengine-0.13.0</connection>
@@ -79,8 +73,7 @@
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
 				</configuration>
-			</plugin>
-		      
+			</plugin>		      
 			
 			 <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -104,8 +97,7 @@
 					<show>public</show>
 					<nohelp>true</nohelp>
 					<!-- setting for java8 -->
-					<additionalparam>-Xdoclint:none</additionalparam>
-					
+					<additionalparam>-Xdoclint:none</additionalparam>					
 				</configuration>
 				 <executions>
 					<execution>
@@ -134,7 +126,7 @@
 				<inherited>true</inherited>
 			</plugin> 
 			  
-			 <plugin>.
+			 <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
 				<version>1.5</version>
@@ -308,20 +300,18 @@
   			<version>2.3.19</version>
 		</dependency>
 	</dependencies>
-  <!--  
+
 	<distributionManagement>
- 		<repository>
-  			<id>sourceforge</id>
-  			<name>SourceForge</name>
-  			<url>sftp://dragoshbalan,reportengine@frs.sourceforge.net:/home/frs/project/r/re/reportengine/binaries</url>
- 		</repository>
- 		<snapshotRepository>
-  			<id>sourceforge</id>
-  			<name>SourceForge</name>
-  			<url>sftp://dragoshbalan,reportengine@frs.sourceforge.net:/home/frs/project/r/re/reportengine/snapshots</url>
- 		</snapshotRepository>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
 	</distributionManagement>
-   --> 
+
     <developers>
   		<developer>
 			<id>dragoshbalan</id>
