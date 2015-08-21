@@ -27,40 +27,43 @@ import net.sf.reportengine.out.ReportProps;
  */
 final class DefaultReport implements Report {
 
-	public final static String START_REPORT_TEMPLATE = "startReport.ftl";
-	public final static String END_REPORT_TEMPLATE = "endReport.ftl";
+    public final static String START_REPORT_TEMPLATE = "startReport.ftl";
+    public final static String END_REPORT_TEMPLATE = "endReport.ftl";
 
-	/**
-	 * the list of the components of this report
-	 */
-	private final List<ReportComponent> components;
+    /**
+     * the list of the components of this report
+     */
+    private final List<ReportComponent> components;
 
-	/**
-	 * the report output
-	 */
-	private final AbstractReportOutput reportOutput;
+    /**
+     * the report output
+     */
+    private final AbstractReportOutput reportOutput;
 
-	/**
-	 * 
-	 * @param builder
-	 */
-	DefaultReport(AbstractReportOutput reportOutput,
-			List<ReportComponent> components) {
-		this.reportOutput = reportOutput;
-		this.components = components;
-	}
+    /**
+     * 
+     * @param builder
+     */
+    DefaultReport(AbstractReportOutput reportOutput,
+                  List<ReportComponent> components) {
+        this.reportOutput = reportOutput;
+        this.components = components;
+    }
 
-	/**
-	 * executes the report
-	 */
-	public void execute() {
-		reportOutput.open();
-		reportOutput.output(START_REPORT_TEMPLATE,
-				new ReportProps(reportOutput.getFormat()));
-		for (ReportComponent reportComponent : components) {
-			reportComponent.output(reportOutput);
-		}
-		reportOutput.output(END_REPORT_TEMPLATE);
-		reportOutput.close();
-	}
+    /**
+     * executes the report
+     */
+    public void execute() {
+        try {
+            reportOutput.open();
+            reportOutput.output(START_REPORT_TEMPLATE,
+                                new ReportProps(reportOutput.getFormat()));
+            for (ReportComponent reportComponent : components) {
+                reportComponent.output(reportOutput);
+            }
+            reportOutput.output(END_REPORT_TEMPLATE);
+        } finally {
+            reportOutput.close();
+        }
+    }
 }

@@ -35,11 +35,11 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.PivotData;
 import net.sf.reportengine.config.PivotHeaderRow;
 import net.sf.reportengine.core.ConfigValidationException;
+import net.sf.reportengine.core.algorithm.AbstractMultiStepAlgo;
 import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
 import net.sf.reportengine.core.algorithm.DefaultLoopThroughReportInputAlgo;
-import net.sf.reportengine.core.algorithm.MultiStepAlgo;
-import net.sf.reportengine.core.algorithm.OpenLoopCloseInputAlgo;
+import net.sf.reportengine.core.algorithm.DefaultTableAlgo;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.steps.EndTableExitStep;
@@ -137,15 +137,13 @@ import org.slf4j.LoggerFactory;
  * {
  *     &#064;code
  *     PivotTabl pivotTable =
- *         new PivotTable.Builder().input(new TextInput(&quot;./inputData/expenses.csv&quot;,
- *                                                      &quot;,&quot;))
+ *         new PivotTable.Builder().input(new TextInput(&quot;./inputData/expenses.csv&quot;, &quot;,&quot;))
  *                                 .addDataColumn(new DefaultDataColumn(&quot;Month&quot;, 0))
  *                                 .addHeaderRow(new DefaultCrosstabHeaderRow(1))
  *                                 .crosstabData(new DefaultCrosstabData(2))
  *                                 .build();
  * 
- *     Report report =
- *         new Report(new DefaultReportOutput(new FileWriter(&quot;/tmp/testPivot.html&quot;)));
+ *     Report report = new Report(new DefaultReportOutput(new FileWriter(&quot;/tmp/testPivot.html&quot;)));
  *     report.add(pivotTable);
  *     report.execute();
  * }
@@ -179,14 +177,12 @@ import org.slf4j.LoggerFactory;
  * 
  * @author dragos balan
  */
-final class DefaultPivotTable extends AbstractColumnBasedTable implements
-                                                              PivotTable {
+final class DefaultPivotTable extends AbstractColumnBasedTable implements PivotTable {
 
     /**
      * the one and only logger
      */
-    private static final Logger LOGGER =
-        LoggerFactory.getLogger(DefaultPivotTable.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultPivotTable.class);
 
     /**
      * the container for potential algorithms : the sorting algorithm , the
@@ -197,8 +193,7 @@ final class DefaultPivotTable extends AbstractColumnBasedTable implements
     /**
      * the crosstab header rows
      */
-    private List<PivotHeaderRow> crosstabHeaderRowsAsList =
-        new ArrayList<PivotHeaderRow>();
+    private List<PivotHeaderRow> crosstabHeaderRowsAsList = new ArrayList<PivotHeaderRow>();
 
     /**
      * the crosstab data
@@ -304,7 +299,7 @@ final class DefaultPivotTable extends AbstractColumnBasedTable implements
     private Algorithm configSortingAlgo() {
 
         // TODO: improve here (this sorting algo doesn't have multiple steps)
-        MultiStepAlgo sortingAlgo = new DefaultLoopThroughReportInputAlgo();
+        AbstractMultiStepAlgo sortingAlgo = new DefaultLoopThroughReportInputAlgo();
 
         // init steps
         // sortingAlgo.addInitStep(new ConfigReportIOInitStep());
@@ -328,10 +323,9 @@ final class DefaultPivotTable extends AbstractColumnBasedTable implements
      */
     private Algorithm configIntermedAlgo(final boolean hasBeenPreviouslySorted) {
 
-        MultiStepAlgo algorithm = new OpenLoopCloseInputAlgo() {
+        AbstractMultiStepAlgo algorithm = new DefaultTableAlgo() {
             @Override
-            protected TableInput
-                    buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
+            protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
                 if (hasBeenPreviouslySorted) {
                     // if the input has been previously sorted
                     // then the sorting algorithm (the previous) has created
@@ -411,10 +405,9 @@ final class DefaultPivotTable extends AbstractColumnBasedTable implements
      * the output
      */
     private Algorithm configSecondAlgo() {
-        MultiStepAlgo algorithm = new OpenLoopCloseInputAlgo() {
+        AbstractMultiStepAlgo algorithm = new DefaultTableAlgo() {
             @Override
-            protected TableInput
-                    buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
+            protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
                 File previousAlgoSerializedOutput =
                     (File) inputParams.get(AlgoIOKeys.INTERMEDIATE_OUTPUT_FILE);
                 return new IntermediateCrosstabReportTableInput(previousAlgoSerializedOutput);
@@ -464,8 +457,7 @@ final class DefaultPivotTable extends AbstractColumnBasedTable implements
         // configuration of the first report
         config();
 
-        Map<AlgoIOKeys, Object> inputParams =
-            new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);
+        Map<AlgoIOKeys, Object> inputParams = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);
 
         // setting the input/output
         inputParams.put(TABLE_INPUT, getInput());
@@ -480,8 +472,7 @@ final class DefaultPivotTable extends AbstractColumnBasedTable implements
         inputParams.put(SHOW_TOTALS, Boolean.valueOf(getShowTotals()));
         inputParams.put(SHOW_GRAND_TOTAL, Boolean.valueOf(getShowGrandTotal()));
 
-        Map<AlgoIOKeys, Object> result =
-            reportAlgoContainer.execute(inputParams);
+        Map<AlgoIOKeys, Object> result = reportAlgoContainer.execute(inputParams);
         LOGGER.debug("pivot table output ended with {}", result);
     }
 

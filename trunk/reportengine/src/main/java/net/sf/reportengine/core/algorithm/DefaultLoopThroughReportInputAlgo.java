@@ -22,8 +22,8 @@ import net.sf.reportengine.util.AlgoIOKeys;
 
 
 /**
- * This is basically a {@link OpenLoopCloseInputAlgo} which identifies the input from inputParams map by the IOKey.REPORT_INPUT key. 
- * As any other {@link OpenLoopCloseInputAlgo} this algo performes the following actions: 
+ * This is basically a {@link DefaultTableAlgo} which identifies the input from inputParams map by the IOKey.REPORT_INPUT key. 
+ * As any other {@link DefaultTableAlgo} this algo performes the following actions: 
  * 1. opens the report input 
  * 2. loops through the report input and calls the steps.execute methods
  * 3. closes the input
@@ -31,7 +31,7 @@ import net.sf.reportengine.util.AlgoIOKeys;
  * @author dragos balan
  *
  */
-public class DefaultLoopThroughReportInputAlgo extends OpenLoopCloseInputAlgo {
+public class DefaultLoopThroughReportInputAlgo extends DefaultTableAlgo {
 
 	@Override
 	protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {

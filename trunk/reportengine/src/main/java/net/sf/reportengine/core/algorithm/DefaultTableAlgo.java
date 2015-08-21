@@ -43,12 +43,12 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan (dragos.balan@gmail.com)
  * @since 0.2 
  */
-public abstract class OpenLoopCloseInputAlgo extends AbstractMultiStepAlgo {
+public abstract class DefaultTableAlgo extends AbstractMultiStepAlgo {
     
 	/**
 	 * the one and only logger
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(OpenLoopCloseInputAlgo.class);	
+	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultTableAlgo.class);	
     
 	/**
 	 * builds the report input from the input parameters
