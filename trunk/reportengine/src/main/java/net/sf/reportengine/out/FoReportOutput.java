@@ -17,29 +17,49 @@ package net.sf.reportengine.out;
 
 import java.io.Writer;
 
+/**
+ * FO (Formatting Objects) output for reports.
+ * 
+ * @author dragos balan
+ *
+ */
 public class FoReportOutput extends AbstractFreemarkerReportOutput {
-	
-	/**
-	 * the default FO templates class path
-	 */
-	public final static String DEFAULT_FO_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/neo/fo";
-	
-	
-	public FoReportOutput(Writer writer){
-		this(writer, true, new FoOutputFormat()); 
-	}
-	
-	public FoReportOutput(Writer writer, boolean closeWriterWhenDone){
-		this(writer, closeWriterWhenDone, new FoOutputFormat()); 
-	}
-	
-	public FoReportOutput(Writer writer, boolean closeWriterWhenDone, FoOutputFormat outputFormat){
-		super(writer, closeWriterWhenDone, outputFormat);
-	}
-	
-	@Override
-	public String getTemplatesClasspath() {
-		return DEFAULT_FO_TEMPLATES_CLASS_PATH;
-	}
+
+    /**
+     * the default FO templates class path
+     */
+    public final static String DEFAULT_FO_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/fo";
+
+    /**
+     * 
+     * @param writer
+     */
+    public FoReportOutput(Writer writer) {
+        this(writer, true, new FoOutputFormat());
+    }
+
+    /**
+     * 
+     * @param writer
+     * @param closeWriterWhenDone
+     */
+    public FoReportOutput(Writer writer, boolean closeWriterWhenDone) {
+        this(writer, closeWriterWhenDone, new FoOutputFormat());
+    }
+
+    /**
+     * 
+     * @param writer
+     * @param closeWriterWhenDone
+     * @param outputFormat
+     */
+    public FoReportOutput(Writer writer, boolean closeWriterWhenDone, FoOutputFormat outputFormat) {
+        super(writer, closeWriterWhenDone, outputFormat);
+    }
+
+    @Override
+    public String getTemplatesClasspath() {
+        return DEFAULT_FO_TEMPLATES_CLASS_PATH;
+    }
 
 }

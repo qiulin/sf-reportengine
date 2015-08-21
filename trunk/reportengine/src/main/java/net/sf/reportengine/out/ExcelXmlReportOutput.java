@@ -18,32 +18,33 @@ package net.sf.reportengine.out;
 import java.io.Writer;
 
 /**
- * Excel output for reports. 
- * 
+ * Excel output for reports.
  * 
  * @author dragos balan
  *
  */
 public class ExcelXmlReportOutput extends AbstractFreemarkerReportOutput {
-	
-	public static final String DEFAULT_EXCEL_XML_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/neo/excel/xml"; 
-	
-	
-	public ExcelXmlReportOutput(Writer writer){
-		this(writer, true, new ExcelXmlOutputFormat()); 
-	}
-	
-	public ExcelXmlReportOutput(Writer writer, boolean closeWriterWhenDone){
-		this(writer, closeWriterWhenDone, new ExcelXmlOutputFormat()); 
-	}
-	
-	public ExcelXmlReportOutput(Writer writer, boolean closeWriterWhenDone, ExcelXmlOutputFormat outputFormat){
-		super(writer, closeWriterWhenDone, outputFormat);
-	}
 
-	@Override
-	public String getTemplatesClasspath() {
-		return DEFAULT_EXCEL_XML_TEMPLATES_CLASS_PATH;
-	}
-	
+    public static final String DEFAULT_EXCEL_XML_TEMPLATES_CLASS_PATH =
+        "/net/sf/reportengine/xml/excel";
+
+    public ExcelXmlReportOutput(Writer writer) {
+        this(writer, true, new ExcelXmlOutputFormat());
+    }
+
+    public ExcelXmlReportOutput(Writer writer, boolean closeWriterWhenDone) {
+        this(writer, closeWriterWhenDone, new ExcelXmlOutputFormat());
+    }
+
+    public ExcelXmlReportOutput(Writer writer,
+                                boolean closeWriterWhenDone,
+                                ExcelXmlOutputFormat outputFormat) {
+        super(writer, closeWriterWhenDone, outputFormat);
+    }
+
+    @Override
+    public String getTemplatesClasspath() {
+        return DEFAULT_EXCEL_XML_TEMPLATES_CLASS_PATH;
+    }
+
 }

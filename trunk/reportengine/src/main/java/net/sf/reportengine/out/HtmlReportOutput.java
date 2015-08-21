@@ -18,31 +18,34 @@ package net.sf.reportengine.out;
 import java.io.Writer;
 
 /**
+ * HTML Output for reports.
+ * 
  * @author dragos balan
  *
  */
 public class HtmlReportOutput extends AbstractFreemarkerReportOutput {
-	
-	/**
-	 * the default class path  for freemarker templates
-	 */
-	public final static String DEFAULT_HTML_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/neo/html"; 
-	
-	
-	public HtmlReportOutput(Writer writer){
-		this(writer, true, new HtmlOutputFormat()); 
-	}
-	
-	public HtmlReportOutput(Writer writer, boolean closeWriterWhenDone){
-		this(writer, closeWriterWhenDone, new HtmlOutputFormat()); 
-	}
-	
-	public HtmlReportOutput(Writer writer, boolean closeWriterWhenDone,  HtmlOutputFormat outputFormat){
-		super(writer, closeWriterWhenDone, outputFormat);
-	}
 
-	@Override
-	public String getTemplatesClasspath() {
-		return DEFAULT_HTML_TEMPLATES_CLASS_PATH;
-	}
+    /**
+     * the default class path for freemarker templates
+     */
+    public final static String DEFAULT_HTML_TEMPLATES_CLASS_PATH = "/net/sf/reportengine/html";
+
+    public HtmlReportOutput(Writer writer) {
+        this(writer, true, new HtmlOutputFormat());
+    }
+
+    public HtmlReportOutput(Writer writer, boolean closeWriterWhenDone) {
+        this(writer, closeWriterWhenDone, new HtmlOutputFormat());
+    }
+
+    public HtmlReportOutput(Writer writer,
+                            boolean closeWriterWhenDone,
+                            HtmlOutputFormat outputFormat) {
+        super(writer, closeWriterWhenDone, outputFormat);
+    }
+
+    @Override
+    public String getTemplatesClasspath() {
+        return DEFAULT_HTML_TEMPLATES_CLASS_PATH;
+    }
 }
