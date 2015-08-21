@@ -72,7 +72,7 @@ public class TestOneIterationAlgorithm {
 		}
 	};
 	
-	private OpenLoopCloseInputAlgo classUnderTest = null;
+	private DefaultTableAlgo classUnderTest = null;
 	
 	
 	/* (non-Javadoc)
@@ -88,7 +88,7 @@ public class TestOneIterationAlgorithm {
 
 
 	/**
-	 * Test method for {@link net.sf.reportengine.core.algorithm.OpenLoopCloseInputAlgo#execute()}.
+	 * Test method for {@link net.sf.reportengine.core.algorithm.DefaultTableAlgo#execute()}.
 	 */
 	@Test
 	public void testExecuteAlgorithm() {

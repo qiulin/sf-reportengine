@@ -23,10 +23,10 @@ import java.util.Map;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
+import net.sf.reportengine.core.algorithm.AbstractMultiStepAlgo;
 import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
-import net.sf.reportengine.core.algorithm.MultiStepAlgo;
-import net.sf.reportengine.core.algorithm.OpenLoopCloseInputAlgo;
+import net.sf.reportengine.core.algorithm.DefaultTableAlgo;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.EndTableExitStep;
@@ -54,14 +54,12 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan
  *
  */
-final class DefaultFlatTable extends AbstractColumnBasedTable implements
-                                                             FlatTable {
+final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTable {
 
     /**
      * the one and only logger
      */
-    private static final Logger LOGGER =
-        LoggerFactory.getLogger(DefaultFlatTable.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultFlatTable.class);
 
     /**
      * the container for two potential algorithms : 1. the sorting algorithm 2.
@@ -115,10 +113,10 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements
      * @return
      */
     private Algorithm configSortingAlgo() {
-        MultiStepAlgo sortingAlgo = new OpenLoopCloseInputAlgo() {
+        // TODO: this sorting algo does not have multiple steps
+        AbstractMultiStepAlgo sortingAlgo = new DefaultTableAlgo() {
             @Override
-            protected TableInput
-                    buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
+            protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
                 return (TableInput) inputParams.get(AlgoIOKeys.TABLE_INPUT);
             }
         };
@@ -136,10 +134,9 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements
      * @return
      */
     private Algorithm configReportAlgo(final boolean hasBeenPreviouslySorted) {
-        MultiStepAlgo reportAlgo = new OpenLoopCloseInputAlgo() {
+        AbstractMultiStepAlgo reportAlgo = new DefaultTableAlgo() {
             @Override
-            protected TableInput
-                    buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
+            protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
                 if (hasBeenPreviouslySorted) {
                     // if the input has been previously sorted
                     // then the sorting algorithm ( the previous) has created
@@ -221,8 +218,7 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements
         config();
 
         // preparing the context of the report reportAlgo
-        Map<AlgoIOKeys, Object> inputParams =
-            new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);
+        Map<AlgoIOKeys, Object> inputParams = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);
         inputParams.put(AlgoIOKeys.TABLE_INPUT, getInput());
         inputParams.put(AlgoIOKeys.NEW_REPORT_OUTPUT, reportOutput);
         inputParams.put(AlgoIOKeys.DATA_COLS, getDataColumns());
@@ -230,8 +226,7 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements
         inputParams.put(AlgoIOKeys.SHOW_TOTALS, getShowTotals());
         inputParams.put(AlgoIOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal());
 
-        Map<AlgoIOKeys, Object> result =
-            reportAlgoContainer.execute(inputParams);
+        Map<AlgoIOKeys, Object> result = reportAlgoContainer.execute(inputParams);
         LOGGER.info("flat table output ended with result {}", result);
     }
 }
