@@ -15,51 +15,59 @@
  */
 package net.sf.reportengine.out;
 
-import freemarker.template.SimpleHash;
-
 /**
  * @author dragos balan
  *
  */
 public abstract class AbstractReportOutput implements ReportOutput {
-	
-	/**
-	 * the output format
-	 */
-	private final OutputFormat format; 
-	
-	/**
-	 * 
-	 * @param format
-	 */
-	public AbstractReportOutput(OutputFormat format){
-		this.format = format; 
-	}
-	
-	
-//	/**
-//	 * 
-//	 * @param templateName
-//	 * @param modelName
-//	 * @param value
-//	 */
-//	public <T> void output(String templateName, String modelName, T value){
-//		//Map<String, T> model = new HashMap<String, T>(1); 
-//		SimpleHash hash = new SimpleHash(); 
-//		hash.put(modelName, value); 
-//		output(templateName, hash); 
-//	}
-	
-	/**
-	 * 
-	 * @param templateName
-	 */
-	public void output(String templateName){
-		output(templateName, null); 
-	}
-	
-	public OutputFormat getFormat() {
-		return format;
-	}
-	
+
+    /**
+     * the output format
+     */
+    private final OutputFormat format;
+    private Status status = Status.NON_INIT;
+
+    /**
+     * 
+     * @param format
+     */
+    public AbstractReportOutput(OutputFormat format) {
+        this.format = format;
+        this.status = Status.INIT;
+    }
+
+    /**
+     * marks the report as OPEN. If classes inheriting from this want to
+     * override this method, they should call super.open() in order to mark the
+     * report as open and then add their own implementation
+     */
+    public void open() {
+        status = Status.OPEN;
+    }
+
+    /**
+     * 
+     * @param templateName
+     */
+    public void output(String templateName) {
+        output(templateName, null);
+    }
+
+    /**
+     * marks the report as CLOSED. If classes inheriting from this want to
+     * override this method, they should call super.close() at the end of their
+     * own implementation of close()
+     */
+    public void close() {
+        status = Status.CLOSED;
+    }
+
+    public OutputFormat getFormat() {
+        return format;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
 }

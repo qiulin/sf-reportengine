@@ -29,82 +29,60 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A container ( list ) of algorithms which itself implements the {@link Algorithm} interface. 
- * The execute method calls all Algorithm.execute() methods and passes the result of each one as input
- * for the next one. 
+ * A container ( list ) of algorithms which itself implements the
+ * {@link Algorithm} interface. The execute method calls all Algorithm.execute()
+ * methods and passes the result of each one as input for the next one.
  * 
  * 
  * @author dragos balan
  *
  */
 public class AlgorithmContainer implements Algorithm {
-	
-	/**
-	 * the one and only logger
-	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(AlgorithmContainer.class);
-	
-	private List<Algorithm> algos = new ArrayList<Algorithm>(); 
-	
-//	private Map<IOKeys, Object> initialInput = new EnumMap<IOKeys, Object>(IOKeys.class); 
-	
-	/**
+
+    /**
+     * the one and only logger
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(AlgorithmContainer.class);
+
+    /**
+     * the list of algorithms
+     */
+    private List<Algorithm> algos = new ArrayList<Algorithm>();
+
+    /**
 	 * 
 	 */
-	public AlgorithmContainer(){
-		
-	}
-	
-	public void addAlgo(Algorithm newAlgo){
-		algos.add(newAlgo); 
-	}
-	
-//	public void setIn(Map<IOKeys, Object> input){
-//		this.initialInput = input; 
-//	}
-	
-	/**
-	 * calls the execute method of each algorithm and passes the results from one to the other 
-	 * until the end of the algorithm list is reached
-	 */
-	public Map<AlgoIOKeys, Object> execute(Map<AlgoIOKeys, Object> input){
-		//Map<IOKeys, Object> input = initialInput; 
-		Map<AlgoIOKeys, Object> result = null; 
-		 
-		for (Iterator<Algorithm> algoIterator = algos.iterator(); algoIterator.hasNext(); ) {
-			Algorithm algo = algoIterator.next(); 
-			
-			//execution of the algorithm
-			result = algo.execute(input); 
-			
-			if(algoIterator.hasNext()){
-				//transform this algo's output in next algo's input
-				LOGGER.debug("passing parameters from one algo to the next : {}", result);
-				input.putAll(result);
-				//input = result;
-			}
-		}
-		
-		LOGGER.debug("algo container final result {}", result);
-		return result; 
-	}
+    public AlgorithmContainer() {
 
-//	public void addIn(IOKeys key, Object value) {
-//		initialInput.put(key, value); 
-//	}
-//	
-//	/**
-//	 * returns null as this container viewed as Algorithm has 
-//	 * no results
-//	 */
-//	public Map<IOKeys, Object> getResultMap() {
-//		return null;
-//	}
-//	
-//	/**
-//	 * returns null as this this container has no results
-//	 */
-//	public Object getResult(IOKeys key) {
-//		return null;
-//	}
+    }
+
+    public void addAlgo(Algorithm newAlgo) {
+        algos.add(newAlgo);
+    }
+
+    /**
+     * calls the execute method of each algorithm and passes the results from
+     * one to the other until the end of the algorithm list is reached
+     */
+    public Map<AlgoIOKeys, Object> execute(Map<AlgoIOKeys, Object> input) {
+        // Map<IOKeys, Object> input = initialInput;
+        Map<AlgoIOKeys, Object> result = null;
+
+        for (Iterator<Algorithm> algoIterator = algos.iterator(); algoIterator.hasNext();) {
+            Algorithm algo = algoIterator.next();
+
+            // execution of the algorithm
+            result = algo.execute(input);
+
+            if (algoIterator.hasNext()) {
+                // transform this algo's output in next algo's input
+                LOGGER.debug("passing parameters from one algo to the next : {}", result);
+                input.putAll(result);
+                // input = result;
+            }
+        }
+
+        LOGGER.debug("algo container final result {}", result);
+        return result;
+    }
 }

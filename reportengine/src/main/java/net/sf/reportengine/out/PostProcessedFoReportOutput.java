@@ -20,7 +20,6 @@ package net.sf.reportengine.out;
 
 import java.io.File;
 import java.io.OutputStream;
-import java.util.Map;
 
 import net.sf.reportengine.util.ReportIoUtils;
 
@@ -30,51 +29,46 @@ import net.sf.reportengine.util.ReportIoUtils;
  *
  */
 public class PostProcessedFoReportOutput extends AbstractReportOutput {
-	
-	private final OutputStream outStream; 
-	
-	private final AbstractFreemarkerReportOutput foOutput; 
-	
-	private final File tempFile; 
-	
-	private final PostProcessor postProcessor; 
-	
-	
-	/**
-	 * 
-	 * @param outStream
-	 * @param outFormat
-	 */
-	public PostProcessedFoReportOutput(	OutputStream outStream, 
-										FoOutputFormat outFormat, 
-										PostProcessor postProcessor){
-		super(outFormat);
-		this.outStream = outStream; 
-		this.tempFile = ReportIoUtils.createTempFile("report-fo"); 
-		this.foOutput = new FoReportOutput(ReportIoUtils.createWriterFromFile(tempFile), true, outFormat);
-		this.postProcessor = postProcessor; 
-	}
-	
 
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.neo.NewReportOutput#open()
-	 */
-	public void open() {
-		foOutput.open();
-	}
+    private final OutputStream outStream;
 
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.neo.NewReportOutput#close()
-	 */
-	public void close() {
-		foOutput.close();
-		postProcessor.process(tempFile, outStream);
-	}
+    private final AbstractFreemarkerReportOutput foOutput;
 
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.neo.NewReportOutput#output(java.lang.String, java.util.Map)
-	 */
-	public void output(String templateName, Object model) {
-		foOutput.output(templateName, model);
-	}
+    private final File tempFile;
+
+    private final PostProcessor postProcessor;
+
+    /**
+     * 
+     * @param outStream
+     * @param outFormat
+     */
+    public PostProcessedFoReportOutput(OutputStream outStream,
+                                       FoOutputFormat outFormat,
+                                       PostProcessor postProcessor) {
+        super(outFormat);
+        this.outStream = outStream;
+        this.tempFile = ReportIoUtils.createTempFile("report-fo");
+        this.foOutput =
+            new FoReportOutput(ReportIoUtils.createWriterFromFile(tempFile), true, outFormat);
+        this.postProcessor = postProcessor;
+    }
+
+    public void open() {
+        super.open();
+        foOutput.open();
+    }
+
+    public void close() {
+        try {
+            foOutput.close();
+            postProcessor.process(tempFile, outStream);
+        } finally {
+            super.close();
+        }
+    }
+
+    public void output(String templateName, Object model) {
+        foOutput.output(templateName, model);
+    }
 }

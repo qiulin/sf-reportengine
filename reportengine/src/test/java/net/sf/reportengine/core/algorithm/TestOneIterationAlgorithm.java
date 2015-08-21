@@ -80,7 +80,7 @@ public class TestOneIterationAlgorithm {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		classUnderTest = new DefaultLoopThroughReportInputAlgo();
+		classUnderTest = new DefaultLoopThroughTableInputAlgo();
 		
 		classUnderTest.addInitStep(testInitStep);
 		classUnderTest.addMainStep(testMainStep);

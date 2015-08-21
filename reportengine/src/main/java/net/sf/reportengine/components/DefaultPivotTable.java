@@ -38,7 +38,7 @@ import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.AbstractMultiStepAlgo;
 import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
-import net.sf.reportengine.core.algorithm.DefaultLoopThroughReportInputAlgo;
+import net.sf.reportengine.core.algorithm.DefaultLoopThroughTableInputAlgo;
 import net.sf.reportengine.core.algorithm.DefaultTableAlgo;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
@@ -299,7 +299,7 @@ final class DefaultPivotTable extends AbstractColumnBasedTable implements PivotT
     private Algorithm configSortingAlgo() {
 
         // TODO: improve here (this sorting algo doesn't have multiple steps)
-        AbstractMultiStepAlgo sortingAlgo = new DefaultLoopThroughReportInputAlgo();
+        AbstractMultiStepAlgo sortingAlgo = new DefaultLoopThroughTableInputAlgo();
 
         // init steps
         // sortingAlgo.addInitStep(new ConfigReportIOInitStep());
