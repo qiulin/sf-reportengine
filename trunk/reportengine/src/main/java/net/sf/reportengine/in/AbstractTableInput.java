@@ -18,75 +18,61 @@ package net.sf.reportengine.in;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.reportengine.out.Status;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
- * Minimal implementation for some ReportInput methods.  
- * Use this class as starter for any other ReportInput implementation. 
+ * Minimal implementation for some ReportInput methods. Use this class as
+ * starter for any other ReportInput implementation.
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.2
  */
 public abstract class AbstractTableInput implements TableInput {
-	
-	/**
-	 * the one and only logger
-	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTableInput.class);
-	
+
+    /**
+     * the one and only logger
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTableInput.class);
+
     /**
      * default header for columns
      */
     public final static String DEFAULT_COLUMN_HEADER = "Column";
-    
+
     /**
-     * open flag
+     * the status of the input
      */
-    private boolean isOpen = false;
-    
-    
+    private Status status = Status.INIT;
+
     /**
      * the columns metadata
      */
-    private List<ColumnMetadata> columnMetadata = new ArrayList<ColumnMetadata>(); 
-    
+    private List<ColumnMetadata> columnMetadata = new ArrayList<ColumnMetadata>();
+
     /**
-     * marks the input as open. 
+     * marks the input as open.
      */
-    public void open(){
-    	if(isOpen){
-            throw new IllegalStateException("You cannot open twice the same input. Close it and then reopen it !");
-        }
-    	LOGGER.debug("opening the input...");
-        isOpen = true;
+    public void open() {
+        LOGGER.debug("opening the input...");
+        status = Status.OPEN;
     }
 
     /**
      * marks the input as closed
      */
-    public void close(){
-    	if(!isOpen){
+    public void close() {
+        if (!Status.OPEN.equals(status)) {
             throw new IllegalStateException("You cannot close an input which is not open !");
         }
-        isOpen = false;
-    	LOGGER.debug("report input closed succesfully");
+        status = Status.CLOSED;
+        LOGGER.debug("report input closed succesfully");
     }
-    
-    /**
-     * @return true if the report is open or false otherwise
-     */
-    public boolean isOpen(){
-    	return isOpen; 
+
+    public Status getStatus() {
+        return status;
     }
-    
-    
-//    public List<ColumnMetadata> getColumnMetadata(){
-//    	return columnMetadata; 
-//    }
-//    
-//    protected void setColumnMetadata(List<ColumnMetadata> metadata){
-//    	this.columnMetadata = metadata; 
-//    }
+
 }

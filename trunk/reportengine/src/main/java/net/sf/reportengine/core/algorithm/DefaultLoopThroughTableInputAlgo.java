@@ -31,7 +31,7 @@ import net.sf.reportengine.util.AlgoIOKeys;
  * @author dragos balan
  *
  */
-public class DefaultLoopThroughReportInputAlgo extends DefaultTableAlgo {
+public class DefaultLoopThroughTableInputAlgo extends DefaultTableAlgo {
 
 	@Override
 	protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {

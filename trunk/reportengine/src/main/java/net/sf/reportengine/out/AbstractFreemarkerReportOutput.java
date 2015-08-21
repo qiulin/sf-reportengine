@@ -24,83 +24,79 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.TemplateException;
 
 /**
- * Abstract support for freemarker output. This is the base class used in all other non-abstract outputters. 
+ * Abstract support for freemarker output. This is the base class used in all
+ * other non-abstract outputters.
  * 
  * @author dragos balan
  *
  */
 public abstract class AbstractFreemarkerReportOutput extends AbstractReportOutput {
-	
-	/**
-	 * the freemarker configuration
-	 */
-	private final Configuration fmConfig; 
-	
-	/**
-	 * the output writer
-	 */
-	private final Writer writer; 
-	
-	/**
-	 * if true the writer will be closed when the output is done
-	 * if false the user of this class is responsible of closing the writer
-	 */
-	private final boolean closeWriterWhenOutputReady; 
-	
 
-	/**
+    /**
+     * the freemarker configuration
+     */
+    private final Configuration fmConfig;
+
+    /**
+     * the output writer
+     */
+    private final Writer writer;
+
+    /**
+     * if true the writer will be closed when the output is done if false the
+     * user of this class is responsible of closing the writer
+     */
+    private final boolean closeWriterWhenOutputReady;
+
+    /**
+     * 
+     * @param writer
+     *            the writer to which the output will be sent
+     * @param closeWriterWhenDone
+     *            if true the writer will be closed when the output is done
+     *            otherwise the user of this class is responsible of closing it
+     * @param outFormat
+     *            the output format parameters
+     */
+    public AbstractFreemarkerReportOutput(Writer writer,
+                                          boolean closeWriterWhenDone,
+                                          OutputFormat outFormat) {
+
+        super(outFormat);
+        this.writer = writer;
+        this.closeWriterWhenOutputReady = closeWriterWhenDone;
+
+        fmConfig = new Configuration();
+        fmConfig.setObjectWrapper(new DefaultObjectWrapper());
+        fmConfig.setTemplateLoader(new ClassTemplateLoader(getClass(), getTemplatesClasspath()));
+    }
+
+    /**
 	 * 
-	 * @param writer	the writer to which the output will be sent
-	 * @param closeWriterWhenDone	if true the writer will be closed when the output is done otherwise the user of this class is responsible of closing it
-	 * @param outFormat	the output format parameters 
 	 */
-	public AbstractFreemarkerReportOutput(Writer writer, boolean closeWriterWhenDone, OutputFormat outFormat){
-		
-		super(outFormat); 
-		this.writer = writer;
-		this.closeWriterWhenOutputReady = closeWriterWhenDone; 
-		
-		fmConfig= new Configuration(); 
-		fmConfig.setObjectWrapper(new DefaultObjectWrapper()); 
-		fmConfig.setTemplateLoader(
-				new ClassTemplateLoader(getClass(), getTemplatesClasspath())); 
-	}
-	
-	/**
-	 * 
-	 */
-	public <T> void output(String templateName, T model) {
-		try {
-			fmConfig.getTemplate(templateName).process(model, writer);
-		} catch (TemplateException e) {
-			throw new ReportOutputException(e); 
-		} catch (IOException e) {
-			throw new ReportOutputException(e); 
-		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.neo.NewReportOutput#open()
-	 */
-	public void open() {
+    public <T> void output(String templateName, T model) {
+        try {
+            fmConfig.getTemplate(templateName).process(model, writer);
+        } catch (TemplateException e) {
+            throw new ReportOutputException(e);
+        } catch (IOException e) {
+            throw new ReportOutputException(e);
+        }
+    }
 
-	}
+    public void close() {
+        try {
+            writer.flush();
+            if (closeWriterWhenOutputReady) {
+                writer.close();
+            }
+        } catch (IOException e) {
+            throw new ReportOutputException(e);
+        } finally {
+            super.close();
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.out.neo.NewReportOutput#close()
-	 */
-	public void close() {
-		try {
-			writer.flush(); 
-			if(closeWriterWhenOutputReady){
-				writer.close();
-			}
-		} catch (IOException e) {
-			throw new ReportOutputException(e); 
-		}
-	}
-	
-	
-	public abstract String getTemplatesClasspath();
-	
+    public abstract String getTemplatesClasspath();
+
 }

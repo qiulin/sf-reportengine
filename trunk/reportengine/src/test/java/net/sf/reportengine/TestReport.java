@@ -30,6 +30,7 @@ import net.sf.reportengine.out.HtmlReportOutput;
 import net.sf.reportengine.out.MockReportOutput;
 import net.sf.reportengine.out.PdfReportOutput;
 import net.sf.reportengine.out.PngReportOutput;
+import net.sf.reportengine.out.Status;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.ScenarioFormatedValues;
 
@@ -203,5 +204,22 @@ public class TestReport {
         }
 
         reportBuilder.build().execute();
+    }
+
+    @Test
+    public void testOutputOpenInCaseOfError() throws IOException {
+        StringWriter testWriter = new StringWriter();
+        MockReportOutput mockOutput = new MockReportOutput(testWriter);
+        try {
+            new ReportBuilder(mockOutput).add(new ReportTitle("test output open"))
+                                         .add(new FlatTableBuilder().build())
+                                         .build()
+                                         .execute();
+            // TODO: fail here
+        } catch (Throwable exc) {
+            // expected
+        }
+
+        Assert.assertTrue(Status.CLOSED.equals(mockOutput.getStatus()));
     }
 }

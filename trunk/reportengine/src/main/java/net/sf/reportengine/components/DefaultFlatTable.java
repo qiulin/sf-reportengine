@@ -152,12 +152,8 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTab
         };
 
         reportAlgo.addInitStep(new InitReportDataInitStep());
-        reportAlgo.addInitStep(new FlatReportExtractTotalsDataInitStep());// TODO:
-                                                                          // only
-                                                                          // when
-                                                                          // report
-                                                                          // has
-                                                                          // totals
+        // TODO: only when report has totals
+        reportAlgo.addInitStep(new FlatReportExtractTotalsDataInitStep());
         reportAlgo.addInitStep(new StartTableInitStep());
         reportAlgo.addInitStep(new ColumnHeaderOutputInitStep());
 

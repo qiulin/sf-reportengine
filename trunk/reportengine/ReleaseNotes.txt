@@ -1,0 +1,4 @@
+ReportEngine 0.13.1
+----------------------------------------------------------------
+Bugfixes: 
+1. In case of an error the ReportOutput was not closed
