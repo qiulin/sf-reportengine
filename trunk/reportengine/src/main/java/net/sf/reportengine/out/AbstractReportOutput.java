@@ -25,7 +25,7 @@ public abstract class AbstractReportOutput implements ReportOutput {
      * the output format
      */
     private final OutputFormat format;
-    private Status status = Status.NON_INIT;
+    private Status status;
 
     /**
      * 
