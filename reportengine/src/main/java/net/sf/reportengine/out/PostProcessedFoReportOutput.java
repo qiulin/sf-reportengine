@@ -63,6 +63,8 @@ public class PostProcessedFoReportOutput extends AbstractReportOutput {
         try {
             foOutput.close();
             postProcessor.process(tempFile, outStream);
+
+            // TODO: delete the tempFile
         } finally {
             super.close();
         }

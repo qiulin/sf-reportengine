@@ -21,7 +21,10 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 import net.sf.reportengine.components.EmptyLine;
+import net.sf.reportengine.components.FlatTable;
 import net.sf.reportengine.components.FlatTableBuilder;
+import net.sf.reportengine.components.PivotTable;
+import net.sf.reportengine.components.PivotTableBuilder;
 import net.sf.reportengine.components.ReportTitle;
 import net.sf.reportengine.out.ExcelXmlReportOutput;
 import net.sf.reportengine.out.FoOutputFormat;
@@ -33,6 +36,8 @@ import net.sf.reportengine.out.PngReportOutput;
 import net.sf.reportengine.out.Status;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.ScenarioFormatedValues;
+import net.sf.reportengine.scenarios.ct.CtScenario2x2x1With1G1D;
+import net.sf.reportengine.scenarios.ct.CtScenarioFormatting4x3x1;
 
 import org.apache.commons.lang.SystemUtils;
 import org.junit.Assert;
@@ -108,16 +113,46 @@ public class TestReport {
     }
 
     @Test
-    public void testTwoTablesInSameReport() throws IOException {
-        new ReportBuilder(new HtmlReportOutput(new FileWriter("./target/ReportWithMultipleTables.html"))).add(new FlatTableBuilder().input(Scenario1.INPUT)
-                                                                                                                                    .dataColumns(Scenario1.DATA_COLUMNS)
-                                                                                                                                    .build())
-                                                                                                         .add(new EmptyLine())
-                                                                                                         .add(new FlatTableBuilder().input(Scenario1.INPUT)
-                                                                                                                                    .dataColumns(Scenario1.DATA_COLUMNS)
-                                                                                                                                    .build())
-                                                                                                         .build()
-                                                                                                         .execute();
+    public void testMultipleTablesInSameReport() throws IOException {
+
+        FlatTable flatTable1 =
+            new FlatTableBuilder().input(Scenario1.INPUT)
+                                  .dataColumns(Scenario1.DATA_COLUMNS)
+                                  .build();
+        FlatTable flatTable2 =
+            new FlatTableBuilder().input(Scenario1.INPUT)
+                                  .dataColumns(Scenario1.DATA_COLUMNS)
+                                  .build();
+        PivotTable pivotTable1 =
+            new PivotTableBuilder().input(CtScenario2x2x1With1G1D.INPUT)
+                                   .groupColumns(CtScenario2x2x1With1G1D.GROUPING_COLUMNS)
+                                   .dataColumns(CtScenario2x2x1With1G1D.DATA_COLUMNS)
+                                   .pivotData(CtScenario2x2x1With1G1D.CROSSTAB_DATA)
+                                   .headerRows(CtScenario2x2x1With1G1D.HEADER_ROWS)
+                                   .showTotals()
+                                   .showGrandTotal()
+                                   .build();
+        PivotTable pivotTable2 =
+            new PivotTableBuilder().input(CtScenarioFormatting4x3x1.INPUT)
+                                   .dataColumns(CtScenarioFormatting4x3x1.DATA_COLUMNS)
+                                   .groupColumns(CtScenarioFormatting4x3x1.GROUP_COLUMNS)
+                                   .headerRows(CtScenarioFormatting4x3x1.HEADER_ROWS)
+                                   .pivotData(CtScenarioFormatting4x3x1.CROSSTAB_DATA)
+                                   .showTotals()
+                                   .showGrandTotal()
+                                   .build();
+
+        Report report =
+            new ReportBuilder(new ExcelXmlReportOutput(new FileWriter("./target/ReportWithMultipleTables.xml"))).add(new ReportTitle("this report contains multiple tables"))
+                                                                                                                .add(flatTable1)
+                                                                                                                .add(new EmptyLine())
+                                                                                                                .add(flatTable2)
+                                                                                                                .add(new EmptyLine())
+                                                                                                                .add(pivotTable1)
+                                                                                                                .add(new EmptyLine())
+                                                                                                                .add(pivotTable2)
+                                                                                                                .build();
+        report.execute();
     }
 
     @Ignore

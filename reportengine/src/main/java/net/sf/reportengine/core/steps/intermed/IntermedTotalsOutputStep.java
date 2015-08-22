@@ -22,10 +22,11 @@ import java.util.List;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
+import net.sf.reportengine.config.PivotData;
 import net.sf.reportengine.core.steps.FlatTableTotalsOutputStep;
 import net.sf.reportengine.core.steps.StepInput;
-import net.sf.reportengine.util.StepIOKeys;
 import net.sf.reportengine.util.AlgoIOKeys;
+import net.sf.reportengine.util.StepIOKeys;
 
 /**
  * displays the intermediate totals
@@ -34,48 +35,54 @@ import net.sf.reportengine.util.AlgoIOKeys;
  *
  */
 public class IntermedTotalsOutputStep extends FlatTableTotalsOutputStep {
-	
-	
-	/**
-     * ATTENTION : changing the implementation of this method will have effect on the 
-     * following methods: 
-     * {@link #getDataColumns()}
+
+    /**
+     * ATTENTION : changing the implementation of this method will have effect
+     * on the following methods: {@link #getDataColumns()}
      * {@link #getDataColumnsLength()}
      * 
      * @return
      */
-    @Override public List<DataColumn> getDataColumns(StepInput stepInput){
-    	return (List<DataColumn>)stepInput.getContextParam(StepIOKeys.INTERNAL_DATA_COLS); 
-	}
-    
+    @Override
+    public List<DataColumn> getDataColumns(StepInput stepInput) {
+        return (List<DataColumn>) stepInput.getContextParam(StepIOKeys.INTERNAL_DATA_COLS);
+    }
+
     /**
-     * ATTENTION : changing the implementation of this method will have effect on the 
-     * following methods: 
-     * {@link #getGroupColumns()}
+     * ATTENTION : changing the implementation of this method will have effect
+     * on the following methods: {@link #getGroupColumns()}
      * {@link #getGroupColumnsCount()}
      * {@link #computeAggLevelForCalcRowNumber(int)}
      * {@link #computeCalcRowNumberForAggLevel(int)}
      * 
      * @return
      */
-    @Override 
-    public List<GroupColumn> getGroupColumns(StepInput stepInput){
-    	return (List<GroupColumn>)stepInput.getContextParam(StepIOKeys.INTERNAL_GROUP_COLS); 
-	}
-    
-    
-    public List<DataColumn> getInitialDataColumns(StepInput stepInput){
-    	return (List<DataColumn>)stepInput.getAlgoInput(AlgoIOKeys.DATA_COLS); 
-    }
-    
     @Override
-    protected String getLabelsForAllCalculators(StepInput stepInput){
-    	StringBuilder result = new StringBuilder(); 
-    	for (DataColumn dataColumn : getInitialDataColumns(stepInput)) {
-			if(dataColumn.getCalculator() != null){
-				result.append(dataColumn.getCalculator().getLabel()).append(" ") ;
-			}
-		}
-    	return result.toString(); 
+    public List<GroupColumn> getGroupColumns(StepInput stepInput) {
+        return (List<GroupColumn>) stepInput.getContextParam(StepIOKeys.INTERNAL_GROUP_COLS);
+    }
+
+    public List<DataColumn> getInitialDataColumns(StepInput stepInput) {
+        return (List<DataColumn>) stepInput.getAlgoInput(AlgoIOKeys.DATA_COLS);
+    }
+
+    @Override
+    protected String getLabelsForAllCalculators(StepInput stepInput) {
+        StringBuilder result = new StringBuilder();
+
+        // first we iterate through data columns
+        for (DataColumn dataColumn : getInitialDataColumns(stepInput)) {
+            if (dataColumn.getCalculator() != null) {
+                result.append(dataColumn.getCalculator().getLabel()).append(" ");
+            }
+        }
+
+        // then we also check the pivotData
+        PivotData pivotData = (PivotData) stepInput.getAlgoInput(AlgoIOKeys.CROSSTAB_DATA);
+        if (pivotData.getCalculator() != null) {
+            result.append(pivotData.getCalculator().getLabel()).append(" ");
+        }
+
+        return result.toString();
     }
 }

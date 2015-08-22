@@ -45,7 +45,7 @@
 	    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="2"/>
 	    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/>
 	   </Borders>
-	   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#F2F2F2"/>
+	   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#F2F2F2" ss:Bold="1"/>
 	   <Interior ss:Color="#000000" ss:Pattern="Solid"/>
 	  </Style>
 	  
