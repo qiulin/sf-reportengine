@@ -18,11 +18,33 @@
  */
 package net.sf.reportengine.core.algorithm;
 
-
 /**
  * @author dragos balan
  *
  */
 public abstract class AbstractAlgo implements Algorithm {
-	
+
+    /**
+     * the name of the algorithm
+     */
+    private final String algoName;
+
+    /**
+     * this constructor only sets the algorithm name
+     * 
+     * @param name
+     *            the name of the algorithm
+     */
+    public AbstractAlgo(String name) {
+        this.algoName = name;
+    }
+
+    /**
+     * returns the name of the algorithm
+     * 
+     * @return
+     */
+    public String getName() {
+        return algoName;
+    }
 }

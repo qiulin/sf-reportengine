@@ -35,8 +35,8 @@ import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.PivotData;
 import net.sf.reportengine.config.PivotHeaderRow;
 import net.sf.reportengine.core.ConfigValidationException;
+import net.sf.reportengine.core.algorithm.AbstractAlgo;
 import net.sf.reportengine.core.algorithm.AbstractMultiStepAlgo;
-import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
 import net.sf.reportengine.core.algorithm.DefaultLoopThroughTableInputAlgo;
 import net.sf.reportengine.core.algorithm.DefaultTableAlgo;
@@ -296,10 +296,11 @@ final class DefaultPivotTable extends AbstractColumnBasedTable implements PivotT
      * 
      * @return
      */
-    private Algorithm configSortingAlgo() {
+    private AbstractAlgo configSortingAlgo() {
 
         // TODO: improve here (this sorting algo doesn't have multiple steps)
-        AbstractMultiStepAlgo sortingAlgo = new DefaultLoopThroughTableInputAlgo();
+        AbstractMultiStepAlgo sortingAlgo =
+            new DefaultLoopThroughTableInputAlgo("External Sort Algorithm");
 
         // init steps
         // sortingAlgo.addInitStep(new ConfigReportIOInitStep());
@@ -321,9 +322,9 @@ final class DefaultPivotTable extends AbstractColumnBasedTable implements PivotT
      * 
      * @return the intermediate algorithm
      */
-    private Algorithm configIntermedAlgo(final boolean hasBeenPreviouslySorted) {
+    private AbstractAlgo configIntermedAlgo(final boolean hasBeenPreviouslySorted) {
 
-        AbstractMultiStepAlgo algorithm = new DefaultTableAlgo() {
+        AbstractMultiStepAlgo algorithm = new DefaultTableAlgo("Intermediate Algorithm") {
             @Override
             protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
                 if (hasBeenPreviouslySorted) {
@@ -404,8 +405,8 @@ final class DefaultPivotTable extends AbstractColumnBasedTable implements PivotT
      * intermediate algo 2. computing the totals on data rows 3. outputting to
      * the output
      */
-    private Algorithm configSecondAlgo() {
-        AbstractMultiStepAlgo algorithm = new DefaultTableAlgo() {
+    private AbstractAlgo configSecondAlgo() {
+        AbstractMultiStepAlgo algorithm = new DefaultTableAlgo("Second Algorithm") {
             @Override
             protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
                 File previousAlgoSerializedOutput =

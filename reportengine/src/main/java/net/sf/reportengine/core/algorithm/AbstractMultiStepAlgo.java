@@ -54,8 +54,8 @@ public abstract class AbstractMultiStepAlgo extends AbstractAlgo {
     /**
      * default empty
      */
-    public AbstractMultiStepAlgo() {
-
+    public AbstractMultiStepAlgo(String algorithmName) {
+        super(algorithmName);
     }
 
     /**

@@ -23,8 +23,8 @@ import java.util.Map;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ConfigValidationException;
+import net.sf.reportengine.core.algorithm.AbstractAlgo;
 import net.sf.reportengine.core.algorithm.AbstractMultiStepAlgo;
-import net.sf.reportengine.core.algorithm.Algorithm;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
 import net.sf.reportengine.core.algorithm.DefaultTableAlgo;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
@@ -112,9 +112,9 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTab
      * 
      * @return
      */
-    private Algorithm configSortingAlgo() {
+    private AbstractAlgo configSortingAlgo() {
         // TODO: this sorting algo does not have multiple steps
-        AbstractMultiStepAlgo sortingAlgo = new DefaultTableAlgo() {
+        AbstractMultiStepAlgo sortingAlgo = new DefaultTableAlgo("Sorting Algorithm") {
             @Override
             protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
                 return (TableInput) inputParams.get(AlgoIOKeys.TABLE_INPUT);
@@ -129,12 +129,13 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTab
     }
 
     /**
-     * configures the report algorithm
+     * configures the algorithm which loops through each row of the input and
+     * creates the final (?) output
      * 
-     * @return
+     * @return the algorithm
      */
-    private Algorithm configReportAlgo(final boolean hasBeenPreviouslySorted) {
-        AbstractMultiStepAlgo reportAlgo = new DefaultTableAlgo() {
+    private AbstractAlgo configReportAlgo(final boolean hasBeenPreviouslySorted) {
+        AbstractMultiStepAlgo reportAlgo = new DefaultTableAlgo("Main algorithm") {
             @Override
             protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
                 if (hasBeenPreviouslySorted) {

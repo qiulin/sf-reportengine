@@ -27,8 +27,8 @@ import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
 import net.sf.reportengine.in.InMemoryTableInput;
 import net.sf.reportengine.in.TableInput;
-import net.sf.reportengine.util.StepIOKeys;
 import net.sf.reportengine.util.AlgoIOKeys;
+import net.sf.reportengine.util.StepIOKeys;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.junit.Assert;
@@ -40,63 +40,65 @@ import org.junit.Test;
  *
  */
 public class TestOneIterationAlgorithm {
-	
-	private TableInput testInput = new InMemoryTableInput(
-			new Object[][]{
-					new String[]{"1","2","3"},
-					new String[]{"4","5","6"}
-			});
-	
-	private AlgorithmInitStep testInitStep = new AlgorithmInitStep<Integer>(){
-		public StepResult<Integer> init(StepInput stepInput){
-			return new StepResult<Integer>(StepIOKeys.DATA_ROW_COUNT, Integer.valueOf(0), AlgoIOKeys.TEST_KEY); 
-		}
-	};
-	
-	private AlgorithmMainStep testMainStep = new AlgorithmMainStep<Integer, Integer, String>(){
-		
-		public StepResult<Integer> init(StepInput stepInput){
-			//this.context.set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(1));
-			//this.context.set(ContextKeys.NEW_GROUPING_LEVEL, new Integer(0));
-			return new StepResult(StepIOKeys.NO_KEY, NumberUtils.INTEGER_ZERO);
-		}
-		
-		public StepResult<Integer> execute(NewRowEvent dataRowEvent, StepInput stepInput){
-			Integer executionCounts = (Integer)stepInput.getContextParam(StepIOKeys.NO_KEY);
-			//context.set(ContextKeys.NEW_GROUPING_LEVEL, executionCounts+1);
-			return new StepResult<Integer>(StepIOKeys.NO_KEY, executionCounts+1, AlgoIOKeys.TEST_KEY); 
-		}
-		
-		public StepResult<String> exit(StepInput stepInput){
-			return StepResult.NO_RESULT; 
-		}
-	};
-	
-	private DefaultTableAlgo classUnderTest = null;
-	
-	
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	@Before
-	public void setUp() throws Exception {
-		classUnderTest = new DefaultLoopThroughTableInputAlgo();
-		
-		classUnderTest.addInitStep(testInitStep);
-		classUnderTest.addMainStep(testMainStep);
-	}
 
+    private TableInput testInput =
+        new InMemoryTableInput(new Object[][] { new String[] { "1", "2", "3" }, new String[] { "4", "5", "6" } });
 
-	/**
-	 * Test method for {@link net.sf.reportengine.core.algorithm.DefaultTableAlgo#execute()}.
-	 */
-	@Test
-	public void testExecuteAlgorithm() {
-		Map<AlgoIOKeys, Object> mockAlgoInput = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);
-		mockAlgoInput.put(AlgoIOKeys.TABLE_INPUT, testInput); 
-		//mockAlgoInput.put(IOKeys.REPORT_OUTPUT, testOut); 
-		
-		Map<AlgoIOKeys, Object> algoResult = classUnderTest.execute(mockAlgoInput);
-		Assert.assertEquals(Integer.valueOf(2), (Integer)algoResult.get(AlgoIOKeys.TEST_KEY));
-	}
+    private AlgorithmInitStep testInitStep = new AlgorithmInitStep<Integer>() {
+        public StepResult<Integer> init(StepInput stepInput) {
+            return new StepResult<Integer>(StepIOKeys.DATA_ROW_COUNT,
+                                           Integer.valueOf(0),
+                                           AlgoIOKeys.TEST_KEY);
+        }
+    };
+
+    private AlgorithmMainStep testMainStep = new AlgorithmMainStep<Integer, Integer, String>() {
+
+        public StepResult<Integer> init(StepInput stepInput) {
+            // this.context.set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(1));
+            // this.context.set(ContextKeys.NEW_GROUPING_LEVEL, new Integer(0));
+            return new StepResult(StepIOKeys.NO_KEY, NumberUtils.INTEGER_ZERO);
+        }
+
+        public StepResult<Integer> execute(NewRowEvent dataRowEvent, StepInput stepInput) {
+            Integer executionCounts = (Integer) stepInput.getContextParam(StepIOKeys.NO_KEY);
+            // context.set(ContextKeys.NEW_GROUPING_LEVEL, executionCounts+1);
+            return new StepResult<Integer>(StepIOKeys.NO_KEY,
+                                           executionCounts + 1,
+                                           AlgoIOKeys.TEST_KEY);
+        }
+
+        public StepResult<String> exit(StepInput stepInput) {
+            return StepResult.NO_RESULT;
+        }
+    };
+
+    private DefaultTableAlgo classUnderTest = null;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see junit.framework.TestCase#setUp()
+     */
+    @Before
+    public void setUp() throws Exception {
+        classUnderTest = new DefaultLoopThroughTableInputAlgo("Test Loop Through TableInput");
+
+        classUnderTest.addInitStep(testInitStep);
+        classUnderTest.addMainStep(testMainStep);
+    }
+
+    /**
+     * Test method for
+     * {@link net.sf.reportengine.core.algorithm.DefaultTableAlgo#execute()}.
+     */
+    @Test
+    public void testExecuteAlgorithm() {
+        Map<AlgoIOKeys, Object> mockAlgoInput = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);
+        mockAlgoInput.put(AlgoIOKeys.TABLE_INPUT, testInput);
+        // mockAlgoInput.put(IOKeys.REPORT_OUTPUT, testOut);
+
+        Map<AlgoIOKeys, Object> algoResult = classUnderTest.execute(mockAlgoInput);
+        Assert.assertEquals(Integer.valueOf(2), (Integer) algoResult.get(AlgoIOKeys.TEST_KEY));
+    }
 }

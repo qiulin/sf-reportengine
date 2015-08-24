@@ -22,21 +22,24 @@ import net.sf.reportengine.util.AlgoIOKeys;
 
 /**
  * <p>
- * 	this is the base interface for all report algorithm
- * </p> 
+ * this is the base interface for all report algorithm
+ * </p>
+ * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  */
 public interface Algorithm {
-	
-	
-	public final Map<AlgoIOKeys, Object> EMPTY_READ_ONLY_PARAMS_MAP = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class); //TODO make it read only
-   
+
+    // TODO make it read only
+    public final Map<AlgoIOKeys, Object> EMPTY_READ_ONLY_PARAMS_MAP =
+        new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);
+
     /**
      * executes the algorithm based on the input and returns the output
      * 
-     * @param input 	 the input parameter map
+     * @param input
+     *            the input parameter map
      * @return an output parameter map
      */
     public Map<AlgoIOKeys, Object> execute(Map<AlgoIOKeys, Object> input);
-    
+
 }
