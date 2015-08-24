@@ -2,3 +2,4 @@ ReportEngine 0.13.1
 ----------------------------------------------------------------
 Bugfixes: 
 1. In case of an error the ReportOutput was not closed
+2. Total string (calculator label) for pivot data was not shown in a pivot table

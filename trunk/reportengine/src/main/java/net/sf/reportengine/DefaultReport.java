@@ -44,8 +44,7 @@ final class DefaultReport implements Report {
      * 
      * @param builder
      */
-    DefaultReport(AbstractReportOutput reportOutput,
-                  List<ReportComponent> components) {
+    DefaultReport(AbstractReportOutput reportOutput, List<ReportComponent> components) {
         this.reportOutput = reportOutput;
         this.components = components;
     }
@@ -56,8 +55,7 @@ final class DefaultReport implements Report {
     public void execute() {
         try {
             reportOutput.open();
-            reportOutput.output(START_REPORT_TEMPLATE,
-                                new ReportProps(reportOutput.getFormat()));
+            reportOutput.output(START_REPORT_TEMPLATE, new ReportProps(reportOutput.getFormat()));
             for (ReportComponent reportComponent : components) {
                 reportComponent.output(reportOutput);
             }

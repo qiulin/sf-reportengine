@@ -47,7 +47,7 @@ public class AlgorithmContainer implements Algorithm {
     /**
      * the list of algorithms
      */
-    private List<Algorithm> algos = new ArrayList<Algorithm>();
+    private List<AbstractAlgo> algos = new ArrayList<AbstractAlgo>();
 
     /**
 	 * 
@@ -56,7 +56,7 @@ public class AlgorithmContainer implements Algorithm {
 
     }
 
-    public void addAlgo(Algorithm newAlgo) {
+    public void addAlgo(AbstractAlgo newAlgo) {
         algos.add(newAlgo);
     }
 
@@ -68,17 +68,17 @@ public class AlgorithmContainer implements Algorithm {
         // Map<IOKeys, Object> input = initialInput;
         Map<AlgoIOKeys, Object> result = null;
 
-        for (Iterator<Algorithm> algoIterator = algos.iterator(); algoIterator.hasNext();) {
-            Algorithm algo = algoIterator.next();
+        for (Iterator<AbstractAlgo> algoIterator = algos.iterator(); algoIterator.hasNext();) {
+            AbstractAlgo algo = algoIterator.next();
 
             // execution of the algorithm
+            LOGGER.debug("executing {} ...", algo.getName());
             result = algo.execute(input);
+            LOGGER.debug("algorithm {} ended succesfully with result {}", algo.getName(), result);
 
             if (algoIterator.hasNext()) {
                 // transform this algo's output in next algo's input
-                LOGGER.debug("passing parameters from one algo to the next : {}", result);
                 input.putAll(result);
-                // input = result;
             }
         }
 

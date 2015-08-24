@@ -20,22 +20,31 @@ import java.util.Map;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.util.AlgoIOKeys;
 
-
 /**
- * This is basically a {@link DefaultTableAlgo} which identifies the input from inputParams map by the IOKey.REPORT_INPUT key. 
- * As any other {@link DefaultTableAlgo} this algo performes the following actions: 
- * 1. opens the report input 
- * 2. loops through the report input and calls the steps.execute methods
- * 3. closes the input
+ * This is basically a {@link DefaultTableAlgo} which identifies the input from
+ * inputParams map by the IOKey.REPORT_INPUT key. As any other
+ * {@link DefaultTableAlgo} this algo performes the following actions: 1. opens
+ * the report input 2. loops through the report input and calls the
+ * steps.execute methods 3. closes the input
  * 
  * @author dragos balan
  *
  */
 public class DefaultLoopThroughTableInputAlgo extends DefaultTableAlgo {
 
-	@Override
-	protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
-		return (TableInput) inputParams.get(AlgoIOKeys.TABLE_INPUT); 
-	}
+    /**
+     * the constructor of a default loop through input algorithm
+     * 
+     * @param algoName
+     *            the name of the algorithm
+     */
+    public DefaultLoopThroughTableInputAlgo(String algoName) {
+        super(algoName);
+    }
+
+    @Override
+    protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
+        return (TableInput) inputParams.get(AlgoIOKeys.TABLE_INPUT);
+    }
 
 }
