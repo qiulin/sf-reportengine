@@ -26,7 +26,7 @@ import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.AbstractAlgo;
 import net.sf.reportengine.core.algorithm.AbstractMultiStepAlgo;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
-import net.sf.reportengine.core.algorithm.DefaultTableAlgo;
+import net.sf.reportengine.core.algorithm.report.DefaultTableAlgo;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.EndTableExitStep;
@@ -62,10 +62,16 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTab
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultFlatTable.class);
 
     /**
-     * the container for two potential algorithms : 1. the sorting algorithm 2.
-     * the reporting algorithmn
+     * the container for all algorithms used by this table component: 1. the
+     * sorting algorithm 2. the reporting algorithm 3. the FO post processor
+     * algorithm
      */
-    private AlgorithmContainer reportAlgoContainer = new AlgorithmContainer();
+    private AlgorithmContainer tableAlgoContainer = new AlgorithmContainer();
+
+    /**
+     * 
+     */
+    private boolean needsPostProcessing;
 
     /**
      * the one and only constructor based on a builder
@@ -87,12 +93,12 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTab
               showGrandTotal,
               showDataRows,
               valuesSorted);
+        this.needsPostProcessing = false;
     }
 
     /**
-     * reportAlgo configuration
+     * configuration of algorithms used by this flat table component
      */
-    @Override
     protected void config() {
         LOGGER.trace("configuring flat report");
 
@@ -102,9 +108,9 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTab
         LOGGER.info("programatic sorting needed {} ", needsProgramaticSorting);
 
         if (needsProgramaticSorting) {
-            reportAlgoContainer.addAlgo(configSortingAlgo());
+            tableAlgoContainer.addAlgo(configSortingAlgo());
         }
-        reportAlgoContainer.addAlgo(configReportAlgo(needsProgramaticSorting));
+        tableAlgoContainer.addAlgo(configReportAlgo(needsProgramaticSorting));
     }
 
     /**
@@ -182,11 +188,8 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTab
     /**
      * validation of configuration
      */
-    @Override
     protected void validate() {
         LOGGER.trace("validating flat report");
-        // validate non null input and output
-        super.validate();
 
         List<DataColumn> dataColumns = getDataColumns();
         if (dataColumns == null || dataColumns.size() == 0) {
@@ -223,7 +226,7 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTab
         inputParams.put(AlgoIOKeys.SHOW_TOTALS, getShowTotals());
         inputParams.put(AlgoIOKeys.SHOW_GRAND_TOTAL, getShowGrandTotal());
 
-        Map<AlgoIOKeys, Object> result = reportAlgoContainer.execute(inputParams);
+        Map<AlgoIOKeys, Object> result = tableAlgoContainer.execute(inputParams);
         LOGGER.info("flat table output ended with result {}", result);
     }
 }

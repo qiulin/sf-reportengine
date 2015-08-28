@@ -19,6 +19,7 @@ import java.util.List;
 
 import net.sf.reportengine.components.ReportComponent;
 import net.sf.reportengine.out.AbstractReportOutput;
+import net.sf.reportengine.out.PostProcessedFoReportOutput;
 import net.sf.reportengine.out.ReportProps;
 
 /**
@@ -53,6 +54,17 @@ final class DefaultReport implements Report {
      * executes the report
      */
     public void execute() {
+        output();
+        postOutput();
+    }
+
+    private void postOutput() {
+        if (reportOutput instanceof PostProcessedFoReportOutput) {
+            ((PostProcessedFoReportOutput) reportOutput).postProcess();
+        }
+    }
+
+    private void output() {
         try {
             reportOutput.open();
             reportOutput.output(START_REPORT_TEMPLATE, new ReportProps(reportOutput.getFormat()));

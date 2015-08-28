@@ -37,10 +37,9 @@ public class YearlyExpenses {
     public static void main(String[] args) throws IOException {
 
         FlatTable table =
-            new FlatTableBuilder().input(new TextTableInput("./input/yearlyExpenses.txt",
-                                                            "\t"))
+            new FlatTableBuilder().input(new TextTableInput("./input/yearlyExpenses.txt", "\t"))
 
-                                  // groups configuration
+            // groups configuration
                                   .addGroupColumn(new DefaultGroupColumn.Builder(0).header("Year")
                                                                                    .horizAlign(HorizAlign.LEFT)
                                                                                    .level(0)

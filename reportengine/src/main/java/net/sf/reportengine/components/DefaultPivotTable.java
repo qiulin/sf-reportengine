@@ -38,8 +38,8 @@ import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.AbstractAlgo;
 import net.sf.reportengine.core.algorithm.AbstractMultiStepAlgo;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
-import net.sf.reportengine.core.algorithm.DefaultLoopThroughTableInputAlgo;
-import net.sf.reportengine.core.algorithm.DefaultTableAlgo;
+import net.sf.reportengine.core.algorithm.report.DefaultLoopThroughTableInputAlgo;
+import net.sf.reportengine.core.algorithm.report.DefaultTableAlgo;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.steps.EndTableExitStep;
@@ -237,8 +237,6 @@ final class DefaultPivotTable extends AbstractColumnBasedTable implements PivotT
     @Override
     protected void validate() {
         LOGGER.trace("validating pivot table configuration...");
-        // input/output verification
-        super.validate();
 
         // crosstab data existence check
         PivotData ctData = getPivotData();
