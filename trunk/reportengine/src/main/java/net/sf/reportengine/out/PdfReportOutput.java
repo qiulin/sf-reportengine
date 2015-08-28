@@ -20,7 +20,7 @@ package net.sf.reportengine.out;
 
 import java.io.OutputStream;
 
-import org.apache.xmlgraphics.util.MimeConstants;
+import org.apache.fop.apps.MimeConstants;
 
 /**
  * PDF Output for reports.
@@ -35,6 +35,6 @@ public class PdfReportOutput extends PostProcessedFoReportOutput {
     }
 
     public PdfReportOutput(OutputStream outStream, PdfOutputFormat outputFormat) {
-        super(outStream, outputFormat, new FopTransformerPostProcessor(MimeConstants.MIME_PDF));
+        super(outStream, outputFormat, MimeConstants.MIME_PDF, null, null);
     }
 }

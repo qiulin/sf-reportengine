@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sf.reportengine.core.algorithm;
+package net.sf.reportengine.core.algorithm.report;
 
 import java.util.Map;
 

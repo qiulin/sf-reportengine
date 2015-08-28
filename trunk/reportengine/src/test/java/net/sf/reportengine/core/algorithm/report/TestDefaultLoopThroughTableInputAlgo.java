@@ -16,11 +16,13 @@
 /**
  * 
  */
-package net.sf.reportengine.core.algorithm;
+package net.sf.reportengine.core.algorithm.report;
 
 import java.util.EnumMap;
 import java.util.Map;
 
+import net.sf.reportengine.core.algorithm.NewRowEvent;
+import net.sf.reportengine.core.algorithm.report.DefaultLoopThroughTableInputAlgo;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
 import net.sf.reportengine.core.steps.StepInput;
@@ -39,7 +41,7 @@ import org.junit.Test;
  * @author dragos balan
  *
  */
-public class TestOneIterationAlgorithm {
+public class TestDefaultLoopThroughTableInputAlgo {
 
     private TableInput testInput =
         new InMemoryTableInput(new Object[][] { new String[] { "1", "2", "3" }, new String[] { "4", "5", "6" } });
@@ -73,7 +75,7 @@ public class TestOneIterationAlgorithm {
         }
     };
 
-    private DefaultTableAlgo classUnderTest = null;
+    private DefaultLoopThroughTableInputAlgo classUnderTest = null;
 
     /*
      * (non-Javadoc)
@@ -90,7 +92,8 @@ public class TestOneIterationAlgorithm {
 
     /**
      * Test method for
-     * {@link net.sf.reportengine.core.algorithm.DefaultTableAlgo#execute()}.
+     * {@link net.sf.reportengine.core.algorithm.report.DefaultTableAlgo#execute()}
+     * .
      */
     @Test
     public void testExecuteAlgorithm() {

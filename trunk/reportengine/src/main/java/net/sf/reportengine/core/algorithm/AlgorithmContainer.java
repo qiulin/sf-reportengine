@@ -29,9 +29,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A container ( list ) of algorithms which itself implements the
- * {@link Algorithm} interface. The execute method calls all Algorithm.execute()
- * methods and passes the result of each one as input for the next one.
+ * A list of algorithms which itself implements the {@link Algorithm} interface.
+ * The execute method calls all Algorithm.execute() methods and passes the
+ * result of each one as input for the next one.
  * 
  * 
  * @author dragos balan
@@ -50,8 +50,8 @@ public class AlgorithmContainer implements Algorithm {
     private List<AbstractAlgo> algos = new ArrayList<AbstractAlgo>();
 
     /**
-	 * 
-	 */
+     * constructor for an algorithm container
+     */
     public AlgorithmContainer() {
 
     }
@@ -65,7 +65,6 @@ public class AlgorithmContainer implements Algorithm {
      * one to the other until the end of the algorithm list is reached
      */
     public Map<AlgoIOKeys, Object> execute(Map<AlgoIOKeys, Object> input) {
-        // Map<IOKeys, Object> input = initialInput;
         Map<AlgoIOKeys, Object> result = null;
 
         for (Iterator<AbstractAlgo> algoIterator = algos.iterator(); algoIterator.hasNext();) {

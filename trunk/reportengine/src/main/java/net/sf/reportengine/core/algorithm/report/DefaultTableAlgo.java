@@ -13,12 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sf.reportengine.core.algorithm;
+package net.sf.reportengine.core.algorithm.report;
 
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.reportengine.core.algorithm.AbstractMultiStepAlgo;
+import net.sf.reportengine.core.algorithm.AlgoContext;
+import net.sf.reportengine.core.algorithm.DefaultAlgorithmContext;
+import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;

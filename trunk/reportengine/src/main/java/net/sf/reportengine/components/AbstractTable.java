@@ -15,7 +15,6 @@
  */
 package net.sf.reportengine.components;
 
-import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.in.TableInput;
 
 /**
@@ -86,17 +85,9 @@ public abstract class AbstractTable {
     }
 
     /**
-     * use this method to configure your report
+     * validates the parameters of this table
      */
-    protected abstract void config();
-
-    /**
-     * use this method to validate your report
-     */
-    protected void validate() {
-        if (input == null)
-            throw new ConfigValidationException("The report has no input");
-    }
+    protected abstract void validate();
 
     /**
      * @return the input

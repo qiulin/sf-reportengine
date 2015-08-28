@@ -19,9 +19,30 @@
 package net.sf.reportengine.out;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
 
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.sax.SAXResult;
+import javax.xml.transform.stream.StreamSource;
+
 import net.sf.reportengine.util.ReportIoUtils;
+
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.fop.apps.FOPException;
+import org.apache.fop.apps.FOUserAgent;
+import org.apache.fop.apps.Fop;
+import org.apache.fop.apps.FopFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 /**
  * 
@@ -30,47 +51,131 @@ import net.sf.reportengine.util.ReportIoUtils;
  */
 public class PostProcessedFoReportOutput extends AbstractReportOutput {
 
+    private static final String DEFAULT_FO_CONFIG_CLASSPATH = "net/sf/reportengine/fop/fop.xconf";
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostProcessedFoReportOutput.class);
+
     private final OutputStream outStream;
 
-    private final AbstractFreemarkerReportOutput foOutput;
+    private final String mimeType;
 
-    private final File tempFile;
+    private final FopUserAgentProperties fopUserAgentProps;
 
-    private final PostProcessor postProcessor;
+    private final Configuration fopConfiguration;
+
+    private final File foFile;
+
+    private final FoReportOutput foReportOutput;
 
     /**
      * 
      * @param outStream
      * @param outFormat
+     * @param mimeType
+     * @param userAgentProps
      */
     public PostProcessedFoReportOutput(OutputStream outStream,
                                        FoOutputFormat outFormat,
-                                       PostProcessor postProcessor) {
+                                       String mimeType,
+                                       Configuration fopConfiguration,
+                                       FopUserAgentProperties userAgentProps) {
+
         super(outFormat);
+
+        this.foFile = ReportIoUtils.createTempFile("report", ".fo");
+        this.foReportOutput =
+            new FoReportOutput(ReportIoUtils.createWriterFromFile(foFile), true, outFormat);
+
         this.outStream = outStream;
-        this.tempFile = ReportIoUtils.createTempFile("report-fo");
-        this.foOutput =
-            new FoReportOutput(ReportIoUtils.createWriterFromFile(tempFile), true, outFormat);
-        this.postProcessor = postProcessor;
+        this.mimeType = mimeType;
+        this.fopConfiguration = fopConfiguration;
+        this.fopUserAgentProps = userAgentProps;
     }
 
-    public void open() {
-        super.open();
-        foOutput.open();
+    public OutputStream getOutputStream() {
+        return outStream;
     }
 
-    public void close() {
+    public FopUserAgentProperties getFopUserAgentProps() {
+        return fopUserAgentProps;
+    }
+
+    public Configuration getFopConfiguration() {
+        return fopConfiguration;
+    }
+
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    public <T> void output(String templateName, T model) {
+        foReportOutput.output(templateName, model);
+    }
+
+    public void postProcess() {
+        // transform the fo file
         try {
-            foOutput.close();
-            postProcessor.process(tempFile, outStream);
+            LOGGER.info("transforming temporary fo file {} to {}", foFile, mimeType);
 
-            // TODO: delete the tempFile
-        } finally {
-            super.close();
+            FopFactory fopFactory = FopFactory.newInstance();
+            if (fopConfiguration != null) {
+                fopFactory.setUserConfig(fopConfiguration);
+            }
+
+            // custom configuration for fop (e.g. author of the document, custom
+            // renderers etc)
+            Fop fop = null;
+            if (fopUserAgentProps != null) {
+                FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
+                foUserAgent.setAuthor(fopUserAgentProps.getAuthor());
+
+                // this is useful when outputting PNG in multiple files (by
+                // default fop outputs only one file)
+                // check src/java/org/apache/fop/render/bitmap/PNGRenderer.java
+                foUserAgent.setOutputFile(new File(fopUserAgentProps.getFilePath()));
+
+                fop = fopFactory.newFop(mimeType, foUserAgent, outStream);
+            } else {
+                fop = fopFactory.newFop(mimeType, outStream);
+            }
+
+            TransformerFactory transformFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformFactory.newTransformer();
+
+            Source foSource = new StreamSource(ReportIoUtils.createReaderFromFile(foFile));
+            Result result = new SAXResult(fop.getDefaultHandler());
+            transformer.transform(foSource, result);
+
+            LOGGER.info("succesful tansformation to {}", mimeType);
+        } catch (TransformerConfigurationException e) {
+            throw new ReportOutputException(e);
+        } catch (TransformerException e) {
+            throw new ReportOutputException(e);
+        } catch (FOPException e) {
+            throw new ReportOutputException(e);
         }
     }
 
-    public void output(String templateName, Object model) {
-        foOutput.output(templateName, model);
+    /**
+     * constructs and returns the default fop configuration
+     * 
+     * @return the default fop configuration
+     */
+    private Configuration buildDefaultConfiguration() {
+        DefaultConfigurationBuilder configBuilder = new DefaultConfigurationBuilder();
+        Configuration configuration;
+        try {
+            configuration =
+                configBuilder.build(ClassLoader.getSystemResourceAsStream(DEFAULT_FO_CONFIG_CLASSPATH));
+
+        } catch (ConfigurationException e) {
+            throw new ReportOutputException(e);
+        } catch (SAXException e) {
+            throw new ReportOutputException(e);
+        } catch (IOException e) {
+            throw new ReportOutputException(e);
+        }
+
+        return configuration;
     }
 }
