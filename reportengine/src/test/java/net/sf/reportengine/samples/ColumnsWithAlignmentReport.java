@@ -42,18 +42,17 @@ public class ColumnsWithAlignmentReport {
 
     public static void main(String[] args) throws IOException {
         FlatTable table =
-            new FlatTableBuilder().input(new TextTableInput("./input/expenses.csv", ","))
-                                  .addDataColumn(new DefaultDataColumn.Builder(0).header("Month")
-                                                                                 .horizAlign(HorizAlign.LEFT)
-                                                                                 .build())
-                                  .addDataColumn(new DefaultDataColumn.Builder(1).header("Spent on ?")
-                                                                                 .horizAlign(HorizAlign.LEFT)
-                                                                                 .build())
-                                  .addDataColumn(new DefaultDataColumn.Builder(2).header("Amount")
-                                                                                 .horizAlign(HorizAlign.RIGHT)
-                                                                                 .build())
+            new FlatTableBuilder(new TextTableInput("./input/expenses.csv", ",")).addDataColumn(new DefaultDataColumn.Builder(0).header("Month")
+                                                                                                                                .horizAlign(HorizAlign.LEFT)
+                                                                                                                                .build())
+                                                                                 .addDataColumn(new DefaultDataColumn.Builder(1).header("Spent on ?")
+                                                                                                                                .horizAlign(HorizAlign.LEFT)
+                                                                                                                                .build())
+                                                                                 .addDataColumn(new DefaultDataColumn.Builder(2).header("Amount")
+                                                                                                                                .horizAlign(HorizAlign.RIGHT)
+                                                                                                                                .build())
 
-                                  .build();
+                                                                                 .build();
 
         new ReportBuilder(new HtmlReportOutput(new FileWriter("./target/ColumnsWithAlign.html"))).add(new ReportTitle("Report with columns aligned programatically"))
                                                                                                  .add(table)

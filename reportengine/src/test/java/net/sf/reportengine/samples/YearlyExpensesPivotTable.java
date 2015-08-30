@@ -40,21 +40,18 @@ public class YearlyExpensesPivotTable {
 
     public static void main(String[] args) throws IOException {
         PivotTable pivotTable =
-            new PivotTableBuilder().input(new TextTableInput("./input/yearlyExpenses.txt",
-                                                             "\t"))
-
-                                   .addGroupColumn(new DefaultGroupColumn("Year",
-                                                                          0,
-                                                                          0))
-                                   .addDataColumn(new DefaultDataColumn("Month",
-                                                                        1))
-                                   .addHeaderRow(new DefaultPivotHeaderRow(2))
-                                   .pivotData(new DefaultPivotData.Builder(3).useCalculator(GroupCalculators.SUM,
-                                                                                            "%.2f")
-                                                                             .build())
-                                   .showGrandTotal()
-                                   .showTotals()
-                                   .build();
+            new PivotTableBuilder(new TextTableInput("./input/yearlyExpenses.txt", "\t")).addGroupColumn(new DefaultGroupColumn("Year",
+                                                                                                                                0,
+                                                                                                                                0))
+                                                                                         .addDataColumn(new DefaultDataColumn("Month",
+                                                                                                                              1))
+                                                                                         .addHeaderRow(new DefaultPivotHeaderRow(2))
+                                                                                         .pivotData(new DefaultPivotData.Builder(3).useCalculator(GroupCalculators.SUM,
+                                                                                                                                                  "%.2f")
+                                                                                                                                   .build())
+                                                                                         .showGrandTotal()
+                                                                                         .showTotals()
+                                                                                         .build();
 
         new ReportBuilder(new ExcelXmlReportOutput(new FileWriter("./target/YearlyPivotWithGroupingsAndSubtotals.xml"))).add(new ReportTitle("Yearly expenses arranged as a pivot table"))
                                                                                                                         .add(pivotTable)

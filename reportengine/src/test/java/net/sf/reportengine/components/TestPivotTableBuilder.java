@@ -31,11 +31,11 @@ public class TestPivotTableBuilder {
         // calculator
         // should result in no showing of totals in the end
         PivotTable table =
-            new PivotTableBuilder().showTotals(false)
-                                   .addDataColumn(new DefaultDataColumn("",
-                                                                        0,
-                                                                        GroupCalculators.AVG))
-                                   .build();
+            new PivotTableBuilder(null).showTotals(false)
+                                       .addDataColumn(new DefaultDataColumn("",
+                                                                            0,
+                                                                            GroupCalculators.AVG))
+                                       .build();
         assertTrue(table instanceof DefaultPivotTable);
         assertFalse(((DefaultPivotTable) table).getShowTotals());
         assertTrue(((DefaultPivotTable) table).getShowGrandTotal());
@@ -43,12 +43,12 @@ public class TestPivotTableBuilder {
 
     @Test
     public void testShowTotalsNotSetManuallyWithCalculators() {
-        PivotTable table = new PivotTableBuilder()
+        PivotTable table = new PivotTableBuilder(null)
 
         // because we add a column having a calculator
         // the Builder should set the showTotals to true
         .addDataColumn(new DefaultDataColumn("", 0, GroupCalculators.AVG))
-                                                  .build();
+                                                      .build();
 
         assertTrue(table instanceof DefaultPivotTable);
         assertTrue(((DefaultPivotTable) table).getShowTotals());
@@ -57,12 +57,12 @@ public class TestPivotTableBuilder {
 
     @Test
     public void testShowTotalsNotSetManuallyAndNoCalculators() {
-        PivotTable table = new PivotTableBuilder()
+        PivotTable table = new PivotTableBuilder(null)
 
         // because we add a column having a calculator
         // the Builder should set the showTotals to true
         .addDataColumn(new DefaultDataColumn("", 0))
-                                                  .build();
+                                                      .build();
 
         assertFalse(((DefaultPivotTable) table).getShowTotals());
         assertFalse(((DefaultPivotTable) table).getShowGrandTotal());

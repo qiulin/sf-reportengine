@@ -44,22 +44,21 @@ public class UnsortedGroupValues {
     public static void main(String[] args) throws IOException {
 
         FlatTable table =
-            new FlatTableBuilder().sortValues()
-                                  // inform reportengine that it has to sort the
-                                  // values
-                                  .input(new TextTableInput("./input/unsortedExpenses.csv",
-                                                            ","))
-                                  .addGroupColumn(new DefaultGroupColumn.Builder(0).header("Month")
-                                                                                   .horizAlign(HorizAlign.LEFT)
-                                                                                   .build())
-                                  .addDataColumn(new DefaultDataColumn.Builder(1).header("On What?")
-                                                                                 .horizAlign(HorizAlign.LEFT)
-                                                                                 .build())
-                                  .addDataColumn(new DefaultDataColumn.Builder(2).header("Amount")
-                                                                                 .useCalculator(GroupCalculators.SUM)
-                                                                                 .horizAlign(HorizAlign.RIGHT)
-                                                                                 .build())
-                                  .build();
+            new FlatTableBuilder(new TextTableInput("./input/unsortedExpenses.csv", ","))
+            // // inform reportengine that it has to sort the values
+            .sortValues()
+
+                                                                                         .addGroupColumn(new DefaultGroupColumn.Builder(0).header("Month")
+                                                                                                                                          .horizAlign(HorizAlign.LEFT)
+                                                                                                                                          .build())
+                                                                                         .addDataColumn(new DefaultDataColumn.Builder(1).header("On What?")
+                                                                                                                                        .horizAlign(HorizAlign.LEFT)
+                                                                                                                                        .build())
+                                                                                         .addDataColumn(new DefaultDataColumn.Builder(2).header("Amount")
+                                                                                                                                        .useCalculator(GroupCalculators.SUM)
+                                                                                                                                        .horizAlign(HorizAlign.RIGHT)
+                                                                                                                                        .build())
+                                                                                         .build();
 
         // build and execute the report
         new ReportBuilder(new HtmlReportOutput(new FileWriter("./target/MonthlyExpensesFromUnsortedInput.html"))).add(new ReportTitle("Monthly Expenses"))

@@ -45,18 +45,16 @@ public class FirstReportWithGroups {
         // group column
         // the third contains the group calculator (in this case an SUM)
         FlatTable flatTable =
-            new FlatTableBuilder().input(new TextTableInput("./input/expenses.csv",
-                                                            ","))
-                                  .addGroupColumn(new DefaultGroupColumn.Builder(0).header("Month")
-                                                                                   .horizAlign(HorizAlign.LEFT)
-                                                                                   .build())
-                                  .addDataColumn(new DefaultDataColumn.Builder(1).header("On What?")
-                                                                                 .build())
-                                  .addDataColumn(new DefaultDataColumn.Builder(2).header("Amount")
-                                                                                 .useCalculator(GroupCalculators.SUM)
-                                                                                 .horizAlign(HorizAlign.RIGHT)
-                                                                                 .build())
-                                  .build();
+            new FlatTableBuilder(new TextTableInput("./input/expenses.csv", ",")).addGroupColumn(new DefaultGroupColumn.Builder(0).header("Month")
+                                                                                                                                  .horizAlign(HorizAlign.LEFT)
+                                                                                                                                  .build())
+                                                                                 .addDataColumn(new DefaultDataColumn.Builder(1).header("On What?")
+                                                                                                                                .build())
+                                                                                 .addDataColumn(new DefaultDataColumn.Builder(2).header("Amount")
+                                                                                                                                .useCalculator(GroupCalculators.SUM)
+                                                                                                                                .horizAlign(HorizAlign.RIGHT)
+                                                                                                                                .build())
+                                                                                 .build();
 
         // building and executing the report
         new ReportBuilder(new HtmlReportOutput(new FileWriter("./target/MonthlyExpensesUsingGroups.html"))).add(new ReportTitle("Monthly Expenses"))

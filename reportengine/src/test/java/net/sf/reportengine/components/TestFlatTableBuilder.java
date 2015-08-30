@@ -27,16 +27,16 @@ public class TestFlatTableBuilder {
     @Test
     public void testShowTotalsSetManually() {
         FlatTable report =
-            new FlatTableBuilder()
+            new FlatTableBuilder(null)
 
             // manually setting show totals to false and adding a column with a
             // calculator
             // shoud result in no showing of totals in the end
             .showTotals(false)
-                                  .addDataColumn(new DefaultDataColumn("",
-                                                                       0,
-                                                                       new AvgGroupCalculator()))
-                                  .build();
+                                      .addDataColumn(new DefaultDataColumn("",
+                                                                           0,
+                                                                           new AvgGroupCalculator()))
+                                      .build();
         assertTrue(report instanceof DefaultFlatTable);
         assertFalse(((DefaultFlatTable) report).getShowTotals());
         assertTrue(((DefaultFlatTable) report).getShowGrandTotal());
@@ -44,12 +44,12 @@ public class TestFlatTableBuilder {
 
     @Test
     public void testShowTotalsNotSetManuallyWithCalculators() {
-        FlatTable report = new FlatTableBuilder()
+        FlatTable report = new FlatTableBuilder(null)
 
         // because we add a column having a calculator
         // the Builder should set the showTotals to true
         .addDataColumn(new DefaultDataColumn("", 0, new AvgGroupCalculator()))
-                                                 .build();
+                                                     .build();
 
         assertTrue(report instanceof DefaultFlatTable);
         assertTrue(((DefaultFlatTable) report).getShowTotals());
@@ -58,12 +58,12 @@ public class TestFlatTableBuilder {
 
     @Test
     public void testShowTotalsNotSetManuallyAndNoCalculators() {
-        FlatTable report = new FlatTableBuilder()
+        FlatTable report = new FlatTableBuilder(null)
 
         // because we add a column having a calculator
         // the Builder should set the showTotals to true
         .addDataColumn(new DefaultDataColumn("", 0))
-                                                 .build();
+                                                     .build();
 
         assertTrue(report instanceof DefaultFlatTable);
         assertFalse(((DefaultFlatTable) report).getShowTotals());

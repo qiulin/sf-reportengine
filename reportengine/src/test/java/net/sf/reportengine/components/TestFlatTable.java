@@ -55,9 +55,7 @@ public class TestFlatTable {
             new HtmlReportOutput(new FileWriter("./target/FlatTableWithoutGroupColumns.html"));
         reportOutput.open();
         FlatTable flatTable =
-            new FlatTableBuilder().input(Scenario1.INPUT)
-                                  .dataColumns(Scenario1.DATA_COLUMNS)
-                                  .build();
+            new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS).build();
 
         // test the computed values
         Assert.assertTrue(flatTable instanceof DefaultFlatTable);
@@ -81,10 +79,9 @@ public class TestFlatTable {
             new HtmlReportOutput(new FileWriter("./target/FlatTableScenario1.html"));
         reportOutput.open();
         FlatTable flatTable =
-            new FlatTableBuilder().input(Scenario1.INPUT)
-                                  .dataColumns(Scenario1.DATA_COLUMNS)
-                                  .groupColumns(Scenario1.GROUPING_COLUMNS)
-                                  .build();
+            new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS)
+                                                 .groupColumns(Scenario1.GROUPING_COLUMNS)
+                                                 .build();
 
         // check the default values
         Assert.assertTrue(flatTable instanceof DefaultFlatTable);
@@ -113,13 +110,12 @@ public class TestFlatTable {
             ReportIoUtils.createInputStreamFromClassPath("EURUSD_2007-2009_FirstHours.txt");
         Assert.assertNotNull(testStream);
 
-        new FlatTableBuilder().input(new TextTableInput(testStream, "\t"))
-                              .dataColumns(OhlcComputationScenario.DATA_COLUMNS)
-                              .groupColumns(OhlcComputationScenario.GROUPING_COLUMNS)
-                              .showTotals(true)
-                              .showDataRows(false)
-                              .build()
-                              .output(reportOutput);
+        new FlatTableBuilder(new TextTableInput(testStream, "\t")).dataColumns(OhlcComputationScenario.DATA_COLUMNS)
+                                                                  .groupColumns(OhlcComputationScenario.GROUPING_COLUMNS)
+                                                                  .showTotals(true)
+                                                                  .showDataRows(false)
+                                                                  .build()
+                                                                  .output(reportOutput);
 
         reportOutput.close();
         // TODO: test the final output here
@@ -131,16 +127,14 @@ public class TestFlatTable {
             new HtmlReportOutput(new FileWriter("./target/TestExecute2x3x1.html"));
         reportOutput.open();
 
-        InputStream inputStream =
-            ReportIoUtils.createInputStreamFromClassPath("2x3x1.txt");
+        InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("2x3x1.txt");
         Assert.assertNotNull(inputStream);
 
-        new FlatTableBuilder().input(new TextTableInput(inputStream))
-                              .groupColumns(Scenario2x3x1.GROUP_COLUMNS)
-                              .dataColumns(Scenario2x3x1.DATA_COLUMNS)
-                              .showTotals(true)
-                              .build()
-                              .output(reportOutput);
+        new FlatTableBuilder(new TextTableInput(inputStream)).groupColumns(Scenario2x3x1.GROUP_COLUMNS)
+                                                             .dataColumns(Scenario2x3x1.DATA_COLUMNS)
+                                                             .showTotals(true)
+                                                             .build()
+                                                             .output(reportOutput);
 
         reportOutput.close();
 
@@ -153,13 +147,12 @@ public class TestFlatTable {
             new HtmlReportOutput(new FileWriter("./target/TestFlatReportNoGroupings.html"));
         reportOutput.open();
 
-        new FlatTableBuilder().groupColumns(NoGroupsScenario.GROUPING_COLUMNS)
-                              .dataColumns(NoGroupsScenario.DATA_COLUMNS)
-                              .input(NoGroupsScenario.INPUT)
-                              .showTotals(true)
-                              .showGrandTotal(true)
-                              .build()
-                              .output(reportOutput);
+        new FlatTableBuilder(NoGroupsScenario.INPUT).groupColumns(NoGroupsScenario.GROUPING_COLUMNS)
+                                                    .dataColumns(NoGroupsScenario.DATA_COLUMNS)
+                                                    .showTotals(true)
+                                                    .showGrandTotal(true)
+                                                    .build()
+                                                    .output(reportOutput);
 
         reportOutput.close();
         // TODO: assert here
@@ -167,28 +160,23 @@ public class TestFlatTable {
 
     @Test
     public void testFlatTableUtf8PdfOutput() throws IOException {
-        Writer testWriter =
-            ReportIoUtils.createWriterFromPath("./target/testUtf8Output.html");
+        Writer testWriter = ReportIoUtils.createWriterFromPath("./target/testUtf8Output.html");
         testWriter.write("<head><meta charset=\"UTF-8\"></head><body>");
 
-        AbstractReportOutput reportOutput =
-            new HtmlReportOutput(testWriter, false);
+        AbstractReportOutput reportOutput = new HtmlReportOutput(testWriter, false);
         reportOutput.open();
 
-        InputStream inputStream =
-            ReportIoUtils.createInputStreamFromClassPath("Utf8Input.txt");
+        InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("Utf8Input.txt");
         Assert.assertNotNull(inputStream);
 
-        new FlatTableBuilder().input(new TextTableInput(inputStream,
-                                                        ",",
-                                                        "UTF-8"))
+        new FlatTableBuilder(new TextTableInput(inputStream, ",", "UTF-8"))
 
-                              .addDataColumn(new DefaultDataColumn(0))
-                              .addDataColumn(new DefaultDataColumn(1))
-                              .addDataColumn(new DefaultDataColumn(2))
-                              .addDataColumn(new DefaultDataColumn(3))
-                              .build()
-                              .output(reportOutput);
+        .addDataColumn(new DefaultDataColumn(0))
+                                                                           .addDataColumn(new DefaultDataColumn(1))
+                                                                           .addDataColumn(new DefaultDataColumn(2))
+                                                                           .addDataColumn(new DefaultDataColumn(3))
+                                                                           .build()
+                                                                           .output(reportOutput);
 
         reportOutput.close();
 
@@ -202,11 +190,10 @@ public class TestFlatTable {
             new HtmlReportOutput(new FileWriter("./target/testHugeFlatTable.html"));
         reportOutput.open();
 
-        new FlatTableBuilder().input(OhlcComputationScenario.INPUT)
-                              .groupColumns(OhlcComputationScenario.GROUPING_COLUMNS)
-                              .dataColumns(OhlcComputationScenario.DATA_COLUMNS)
-                              .build()
-                              .output(reportOutput);
+        new FlatTableBuilder(OhlcComputationScenario.INPUT).groupColumns(OhlcComputationScenario.GROUPING_COLUMNS)
+                                                           .dataColumns(OhlcComputationScenario.DATA_COLUMNS)
+                                                           .build()
+                                                           .output(reportOutput);
 
         reportOutput.close();
         // TODO: assert here
@@ -218,13 +205,12 @@ public class TestFlatTable {
             new HtmlReportOutput(new FileWriter("./target/testFormattedValues.html"));
         reportOutput.open();
 
-        new FlatTableBuilder().input(ScenarioFormatedValues.INPUT)
-                              .showTotals(true)
-                              .showGrandTotal(true)
-                              .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
-                              .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
-                              .build()
-                              .output(reportOutput);
+        new FlatTableBuilder(ScenarioFormatedValues.INPUT).showTotals(true)
+                                                          .showGrandTotal(true)
+                                                          .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
+                                                          .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
+                                                          .build()
+                                                          .output(reportOutput);
 
         reportOutput.close();
         // TODO: assert here
@@ -236,15 +222,14 @@ public class TestFlatTable {
             new HtmlReportOutput(new FileWriter("./target/FlatTableSortedProgramatically.html"));
         reportOutput.open();
 
-        new FlatTableBuilder().sortValues()
-                              .input(ScenarioSort.INPUT)
-                              .dataColumns(ScenarioSort.DATA_COLUMNS)
-                              .groupColumns(ScenarioSort.GROUPING_COLUMNS)
-                              .showTotals(false)
-                              .showDataRows(true)
-                              .showGrandTotal(true)
-                              .build()
-                              .output(reportOutput);
+        new FlatTableBuilder(ScenarioSort.INPUT).sortValues()
+                                                .dataColumns(ScenarioSort.DATA_COLUMNS)
+                                                .groupColumns(ScenarioSort.GROUPING_COLUMNS)
+                                                .showTotals(false)
+                                                .showDataRows(true)
+                                                .showGrandTotal(true)
+                                                .build()
+                                                .output(reportOutput);
 
         // Assert.assertTrue(MatrixUtils.compareMatrices(
         // mockOut.getDataCellMatrix(),
@@ -260,11 +245,10 @@ public class TestFlatTable {
         reportOutput.open();
 
         FlatTable flatTable =
-            new FlatTableBuilder().showTotals(false)
-                                  .input(SortScenarioOnlyDataColsCount.INPUT)
-                                  .dataColumns(SortScenarioOnlyDataColsCount.DATA_COLUMNS)
-                                  .groupColumns(SortScenarioOnlyDataColsCount.GROUPING_COLUMNS)
-                                  .build();
+            new FlatTableBuilder(SortScenarioOnlyDataColsCount.INPUT).showTotals(false)
+                                                                     .dataColumns(SortScenarioOnlyDataColsCount.DATA_COLUMNS)
+                                                                     .groupColumns(SortScenarioOnlyDataColsCount.GROUPING_COLUMNS)
+                                                                     .build();
 
         // check some of the computed values + default ones
         Assert.assertTrue(flatTable instanceof DefaultFlatTable);
@@ -291,22 +275,21 @@ public class TestFlatTable {
                               "",
                               "select country, region, city, sex, religion, value from testreport t order by country, region, city");
 
-        new FlatTableBuilder().input(input)
-                              .addGroupColumn(new DefaultGroupColumn.Builder(0).header("COUNTRY")
-                                                                               .horizAlign(HorizAlign.RIGHT)
-                                                                               .vertAlign(VertAlign.TOP)
-                                                                               .build())
-                              .addGroupColumn(new DefaultGroupColumn.Builder(1).header("REGION")
-                                                                               .build())
-                              .addGroupColumn(new DefaultGroupColumn.Builder(2).header("CITY")
-                                                                               .build())
-                              .addDataColumn(new DefaultDataColumn.Builder(5).header("Value")
-                                                                             .useCalculator(new SumGroupCalculator(),
-                                                                                            "%f $")
-                                                                             .valuesFormatter("%d $")
-                                                                             .build())
-                              .build()
-                              .output(reportOutput);
+        new FlatTableBuilder(input).addGroupColumn(new DefaultGroupColumn.Builder(0).header("COUNTRY")
+                                                                                    .horizAlign(HorizAlign.RIGHT)
+                                                                                    .vertAlign(VertAlign.TOP)
+                                                                                    .build())
+                                   .addGroupColumn(new DefaultGroupColumn.Builder(1).header("REGION")
+                                                                                    .build())
+                                   .addGroupColumn(new DefaultGroupColumn.Builder(2).header("CITY")
+                                                                                    .build())
+                                   .addDataColumn(new DefaultDataColumn.Builder(5).header("Value")
+                                                                                  .useCalculator(new SumGroupCalculator(),
+                                                                                                 "%f $")
+                                                                                  .valuesFormatter("%d $")
+                                                                                  .build())
+                                   .build()
+                                   .output(reportOutput);
 
         reportOutput.close();
 
@@ -325,22 +308,21 @@ public class TestFlatTable {
                               "",
                               "select WRONG_COLUMN, region, city, sex, religion, value from testreport t order by country, region, city");
         try {
-            new FlatTableBuilder().input(input)
-                                  .addGroupColumn(new DefaultGroupColumn.Builder(0).header("COUNTRY")
-                                                                                   .horizAlign(HorizAlign.RIGHT)
-                                                                                   .vertAlign(VertAlign.TOP)
-                                                                                   .build())
-                                  .addGroupColumn(new DefaultGroupColumn.Builder(1).header("REGION")
-                                                                                   .build())
-                                  .addGroupColumn(new DefaultGroupColumn.Builder(2).header("CITY")
-                                                                                   .build())
-                                  .addDataColumn(new DefaultDataColumn.Builder(5).header("Value")
-                                                                                 .useCalculator(new SumGroupCalculator(),
-                                                                                                "%f $")
-                                                                                 .valuesFormatter("%d $")
-                                                                                 .build())
-                                  .build()
-                                  .output(reportOutput);
+            new FlatTableBuilder(input).addGroupColumn(new DefaultGroupColumn.Builder(0).header("COUNTRY")
+                                                                                        .horizAlign(HorizAlign.RIGHT)
+                                                                                        .vertAlign(VertAlign.TOP)
+                                                                                        .build())
+                                       .addGroupColumn(new DefaultGroupColumn.Builder(1).header("REGION")
+                                                                                        .build())
+                                       .addGroupColumn(new DefaultGroupColumn.Builder(2).header("CITY")
+                                                                                        .build())
+                                       .addDataColumn(new DefaultDataColumn.Builder(5).header("Value")
+                                                                                      .useCalculator(new SumGroupCalculator(),
+                                                                                                     "%f $")
+                                                                                      .valuesFormatter("%d $")
+                                                                                      .build())
+                                       .build()
+                                       .output(reportOutput);
         } catch (TableInputException tie) {
             Assert.assertTrue(tie.getCause() instanceof SQLException);
         } finally {
