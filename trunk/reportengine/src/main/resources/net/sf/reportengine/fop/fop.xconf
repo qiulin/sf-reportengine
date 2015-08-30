@@ -73,6 +73,7 @@
         
 	<!-- -->
 	<font kerning="yes" embed-url="ARIALUNI.TTF">
+		<!--<font-triplet name="ArialUnicodeMS" style="normal" weight="normal"/>-->
 		<font-triplet name="ArialUnicodeMS" style="normal" weight="normal"/>
          </font>
 	

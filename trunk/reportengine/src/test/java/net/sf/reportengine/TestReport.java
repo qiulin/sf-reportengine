@@ -56,9 +56,8 @@ public class TestReport {
         StringWriter testWriter = new StringWriter();
         MockReportOutput mockOutput = new MockReportOutput(testWriter);
         new ReportBuilder(mockOutput).add(new ReportTitle("unit test"))
-                                     .add(new FlatTableBuilder().input(Scenario1.INPUT)
-                                                                .dataColumns(Scenario1.DATA_COLUMNS)
-                                                                .build())
+                                     .add(new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS)
+                                                                               .build())
                                      .build()
                                      .execute();
 
@@ -71,9 +70,8 @@ public class TestReport {
         new ReportBuilder(new FoReportOutput(new FileWriter("./target/TestTwoComponents.fo"),
                                              true,
                                              new FoOutputFormat("A3"))).add(new ReportTitle("this is the report title "))
-                                                                       .add(new FlatTableBuilder().input(Scenario1.INPUT)
-                                                                                                  .dataColumns(Scenario1.DATA_COLUMNS)
-                                                                                                  .build())
+                                                                       .add(new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS)
+                                                                                                                 .build())
                                                                        .build()
                                                                        .execute();
     }
@@ -82,9 +80,8 @@ public class TestReport {
     public void testTwoComponentsAndExcelXmlOutput() throws IOException {
         new ReportBuilder(new ExcelXmlReportOutput(new FileWriter("./target/TestTwoComponents.xml"),
                                                    true)).add(new ReportTitle("this is the report title"))
-                                                         .add(new FlatTableBuilder().input(Scenario1.INPUT)
-                                                                                    .dataColumns(Scenario1.DATA_COLUMNS)
-                                                                                    .build())
+                                                         .add(new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS)
+                                                                                                   .build())
                                                          .add(new EmptyLine())
                                                          .build()
                                                          .execute();
@@ -94,9 +91,8 @@ public class TestReport {
     public void testTwoComponentsAndPdfOutput() throws IOException {
         new ReportBuilder(new PdfReportOutput(new FileOutputStream("./target/TestTwoComponents.pdf"))).add(new ReportTitle("this is the report title "))
                                                                                                       .add(new EmptyLine())
-                                                                                                      .add(new FlatTableBuilder().input(Scenario1.INPUT)
-                                                                                                                                 .dataColumns(Scenario1.DATA_COLUMNS)
-                                                                                                                                 .build())
+                                                                                                      .add(new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS)
+                                                                                                                                                .build())
                                                                                                       .build()
                                                                                                       .execute();
     }
@@ -105,9 +101,8 @@ public class TestReport {
     public void testTwoComponentsAndPngOutput() throws IOException {
         new ReportBuilder(new PngReportOutput(new FileOutputStream("./target/TestTwoComponents.png"))).add(new ReportTitle("this is the report title "))
                                                                                                       .add(new EmptyLine())
-                                                                                                      .add(new FlatTableBuilder().input(Scenario1.INPUT)
-                                                                                                                                 .dataColumns(Scenario1.DATA_COLUMNS)
-                                                                                                                                 .build())
+                                                                                                      .add(new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS)
+                                                                                                                                                .build())
                                                                                                       .build()
                                                                                                       .execute();
     }
@@ -116,31 +111,25 @@ public class TestReport {
     public void testMultipleTablesInSameReport() throws IOException {
 
         FlatTable flatTable1 =
-            new FlatTableBuilder().input(Scenario1.INPUT)
-                                  .dataColumns(Scenario1.DATA_COLUMNS)
-                                  .build();
+            new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS).build();
         FlatTable flatTable2 =
-            new FlatTableBuilder().input(Scenario1.INPUT)
-                                  .dataColumns(Scenario1.DATA_COLUMNS)
-                                  .build();
+            new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS).build();
         PivotTable pivotTable1 =
-            new PivotTableBuilder().input(CtScenario2x2x1With1G1D.INPUT)
-                                   .groupColumns(CtScenario2x2x1With1G1D.GROUPING_COLUMNS)
-                                   .dataColumns(CtScenario2x2x1With1G1D.DATA_COLUMNS)
-                                   .pivotData(CtScenario2x2x1With1G1D.CROSSTAB_DATA)
-                                   .headerRows(CtScenario2x2x1With1G1D.HEADER_ROWS)
-                                   .showTotals()
-                                   .showGrandTotal()
-                                   .build();
+            new PivotTableBuilder(CtScenario2x2x1With1G1D.INPUT).groupColumns(CtScenario2x2x1With1G1D.GROUPING_COLUMNS)
+                                                                .dataColumns(CtScenario2x2x1With1G1D.DATA_COLUMNS)
+                                                                .pivotData(CtScenario2x2x1With1G1D.CROSSTAB_DATA)
+                                                                .headerRows(CtScenario2x2x1With1G1D.HEADER_ROWS)
+                                                                .showTotals()
+                                                                .showGrandTotal()
+                                                                .build();
         PivotTable pivotTable2 =
-            new PivotTableBuilder().input(CtScenarioFormatting4x3x1.INPUT)
-                                   .dataColumns(CtScenarioFormatting4x3x1.DATA_COLUMNS)
-                                   .groupColumns(CtScenarioFormatting4x3x1.GROUP_COLUMNS)
-                                   .headerRows(CtScenarioFormatting4x3x1.HEADER_ROWS)
-                                   .pivotData(CtScenarioFormatting4x3x1.CROSSTAB_DATA)
-                                   .showTotals()
-                                   .showGrandTotal()
-                                   .build();
+            new PivotTableBuilder(CtScenarioFormatting4x3x1.INPUT).dataColumns(CtScenarioFormatting4x3x1.DATA_COLUMNS)
+                                                                  .groupColumns(CtScenarioFormatting4x3x1.GROUP_COLUMNS)
+                                                                  .headerRows(CtScenarioFormatting4x3x1.HEADER_ROWS)
+                                                                  .pivotData(CtScenarioFormatting4x3x1.CROSSTAB_DATA)
+                                                                  .showTotals()
+                                                                  .showGrandTotal()
+                                                                  .build();
 
         Report report =
             new ReportBuilder(new ExcelXmlReportOutput(new FileWriter("./target/ReportWithMultipleTables.xml"))).add(new ReportTitle("this report contains multiple tables"))
@@ -164,12 +153,11 @@ public class TestReport {
         // add 1000 flat tables
         for (int i = 0; i < 1000; i++) {
 
-            reportBuilder.add(new FlatTableBuilder().input(ScenarioFormatedValues.INPUT)
-                                                    .showTotals(true)
-                                                    .showGrandTotal(true)
-                                                    .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
-                                                    .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
-                                                    .build());
+            reportBuilder.add(new FlatTableBuilder(ScenarioFormatedValues.INPUT).showTotals(true)
+                                                                                .showGrandTotal(true)
+                                                                                .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
+                                                                                .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
+                                                                                .build());
             reportBuilder.add(new EmptyLine());
         }
 
@@ -187,12 +175,11 @@ public class TestReport {
         // add 1000 flat tables
         for (int i = 0; i < 1000; i++) {
 
-            reportBuilder.add(new FlatTableBuilder().input(ScenarioFormatedValues.INPUT)
-                                                    .showTotals(true)
-                                                    .showGrandTotal(true)
-                                                    .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
-                                                    .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
-                                                    .build());
+            reportBuilder.add(new FlatTableBuilder(ScenarioFormatedValues.INPUT).showTotals(true)
+                                                                                .showGrandTotal(true)
+                                                                                .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
+                                                                                .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
+                                                                                .build());
             reportBuilder.add(new EmptyLine());
         }
 
@@ -208,12 +195,11 @@ public class TestReport {
         // add 1000 flat tables
         for (int i = 0; i < 1000; i++) {
 
-            reportBuilder.add(new FlatTableBuilder().input(ScenarioFormatedValues.INPUT)
-                                                    .showTotals(true)
-                                                    .showGrandTotal(true)
-                                                    .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
-                                                    .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
-                                                    .build());
+            reportBuilder.add(new FlatTableBuilder(ScenarioFormatedValues.INPUT).showTotals(true)
+                                                                                .showGrandTotal(true)
+                                                                                .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
+                                                                                .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
+                                                                                .build());
             reportBuilder.add(new EmptyLine());
         }
 
@@ -229,12 +215,11 @@ public class TestReport {
         // add 1000 flat tables
         for (int i = 0; i < 1000; i++) {
 
-            reportBuilder.add(new FlatTableBuilder().input(ScenarioFormatedValues.INPUT)
-                                                    .showTotals(true)
-                                                    .showGrandTotal(true)
-                                                    .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
-                                                    .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
-                                                    .build());
+            reportBuilder.add(new FlatTableBuilder(ScenarioFormatedValues.INPUT).showTotals(true)
+                                                                                .showGrandTotal(true)
+                                                                                .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
+                                                                                .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
+                                                                                .build());
             reportBuilder.add(new EmptyLine());
         }
 
@@ -247,7 +232,7 @@ public class TestReport {
         MockReportOutput mockOutput = new MockReportOutput(testWriter);
         try {
             new ReportBuilder(mockOutput).add(new ReportTitle("test output open"))
-                                         .add(new FlatTableBuilder().build())
+                                         .add(new FlatTableBuilder(null).build())
                                          .build()
                                          .execute();
             // TODO: fail here

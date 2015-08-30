@@ -45,13 +45,18 @@ public class PivotTableBuilder {
     private List<PivotHeaderRow> headerRows = new ArrayList<PivotHeaderRow>();
     private PivotData pivotData = null;
 
-    public PivotTableBuilder() {
-
+    /**
+     * constructor for this builder based on the provided input
+     * 
+     * @param input
+     *            the input for this component
+     */
+    public PivotTableBuilder(TableInput input) {
+        this.tableInput = input;
     }
 
     public PivotTableBuilder showTotals(boolean show) {
-        this.showTotals =
-            show ? TRUE_REQUESTED_BY_USER : FALSE_REQUESTED_BY_USER;
+        this.showTotals = show ? TRUE_REQUESTED_BY_USER : FALSE_REQUESTED_BY_USER;
         return this;
     }
 
@@ -60,8 +65,7 @@ public class PivotTableBuilder {
     }
 
     public PivotTableBuilder showGrandTotal(boolean show) {
-        this.showGrandTotal =
-            show ? TRUE_REQUESTED_BY_USER : FALSE_REQUESTED_BY_USER;
+        this.showGrandTotal = show ? TRUE_REQUESTED_BY_USER : FALSE_REQUESTED_BY_USER;
         return this;
     }
 
@@ -83,6 +87,7 @@ public class PivotTableBuilder {
         return this;
     }
 
+    @Deprecated
     public PivotTableBuilder input(TableInput input) {
         this.tableInput = input;
         return this;

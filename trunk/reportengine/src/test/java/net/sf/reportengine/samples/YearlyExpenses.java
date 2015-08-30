@@ -37,29 +37,29 @@ public class YearlyExpenses {
     public static void main(String[] args) throws IOException {
 
         FlatTable table =
-            new FlatTableBuilder().input(new TextTableInput("./input/yearlyExpenses.txt", "\t"))
+            new FlatTableBuilder(new TextTableInput("./input/yearlyExpenses.txt", "\t"))
 
-            // groups configuration
-                                  .addGroupColumn(new DefaultGroupColumn.Builder(0).header("Year")
-                                                                                   .horizAlign(HorizAlign.LEFT)
-                                                                                   .level(0)
-                                                                                   .build())
-                                  .addGroupColumn(new DefaultGroupColumn.Builder(1).header("Month")
-                                                                                   .horizAlign(HorizAlign.LEFT)
-                                                                                   .level(1)
-                                                                                   .build())
+            .addGroupColumn(new DefaultGroupColumn.Builder(0).header("Year")
+                                                             .horizAlign(HorizAlign.LEFT)
+                                                             .level(0)
+                                                             .build())
+                                                                                        .addGroupColumn(new DefaultGroupColumn.Builder(1).header("Month")
+                                                                                                                                         .horizAlign(HorizAlign.LEFT)
+                                                                                                                                         .level(1)
+                                                                                                                                         .build())
 
-                                  // data columns
-                                  .addDataColumn(new DefaultDataColumn.Builder(2).header("Spent on")
-                                                                                 .horizAlign(HorizAlign.LEFT)
-                                                                                 .build())
-                                  .addDataColumn(new DefaultDataColumn.Builder(3).header("Amount")
-                                                                                 .horizAlign(HorizAlign.RIGHT)
-                                                                                 .useCalculator(GroupCalculators.SUM,
-                                                                                                "%.2f")
-                                                                                 .build())
+                                                                                        // data
+                                                                                        // columns
+                                                                                        .addDataColumn(new DefaultDataColumn.Builder(2).header("Spent on")
+                                                                                                                                       .horizAlign(HorizAlign.LEFT)
+                                                                                                                                       .build())
+                                                                                        .addDataColumn(new DefaultDataColumn.Builder(3).header("Amount")
+                                                                                                                                       .horizAlign(HorizAlign.RIGHT)
+                                                                                                                                       .useCalculator(GroupCalculators.SUM,
+                                                                                                                                                      "%.2f")
+                                                                                                                                       .build())
 
-                                  .build();
+                                                                                        .build();
 
         new ReportBuilder(new PdfReportOutput(new FileOutputStream("./target/YearlyExpensesReport.pdf"))).add(new ReportTitle("Yearly expenses report"))
                                                                                                          .add(table)

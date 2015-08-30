@@ -46,15 +46,13 @@ public class FirstReportWithATable {
             new HtmlReportOutput(new FileWriter("./target/FirstReportWithTable.html"));
 
         FlatTable flatTable =
-            new FlatTableBuilder().input(new TextTableInput("./input/expenses.csv",
-                                                            ","))
-                                  .addDataColumn(new DefaultDataColumn.Builder(0).header("Month")
-                                                                                 .build())
-                                  .addDataColumn(new DefaultDataColumn.Builder(1).header("Spent on")
-                                                                                 .build())
-                                  .addDataColumn(new DefaultDataColumn.Builder(2).header("Amount")
-                                                                                 .build())
-                                  .build();
+            new FlatTableBuilder(new TextTableInput("./input/expenses.csv", ",")).addDataColumn(new DefaultDataColumn.Builder(0).header("Month")
+                                                                                                                                .build())
+                                                                                 .addDataColumn(new DefaultDataColumn.Builder(1).header("Spent on")
+                                                                                                                                .build())
+                                                                                 .addDataColumn(new DefaultDataColumn.Builder(2).header("Amount")
+                                                                                                                                .build())
+                                                                                 .build();
 
         // FileWriter is used just for demo
         Report report =

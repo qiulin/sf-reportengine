@@ -300,12 +300,6 @@ final class DefaultPivotTable extends AbstractColumnBasedTable implements PivotT
         AbstractMultiStepAlgo sortingAlgo =
             new DefaultLoopThroughTableInputAlgo("External Sort Algorithm");
 
-        // init steps
-        // sortingAlgo.addInitStep(new ConfigReportIOInitStep());
-        // sortingAlgo.addInitStep(new ConfigReportOutputInitStep());
-
-        // sortingAlgo.addInitStep(new OpenReportInputInitStep());
-
         // main steps
         sortingAlgo.addMainStep(new ExternalSortPreparationStep());
 

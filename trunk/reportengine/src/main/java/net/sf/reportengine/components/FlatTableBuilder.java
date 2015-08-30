@@ -28,33 +28,39 @@ import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.util.UserRequestedBoolean;
 
 /**
+ * Builder for a FlatTable component.
+ * 
  * @author dragos balan
  * @since 0.13
- *
  */
 public class FlatTableBuilder {
 
-    private UserRequestedBoolean showTotals =
-        UserRequestedBoolean.FALSE_NOT_REQUESTED_BY_USER;
+    private UserRequestedBoolean showTotals = UserRequestedBoolean.FALSE_NOT_REQUESTED_BY_USER;
 
-    private UserRequestedBoolean showGrandTotal =
-        UserRequestedBoolean.FALSE_NOT_REQUESTED_BY_USER;
+    private UserRequestedBoolean showGrandTotal = UserRequestedBoolean.FALSE_NOT_REQUESTED_BY_USER;
 
     private boolean showDataRows = true;
+
     private boolean valuesSorted = true;
 
     private TableInput tableInput = null;
 
     private List<DataColumn> dataColumns = new ArrayList<DataColumn>();
+
     private List<GroupColumn> groupColumns = new ArrayList<GroupColumn>();
 
-    public FlatTableBuilder() {
-
+    /**
+     * constructs the builder for a FlatTable component
+     * 
+     * @param input
+     *            the input for this component
+     */
+    public FlatTableBuilder(TableInput input) {
+        this.tableInput = input;
     }
 
     public FlatTableBuilder showTotals(boolean show) {
-        this.showTotals =
-            show ? TRUE_REQUESTED_BY_USER : FALSE_REQUESTED_BY_USER;
+        this.showTotals = show ? TRUE_REQUESTED_BY_USER : FALSE_REQUESTED_BY_USER;
         return this;
     }
 
@@ -63,8 +69,7 @@ public class FlatTableBuilder {
     }
 
     public FlatTableBuilder showGrandTotal(boolean show) {
-        this.showGrandTotal =
-            show ? TRUE_REQUESTED_BY_USER : FALSE_REQUESTED_BY_USER;
+        this.showGrandTotal = show ? TRUE_REQUESTED_BY_USER : FALSE_REQUESTED_BY_USER;
         return this;
     }
 
@@ -86,6 +91,7 @@ public class FlatTableBuilder {
         return this;
     }
 
+    @Deprecated
     public FlatTableBuilder input(TableInput input) {
         this.tableInput = input;
         return this;
@@ -142,6 +148,12 @@ public class FlatTableBuilder {
     }
 
     public FlatTable build() {
-        return new DefaultFlatTable(tableInput, dataColumns, groupColumns, showTotals.getValue(), showGrandTotal.getValue(), showDataRows, valuesSorted);
+        return new DefaultFlatTable(tableInput,
+                                    dataColumns,
+                                    groupColumns,
+                                    showTotals.getValue(),
+                                    showGrandTotal.getValue(),
+                                    showDataRows,
+                                    valuesSorted);
     }
 }

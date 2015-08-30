@@ -88,7 +88,8 @@ public class PostProcessedFoReportOutput extends AbstractReportOutput {
 
         this.outStream = outStream;
         this.mimeType = mimeType;
-        this.fopConfiguration = fopConfiguration;
+        this.fopConfiguration =
+            fopConfiguration == null ? buildDefaultConfiguration() : fopConfiguration;
         this.fopUserAgentProps = userAgentProps;
     }
 
@@ -118,9 +119,7 @@ public class PostProcessedFoReportOutput extends AbstractReportOutput {
             LOGGER.info("transforming temporary fo file {} to {}", foFile, mimeType);
 
             FopFactory fopFactory = FopFactory.newInstance();
-            if (fopConfiguration != null) {
-                fopFactory.setUserConfig(fopConfiguration);
-            }
+            fopFactory.setUserConfig(fopConfiguration);
 
             // custom configuration for fop (e.g. author of the document, custom
             // renderers etc)
