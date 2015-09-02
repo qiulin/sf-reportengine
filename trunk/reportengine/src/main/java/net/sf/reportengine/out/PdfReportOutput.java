@@ -20,10 +20,11 @@ package net.sf.reportengine.out;
 
 import java.io.OutputStream;
 
+import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.fop.apps.MimeConstants;
 
 /**
- * PDF Output for reports.
+ * PDF Report Output.
  * 
  * @author dragos balan
  *
@@ -35,6 +36,12 @@ public class PdfReportOutput extends PostProcessedFoReportOutput {
     }
 
     public PdfReportOutput(OutputStream outStream, PdfOutputFormat outputFormat) {
-        super(outStream, outputFormat, MimeConstants.MIME_PDF, null, null);
+        this(outStream, outputFormat, null);
+    }
+
+    public PdfReportOutput(OutputStream outStream,
+                           PdfOutputFormat outputFormat,
+                           Configuration fopConfig) {
+        super(outStream, outputFormat, MimeConstants.MIME_PDF, fopConfig, null);
     }
 }

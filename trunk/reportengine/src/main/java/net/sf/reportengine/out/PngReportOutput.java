@@ -19,6 +19,7 @@ import java.io.OutputStream;
 
 import net.sf.reportengine.util.ReportIoUtils;
 
+import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.xmlgraphics.util.MimeConstants;
 
 public class PngReportOutput extends PostProcessedFoReportOutput {
@@ -28,7 +29,13 @@ public class PngReportOutput extends PostProcessedFoReportOutput {
     }
 
     public PngReportOutput(OutputStream outStream, PngOutputFormat outputFormat) {
-        super(outStream, outputFormat, MimeConstants.MIME_PNG, null, null);
+        this(outStream, outputFormat, null);
+    }
+
+    public PngReportOutput(OutputStream outStream,
+                           PngOutputFormat outputFormat,
+                           Configuration fopConfig) {
+        super(outStream, outputFormat, MimeConstants.MIME_PNG, fopConfig, null);
     }
 
     public PngReportOutput(String filePath) {
@@ -36,10 +43,14 @@ public class PngReportOutput extends PostProcessedFoReportOutput {
     }
 
     public PngReportOutput(String filePath, PngOutputFormat outputFormat) {
+        this(filePath, outputFormat, null);
+    }
+
+    public PngReportOutput(String filePath, PngOutputFormat outputFormat, Configuration fopConfig) {
         super(ReportIoUtils.createOutputStreamFromPath(filePath),
               outputFormat,
               MimeConstants.MIME_PNG,
-              null,
+              fopConfig,
               new FopUserAgentProperties("net.sf.reportengine", filePath));
     }
 }

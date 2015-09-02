@@ -15,12 +15,18 @@
  */
 package net.sf.reportengine.out;
 
+import java.io.File;
 import java.io.IOException;
 
 import net.sf.reportengine.util.ReportIoUtils;
 
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 public class TestPdfReportOutput {
 
@@ -45,6 +51,41 @@ public class TestPdfReportOutput {
         testOutput.close();
 
         testOutput.postProcess();
+
+        File pdfFile = new File(OUTPUT_PATH);
+        Assert.assertNotNull(pdfFile);
+        Assert.assertNotNull(pdfFile.exists());
+        Assert.assertTrue(pdfFile.isFile());
+        Assert.assertTrue(pdfFile.length() != 0);
     }
 
+    @Test
+    public void testCustomConfig() throws IOException, ConfigurationException, SAXException {
+        String OUTPUT_PATH = "target/TestPdfReportOutputCustomConfig.pdf";
+
+        Configuration fopConfig =
+            new DefaultConfigurationBuilder().build("./input/fopConfigForUnitTests.xml");
+
+        PdfReportOutput testOutput =
+            new PdfReportOutput(ReportIoUtils.createOutputStreamFromPath(OUTPUT_PATH),
+                                new PdfOutputFormat("A3"),
+                                fopConfig);
+        testOutput.open();
+
+        // calling startreport.ftl and endreport.ftl is important for pdf
+        // because the resulting xml does not have a root and a well-defined
+        // namespace
+        testOutput.output("startReport.ftl", new ReportProps(new PdfOutputFormat()));
+        testOutput.output("title.ftl", new TitleProps("This is a report with custom configuration"));
+        testOutput.output("endReport.ftl");
+        testOutput.close();
+
+        testOutput.postProcess();
+
+        File pdfFile = new File(OUTPUT_PATH);
+        Assert.assertNotNull(pdfFile);
+        Assert.assertNotNull(pdfFile.exists());
+        Assert.assertTrue(pdfFile.isFile());
+        Assert.assertTrue(pdfFile.length() != 0);
+    }
 }
