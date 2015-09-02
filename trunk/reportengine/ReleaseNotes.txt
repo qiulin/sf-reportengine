@@ -5,3 +5,6 @@ Bugfixes:
 2. Total string (calculator label) for pivot data was not shown in a pivot table
 3. When closing the Pdf output the real errors were hidden by the fo transformation exception
 4. The FlatTableBuilder and PivotTableBuilder constructors changed (not requesting a table input parameter)
+
+New features: 
+1. Support for TIFF output 
