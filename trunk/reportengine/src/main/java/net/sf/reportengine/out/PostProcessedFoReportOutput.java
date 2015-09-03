@@ -32,6 +32,7 @@ import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sf.reportengine.util.ReportIoUtils;
+import net.sf.reportengine.util.ReportUtils;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -152,6 +153,22 @@ public class PostProcessedFoReportOutput extends AbstractReportOutput {
             throw new ReportOutputException(e);
         } catch (FOPException e) {
             throw new ReportOutputException(e);
+        }
+    }
+
+    public void close() {
+        try {
+            foReportOutput.close();
+            if (!ReportUtils.DEBUG) {
+                LOGGER.debug("deleting temporary fo file {} ...  ", foFile);
+                if (foFile.delete()) {
+                    LOGGER.debug("succeeded");
+                } else {
+                    LOGGER.debug("didn't succeed");
+                }
+            }
+        } finally {
+            super.close();
         }
     }
 

@@ -48,9 +48,8 @@ public class TestPdfReportOutput {
         testOutput.output("title.ftl", new TitleProps("На берегу пустынных волн"));
         testOutput.output("title.ftl", new TitleProps("Τη γλώσσα μου έδωσαν ελληνική"));
         testOutput.output("endReport.ftl");
-        testOutput.close();
-
         testOutput.postProcess();
+        testOutput.close();
 
         File pdfFile = new File(OUTPUT_PATH);
         Assert.assertNotNull(pdfFile);
@@ -68,7 +67,7 @@ public class TestPdfReportOutput {
 
         PdfReportOutput testOutput =
             new PdfReportOutput(ReportIoUtils.createOutputStreamFromPath(OUTPUT_PATH),
-                                new PdfOutputFormat("A3"),
+                                new PdfOutputFormat(PageSize.A3_PORTRAIT),
                                 fopConfig);
         testOutput.open();
 
@@ -78,9 +77,8 @@ public class TestPdfReportOutput {
         testOutput.output("startReport.ftl", new ReportProps(new PdfOutputFormat()));
         testOutput.output("title.ftl", new TitleProps("This is a report with custom configuration"));
         testOutput.output("endReport.ftl");
-        testOutput.close();
-
         testOutput.postProcess();
+        testOutput.close();
 
         File pdfFile = new File(OUTPUT_PATH);
         Assert.assertNotNull(pdfFile);

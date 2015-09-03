@@ -15,7 +15,6 @@
  */
 package net.sf.reportengine;
 
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -31,8 +30,7 @@ import net.sf.reportengine.out.FoOutputFormat;
 import net.sf.reportengine.out.FoReportOutput;
 import net.sf.reportengine.out.HtmlReportOutput;
 import net.sf.reportengine.out.MockReportOutput;
-import net.sf.reportengine.out.PdfReportOutput;
-import net.sf.reportengine.out.PngReportOutput;
+import net.sf.reportengine.out.PageSize;
 import net.sf.reportengine.out.Status;
 import net.sf.reportengine.scenarios.Scenario1;
 import net.sf.reportengine.scenarios.ScenarioFormatedValues;
@@ -45,7 +43,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TestReport {
+public class TestDefaultReport {
 
     @Before
     public void setUp() throws Exception {
@@ -69,11 +67,11 @@ public class TestReport {
     public void testTwoComponentsAndFoOutput() throws IOException {
         new ReportBuilder(new FoReportOutput(new FileWriter("./target/TestTwoComponents.fo"),
                                              true,
-                                             new FoOutputFormat("A3"))).add(new ReportTitle("this is the report title "))
-                                                                       .add(new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS)
-                                                                                                                 .build())
-                                                                       .build()
-                                                                       .execute();
+                                             new FoOutputFormat(PageSize.A3_PORTRAIT))).add(new ReportTitle("this is the report title "))
+                                                                              .add(new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS)
+                                                                                                                        .build())
+                                                                              .build()
+                                                                              .execute();
     }
 
     @Test
@@ -85,26 +83,6 @@ public class TestReport {
                                                          .add(new EmptyLine())
                                                          .build()
                                                          .execute();
-    }
-
-    @Test
-    public void testTwoComponentsAndPdfOutput() throws IOException {
-        new ReportBuilder(new PdfReportOutput(new FileOutputStream("./target/TestTwoComponents.pdf"))).add(new ReportTitle("this is the report title "))
-                                                                                                      .add(new EmptyLine())
-                                                                                                      .add(new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS)
-                                                                                                                                                .build())
-                                                                                                      .build()
-                                                                                                      .execute();
-    }
-
-    @Test
-    public void testTwoComponentsAndPngOutput() throws IOException {
-        new ReportBuilder(new PngReportOutput(new FileOutputStream("./target/TestTwoComponents.png"))).add(new ReportTitle("this is the report title "))
-                                                                                                      .add(new EmptyLine())
-                                                                                                      .add(new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS)
-                                                                                                                                                .build())
-                                                                                                      .build()
-                                                                                                      .execute();
     }
 
     @Test
@@ -172,46 +150,6 @@ public class TestReport {
                                                  new FoOutputFormat()));
 
         reportBuilder.add(new ReportTitle("Testing the fo output for memory leaks"));
-        // add 1000 flat tables
-        for (int i = 0; i < 1000; i++) {
-
-            reportBuilder.add(new FlatTableBuilder(ScenarioFormatedValues.INPUT).showTotals(true)
-                                                                                .showGrandTotal(true)
-                                                                                .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
-                                                                                .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
-                                                                                .build());
-            reportBuilder.add(new EmptyLine());
-        }
-
-        reportBuilder.build().execute();
-    }
-
-    @Ignore
-    public void testMemoryLeaksOutputPdf() throws IOException {
-        ReportBuilder reportBuilder =
-            new ReportBuilder(new PdfReportOutput(new FileOutputStream("./target/TestMemoryLeaks.pdf")));
-
-        reportBuilder.add(new ReportTitle("Testing the Pdf output for memory leaks"));
-        // add 1000 flat tables
-        for (int i = 0; i < 1000; i++) {
-
-            reportBuilder.add(new FlatTableBuilder(ScenarioFormatedValues.INPUT).showTotals(true)
-                                                                                .showGrandTotal(true)
-                                                                                .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
-                                                                                .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
-                                                                                .build());
-            reportBuilder.add(new EmptyLine());
-        }
-
-        reportBuilder.build().execute();
-    }
-
-    @Ignore
-    public void testMemoryLeaksOutputPng() throws IOException {
-        ReportBuilder reportBuilder =
-            new ReportBuilder(new PngReportOutput("./target/TestMemoryLeaks.png"));
-
-        reportBuilder.add(new ReportTitle("Testing the png output for memory leaks"));
         // add 1000 flat tables
         for (int i = 0; i < 1000; i++) {
 

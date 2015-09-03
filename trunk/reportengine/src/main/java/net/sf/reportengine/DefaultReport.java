@@ -19,59 +19,34 @@ import java.util.List;
 
 import net.sf.reportengine.components.ReportComponent;
 import net.sf.reportengine.out.AbstractReportOutput;
-import net.sf.reportengine.out.PostProcessedFoReportOutput;
-import net.sf.reportengine.out.ReportProps;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author dragos balan
  *
  */
-final class DefaultReport implements Report {
+final class DefaultReport extends AbstractReport<AbstractReportOutput> {
 
-    public final static String START_REPORT_TEMPLATE = "startReport.ftl";
-    public final static String END_REPORT_TEMPLATE = "endReport.ftl";
-
-    /**
-     * the list of the components of this report
-     */
-    private final List<ReportComponent> components;
-
-    /**
-     * the report output
-     */
-    private final AbstractReportOutput reportOutput;
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultReport.class);
 
     /**
      * 
      * @param builder
      */
     DefaultReport(AbstractReportOutput reportOutput, List<ReportComponent> components) {
-        this.reportOutput = reportOutput;
-        this.components = components;
+        super(reportOutput, components);
     }
 
     /**
      * executes the report
      */
     public void execute() {
-        output();
-        postOutput();
-    }
-
-    private void postOutput() {
-        if (reportOutput instanceof PostProcessedFoReportOutput) {
-            ((PostProcessedFoReportOutput) reportOutput).postProcess();
-        }
-    }
-
-    private void output() {
+        AbstractReportOutput reportOutput = getReportOutput();
         try {
             reportOutput.open();
-            reportOutput.output(START_REPORT_TEMPLATE, new ReportProps(reportOutput.getFormat()));
-            for (ReportComponent reportComponent : components) {
-                reportComponent.output(reportOutput);
-            }
-            reportOutput.output(END_REPORT_TEMPLATE);
+            outputFO(reportOutput);
         } finally {
             reportOutput.close();
         }

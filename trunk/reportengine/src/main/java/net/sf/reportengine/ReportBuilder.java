@@ -20,6 +20,7 @@ import java.util.List;
 
 import net.sf.reportengine.components.ReportComponent;
 import net.sf.reportengine.out.AbstractReportOutput;
+import net.sf.reportengine.out.PostProcessedFoReportOutput;
 
 /**
  * 
@@ -28,45 +29,52 @@ import net.sf.reportengine.out.AbstractReportOutput;
  */
 public class ReportBuilder {
 
-	/**
+    /**
 	 * 
 	 */
-	private List<ReportComponent> components;
+    private List<ReportComponent> components;
 
-	/**
+    /**
 	 * 
 	 */
-	private final AbstractReportOutput reportOutput;
+    private final AbstractReportOutput reportOutput;
 
-	/**
-	 * 
-	 * @param output
-	 */
-	public ReportBuilder(AbstractReportOutput output) {
-		this.reportOutput = output;
-		this.components = new ArrayList<ReportComponent>();
-	}
+    /**
+     * 
+     * @param output
+     */
+    public ReportBuilder(AbstractReportOutput output) {
+        this.reportOutput = output;
+        this.components = new ArrayList<ReportComponent>();
+    }
 
-	/**
-	 * adds a new component to the report
-	 * 
-	 * @param newComponent
-	 *            the component
-	 */
-	public ReportBuilder add(ReportComponent newComponent) {
-		components.add(newComponent);
-		return this;
-	}
+    /**
+     * adds a new component to the report
+     * 
+     * @param newComponent
+     *            the component
+     */
+    public ReportBuilder add(ReportComponent newComponent) {
+        components.add(newComponent);
+        return this;
+    }
 
-	public AbstractReportOutput getOutput() {
-		return reportOutput;
-	}
+    public AbstractReportOutput getOutput() {
+        return reportOutput;
+    }
 
-	public List<ReportComponent> getComponents() {
-		return components;
-	}
+    public List<ReportComponent> getComponents() {
+        return components;
+    }
 
-	public Report build() {
-		return new DefaultReport(reportOutput, components);
-	}
+    public Report build() {
+        Report result = null;
+        if (reportOutput instanceof PostProcessedFoReportOutput) {
+            result = new PostProcessReport((PostProcessedFoReportOutput) reportOutput, components);
+        } else {
+            result = new DefaultReport(reportOutput, components);
+        }
+
+        return result;
+    }
 }

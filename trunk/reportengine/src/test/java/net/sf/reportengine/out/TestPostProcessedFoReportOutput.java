@@ -37,9 +37,8 @@ public class TestPostProcessedFoReportOutput {
         classUnderTest.output("title.ftl", new TitleProps("Hello from a post processed FO report"));
         classUnderTest.output("endReport.ftl");
 
-        classUnderTest.close();
-
         classUnderTest.postProcess();
+        classUnderTest.close();
 
         File pdfResult = new File(OUTPUT_PATH);
         Assert.assertTrue(pdfResult.exists());

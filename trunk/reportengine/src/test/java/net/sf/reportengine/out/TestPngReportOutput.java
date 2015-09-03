@@ -42,9 +42,8 @@ public class TestPngReportOutput {
         testOutput.output("title.ftl", new TitleProps("На берегу пустынных волн"));
         testOutput.output("title.ftl", new TitleProps("Τη γλώσσα μου έδωσαν ελληνική"));
         testOutput.output("endReport.ftl");
-        testOutput.close();
-
         testOutput.postProcess();
+        testOutput.close();
     }
 
 }
