@@ -72,9 +72,8 @@ public class TestTiffReportOutput {
         testOutput.output("title.ftl", new TitleProps("this is an unit test"));
 
         testOutput.output("endReport.ftl");
-        testOutput.close();
-
         testOutput.postProcess();
+        testOutput.close();
 
         File pdfFile = new File(OUTPUT_PATH);
         Assert.assertNotNull(pdfFile);

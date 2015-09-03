@@ -24,4 +24,11 @@ package net.sf.reportengine.out;
  */
 public class PngOutputFormat extends FoOutputFormat {
 
+    public PngOutputFormat() {
+        this(PageSize.A4_PORTRAIT);
+    }
+
+    public PngOutputFormat(PageSize pageSize) {
+        super(pageSize);
+    }
 }

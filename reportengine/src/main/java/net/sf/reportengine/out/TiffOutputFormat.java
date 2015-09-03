@@ -3,10 +3,10 @@ package net.sf.reportengine.out;
 public class TiffOutputFormat extends FoOutputFormat {
 
     public TiffOutputFormat() {
-        this("A4");
+        this(PageSize.A4_PORTRAIT);
     }
 
-    public TiffOutputFormat(String pageSize) {
+    public TiffOutputFormat(PageSize pageSize) {
         super(pageSize);
     }
 }

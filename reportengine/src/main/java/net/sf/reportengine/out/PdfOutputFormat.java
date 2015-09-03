@@ -25,10 +25,10 @@ package net.sf.reportengine.out;
 public class PdfOutputFormat extends FoOutputFormat {
 
     public PdfOutputFormat() {
-        this("A4");
+        this(PageSize.A4_PORTRAIT);
     }
 
-    public PdfOutputFormat(String pageSize) {
+    public PdfOutputFormat(PageSize pageSize) {
         super(pageSize);
     }
 }
