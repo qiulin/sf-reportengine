@@ -26,6 +26,7 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.xml.sax.SAXException;
 
 public class TestPdfReportOutput {
@@ -58,7 +59,7 @@ public class TestPdfReportOutput {
         Assert.assertTrue(pdfFile.length() != 0);
     }
 
-    @Test
+    @Ignore
     public void testCustomConfig() throws IOException, ConfigurationException, SAXException {
         String OUTPUT_PATH = "target/TestPdfReportOutputCustomConfig.pdf";
 
