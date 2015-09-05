@@ -114,7 +114,8 @@ public class TestPostProcessReport {
         // add 1000 flat tables
         for (int i = 0; i < 1000; i++) {
 
-            reportBuilder.add(new FlatTableBuilder(ScenarioFormatedValues.INPUT).showTotals(true)
+            reportBuilder
+                         .add(new FlatTableBuilder(ScenarioFormatedValues.INPUT).showTotals(true)
                                                                                 .showGrandTotal(true)
                                                                                 .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
                                                                                 .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
@@ -134,7 +135,8 @@ public class TestPostProcessReport {
         // add 1000 flat tables
         for (int i = 0; i < 1000; i++) {
 
-            reportBuilder.add(new FlatTableBuilder(ScenarioFormatedValues.INPUT).showTotals(true)
+            reportBuilder
+                         .add(new FlatTableBuilder(ScenarioFormatedValues.INPUT).showTotals(true)
                                                                                 .showGrandTotal(true)
                                                                                 .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
                                                                                 .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
@@ -154,7 +156,8 @@ public class TestPostProcessReport {
         // add 1000 flat tables
         for (int i = 0; i < 1000; i++) {
 
-            reportBuilder.add(new FlatTableBuilder(ScenarioFormatedValues.INPUT).showTotals(true)
+            reportBuilder
+                         .add(new FlatTableBuilder(ScenarioFormatedValues.INPUT).showTotals(true)
                                                                                 .showGrandTotal(true)
                                                                                 .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
                                                                                 .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)

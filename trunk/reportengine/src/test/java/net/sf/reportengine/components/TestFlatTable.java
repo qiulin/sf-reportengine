@@ -103,7 +103,7 @@ public class TestFlatTable {
     @Test
     public void testExecuteScenarioOhlc() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("./target/TestFlatReportOHLC.html"));
+            new HtmlReportOutput(new FileWriter("./target/TestFlatTableOHLC.html"));
         reportOutput.open();
 
         InputStream testStream =
@@ -124,7 +124,7 @@ public class TestFlatTable {
     @Test
     public void testExecute2x3x1() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("./target/TestExecute2x3x1.html"));
+            new HtmlReportOutput(new FileWriter("./target/TestFlatTable2x3x1.html"));
         reportOutput.open();
 
         InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("2x3x1.txt");
@@ -144,7 +144,7 @@ public class TestFlatTable {
     @Test
     public void testExecuteNoGroupingColumnsReport() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("./target/TestFlatReportNoGroupings.html"));
+            new HtmlReportOutput(new FileWriter("./target/TestFlatTableNoGroupings.html"));
         reportOutput.open();
 
         new FlatTableBuilder(NoGroupsScenario.INPUT).groupColumns(NoGroupsScenario.GROUPING_COLUMNS)
@@ -160,7 +160,7 @@ public class TestFlatTable {
 
     @Test
     public void testFlatTableUtf8PdfOutput() throws IOException {
-        Writer testWriter = ReportIoUtils.createWriterFromPath("./target/testUtf8Output.html");
+        Writer testWriter = ReportIoUtils.createWriterFromPath("./target/TestFlatTableUtf8Output.html");
         testWriter.write("<head><meta charset=\"UTF-8\"></head><body>");
 
         AbstractReportOutput reportOutput = new HtmlReportOutput(testWriter, false);
@@ -170,13 +170,12 @@ public class TestFlatTable {
         Assert.assertNotNull(inputStream);
 
         new FlatTableBuilder(new TextTableInput(inputStream, ",", "UTF-8"))
-
-        .addDataColumn(new DefaultDataColumn(0))
-                                                                           .addDataColumn(new DefaultDataColumn(1))
-                                                                           .addDataColumn(new DefaultDataColumn(2))
-                                                                           .addDataColumn(new DefaultDataColumn(3))
-                                                                           .build()
-                                                                           .output(reportOutput);
+            .addDataColumn(new DefaultDataColumn(0))
+            .addDataColumn(new DefaultDataColumn(1))
+            .addDataColumn(new DefaultDataColumn(2))
+            .addDataColumn(new DefaultDataColumn(3))
+            .build()
+            .output(reportOutput);
 
         reportOutput.close();
 
@@ -187,13 +186,14 @@ public class TestFlatTable {
     @Test
     public void testHugeInputHtmlOut() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("./target/testHugeFlatTable.html"));
+            new HtmlReportOutput(new FileWriter("./target/TestHugeFlatTable.html"));
         reportOutput.open();
 
-        new FlatTableBuilder(OhlcComputationScenario.INPUT).groupColumns(OhlcComputationScenario.GROUPING_COLUMNS)
-                                                           .dataColumns(OhlcComputationScenario.DATA_COLUMNS)
-                                                           .build()
-                                                           .output(reportOutput);
+        new FlatTableBuilder(OhlcComputationScenario.INPUT)
+            .groupColumns(OhlcComputationScenario.GROUPING_COLUMNS)
+            .dataColumns(OhlcComputationScenario.DATA_COLUMNS)
+            .build()
+            .output(reportOutput);
 
         reportOutput.close();
         // TODO: assert here
@@ -202,15 +202,16 @@ public class TestFlatTable {
     @Test
     public void testFlatReportWithFormattedValues() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("./target/testFormattedValues.html"));
+            new HtmlReportOutput(new FileWriter("./target/TestFlatTableFormattedValues.html"));
         reportOutput.open();
 
-        new FlatTableBuilder(ScenarioFormatedValues.INPUT).showTotals(true)
-                                                          .showGrandTotal(true)
-                                                          .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
-                                                          .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
-                                                          .build()
-                                                          .output(reportOutput);
+        new FlatTableBuilder(ScenarioFormatedValues.INPUT)
+            .showTotals(true)
+            .showGrandTotal(true)
+            .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
+            .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
+            .build()
+            .output(reportOutput);
 
         reportOutput.close();
         // TODO: assert here
@@ -222,14 +223,15 @@ public class TestFlatTable {
             new HtmlReportOutput(new FileWriter("./target/FlatTableSortedProgramatically.html"));
         reportOutput.open();
 
-        new FlatTableBuilder(ScenarioSort.INPUT).sortValues()
-                                                .dataColumns(ScenarioSort.DATA_COLUMNS)
-                                                .groupColumns(ScenarioSort.GROUPING_COLUMNS)
-                                                .showTotals(false)
-                                                .showDataRows(true)
-                                                .showGrandTotal(true)
-                                                .build()
-                                                .output(reportOutput);
+        new FlatTableBuilder(ScenarioSort.INPUT)
+            .sortValues()
+            .dataColumns(ScenarioSort.DATA_COLUMNS)
+            .groupColumns(ScenarioSort.GROUPING_COLUMNS)
+            .showTotals(false)
+            .showDataRows(true)
+            .showGrandTotal(true)
+            .build()
+            .output(reportOutput);
 
         // Assert.assertTrue(MatrixUtils.compareMatrices(
         // mockOut.getDataCellMatrix(),
@@ -241,14 +243,14 @@ public class TestFlatTable {
     @Test
     public void testExecuteWithSortingOnDataCols() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("./target/testSortingOnDataCols.html"));
+            new HtmlReportOutput(new FileWriter("./target/TestFlatTableSortingOnDataCols.html"));
         reportOutput.open();
 
-        FlatTable flatTable =
-            new FlatTableBuilder(SortScenarioOnlyDataColsCount.INPUT).showTotals(false)
-                                                                     .dataColumns(SortScenarioOnlyDataColsCount.DATA_COLUMNS)
-                                                                     .groupColumns(SortScenarioOnlyDataColsCount.GROUPING_COLUMNS)
-                                                                     .build();
+        FlatTable flatTable = new FlatTableBuilder(SortScenarioOnlyDataColsCount.INPUT)
+                .showTotals(false)
+                .dataColumns(SortScenarioOnlyDataColsCount.DATA_COLUMNS)
+                .groupColumns(SortScenarioOnlyDataColsCount.GROUPING_COLUMNS)
+                .build();
 
         // check some of the computed values + default ones
         Assert.assertTrue(flatTable instanceof DefaultFlatTable);

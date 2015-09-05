@@ -27,8 +27,7 @@ public class HelloWorldReport {
 
 	public static void main(String[] args) throws IOException {
 		// preparation of output and components
-		HtmlReportOutput output = new HtmlReportOutput(new FileWriter(
-				"Hello.html"));
+		HtmlReportOutput output = new HtmlReportOutput(new FileWriter("Hello.html"));
 		ReportTitle title = new ReportTitle("Hello World report");
 
 		// report set-up
