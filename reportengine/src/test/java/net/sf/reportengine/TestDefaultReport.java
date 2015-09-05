@@ -109,16 +109,16 @@ public class TestDefaultReport {
                                                                   .showGrandTotal()
                                                                   .build();
 
-        Report report =
-            new ReportBuilder(new ExcelXmlReportOutput(new FileWriter("./target/ReportWithMultipleTables.xml"))).add(new ReportTitle("this report contains multiple tables"))
-                                                                                                                .add(flatTable1)
-                                                                                                                .add(new EmptyLine())
-                                                                                                                .add(flatTable2)
-                                                                                                                .add(new EmptyLine())
-                                                                                                                .add(pivotTable1)
-                                                                                                                .add(new EmptyLine())
-                                                                                                                .add(pivotTable2)
-                                                                                                                .build();
+        Report report = new ReportBuilder(new ExcelXmlReportOutput(new FileWriter("./target/ReportWithMultipleTables.xml")))
+                .add(new ReportTitle("this report contains multiple tables"))
+                .add(flatTable1)
+                .add(new EmptyLine())
+                .add(flatTable2)
+                .add(new EmptyLine())
+                .add(pivotTable1)
+                .add(new EmptyLine())
+                .add(pivotTable2)
+                .build();
         report.execute();
     }
 

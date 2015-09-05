@@ -50,7 +50,7 @@ public class TestPivotTable extends TestCase {
     public void testExecute1x1x1xT() throws IOException {
 
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("target/CrosstabReport1x1x1xT.html"));
+            new HtmlReportOutput(new FileWriter("target/TestPivot1x1x1xT.html"));
         reportOutput.open();
 
         PivotTable classUnderTest =
@@ -68,7 +68,7 @@ public class TestPivotTable extends TestCase {
 
     public void testExecute1x1x1() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("target/CrosstabReport1x1x1.html"));
+            new HtmlReportOutput(new FileWriter("target/Pivot1x1x1.html"));
         reportOutput.open();
 
         new PivotTableBuilder(CtScenario1x1x1.INPUT).groupColumns(CtScenario1x1x1.GROUP_COLUMNS)
@@ -86,7 +86,7 @@ public class TestPivotTable extends TestCase {
 
     public void testExecute2x2x1xT() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("target/CrosstabReport2x2x1xT.html"));
+            new HtmlReportOutput(new FileWriter("target/Pivot2x2x1xT.html"));
         reportOutput.open();
 
         new PivotTableBuilder(CtScenario2x2x1With1G1D.INPUT).groupColumns(CtScenario2x2x1With1G1D.GROUPING_COLUMNS)
@@ -103,7 +103,7 @@ public class TestPivotTable extends TestCase {
 
     public void testExecute2x2x1() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("./target/CrosstabReport2x2x1.html"));
+            new HtmlReportOutput(new FileWriter("./target/Pivot2x2x1.html"));
         reportOutput.open();
 
         new PivotTableBuilder(CtScenario2x2x1With1G1D.INPUT)
@@ -123,7 +123,7 @@ public class TestPivotTable extends TestCase {
 
     public void testProgramaticSorting2x2x1() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("./target/CtProgramaticallySorted2x2x1.html"));
+            new HtmlReportOutput(new FileWriter("./target/PivotProgramaticallySorted2x2x1.html"));
         reportOutput.open();
 
         new PivotTableBuilder(CtUnsortedScenario2x2x1With1G1D.INPUT).sortValues()
@@ -143,7 +143,7 @@ public class TestPivotTable extends TestCase {
 
     public void testExecute1x3x1xT() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("target/CrosstabReport1x3x1xT.html"));
+            new HtmlReportOutput(new FileWriter("target/Pivot1x3x1xT.html"));
         reportOutput.open();
 
         new PivotTableBuilder(CtScenario1x3x1.INPUT).groupColumns(CtScenario1x3x1.GROUP_COLUMNS)
@@ -160,7 +160,7 @@ public class TestPivotTable extends TestCase {
 
     public void testExecute1x3x1() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("target/CrosstabReport1x3x1.html"));
+            new HtmlReportOutput(new FileWriter("target/Pivot1x3x1.html"));
         reportOutput.open();
 
         new PivotTableBuilder(CtScenario1x3x1.INPUT).groupColumns(CtScenario1x3x1.GROUP_COLUMNS)
@@ -177,7 +177,7 @@ public class TestPivotTable extends TestCase {
 
     public void testExecute3x2x1xT() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("target/CrosstabReport3x2x1xT.html"));
+            new HtmlReportOutput(new FileWriter("target/Pivot3x2x1xT.html"));
         reportOutput.open();
 
         new PivotTableBuilder(new TextTableInput(ReportIoUtils.createInputStreamFromClassPath("3x2x1.txt"),
@@ -207,35 +207,32 @@ public class TestPivotTable extends TestCase {
     // TODO
     public void testExecute3x2x1xTHavingNoGroupColumns() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("target/CrosstabReport3x2x1xTxNoGroupColumns.html"));
+            new HtmlReportOutput(new FileWriter("target/Pivot3x2x1xTxNoGroupColumns.html"));
         reportOutput.open();
 
         new PivotTableBuilder(new TextTableInput(ReportIoUtils.createInputStreamFromClassPath("3x2x1.txt"),
                                                  ","))
 
         .addDataColumn(new DefaultDataColumn("Country", 0))
-                                                      .addDataColumn(new DefaultDataColumn("Region",
-                                                                                           1))
-                                                      .addDataColumn(new DefaultDataColumn("City",
-                                                                                           2))
+        .addDataColumn(new DefaultDataColumn("Region", 1))
+        .addDataColumn(new DefaultDataColumn("City", 2))
 
-                                                      .addHeaderRow(new DefaultPivotHeaderRow(3))
-                                                      .addHeaderRow(new DefaultPivotHeaderRow(4))
+        .addHeaderRow(new DefaultPivotHeaderRow(3))
+        .addHeaderRow(new DefaultPivotHeaderRow(4))
+        
+        .pivotData(new DefaultPivotData(5, new SumGroupCalculator()))
 
-                                                      .pivotData(new DefaultPivotData(5,
-                                                                                      new SumGroupCalculator()))
-
-                                                      .showTotals(false)
-                                                      .showGrandTotal(false)
-                                                      .build()
-                                                      .output(reportOutput);
+        .showTotals(false)
+        .showGrandTotal(false)
+        .build()
+        .output(reportOutput);
 
         reportOutput.close();
     }
 
     public void testExecute2x2x1xTHavingNoGroupColumns() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("target/CrosstabReport2x2x1With0G2D.html"));
+            new HtmlReportOutput(new FileWriter("target/Pivot2x2x1With0G2D.html"));
         reportOutput.open();
 
         new PivotTableBuilder(CtScenario2x2x1With0G2D.INPUT).dataColumns(CtScenario2x2x1With0G2D.DATA_COLUMNS)
@@ -251,7 +248,7 @@ public class TestPivotTable extends TestCase {
 
     public void testProgramaticSortingFor2x2x1xTHavingNoGroups() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("target/CrosstabReportProgramaticallySorted2x2x1With0G2D.html"));
+            new HtmlReportOutput(new FileWriter("target/PivotProgramaticallySorted2x2x1With0G2D.html"));
         reportOutput.open();
 
         new PivotTableBuilder(CtUnsortedScenario2x2x1With0G2D.INPUT).dataColumns(CtUnsortedScenario2x2x1With0G2D.DATA_COLUMNS)
@@ -267,7 +264,7 @@ public class TestPivotTable extends TestCase {
 
     public void testProgramaticSortingFor2x2x1xTHavingNoDataCols() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("target/CrosstabReportProgramaticallySorted2x2x1With2G0D.html"));
+            new HtmlReportOutput(new FileWriter("target/PivotProgramaticallySorted2x2x1With2G0D.html"));
         reportOutput.open();
 
         new PivotTableBuilder(CtUnsortedScenario2x2x1With2G0D.INPUT).groupColumns(CtUnsortedScenario2x2x1With2G0D.GROUPING_COLUMNS)
@@ -286,7 +283,7 @@ public class TestPivotTable extends TestCase {
 
     public void testFormatting() throws IOException {
         AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("./target/testCrosstabFormatting.html"));
+            new HtmlReportOutput(new FileWriter("./target/PivotFormatting.html"));
         reportOutput.open();
 
         new PivotTableBuilder(CtScenarioFormatting4x3x1.INPUT).dataColumns(CtScenarioFormatting4x3x1.DATA_COLUMNS)
