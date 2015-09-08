@@ -72,7 +72,7 @@ public class TestPreviousRowManagerStep{
 			StepResult<Object[]> stepResult = classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, testReportContext));
 			
 			if(stepResult != null){
-				Object[] prevValues = stepResult.getValue(); //(Object[])testReportContext.get(ContextKeys.LAST_GROUPING_VALUES);
+				Object[] prevValues = stepResult.getValue(); 
 				Assert.assertNotNull(prevValues);
 				Assert.assertEquals(Scenario1.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
 				Assert.assertTrue(Arrays.equals(Scenario1.PREVIOUS_GROUP_VALUES[i], prevValues));
@@ -90,7 +90,6 @@ public class TestPreviousRowManagerStep{
 		mockAlgoInput.put(AlgoIOKeys.GROUP_COLS, Scenario2.GROUPING_COLUMNS);
 		//testReportContext.set(ContextKeys.GROUP_COLUMNS, Scenario2.GROUPING_COLUMNS);
 		classUnderTest.init(new StepInput(mockAlgoInput, testReportContext));
-		
 		
 		//first we check that previous data row is null
 		Assert.assertNull(testReportContext.get(StepIOKeys.LAST_GROUPING_VALUES));
@@ -137,7 +136,7 @@ public class TestPreviousRowManagerStep{
 			StepResult<Object[]> stepResult = classUnderTest.execute(dataRowEvent, new StepInput(mockAlgoInput, testReportContext));
 			
 			if(stepResult != null){
-				Object[] prevValues = stepResult.getValue(); //(Object[])testReportContext.get(ContextKeys.LAST_GROUPING_VALUES);
+				Object[] prevValues = stepResult.getValue(); 
 				Assert.assertNotNull(prevValues);
 				Assert.assertEquals(CalculatedColumnsScenario.PREVIOUS_GROUP_VALUES[i].length, prevValues.length); 
 				
