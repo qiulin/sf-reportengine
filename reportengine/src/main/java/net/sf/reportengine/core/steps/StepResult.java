@@ -34,6 +34,7 @@ public final class StepResult<U> {
 	
 	
 	private final StepIOKeys key; 
+	
 	private final U value; 
 	
 	private final AlgoIOKeys ioKey; 
@@ -60,8 +61,5 @@ public final class StepResult<U> {
 		return ioKey; 
 	}
 	
-	
-
-
 	public static final StepResult<String> NO_RESULT = new StepResult<String>(StepIOKeys.NO_KEY, ""); 
 }

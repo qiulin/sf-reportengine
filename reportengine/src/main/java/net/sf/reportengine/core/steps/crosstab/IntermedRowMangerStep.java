@@ -146,8 +146,8 @@ public class IntermedRowMangerStep extends AbstractCrosstabStep<IntermediateRepo
 	 */
 	public StepResult<String> exit(StepInput stepInput){
 		if(getShowTotals(stepInput) || getShowGrandTotal(stepInput)){
-			int originalGroupingColsLength = getGroupColumnsCount(stepInput); //getOriginalCrosstabGroupingColsLength();  
-			int originalDataColsLength = getDataColumnsLength(stepInput); //getOriginalCrosstabDataColsLength(); 
+			int originalGroupingColsLength = getGroupColumnsCount(stepInput);  
+			int originalDataColsLength = getDataColumnsLength(stepInput); 
 			updateIntermediateTotals(	stepInput, 
 										originalGroupingColsLength + originalDataColsLength-1, //from the last original grouping col
 										getIntermGroupColsLength(stepInput),//getGroupColumnsLength() ,  //to the last intermediate grouping col (containing also the headers)

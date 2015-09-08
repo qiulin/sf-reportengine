@@ -50,8 +50,8 @@ public class PreviousRowManagerStep extends AbstractReportStep<String, Object[],
 	 */
 	private Object[] previousRowOfGroupingColumnValues;
     
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.core.AbstractReportStep#execute(net.sf.reportengine.core.algorithm.NewRowEvent)
+	/**
+	 * 
 	 */
 	public StepResult<Object[]> execute(NewRowEvent rowEvent, StepInput stepInput) {
 		
