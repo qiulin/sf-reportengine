@@ -19,11 +19,14 @@
 package net.sf.reportengine.core.algorithm;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
+import net.sf.reportengine.util.AlgoIOKeys;
 
 /**
  * @author dragos balan (dragos dot balan at gmail dot com)
@@ -47,7 +50,7 @@ public abstract class AbstractMultiStepAlgo extends AbstractAlgo {
     /**
      * A list containing
      * <code>net.sf.reportengine.algorithm.IAlgorithmExitStep</code>s to be
-     * performed only once (at the begining of the algorithm)
+     * performed only once (at the beginning of the algorithm)
      */
     private List<AlgorithmExitStep> exitSteps = new ArrayList<AlgorithmExitStep>();
 
@@ -87,7 +90,7 @@ public abstract class AbstractMultiStepAlgo extends AbstractAlgo {
     public void addExitStep(AlgorithmExitStep exitStep) {
         exitSteps.add(exitStep);
     }
-
+    
     public List<AlgorithmInitStep> getInitSteps() {
         return initSteps;
     }

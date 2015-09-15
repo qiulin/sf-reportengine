@@ -27,6 +27,7 @@ import static net.sf.reportengine.util.AlgoIOKeys.TABLE_INPUT;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,6 @@ import net.sf.reportengine.core.algorithm.AbstractAlgo;
 import net.sf.reportengine.core.algorithm.AbstractMultiStepAlgo;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
 import net.sf.reportengine.core.algorithm.report.DefaultLoopThroughTableInputAlgo;
-import net.sf.reportengine.core.algorithm.report.DefaultTableAlgo;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmExitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.steps.EndTableExitStep;
@@ -298,7 +298,10 @@ final class DefaultPivotTable extends AbstractColumnBasedTable implements PivotT
 
         // TODO: improve here (this sorting algo doesn't have multiple steps)
         AbstractMultiStepAlgo sortingAlgo =
-            new DefaultLoopThroughTableInputAlgo("External Sort Algorithm");
+            new DefaultLoopThroughTableInputAlgo("External Sort Algorithm", 
+                                                 new HashMap<StepIOKeys, AlgoIOKeys>(){
+                                                    { put(StepIOKeys.FILES_WITH_SORTED_VALUES, AlgoIOKeys.SORTED_FILES); }
+                                                    });
 
         // main steps
         sortingAlgo.addMainStep(new ExternalSortPreparationStep());
@@ -316,13 +319,16 @@ final class DefaultPivotTable extends AbstractColumnBasedTable implements PivotT
      */
     private AbstractAlgo configIntermedAlgo(final boolean hasBeenPreviouslySorted) {
 
-        AbstractMultiStepAlgo algorithm = new DefaultTableAlgo("Intermediate Algorithm") {
+        AbstractMultiStepAlgo algorithm = 
+                new DefaultLoopThroughTableInputAlgo("Intermediate Algorithm", 
+                                                     new HashMap<StepIOKeys, AlgoIOKeys>(){
+                                                        { put(StepIOKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER, AlgoIOKeys.DISTINCT_VALUES_HOLDER); 
+                                                          put(StepIOKeys.INTERMEDIATE_SERIALIZED_FILE, AlgoIOKeys.INTERMEDIATE_OUTPUT_FILE);}}) {
             @Override
             protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
                 if (hasBeenPreviouslySorted) {
                     // if the input has been previously sorted
-                    // then the sorting algorithm (the previous) has created
-                    // external sorted files
+                    // then the sorting algorithm (the previous) has created external sorted files
                     // which will serve as input from this point on
                     return new MultipleExternalSortedFilesTableInput((List<File>) inputParams.get(AlgoIOKeys.SORTED_FILES),
                                                                      new NewRowComparator((List<GroupColumn>) inputParams.get(AlgoIOKeys.GROUP_COLS),
@@ -356,8 +362,7 @@ final class DefaultPivotTable extends AbstractColumnBasedTable implements PivotT
         // TODO: only when totals add the step below
         algorithm.addInitStep(new IntermedReportExtractTotalsDataInitStep());
         // only for debug
-        // algorithm.addInitStep(new
-        // ColumnHeaderOutputInitStep("Intermediate report"));
+        // algorithm.addInitStep(new ColumnHeaderOutputInitStep("Intermediate report"));
 
         // main steps
         algorithm.addMainStep(new DistinctValuesDetectorStep());
@@ -398,7 +403,7 @@ final class DefaultPivotTable extends AbstractColumnBasedTable implements PivotT
      * the output
      */
     private AbstractAlgo configSecondAlgo() {
-        AbstractMultiStepAlgo algorithm = new DefaultTableAlgo("Second Algorithm") {
+        AbstractMultiStepAlgo algorithm = new DefaultLoopThroughTableInputAlgo("Second Algorithm") {
             @Override
             protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
                 File previousAlgoSerializedOutput =

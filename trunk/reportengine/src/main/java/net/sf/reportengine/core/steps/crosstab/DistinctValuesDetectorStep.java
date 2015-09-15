@@ -64,8 +64,7 @@ public class DistinctValuesDetectorStep extends AbstractCrosstabStep<DistinctVal
         List<PivotHeaderRow> headerRows = getCrosstabHeaderRows(stepInput);
         distinctValuesHolder = new DefaultDistinctValuesHolder(headerRows);
         return new StepResult<DistinctValuesHolder>(StepIOKeys.INTERMEDIATE_DISTINCT_VALUES_HOLDER, 
-        											distinctValuesHolder, 
-        											AlgoIOKeys.DISTINCT_VALUES_HOLDER); 
+        											distinctValuesHolder); 
     }
 	
 	/**

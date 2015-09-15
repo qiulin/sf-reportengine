@@ -17,6 +17,7 @@ package net.sf.reportengine.components;
 
 import java.io.File;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.AbstractAlgo;
 import net.sf.reportengine.core.algorithm.AbstractMultiStepAlgo;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
-import net.sf.reportengine.core.algorithm.report.DefaultTableAlgo;
+import net.sf.reportengine.core.algorithm.report.DefaultLoopThroughTableInputAlgo;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.EndTableExitStep;
@@ -44,6 +45,7 @@ import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.AbstractReportOutput;
 import net.sf.reportengine.util.AlgoIOKeys;
 import net.sf.reportengine.util.ReportUtils;
+import net.sf.reportengine.util.StepIOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,7 +122,11 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTab
      */
     private AbstractAlgo configSortingAlgo() {
         // TODO: this sorting algo does not have multiple steps
-        AbstractMultiStepAlgo sortingAlgo = new DefaultTableAlgo("Sorting Algorithm") {
+        AbstractMultiStepAlgo sortingAlgo = 
+                new DefaultLoopThroughTableInputAlgo("Sorting Algorithm", 
+                                                     new HashMap<StepIOKeys, AlgoIOKeys>(){
+                                                         { put(StepIOKeys.FILES_WITH_SORTED_VALUES, AlgoIOKeys.SORTED_FILES); }
+                                                     }) {
             @Override
             protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
                 return (TableInput) inputParams.get(AlgoIOKeys.TABLE_INPUT);
@@ -141,7 +147,7 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTab
      * @return the algorithm
      */
     private AbstractAlgo configReportAlgo(final boolean hasBeenPreviouslySorted) {
-        AbstractMultiStepAlgo reportAlgo = new DefaultTableAlgo("Main algorithm") {
+        AbstractMultiStepAlgo reportAlgo = new DefaultLoopThroughTableInputAlgo("Main algorithm") {
             @Override
             protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
                 if (hasBeenPreviouslySorted) {

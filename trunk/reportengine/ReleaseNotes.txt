@@ -1,14 +1,7 @@
-ReportEngine 0.13.1
+ReportEngine 0.13.2
 ----------------------------------------------------------------
 Bugfixes: 
-1. In case of an error the ReportOutput was not closed
-2. Total string (calculator label) for pivot data was not shown in a pivot table
-3. When closing the Pdf output the real errors were hidden by the fo transformation exception
-4. The FlatTableBuilder and PivotTableBuilder constructors changed (not requesting a table input parameter)
-5. All components aligned on center when displaying in html
+1. 
 
 New features: 
-1. Support for TIFF output 
-2. The pdf, png, tiff reports can have the page size specified
-3. multiple types of page size defined ( A0, A1, A2.. A8)
-4. new examples added
+1. Improvements in the engine
