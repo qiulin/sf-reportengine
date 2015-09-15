@@ -35,9 +35,8 @@ public class IntermedSetResultsExitStep extends AbstractReportExitStep<File> {
 
 	public StepResult<File> exit(StepInput stepInput) {
 		IntermediateCrosstabOutput output = (IntermediateCrosstabOutput)stepInput.getContextParam(StepIOKeys.INTERMEDIATE_CROSSTAB_OUTPUT);  
-		StepResult<File> result = new StepResult<File>(StepIOKeys.SKIP_CONTEXT_KEY, 
-						((IntermediateCrosstabOutput)output).getSerializedOutputFile(), 
-						AlgoIOKeys.INTERMEDIATE_OUTPUT_FILE); 
+		StepResult<File> result = new StepResult<File>(StepIOKeys.INTERMEDIATE_SERIALIZED_FILE, 
+						((IntermediateCrosstabOutput)output).getSerializedOutputFile()); 
 		return result; 
 	}
 }

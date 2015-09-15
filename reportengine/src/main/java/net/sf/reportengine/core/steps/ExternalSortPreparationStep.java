@@ -92,8 +92,7 @@ public class ExternalSortPreparationStep extends AbstractReportStep<List<File>, 
 	 */
 	public StepResult<List<File>> init(StepInput stepInput){
 		COMPARATOR = new NewRowComparator(getGroupColumns(stepInput), getDataColumns(stepInput)); 
-		//addResult(IOKeys.SORTED_FILES, sortedFiles); 
-		return new StepResult<List<File>>(StepIOKeys.SKIP_CONTEXT_KEY, sortedFiles, AlgoIOKeys.SORTED_FILES); 
+		return new StepResult<List<File>>(StepIOKeys.FILES_WITH_SORTED_VALUES, sortedFiles); 
 	}
 	
 	/**

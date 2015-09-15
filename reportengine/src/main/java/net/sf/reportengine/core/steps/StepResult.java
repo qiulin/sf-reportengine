@@ -19,7 +19,6 @@
 package net.sf.reportengine.core.steps;
 
 import net.sf.reportengine.util.StepIOKeys;
-import net.sf.reportengine.util.AlgoIOKeys;
 
 /**
  * This is the result of a algorithm step computation. There are two kinds of StepResults: 
@@ -37,16 +36,10 @@ public final class StepResult<U> {
 	
 	private final U value; 
 	
-	private final AlgoIOKeys ioKey; 
 	
 	public StepResult(StepIOKeys key, U value){
-		 this(key, value, AlgoIOKeys.NO_KEY); 
-	}
-	
-	public StepResult(StepIOKeys key, U value, AlgoIOKeys ioKey){
 		this.key = key; 
 		this.value = value; 
-		this.ioKey = ioKey;
 	}
 	
 	public StepIOKeys getKey(){
@@ -55,10 +48,6 @@ public final class StepResult<U> {
 	
 	public U getValue(){
 		return value; 
-	}
-	
-	public AlgoIOKeys getIOKey(){
-		return ioKey; 
 	}
 	
 	public static final StepResult<String> NO_RESULT = new StepResult<String>(StepIOKeys.NO_KEY, ""); 

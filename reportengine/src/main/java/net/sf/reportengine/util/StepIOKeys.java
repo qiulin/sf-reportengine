@@ -31,12 +31,6 @@ public enum StepIOKeys {
 	 */
 	NO_KEY,
 	
-	/**
-	 * this key is used in unit tests or in step results which are strictly destined 
-	 * to the next algorithm (so the IOKeys is the most important)
-	 */
-	SKIP_CONTEXT_KEY, 
-	
 	CROSSTAB_METADATA, 
 	
 	INTERNAL_GROUP_COLS, 
@@ -65,5 +59,9 @@ public enum StepIOKeys {
 	
 	LOCAL_REPORT_INPUT, 
 
-	INTERMEDIATE_CROSSTAB_OUTPUT
+	INTERMEDIATE_CROSSTAB_OUTPUT, 
+	
+	FILES_WITH_SORTED_VALUES, 
+	
+	INTERMEDIATE_SERIALIZED_FILE
 }

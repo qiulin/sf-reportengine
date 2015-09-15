@@ -19,10 +19,10 @@
 package net.sf.reportengine.core.algorithm.report;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.report.DefaultLoopThroughTableInputAlgo;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
 import net.sf.reportengine.core.steps.StepInput;
@@ -44,30 +44,21 @@ import org.junit.Test;
 public class TestDefaultLoopThroughTableInputAlgo {
 
     private TableInput testInput =
-        new InMemoryTableInput(new Object[][] { new String[] { "1", "2", "3" }, new String[] { "4", "5", "6" } });
+        new InMemoryTableInput(new Object[][] { new String[] { "1", "2", "3" }, 
+                                                new String[] { "4", "5", "6" } });
 
-    private AlgorithmInitStep testInitStep = new AlgorithmInitStep<Integer>() {
-        public StepResult<Integer> init(StepInput stepInput) {
-            return new StepResult<Integer>(StepIOKeys.DATA_ROW_COUNT,
-                                           Integer.valueOf(0),
-                                           AlgoIOKeys.TEST_KEY);
-        }
-    };
+   
 
     private AlgorithmMainStep testMainStep = new AlgorithmMainStep<Integer, Integer, String>() {
 
         public StepResult<Integer> init(StepInput stepInput) {
-            // this.context.set(ContextKeys.DATA_ROW_COUNT, Integer.valueOf(1));
-            // this.context.set(ContextKeys.NEW_GROUPING_LEVEL, new Integer(0));
-            return new StepResult(StepIOKeys.NO_KEY, NumberUtils.INTEGER_ZERO);
+            return new StepResult(StepIOKeys.DATA_ROW_COUNT, NumberUtils.INTEGER_ZERO);
         }
 
         public StepResult<Integer> execute(NewRowEvent dataRowEvent, StepInput stepInput) {
-            Integer executionCounts = (Integer) stepInput.getContextParam(StepIOKeys.NO_KEY);
-            // context.set(ContextKeys.NEW_GROUPING_LEVEL, executionCounts+1);
-            return new StepResult<Integer>(StepIOKeys.NO_KEY,
-                                           executionCounts + 1,
-                                           AlgoIOKeys.TEST_KEY);
+            Integer executionCounts = (Integer) stepInput.getContextParam(StepIOKeys.DATA_ROW_COUNT);
+            return new StepResult<Integer>(StepIOKeys.DATA_ROW_COUNT,
+                                           executionCounts + 1);
         }
 
         public StepResult<String> exit(StepInput stepInput) {
@@ -84,15 +75,14 @@ public class TestDefaultLoopThroughTableInputAlgo {
      */
     @Before
     public void setUp() throws Exception {
-        classUnderTest = new DefaultLoopThroughTableInputAlgo("Test Loop Through TableInput");
+        classUnderTest = new DefaultLoopThroughTableInputAlgo("Test Loop Through TableInput", new HashMap<StepIOKeys, AlgoIOKeys>(){{put(StepIOKeys.DATA_ROW_COUNT, AlgoIOKeys.TEST_KEY);}});
 
-        classUnderTest.addInitStep(testInitStep);
         classUnderTest.addMainStep(testMainStep);
     }
 
     /**
      * Test method for
-     * {@link net.sf.reportengine.core.algorithm.report.DefaultTableAlgo#execute()}
+     * {@link net.sf.reportengine.core.algorithm.report.DefaultLoopThroughTableInputAlgo#execute()}
      * .
      */
     @Test
