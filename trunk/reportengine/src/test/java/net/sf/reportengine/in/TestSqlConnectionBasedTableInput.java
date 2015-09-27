@@ -31,7 +31,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * @author balan
+ * @author dragos balan
  *
  */
 public class TestSqlConnectionBasedTableInput {
@@ -70,9 +70,9 @@ public class TestSqlConnectionBasedTableInput {
 		         
 	   	} catch (ClassNotFoundException e) {
 				e.printStackTrace();
-			} catch (SQLException e) {
+		} catch (SQLException e) {
 				e.printStackTrace();
-			}
+		}
 	}
 
 	@AfterClass
@@ -98,14 +98,14 @@ public class TestSqlConnectionBasedTableInput {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.in.SqlConnectionBasedTableInput#close()}.
+	 * Test method for {@link net.sf.reportengine.in.SqlConnectionTableInput#close()}.
 	 * @throws SQLException 
 	 */
 	@Test
 	public void testAllSqlResourcesAreClosed() throws SQLException {
-		SqlConnectionBasedTableInput dataProvider = null; 
+		SqlConnectionTableInput dataProvider = null; 
 		try{
-			dataProvider = new SqlConnectionBasedTableInput(
+			dataProvider = new SqlConnectionTableInput(
 	    			testConnection, 
 	    			"select wrong_column from wrong_table");
 			dataProvider.open(); 
@@ -121,11 +121,11 @@ public class TestSqlConnectionBasedTableInput {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.in.SqlConnectionBasedTableInput#nextRow()}.
+	 * Test method for {@link net.sf.reportengine.in.SqlConnectionTableInput#nextRow()}.
 	 */
 	@Test
     public void testNextAndHasMore(){
-    	SqlConnectionBasedTableInput dataProvider = new SqlConnectionBasedTableInput(
+    	SqlConnectionTableInput dataProvider = new SqlConnectionTableInput(
     			testConnection, 
     			"select id, country, region, city, sex, religion, value from testreport t order by id");
     	assertNotNull(dataProvider); 

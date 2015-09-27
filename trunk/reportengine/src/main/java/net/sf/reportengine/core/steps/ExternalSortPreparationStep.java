@@ -29,9 +29,8 @@ import java.util.List;
 import net.sf.reportengine.core.AbstractReportStep;
 import net.sf.reportengine.core.ReportEngineRuntimeException;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.util.StepIOKeys;
-import net.sf.reportengine.util.AlgoIOKeys;
 import net.sf.reportengine.util.ReportIoUtils;
+import net.sf.reportengine.util.StepIOKeys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -140,13 +139,14 @@ public class ExternalSortPreparationStep extends AbstractReportStep<List<File>, 
 	}
 	
 	/**
+	 * saves the given list into a temporary file
 	 * 
-	 * @param rowsList
-	 * @return
-	 * @throws IOException
+	 * @param rowsList     list of input rows
+	 * @return a file containing the input rows
+	 * @throws IOException when serialization IOException occurs
 	 */
 	public File saveToFile(List<NewRowEvent> rowsList) throws IOException  {
-		//saving the sorted list into a temporary file
+		//
 		File tempFile = ReportIoUtils.createTempFile("sorted-obj");
 		
 		LOGGER.info("saving the sorted rows list into {}", tempFile.getName());

@@ -33,6 +33,7 @@ import net.sf.reportengine.core.steps.crosstab.IntermComputedTotalsList;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalDataColsList;
 import net.sf.reportengine.core.steps.crosstab.IntermOriginalGroupValuesList;
 import net.sf.reportengine.core.steps.crosstab.IntermediateReportRow;
+import net.sf.reportengine.util.ReportIoUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,12 +53,9 @@ import org.slf4j.LoggerFactory;
  */
 public class IntermediateCrosstabReportTableInput extends AbstractTableInput {
 
-    /**
-     * the one and only logger
-     */
-    private static final Logger LOGGER =
-        LoggerFactory.getLogger(IntermediateCrosstabReportTableInput.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(IntermediateCrosstabReportTableInput.class);
+    
+    
     /**
      * input containing serialized intermediate objects
      */
@@ -68,25 +66,14 @@ public class IntermediateCrosstabReportTableInput extends AbstractTableInput {
      */
     private IntermediateReportRow nextRawLine;
 
+    
     /**
      * 
-     * @param input
+     * @param intermedFile  the file containing serialized data produced by the IntermediateAlgorithm
      */
-    public IntermediateCrosstabReportTableInput(InputStream input) {
+    public IntermediateCrosstabReportTableInput(File intermedFile) {
         try {
-            this.intermCtLinesInputStream = new ObjectInputStream(input);
-        } catch (IOException e) {
-            throw new TableInputException(e);
-        }
-    }
-
-    /**
-     * 
-     * @param input
-     */
-    public IntermediateCrosstabReportTableInput(File input) {
-        try {
-            this.intermCtLinesInputStream = new ObjectInputStream(new FileInputStream(input));
+            this.intermCtLinesInputStream = new ObjectInputStream(ReportIoUtils.createInputStreamFromFile(intermedFile));
         } catch (FileNotFoundException fnfExc) {
             throw new TableInputException(fnfExc);
         } catch (IOException e) {
@@ -186,8 +173,7 @@ public class IntermediateCrosstabReportTableInput extends AbstractTableInput {
                 result[0] = intermGroupValues;
             }
 
-            IntermOriginalDataColsList intermOrigDataColValues =
-                intermRow.getIntermOriginalDataValuesList();
+            IntermOriginalDataColsList intermOrigDataColValues = intermRow.getIntermOriginalDataValuesList();
             if (intermOrigDataColValues != null) {
                 result[1] = intermOrigDataColValues;
             }

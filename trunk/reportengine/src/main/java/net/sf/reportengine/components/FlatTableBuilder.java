@@ -29,8 +29,19 @@ import net.sf.reportengine.util.UserRequestedBoolean;
 
 /**
  * Builder for a FlatTable component.
+ * The typical usage is: 
+ * <pre>
+ *     FlatTable flatTable = new FlatTableBuilder(new TextTableInput("./input/blah.csv", ","))
+ *              .addGroupColumn(...)
+ *              .addGroupColumn(...)    
+ *              .addDataColumn(...)
+ *              .addDataColumn(...)
+ *              .addDataColumn(...)
+ *              .build();
+ * </pre>
  * 
  * @author dragos balan
+ * @see FlatTable
  * @since 0.13
  */
 public class FlatTableBuilder {

@@ -23,7 +23,18 @@ import net.sf.reportengine.out.AbstractReportOutput;
 import net.sf.reportengine.out.PostProcessedFoReportOutput;
 
 /**
+ * The one and only builder for reports. 
+ * Typical usage: 
+ * <pre>
+ *  Report report = new ReportBuilder(new HtmlReportOutput(new FileWriter("/temp/test.html")))
+ *                      .add(new ReportTile("My first report"))
+ *                      .add(...)
+ *                      .add(other report components here)
+ *                      .build(); 
+ *  report.execute(); 
+ * </pre>
  * 
+ * @see Report
  * @author dragos balan
  * @since 0.13
  */

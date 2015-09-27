@@ -79,41 +79,6 @@ public class IntermediateCrosstabOutput {
 			throw new ReportEngineRuntimeException(e);
 		}
 	}
-	
-	
-//	/**
-//	 * resets the object output stream
-//	 */
-//	public void endDataRow() {
-//		try {
-//			objectOutputStream.reset();
-//		} catch (IOException e) {
-//			throw new ReportEngineRuntimeException(e);
-//		} 
-//	}
-
-//	/**
-//	 * serializes the values provided ( IntermediateReportRow )
-//	 */
-//	public void outputDataCell(CellProps cellProps) {
-//		//TODO: check if open
-//		Object value = cellProps.getValue();
-//		
-//		//TODO: see if you can fix the check below and get rid of the instanceof
-//		if(value instanceof IntermediateReportRow){
-//			IntermediateReportRow intermediateRow = (IntermediateReportRow)value; 
-//			//serialize
-//			try {
-//				LOGGER.debug("writting object to intermediate object stream {}", intermediateRow);
-//				objectOutputStream.writeObject(intermediateRow);
-//			} catch (IOException e) {
-//				throw new ReportEngineRuntimeException(e);
-//			}
-//		}else{
-//			throw new IllegalArgumentException("The intermediate crosstab output works only with IntermediateReportRow.");
-//		}
-//	}
-//	
 
 	/**
 	 * flushes the object output stream and then closes it

@@ -21,14 +21,14 @@ package net.sf.reportengine;
  * </p>
  * <p>
  * The usage is:<br/>
- * <code>
+ * <pre>
  * 	Report report = new ReportBuilder(new HtmlReportOutput(new FileWriter("/temp/test.html")))
  * 						.add(...)
  * 						.add(...)
  * 						...
  * 						.build(); 
  *  report.execute(); 
- * </code>
+ * </pre>
  * </p>
  * 
  * @see ReportBuilder

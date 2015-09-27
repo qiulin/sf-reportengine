@@ -43,9 +43,6 @@ import org.slf4j.LoggerFactory;
  */
 public final class ReportIoUtils {
 	
-	/**
-	 * the one and only logger
-	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(ReportIoUtils.class);
 	
 	/**
@@ -247,21 +244,31 @@ public final class ReportIoUtils {
 		}
 	}
 	
+    /**
+     * creates a temporary file with the given previx and the .tmp extension
+     * 
+     * @param prefix    the prefix of the file
+     * 
+     * @return  the temporary file
+     */
+    public static File createTempFile(String prefix){
+        return createTempFile(prefix, ".tmp"); 
+    }
+	
 	/**
-	 * creates a temporary file which will be deleted on VM exit
+	 * creates a temporary file with the given prefix and extension. 
+	 * The name of the file will be [prefix]-uniqueID[.extension]. 
+	 * Example: createTempFile("report", ".tmp") will create a file 
+	 *     report-1323423423442.tmp
 	 * 
-	 * @param prefix
-	 * @param extension
-	 * @return
+	 * @param prefix       the prefix of the file
+	 * @param extension    extension
+	 * @return             the temporary file
 	 */
 	public static File createTempFile(String prefix, String extension){
 		File tempFile;
 		try {
 			tempFile = File.createTempFile(prefix, extension);
-			if(!ReportUtils.DEBUG){
-				tempFile.deleteOnExit(); 
-			}
-			
 			LOGGER.info("temporary file created on path {}", tempFile.getAbsolutePath()); 
 		} catch (IOException e) {
 			throw new ReportEngineRuntimeException(e); 
@@ -271,20 +278,16 @@ public final class ReportIoUtils {
 	}
 	
 	/**
+	 * deletes the specified file only if DEBUG is not set to true. 
+	 * When running in debug mode the temporary files will not be deleted
 	 * 
-	 * @param prefix
-	 * @return
+	 * @param tmpFile  the file to be deleted
 	 */
-	public static File createTempFile(String prefix){
-		return createTempFile(prefix, ".tmp"); 
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public static File createTempFile(){
-		return createTempFile("report"); 
+	public static void deleteTempFileIfNotDebug(File tmpFile){
+	    if (!ReportUtils.DEBUG) {
+            boolean successfulDelete = tmpFile.delete();
+            LOGGER.info("deleting temporary file {} success={} ", tmpFile, successfulDelete);
+        }
 	}
 	
 	/**

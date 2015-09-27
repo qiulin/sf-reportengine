@@ -22,7 +22,7 @@ import net.sf.reportengine.out.AbstractReportOutput;
 import net.sf.reportengine.util.AlgoIOKeys;
 
 /**
- * @author balan
+ * @author dragos balan
  *
  */
 public class EndTableExitStep extends AbstractReportExitStep<String> {

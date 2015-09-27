@@ -152,12 +152,12 @@ public class TestDefaultReport {
         reportBuilder.add(new ReportTitle("Testing the fo output for memory leaks"));
         // add 1000 flat tables
         for (int i = 0; i < 1000; i++) {
-
-            reportBuilder.add(new FlatTableBuilder(ScenarioFormatedValues.INPUT).showTotals(true)
-                                                                                .showGrandTotal(true)
-                                                                                .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
-                                                                                .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
-                                                                                .build());
+            reportBuilder.add(new FlatTableBuilder(ScenarioFormatedValues.INPUT)
+                         .showTotals(true)
+                         .showGrandTotal(true)
+                         .groupColumns(ScenarioFormatedValues.GROUP_COLUMNS)
+                         .dataColumns(ScenarioFormatedValues.DATA_COLUMNS)
+                         .build());
             reportBuilder.add(new EmptyLine());
         }
 

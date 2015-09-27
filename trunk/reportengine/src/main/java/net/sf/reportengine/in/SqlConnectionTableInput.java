@@ -26,14 +26,9 @@ import net.sf.reportengine.out.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SqlConnectionBasedTableInput extends AbstractTableInput implements
-                                                                    ColumnMetadataHolder {
+public class SqlConnectionTableInput extends AbstractTableInput implements ColumnMetadataHolder {
 
-    /**
-     * the one and only logger
-     */
-    private static final Logger LOGGER =
-        LoggerFactory.getLogger(SqlConnectionBasedTableInput.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SqlConnectionTableInput.class);
 
     /**
      * the connection to the database
@@ -71,7 +66,7 @@ public class SqlConnectionBasedTableInput extends AbstractTableInput implements
      * @param conn
      *            the connection provided
      */
-    public SqlConnectionBasedTableInput(Connection conn, String sqlStatement) {
+    public SqlConnectionTableInput(Connection conn, String sqlStatement) {
         this(conn, sqlStatement, false);
     }
 
@@ -88,7 +83,7 @@ public class SqlConnectionBasedTableInput extends AbstractTableInput implements
      * @param managedConnection
      *            if true the connection will be managed (close) by this class
      */
-    public SqlConnectionBasedTableInput(Connection conn,
+    public SqlConnectionTableInput(Connection conn,
                                         String sqlStatement,
                                         boolean closeConnectionWhenDone) {
         this.dbConnection = conn;

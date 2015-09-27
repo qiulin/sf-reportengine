@@ -32,7 +32,6 @@ import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sf.reportengine.util.ReportIoUtils;
-import net.sf.reportengine.util.ReportUtils;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -46,6 +45,8 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 /**
+ * This is a two step report output: the first step creates a .fo file, the second step transforms the .fo file with FOP 
+ * (see https://xmlgraphics.apache.org/fop/)
  * 
  * @author dragos balan
  *
@@ -159,14 +160,7 @@ public class PostProcessedFoReportOutput extends AbstractReportOutput {
     public void close() {
         try {
             foReportOutput.close();
-            if (!ReportUtils.DEBUG) {
-                LOGGER.debug("deleting temporary fo file {} ...  ", foFile);
-                if (foFile.delete()) {
-                    LOGGER.debug("succeeded");
-                } else {
-                    LOGGER.debug("didn't succeed");
-                }
-            }
+            ReportIoUtils.deleteTempFileIfNotDebug(foFile);
         } finally {
             super.close();
         }

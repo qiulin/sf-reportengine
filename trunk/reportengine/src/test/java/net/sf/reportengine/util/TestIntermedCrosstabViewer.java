@@ -18,13 +18,13 @@
  */
 package net.sf.reportengine.util;
 
-import java.io.InputStream;
+import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author balan
+ * @author dragos balan
  *
  */
 public class TestIntermedCrosstabViewer {
@@ -41,9 +41,8 @@ public class TestIntermedCrosstabViewer {
 	 */
 	@Test
 	public void testExportToHtml() {
-		InputStream intermInput = ReportIoUtils.createInputStreamFromClassPath("TestIntermediateInput2x2x1xT.rep");
+		File intermInput = ReportIoUtils.createFileFromClassPath("/TestIntermediateInput2x2x1xT.rep");
 		IntermedCrosstabViewer viewer = new IntermedCrosstabViewer(intermInput, "./target/intermReportView.html");
 		viewer.exportToHtml(); 
 	}
-
 }

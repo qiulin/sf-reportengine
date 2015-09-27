@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.reportengine.core.algorithm.NewRowEvent;
-import net.sf.reportengine.core.algorithm.steps.AlgorithmInitStep;
 import net.sf.reportengine.core.algorithm.steps.AlgorithmMainStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
@@ -66,7 +65,7 @@ public class TestDefaultLoopThroughTableInputAlgo {
         }
     };
 
-    private DefaultLoopThroughTableInputAlgo classUnderTest = null;
+    private LoopThroughTableInputAlgo classUnderTest = null;
 
     /*
      * (non-Javadoc)
@@ -75,14 +74,14 @@ public class TestDefaultLoopThroughTableInputAlgo {
      */
     @Before
     public void setUp() throws Exception {
-        classUnderTest = new DefaultLoopThroughTableInputAlgo("Test Loop Through TableInput", new HashMap<StepIOKeys, AlgoIOKeys>(){{put(StepIOKeys.DATA_ROW_COUNT, AlgoIOKeys.TEST_KEY);}});
+        classUnderTest = new LoopThroughTableInputAlgo("Test Loop Through TableInput", new HashMap<StepIOKeys, AlgoIOKeys>(){{put(StepIOKeys.DATA_ROW_COUNT, AlgoIOKeys.TEST_KEY);}});
 
         classUnderTest.addMainStep(testMainStep);
     }
 
     /**
      * Test method for
-     * {@link net.sf.reportengine.core.algorithm.report.DefaultLoopThroughTableInputAlgo#execute()}
+     * {@link net.sf.reportengine.core.algorithm.report.LoopThroughTableInputAlgo#execute()}
      * .
      */
     @Test
