@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  * @author dragos balan
  *
  */
-public class AlgorithmContainer implements Algorithm {
+public class AlgorithmContainer extends AbstractAlgo {
 
     /**
      * the one and only logger
@@ -52,8 +52,8 @@ public class AlgorithmContainer implements Algorithm {
     /**
      * constructor for an algorithm container
      */
-    public AlgorithmContainer() {
-
+    public AlgorithmContainer(String algoName) {
+        super(algoName); 
     }
 
     public void addAlgo(AbstractAlgo newAlgo) {
@@ -75,8 +75,9 @@ public class AlgorithmContainer implements Algorithm {
             result = algo.execute(input);
             LOGGER.debug("algorithm {} ended succesfully with result {}", algo.getName(), result);
 
-            if (algoIterator.hasNext()) {
-                // transform this algo's output in next algo's input
+            if (algoIterator.hasNext() && !result.isEmpty()) {
+                // transfer this algo's output in next algo's input
+                LOGGER.debug("transferring results {} of {} to the next algorithm", result, algo.getName());
                 input.putAll(result);
             }
         }

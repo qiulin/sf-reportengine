@@ -41,21 +41,19 @@ import net.sf.reportengine.scenarios.SortScenarioOnlyDataColsCount;
 import net.sf.reportengine.util.ReportIoUtils;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestFlatTable {
 
     @Test
     public void testExecuteReportWithoutGroupColumns() throws IOException {
-        // this report has no grouping columns but it has a grand total at the
-        // end
+        // this report has no grouping columns but it has a grand total at the end
         // because the data columns have group calculators added
 
-        AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("./target/FlatTableWithoutGroupColumns.html"));
+        AbstractReportOutput reportOutput = new HtmlReportOutput(new FileWriter("./target/FlatTableWithoutGroupColumns.html"));
         reportOutput.open();
-        FlatTable flatTable =
-            new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS).build();
+        FlatTable flatTable = new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS).build();
 
         // test the computed values
         Assert.assertTrue(flatTable instanceof DefaultFlatTable);
@@ -332,4 +330,28 @@ public class TestFlatTable {
         }
         Assert.assertTrue(input.hasAllResourcesClosed());
     }
+    
+    
+    @Ignore("not ready yet. this is just a copy of the sorting example")
+    public void deleteTemporaryFilesNeededForSorting() throws IOException {
+        AbstractReportOutput reportOutput = new HtmlReportOutput(new FileWriter("./target/DeleteTemporaryFilesNeededForSorting.html"));
+        reportOutput.open();
+
+        new FlatTableBuilder(ScenarioSort.INPUT)
+            .sortValues()
+            .dataColumns(ScenarioSort.DATA_COLUMNS)
+            .groupColumns(ScenarioSort.GROUPING_COLUMNS)
+            .showTotals(false)
+            .showDataRows(true)
+            .showGrandTotal(true)
+            .build()
+            .output(reportOutput);
+
+        // Assert.assertTrue(MatrixUtils.compareMatrices(
+        // mockOut.getDataCellMatrix(),
+        // ScenarioSort.EXPECTED_OUTPUT_SORTED));
+
+        reportOutput.close();
+    }
+
 }

@@ -39,14 +39,14 @@ import org.junit.Test;
  * @author dragos
  *
  */
-public class TestRowsDataFileBuffer {
+public class TestSortedInputRowsFileWrapper {
 
 	/**
-	 * Test method for {@link net.sf.reportengine.in.RowsDataFileBuffer#isEmpty()}.
+	 * Test method for {@link net.sf.reportengine.in.SortedInputRowsFileWrapper#isEmpty()}.
 	 */
 	@Test
 	public void testIsEmpty() {
-		RowsDataFileBuffer classUnderTest = new RowsDataFileBuffer(ReportIoUtils.createInputStreamFromClassPath("ExternalSortedAndSerializedFile1.tmp")); 
+		SortedInputRowsFileWrapper classUnderTest = new SortedInputRowsFileWrapper(ReportIoUtils.createInputStreamFromClassPath("ExternalSortedAndSerializedFile1.tmp")); 
 		
 		assertFalse(classUnderTest.isEmpty());
 		
@@ -70,11 +70,11 @@ public class TestRowsDataFileBuffer {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.in.RowsDataFileBuffer#close()}.
+	 * Test method for {@link net.sf.reportengine.in.SortedInputRowsFileWrapper#close()}.
 	 */
 	@Test
 	public void testClose() {
-		RowsDataFileBuffer classUnderTest = new RowsDataFileBuffer(ReportIoUtils.createInputStreamFromClassPath("ExternalSortedAndSerializedFile1.tmp")); 
+		SortedInputRowsFileWrapper classUnderTest = new SortedInputRowsFileWrapper(ReportIoUtils.createInputStreamFromClassPath("ExternalSortedAndSerializedFile1.tmp")); 
 		
 		assertNotNull(classUnderTest.poll()); 
 		assertNotNull(classUnderTest.poll()); 
@@ -84,11 +84,11 @@ public class TestRowsDataFileBuffer {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.in.RowsDataFileBuffer#peek()}.
+	 * Test method for {@link net.sf.reportengine.in.SortedInputRowsFileWrapper#peek()}.
 	 */
 	@Test
 	public void testPeek() {
-		RowsDataFileBuffer classUnderTest = new RowsDataFileBuffer(ReportIoUtils.createInputStreamFromClassPath("ExternalSortedAndSerializedFile1.tmp")); 
+		SortedInputRowsFileWrapper classUnderTest = new SortedInputRowsFileWrapper(ReportIoUtils.createInputStreamFromClassPath("ExternalSortedAndSerializedFile1.tmp")); 
 		
 		NewRowEvent newRow = classUnderTest.peek();
 		assertNotNull(newRow); 
@@ -108,11 +108,11 @@ public class TestRowsDataFileBuffer {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.in.RowsDataFileBuffer#poll()}.
+	 * Test method for {@link net.sf.reportengine.in.SortedInputRowsFileWrapper#poll()}.
 	 */
 	@Test
 	public void testPoll1() {
-		RowsDataFileBuffer classUnderTest = new RowsDataFileBuffer(ReportIoUtils.createInputStreamFromClassPath("ExternalSortedAndSerializedFile1.tmp")); 
+		SortedInputRowsFileWrapper classUnderTest = new SortedInputRowsFileWrapper(ReportIoUtils.createInputStreamFromClassPath("ExternalSortedAndSerializedFile1.tmp")); 
 		
 		assertNotNull(classUnderTest.poll()); 
 		assertNotNull(classUnderTest.poll());
@@ -128,11 +128,11 @@ public class TestRowsDataFileBuffer {
 	}
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.in.RowsDataFileBuffer#poll()}.
+	 * Test method for {@link net.sf.reportengine.in.SortedInputRowsFileWrapper#poll()}.
 	 */
 	@Test
 	public void testPoll2() {
-		RowsDataFileBuffer classUnderTest = new RowsDataFileBuffer(ReportIoUtils.createInputStreamFromClassPath("ExternalSortedAndSerializedFile1.tmp")); 
+		SortedInputRowsFileWrapper classUnderTest = new SortedInputRowsFileWrapper(ReportIoUtils.createInputStreamFromClassPath("ExternalSortedAndSerializedFile1.tmp")); 
 		
 		assertTrue(Scenario1.ROW_OF_DATA_4.equals(classUnderTest.poll().getInputDataRow()));
 		assertTrue(Scenario1.ROW_OF_DATA_3.equals(classUnderTest.poll().getInputDataRow()));

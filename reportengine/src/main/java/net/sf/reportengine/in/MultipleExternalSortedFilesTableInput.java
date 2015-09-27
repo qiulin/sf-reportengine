@@ -19,9 +19,6 @@
 package net.sf.reportengine.in;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -32,81 +29,75 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author dragos
- *
+ * Table input built from multiple files of NewRowEventsWrapper. 
+ * The files provided in the constructor should have the values sorted.
+ * 
+ *  A priority queue will be used to store the values read from the list of files. 
+ *  The priority queue will sort the values and this input class will provide the NewRowEvent from this priority queue.
+ * 
+ * @author dragos balan
  */
 public class MultipleExternalSortedFilesTableInput implements TableInput {
 	
-	/**
-	 * the one and only logger
-	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(MultipleExternalSortedFilesTableInput.class);
 	
 	/**
-	 * 
+	 * a priority queue where the rows from external files will be stored
 	 */
-	private PriorityQueue<RowsDataFileBuffer> externalFilesQueue; 
+	private PriorityQueue<SortedInputRowsFileWrapper> externalFilesQueue; 
 	
+	/**
+	 * the list of files containing sorted serialized input rows
+	 */
+	private List<File> externalSortedFiles; 
 	
-	public MultipleExternalSortedFilesTableInput(List<File> externalSortedFiles, 
-											NewRowComparator newRowComparator){
+	/**
+	 * 
+	 * @param externalSortedFiles  the list of files (each file having the values sorted)
+	 * @param newRowComparator     a comparator for new rows
+	 */
+	public MultipleExternalSortedFilesTableInput(List<File> files, 
+	                                             NewRowComparator newRowComparator){
 		
-		LOGGER.info("building input from {} external sorted files", externalSortedFiles.size()); 
+		LOGGER.info("building input from {} external sorted files", files.size()); 
+		externalSortedFiles = files; 
+		externalFilesQueue = new PriorityQueue<SortedInputRowsFileWrapper>(	externalSortedFiles.size(), 
+																		new SortedInputRowsFileWrapperComparator(newRowComparator));
 		
-		try{
-			externalFilesQueue = new PriorityQueue<RowsDataFileBuffer>(	externalSortedFiles.size(), 
-																		new RowsDataFileBufferComparator(newRowComparator));
-	
-			for (File file : externalSortedFiles) {
-				//LOGGER.info("searching for external file "+file.getAbsolutePath());
-				this.externalFilesQueue.add(new RowsDataFileBuffer(new FileInputStream(file))); 
-			}
-		}catch(FileNotFoundException fnfExc){
-			throw new TableInputException("One external file could not be found :", fnfExc); 
+		for (File file : externalSortedFiles) {
+			LOGGER.debug("searching for external file {} ", file.getAbsolutePath());
+			this.externalFilesQueue.add(new SortedInputRowsFileWrapper(file)); 
 		}
 	}
 	
 	
-//	public MultipleExternalSortedFilesInput(List<InputStream> externalSortedStreams, 
-//									NewRowComparator newRowComparator){
-//		LOGGER.info("building input from {} external sorted files", externalSortedStreams.size()); 
-//		externalFilesQueue = new PriorityQueue<RowsDataFileBuffer>(
-//									externalSortedStreams.size(), 
-//									new RowsDataFileBufferComparator(newRowComparator));
-//		
-//		for (InputStream is : externalSortedStreams) {
-//			this.externalFilesQueue.add(new RowsDataFileBuffer(is)); 
-//		}
-//	}
-	
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.in.ReportInput#open()
+	/**
+	 * empty implementation
 	 */
 	public void open() {
-		
-
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.in.ReportInput#close()
+	/**
+	 * empty implementation
 	 */
 	public void close() {
-		//TODO: move the close of the fileinput streams here
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.in.ReportInput#nextRow()
+	/**
+	 * next row is taken from the priority queue by polling the priority queue which returns the top FileWrapper. 
+	 * On the topmost file wrapper, the poll method will be executed (which returns the top NewRowEvent) and, if not empty, the 
+	 * file wrapper is re-introduced into the priority queue (so that he participated in the next newRow() operation )
 	 */
 	public List<Object> nextRow() {
 		List<Object> result = null; 
 		if(hasMoreRows()){
-			RowsDataFileBuffer rowsDataFileBuff = externalFilesQueue.poll();
-			NewRowEvent newRowEvent = rowsDataFileBuff.poll();
+			SortedInputRowsFileWrapper inputRowsFileWrapper = externalFilesQueue.poll();
+			NewRowEvent newRowEvent = inputRowsFileWrapper.poll();
 			
-			if(rowsDataFileBuff.isEmpty()){
-				rowsDataFileBuff.close(); 
+			if(inputRowsFileWrapper.isEmpty()){
+				inputRowsFileWrapper.close(); 
 			}else{
-				externalFilesQueue.add(rowsDataFileBuff); 
+				externalFilesQueue.add(inputRowsFileWrapper); 
 			}
 			
 			result = newRowEvent.getInputDataRow(); 
@@ -114,19 +105,11 @@ public class MultipleExternalSortedFilesTableInput implements TableInput {
 		
 		return result; 
 	}
-
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.in.ReportInput#hasMoreRows()
+	
+	/**
+	 * returns true if the priority queue with the external sorted files is empty
 	 */
 	public boolean hasMoreRows() {
 		return !externalFilesQueue.isEmpty(); 
-	}
-
-	/* (non-Javadoc)
-	 * @see net.sf.reportengine.in.ReportInput#getColumnMetadata()
-	 */
-	public List<ColumnMetadata> getColumnMetadata() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

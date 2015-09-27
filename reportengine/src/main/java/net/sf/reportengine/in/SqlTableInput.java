@@ -35,9 +35,6 @@ import org.slf4j.LoggerFactory;
  */
 public class SqlTableInput extends AbstractTableInput implements ColumnMetadataHolder {
 	
-	/**
-	 * the one and only logger
-	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(SqlTableInput.class);
 	
    
@@ -69,7 +66,7 @@ public class SqlTableInput extends AbstractTableInput implements ColumnMetadataH
     /**
      * a helper table input on which all method request will be delegated
      */
-    private SqlConnectionBasedTableInput connTableInput; 
+    private SqlConnectionTableInput connTableInput; 
     
     
     /**
@@ -102,7 +99,7 @@ public class SqlTableInput extends AbstractTableInput implements ColumnMetadataH
             dbConnection.setAutoCommit(false);
             
     		//executing the sql
-    		connTableInput = new SqlConnectionBasedTableInput(dbConnection, sqlStatement, true); 
+    		connTableInput = new SqlConnectionTableInput(dbConnection, sqlStatement, true); 
     		connTableInput.open();
     		
 		} catch (SQLException e) {

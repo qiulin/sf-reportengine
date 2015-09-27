@@ -23,28 +23,32 @@ import java.util.Comparator;
 import net.sf.reportengine.core.steps.NewRowComparator;
 
 /**
- * @author dragos
+ * Comparator for InputRowsFileWrapper objects which delegates the comparison to the NewRowComparator(provided int he constructor) applied to the 
+ * top values of the InputRowsFileWrappers
+ * 
+ * @author dragos balan
  *
  */
-class RowsDataFileBufferComparator implements Comparator<RowsDataFileBuffer> {
+class SortedInputRowsFileWrapperComparator implements Comparator<SortedInputRowsFileWrapper> {
 	
 	/**
-	 * 
+	 * NewRowComparator
 	 */
 	private NewRowComparator newRowComparator;
 	
 	/**
+	 * constructor
 	 * 
 	 * @param newRowComparator
 	 */
-	public RowsDataFileBufferComparator(NewRowComparator newRowComparator){
+	public SortedInputRowsFileWrapperComparator(NewRowComparator newRowComparator){
 		this.newRowComparator = newRowComparator; 
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+	/**
+	 * delegates the comparison to the NewRowComparator applied to the top values of the two InputRowsFileWrappers
 	 */
-	public int compare(RowsDataFileBuffer buffer1, RowsDataFileBuffer buffer2) {
+	public int compare(SortedInputRowsFileWrapper buffer1, SortedInputRowsFileWrapper buffer2) {
 		return newRowComparator.compare(buffer1.peek(), buffer2.peek());
 	}
 }

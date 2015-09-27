@@ -15,9 +15,7 @@
  */
 package net.sf.reportengine.components;
 
-import java.io.File;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +25,9 @@ import net.sf.reportengine.core.ConfigValidationException;
 import net.sf.reportengine.core.algorithm.AbstractAlgo;
 import net.sf.reportengine.core.algorithm.AbstractMultiStepAlgo;
 import net.sf.reportengine.core.algorithm.AlgorithmContainer;
-import net.sf.reportengine.core.algorithm.report.DefaultLoopThroughTableInputAlgo;
+import net.sf.reportengine.core.algorithm.report.DeleteTempSortedFilesAlgo;
+import net.sf.reportengine.core.algorithm.report.LoopThroughTableInputAlgo;
+import net.sf.reportengine.core.algorithm.report.MultipleSortedFilesInputAlgo;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.DataRowsOutputStep;
 import net.sf.reportengine.core.steps.EndTableExitStep;
@@ -36,15 +36,14 @@ import net.sf.reportengine.core.steps.FlatReportExtractTotalsDataInitStep;
 import net.sf.reportengine.core.steps.FlatTableTotalsOutputStep;
 import net.sf.reportengine.core.steps.GroupLevelDetectorStep;
 import net.sf.reportengine.core.steps.InitReportDataInitStep;
-import net.sf.reportengine.core.steps.NewRowComparator;
 import net.sf.reportengine.core.steps.PreviousRowManagerStep;
 import net.sf.reportengine.core.steps.StartTableInitStep;
 import net.sf.reportengine.core.steps.TotalsCalculatorStep;
-import net.sf.reportengine.in.MultipleExternalSortedFilesTableInput;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.AbstractReportOutput;
 import net.sf.reportengine.util.AlgoIOKeys;
 import net.sf.reportengine.util.ReportUtils;
+import net.sf.reportengine.util.StepAlgoKeyMapBuilder;
 import net.sf.reportengine.util.StepIOKeys;
 
 import org.slf4j.Logger;
@@ -68,12 +67,8 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTab
      * sorting algorithm 2. the reporting algorithm 3. the FO post processor
      * algorithm
      */
-    private AlgorithmContainer tableAlgoContainer = new AlgorithmContainer();
+    private AlgorithmContainer tableAlgoContainer = new AlgorithmContainer("Flat Table Algorithm Container");
 
-    /**
-     * 
-     */
-    private boolean needsPostProcessing;
 
     /**
      * the one and only constructor based on a builder
@@ -95,7 +90,6 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTab
               showGrandTotal,
               showDataRows,
               valuesSorted);
-        this.needsPostProcessing = false;
     }
 
     /**
@@ -104,15 +98,17 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTab
     protected void config() {
         LOGGER.trace("configuring flat report");
 
-        boolean needsProgramaticSorting =
-            !hasValuesSorted() || ReportUtils.isSortingInColumns(getGroupColumns(),
-                                                                 getDataColumns());
+        boolean needsProgramaticSorting = !hasValuesSorted() 
+                                          || ReportUtils.isSortingInColumns(getGroupColumns(), getDataColumns());
         LOGGER.info("programatic sorting needed {} ", needsProgramaticSorting);
 
         if (needsProgramaticSorting) {
             tableAlgoContainer.addAlgo(configSortingAlgo());
         }
         tableAlgoContainer.addAlgo(configReportAlgo(needsProgramaticSorting));
+        if(needsProgramaticSorting){
+            tableAlgoContainer.addAlgo(new DeleteTempSortedFilesAlgo()); 
+        }
     }
 
     /**
@@ -123,16 +119,10 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTab
     private AbstractAlgo configSortingAlgo() {
         // TODO: this sorting algo does not have multiple steps
         AbstractMultiStepAlgo sortingAlgo = 
-                new DefaultLoopThroughTableInputAlgo("Sorting Algorithm", 
-                                                     new HashMap<StepIOKeys, AlgoIOKeys>(){
-                                                         { put(StepIOKeys.FILES_WITH_SORTED_VALUES, AlgoIOKeys.SORTED_FILES); }
-                                                     }) {
-            @Override
-            protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
-                return (TableInput) inputParams.get(AlgoIOKeys.TABLE_INPUT);
-            }
-        };
-
+                new LoopThroughTableInputAlgo("Sorting Algorithm", 
+                                                     new StepAlgoKeyMapBuilder()
+                                                        .add(StepIOKeys.FILES_WITH_SORTED_VALUES, AlgoIOKeys.SORTED_FILES)
+                                                        .build());
         // main steps
         sortingAlgo.addMainStep(new ExternalSortPreparationStep());
 
@@ -147,23 +137,15 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTab
      * @return the algorithm
      */
     private AbstractAlgo configReportAlgo(final boolean hasBeenPreviouslySorted) {
-        AbstractMultiStepAlgo reportAlgo = new DefaultLoopThroughTableInputAlgo("Main algorithm") {
-            @Override
-            protected TableInput buildTableInput(Map<AlgoIOKeys, Object> inputParams) {
-                if (hasBeenPreviouslySorted) {
-                    // if the input has been previously sorted
-                    // then the sorting algorithm ( the previous) has created
-                    // external sorted files
-                    // which will serve as input from this point on
-                    return new MultipleExternalSortedFilesTableInput((List<File>) inputParams.get(AlgoIOKeys.SORTED_FILES),
-                                                                     new NewRowComparator((List<GroupColumn>) inputParams.get(AlgoIOKeys.GROUP_COLS),
-                                                                                          (List<DataColumn>) inputParams.get(AlgoIOKeys.DATA_COLS)));
-                } else {
-                    return (TableInput) inputParams.get(AlgoIOKeys.TABLE_INPUT);
-                }
-            }
-        };
-
+        AbstractMultiStepAlgo reportAlgo = null; 
+        if(hasBeenPreviouslySorted){
+            // if the input has been previously sorted then the sorting algorithm (the previous) has created
+            // external sorted files which will serve as input from this point on
+            reportAlgo = new MultipleSortedFilesInputAlgo("Main algorithm"); 
+        }else{
+            reportAlgo = new LoopThroughTableInputAlgo("Main algorithm"); 
+        }
+        
         reportAlgo.addInitStep(new InitReportDataInitStep());
         // TODO: only when report has totals
         reportAlgo.addInitStep(new FlatReportExtractTotalsDataInitStep());
@@ -190,7 +172,8 @@ final class DefaultFlatTable extends AbstractColumnBasedTable implements FlatTab
 
         return reportAlgo;
     }
-
+    
+    
     /**
      * validation of configuration
      */

@@ -28,31 +28,34 @@ import net.sf.reportengine.core.steps.NewRowEventWrapper;
 import net.sf.reportengine.util.ReportIoUtils;
 
 /**
- * @author dragos
- *
+ * Wrapper over a File object with serialized NewRowEventWrapper objects which reads 
+ * one by one the values in the file (lazy reading) therefore not impacting the memory. 
+ * This class is also a quasi-queue (it has peek() and poll() methods implemented)
+ * 
+ * @author dragos balan
  */
-class RowsDataFileBuffer {
+class SortedInputRowsFileWrapper {
 	
 	/**
-	 * 
+	 * the input stream with the serialized NewRowEventWrapper objects
 	 */
 	private ObjectInputStream objectInputStream;
 	
 	/**
-	 * 
+	 * the top element of this 
 	 */
-	private NewRowEventWrapper buffer;
+	private NewRowEventWrapper topElement;
 	
 	/**
-	 * 
+	 * specifies whether the last object read from the file was the last one
 	 */
-	private boolean lastObjectReadWasMarkedAsLast = false; 
+	private boolean lastObjectReadWasTheLastOne = false; 
 	
 	/**
 	 * 
 	 * @param inputFile
 	 */
-	public RowsDataFileBuffer(File inputFile){
+	public SortedInputRowsFileWrapper(File inputFile){
 		this(ReportIoUtils.createInputStreamFromFile(inputFile)); 
 	}
 	
@@ -60,7 +63,7 @@ class RowsDataFileBuffer {
 	 * 
 	 * @param inputStream
 	 */
-	public RowsDataFileBuffer(InputStream inputStream) {
+	protected SortedInputRowsFileWrapper(InputStream inputStream) {
 		try {
 			objectInputStream = new ObjectInputStream(inputStream);
 			loadNext();
@@ -70,23 +73,23 @@ class RowsDataFileBuffer {
 	}
 	
 	/**
-	 * 
+	 * returns true if this queue is empty
 	 * @return
 	 */
 	public boolean isEmpty() {
-		return buffer == null;
+		return topElement == null;
 	}
 	
 	/**
-	 * 
+	 * reads the next top element if the wrapped file still contains values
 	 */
 	private void loadNext() {
 		try {
-			if(!lastObjectReadWasMarkedAsLast){
-				buffer = (NewRowEventWrapper)objectInputStream.readObject();
-				lastObjectReadWasMarkedAsLast = buffer.isLast(); 
+			if(!lastObjectReadWasTheLastOne){
+				topElement = (NewRowEventWrapper)objectInputStream.readObject();
+				lastObjectReadWasTheLastOne = topElement.isLast(); 
 			}else{
-				buffer = null; 
+				topElement = null; 
 			}
 		} catch (ClassNotFoundException e) {
 			throw new TableInputException(e); 
@@ -96,30 +99,32 @@ class RowsDataFileBuffer {
 	}
 	
 	/**
-	 * 
+	 * closes the stream of serialized objects
 	 */
 	public void close() {
 		try{
 			objectInputStream.close();
-			buffer = null; 
+			topElement = null; 
 		}catch(IOException e){
 			throw new TableInputException(e); 
 		}
 	}
 	
 	/**
+	 * returns the top element in this queue
 	 * 
-	 * @return
+	 * @return the top NewRowEvent element
 	 */
 	public NewRowEvent peek() {
 		NewRowEvent result = null; 
-		if(buffer !=  null){
-			result = buffer.getNewRowEvent();
+		if(topElement !=  null){
+			result = topElement.getNewRowEvent();
 		}
 		return result; 
 	}
 	
 	/**
+	 * polls the queue
 	 * 
 	 * @return
 	 */

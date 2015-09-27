@@ -18,7 +18,7 @@
  */
 package net.sf.reportengine.in;
 
-import java.io.InputStream;
+import java.io.File;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -46,7 +46,7 @@ public class TestIntermediateReportInput extends TestCase {
 	
 	public void testReadIntermediateReportWhenTotals(){
 		
-		InputStream intermInput = ReportIoUtils.createInputStreamFromClassPath("TestIntermediateInput2x2x1xT.rep");
+		File intermInput = ReportIoUtils.createFileFromClassPath("/TestIntermediateInput2x2x1xT.rep");
 		
 		assertNotNull(intermInput);
 		
@@ -124,7 +124,7 @@ public class TestIntermediateReportInput extends TestCase {
 	
 	public void testReadIntermediateReportNoTotals(){
 		
-		InputStream intermInput = ReportIoUtils.createInputStreamFromClassPath("TestIntermediateInput1x3x1.rep");
+		File intermInput = ReportIoUtils.createFileFromClassPath("/TestIntermediateInput1x3x1.rep");
 		
 		assertNotNull(intermInput);
 		

@@ -30,6 +30,20 @@ import net.sf.reportengine.config.PivotHeaderRow;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.util.UserRequestedBoolean;
 
+/**
+ * Builder class for pivot tables. 
+ * The typical usage is: 
+ * <pre>
+ *       PivotTable table = new PivotTableBuilder(new TextTableInput("./input/expenses.csv", ","))
+ *                      .addDataColumn(new DefaultDataColumn("Month",0))
+ *                      .addHeaderRow(new DefaultPivotHeaderRow(1))
+ *                      .pivotData(new DefaultPivotData(2))
+ *                      .build();
+ * </pre>
+ * 
+ * @author dragos balan
+ * @see PivotTable
+ */
 public class PivotTableBuilder {
 
     private UserRequestedBoolean showTotals = FALSE_NOT_REQUESTED_BY_USER;

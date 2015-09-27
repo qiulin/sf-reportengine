@@ -18,7 +18,7 @@
  */
 package net.sf.reportengine.util;
 
-import java.io.InputStream;
+import java.io.File;
 import java.util.List;
 
 import net.sf.reportengine.in.IntermediateCrosstabReportTableInput;
@@ -49,8 +49,8 @@ public class IntermedCrosstabViewer {
 	 * @param inputFilePath
 	 * @param outputFilePath
 	 */
-	public IntermedCrosstabViewer(InputStream input, String outputFilePath){
-		intermCtInput = new IntermediateCrosstabReportTableInput(input);
+	public IntermedCrosstabViewer(File inputFile, String outputFilePath){
+		intermCtInput = new IntermediateCrosstabReportTableInput(inputFile);
 		output = new HtmlReportOutput(ReportIoUtils.createWriterFromPath(outputFilePath)); 
 	}
 	

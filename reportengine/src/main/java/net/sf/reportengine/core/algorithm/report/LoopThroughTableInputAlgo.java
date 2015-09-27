@@ -15,11 +15,9 @@
  */
 package net.sf.reportengine.core.algorithm.report;
 
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import net.sf.reportengine.core.algorithm.AbstractMultiStepAlgo;
 import net.sf.reportengine.core.algorithm.AlgoContext;
@@ -39,40 +37,37 @@ import org.slf4j.LoggerFactory;
 
 /**
  * <p>
- * This multi step algorithm performs the following operations : 1. transfer the
- * algo input into the context 2. opens the input 3. loops through the
- * reportInput and executes the algorithm steps 4. closes the input 5. transfer
- * the context into algo output
+ * This multi step algorithm performs the following operations : 
+ *  1. transfer the algo input into the context 
+ *  2. opens the input 
+ *  3. loops through the reportInput and executes the algorithm steps 
+ *  4. closes the input 
+ *  5. transfers the context into algo output (only those specified in the stepToAlgoMapping)
  * </p>
  * 
  * @author dragos balan (dragos.balan@gmail.com)
- * @since 0.2
  */
-public class DefaultLoopThroughTableInputAlgo extends AbstractMultiStepAlgo {
+public class LoopThroughTableInputAlgo extends AbstractMultiStepAlgo {
 
-    /**
-     * the one and only logger
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultLoopThroughTableInputAlgo.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoopThroughTableInputAlgo.class);
     
     /**
-     * the mapping between the steps output and the algorithm result
+     * 
+     * @param algorithmName
      */
-    public Map<StepIOKeys, AlgoIOKeys> stepToAlgoOutputMap; 
-
-    
-    public DefaultLoopThroughTableInputAlgo(String algorithmName){
+    public LoopThroughTableInputAlgo(String algorithmName){
         this(algorithmName, new HashMap<StepIOKeys, AlgoIOKeys>());
     }
     
     /**
      * 
+     * @param algorithmName
+     * @param stepToAlgoOutputMapping
      */
-    public DefaultLoopThroughTableInputAlgo(String algorithmName, Map<StepIOKeys, AlgoIOKeys> stepToAlgoOutputMapping) {
-        super(algorithmName);
-        this.stepToAlgoOutputMap = stepToAlgoOutputMapping; 
+    public LoopThroughTableInputAlgo(String algorithmName, 
+                                     Map<StepIOKeys, AlgoIOKeys> stepToAlgoOutputMapping) {
+        super(algorithmName, stepToAlgoOutputMapping); 
     }
-    
 
     /**
      * executes the report
@@ -83,14 +78,13 @@ public class DefaultLoopThroughTableInputAlgo extends AbstractMultiStepAlgo {
 
         LOGGER.debug("creating the context");
         AlgoContext context = new DefaultAlgorithmContext();
-
-        TableInput reportInput = null;
+        TableInput tableInput = null; 
         try {
             LOGGER.debug("opening report input");
-            reportInput = buildTableInput(inputParams);
-            reportInput.open();
+            tableInput = buildTableInput(inputParams);
+            tableInput.open();
 
-            LOGGER.debug("start looping");
+            LOGGER.debug("start looping through the input");
             StepResult stepResult = null;
 
             // execution of the init steps
@@ -106,17 +100,16 @@ public class DefaultLoopThroughTableInputAlgo extends AbstractMultiStepAlgo {
             }
 
             // iteration through input data (row by row)
-            while (reportInput.hasMoreRows()) {
+            while (tableInput.hasMoreRows()) {
 
                 // get the current data row
-                List<Object> currentRow = reportInput.nextRow();
+                List<Object> currentRow = tableInput.nextRow();
                 LOGGER.trace("executing algo steps for input row {}", currentRow);
 
                 // then we pass the dataRow through all the report steps
                 for (AlgorithmMainStep algoStep : getMainSteps()) {
-                    stepResult =
-                        algoStep.execute(new NewRowEvent(currentRow), new StepInput(inputParams,
-                                                                                    context));
+                    stepResult = algoStep.execute(new NewRowEvent(currentRow), 
+                                                  new StepInput(inputParams, context));
                     addStepResultToContext(context, stepResult);
                 }
             }
@@ -136,12 +129,10 @@ public class DefaultLoopThroughTableInputAlgo extends AbstractMultiStepAlgo {
             algoResult = transferStepResultsToAlgoResults(context); 
             
         } finally {
-            LOGGER.debug("end loop. Closing algorithm input...");
-            if (reportInput != null) {
-                reportInput.close();
-            }
+            LOGGER.debug("finished looping through the input");
+            tableInput.close();
         }
-
+        
         return algoResult;
     }
     
@@ -157,35 +148,14 @@ public class DefaultLoopThroughTableInputAlgo extends AbstractMultiStepAlgo {
         return (TableInput) inputParams.get(AlgoIOKeys.TABLE_INPUT);
     }
     
-    
-    /**
-     * transfers the useful data from steps results to algo output
-     * 
-     * @param context the algorithm context (steps results holder)
-     * @return  a map with algo keys and values
-     */
-    protected Map<AlgoIOKeys, Object> transferStepResultsToAlgoResults(AlgoContext context){
-        Map<AlgoIOKeys, Object> algoResult = new EnumMap<AlgoIOKeys, Object>(AlgoIOKeys.class);
-        for (Entry<StepIOKeys, AlgoIOKeys> stepToAlgoOutputMapping : stepToAlgoOutputMap.entrySet()) {
-            algoResult.put(stepToAlgoOutputMapping.getValue(), context.get(stepToAlgoOutputMapping.getKey())); 
-            LOGGER.debug("transferring value {} from steps {} into algo {}", context.get(stepToAlgoOutputMapping.getKey()), 
-                                                                             stepToAlgoOutputMapping.getKey(), 
-                                                                             stepToAlgoOutputMapping.getValue());
-        }
-        
-        return algoResult; 
-    }
-    
     /**
      * 
      * @param context
      * @param stepResult
      */
     private void addStepResultToContext(AlgoContext context, StepResult stepResult) {
-
         if (stepResult != null && !StepResult.NO_RESULT.equals(stepResult)) {
             context.set(stepResult.getKey(), stepResult.getValue());
         }
     }
-    
 }
