@@ -17,7 +17,7 @@ package net.sf.reportengine;
 
 /**
  * <p>
- * This is the main report interface.
+ * The main interface for report execution. 
  * </p>
  * <p>
  * The usage is:<br/>

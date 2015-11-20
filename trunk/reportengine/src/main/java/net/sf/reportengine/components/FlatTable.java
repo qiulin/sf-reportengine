@@ -22,8 +22,7 @@ import net.sf.reportengine.out.ReportOutput;
 
 /**
  * <p>
- * This is a normal tabular report (don't get confused by its name) whose layout
- * will look like:
+ * This is a normal tabular report (don't get confused by its name) having a layout like:
  * <table>
  * <tr>
  * <td><b>column 1</b></td>
@@ -50,9 +49,10 @@ import net.sf.reportengine.out.ReportOutput;
  * Any flat report needs at least the following elements configured:
  * <ul>
  * <li>input</li>
- * <li>column configuration</li>
+ * <li>columns</li>
  * </ul>
- * Usually the flat table is used as one component of a report:
+ * Usually the flat table is used as a component of a report:
+ * <pre>
  * {@code
  * FlatTable flatTable = new FlatTableBuilder()
  *    .input(new TextInput("./inputData/expenses.csv",","))
@@ -65,22 +65,24 @@ import net.sf.reportengine.out.ReportOutput;
  * report.add(flatTable); 
  * report.execute(); 
  *}
- * 
+ *</pre> 
  * but it can be used also as a stand alone component
  * 
  * <pre>
  *  {@code
  *      ReportOutput reportOutput = new DefaultReportOutput(new FileWriter("/tmp/testFlatTable.html"))
- *   reportOutput.open(); 
+ *      reportOutput.open(); 
+ *      
  *      FlatTable flatTable = new FlatTableBuilder()
  *     .input(new TextInput("./inputData/expenses.csv",","))
  *     .addDataColumn(new DefaultDataColumn.Builder(0).header("Country").build())
  *     .addDataColumn(new DefaultDataColumn.Builder(1).header("City").build())
  *     .addDataColumn(new DefaultDataColumn.Builder(2).header("Population").build())
  *     .build();
+ *     
  *      flatTable.output(reportOutput); 
- *   reportOuptut.close(); 
- * }
+ *      reportOuptut.close(); 
+ *  }
  * </pre>
  * 
  * </p>

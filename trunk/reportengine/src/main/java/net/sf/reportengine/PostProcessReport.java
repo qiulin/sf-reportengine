@@ -21,8 +21,12 @@ import net.sf.reportengine.components.ReportComponent;
 import net.sf.reportengine.out.PostProcessedFoReportOutput;
 
 /**
+ * This report is executed in two steps: 
+ *  1. output into fo objects 
+ *  2. processing the previous fo output
+ *  
  * @author dragos balan
- *
+ * @since 0.13
  */
 class PostProcessReport extends AbstractReport<PostProcessedFoReportOutput> {
 

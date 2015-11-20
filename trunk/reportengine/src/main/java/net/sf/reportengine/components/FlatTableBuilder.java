@@ -31,6 +31,7 @@ import net.sf.reportengine.util.UserRequestedBoolean;
  * Builder for a FlatTable component.
  * The typical usage is: 
  * <pre>
+ * {@code
  *     FlatTable flatTable = new FlatTableBuilder(new TextTableInput("./input/blah.csv", ","))
  *              .addGroupColumn(...)
  *              .addGroupColumn(...)    
@@ -38,6 +39,7 @@ import net.sf.reportengine.util.UserRequestedBoolean;
  *              .addDataColumn(...)
  *              .addDataColumn(...)
  *              .build();
+ *}
  * </pre>
  * 
  * @author dragos balan
