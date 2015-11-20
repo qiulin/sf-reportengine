@@ -31,7 +31,7 @@ import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.util.UserRequestedBoolean;
 
 /**
- * Builder class for pivot tables. 
+ * Builder for pivot tables. 
  * The typical usage is: 
  * <pre>
  *       PivotTable table = new PivotTableBuilder(new TextTableInput("./input/expenses.csv", ","))
