@@ -19,9 +19,11 @@
 package net.sf.reportengine.util;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
@@ -32,9 +34,6 @@ import net.sf.reportengine.config.SortType;
 import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.in.ColumnMetadata;
 import net.sf.reportengine.in.ColumnPreferences;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author dragos balan (dragos dot balan at gmail dot com)
