@@ -21,9 +21,11 @@ import java.util.List;
 import net.sf.reportengine.components.ReportComponent;
 import net.sf.reportengine.out.AbstractReportOutput;
 import net.sf.reportengine.out.PostProcessedFoReportOutput;
+import net.sf.reportengine.out.ReportOutput;
 
 /**
- * This is the one and only builder for any report
+ * <p>This is the one and only builder for any report</p>
+ * <p>
  * Typical usage: 
  * <pre>
  *  Report report = new ReportBuilder(new HtmlReportOutput(new FileWriter("/temp/test.html")))
@@ -33,8 +35,12 @@ import net.sf.reportengine.out.PostProcessedFoReportOutput;
  *                      .build(); 
  *  report.execute(); 
  * </pre>
+ * </p>
  * 
  * @see Report
+ * @see ReportComponent
+ * @see ReportOutput
+ * 
  * @author dragos balan
  * @since 0.13
  */

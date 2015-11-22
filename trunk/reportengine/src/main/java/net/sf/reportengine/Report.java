@@ -15,25 +15,32 @@
  */
 package net.sf.reportengine;
 
+import net.sf.reportengine.components.ReportComponent;
+
 /**
+ * <p>The main interface for reports execution</p>
  * <p>
- * The main interface for report execution. 
- * </p>
- * <p>
- * The usage is:<br/>
+ * The typical usage is:
  * <pre>
- * 	Report report = new ReportBuilder(new HtmlReportOutput(new FileWriter("/temp/test.html")))
- * 						.add(...)
- * 						.add(...)
- * 						...
- * 						.build(); 
+ *  Report report = new ReportBuilder(new HtmlReportOutput(new FileWriter("/temp/test.html")))
+ *           .add(.. report title..)
+ *           .add(.. table...)
+ *           .add(.. paragraph ..)
+ *           .add( .. other report components..)
+ *            ...
+ *            .build(); 
  *  report.execute(); 
  * </pre>
  * </p>
+ * <p>
+ * Any implementation of {@link ReportComponent} can be added to the report using the {@code ReportBuilder#add(ReportComponent)} method
+ * </p>
  * 
  * @see ReportBuilder
+ * @see ReportComponent
+ * 
  * @author dragos balan
- * @since 0.13.0
+ * @since 0.13
  */
 public interface Report {
 

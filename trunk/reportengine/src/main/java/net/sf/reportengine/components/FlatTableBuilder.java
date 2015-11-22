@@ -28,7 +28,8 @@ import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.util.UserRequestedBoolean;
 
 /**
- * Builder for a FlatTable component.
+ * <p>Builder for a {@link FlatTable} component</p>
+ * <p>
  * The typical usage is: 
  * <pre>
  * {@code
@@ -41,7 +42,7 @@ import net.sf.reportengine.util.UserRequestedBoolean;
  *              .build();
  *}
  * </pre>
- * 
+ * </p>
  * @author dragos balan
  * @see FlatTable
  * @since 0.13

@@ -25,37 +25,37 @@ package net.sf.reportengine.config;
 public abstract class AbstractGroupColumn implements GroupColumn {
 	
 	/**
-	 * 
+	 * the grouping priority of this column
 	 */
 	private int groupingLevel; 
 	
 	/**
-	 * 
+	 * the header of the column
 	 */
 	private String header; 
 	
 	/**
-	 * 
+	 * the formatter of this column's values
 	 */
 	private String valuesFormatter; 
 	
 	/**
-	 * 
+	 * the horizontal alignment
 	 */
 	private HorizAlign horizAlign; 
 	
 	/**
-	 * 
+	 * the vertical alignment
 	 */
 	private VertAlign vertAlign;
 	
 	/**
-	 * 
+	 * whether or not this column with show duplicates
 	 */
 	private boolean showDuplicates; 
 	
 	/**
-	 * 
+	 * sort type (default none)
 	 */
 	private SortType sortType = SortType.NONE; 
 	
@@ -168,22 +168,22 @@ public abstract class AbstractGroupColumn implements GroupColumn {
 	
 	/**
 	 * 
-	 * @return
+	 * @return the formatter of this column's values
 	 */
 	public String getValuesFormatter() {
 		return valuesFormatter;
 	}
 	
 	/**
-	 * 
-	 * @param valuesFormatter
+	 * setter for the formatter of this column's values
+	 * @param formatter    the formatter of the values 
 	 */
 	public void setValuesFormatter(String formatter) {
 		this.valuesFormatter = formatter;
 	}
 
 	/**
-	 * @return the horizAlign
+	 * @return the horizontal alignment
 	 */
 	public HorizAlign getHorizAlign() {
 		return horizAlign;

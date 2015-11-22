@@ -31,16 +31,17 @@ import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.util.UserRequestedBoolean;
 
 /**
- * Builder for pivot tables. 
+ * <p>Builder for a {@link PivotTable} component</p>
+ * <p> 
  * The typical usage is: 
  * <pre>
  *       PivotTable table = new PivotTableBuilder(new TextTableInput("./input/expenses.csv", ","))
- *                      .addDataColumn(new DefaultDataColumn("Month",0))
- *                      .addHeaderRow(new DefaultPivotHeaderRow(1))
- *                      .pivotData(new DefaultPivotData(2))
- *                      .build();
+ *             .addDataColumn(new DefaultDataColumn("Month",0))
+ *             .addHeaderRow(new DefaultPivotHeaderRow(1))
+ *             .pivotData(new DefaultPivotData(2))
+ *             .build();
  * </pre>
- * 
+ * </p>
  * @author dragos balan
  * @see PivotTable
  */

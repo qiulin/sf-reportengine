@@ -21,11 +21,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Abstract implementation for DataColumn. 
+ * Abstract implementation for a data column. 
  * 
  * @author dragos balan (dragos dot balan at gmail dot com)
  * @since 0.3 
- * @see DataColumn, DefaultDataColumn
+ * @see DataColumn
+ * @see DefaultDataColumn
+ */
+/**
+ * @author dragos balan
+ *
  */
 public abstract class AbstractDataColumn implements DataColumn {
 	
@@ -70,7 +75,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	private int sortLevel = NO_SORTING;
 	
 	/**
-	 * 
+	 * sort type (default ascending)
 	 */
 	private SortType sortType = SortType.ASC; 
 	
@@ -213,7 +218,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	}
 	
 	/**
-	 * setter for this column's header
+	 * setter for the header of the column
 	 * @param header
 	 */
 	public void setHeader(String header) {
@@ -221,8 +226,9 @@ public abstract class AbstractDataColumn implements DataColumn {
 	}
 	
 	
-	/**
-	 * returns the formatted value
+	
+	/* (non-Javadoc)
+	 * @see net.sf.reportengine.config.DataColumn#getFormattedValue(java.lang.Object)
 	 */
 	public String getFormattedValue(Object value) {
 		String result = "";
@@ -237,8 +243,9 @@ public abstract class AbstractDataColumn implements DataColumn {
 		return result; 
 	}
 	
-	/**
-	 * 
+	
+	/* (non-Javadoc)
+	 * @see net.sf.reportengine.config.DataColumn#getFormattedTotal(java.lang.Object)
 	 */
 	public String getFormattedTotal(Object totalValue){
 		String result = "";
@@ -275,15 +282,15 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * All values of this column will be formatted using this valuesFormatter when 
 	 * the report engine calls {@link #getFormattedValue(Object)}
 	 * 
-	 * @param valuesFormatter
+	 * @param formatter    the formatter of the values 
 	 */
 	public void setValuesFormatter(String formatter) {
 		this.valuesFormatter = formatter;
 	}
 	
 	/**
-	 * getter for the valuesFormatter
-	 * @return
+	 * getter for the formater of this column's values
+	 * @return the formatter 
 	 */
 	public String getValuesFormatter(){
 		return valuesFormatter; 
@@ -295,15 +302,16 @@ public abstract class AbstractDataColumn implements DataColumn {
 	 * All values of this column will be formatted when 
 	 * the report engine calls {@link #getFormattedTotal(Object)}
 	 * 
-	 * @param valuesFormatter
+	 * @param formatter    the formatter of this column's values
 	 */
 	public void setTotalsFormatter(String formatter) {
 		this.totalFormatter = formatter;
 	}
 	
 	/**
-	 * getter for the valuesFormatter
-	 * @return
+	 * getter for formatter of the totals
+	 * 
+	 * @return the formatter of the total values
 	 */
 	public String getTotalsFormatter(){
 		return totalFormatter; 
@@ -311,7 +319,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	
 	
 	/**
-	 * @return the horizAlign
+	 * @return the horizontal alignment of this column
 	 */
 	public HorizAlign getHorizAlign() {
 		return horizAlign;
@@ -339,15 +347,15 @@ public abstract class AbstractDataColumn implements DataColumn {
 	}
 	
 	/**
-	 * The order level is the 
-	 * @return
+	 * getter for the sorting priority
+	 * @return the sorting priority
 	 */
 	public int getSortLevel(){
 		return sortLevel;
 	}
 	
 	/**
-	 * 
+	 * setter for the sorting priority of the column
 	 * @param sortLevel
 	 */
 	public void setSortLevel(int sortLevel){
@@ -355,8 +363,8 @@ public abstract class AbstractDataColumn implements DataColumn {
 	}
 	
 	/**
-	 * 
-	 * @param sortType
+	 * setter for the type of sorting (asc or desc)
+	 * @param sortType the type of sorting
 	 */
 	public void setSortType(SortType sortType){
 		this.sortType = sortType; 
@@ -364,7 +372,7 @@ public abstract class AbstractDataColumn implements DataColumn {
 	
 	/**
 	 * Asc or Desc
-	 * @return
+	 * @return the sort type for this column
 	 */
 	public SortType getSortType(){
 		return sortType; 

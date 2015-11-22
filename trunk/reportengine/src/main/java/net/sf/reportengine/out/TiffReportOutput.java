@@ -21,6 +21,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.fop.apps.MimeConstants;
 
 /**
+ * 
  * @author dragos balan
  *
  */

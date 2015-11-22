@@ -21,41 +21,62 @@ import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.out.ReportOutput;
 
 /**
- * <p>
- * This is a normal tabular report (don't get confused by its name) having a layout like:
- * <table>
+ * <p>This is a normal tabular report (don't get confused by its name)</p> 
+ * <p> The layout of a flat table looks like:
+ * <table border="1">
  * <tr>
- * <td><b>column 1</b></td>
- * <td><b>column 2</b></td>
- * <td><b>column 3</b></td>
+ *      <td><b>Column 1</b></td>
+ *      <td><b>Column 2</b></td>
+ *      <td><b>column 3</b></td>
+ *      <td><b>column 4</b></td>
+ *      <td><b>column 5</b></td>
  * </tr>
  * <tr>
- * <td>data 11</td>
- * <td>data 12</td>
- * <td>data 13</td>
+ *      <td>data 11</td>
+ *      <td>data 12</td>
+ *      <td>data 13</td>
+ *      <td>data 14</td>
+ *      <td>data 15</td>
  * </tr>
  * <tr>
- * <td>data 21</td>
- * <td>data 22</td>
- * <td>data 23</td>
+ *      <td>data 21</td>
+ *      <td>data 22</td>
+ *      <td>data 23</td>
+ *      <td>data 24</td>
+ *      <td>data 25</td>
  * <tr>
  * <tr>
- * <td>data 31</td>
- * <td>data 32</td>
- * <td>data 33</td>
+ *      <td>data 31</td>
+ *      <td>data 32</td>
+ *      <td>data 33</td>
+ *      <td>data 34</td>
+ *      <td>data 35</td>
  * <tr>
  * </table>
- *
- * Any flat report needs at least the following elements configured:
- * <ul>
- * <li>input</li>
- * <li>columns</li>
- * </ul>
+ *</p>
+ *<p>
+ * The mandatory settings of a flat table are:
+ * <ol>
+ *  <li>data columns</li>
+ *  <li>table input</li>
+ * </ol>
+ * </p>
+ * <p>
+ * The optional settings are: 
+ * <ol>
+ *  <li>group columns</li>
+ *  <li>sorting values</li>
+ *  <li>showing data</li>
+ *  <li>showing totals</li>
+ *  <li>showing grand total</li>
+ * </ol>
+ * </p>
+ * <p>
  * Usually the flat table is used as a component of a report:
  * <pre>
  * {@code
  * FlatTable flatTable = new FlatTableBuilder()
- *    .input(new TextInput("./inputData/expenses.csv",","))
+ *    .input(new TextInput("./inputData/population.csv",","))
  *    .addDataColumn(new DefaultDataColumn.Builder(0).header("Country").build())
  *    .addDataColumn(new DefaultDataColumn.Builder(1).header("City").build())
  *    .addDataColumn(new DefaultDataColumn.Builder(2).header("Population").build())
@@ -70,21 +91,19 @@ import net.sf.reportengine.out.ReportOutput;
  * 
  * <pre>
  *  {@code
- *      ReportOutput reportOutput = new DefaultReportOutput(new FileWriter("/tmp/testFlatTable.html"))
- *      reportOutput.open(); 
- *      
- *      FlatTable flatTable = new FlatTableBuilder()
- *     .input(new TextInput("./inputData/expenses.csv",","))
+ *  FlatTable flatTable = new FlatTableBuilder()
+ *     .input(new TextInput("./inputData/population.csv",","))
  *     .addDataColumn(new DefaultDataColumn.Builder(0).header("Country").build())
  *     .addDataColumn(new DefaultDataColumn.Builder(1).header("City").build())
  *     .addDataColumn(new DefaultDataColumn.Builder(2).header("Population").build())
  *     .build();
  *     
- *      flatTable.output(reportOutput); 
- *      reportOuptut.close(); 
+ *  ReportOutput reportOutput = new DefaultReportOutput(new FileWriter("/tmp/testFlatTable.html"))
+ *  reportOutput.open(); 
+ *  flatTable.output(reportOutput); 
+ *  reportOuptut.close(); 
  *  }
  * </pre>
- * 
  * </p>
  * 
  * @see TableInput
