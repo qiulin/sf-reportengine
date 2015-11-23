@@ -122,8 +122,6 @@ public class SqlTableInput extends AbstractTableInput implements ColumnMetadataH
     	}
     }
     
-    
-    
     /**
      * returns the next row
      */
