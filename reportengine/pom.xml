@@ -96,9 +96,9 @@
 				<configuration>
 					<show>public</show>
 					<nohelp>true</nohelp>
-					<!-- setting for java8 
+					<!-- setting for java8 -->	
 					<additionalparam>-Xdoclint:none</additionalparam>
-					-->					
+									
 				</configuration>
 				 <executions>
 					<execution>
