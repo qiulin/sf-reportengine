@@ -16,10 +16,8 @@
 package net.sf.reportengine.out;
 
 
-
-
 /**
- * the output of the report 
+ * <p> The output interface for all reports</p>
  * 
  * @author dragos balan
  *
@@ -27,28 +25,27 @@ package net.sf.reportengine.out;
 public interface ReportOutput {
 	
 	/**
-	 * 
+	 * opens the required resources for this output
 	 */
 	public void open();
 	
 	/**
-	 * 
+	 * closes the resources used in this output
 	 */
 	public void close(); 
 	
 	/**
+	 * outputs the given model/data using the specified template
 	 * 
-	 * @param templateName
-	 * @param model
+	 * @param templateName     the name of the template to be used for output
+	 * @param model            the data to be outputted
 	 */
 	public <T> void output(String templateName, T model);
 	
-	
 	/**
-	 * 
-	 * @return
+	 * returns the output format of this report output
+	 * @return the output format
 	 */
 	public OutputFormat getFormat(); 
-	
 	
 }

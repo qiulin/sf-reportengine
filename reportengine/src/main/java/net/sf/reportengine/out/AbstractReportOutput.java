@@ -16,8 +16,9 @@
 package net.sf.reportengine.out;
 
 /**
+ * <p> Abstract parent for the report output classes with basic status and format features </p>
+ * 
  * @author dragos balan
- *
  */
 public abstract class AbstractReportOutput implements ReportOutput {
 
@@ -25,11 +26,16 @@ public abstract class AbstractReportOutput implements ReportOutput {
      * the output format
      */
     private final OutputFormat format;
+    
+    /**
+     * the status of the output
+     */
     private Status status;
 
     /**
+     * marks the report status as INIT and keeps a reference to the format for internal use
      * 
-     * @param format
+     * @param format    the output format for this output
      */
     public AbstractReportOutput(OutputFormat format) {
         this.format = format;
@@ -46,8 +52,10 @@ public abstract class AbstractReportOutput implements ReportOutput {
     }
 
     /**
-     * 
-     * @param templateName
+     * a simple delegation to the implementation of {@code output(templateName, null}
+     * This method should be used for calling templates which don't need any input. 
+     *  
+     * @param templateName  the name of the template
      */
     public void output(String templateName) {
         output(templateName, null);
@@ -61,11 +69,17 @@ public abstract class AbstractReportOutput implements ReportOutput {
     public void close() {
         status = Status.CLOSED;
     }
-
+    
+    /**
+     * getter for the output format of this report output
+     */
     public OutputFormat getFormat() {
         return format;
     }
-
+    
+    /**
+     * getter for the status
+     */
     public Status getStatus() {
         return status;
     }

@@ -45,28 +45,54 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 /**
- * This is a two step report output: the first step creates a .fo file, the second step transforms the .fo file with FOP 
+ * This is a two step report output: 
+ *  1. the first step creates a .fo file, 
+ *  2. the second step transforms the .fo file with FOP 
  * (see https://xmlgraphics.apache.org/fop/)
  * 
  * @author dragos balan
- *
  */
 public class PostProcessedFoReportOutput extends AbstractReportOutput {
-
-    private static final String DEFAULT_FO_CONFIG_CLASSPATH = "net/sf/reportengine/fop/fop.xconf";
-
+    
+    /**
+     * the one and only logger
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(PostProcessedFoReportOutput.class);
-
+    
+    /**
+     * the class path of the fo config file
+     */
+    private static final String DEFAULT_FO_CONFIG_CLASSPATH = "net/sf/reportengine/fop/fop.xconf";
+    
+    /**
+     * the output stream (the result of this output)
+     */
     private final OutputStream outStream;
-
+    
+    /**
+     * the mime type of the output (this is needed by fop)
+     */
     private final String mimeType;
-
+    
+    /**
+     * the properties of the fop user agent (needed by fop engine)
+     */
     private final FopUserAgentProperties fopUserAgentProps;
-
+    
+    /**
+     * the configuration of the fop engine
+     */
     private final Configuration fopConfiguration;
-
+    
+    /**
+     * the result of the first step which is going to be parsed by the fop engine for 
+     * the final output
+     */
     private final File foFile;
-
+    
+    /**
+     * this is the report output of the first step
+     */
     private final FoReportOutput foReportOutput;
 
     /**
