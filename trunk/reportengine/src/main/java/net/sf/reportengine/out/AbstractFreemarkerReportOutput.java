@@ -24,11 +24,13 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.TemplateException;
 
 /**
- * Abstract support for freemarker output. This is the base class used in all
- * other non-abstract outputters.
+ * <p> Base abstract class for most of your output classes </p>
+ * 
+ * This abstract class should be used for any freemarker based report output which doesn't need
+ * a second processing step. If your report needs another processing step of the freemarker output
+ * please consult {@code PostProcessedFoReportOutput}.
  * 
  * @author dragos balan
- *
  */
 public abstract class AbstractFreemarkerReportOutput extends AbstractReportOutput {
 
@@ -49,8 +51,10 @@ public abstract class AbstractFreemarkerReportOutput extends AbstractReportOutpu
     private final boolean closeWriterWhenOutputReady;
 
     /**
+     * creates a freemarker based output and configures all freemarker needed 
+     * classes and properties
      * 
-     * @param writer
+     * @param writer    
      *            the writer to which the output will be sent
      * @param closeWriterWhenDone
      *            if true the writer will be closed when the output is done
@@ -61,7 +65,6 @@ public abstract class AbstractFreemarkerReportOutput extends AbstractReportOutpu
     public AbstractFreemarkerReportOutput(Writer writer,
                                           boolean closeWriterWhenDone,
                                           OutputFormat outFormat) {
-
         super(outFormat);
         this.writer = writer;
         this.closeWriterWhenOutputReady = closeWriterWhenDone;
@@ -70,9 +73,17 @@ public abstract class AbstractFreemarkerReportOutput extends AbstractReportOutpu
         fmConfig.setObjectWrapper(new DefaultObjectWrapper());
         fmConfig.setTemplateLoader(new ClassTemplateLoader(getClass(), getTemplatesClasspath()));
     }
+    
+    /**
+     * by using this method the subclasses can return the classpath of the templates
+     * 
+     * @return  the classpath of the templates used by this output
+     */
+    public abstract String getTemplatesClasspath();
 
     /**
-	 * 
+	 * calls the freemarker template engine to output the given model/data using the writer 
+	 * of this report output
 	 */
     public <T> void output(String templateName, T model) {
         try {
@@ -83,7 +94,10 @@ public abstract class AbstractFreemarkerReportOutput extends AbstractReportOutpu
             throw new ReportOutputException(e);
         }
     }
-
+    
+    /**
+     * flushes and closes the writer 
+     */
     public void close() {
         try {
             writer.flush();
@@ -96,7 +110,4 @@ public abstract class AbstractFreemarkerReportOutput extends AbstractReportOutpu
             super.close();
         }
     }
-
-    public abstract String getTemplatesClasspath();
-
 }
