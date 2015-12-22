@@ -55,8 +55,8 @@ public class TestIntermediateReportInput extends TestCase {
 		classUnderTest.open(); 
 		
 		//first line
-		assertTrue(classUnderTest.hasMoreRows());
-		List<Object> row = classUnderTest.nextRow(); 
+		assertTrue(classUnderTest.hasNext());
+		List<Object> row = classUnderTest.next(); 
 		assertNotNull(row);
 		assertEquals(4, row.size()); 
 		assertTrue(row.get(0) instanceof IntermOriginalGroupValuesList);
@@ -65,8 +65,8 @@ public class TestIntermediateReportInput extends TestCase {
 		assertTrue(row.get(3) instanceof IntermComputedTotalsList);
 		
 		//second line 
-		assertTrue(classUnderTest.hasMoreRows());
-		row = classUnderTest.nextRow(); 
+		assertTrue(classUnderTest.hasNext());
+		row = classUnderTest.next(); 
 		assertNotNull(row);
 		assertEquals(4, row.size()); 
 		assertTrue(row.get(0) instanceof IntermOriginalGroupValuesList);
@@ -75,8 +75,8 @@ public class TestIntermediateReportInput extends TestCase {
 		assertTrue(row.get(3) instanceof IntermComputedTotalsList);
 		
 		//third line 
-		assertTrue(classUnderTest.hasMoreRows());
-		row = classUnderTest.nextRow(); 
+		assertTrue(classUnderTest.hasNext());
+		row = classUnderTest.next(); 
 		assertEquals(4, row.size()); 
 		assertTrue(row.get(0) instanceof IntermOriginalGroupValuesList);
 		assertTrue(row.get(1) instanceof IntermOriginalDataColsList);
@@ -84,12 +84,12 @@ public class TestIntermediateReportInput extends TestCase {
 		assertTrue(row.get(3) instanceof IntermComputedTotalsList);
 		
 		//fourth
-		assertTrue(classUnderTest.hasMoreRows());
-		assertTrue(classUnderTest.hasMoreRows()); 
-		assertTrue(classUnderTest.hasMoreRows());
-		assertTrue(classUnderTest.hasMoreRows());
+		assertTrue(classUnderTest.hasNext());
+		assertTrue(classUnderTest.hasNext()); 
+		assertTrue(classUnderTest.hasNext());
+		assertTrue(classUnderTest.hasNext());
 		
-		row = classUnderTest.nextRow(); 
+		row = classUnderTest.next(); 
 		assertNotNull(row);
 		assertEquals(4, row.size()); 
 		assertTrue(row.get(0) instanceof IntermOriginalGroupValuesList);
@@ -98,8 +98,8 @@ public class TestIntermediateReportInput extends TestCase {
 		assertTrue(row.get(3) instanceof IntermComputedTotalsList);
 		
 		//fifth line 
-		assertTrue(classUnderTest.hasMoreRows());
-		row = classUnderTest.nextRow(); 
+		assertTrue(classUnderTest.hasNext());
+		row = classUnderTest.next(); 
 		assertNotNull(row);
 		assertEquals(4, row.size()); 
 		assertTrue(row.get(0) instanceof IntermOriginalGroupValuesList);
@@ -108,15 +108,15 @@ public class TestIntermediateReportInput extends TestCase {
 		assertTrue(row.get(3) instanceof IntermComputedTotalsList);
 		
 		//sixth (no more data in the input)
-		assertFalse(classUnderTest.hasMoreRows());
-		row = classUnderTest.nextRow(); 
+		assertFalse(classUnderTest.hasNext());
+		row = classUnderTest.next(); 
 		assertNull(row);
 		
 		//no more data in the input 
-		assertFalse(classUnderTest.hasMoreRows());
-		assertFalse(classUnderTest.hasMoreRows());
-		assertFalse(classUnderTest.hasMoreRows());
-		row = classUnderTest.nextRow(); 
+		assertFalse(classUnderTest.hasNext());
+		assertFalse(classUnderTest.hasNext());
+		assertFalse(classUnderTest.hasNext());
+		row = classUnderTest.next(); 
 		assertNull(row);
 		
 		classUnderTest.close(); 
@@ -133,8 +133,8 @@ public class TestIntermediateReportInput extends TestCase {
 		classUnderTest.open(); 
 		
 		//first line
-		assertTrue(classUnderTest.hasMoreRows());
-		List<Object> row = classUnderTest.nextRow(); 
+		assertTrue(classUnderTest.hasNext());
+		List<Object> row = classUnderTest.next(); 
 		assertNotNull(row);
 		assertEquals(4, row.size()); 
 		
@@ -147,8 +147,8 @@ public class TestIntermediateReportInput extends TestCase {
 		assertNotNull(intermCtTotalsList.getTotalsDataList()); 
 		assertEquals(0, intermCtTotalsList.getTotalsDataList().size());
 		
-		while(classUnderTest.hasMoreRows()){
-			row = classUnderTest.nextRow(); 
+		while(classUnderTest.hasNext()){
+			row = classUnderTest.next(); 
 			assertNotNull(row);
 			assertEquals(4, row.size()); 
 			

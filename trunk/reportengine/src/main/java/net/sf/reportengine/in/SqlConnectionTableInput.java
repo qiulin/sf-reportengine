@@ -147,15 +147,15 @@ public class SqlConnectionTableInput extends AbstractTableInput implements Colum
     /**
      * returns the next row
      */
-    public List<Object> nextRow() {
-        return resultSetTableInput.nextRow();
+    public List<Object> next() {
+        return resultSetTableInput.next();
     }
 
     /**
      * returns true if there are more rows to read
      */
-    public boolean hasMoreRows() {
-        return resultSetTableInput.hasMoreRows();
+    public boolean hasNext() {
+        return resultSetTableInput.hasNext();
     }
 
     /**

@@ -53,20 +53,20 @@ public class TestMemoryReportInput extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.in.InMemoryTableInput#hasMoreRows()}.
+	 * Test method for {@link net.sf.reportengine.in.InMemoryTableInput#hasNext()}.
 	 */
 	public void testHasMoreRows() {
 		classUnderTest.open();
-		assertTrue(classUnderTest.hasMoreRows());
+		assertTrue(classUnderTest.hasNext());
 		
-		assertTrue(Arrays.asList(DATA[0]).equals(classUnderTest.nextRow()));
+		assertTrue(Arrays.asList(DATA[0]).equals(classUnderTest.next()));
 		
-		assertTrue(classUnderTest.hasMoreRows());
-		assertTrue(Arrays.asList(DATA[1]).equals(classUnderTest.nextRow()));
+		assertTrue(classUnderTest.hasNext());
+		assertTrue(Arrays.asList(DATA[1]).equals(classUnderTest.next()));
 		
-		assertTrue(classUnderTest.hasMoreRows());
-		assertTrue(Arrays.asList(DATA[2]).equals(classUnderTest.nextRow()));
+		assertTrue(classUnderTest.hasNext());
+		assertTrue(Arrays.asList(DATA[2]).equals(classUnderTest.next()));
 		
-		assertFalse(classUnderTest.hasMoreRows());
+		assertFalse(classUnderTest.hasNext());
 	}
 }

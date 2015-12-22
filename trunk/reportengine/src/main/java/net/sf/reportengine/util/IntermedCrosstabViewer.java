@@ -64,9 +64,9 @@ public class IntermedCrosstabViewer {
 		output.output("startReport.ftl", new ReportProps());
 		output.output("startTable.ftl");
 		int rowNbr = 0;
-		while(intermCtInput.hasMoreRows()){
+		while(intermCtInput.hasNext()){
 			// we get a list with 4 objects
-			List<Object> intermLine = intermCtInput.nextRow(); 
+			List<Object> intermLine = intermCtInput.next(); 
 			//output.startDataRow(new RowProps(rowNbr));
 			output.output("startDataRow.ftl", new RowProps(rowNbr));
 			

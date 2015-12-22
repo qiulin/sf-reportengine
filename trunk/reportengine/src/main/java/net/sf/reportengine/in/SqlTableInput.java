@@ -125,15 +125,15 @@ public class SqlTableInput extends AbstractTableInput implements ColumnMetadataH
     /**
      * returns the next row
      */
-    public List<Object> nextRow() {
-       return connTableInput.nextRow(); 
+    public List<Object> next() {
+       return connTableInput.next(); 
     }
     
     /**
      * returns true if there are more rows to read
      */
-    public boolean hasMoreRows() {
-        return connTableInput.hasMoreRows(); 
+    public boolean hasNext() {
+        return connTableInput.hasNext(); 
         
     }
     

@@ -121,7 +121,7 @@ public class TestSqlConnectionBasedTableInput {
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.in.SqlConnectionTableInput#nextRow()}.
+	 * Test method for {@link net.sf.reportengine.in.SqlConnectionTableInput#next()}.
 	 */
 	@Test
     public void testNextAndHasMore(){
@@ -133,8 +133,8 @@ public class TestSqlConnectionBasedTableInput {
         int currentRow = 0;
         try {
             dataProvider.open();
-            while(dataProvider.hasMoreRows()){
-                List<Object> nextRow = dataProvider.nextRow();
+            while(dataProvider.hasNext()){
+                List<Object> nextRow = dataProvider.next();
                 assertTrue(nextRow.equals(Arrays.asList(EXPECTED_DATA[currentRow])));
                 currentRow++;
             }           

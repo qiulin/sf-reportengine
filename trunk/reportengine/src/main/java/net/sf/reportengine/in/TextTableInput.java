@@ -346,11 +346,11 @@ public class TextTableInput extends AbstractTableInput implements ColumnMetadata
      * }
      * </pre>
      */
-    public List<Object> nextRow() {
+    public List<Object> next() {
         List<Object> result = null;
         try {
             // if read not performed && read next row of data
-            if (hasMoreRows()) {
+            if (hasNext()) {
                 result = transformRawDataRowIntoList(nextRawDataRow, separator);
 
                 // now we read the next raw row
@@ -429,7 +429,7 @@ public class TextTableInput extends AbstractTableInput implements ColumnMetadata
     /**
      * returns true if there are more rows to read otherwise false
      */
-    public boolean hasMoreRows() {
+    public boolean hasNext() {
         return nextRawDataRow != null;
     }
 

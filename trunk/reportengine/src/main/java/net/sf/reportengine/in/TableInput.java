@@ -46,11 +46,11 @@ public interface TableInput {
      * the framework will throw an IllegaArgumentException
      * @return an array of data objects
      */
-    public List<Object> nextRow();
+    public List<Object> next();
     
     /**
      * returns true if there are rows left to read otherwise false
      * @return  true if the input has more rows to return
      */
-    public boolean hasMoreRows();
+    public boolean hasNext();
 }

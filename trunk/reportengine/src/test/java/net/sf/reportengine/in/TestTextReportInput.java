@@ -75,8 +75,8 @@ public class TestTextReportInput extends TestCase {
             int index = 0;
             List<Object> data;
             classUnderTest.open();
-            while (classUnderTest.hasMoreRows()) {
-                data = classUnderTest.nextRow();
+            while (classUnderTest.hasNext()) {
+                data = classUnderTest.next();
                 boolean arraysAreEqual = Arrays.equals(EXPECTED_RESULT[index++], data.toArray(new Object[]{}));
                 assertTrue(arraysAreEqual);
             }
@@ -97,8 +97,8 @@ public class TestTextReportInput extends TestCase {
         try{
             classUnderTest = new TextTableInput(ReportIoUtils.createReaderFromClassPath(TEST_FILE));
             classUnderTest.open();
-            while(classUnderTest.hasMoreRows()){
-                classUnderTest.nextRow();
+            while(classUnderTest.hasNext()){
+                classUnderTest.next();
                 rowsCount ++;
             }
         }catch(TableInputException ioEx){
@@ -140,13 +140,13 @@ public class TestTextReportInput extends TestCase {
         try {
             classUnderTest = new TextTableInput(ReportIoUtils.createInputStreamFromClassPath(TEST_FILE));
             classUnderTest.open();
-            classUnderTest.nextRow();
-            classUnderTest.nextRow();
-            classUnderTest.nextRow();
-            classUnderTest.nextRow();
-            classUnderTest.nextRow();
-            classUnderTest.nextRow();
-            classUnderTest.nextRow();
+            classUnderTest.next();
+            classUnderTest.next();
+            classUnderTest.next();
+            classUnderTest.next();
+            classUnderTest.next();
+            classUnderTest.next();
+            classUnderTest.next();
             
             assertEquals(classUnderTest.getColumnMetadata().size(), 6);
             
@@ -168,16 +168,16 @@ public class TestTextReportInput extends TestCase {
             
             classUnderTest.open();
             //classUnderTest.first();
-            List<Object> firstRow = classUnderTest.nextRow();
+            List<Object> firstRow = classUnderTest.next();
             assertTrue(firstRow.equals(Arrays.asList(EXPECTED_RESULT[0])));
             
-            assertTrue(classUnderTest.hasMoreRows());
-            List<Object> secondRow = classUnderTest.nextRow();
+            assertTrue(classUnderTest.hasNext());
+            List<Object> secondRow = classUnderTest.next();
             assertTrue(secondRow.equals(Arrays.asList(EXPECTED_RESULT[1])));
             
             
-            assertTrue(classUnderTest.hasMoreRows());
-            List<Object> thirdRow = classUnderTest.nextRow();
+            assertTrue(classUnderTest.hasNext());
+            List<Object> thirdRow = classUnderTest.next();
             assertTrue(thirdRow.equals(Arrays.asList(EXPECTED_RESULT[2])));            
             
         } catch (TableInputException e) {
@@ -217,7 +217,7 @@ public class TestTextReportInput extends TestCase {
         try {
             classUnderTest = new TextTableInput(ReportIoUtils.createInputStreamFromClassPath("empty.txt"));
             classUnderTest.open();
-            hasMoreRows = classUnderTest.hasMoreRows();
+            hasMoreRows = classUnderTest.hasNext();
         } catch (TableInputException e) {
             e.printStackTrace();
             fail(e.getMessage()); 
@@ -237,7 +237,7 @@ public class TestTextReportInput extends TestCase {
         try {
             classUnderTest = new TextTableInput(ReportIoUtils.createInputStreamFromClassPath("empty.txt"));
             classUnderTest.open();
-            nextRow = classUnderTest.nextRow();
+            nextRow = classUnderTest.next();
         } catch (TableInputException e) {
             e.printStackTrace();
             fail(e.getMessage()); 
@@ -260,10 +260,10 @@ public class TestTextReportInput extends TestCase {
             classUnderTest.open();
             //classUnderTest.first();
             
-            nextRow = classUnderTest.nextRow();
+            nextRow = classUnderTest.next();
             assertNull(nextRow);
             
-            hasMoreRows = classUnderTest.hasMoreRows();
+            hasMoreRows = classUnderTest.hasNext();
             assertFalse(hasMoreRows);
             
         } catch (TableInputException e) {
@@ -280,8 +280,8 @@ public class TestTextReportInput extends TestCase {
     	classUnderTest = new TextTableInput(ReportIoUtils.createInputStreamFromClassPath("Utf8Input.txt"), ",", "UTF-8");
     	classUnderTest.open(); 
     	List<Object> row = null; 
-    	while(classUnderTest.hasMoreRows()){
-    		row  = classUnderTest.nextRow();
+    	while(classUnderTest.hasNext()){
+    		row  = classUnderTest.next();
     		assertNotNull(row);
     		assertEquals(4, row.size());
     		linesCount++;
@@ -309,10 +309,10 @@ public class TestTextReportInput extends TestCase {
     	classUnderTest.setFirstLineHeader(true);
     	classUnderTest.open(); 
     	
-    	assertTrue(classUnderTest.hasMoreRows()); 
+    	assertTrue(classUnderTest.hasNext()); 
     	
-    	while(classUnderTest.hasMoreRows()){
-             List<Object> row = classUnderTest.nextRow();
+    	while(classUnderTest.hasNext()){
+             List<Object> row = classUnderTest.next();
              assertNotNull(row); 
              assertEquals(6, row.size()); 
              

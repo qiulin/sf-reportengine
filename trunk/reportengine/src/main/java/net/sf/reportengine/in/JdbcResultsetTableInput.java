@@ -109,9 +109,9 @@ public class JdbcResultsetTableInput extends AbstractTableInput implements Colum
     /**
      * returns the next row
      */
-    public List<Object> nextRow() throws TableInputException {
+    public List<Object> next() throws TableInputException {
         try {
-            if (hasMoreRows()) {
+            if (hasNext()) {
                 nextRow = new ArrayList<Object>(columnsCount);
                 for (int i = 0; i < columnsCount; i++) {
                     nextRow.add(resultSet.getObject(i + 1));
@@ -132,7 +132,7 @@ public class JdbcResultsetTableInput extends AbstractTableInput implements Colum
     /**
      * returns true if there are more rows to read
      */
-    public boolean hasMoreRows() {
+    public boolean hasNext() {
         return hasMoreRows;
 
     }

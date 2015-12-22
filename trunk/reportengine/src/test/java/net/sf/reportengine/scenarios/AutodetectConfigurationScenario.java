@@ -45,8 +45,8 @@ public class AutodetectConfigurationScenario {
 	public static void initScenario(){
 		
 		when(((ColumnMetadataHolder)INPUT).getColumnMetadata()).thenReturn(COLUMN_METADATA);
-		when(INPUT.hasMoreRows()).thenReturn(true, true, true, false); 
-		when(INPUT.nextRow()).thenReturn(
+		when(INPUT.hasNext()).thenReturn(true, true, true, false); 
+		when(INPUT.next()).thenReturn(
 				Arrays.asList(new Object[]{"value 11", "value 12"}), 
 				Arrays.asList(new Object[]{"value 21", "value 22"}), 
 				Arrays.asList(new Object[]{"value 31", "value 32"})); 
