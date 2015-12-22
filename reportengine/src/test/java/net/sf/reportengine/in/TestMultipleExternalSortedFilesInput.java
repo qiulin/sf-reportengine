@@ -57,73 +57,73 @@ public class TestMultipleExternalSortedFilesInput {
 	}
 	
 	/**
-	 * Test method for {@link net.sf.reportengine.in.MultipleExternalSortedFilesTableInput#nextRow()}.
+	 * Test method for {@link net.sf.reportengine.in.MultipleExternalSortedFilesTableInput#next()}.
 	 */
 	@Test
 	public void testNextRow() {
 		MultipleExternalSortedFilesTableInput classUnderTest = 
 				new MultipleExternalSortedFilesTableInput(testFiles, testComparator);
 		
-		List<Object> newRow = classUnderTest.nextRow(); 
+		List<Object> newRow = classUnderTest.next(); 
 		assertNotNull(newRow); 
 		assertTrue(Scenario1.ROW_OF_DATA_4.equals(newRow)); 
 		
-		newRow = classUnderTest.nextRow(); 
+		newRow = classUnderTest.next(); 
 		assertNotNull(newRow);
 		assertTrue(Scenario1.ROW_OF_DATA_5.equals(newRow));  
 		
-		newRow = classUnderTest.nextRow(); 
+		newRow = classUnderTest.next(); 
 		assertNotNull(newRow);
 		assertTrue(Scenario1.ROW_OF_DATA_3.equals(newRow)); 
 		
-		newRow = classUnderTest.nextRow(); 
+		newRow = classUnderTest.next(); 
 		assertNotNull(newRow);
 		assertTrue(Scenario1.ROW_OF_DATA_1.equals(newRow)); 
 		
-		newRow = classUnderTest.nextRow(); 
+		newRow = classUnderTest.next(); 
 		assertNotNull(newRow);
 		assertTrue(Scenario1.ROW_OF_DATA_2.equals(newRow)); 
 		
-		newRow = classUnderTest.nextRow(); 
+		newRow = classUnderTest.next(); 
 		assertNotNull(newRow);
 		assertTrue(Scenario1.ROW_OF_DATA_6.equals(newRow));  
 		
-		newRow = classUnderTest.nextRow(); 
+		newRow = classUnderTest.next(); 
 		assertTrue(newRow == null);
 		
-		newRow = classUnderTest.nextRow(); 
+		newRow = classUnderTest.next(); 
 		assertTrue(newRow == null);
 	}
 
 	/**
-	 * Test method for {@link net.sf.reportengine.in.MultipleExternalSortedFilesTableInput#hasMoreRows()}.
+	 * Test method for {@link net.sf.reportengine.in.MultipleExternalSortedFilesTableInput#hasNext()}.
 	 */
 	@Test
 	public void testHasMoreRows() {
 		MultipleExternalSortedFilesTableInput classUnderTest = 
 				new MultipleExternalSortedFilesTableInput(testFiles, testComparator);
 		
-		assertTrue(classUnderTest.hasMoreRows());
-		classUnderTest.nextRow(); 
+		assertTrue(classUnderTest.hasNext());
+		classUnderTest.next(); 
 		
-		assertTrue(classUnderTest.hasMoreRows());
-		classUnderTest.nextRow(); 
+		assertTrue(classUnderTest.hasNext());
+		classUnderTest.next(); 
 		
-		assertTrue(classUnderTest.hasMoreRows());
-		classUnderTest.nextRow(); 
+		assertTrue(classUnderTest.hasNext());
+		classUnderTest.next(); 
 		
-		assertTrue(classUnderTest.hasMoreRows());
-		classUnderTest.nextRow(); 
+		assertTrue(classUnderTest.hasNext());
+		classUnderTest.next(); 
 		
-		assertTrue(classUnderTest.hasMoreRows());
-		classUnderTest.nextRow(); 
+		assertTrue(classUnderTest.hasNext());
+		classUnderTest.next(); 
 		
-		assertTrue(classUnderTest.hasMoreRows());
-		classUnderTest.nextRow(); 
+		assertTrue(classUnderTest.hasNext());
+		classUnderTest.next(); 
 		
-		assertFalse(classUnderTest.hasMoreRows());
-		assertFalse(classUnderTest.hasMoreRows());
-		assertFalse(classUnderTest.hasMoreRows());
+		assertFalse(classUnderTest.hasNext());
+		assertFalse(classUnderTest.hasNext());
+		assertFalse(classUnderTest.hasNext());
 	}
 	
 	/**

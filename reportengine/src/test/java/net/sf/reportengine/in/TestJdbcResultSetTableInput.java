@@ -79,51 +79,51 @@ public class TestJdbcResultSetTableInput {
 		Assert.assertNotNull(classUnderTest);
 		
 		classUnderTest.open(); 
-		Assert.assertTrue(classUnderTest.hasMoreRows()); 
-		Assert.assertTrue(classUnderTest.hasMoreRows()); 
-		List<Object> row = classUnderTest.nextRow(); 
+		Assert.assertTrue(classUnderTest.hasNext()); 
+		Assert.assertTrue(classUnderTest.hasNext()); 
+		List<Object> row = classUnderTest.next(); 
 		Assert.assertNotNull(row);
 		Assert.assertEquals(7, row.size());
 		
-		Assert.assertTrue(classUnderTest.hasMoreRows()); 
-		Assert.assertTrue(classUnderTest.hasMoreRows()); 
-		Assert.assertTrue(classUnderTest.hasMoreRows()); 
-		Assert.assertTrue(classUnderTest.hasMoreRows()); 
+		Assert.assertTrue(classUnderTest.hasNext()); 
+		Assert.assertTrue(classUnderTest.hasNext()); 
+		Assert.assertTrue(classUnderTest.hasNext()); 
+		Assert.assertTrue(classUnderTest.hasNext()); 
 		
-		row = classUnderTest.nextRow(); 
+		row = classUnderTest.next(); 
 		Assert.assertNotNull(row);
 		Assert.assertEquals(7, row.size());
 		
-		Assert.assertTrue(classUnderTest.hasMoreRows()); 
-		Assert.assertTrue(classUnderTest.hasMoreRows()); 
+		Assert.assertTrue(classUnderTest.hasNext()); 
+		Assert.assertTrue(classUnderTest.hasNext()); 
 		
-		row = classUnderTest.nextRow(); 
+		row = classUnderTest.next(); 
 		Assert.assertNotNull(row);
 		Assert.assertEquals(7, row.size());
 		
-		Assert.assertTrue(classUnderTest.hasMoreRows()); 
-		Assert.assertTrue(classUnderTest.hasMoreRows()); 
+		Assert.assertTrue(classUnderTest.hasNext()); 
+		Assert.assertTrue(classUnderTest.hasNext()); 
 		
-		row = classUnderTest.nextRow(); 
+		row = classUnderTest.next(); 
 		Assert.assertNotNull(row);
 		Assert.assertEquals(7, row.size());
 		
-		Assert.assertTrue(classUnderTest.hasMoreRows()); 
-		Assert.assertTrue(classUnderTest.hasMoreRows()); 
+		Assert.assertTrue(classUnderTest.hasNext()); 
+		Assert.assertTrue(classUnderTest.hasNext()); 
 		
-		row = classUnderTest.nextRow(); 
+		row = classUnderTest.next(); 
 		Assert.assertNotNull(row);
 		Assert.assertEquals(7, row.size());
 		
-		Assert.assertTrue(classUnderTest.hasMoreRows()); 
-		Assert.assertTrue(classUnderTest.hasMoreRows()); 
+		Assert.assertTrue(classUnderTest.hasNext()); 
+		Assert.assertTrue(classUnderTest.hasNext()); 
 		
-		row = classUnderTest.nextRow(); 
+		row = classUnderTest.next(); 
 		Assert.assertNotNull(row);
 		Assert.assertEquals(7, row.size());
 		
-		Assert.assertFalse(classUnderTest.hasMoreRows()); 
-		Assert.assertFalse(classUnderTest.hasMoreRows()); 
+		Assert.assertFalse(classUnderTest.hasNext()); 
+		Assert.assertFalse(classUnderTest.hasNext()); 
 		
 		classUnderTest.close(); 
 		
@@ -161,7 +161,7 @@ public class TestJdbcResultSetTableInput {
 		try{
 			classUnderTest = new JdbcResultsetTableInput(stmt.executeQuery()); 
 			classUnderTest.open();  
-			classUnderTest.nextRow(); 
+			classUnderTest.next(); 
 			
 		}finally{
 			Assert.assertNotNull(classUnderTest);

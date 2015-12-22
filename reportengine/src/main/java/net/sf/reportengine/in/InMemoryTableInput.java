@@ -60,12 +60,12 @@ public class InMemoryTableInput extends AbstractTableInput implements ColumnMeta
     	currentRow = 0;
     }
 
-	public boolean hasMoreRows() {
+	public boolean hasNext() {
 		return currentRow < data.length ;
 	}
 
 	
-	public List<Object> nextRow(){
+	public List<Object> next(){
 		return Arrays.asList(data[currentRow++]);
 	}
 		

@@ -100,10 +100,10 @@ public class LoopThroughTableInputAlgo extends AbstractMultiStepAlgo {
             }
 
             // iteration through input data (row by row)
-            while (tableInput.hasMoreRows()) {
+            while (tableInput.hasNext()) {
 
                 // get the current data row
-                List<Object> currentRow = tableInput.nextRow();
+                List<Object> currentRow = tableInput.next();
                 LOGGER.trace("executing algo steps for input row {}", currentRow);
 
                 // then we pass the dataRow through all the report steps

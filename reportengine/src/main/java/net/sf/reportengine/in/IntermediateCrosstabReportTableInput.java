@@ -108,10 +108,10 @@ public class IntermediateCrosstabReportTableInput extends AbstractTableInput {
      * 
      * @see net.sf.reportengine.in.AbstractReportInput#nextRow()
      */
-    public List<Object> nextRow() {
+    public List<Object> next() {
         LOGGER.trace("requesting next intermediate row");
         List<Object> result = null;
-        if (hasMoreRows()) {
+        if (hasNext()) {
             // TODO: try to return directly a list
             Object[] temp = transformIntermediateCrosstabLine(nextRawLine);
             result = Arrays.asList(temp);
@@ -131,7 +131,7 @@ public class IntermediateCrosstabReportTableInput extends AbstractTableInput {
      * 
      * @see net.sf.reportengine.in.AbstractReportInput#hasMoreRows()
      */
-    public boolean hasMoreRows() {
+    public boolean hasNext() {
         return nextRawLine != null;
     }
 

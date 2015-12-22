@@ -88,9 +88,9 @@ public class MultipleExternalSortedFilesTableInput implements TableInput {
 	 * On the topmost file wrapper, the poll method will be executed (which returns the top NewRowEvent) and, if not empty, the 
 	 * file wrapper is re-introduced into the priority queue (so that he participated in the next newRow() operation )
 	 */
-	public List<Object> nextRow() {
+	public List<Object> next() {
 		List<Object> result = null; 
-		if(hasMoreRows()){
+		if(hasNext()){
 			SortedInputRowsFileWrapper inputRowsFileWrapper = externalFilesQueue.poll();
 			NewRowEvent newRowEvent = inputRowsFileWrapper.poll();
 			
@@ -109,7 +109,7 @@ public class MultipleExternalSortedFilesTableInput implements TableInput {
 	/**
 	 * returns true if the priority queue with the external sorted files is empty
 	 */
-	public boolean hasMoreRows() {
+	public boolean hasNext() {
 		return !externalFilesQueue.isEmpty(); 
 	}
 }
