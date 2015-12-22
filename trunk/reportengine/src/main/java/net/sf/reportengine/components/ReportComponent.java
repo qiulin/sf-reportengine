@@ -19,8 +19,9 @@ import net.sf.reportengine.out.AbstractReportOutput;
 
 
 /**
+ * The base interface for any report component
+ * 
  * @author dragos balan
- *
  */
 public interface ReportComponent {
 	
