@@ -15,36 +15,25 @@
  */
 package net.sf.reportengine.components;
 
-import net.sf.reportengine.out.AbstractReportOutput;
 import net.sf.reportengine.out.TitleProps;
 
 /**
+ * This is the title of a report
+ * 
  * @author dragos balan
- *
  */
-public final class ReportTitle extends AbstractReportComponent {
-	
-	
-	public static final String FM_TEMPLATE_NAME = "title.ftl";
+public final class ReportTitle extends DefaultReportComponent<TitleProps> {
 	
 	/**
-	 * the title
+	 * the name of the freemarker template backing this component
 	 */
-	public final TitleProps titleProps; 
-	
+	private static final String FM_TEMPLATE_NAME = "title.ftl";
 	
 	/**
 	 * the constructor of a report title
 	 * @param title
 	 */
 	public ReportTitle(String title){
-		this.titleProps = new TitleProps(title); 
-	}
-	
-	/**
-	 * 
-	 */
-	public void output(AbstractReportOutput out){
-		out.output(FM_TEMPLATE_NAME, titleProps); 
+	    super(FM_TEMPLATE_NAME, new TitleProps(title)); 
 	}
 }
