@@ -21,11 +21,11 @@ package net.sf.reportengine.util;
 import java.io.File;
 import java.util.List;
 
+import net.sf.reportengine.components.CellProps;
+import net.sf.reportengine.components.RowProps;
 import net.sf.reportengine.in.IntermediateCrosstabReportTableInput;
-import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.out.HtmlReportOutput;
 import net.sf.reportengine.out.ReportProps;
-import net.sf.reportengine.out.RowProps;
 
 /**
  * @author dragos balan

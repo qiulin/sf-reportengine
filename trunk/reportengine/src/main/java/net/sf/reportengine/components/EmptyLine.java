@@ -22,7 +22,9 @@ package net.sf.reportengine.components;
  */
 public class EmptyLine extends DefaultReportComponent<Object> {
     
+    private final static String FM_EMPTY_LINE_TEMPLATE = "emptyLine.ftl"; 
+    
     public EmptyLine(){
-        super("emptyLine.ftl", null); 
+        super(FM_EMPTY_LINE_TEMPLATE, null); 
     }
 }

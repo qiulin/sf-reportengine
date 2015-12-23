@@ -21,6 +21,8 @@ package net.sf.reportengine.core.steps.crosstab;
 import java.util.List;
 
 import net.sf.reportengine.config.PivotData;
+import net.sf.reportengine.components.CellProps;
+import net.sf.reportengine.components.RowProps;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
@@ -31,8 +33,6 @@ import net.sf.reportengine.core.steps.AbstractOutputInitStep;
 import net.sf.reportengine.core.steps.ColumnHeaderOutputInitStep;
 import net.sf.reportengine.core.steps.StepInput;
 import net.sf.reportengine.core.steps.StepResult;
-import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.StepIOKeys;
 import net.sf.reportengine.util.CtMetadata;
 import net.sf.reportengine.util.AlgoIOKeys;

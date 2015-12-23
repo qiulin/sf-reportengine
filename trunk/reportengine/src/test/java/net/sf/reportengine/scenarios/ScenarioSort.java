@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
+import net.sf.reportengine.components.CellProps;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
@@ -35,7 +36,6 @@ import net.sf.reportengine.core.calc.DefaultCalcIntermResult;
 import net.sf.reportengine.core.calc.SumGroupCalculator;
 import net.sf.reportengine.in.InMemoryTableInput;
 import net.sf.reportengine.in.TableInput;
-import net.sf.reportengine.out.CellProps;
 
 import org.apache.commons.lang.math.NumberUtils;
 

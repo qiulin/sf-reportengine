@@ -26,6 +26,7 @@ import net.sf.reportengine.config.DefaultPivotHeaderRow;
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.PivotData;
 import net.sf.reportengine.config.PivotHeaderRow;
+import net.sf.reportengine.components.CellProps;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.core.ReportContent;
@@ -33,7 +34,6 @@ import net.sf.reportengine.core.calc.GroupCalculators;
 import net.sf.reportengine.core.steps.crosstab.IntermediateDataInfo;
 import net.sf.reportengine.in.TableInput;
 import net.sf.reportengine.in.InMemoryTableInput;
-import net.sf.reportengine.out.CellProps;
 import net.sf.reportengine.util.CrossTabCoefficients;
 
 /**

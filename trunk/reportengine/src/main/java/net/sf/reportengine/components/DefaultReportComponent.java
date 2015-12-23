@@ -59,5 +59,4 @@ public class DefaultReportComponent<T> implements ReportComponent {
     public void output(AbstractReportOutput out){
        out.output(getTemplate(), getModel()); 
     }
-    
 }

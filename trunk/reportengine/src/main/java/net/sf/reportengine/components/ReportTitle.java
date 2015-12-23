@@ -15,14 +15,12 @@
  */
 package net.sf.reportengine.components;
 
-import net.sf.reportengine.out.TitleProps;
-
 /**
  * This is the title of a report
  * 
  * @author dragos balan
  */
-public final class ReportTitle extends DefaultReportComponent<TitleProps> {
+public final class ReportTitle extends DefaultReportComponent<ParagraphProps> {
 	
 	/**
 	 * the name of the freemarker template backing this component
@@ -34,6 +32,6 @@ public final class ReportTitle extends DefaultReportComponent<TitleProps> {
 	 * @param title
 	 */
 	public ReportTitle(String title){
-	    super(FM_TEMPLATE_NAME, new TitleProps(title)); 
+	    super(FM_TEMPLATE_NAME, new ParagraphProps(title)); 
 	}
 }
