@@ -19,10 +19,10 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 
+import net.sf.reportengine.components.ParagraphProps;
 import net.sf.reportengine.out.ExcelXmlOutputFormat;
 import net.sf.reportengine.out.ExcelXmlReportOutput;
 import net.sf.reportengine.out.ReportProps;
-import net.sf.reportengine.out.TitleProps;
 import net.sf.reportengine.util.ReportIoUtils;
 
 import org.junit.Before;
@@ -44,8 +44,8 @@ public class TestExcelXmlReportOutput {
 		//calling startreport.ftl and endreport.ftl is important for pdf because 
 		//the resulting xml does not have a root and a well-defined namespace
 		testOutput.output("startReport.ftl", new ReportProps(new ExcelXmlOutputFormat()));
-		testOutput.output("title.ftl", new TitleProps("На берегу пустынных волн")); 
-		testOutput.output("title.ftl", new TitleProps("Τη γλώσσα μου έδωσαν ελληνική"));
+		testOutput.output("title.ftl", new ParagraphProps("На берегу пустынных волн")); 
+		testOutput.output("title.ftl", new ParagraphProps("Τη γλώσσα μου έδωσαν ελληνική"));
 		testOutput.output("endReport.ftl");
 		testOutput.close(); 	
 	}

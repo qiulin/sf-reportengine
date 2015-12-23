@@ -54,8 +54,9 @@ public class TestDefaultReport {
         StringWriter testWriter = new StringWriter();
         MockReportOutput mockOutput = new MockReportOutput(testWriter);
         new ReportBuilder(mockOutput).add(new ReportTitle("unit test"))
-                                     .add(new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS)
-                                                                               .build())
+                                     .add(new FlatTableBuilder(Scenario1.INPUT)
+                                              .dataColumns(Scenario1.DATA_COLUMNS)
+                                              .build())
                                      .build()
                                      .execute();
 
@@ -77,12 +78,14 @@ public class TestDefaultReport {
     @Test
     public void testTwoComponentsAndExcelXmlOutput() throws IOException {
         new ReportBuilder(new ExcelXmlReportOutput(new FileWriter("./target/TestTwoComponents.xml"),
-                                                   true)).add(new ReportTitle("this is the report title"))
-                                                         .add(new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS)
-                                                                                                   .build())
-                                                         .add(new EmptyLine())
-                                                         .build()
-                                                         .execute();
+                                                   true))
+            .add(new ReportTitle("this is the report title"))
+            .add(new FlatTableBuilder(Scenario1.INPUT)
+                          .dataColumns(Scenario1.DATA_COLUMNS)
+                          .build())
+             .add(new EmptyLine())
+             .build()
+             .execute();
     }
 
     @Test

@@ -18,14 +18,14 @@ package net.sf.reportengine.core.steps;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.reportengine.components.CellProps;
+import net.sf.reportengine.components.RowProps;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
 import net.sf.reportengine.config.VertAlign;
 import net.sf.reportengine.core.algorithm.NewRowEvent;
 import net.sf.reportengine.core.calc.CalcIntermResult;
-import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.RowProps;
 import net.sf.reportengine.util.StepIOKeys;
 
 import org.slf4j.Logger;

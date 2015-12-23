@@ -17,6 +17,7 @@ package net.sf.reportengine.out;
 
 import java.io.File;
 
+import net.sf.reportengine.components.ParagraphProps;
 import net.sf.reportengine.util.ReportIoUtils;
 
 import org.junit.After;
@@ -49,7 +50,7 @@ public class TestPostProcessedFoReportOutput {
         classUnderTest.open();
 
         classUnderTest.output("startReport.ftl", new ReportProps(format));
-        classUnderTest.output("title.ftl", new TitleProps("Hello from a post processed FO report"));
+        classUnderTest.output("title.ftl", new ParagraphProps("Hello from a post processed FO report"));
         classUnderTest.output("endReport.ftl");
 
         classUnderTest.postProcess();

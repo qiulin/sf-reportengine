@@ -53,7 +53,9 @@ public class TestFlatTable {
 
         AbstractReportOutput reportOutput = new HtmlReportOutput(new FileWriter("./target/FlatTableWithoutGroupColumns.html"));
         reportOutput.open();
-        FlatTable flatTable = new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS).build();
+        FlatTable flatTable = new FlatTableBuilder(Scenario1.INPUT)
+                               .dataColumns(Scenario1.DATA_COLUMNS)
+                               .build();
 
         // test the computed values
         Assert.assertTrue(flatTable instanceof DefaultFlatTable);

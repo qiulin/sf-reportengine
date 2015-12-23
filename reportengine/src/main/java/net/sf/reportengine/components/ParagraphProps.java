@@ -16,28 +16,22 @@
 /**
  * 
  */
-package net.sf.reportengine.out;
+package net.sf.reportengine.components;
 
 /**
  * @author dragos balan
  *
  */
-public final class TitleProps {
+public final class ParagraphProps {
 	
-	private final String title; 
-//	private final int colspan; 
+	private final String text; 
 	
-	public TitleProps(String title){
-		this.title = title; 
-//		this.colspan = colspan ;
+	
+	public ParagraphProps(String text){
+		this.text = text; 
 	}
 	
-	public String getTitle(){
-		return title; 
+	public String getText(){
+		return text; 
 	}
-	
-//	public int getColspan(){
-//		return colspan; 
-//	}
-	
 }

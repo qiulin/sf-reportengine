@@ -47,24 +47,51 @@ import net.sf.reportengine.out.ReportOutput;
 public class ReportBuilder {
 
     /**
-	 * 
+	 * a list of components of this report
 	 */
     private List<ReportComponent> components;
 
     /**
-	 * 
+	 * the output of this report
 	 */
     private final AbstractReportOutput reportOutput;
+    
+    /**
+     * helper flag to determine if the built report should 
+     * be a PostProcessedReport or a simple DefaultReport
+     */
+    private final boolean reportNeedsPostProcessing; 
 
     /**
+     * constructor of this builder
      * 
      * @param output
      */
     public ReportBuilder(AbstractReportOutput output) {
-        this.reportOutput = output;
-        this.components = new ArrayList<ReportComponent>();
+        this(output, false); 
     }
-
+    
+    /**
+     * constructor of this builder
+     * 
+     * @param output
+     */
+    public ReportBuilder(PostProcessedFoReportOutput output) {
+        this(output, true); 
+    }
+    
+    /**
+     * 
+     * @param out
+     * @param needsPostProcessing
+     */
+    private ReportBuilder(AbstractReportOutput out, boolean needsPostProcessing){
+        this.reportOutput = out;
+        this.components = new ArrayList<ReportComponent>();
+        this.reportNeedsPostProcessing = needsPostProcessing;
+    }
+    
+    
     /**
      * adds a new component to the report
      * 
@@ -86,12 +113,11 @@ public class ReportBuilder {
 
     public Report build() {
         Report result = null;
-        if (reportOutput instanceof PostProcessedFoReportOutput) {
+        if (reportNeedsPostProcessing) {
             result = new PostProcessReport((PostProcessedFoReportOutput) reportOutput, components);
         } else {
             result = new DefaultReport(reportOutput, components);
         }
-
         return result;
     }
 }

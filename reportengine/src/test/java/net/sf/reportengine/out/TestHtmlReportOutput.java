@@ -23,6 +23,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import net.sf.reportengine.components.ParagraphProps;
 import net.sf.reportengine.util.ReportIoUtils;
 
 import org.apache.commons.io.IOUtils;
@@ -95,8 +96,8 @@ public class TestHtmlReportOutput {
         HtmlReportOutput testOutput =
             new HtmlReportOutput(ReportIoUtils.createWriterFromPath(OUTPUT_PATH));
         testOutput.open();
-        testOutput.output("title.ftl", new TitleProps("На берегу пустынных волн"));
-        testOutput.output("title.ftl", new TitleProps("Τη γλώσσα μου έδωσαν ελληνική"));
+        testOutput.output("title.ftl", new ParagraphProps("На берегу пустынных волн"));
+        testOutput.output("title.ftl", new ParagraphProps("Τη γλώσσα μου έδωσαν ελληνική"));
         testOutput.close();
 
         List<String> lines = IOUtils.readLines(ReportIoUtils.createReaderFromPath(OUTPUT_PATH));

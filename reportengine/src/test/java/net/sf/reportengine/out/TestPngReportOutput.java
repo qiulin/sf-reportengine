@@ -17,6 +17,7 @@ package net.sf.reportengine.out;
 
 import java.io.IOException;
 
+import net.sf.reportengine.components.ParagraphProps;
 import net.sf.reportengine.util.ReportIoUtils;
 
 import org.junit.Before;
@@ -39,8 +40,8 @@ public class TestPngReportOutput {
         // because
         // the resulting xml does not have a root and a well-defined namespace
         testOutput.output("startReport.ftl", new ReportProps(new PdfOutputFormat()));
-        testOutput.output("title.ftl", new TitleProps("На берегу пустынных волн"));
-        testOutput.output("title.ftl", new TitleProps("Τη γλώσσα μου έδωσαν ελληνική"));
+        testOutput.output("title.ftl", new ParagraphProps("На берегу пустынных волн"));
+        testOutput.output("title.ftl", new ParagraphProps("Τη γλώσσα μου έδωσαν ελληνική"));
         testOutput.output("endReport.ftl");
         testOutput.postProcess();
         testOutput.close();

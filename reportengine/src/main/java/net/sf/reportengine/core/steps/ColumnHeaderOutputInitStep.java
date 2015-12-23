@@ -20,11 +20,11 @@ package net.sf.reportengine.core.steps;
 
 import java.util.List;
 
+import net.sf.reportengine.components.CellProps;
+import net.sf.reportengine.components.RowProps;
 import net.sf.reportengine.config.DataColumn;
 import net.sf.reportengine.config.GroupColumn;
 import net.sf.reportengine.config.HorizAlign;
-import net.sf.reportengine.out.CellProps;
-import net.sf.reportengine.out.RowProps;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

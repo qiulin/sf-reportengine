@@ -23,6 +23,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
+import net.sf.reportengine.components.ParagraphProps;
+
 public class TestFoReportOutput {
 
     @AfterClass
@@ -44,7 +46,7 @@ public class TestFoReportOutput {
         classUnderTest.open();
         classUnderTest.output("startReport.ftl", new ReportProps(new FoOutputFormat()));
         classUnderTest.output("title.ftl",
-                              new TitleProps("this string has been outputed from a unit test"));
+                              new ParagraphProps("this string has been outputed from a unit test"));
         classUnderTest.output("endReport.ftl");
         classUnderTest.close();
     }

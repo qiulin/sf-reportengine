@@ -1,3 +1,3 @@
 <Row>
-    <Cell><Data ss:Type="String">${title}</Data></Cell>
+    <Cell><Data ss:Type="String">${text}</Data></Cell>
 </Row>
