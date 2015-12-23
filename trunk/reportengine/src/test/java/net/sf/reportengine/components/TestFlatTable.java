@@ -15,11 +15,17 @@
  */
 package net.sf.reportengine.components;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
 import java.sql.SQLException;
+
+import static org.apache.commons.io.FileUtils.contentEquals;
+import static org.junit.Assert.*;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import net.sf.reportengine.config.DefaultDataColumn;
 import net.sf.reportengine.config.DefaultGroupColumn;
@@ -40,43 +46,53 @@ import net.sf.reportengine.scenarios.ScenarioSort;
 import net.sf.reportengine.scenarios.SortScenarioOnlyDataColsCount;
 import net.sf.reportengine.util.ReportIoUtils;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
 public class TestFlatTable {
-
+    
+    /**
+     * this report has no grouping columns but it has a grand total at the end
+     * because the data columns have group calculators added
+     * 
+     * @throws IOException
+     */
     @Test
     public void testExecuteReportWithoutGroupColumns() throws IOException {
-        // this report has no grouping columns but it has a grand total at the end
-        // because the data columns have group calculators added
-
-        AbstractReportOutput reportOutput = new HtmlReportOutput(new FileWriter("./target/FlatTableWithoutGroupColumns.html"));
-        reportOutput.open();
+        String CURRENT_TEST_OUTPUT_PATH = "./target/FlatTableWithoutGroupColumns.html"; 
+        String EXPECTED_RESULT_PATH = "./expected/FlatTableWithoutGroupColumns.html"; 
+        
         FlatTable flatTable = new FlatTableBuilder(Scenario1.INPUT)
                                .dataColumns(Scenario1.DATA_COLUMNS)
                                .build();
 
         // test the computed values
-        Assert.assertTrue(flatTable instanceof DefaultFlatTable);
-        Assert.assertTrue(((DefaultFlatTable) flatTable).getShowDataRows());
-        Assert.assertTrue(((DefaultFlatTable) flatTable).getShowTotals());
-        Assert.assertTrue(((DefaultFlatTable) flatTable).getShowGrandTotal());
+        assertTrue(flatTable instanceof DefaultFlatTable);
+        assertTrue(((DefaultFlatTable) flatTable).getShowDataRows());
+        assertTrue(((DefaultFlatTable) flatTable).getShowTotals());
+        assertTrue(((DefaultFlatTable) flatTable).getShowGrandTotal());
 
-        // execute the report
-        flatTable.output(reportOutput);
-        reportOutput.close();
-
-        // TODO: test the output here
+        //output the table in Html on disk
+        AbstractReportOutput htmlDiskOutput = new HtmlReportOutput(new FileWriter(CURRENT_TEST_OUTPUT_PATH));
+        htmlDiskOutput.open();
+        flatTable.output(htmlDiskOutput);
+        htmlDiskOutput.close();
+        
+        //check if the current output is equal to the expected output
+        assertTrue(contentEquals(new File(CURRENT_TEST_OUTPUT_PATH), 
+                                 new File(EXPECTED_RESULT_PATH)));  
     }
-
+    
+    /**
+     * test of a simple report with 3 grouping columns and 3 data columns
+     * the grouping columns don't require any sorting
+     * 
+     * @throws IOException
+     */
     @Test
     public void testExecuteScenario1() throws IOException {
-        // test of a simple report with 3 grouping columns and 3 data columns
-        // the grouping columns don't require any sorting
-
-        AbstractReportOutput reportOutput =
-            new HtmlReportOutput(new FileWriter("./target/FlatTableScenario1.html"));
+        String CURRENT_TEST_OUTPUT_PATH = "./target/FlatTableScenario1.html"; 
+        String EXPECTED_RESULT_PATH = "./expected/FlatTableScenario1.html";
+        
+        AbstractReportOutput reportOutput = 
+            new HtmlReportOutput(new FileWriter(CURRENT_TEST_OUTPUT_PATH));
         reportOutput.open();
         FlatTable flatTable =
             new FlatTableBuilder(Scenario1.INPUT).dataColumns(Scenario1.DATA_COLUMNS)
@@ -84,19 +100,17 @@ public class TestFlatTable {
                                                  .build();
 
         // check the default values
-        Assert.assertTrue(flatTable instanceof DefaultFlatTable);
-        Assert.assertTrue(((DefaultFlatTable) flatTable).getShowDataRows());
-        Assert.assertTrue(((DefaultFlatTable) flatTable).getShowTotals());
-        Assert.assertTrue(((DefaultFlatTable) flatTable).getShowGrandTotal());
+        assertTrue(flatTable instanceof DefaultFlatTable);
+        assertTrue(((DefaultFlatTable) flatTable).getShowDataRows());
+        assertTrue(((DefaultFlatTable) flatTable).getShowTotals());
+        assertTrue(((DefaultFlatTable) flatTable).getShowGrandTotal());
 
         // execute the report
         flatTable.output(reportOutput);
         reportOutput.close();
 
-        // @TODO: test the output
-        // Assert.assertTrue(MatrixUtils.compareMatrices(
-        // testOut.getDataCellMatrix(),
-        // Scenario1.EXPECTED_OUTPUT_UNSORTED));
+        assertTrue(contentEquals(new File(EXPECTED_RESULT_PATH), 
+                                 new File(CURRENT_TEST_OUTPUT_PATH)));
 
     }
 
@@ -108,7 +122,7 @@ public class TestFlatTable {
 
         InputStream testStream =
             ReportIoUtils.createInputStreamFromClassPath("EURUSD_2007-2009_FirstHours.txt");
-        Assert.assertNotNull(testStream);
+        assertNotNull(testStream);
 
         new FlatTableBuilder(new TextTableInput(testStream, "\t")).dataColumns(OhlcComputationScenario.DATA_COLUMNS)
                                                                   .groupColumns(OhlcComputationScenario.GROUPING_COLUMNS)
@@ -128,7 +142,7 @@ public class TestFlatTable {
         reportOutput.open();
 
         InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("2x3x1.txt");
-        Assert.assertNotNull(inputStream);
+        assertNotNull(inputStream);
 
         new FlatTableBuilder(new TextTableInput(inputStream)).groupColumns(Scenario2x3x1.GROUP_COLUMNS)
                                                              .dataColumns(Scenario2x3x1.DATA_COLUMNS)
@@ -167,7 +181,7 @@ public class TestFlatTable {
         reportOutput.open();
 
         InputStream inputStream = ReportIoUtils.createInputStreamFromClassPath("Utf8Input.txt");
-        Assert.assertNotNull(inputStream);
+        assertNotNull(inputStream);
 
         new FlatTableBuilder(new TextTableInput(inputStream, ",", "UTF-8"))
             .addDataColumn(new DefaultDataColumn(0))
@@ -253,11 +267,11 @@ public class TestFlatTable {
                 .build();
 
         // check some of the computed values + default ones
-        Assert.assertTrue(flatTable instanceof DefaultFlatTable);
-        Assert.assertTrue(((DefaultFlatTable) flatTable).getShowDataRows());
-        Assert.assertFalse(((DefaultFlatTable) flatTable).getShowTotals());
-        Assert.assertTrue(((DefaultFlatTable) flatTable).getShowGrandTotal());
-        Assert.assertTrue(((DefaultFlatTable) flatTable).hasValuesSorted());
+        assertTrue(flatTable instanceof DefaultFlatTable);
+        assertTrue(((DefaultFlatTable) flatTable).getShowDataRows());
+        assertFalse(((DefaultFlatTable) flatTable).getShowTotals());
+        assertTrue(((DefaultFlatTable) flatTable).getShowGrandTotal());
+        assertTrue(((DefaultFlatTable) flatTable).hasValuesSorted());
 
         flatTable.output(reportOutput);
 
@@ -326,11 +340,11 @@ public class TestFlatTable {
                                        .build()
                                        .output(reportOutput);
         } catch (TableInputException tie) {
-            Assert.assertTrue(tie.getCause() instanceof SQLException);
+            assertTrue(tie.getCause() instanceof SQLException);
         } finally {
             reportOutput.close();
         }
-        Assert.assertTrue(input.hasAllResourcesClosed());
+        assertTrue(input.hasAllResourcesClosed());
     }
     
     
